@@ -14,6 +14,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Branch protection guidelines and automation
 - Security policy and vulnerability reporting process
 
+### Plugins
+
+#### git-workflow 2.0.0 (Major Update)
+- ✨ Migrated comprehensive commands from dotfiles with full references
+- ✨ Added `/pr-edit-history` command for PR description tracking
+- ✨ Integrated professional-commit-workflow skill (~70% faster)
+- ✨ Integrated professional-pr-workflow skill
+- 📚 Added comprehensive reference documentation:
+  - commit/best-practices.md - Commit quality guidelines
+  - commit/commit-types.md - Complete emoji conventional commits
+  - commit/pre-commit-checks.md - Automated validation details
+  - commit/troubleshooting.md - Common issues and solutions
+  - create-pr/code-formatting.md - Automatic formatting
+  - create-pr/commit-workflow.md - Commit management in PRs
+  - create-pr/pr-template.md - PR description structure
+  - create-pr/troubleshooting.md - Common PR issues
+- 🔧 Enhanced pre-commit checks for Java, Python, React, Documentation
+- 🔧 Improved PR description generation from all commits
+- 📖 Extensive README with examples, best practices, and troubleshooting
+
 ### Infrastructure
 - GitHub Issue templates (bug report, feature request)
 - Pull Request template with comprehensive checklist

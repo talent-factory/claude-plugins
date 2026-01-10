@@ -1,0 +1,11 @@
+# Professional PR Workflow - Python Dependencies
+# Zero external dependencies - uses Python stdlib and external tools
+
+# Required external tools (not Python packages):
+# - git (2.0+)
+# - gh (GitHub CLI) - https://cli.github.com/
+
+# Optional formatters (install via their package managers):
+# JavaScript: npm install -g @biomejs/biome
+# Python: pip install black isort ruff
+# Markdown: npm install -g markdownlint-cli

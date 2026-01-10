@@ -1,133 +1,175 @@
-# Create Pull Request Command
+---
+description: Erstelle einen neuen Branch, committe Änderungen und erstelle einen Pull Request mit automatischer Commit-Aufteilung
+category: develop
+allowed-tools:
+  - "Bash(git *)"
+  - "Bash(gh *)"
+  - "Bash(biome *)"
+  - Read
+  - Glob
+---
 
-Create a professional pull request with proper description and branch management.
+# Claude Command: Pull Request erstellen
 
-## Context
+Erstelle automatisch einen neuen Branch, analysiere Änderungen und erstelle einen professionellen Pull Request.
 
-You are helping create a pull request following best practices for code review and collaboration.
+**Alle Commit-Nachrichten und PR-Beschreibungen werden in Deutsch verfasst.**
 
-## Prerequisites
+## Verwendung
 
-1. **Branch Status**
-   - Working on a feature branch
-   - All changes committed
-   - Branch pushed to remote
+Standard-Pull-Request:
 
-2. **Code Quality**
-   - All tests passing
-   - Linters satisfied
-   - No merge conflicts
-
-## PR Template Structure
-
-### Title Format
-```
-[TYPE] Brief description of changes
+```bash
+/create-pr
 ```
 
-Types: `FEAT`, `FIX`, `DOCS`, `REFACTOR`, `PERF`, `TEST`, `CHORE`
+Mit Optionen:
 
-### Description Template
-
-```markdown
-## Summary
-Brief overview of what this PR does
-
-## Changes
-- List of key changes
-- Another change
-- And another
-
-## Type of Change
-- [ ] Bug fix (non-breaking change which fixes an issue)
-- [ ] New feature (non-breaking change which adds functionality)
-- [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
-- [ ] Documentation update
-
-## Testing
-Describe the tests you ran and their results:
-- [ ] Unit tests pass
-- [ ] Integration tests pass
-- [ ] Manual testing completed
-
-## Screenshots (if applicable)
-Add screenshots or GIFs demonstrating the changes
-
-## Checklist
-- [ ] My code follows the project's style guidelines
-- [ ] I have performed a self-review
-- [ ] I have commented my code, particularly in hard-to-understand areas
-- [ ] I have updated the documentation
-- [ ] My changes generate no new warnings
-- [ ] I have added tests that prove my fix/feature works
-- [ ] New and existing unit tests pass locally
-- [ ] Any dependent changes have been merged
-
-## Related Issues
-Closes #123
-Relates to #456
-
-## Breaking Changes
-List any breaking changes and migration steps if applicable
-
-## Additional Notes
-Any additional context or notes for reviewers
+```bash
+/create-pr --draft          # Erstellt Draft-PR
+/create-pr --no-format      # Überspringt Code-Formatierung
+/create-pr --single-commit  # Alle Änderungen in einem Commit
+/create-pr --target main    # Ziel-Branch angeben (Standard: main)
+/create-pr --with-skills    # Erstelle einen Pull Request mit professional-pr-workflow
 ```
 
 ## Workflow
 
-1. **Verify Branch State**
-   ```bash
-   git status
-   git log origin/main..HEAD --oneline
-   git push
-   ```
+### Bei `--with-skills` Option
 
-2. **Generate PR Description**
-   - Analyze commits in the branch
-   - Extract key changes
-   - Identify related issues
-   - Check for breaking changes
+Wenn `--with-skills` verwendet wird, wird der **professional-pr-workflow Skill** aktiviert und der restliche Command-Workflow wird ignoriert:
 
-3. **Create PR**
-   ```bash
-   # Using GitHub CLI
-   gh pr create --title "FEAT: Add user authentication" --body "$(cat pr-body.md)"
-   
-   # Or open browser
-   gh pr create --web
-   ```
+1. **Skill-Ausführung**: Nutze den professional-pr-workflow Skill
+   - Location: `../skills/professional-pr-workflow/`
+   - Features: Intelligentes Branch-Management, Code-Formatierung, GitHub CLI Integration
+   - Integration mit professional-commit-workflow für Commits
+
+2. **Skill-Details**: Siehe [professional-pr-workflow README](../skills/professional-pr-workflow/README.md)
+
+### Standard Workflow (ohne `--with-skills`)
+
+1. **Branch-Status prüfen** ⚠️ WICHTIG
+   - Prüfe aktuellen Branch: `git branch --show-current`
+   - **Geschützte Branches** (`main`, `master`, `develop`):
+     - ➡️ Neuer Branch MUSS erstellt werden
+     - Keine Commits direkt auf geschützten Branches
+   - **Feature-Branch** (z.B. `feature/xyz`, `bugfix/abc`):
+     - ➡️ Kein neuer Branch nötig, verwende aktuellen Branch
+   - Details: [commit-workflow.md](../references/create-pr/commit-workflow.md)
+
+2. **Änderungen prüfen**
+   - Erkenne uncommitted oder bereits committete Änderungen
+   - Falls uncommitted Changes → Rufe `/commit` auf
+   - Falls Commits vorhanden → Verwende diese
+   - Details: [commit-workflow.md](../references/create-pr/commit-workflow.md)
+
+3. **Branch erstellen** (nur wenn auf geschütztem Branch)
+   - Generiere aussagekräftigen Branch-Namen: `<type>/<description>-<date>`
+   - Prüfe auf bestehende Branches
+   - Erstelle Branch vom aktuellen HEAD
+   - Beispiel: `feature/user-dashboard-2024-10-30`
+   - **Überspringe** wenn bereits auf Feature-Branch
+
+4. **Code-Formatierung** (optional mit `--no-format` überspringen)
+   - **JavaScript/TypeScript**: Biome
+   - **Python**: Black, isort, Ruff
+   - **Java**: Google Java Format
+   - **Markdown**: markdownlint
+   - Details: [code-formatting.md](../references/create-pr/code-formatting.md)
+
+5. **Pull Request erstellen**
+   - Push Branch zum Remote
+   - Generiere aussagekräftigen PR-Titel
+   - Erstelle detaillierte PR-Beschreibung mit Test-Plan
+   - Verlinke relevante Issues
+   - Setze passende Labels
+   - Template: [pr-template.md](../references/create-pr/pr-template.md)
+
+## Integration mit /commit
+
+**Wichtig**: Dieser Command erstellt KEINE eigenen Commits!
+
+- **Uncommitted Changes**: Ruft `/commit` auf
+- **Bestehende Commits**: Verwendet diese für PR
+- **Keine Commit-Duplikation**: Commit-Logik nur in `/commit`
+
+**Workflow-Details**: [commit-workflow.md](../references/create-pr/commit-workflow.md)
+
+## PR-Template
+
+```markdown
+## Beschreibung
+
+[Kurze Beschreibung der Änderungen]
+
+## Änderungen
+
+- Änderung 1
+- Änderung 2
+
+## Test-Plan
+
+- [ ] Manuelle Tests durchgeführt
+- [ ] Automatische Tests laufen durch
+- [ ] Code-Review bereit
+
+## Breaking Changes
+
+[Falls vorhanden]
+```
+
+**Vollständiges Template**: [pr-template.md](../references/create-pr/pr-template.md)
 
 ## Best Practices
 
-1. **Title**
-   - Clear and descriptive
-   - 50 characters or less
-   - Prefix with type
+- **Aussagekräftige Titel**: Beschreibe das "Was" in 50 Zeichen
+- **Detaillierte Beschreibung**: Erkläre das "Warum" und "Wie"
+- **Self-Review**: Prüfe eigene Änderungen vor Submission
+- **Kleine PRs**: Halte PRs fokussiert und reviewbar (150-400 Zeilen)
+- **Klare Commits**: Jeder Commit sollte eigenständig verständlich sein
 
-2. **Description**
-   - Explain the "why" not just the "what"
-   - Include screenshots for UI changes
-   - Link to related issues
-   - Mention breaking changes prominently
+**Weitere Best Practices**: [pr-template.md](../references/create-pr/pr-template.md)
 
-3. **Size**
-   - Keep PRs focused and small
-   - Aim for < 400 lines of code
-   - Split large features into multiple PRs
+## Professional PR Workflow Skill
 
-4. **Reviewers**
-   - Assign appropriate reviewers
-   - Add labels for categorization
-   - Set project/milestone if applicable
+Die `--with-skills` Option nutzt den **professional-pr-workflow Skill** für verbesserte Performance und erweiterte Features.
 
-## Interactive Mode
+### Vorteile vs. Standard Command
 
-Ask the user:
-1. What is the main purpose of this PR?
-2. What commits should be included?
-3. Are there related issues to link?
-4. Are there breaking changes?
-5. Who should review this?
+| Feature | Standard Command | Skill (`--with-skills`) |
+|---------|------------------|------------------------|
+| Performance | Standard | ✅ Optimiert |
+| Branch-Management | Manuell | ✅ Intelligent |
+| Code-Formatierung | Optional | ✅ Integriert |
+| GitHub CLI | Manuell | ✅ Automatisiert |
+| Draft-PR Support | Basic | ✅ Erweitert |
+| Dependencies | Python | ✅ Zero Dependencies |
 
-Then generate the PR title and description for approval.
+### Skill Features
+
+- **Intelligentes Branch-Management**: Automatische Branch-Erstellung mit aussagekräftigen Namen
+- **Integration mit professional-commit-workflow**: Nahtlose Commit-Integration
+- **Code-Formatierung**: Biome, Black, Prettier, Google Java Format
+- **GitHub CLI Integration**: Automatische PR-Erstellung mit Labels und Templates
+- **Draft-PR Support**: Erweiterte Draft-PR Funktionalität
+- **Zero Python Dependencies**: Nur Python Standard Library
+
+### Skill Verwendung
+
+```bash
+# Direkte Skill-Ausführung (Alternative)
+cd ../skills/professional-pr-workflow
+python scripts/main.py
+
+# Oder via Command mit --with-skills
+/create-pr --with-skills
+```
+
+**Skill-Dokumentation**: [professional-pr-workflow/README.md](../skills/professional-pr-workflow/README.md)
+
+## Weitere Informationen
+
+- **Code-Formatierung**: [code-formatting.md](../references/create-pr/code-formatting.md)
+- **Commit-Workflow**: [commit-workflow.md](../references/create-pr/commit-workflow.md)
+- **PR-Template & Best Practices**: [pr-template.md](../references/create-pr/pr-template.md)
+- **Troubleshooting**: [troubleshooting.md](../references/create-pr/troubleshooting.md)

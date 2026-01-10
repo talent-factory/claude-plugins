@@ -14,10 +14,10 @@
     {
       "name": "git-workflow",
       "displayName": "Git Workflow",
-      "description": "Professional git commands for commits, PRs, and branch management with pre-commit validation",
+      "description": "Professional git workflow with automated pre-commit checks, emoji conventional commits, PR management, and comprehensive references. Includes professional-commit-workflow and professional-pr-workflow skills.",
       "source": "./plugins/git-workflow",
-      "version": "1.0.0",
-      "tags": ["git", "workflow", "productivity", "commits", "pull-requests"]
+      "version": "2.0.0",
+      "tags": ["git", "workflow", "productivity", "commits", "pull-requests", "automation", "pre-commit", "conventional-commits"]
     },
     {
       "name": "project-management",

@@ -1,0 +1,106 @@
+{
+  "feat": {
+    "emoji": "✨",
+    "description": "Neue Funktionalität",
+    "examples": [
+      "User-Dashboard mit Metriken hinzugefügt",
+      "OAuth2 Authentifizierung implementiert"
+    ]
+  },
+  "fix": {
+    "emoji": "🐛",
+    "description": "Fehlerbehebung",
+    "examples": [
+      "Speicherleck in Datenbank-Connection behoben",
+      "Race Condition in async Handler gelöst"
+    ]
+  },
+  "docs": {
+    "emoji": "📚",
+    "description": "Dokumentation",
+    "examples": [
+      "API-Dokumentation für v2 Endpoints aktualisiert",
+      "README mit Installationsanleitung ergänzt"
+    ]
+  },
+  "style": {
+    "emoji": "💎",
+    "description": "Code-Formatierung",
+    "examples": [
+      "Prettier Formatierung auf gesamtes Projekt angewendet",
+      "Trailing Whitespace entfernt"
+    ]
+  },
+  "refactor": {
+    "emoji": "♻️",
+    "description": "Code-Umstrukturierung",
+    "examples": [
+      "User Service in kleinere Module aufgeteilt",
+      "Deprecated API durch moderne Alternative ersetzt"
+    ]
+  },
+  "perf": {
+    "emoji": "⚡",
+    "description": "Performance-Verbesserungen",
+    "examples": [
+      "Datenbank-Queries mit Indexing optimiert",
+      "Caching-Layer für API-Responses hinzugefügt"
+    ]
+  },
+  "test": {
+    "emoji": "🧪",
+    "description": "Tests",
+    "examples": [
+      "Unit Tests für Authentication Service hinzugefügt",
+      "E2E Tests für Checkout-Flow erweitert"
+    ]
+  },
+  "chore": {
+    "emoji": "🔧",
+    "description": "Wartung",
+    "examples": [
+      "Dependencies auf neueste Versionen aktualisiert",
+      "Build-Script für Production optimiert"
+    ]
+  },
+  "ci": {
+    "emoji": "🚀",
+    "description": "CI/CD",
+    "examples": [
+      "GitHub Actions Workflow für automatisches Deployment",
+      "Docker Build-Stage optimiert"
+    ]
+  },
+  "security": {
+    "emoji": "🔒",
+    "description": "Sicherheit",
+    "examples": [
+      "SQL Injection Schwachstelle behoben",
+      "Abhängigkeiten mit bekannten CVEs aktualisiert"
+    ]
+  },
+  "i18n": {
+    "emoji": "🌐",
+    "description": "Internationalisierung",
+    "examples": [
+      "Deutsche Übersetzung für UI-Komponenten hinzugefügt",
+      "Sprachauswahl-Dropdown implementiert"
+    ]
+  },
+  "a11y": {
+    "emoji": "♿",
+    "description": "Barrierefreiheit",
+    "examples": [
+      "ARIA-Labels für Screen Reader hinzugefügt",
+      "Farbkontraste nach WCAG 2.1 AA angepasst"
+    ]
+  },
+  "deps": {
+    "emoji": "📦",
+    "description": "Dependencies",
+    "examples": [
+      "React von 18.2 auf 18.3 aktualisiert",
+      "Sicherheitsupdate für lodash durchgeführt"
+    ]
+  }
+}
