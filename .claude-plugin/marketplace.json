@@ -30,18 +30,18 @@
     {
       "name": "code-quality",
       "displayName": "Code Quality",
-      "description": "Code review, refactoring, and quality checks for maintaining high standards",
+      "description": "Comprehensive code quality with Python linting and expert agents for Python, Java, and Frontend development",
       "source": "./plugins/code-quality",
-      "version": "1.0.0",
-      "tags": ["review", "quality", "refactoring", "best-practices"]
+      "version": "2.0.0",
+      "tags": ["review", "quality", "refactoring", "best-practices", "python", "java", "react", "linting"]
     },
     {
       "name": "education",
       "displayName": "Education Tools",
-      "description": "Teaching aids, code explanations, and student support for IT education",
+      "description": "Teaching aids with Java Tutor agent and Markdown syntax formatter for IT education",
       "source": "./plugins/education",
-      "version": "1.0.0",
-      "tags": ["education", "teaching", "learning", "students", "ffhs"]
+      "version": "1.1.0",
+      "tags": ["education", "teaching", "learning", "students", "ffhs", "markdown"]
     },
     {
       "name": "tf-core",

@@ -74,6 +74,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 🔧 Enhanced `/package-skill` with dependency checking
 - 📖 Extensive README with 8 commands and 3 agent descriptions
 
+#### code-quality 2.0.0 (Major Update)
+- ✨ Added `/ruff-check` command for Python linting with Ruff
+- 🤖 Added code-reviewer agent for proactive code reviews
+- 🤖 Added python-expert agent for idiomatic Python development
+- 🤖 Added java-developer agent for modern Java/Spring Boot
+- 🤖 Added frontend-developer agent for Next.js/React/Tailwind
+
+#### education 1.1.0
+- 🤖 Added markdown-syntax-formatter agent for Markdown formatting
+- 📚 Converts visually formatted text to proper Markdown syntax
+- ✅ Fixes formatting issues (lists, headings, code blocks, emphasis)
+
 ### Infrastructure
 - GitHub Issue templates (bug report, feature request)
 - Pull Request template with comprehensive checklist
