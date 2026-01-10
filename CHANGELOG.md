@@ -34,6 +34,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 🔧 Improved PR description generation from all commits
 - 📖 Extensive README with examples, best practices, and troubleshooting
 
+#### project-management 2.0.0 (Major Update)
+- ✨ Added `/create-plan` command with Linear integration and task breakdown
+- ✨ Added `/implement-task` command with git worktree workflow
+- ✨ Enhanced `/create-prd` with comprehensive templates
+- 📚 Added comprehensive reference documentation (13 files):
+  - create-prd/best-practices.md - PRD quality guidelines
+  - create-prd/sections-guide.md - Detailed section templates
+  - create-prd/templates.md - Ready-to-use templates
+  - create-plan/agent-mapping.md - Agent selection guidelines
+  - create-plan/best-practices.md - Planning methodologies
+  - create-plan/filesystem.md - File-based plan storage
+  - create-plan/linear-integration.md - Linear API usage
+  - create-plan/task-breakdown.md - Task decomposition
+  - implement-task/best-practices.md - Implementation guidelines
+  - implement-task/filesystem.md - Task file management
+  - implement-task/linear.md - Linear integration
+  - implement-task/troubleshooting.md - Common issues
+  - implement-task/workflow.md - Complete workflow guide
+- 🔗 Integrated Linear API for issue synchronization
+- 🌲 Added git worktree support for isolated development
+- 📖 Extensive README with workflow examples and Linear setup
+
 ### Infrastructure
 - GitHub Issue templates (bug report, feature request)
 - Pull Request template with comprehensive checklist

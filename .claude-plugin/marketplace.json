@@ -22,10 +22,10 @@
     {
       "name": "project-management",
       "displayName": "Project Management",
-      "description": "PRD generation, project planning, and Linear integration for agile workflows",
+      "description": "Comprehensive project management with PRD generation, project planning, task implementation, Linear integration, and git worktree workflow",
       "source": "./plugins/project-management",
-      "version": "1.0.0",
-      "tags": ["planning", "prd", "linear", "project-management", "agile"]
+      "version": "2.0.0",
+      "tags": ["planning", "prd", "linear", "project-management", "agile", "worktree", "task-management"]
     },
     {
       "name": "code-quality",
