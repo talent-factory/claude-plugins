@@ -1,0 +1,55 @@
+{
+  "name": "talent-factory",
+  "displayName": "Talent Factory",
+  "version": "1.0.0",
+  "metadata": {
+    "owner": "Talent Factory GmbH",
+    "description": "Professional Claude Code plugins for software development and education",
+    "repository": "https://github.com/talent-factory/claude-plugins",
+    "documentation": "https://github.com/talent-factory/claude-plugins#readme",
+    "author": "Daniel Senften",
+    "license": "MIT"
+  },
+  "plugins": [
+    {
+      "name": "git-workflow",
+      "displayName": "Git Workflow",
+      "description": "Professional git commands for commits, PRs, and branch management with pre-commit validation",
+      "source": "./plugins/git-workflow",
+      "version": "1.0.0",
+      "tags": ["git", "workflow", "productivity", "commits", "pull-requests"]
+    },
+    {
+      "name": "project-management",
+      "displayName": "Project Management",
+      "description": "PRD generation, project planning, and Linear integration for agile workflows",
+      "source": "./plugins/project-management",
+      "version": "1.0.0",
+      "tags": ["planning", "prd", "linear", "project-management", "agile"]
+    },
+    {
+      "name": "code-quality",
+      "displayName": "Code Quality",
+      "description": "Code review, refactoring, and quality checks for maintaining high standards",
+      "source": "./plugins/code-quality",
+      "version": "1.0.0",
+      "tags": ["review", "quality", "refactoring", "best-practices"]
+    },
+    {
+      "name": "education",
+      "displayName": "Education Tools",
+      "description": "Teaching aids, code explanations, and student support for IT education",
+      "source": "./plugins/education",
+      "version": "1.0.0",
+      "tags": ["education", "teaching", "learning", "students", "ffhs"]
+    },
+    {
+      "name": "tf-core",
+      "displayName": "TF Core Utilities",
+      "description": "Core validation tools and utility commands for plugin development",
+      "source": "./plugins/tf-core",
+      "version": "1.0.0",
+      "tags": ["utilities", "validation", "tools", "development"]
+    }
+  ]
+}

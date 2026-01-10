@@ -1,0 +1,16 @@
+{
+  "name": "project-management",
+  "version": "1.0.0",
+  "displayName": "Project Management",
+  "description": "PRD generation, project planning, and Linear integration for agile workflows",
+  "author": "Talent Factory GmbH",
+  "repository": "https://github.com/talent-factory/claude-plugins",
+  "license": "MIT",
+  "keywords": [
+    "prd",
+    "planning",
+    "linear",
+    "project-management",
+    "agile"
+  ]
+}

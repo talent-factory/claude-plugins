@@ -1,0 +1,11 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Documentation
+    url: https://github.com/talent-factory/claude-plugins/blob/main/README.md
+    about: Check the documentation for answers
+  - name: Discussions
+    url: https://github.com/talent-factory/claude-plugins/discussions
+    about: Ask questions and discuss ideas with the community
+  - name: Security Issue
+    url: https://github.com/talent-factory/claude-plugins/blob/main/SECURITY.md
+    about: Report security vulnerabilities privately

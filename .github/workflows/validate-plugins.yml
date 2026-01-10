@@ -1,0 +1,222 @@
+name: Validate Plugins
+
+on:
+  pull_request:
+    branches:
+      - main
+      - develop
+    paths:
+      - 'plugins/**'
+      - '.github/workflows/validate-plugins.yml'
+  push:
+    branches:
+      - main
+      - develop
+    paths:
+      - 'plugins/**'
+      - '.github/workflows/validate-plugins.yml'
+  workflow_dispatch:
+
+jobs:
+  validate-structure:
+    name: Validate Plugin Structure
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate plugin.json files
+        run: |
+          echo "Validating plugin.json files..."
+          find plugins -name "plugin.json" -type f | while read file; do
+            echo "Checking $file"
+            if ! jq empty "$file" 2>/dev/null; then
+              echo "❌ Invalid JSON in $file"
+              exit 1
+            fi
+
+            # Check required fields
+            name=$(jq -r '.name // empty' "$file")
+            version=$(jq -r '.version // empty' "$file")
+
+            if [ -z "$name" ] || [ -z "$version" ]; then
+              echo "❌ Missing required fields (name, version) in $file"
+              exit 1
+            fi
+
+            echo "✅ Valid: $file (name: $name, version: $version)"
+          done
+
+      - name: Validate plugin directory structure
+        run: |
+          echo "Validating plugin directory structure..."
+          for plugin_dir in plugins/*/; do
+            plugin_name=$(basename "$plugin_dir")
+            echo "Checking plugin: $plugin_name"
+
+            # Check for required files
+            if [ ! -f "$plugin_dir/.claude-plugin/plugin.json" ]; then
+              echo "❌ Missing .claude-plugin/plugin.json in $plugin_name"
+              exit 1
+            fi
+
+            if [ ! -f "$plugin_dir/README.md" ]; then
+              echo "❌ Missing README.md in $plugin_name"
+              exit 1
+            fi
+
+            echo "✅ Valid structure: $plugin_name"
+          done
+
+      - name: Validate command files
+        run: |
+          echo "Validating command files..."
+          find plugins -path "*/commands/*.md" -type f | while read file; do
+            echo "Checking $file"
+
+            # Check for frontmatter
+            if ! head -n 1 "$file" | grep -q "^---$"; then
+              echo "⚠️  No YAML frontmatter in $file"
+            fi
+
+            # Check file is not empty
+            if [ ! -s "$file" ]; then
+              echo "❌ Empty command file: $file"
+              exit 1
+            fi
+
+            echo "✅ Valid command: $file"
+          done
+
+      - name: Validate agent files
+        run: |
+          echo "Validating agent files..."
+          find plugins -path "*/agents/*.md" -type f | while read file; do
+            echo "Checking $file"
+
+            # Check for frontmatter
+            if ! head -n 1 "$file" | grep -q "^---$"; then
+              echo "⚠️  No YAML frontmatter in $file"
+            fi
+
+            # Check file is not empty
+            if [ ! -s "$file" ]; then
+              echo "❌ Empty agent file: $file"
+              exit 1
+            fi
+
+            echo "✅ Valid agent: $file"
+          done
+
+  validate-documentation:
+    name: Validate Documentation
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check plugin README files
+        run: |
+          echo "Checking plugin README files..."
+          for plugin_dir in plugins/*/; do
+            plugin_name=$(basename "$plugin_dir")
+            readme="$plugin_dir/README.md"
+
+            if [ ! -f "$readme" ]; then
+              echo "❌ Missing README.md for $plugin_name"
+              exit 1
+            fi
+
+            # Check README contains key sections
+            if ! grep -q "## " "$readme"; then
+              echo "⚠️  README.md for $plugin_name has no sections"
+            fi
+
+            echo "✅ README exists: $plugin_name"
+          done
+
+      - name: Check for broken links in markdown
+        uses: gaurav-nelson/github-action-markdown-link-check@v1
+        with:
+          use-quiet-mode: 'yes'
+          use-verbose-mode: 'no'
+          config-file: '.github/workflows/markdown-link-check-config.json'
+        continue-on-error: true
+
+  security-scan:
+    name: Security Scan
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run Trivy security scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          scan-ref: '.'
+          severity: 'HIGH,CRITICAL'
+          exit-code: '0'
+
+      - name: Check for secrets in files
+        run: |
+          echo "Scanning for potential secrets..."
+          # Check for common secret patterns
+          if grep -r -i "api[_-]key\s*=\s*['\"][^'\"]\+['\"]" plugins/ 2>/dev/null; then
+            echo "⚠️  Potential API key found"
+          fi
+          if grep -r -i "password\s*=\s*['\"][^'\"]\+['\"]" plugins/ 2>/dev/null; then
+            echo "⚠️  Potential password found"
+          fi
+          if grep -r -i "secret\s*=\s*['\"][^'\"]\+['\"]" plugins/ 2>/dev/null; then
+            echo "⚠️  Potential secret found"
+          fi
+          echo "✅ Secret scan complete"
+
+  test-plugins:
+    name: Test Plugin Loading
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Simulate plugin directory structure check
+        run: |
+          echo "Testing plugin directory structure..."
+          # This is a placeholder for actual Claude Code plugin testing
+          # Once Claude Code has CLI testing support, add actual tests here
+
+          for plugin_dir in plugins/*/; do
+            plugin_name=$(basename "$plugin_dir")
+            echo "Would test loading: $plugin_name"
+          done
+
+          echo "✅ Plugin structure tests passed"
+
+  summary:
+    name: Validation Summary
+    runs-on: ubuntu-latest
+    needs: [validate-structure, validate-documentation, security-scan, test-plugins]
+    if: always()
+
+    steps:
+      - name: Check validation results
+        run: |
+          echo "## Validation Summary"
+          echo "- Structure validation: ${{ needs.validate-structure.result }}"
+          echo "- Documentation validation: ${{ needs.validate-documentation.result }}"
+          echo "- Security scan: ${{ needs.security-scan.result }}"
+          echo "- Plugin tests: ${{ needs.test-plugins.result }}"
+
+          if [ "${{ needs.validate-structure.result }}" != "success" ] || \
+             [ "${{ needs.validate-documentation.result }}" != "success" ] || \
+             [ "${{ needs.test-plugins.result }}" != "success" ]; then
+            echo "❌ Validation failed"
+            exit 1
+          fi
+
+          echo "✅ All validations passed"

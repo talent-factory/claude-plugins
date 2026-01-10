@@ -1,0 +1,16 @@
+{
+  "name": "git-workflow",
+  "version": "1.0.0",
+  "displayName": "Git Workflow",
+  "description": "Professional git commands with pre-commit checks, conventional commits, and PR creation",
+  "author": "Talent Factory GmbH",
+  "repository": "https://github.com/talent-factory/claude-plugins",
+  "license": "MIT",
+  "keywords": [
+    "git",
+    "workflow",
+    "commits",
+    "pull-requests",
+    "pre-commit"
+  ]
+}

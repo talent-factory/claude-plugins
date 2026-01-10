@@ -1,0 +1,218 @@
+name: Branch Protection
+
+on:
+  pull_request:
+    branches:
+      - main
+      - develop
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+jobs:
+  validate-pr:
+    name: Validate Pull Request
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check PR target branch
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const pr = context.payload.pull_request;
+            const baseBranch = pr.base.ref;
+            const headBranch = pr.head.ref;
+
+            console.log(`PR from ${headBranch} to ${baseBranch}`);
+
+            // Validate branch naming for PRs to develop
+            if (baseBranch === 'develop') {
+              const validPrefixes = ['feature/', 'fix/', 'docs/', 'refactor/', 'test/', 'chore/'];
+              const hasValidPrefix = validPrefixes.some(prefix => headBranch.startsWith(prefix));
+
+              if (!hasValidPrefix) {
+                const message = `⚠️ **Branch Naming Warning**\n\n` +
+                  `Your branch \`${headBranch}\` doesn't follow our naming convention.\n\n` +
+                  `**Expected format:** \`type/description\`\n` +
+                  `**Valid types:** ${validPrefixes.join(', ')}\n\n` +
+                  `**Examples:**\n` +
+                  `- feature/add-python-tutor\n` +
+                  `- fix/commit-validation-error\n` +
+                  `- docs/update-installation-guide\n\n` +
+                  `Please consider renaming your branch for consistency.`;
+
+                await github.rest.issues.createComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: pr.number,
+                  body: message
+                });
+              }
+            }
+
+            // Check for direct commits to protected branches
+            if (headBranch === 'main' || headBranch === 'develop') {
+              core.setFailed(`❌ Direct commits to ${headBranch} are not allowed. Please create a feature branch.`);
+            }
+
+      - name: Check commit messages
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const pr = context.payload.pull_request;
+
+            // Get commits in this PR
+            const commits = await github.rest.pulls.listCommits({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: pr.number
+            });
+
+            const conventionalCommitPattern = /^(feat|fix|docs|style|refactor|test|chore|perf|ci|build|revert)(\(.+\))?: .+/;
+            const invalidCommits = [];
+
+            for (const commit of commits.data) {
+              const message = commit.commit.message.split('\n')[0]; // Get first line
+              if (!conventionalCommitPattern.test(message)) {
+                invalidCommits.push({
+                  sha: commit.sha.substring(0, 7),
+                  message: message
+                });
+              }
+            }
+
+            if (invalidCommits.length > 0) {
+              const message = `⚠️ **Commit Message Format Warning**\n\n` +
+                `Some commits don't follow the [Conventional Commits](https://www.conventionalcommits.org/) format:\n\n` +
+                invalidCommits.map(c => `- \`${c.sha}\`: ${c.message}`).join('\n') +
+                `\n\n**Expected format:** \`type(scope): description\`\n` +
+                `**Examples:**\n` +
+                `- feat(education): add Python tutor agent\n` +
+                `- fix(git-workflow): resolve commit validation error\n` +
+                `- docs(readme): update installation instructions\n\n` +
+                `While not strictly required, following this format helps maintain a clean commit history.`;
+
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: pr.number,
+                body: message
+              });
+            }
+
+      - name: Check PR description
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const pr = context.payload.pull_request;
+            const body = pr.body || '';
+
+            // Check if PR description is too short
+            if (body.length < 50) {
+              const message = `⚠️ **PR Description Warning**\n\n` +
+                `Your PR description seems quite short. Please provide more details about:\n` +
+                `- What changes were made\n` +
+                `- Why these changes were necessary\n` +
+                `- How the changes were tested\n\n` +
+                `A detailed description helps reviewers understand your contribution better.`;
+
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: pr.number,
+                body: message
+              });
+            }
+
+            // Check if PR has "Fixes #" or "Closes #"
+            const issueReferencePattern = /(fixes|closes|resolves)\s+#\d+/i;
+            if (!issueReferencePattern.test(body)) {
+              console.log('PR does not reference an issue. This is optional but recommended.');
+            }
+
+      - name: Validate PR size
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const pr = context.payload.pull_request;
+
+            // Get PR files
+            const files = await github.rest.pulls.listFiles({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: pr.number
+            });
+
+            const totalChanges = files.data.reduce((sum, file) => sum + file.changes, 0);
+
+            // Warn if PR is very large (>1000 changes)
+            if (totalChanges > 1000) {
+              const message = `⚠️ **Large PR Warning**\n\n` +
+                `This PR has ${totalChanges} changes across ${files.data.length} files. ` +
+                `Large PRs are harder to review and more likely to introduce bugs.\n\n` +
+                `**Consider:**\n` +
+                `- Breaking this into smaller, focused PRs\n` +
+                `- Ensuring each PR addresses a single concern\n` +
+                `- Adding more detailed testing information\n\n` +
+                `If this PR must be large, please provide extra context in the description.`;
+
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: pr.number,
+                body: message
+              });
+            }
+
+  require-approval:
+    name: Check Approval Requirements
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.base.ref == 'main' || github.event.pull_request.base.ref == 'develop'
+
+    steps:
+      - name: Check required approvals
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const pr = context.payload.pull_request;
+            const baseBranch = pr.base.ref;
+
+            // Get reviews
+            const reviews = await github.rest.pulls.listReviews({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              pull_number: pr.number
+            });
+
+            const approvals = reviews.data.filter(review => review.state === 'APPROVED').length;
+            const requiredApprovals = baseBranch === 'main' ? 1 : 1;
+
+            if (approvals < requiredApprovals) {
+              core.info(`PR requires ${requiredApprovals} approval(s). Currently has ${approvals}.`);
+            } else {
+              core.info(`PR has sufficient approvals (${approvals}/${requiredApprovals}).`);
+            }
+
+  block-direct-push:
+    name: Block Direct Pushes
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop')
+
+    steps:
+      - name: Block direct push
+        run: |
+          echo "❌ Direct pushes to main or develop branches are not allowed!"
+          echo "Please create a Pull Request instead."
+          exit 1

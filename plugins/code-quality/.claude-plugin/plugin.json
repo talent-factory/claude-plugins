@@ -1,0 +1,16 @@
+{
+  "name": "code-quality",
+  "version": "1.0.0",
+  "displayName": "Code Quality",
+  "description": "Code review, refactoring, and quality checks for maintaining high standards",
+  "author": "Talent Factory GmbH",
+  "repository": "https://github.com/talent-factory/claude-plugins",
+  "license": "MIT",
+  "keywords": [
+    "review",
+    "quality",
+    "refactoring",
+    "best-practices",
+    "code-analysis"
+  ]
+}

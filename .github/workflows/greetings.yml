@@ -1,0 +1,79 @@
+name: Greetings
+
+on:
+  issues:
+    types: [opened]
+  pull_request_target:
+    types: [opened]
+
+permissions:
+  issues: write
+  pull-requests: write
+
+jobs:
+  greeting:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Greet first-time contributors
+        uses: actions/first-interaction@v1
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          issue-message: |
+            Hello @${{ github.actor }}! 👋
+
+            Thank you for opening your first issue in the Talent Factory Claude Plugins repository!
+
+            We appreciate you taking the time to contribute. A maintainer will review your issue soon.
+
+            In the meantime:
+            - Make sure you've provided all the necessary information
+            - Check our [Contributing Guidelines](../CONTRIBUTING.md) for best practices
+            - Feel free to join the discussion in [GitHub Discussions](https://github.com/talent-factory/claude-plugins/discussions)
+
+            Welcome to the community! 🎉
+          pr-message: |
+            Hello @${{ github.actor }}! 👋
+
+            Thank you for opening your first pull request in the Talent Factory Claude Plugins repository!
+
+            We're excited to review your contribution. Here's what happens next:
+
+            1. **Automated Checks**: Our CI/CD pipeline will run automated tests and validations
+            2. **Review**: A maintainer will review your changes and may request modifications
+            3. **Collaboration**: We may have questions or suggestions - we'll work together to get this merged!
+
+            **Before we proceed, please ensure:**
+            - [ ] You've read our [Contributing Guidelines](../CONTRIBUTING.md)
+            - [ ] Your PR description clearly explains the changes
+            - [ ] You've tested your changes locally
+            - [ ] All CI checks pass
+
+            **Helpful Resources:**
+            - [Plugin Development Guide](../docs/PLUGIN_DEVELOPMENT.md)
+            - [Code of Conduct](../CODE_OF_CONDUCT.md)
+            - [GitHub Discussions](https://github.com/talent-factory/claude-plugins/discussions)
+
+            Welcome to the team! We're looking forward to working with you. 🚀
+
+      - name: Add labels to first-time contributions
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const isFirstTime = context.payload.sender.type !== 'Bot';
+
+            if (isFirstTime) {
+              // Get the issue or PR number
+              const number = context.issue.number;
+
+              // Add 'first-time-contributor' label
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: number,
+                labels: ['first-time-contributor']
+              });
+
+              console.log(`Added 'first-time-contributor' label to #${number}`);
+            }

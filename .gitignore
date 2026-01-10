@@ -1,0 +1,95 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+
+# Linux
+*~
+.directory
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Node (if using any JS tooling)
+node_modules/
+npm-debug.log*
+
+# Python (if using any Python tooling)
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+*.pyc
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+*.tmp
+*.temp
+.cache/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Build outputs
+dist/
+build/
+*.egg-info/
+
+# Test coverage
+coverage/
+.nyc_output/
+
+# Package managers
+package-lock.json
+yarn.lock
+Pipfile.lock
+
+# Claude Code specific
+.claude/
+.claude-plugin/cache/
+
+# Archives and compressed files
+*.tar.gz
+*.zip
+*.rar
+*.7z
+!plugins/**/*.tar.gz
+!plugins/**/*.zip
+
+# Backup files
+*.bak
+*.backup
+*~
+
+# OS specific
+.Spotlight-V100
+.Trashes
+
+# CI/CD
+.github/workflows/*.local.yml
+test-results/
+test-reports/
+
+# Security scanning
+.trivy/
+trivy-results.json
+
+# Documentation build
+site/
+_site/

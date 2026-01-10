@@ -1,0 +1,57 @@
+# Plugin-specific labels
+plugin:git-workflow:
+  - changed-files:
+    - any-glob-to-any-file: 'plugins/git-workflow/**'
+
+plugin:project-management:
+  - changed-files:
+    - any-glob-to-any-file: 'plugins/project-management/**'
+
+plugin:code-quality:
+  - changed-files:
+    - any-glob-to-any-file: 'plugins/code-quality/**'
+
+plugin:education:
+  - changed-files:
+    - any-glob-to-any-file: 'plugins/education/**'
+
+plugin:tf-core:
+  - changed-files:
+    - any-glob-to-any-file: 'plugins/tf-core/**'
+
+# Type-based labels
+documentation:
+  - changed-files:
+    - any-glob-to-any-file:
+      - '**/*.md'
+      - 'docs/**'
+
+infrastructure:
+  - changed-files:
+    - any-glob-to-any-file:
+      - '.github/**'
+      - '.gitignore'
+
+testing:
+  - changed-files:
+    - any-glob-to-any-file:
+      - '**/test/**'
+      - '**/tests/**'
+      - '**/*.test.*'
+      - '**/*.spec.*'
+
+# Area-based labels
+commands:
+  - changed-files:
+    - any-glob-to-any-file: '**/commands/**'
+
+agents:
+  - changed-files:
+    - any-glob-to-any-file: '**/agents/**'
+
+configuration:
+  - changed-files:
+    - any-glob-to-any-file:
+      - '**/.claude-plugin/**'
+      - '**/plugin.json'
+      - '.claude/**'
