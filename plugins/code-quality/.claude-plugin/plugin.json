@@ -1,8 +1,8 @@
 {
   "name": "code-quality",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "displayName": "Code Quality",
-  "description": "Code review, refactoring, and quality checks for maintaining high standards",
+  "description": "Comprehensive code quality tools with Python linting, code review, and expert agents for Python, Java, and Frontend development",
   "author": "Talent Factory GmbH",
   "repository": "https://github.com/talent-factory/claude-plugins",
   "license": "MIT",
@@ -11,6 +11,10 @@
     "quality",
     "refactoring",
     "best-practices",
-    "code-analysis"
+    "code-analysis",
+    "python",
+    "java",
+    "react",
+    "linting"
   ]
 }
