@@ -56,6 +56,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 🌲 Added git worktree support for isolated development
 - 📖 Extensive README with workflow examples and Linear setup
 
+#### tf-core 2.0.0 (Major Update)
+- ✨ Added `/check` command for project validation without commits
+- ✨ Added `/create-command` for pattern-based command generation
+- ✨ Added `/init-project` for OpenSource project initialization
+- ✨ Added `/run-ci` for local CI execution with auto-fix
+- 🤖 Added agent-expert agent for agent design and optimization
+- 🤖 Added command-expert agent for CLI development
+- 🤖 Added skill-builder agent system (4 specialized agents):
+  - skill-elicitation-agent - Requirements gathering
+  - skill-generator-agent - Code generation
+  - skill-validator-agent - Testing and validation
+  - skill-documenter-agent - Documentation creation
+- 🔧 Enhanced `/check-commands` with best practices validation
+- 🔧 Enhanced `/check-agents` with color attribute checking
+- 🔧 Enhanced `/build-skill` with elicitation-driven development
+- 🔧 Enhanced `/package-skill` with dependency checking
+- 📖 Extensive README with 8 commands and 3 agent descriptions
+
 ### Infrastructure
 - GitHub Issue templates (bug report, feature request)
 - Pull Request template with comprehensive checklist

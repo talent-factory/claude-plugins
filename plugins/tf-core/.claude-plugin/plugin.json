@@ -1,8 +1,8 @@
 {
   "name": "tf-core",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "displayName": "TF Core Utilities",
-  "description": "Core validation tools and utility commands for plugin development and maintenance",
+  "description": "Comprehensive development utilities for plugin/command/agent development, validation, CI automation, and OpenSource project initialization with expert agents",
   "author": "Talent Factory GmbH",
   "repository": "https://github.com/talent-factory/claude-plugins",
   "license": "MIT",
@@ -11,6 +11,10 @@
     "validation",
     "tools",
     "development",
-    "debugging"
+    "debugging",
+    "ci-automation",
+    "plugin-development",
+    "skill-building",
+    "project-initialization"
   ]
 }

@@ -1,266 +1,224 @@
-# Check Commands
+---
+description: Validiert Command-Dateien, Dokumentation und Best Practices
+allowed-tools:
+  - Read
+  - Glob
+  - Grep
+  - Bash
+---
 
-Validate Claude Code command files for correctness and best practices.
+# Command Validation Tool
 
-## Context
+Dieser Command validiert Claude Code Commands auf:
 
-You are helping validate command files to ensure they follow Claude Code best practices and will work correctly.
+- YAML-Frontmatter Struktur
+- Markdown-Syntax
+- Dokumentation
+- Best Practices (Progressive Disclosure, Naming Conventions)
 
-## Validation Checklist
+## Usage
 
-### 1. File Format
-- [ ] File has `.md` extension
-- [ ] File uses Markdown syntax
-- [ ] File is UTF-8 encoded
-- [ ] No special characters in filename
+```bash
+# Spezifischen Command prüfen
+/check-commands agents/_shared/commands/commit.md
 
-### 2. Structure
-- [ ] Has clear title/heading
-- [ ] Includes context section
-- [ ] Provides clear instructions
-- [ ] Has examples when appropriate
+# Oder ohne Pfad für interaktive Auswahl
+/check-commands
+```
 
-### 3. Content Quality
-- [ ] Instructions are clear and specific
-- [ ] Examples are correct and helpful
-- [ ] No ambiguous language
-- [ ] Appropriate level of detail
+## Validierungs-Checks
+
+### 1. YAML-Frontmatter
+
+**Required**:
+
+- `description` (String, 1-100 Zeichen)
+- `category` (String, muss existierendem Ordner entsprechen)
+
+**Optional**:
+
+- `allowed-tools` (Array von Tool-Namen)
+
+**Format**:
+
+```yaml
+---
+description: Kurze Beschreibung des Commands
+category: develop
+allowed-tools:
+  - Read
+  - Write
+---
+```
+
+### 2. Markdown-Struktur
+
+- Muss mit Frontmatter beginnen
+- Mindestens eine H1-Überschrift (`# Titel`)
+- Valides CommonMark-Format
+- Keine kaputten Links zu Detail-Dateien
+
+### 3. Dokumentation
+
+**Für umfangreiche Commands (Progressive Disclosure)**:
+
+- Detail-Dateien in `references/<command-name>/`
+- Referenzen im Haupt-Command auf Detail-Dateien via `../references/`
+
+**Beispiel-Struktur**:
+
+```text
+_shared/
+├── commands/
+│   └── commit.md                    # Haupt-Command
+└── references/
+    └── commit/                      # Detail-Ordner
+        ├── pre-commit-checks.md
+        ├── commit-types.md
+        ├── best-practices.md
+        └── troubleshooting.md
+```
 
 ### 4. Best Practices
-- [ ] Follows progressive disclosure pattern
-- [ ] Uses appropriate formatting
-- [ ] Includes error handling guidance
-- [ ] Has interactive mode if applicable
 
-## Validation Process
+**Naming Conventions**:
 
-### Step 1: File Existence
-```bash
-# Check if command file exists
-ls -la commands/*.md
+- ✅ Lowercase mit Bindestrichen: `check-commands.md`
+- ❌ CamelCase oder Unterstriche: `checkCommands.md`, `check_commands.md`
+
+**Progressive Disclosure**:
+
+- Haupt-Command: 50-250 Zeilen (Übersicht + Workflow)
+- Details: In separaten Dateien ausgelagert
+- Referenzen: Links zu Detail-Dateien am Ende
+
+**Description**:
+
+- Kurz und prägnant (1-100 Zeichen)
+- Beschreibt WAS der Command tut
+- Imperativ-Form: "Erstellt..." nicht "Erstelle..."
+- **Sprache: Deutsch** (technische Begriffe auf Englisch erlaubt)
+
+**Dokumentation (Markdown-Body)**:
+
+- **Primär auf Deutsch** verfasst
+- Technische Begriffe können auf Englisch bleiben
+- Fachbegriffe auf Englisch erlaubt
+- Konsistente Sprache innerhalb eines Commands
+
+## Validierungs-Workflow
+
+Wenn du diesen Command ausführst, solltest du:
+
+1. **Command-Pfad ermitteln**:
+   - Falls kein Pfad angegeben: Alle `.md`-Dateien in `agents/_shared/commands/` listen
+   - User wählt Command aus
+
+2. **Datei einlesen**:
+   - Read-Tool verwenden
+   - Prüfen ob Datei existiert
+
+3. **YAML-Frontmatter parsen**:
+   - Ersten Block zwischen `---` extrahieren
+   - Required-Felder prüfen: `description`
+   - Optional-Felder validieren: `allowed-tools`
+   - Format-Validierung (keine Syntax-Fehler)
+
+4. **Markdown validieren**:
+   - Mindestens eine H1-Überschrift vorhanden
+   - Keine kaputten internen Links
+   - Grundlegende CommonMark-Struktur
+
+5. **Dokumentations-Check**:
+   - Falls Command > 250 Zeilen: Warnung für Progressive Disclosure
+   - Falls References existieren: Prüfe `../references/<command>/`
+   - Falls Referenzen vorhanden: Existenz der Dateien prüfen
+
+6. **Best Practices Check**:
+   - Dateiname: Lowercase mit Bindestrichen
+   - Description: 1-100 Zeichen
+
+7. **Report ausgeben**:
+
+   ```markdown
+   ## Validation Report: /commit
+
+   ✅ YAML-Frontmatter: Valid
+   ✅ Markdown-Struktur: Valid
+   ✅ Dokumentation: Complete
+   ✅ Best Practices: Compliant
+   ✅ Progressive Disclosure: Implemented (85 lines main, 1246 lines details)
+
+   ### Details:
+   - Description: "Erstellt professionelle Git-Commits..." (Valid length)
+   - Detail files: 4 found in references/commit/ (all referenced ✓)
+   - Naming: commit.md (compliant ✓)
+
+   ✨ Command is fully compliant!
+   ```
+
+   Bei Problemen:
+
+   ```markdown
+   ## Validation Report: /example
+
+   ❌ YAML-Frontmatter: Missing 'description' field
+   ⚠️  Markdown-Struktur: No H1 heading found
+   ✅ Best Practices: Compliant
+   ⚠️  File size: 312 lines - consider Progressive Disclosure
+
+   ### Issues to fix:
+   1. Add 'description' field to YAML frontmatter
+   2. Add H1 heading (# Title) at the beginning
+   3. Consider splitting into main + detail files (>250 lines)
+
+   ### Recommended actions:
+   - Add description: "Brief command description"
+   - Add # heading after frontmatter
+   - Create detail folder: references/example/
+   ```
+
+## Error Handling
+
+- **Datei nicht gefunden**: Klare Fehlermeldung mit Pfad
+- **YAML-Parse-Fehler**: Zeige Zeile und Fehler
+- **Fehlende Required-Felder**: Liste alle fehlenden Felder
+
+## Integration mit anderen Commands
+
+Dieser Command ist nützlich:
+
+- **Vor dem Commit**: Commands validieren bevor sie commited werden
+- **Nach Änderungen**: Sicherstellen dass alles noch funktioniert
+- **Neue Commands**: Initiales Setup überprüfen
+
+## Beispiele
+
+**Erfolgreiche Validierung**:
+
+```text
+/check-commands agents/_shared/commands/commit.md
+→ ✅ Alle Checks bestanden
 ```
 
-### Step 2: Syntax Check
-```bash
-# Validate markdown syntax
-# Using a markdown linter
-mdl commands/*.md
+**Fehlerhafte Validierung**:
+
+```text
+/check-commands agents/_shared/commands/broken.md
+→ ❌ 3 Issues gefunden (siehe Report)
 ```
 
-### Step 3: Content Review
+**Interaktive Auswahl**:
 
-Read each command file and check:
-
-1. **Title Section**
-   - Clear, descriptive title
-   - Brief purpose statement
-
-2. **Context Section**
-   - Explains the command's role
-   - Provides necessary background
-
-3. **Instructions Section**
-   - Step-by-step guidance
-   - Clear expectations
-   - Error handling
-
-4. **Examples Section**
-   - Working examples
-   - Common use cases
-   - Expected outputs
-
-### Step 4: Test Execution
-
-Try using the command:
-```bash
-# Load the command in Claude Code
-claude --plugin-dir ./plugins/[plugin-name]
-
-# Test the command
-/command-name
+```text
+/check-commands
+→ Zeigt Liste aller Commands
+→ User wählt aus
+→ Validierung läuft
 ```
 
-## Common Issues
+## Notes
 
-### Issue 1: Missing Context
-**Problem:** Command doesn't explain its purpose
-**Fix:** Add context section at the top
-
-### Issue 2: Unclear Instructions
-**Problem:** Steps are vague or confusing
-**Fix:** Use numbered lists, be specific
-
-### Issue 3: No Examples
-**Problem:** Users don't know how to use it
-**Fix:** Add practical examples
-
-### Issue 4: Too Complex
-**Problem:** Command tries to do too much
-**Fix:** Split into multiple commands
-
-## Quality Criteria
-
-### Good Command Characteristics
-
-1. **Single Purpose**
-   - Does one thing well
-   - Clear, focused scope
-   - Easy to understand
-
-2. **Clear Instructions**
-   - Step-by-step guidance
-   - Unambiguous language
-   - Appropriate detail level
-
-3. **Helpful Examples**
-   - Show common use cases
-   - Include expected output
-   - Cover edge cases
-
-4. **Error Handling**
-   - Anticipate problems
-   - Provide solutions
-   - Guide recovery
-
-### Command Template
-
-```markdown
-# [Command Name]
-
-Brief description of what this command does.
-
-## Context
-
-Explain when and why to use this command.
-
-## Instructions
-
-1. First step
-2. Second step
-3. Third step
-
-## Examples
-
-### Example 1: [Use Case]
-\`\`\`
-[Code or command]
-\`\`\`
-
-Expected result: [Description]
-
-### Example 2: [Another Use Case]
-\`\`\`
-[Code or command]
-\`\`\`
-
-Expected result: [Description]
-
-## Tips
-
-- Tip 1
-- Tip 2
-
-## Troubleshooting
-
-**Issue:** [Problem]
-**Solution:** [Fix]
-```
-
-## Automated Checks
-
-Create a validation script:
-
-```bash
-#!/bin/bash
-
-# Check all command files
-for file in commands/*.md; do
-    echo "Checking $file..."
-    
-    # Check file exists and is readable
-    if [ ! -r "$file" ]; then
-        echo "❌ Cannot read $file"
-        continue
-    fi
-    
-    # Check for title
-    if ! grep -q "^# " "$file"; then
-        echo "❌ No title found in $file"
-    else
-        echo "✅ Title found"
-    fi
-    
-    # Check for context
-    if ! grep -qi "context" "$file"; then
-        echo "⚠️  No context section in $file"
-    else
-        echo "✅ Context section found"
-    fi
-    
-    # Check for examples
-    if ! grep -q "```" "$file"; then
-        echo "⚠️  No code examples in $file"
-    else
-        echo "✅ Code examples found"
-    fi
-    
-    echo ""
-done
-```
-
-## Report Format
-
-After validation, generate a report:
-
-```markdown
-## Command Validation Report
-
-Date: [Date]
-Plugin: [Plugin Name]
-Commands Checked: [Number]
-
-### Summary
-- ✅ Passed: [Number]
-- ⚠️  Warnings: [Number]
-- ❌ Failed: [Number]
-
-### Details
-
-#### commands/commit.md
-- ✅ Valid file format
-- ✅ Has title
-- ✅ Has context
-- ✅ Has examples
-- ⚠️  Consider adding error handling section
-
-#### commands/create-pr.md
-- ✅ Valid file format
-- ✅ Has title
-- ✅ Has context
-- ✅ Has examples
-- ✅ Complete
-
-### Recommendations
-1. Add error handling to commit.md
-2. Consider splitting large commands
-3. All other commands are good to go
-```
-
-## Interactive Mode
-
-Ask the user:
-1. Which plugin to validate?
-2. Validate all commands or specific ones?
-3. Generate detailed report?
-4. Fix issues automatically where possible?
-
-Then perform validation and present results.
-
-## Next Steps
-
-After validation:
-1. Fix any critical issues
-2. Address warnings
-3. Update documentation
-4. Test commands in real use
-5. Get peer review
+- Dieser Command sollte selbst Best Practices folgen ✨
+- Kann als Template für andere Validierungs-Commands dienen
+- Erweiterbar für zusätzliche Checks (z.B. Security, Performance)

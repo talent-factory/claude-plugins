@@ -46,10 +46,10 @@
     {
       "name": "tf-core",
       "displayName": "TF Core Utilities",
-      "description": "Core validation tools and utility commands for plugin development",
+      "description": "Comprehensive development utilities with 8 commands and 3 expert agents for plugin/command/agent development, validation, CI automation, and project initialization",
       "source": "./plugins/tf-core",
-      "version": "1.0.0",
-      "tags": ["utilities", "validation", "tools", "development"]
+      "version": "2.0.0",
+      "tags": ["utilities", "validation", "tools", "development", "ci-automation", "plugin-development", "skill-building"]
     }
   ]
 }
