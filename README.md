@@ -104,7 +104,7 @@ Development utilities for plugin/command/agent development, validation, and CI a
 - Command Expert - CLI development
 - Skill Builder - Complete skill-building system
 
-[📖 Documentation](./plugins/tf-core/README.md)
+[📖 Documentation](./plugins/core/README.md)
 
 ## 🎯 Who Is This For?
 
@@ -166,7 +166,7 @@ Development utilities for plugin/command/agent development, validation, and CI a
     "git-workflow@talent-factory": true,
     "project-management@talent-factory": true,
     "code-quality@talent-factory": true,
-    "tf-core@talent-factory": true
+    "core@talent-factory": true
   }
 }
 ```

@@ -44,10 +44,10 @@
       "tags": ["education", "teaching", "learning", "students", "ffhs", "markdown"]
     },
     {
-      "name": "tf-core",
+      "name": "core",
       "displayName": "Core Utilities",
       "description": "Comprehensive development utilities with 8 commands and 3 expert agents for plugin/command/agent development, validation, CI automation, and project initialization",
-      "source": "./plugins/tf-core",
+      "source": "./plugins/core",
       "version": "2.0.0",
       "tags": ["utilities", "validation", "tools", "development", "ci-automation", "plugin-development", "skill-building"]
     }

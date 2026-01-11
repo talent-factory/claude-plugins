@@ -1,5 +1,5 @@
 {
-  "name": "tf-core",
+  "name": "core",
   "version": "2.0.0",
   "displayName": "Core Utilities",
   "description": "Comprehensive development utilities for plugin/command/agent development, validation, CI automation, and OpenSource project initialization with expert agents",

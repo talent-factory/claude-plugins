@@ -239,7 +239,7 @@ This plugin is part of the Talent Factory marketplace.
 ```json
 {
   "enabledPlugins": {
-    "tf-core@talent-factory": true
+    "core@talent-factory": true
   }
 }
 ```
@@ -247,7 +247,7 @@ This plugin is part of the Talent Factory marketplace.
 ## Project Structure
 
 ```
-tf-core/
+core/
 ├── .claude-plugin/
 │   └── plugin.json
 ├── commands/
