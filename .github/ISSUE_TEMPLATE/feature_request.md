@@ -52,7 +52,7 @@ Describe specific scenarios where this feature would be useful:
 ## Target Audience
 
 Who would benefit from this feature?
-- [ ] Students (FFHS/TSBE)
+- [ ] Students
 - [ ] Developers
 - [ ] Educators
 - [ ] Development teams

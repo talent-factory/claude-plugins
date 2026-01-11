@@ -1,55 +1,86 @@
 {
   "name": "talent-factory",
-  "displayName": "Talent Factory",
   "version": "1.0.0",
-  "metadata": {
-    "owner": "Talent Factory GmbH",
-    "description": "Professional Claude Code plugins for software development and education",
-    "repository": "https://github.com/talent-factory/claude-plugins",
-    "documentation": "https://github.com/talent-factory/claude-plugins#readme",
-    "author": "Daniel Senften",
-    "license": "MIT"
+  "owner": {
+    "name": "Talent Factory GmbH",
+    "email": "support@talent-factory.ch"
   },
+  "description": "Professional Claude Code plugins for software development and education",
   "plugins": [
     {
       "name": "git-workflow",
-      "displayName": "Git Workflow",
-      "description": "Professional git commands for commits, PRs, and branch management with pre-commit validation",
+      "description": "Professional git workflow with automated pre-commit checks, emoji conventional commits, PR management, and comprehensive references",
       "source": "./plugins/git-workflow",
-      "version": "1.0.0",
-      "tags": ["git", "workflow", "productivity", "commits", "pull-requests"]
+      "version": "2.0.0",
+      "tags": [
+        "git",
+        "workflow",
+        "productivity",
+        "commits",
+        "pull-requests",
+        "automation",
+        "pre-commit",
+        "conventional-commits"
+      ]
     },
     {
       "name": "project-management",
-      "displayName": "Project Management",
-      "description": "PRD generation, project planning, and Linear integration for agile workflows",
+      "description": "Comprehensive project management with PRD generation, project planning, task implementation, Linear integration, and git worktree workflow",
       "source": "./plugins/project-management",
-      "version": "1.0.0",
-      "tags": ["planning", "prd", "linear", "project-management", "agile"]
+      "version": "2.0.0",
+      "tags": [
+        "planning",
+        "prd",
+        "linear",
+        "project-management",
+        "agile",
+        "worktree",
+        "task-management"
+      ]
     },
     {
       "name": "code-quality",
-      "displayName": "Code Quality",
-      "description": "Code review, refactoring, and quality checks for maintaining high standards",
+      "description": "Comprehensive code quality with Python linting and expert agents for Python, Java, and Frontend development",
       "source": "./plugins/code-quality",
-      "version": "1.0.0",
-      "tags": ["review", "quality", "refactoring", "best-practices"]
+      "version": "2.0.0",
+      "tags": [
+        "review",
+        "quality",
+        "refactoring",
+        "best-practices",
+        "python",
+        "java",
+        "react",
+        "linting"
+      ]
     },
     {
       "name": "education",
-      "displayName": "Education Tools",
-      "description": "Teaching aids, code explanations, and student support for IT education",
+      "description": "Teaching aids with Java Tutor agent and Markdown syntax formatter for IT education",
       "source": "./plugins/education",
-      "version": "1.0.0",
-      "tags": ["education", "teaching", "learning", "students", "ffhs"]
+      "version": "1.1.0",
+      "tags": [
+        "education",
+        "teaching",
+        "learning",
+        "students",
+        "markdown"
+      ]
     },
     {
-      "name": "tf-core",
-      "displayName": "TF Core Utilities",
-      "description": "Core validation tools and utility commands for plugin development",
-      "source": "./plugins/tf-core",
-      "version": "1.0.0",
-      "tags": ["utilities", "validation", "tools", "development"]
+      "name": "core",
+      "description": "Comprehensive development utilities with 8 commands and 3 expert agents for plugin/command/agent development, validation, CI automation, and project initialization",
+      "source": "./plugins/core",
+      "version": "2.0.0",
+      "tags": [
+        "utilities",
+        "validation",
+        "tools",
+        "development",
+        "ci-automation",
+        "plugin-development",
+        "skill-building"
+      ]
     }
   ]
 }

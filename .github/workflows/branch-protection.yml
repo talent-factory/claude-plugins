@@ -59,7 +59,10 @@ jobs:
             }
 
             // Check for direct commits to protected branches
-            if (headBranch === 'main' || headBranch === 'develop') {
+            // Exception: Allow develop -> main (release PRs)
+            const isReleasePR = (headBranch === 'develop' && baseBranch === 'main');
+
+            if ((headBranch === 'main' || headBranch === 'develop') && !isReleasePR) {
               core.setFailed(`❌ Direct commits to ${headBranch} are not allowed. Please create a feature branch.`);
             }
 

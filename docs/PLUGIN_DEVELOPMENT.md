@@ -344,7 +344,7 @@ claude --plugin-dir .
 
 ### Validation
 
-Run validation checks (if tf-core is available):
+Run validation checks (if core plugin is available):
 
 ```bash
 # Validate command structure

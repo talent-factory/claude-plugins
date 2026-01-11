@@ -1,0 +1,123 @@
+{
+  "java": {
+    "enabled": true,
+    "checks": {
+      "build": {
+        "enabled": true,
+        "timeout": 300,
+        "description": "Maven/Gradle Build"
+      },
+      "tests": {
+        "enabled": true,
+        "timeout": 600,
+        "description": "Unit Tests",
+        "skippable": true
+      },
+      "checkstyle": {
+        "enabled": true,
+        "timeout": 120,
+        "description": "Code Style Check",
+        "optional": true
+      },
+      "spotbugs": {
+        "enabled": true,
+        "timeout": 180,
+        "description": "Static Analysis",
+        "optional": true
+      }
+    }
+  },
+  "python": {
+    "enabled": true,
+    "checks": {
+      "ruff": {
+        "enabled": true,
+        "timeout": 60,
+        "description": "Ruff Linting"
+      },
+      "black": {
+        "enabled": true,
+        "timeout": 60,
+        "description": "Black Formatting"
+      },
+      "isort": {
+        "enabled": true,
+        "timeout": 30,
+        "description": "Import Sorting"
+      },
+      "mypy": {
+        "enabled": true,
+        "timeout": 120,
+        "description": "Type Checking",
+        "optional": true
+      },
+      "pytest": {
+        "enabled": true,
+        "timeout": 600,
+        "description": "Unit Tests",
+        "skippable": true
+      }
+    }
+  },
+  "react": {
+    "enabled": true,
+    "checks": {
+      "eslint": {
+        "enabled": true,
+        "timeout": 120,
+        "description": "ESLint"
+      },
+      "prettier": {
+        "enabled": true,
+        "timeout": 60,
+        "description": "Prettier Formatting"
+      },
+      "typescript": {
+        "enabled": true,
+        "timeout": 180,
+        "description": "TypeScript Compiler",
+        "optional": false
+      },
+      "tests": {
+        "enabled": true,
+        "timeout": 600,
+        "description": "Jest/Vitest Tests",
+        "skippable": true
+      },
+      "build": {
+        "enabled": true,
+        "timeout": 300,
+        "description": "Production Build"
+      }
+    }
+  },
+  "docs": {
+    "enabled": true,
+    "checks": {
+      "latex": {
+        "enabled": true,
+        "timeout": 180,
+        "description": "LaTeX Compilation",
+        "optional": true
+      },
+      "markdownlint": {
+        "enabled": true,
+        "timeout": 60,
+        "description": "Markdown Linting",
+        "optional": true
+      },
+      "asciidoc": {
+        "enabled": true,
+        "timeout": 120,
+        "description": "AsciiDoc Rendering",
+        "optional": true
+      }
+    }
+  },
+  "global": {
+    "max_total_time": 1800,
+    "allow_warnings": true,
+    "fail_on_warnings": false,
+    "colorize_output": true
+  }
+}

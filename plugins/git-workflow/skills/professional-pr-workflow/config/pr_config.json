@@ -1,0 +1,17 @@
+{
+  "protected_branches": ["main", "master", "develop"],
+  "default_target": "main",
+  "auto_delete_branch": false,
+  "draft_by_default": false,
+  "formatters": {
+    "javascript": "biome",
+    "python": "black",
+    "java": "google-java-format",
+    "markdown": "markdownlint"
+  },
+  "pr_template": {
+    "include_test_plan": true,
+    "include_breaking_changes": true,
+    "auto_link_issues": true
+  }
+}

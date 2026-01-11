@@ -86,20 +86,30 @@ Teaching aids and student support for IT education.
 
 ---
 
-### 🛠️ TF Core Utilities
-Validation tools and utilities for plugin development.
+### 🛠️ Core Utilities
+Development utilities for plugin/command/agent development, validation, and CI automation.
 
 **Commands:**
+- `/check` - Project validation without commits
 - `/check-commands` - Validate command files
 - `/check-agents` - Validate agent configurations
+- `/build-skill` - Create Claude Code Skills
+- `/package-skill` - Package skills
+- `/create-command` - Generate new commands
+- `/init-project` - Initialize OpenSource projects
+- `/run-ci` - Run CI checks locally
 
-[📖 Documentation](./plugins/tf-core/README.md)
+**Agents:**
+- Agent Expert - Agent design and optimization
+- Command Expert - CLI development
+- Skill Builder - Complete skill-building system
+
+[📖 Documentation](./plugins/core/README.md)
 
 ## 🎯 Who Is This For?
 
 ### Students
-- FFHS BSc Computer Science students
-- TSBE students
+- BSc Computer Science students
 - Self-learners
 
 ### Developers
@@ -136,7 +146,7 @@ Validation tools and utilities for plugin development.
 
 ### For Educational Institutions
 
-**FFHS Course Setup**
+**Educational Course Setup**
 ```json
 {
   "enabledPlugins": {
@@ -155,7 +165,7 @@ Validation tools and utilities for plugin development.
     "git-workflow@talent-factory": true,
     "project-management@talent-factory": true,
     "code-quality@talent-factory": true,
-    "tf-core@talent-factory": true
+    "core@talent-factory": true
   }
 }
 ```
@@ -226,14 +236,14 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🙏 Acknowledgments
 
-- Built for students and developers at FFHS, TSBE, and beyond
+- Built for students, developers and beyond
 - Inspired by professional development workflows
 - Community contributions welcome!
 
 ## 📞 Contact
 
 **Talent Factory GmbH**
-- Website: [talent-factory.ch](https://talent-factory.ch)
+- Website: [talent-factory.ch](https://talent-factory.xyz)
 - GitHub: [@talent-factory](https://github.com/talent-factory)
 - Maintainer: Daniel Senften
 

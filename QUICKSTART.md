@@ -101,7 +101,7 @@ Validate your command files.
   "enabledPlugins": {
     "git-workflow@talent-factory": true,
     "code-quality@talent-factory": true,
-    "tf-core@talent-factory": true
+    "core@talent-factory": true
   }
 }
 ```

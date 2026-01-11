@@ -141,8 +141,8 @@ Before submitting a PR:
 
 3. **Run validation** (if available)
    ```bash
-   /check-commands  # Using tf-core plugin
-   /check-agents    # Using tf-core plugin
+   /check-commands  # Using core plugin
+   /check-agents    # Using core plugin
    ```
 
 4. **Check documentation**

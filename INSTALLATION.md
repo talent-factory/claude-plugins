@@ -112,7 +112,7 @@ Install plugins for all your projects:
   },
   "enabledPlugins": {
     "git-workflow@talent-factory": true,
-    "tf-core@talent-factory": true
+    "core@talent-factory": true
   }
 }
 ```
@@ -151,7 +151,7 @@ They can skip unwanted plugins while accepting others.
 
 ## Plugin Selection Guide
 
-### For Students (FFHS/TSBE)
+### For Students
 
 Recommended plugins:
 ```json
@@ -173,7 +173,7 @@ Recommended plugins:
     "git-workflow@talent-factory": true,
     "project-management@talent-factory": true,
     "code-quality@talent-factory": true,
-    "tf-core@talent-factory": true
+    "core@talent-factory": true
   }
 }
 ```
@@ -186,7 +186,7 @@ Recommended plugins:
   "enabledPlugins": {
     "education@talent-factory": true,
     "code-quality@talent-factory": true,
-    "tf-core@talent-factory": true
+    "core@talent-factory": true
   }
 }
 ```
@@ -222,7 +222,7 @@ Choose what you need:
 # Test education
 /explain-code
 
-# Test tf-core
+# Test core utilities
 /check-commands
 ```
 
