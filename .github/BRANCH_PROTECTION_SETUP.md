@@ -10,6 +10,20 @@ The Talent Factory Claude Plugins repository uses branch protection to:
 - Enforce CI/CD checks before merging
 - Maintain a clean and traceable history
 
+### Solo-Maintainer vs. Team Setup
+
+**Solo-Maintainer (Repository Owner only):**
+- ✅ Disable "Do not allow bypassing the above settings" on main/develop
+- ✅ Allows owner to approve and merge own PRs (e.g., release PRs)
+- ✅ Maintains protection against accidental direct pushes
+- ✅ Full flexibility for trusted repository owner
+
+**Team Setup (Multiple maintainers):**
+- ✅ Enable "Do not allow bypassing the above settings"
+- ✅ Enforces rules for all team members, including admins
+- ✅ Add "Allow specified actors to bypass" for emergency situations
+- ✅ Ensures proper peer review process
+
 ## Branch Strategy
 
 ### Main Branch
@@ -76,8 +90,13 @@ main
 - ⬜ Disable (we want to allow PRs)
 
 **Do not allow bypassing the above settings**
-- ✅ Enable
-- Exceptions: (leave empty to enforce for everyone)
+- ⬜ **Disable** (empfohlen für Solo-Maintainer/Repository Owner)
+  - Erlaubt Admins, eigene PRs zu genehmigen und zu mergen
+  - Schützt weiterhin vor versehentlichen direkten Pushes
+  - Volle Kontrolle für Repository Owner
+- ✅ **Enable** (nur für Teams mit mehreren Admins)
+  - Erzwingt Regeln für alle, inkl. Admins
+  - Requires: "Allow specified actors to bypass" für Notfälle
 
 **Restrict who can push to matching branches**
 - ✅ Enable
