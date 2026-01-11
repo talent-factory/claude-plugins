@@ -109,8 +109,7 @@ Development utilities for plugin/command/agent development, validation, and CI a
 ## 🎯 Who Is This For?
 
 ### Students
-- FFHS BSc Computer Science students
-- TSBE students
+- BSc Computer Science students
 - Self-learners
 
 ### Developers
@@ -147,7 +146,7 @@ Development utilities for plugin/command/agent development, validation, and CI a
 
 ### For Educational Institutions
 
-**FFHS Course Setup**
+**Educational Course Setup**
 ```json
 {
   "enabledPlugins": {
@@ -237,7 +236,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🙏 Acknowledgments
 
-- Built for students and developers at FFHS, TSBE, and beyond
+- Built for students, developers and beyond
 - Inspired by professional development workflows
 - Community contributions welcome!
 

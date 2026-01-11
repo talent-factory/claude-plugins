@@ -17,7 +17,16 @@
       "description": "Professional git workflow with automated pre-commit checks, emoji conventional commits, PR management, and comprehensive references. Includes professional-commit-workflow and professional-pr-workflow skills.",
       "source": "./plugins/git-workflow",
       "version": "2.0.0",
-      "tags": ["git", "workflow", "productivity", "commits", "pull-requests", "automation", "pre-commit", "conventional-commits"]
+      "tags": [
+        "git",
+        "workflow",
+        "productivity",
+        "commits",
+        "pull-requests",
+        "automation",
+        "pre-commit",
+        "conventional-commits"
+      ]
     },
     {
       "name": "project-management",
@@ -25,7 +34,15 @@
       "description": "Comprehensive project management with PRD generation, project planning, task implementation, Linear integration, and git worktree workflow",
       "source": "./plugins/project-management",
       "version": "2.0.0",
-      "tags": ["planning", "prd", "linear", "project-management", "agile", "worktree", "task-management"]
+      "tags": [
+        "planning",
+        "prd",
+        "linear",
+        "project-management",
+        "agile",
+        "worktree",
+        "task-management"
+      ]
     },
     {
       "name": "code-quality",
@@ -33,7 +50,16 @@
       "description": "Comprehensive code quality with Python linting and expert agents for Python, Java, and Frontend development",
       "source": "./plugins/code-quality",
       "version": "2.0.0",
-      "tags": ["review", "quality", "refactoring", "best-practices", "python", "java", "react", "linting"]
+      "tags": [
+        "review",
+        "quality",
+        "refactoring",
+        "best-practices",
+        "python",
+        "java",
+        "react",
+        "linting"
+      ]
     },
     {
       "name": "education",
@@ -41,7 +67,7 @@
       "description": "Teaching aids with Java Tutor agent and Markdown syntax formatter for IT education",
       "source": "./plugins/education",
       "version": "1.1.0",
-      "tags": ["education", "teaching", "learning", "students", "ffhs", "markdown"]
+      "tags": ["education", "teaching", "learning", "students", "markdown"]
     },
     {
       "name": "core",
@@ -49,7 +75,15 @@
       "description": "Comprehensive development utilities with 8 commands and 3 expert agents for plugin/command/agent development, validation, CI automation, and project initialization",
       "source": "./plugins/core",
       "version": "2.0.0",
-      "tags": ["utilities", "validation", "tools", "development", "ci-automation", "plugin-development", "skill-building"]
+      "tags": [
+        "utilities",
+        "validation",
+        "tools",
+        "development",
+        "ci-automation",
+        "plugin-development",
+        "skill-building"
+      ]
     }
   ]
 }

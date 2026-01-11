@@ -286,4 +286,4 @@ This repository contains only configuration files (JSON, Markdown). There are no
 Users don't clone this repository. Instead, Claude Code fetches plugin definitions from GitHub when the marketplace is added to settings. Changes propagate when Claude Code refreshes the marketplace index.
 
 ### Educational Context
-The education plugin (Java Tutor agent) is tailored for FFHS (Fernfachhochschule Schweiz) and TSBE students. It references Swiss computer science curriculum and teaching methodologies specific to those institutions.
+The education plugin (Java Tutor agent) is tailored for students. It references Swiss computer science curriculum and teaching methodologies specific to those institutions.

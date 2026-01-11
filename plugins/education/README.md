@@ -1,6 +1,6 @@
 # Education Tools Plugin
 
-Teaching aids, code explanations, and student support for IT education at FFHS and other institutions.
+Teaching aids, code explanations, and student support for IT education.
 
 ## Commands
 
@@ -24,7 +24,7 @@ Claude will ask about the student's level and provide tailored explanations.
 ## Agents
 
 ### Java Tutor
-Expert Java programming instructor specializing in teaching FFHS students.
+Expert Java programming instructor specializing in teaching students.
 
 **Specialties:**
 - Java fundamentals and OOP
@@ -38,7 +38,7 @@ Use `/agents` and select "Java Tutor" for Java-specific teaching support.
 
 ## Who This Is For
 
-- **Students**: Learning programming at FFHS, TSBE, or other institutions
+- **Students**: Learning programming at universities and educational institutions
 - **Instructors**: Teaching programming courses
 - **Self-learners**: Studying programming independently
 - **Code reviewers**: Providing educational feedback
@@ -79,7 +79,7 @@ Java Tutor: [Provides step-by-step explanation with family tree analogy]
 
 While the plugin works with any programming language, it has specialized support for:
 
-- **Java** (primary focus for FFHS courses)
+- **Java** (primary focus for computer science courses)
 - **Python** (data structures, algorithms)
 - **JavaScript** (web development)
 - **C/C++** (systems programming)
@@ -92,13 +92,13 @@ While the plugin works with any programming language, it has specialized support
 4. Use generated exercises for practice
 5. Review explanations before sharing with students
 
-## FFHS Integration
+## Curriculum Integration
 
-This plugin is designed to complement FFHS curriculum:
+This plugin is designed to complement computer science curricula:
 
-- Aligned with BSc Computer Science program
+- Aligned with standard CS programs
 - References course materials appropriately
-- Prepares students for exam formats
+- Prepares students for exams
 - Connects to other CS concepts
 
 ## Support

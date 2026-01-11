@@ -151,7 +151,7 @@ They can skip unwanted plugins while accepting others.
 
 ## Plugin Selection Guide
 
-### For Students (FFHS/TSBE)
+### For Students
 
 Recommended plugins:
 ```json
