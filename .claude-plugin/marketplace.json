@@ -1,20 +1,15 @@
 {
   "name": "talent-factory",
-  "displayName": "Talent Factory",
   "version": "1.0.0",
-  "metadata": {
-    "owner": "Talent Factory GmbH",
-    "description": "Professional Claude Code plugins for software development and education",
-    "repository": "https://github.com/talent-factory/claude-plugins",
-    "documentation": "https://github.com/talent-factory/claude-plugins#readme",
-    "author": "Daniel Senften",
-    "license": "MIT"
+  "owner": {
+    "name": "Talent Factory GmbH",
+    "email": "support@talent-factory.ch"
   },
+  "description": "Professional Claude Code plugins for software development and education",
   "plugins": [
     {
       "name": "git-workflow",
-      "displayName": "Git Workflow",
-      "description": "Professional git workflow with automated pre-commit checks, emoji conventional commits, PR management, and comprehensive references. Includes professional-commit-workflow and professional-pr-workflow skills.",
+      "description": "Professional git workflow with automated pre-commit checks, emoji conventional commits, PR management, and comprehensive references",
       "source": "./plugins/git-workflow",
       "version": "2.0.0",
       "tags": [
@@ -30,7 +25,6 @@
     },
     {
       "name": "project-management",
-      "displayName": "Project Management",
       "description": "Comprehensive project management with PRD generation, project planning, task implementation, Linear integration, and git worktree workflow",
       "source": "./plugins/project-management",
       "version": "2.0.0",
@@ -46,7 +40,6 @@
     },
     {
       "name": "code-quality",
-      "displayName": "Code Quality",
       "description": "Comprehensive code quality with Python linting and expert agents for Python, Java, and Frontend development",
       "source": "./plugins/code-quality",
       "version": "2.0.0",
@@ -63,15 +56,19 @@
     },
     {
       "name": "education",
-      "displayName": "Education Tools",
       "description": "Teaching aids with Java Tutor agent and Markdown syntax formatter for IT education",
       "source": "./plugins/education",
       "version": "1.1.0",
-      "tags": ["education", "teaching", "learning", "students", "markdown"]
+      "tags": [
+        "education",
+        "teaching",
+        "learning",
+        "students",
+        "markdown"
+      ]
     },
     {
       "name": "core",
-      "displayName": "Core Utilities",
       "description": "Comprehensive development utilities with 8 commands and 3 expert agents for plugin/command/agent development, validation, CI automation, and project initialization",
       "source": "./plugins/core",
       "version": "2.0.0",
