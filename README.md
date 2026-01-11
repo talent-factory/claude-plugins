@@ -243,7 +243,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 📞 Contact
 
 **Talent Factory GmbH**
-- Website: [talent-factory.ch](https://talent-factory.ch)
+- Website: [talent-factory.ch](https://talent-factory.xyz)
 - GitHub: [@talent-factory](https://github.com/talent-factory)
 - Maintainer: Daniel Senften
 
