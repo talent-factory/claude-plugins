@@ -1,7 +1,7 @@
 {
   "name": "tf-core",
   "version": "2.0.0",
-  "displayName": "TF Core Utilities",
+  "displayName": "Core Utilities",
   "description": "Comprehensive development utilities for plugin/command/agent development, validation, CI automation, and OpenSource project initialization with expert agents",
   "author": "Talent Factory GmbH",
   "repository": "https://github.com/talent-factory/claude-plugins",

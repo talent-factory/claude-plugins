@@ -222,7 +222,7 @@ Choose what you need:
 # Test education
 /explain-code
 
-# Test tf-core
+# Test core utilities
 /check-commands
 ```
 

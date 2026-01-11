@@ -144,8 +144,8 @@ Use dotfiles for non-Claude agents, plugins for Claude.
 
 | Dotfiles | Plugin | Notes |
 |----------|--------|-------|
-| `~/.claude/commands/check-agents.md` | `tf-core:check-agents` | Same functionality |
-| `~/.claude/commands/check-commands.md` | `tf-core:check-commands` | Enhanced validation |
+| `~/.claude/commands/check-agents.md` | `core:check-agents` | Same functionality |
+| `~/.claude/commands/check-commands.md` | `core:check-commands` | Enhanced validation |
 
 ## Feature Parity
 

@@ -31,7 +31,7 @@ The repository uses a two-level architecture:
 - **project-management**: PRD generation (`/create-prd`)
 - **code-quality**: Code review and refactoring
 - **education**: Teaching aids with Java Tutor agent
-- **tf-core**: Plugin validation tools (`/check-commands`, `/check-agents`)
+- **core**: Development utilities (`/check`, `/check-commands`, `/check-agents`, `/build-skill`, etc.)
 
 ### How Plugins Work
 

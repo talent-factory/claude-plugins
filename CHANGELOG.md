@@ -56,7 +56,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 🌲 Added git worktree support for isolated development
 - 📖 Extensive README with workflow examples and Linear setup
 
-#### tf-core 2.0.0 (Major Update)
+#### core 2.0.0 (Major Update)
 - ✨ Added `/check` command for project validation without commits
 - ✨ Added `/create-command` for pattern-based command generation
 - ✨ Added `/init-project` for OpenSource project initialization

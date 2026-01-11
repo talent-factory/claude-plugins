@@ -86,12 +86,23 @@ Teaching aids and student support for IT education.
 
 ---
 
-### 🛠️ TF Core Utilities
-Validation tools and utilities for plugin development.
+### 🛠️ Core Utilities
+Development utilities for plugin/command/agent development, validation, and CI automation.
 
 **Commands:**
+- `/check` - Project validation without commits
 - `/check-commands` - Validate command files
 - `/check-agents` - Validate agent configurations
+- `/build-skill` - Create Claude Code Skills
+- `/package-skill` - Package skills
+- `/create-command` - Generate new commands
+- `/init-project` - Initialize OpenSource projects
+- `/run-ci` - Run CI checks locally
+
+**Agents:**
+- Agent Expert - Agent design and optimization
+- Command Expert - CLI development
+- Skill Builder - Complete skill-building system
 
 [📖 Documentation](./plugins/tf-core/README.md)
 

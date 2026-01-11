@@ -1,4 +1,4 @@
-# TF Core Utilities Plugin
+# Core Utilities Plugin
 
 Comprehensive development utilities for plugin/command/agent development, validation, CI automation, and OpenSource project initialization.
 
