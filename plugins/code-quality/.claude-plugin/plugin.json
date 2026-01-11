@@ -1,20 +1,9 @@
 {
   "name": "code-quality",
   "version": "2.0.0",
-  "displayName": "Code Quality",
   "description": "Comprehensive code quality tools with Python linting, code review, and expert agents for Python, Java, and Frontend development",
-  "author": "Talent Factory GmbH",
-  "repository": "https://github.com/talent-factory/claude-plugins",
-  "license": "MIT",
-  "keywords": [
-    "review",
-    "quality",
-    "refactoring",
-    "best-practices",
-    "code-analysis",
-    "python",
-    "java",
-    "react",
-    "linting"
-  ]
+  "author": {
+    "name": "Talent Factory GmbH",
+    "email": "support@talent-factory.ch"
+  }
 }

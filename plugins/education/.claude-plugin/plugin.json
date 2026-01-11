@@ -1,16 +1,9 @@
 {
   "name": "education",
   "version": "1.0.0",
-  "displayName": "Education Tools",
   "description": "Teaching aids, code explanations, and student support for IT education",
-  "author": "Talent Factory GmbH",
-  "repository": "https://github.com/talent-factory/claude-plugins",
-  "license": "MIT",
-  "keywords": [
-    "education",
-    "teaching",
-    "learning",
-    "students",
-    "code-explanation"
-  ]
+  "author": {
+    "name": "Talent Factory GmbH",
+    "email": "support@talent-factory.ch"
+  }
 }
