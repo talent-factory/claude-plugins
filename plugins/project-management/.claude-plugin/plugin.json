@@ -1,6 +1,6 @@
 {
   "name": "project-management",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Comprehensive project management with PRD generation, project planning, task implementation, Linear integration, and git worktree workflow for agile development",
   "author": {
     "name": "Talent Factory GmbH",
