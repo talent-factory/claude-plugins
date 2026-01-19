@@ -1,400 +1,400 @@
 ---
-description: Create comprehensive Claude Code Skills through elicitation-driven development
+description: Erstelle umfassende Claude Code Skills durch Elicitation-getriebene Entwicklung
 allowed-tools:
   - Task
   - Read
   - Write
 ---
 
-# Build Claude Code Skill
+# Claude Code Skill erstellen
 
-Create comprehensive Claude Code Skills through elicitation-driven development
+Erstelle umfassende Claude Code Skills durch Elicitation-getriebene Entwicklung
 
-## Instructions
+## Anweisungen
 
-This command orchestrates four specialized agents to build production-ready Claude Code Skills from user requirements. Follow this structured workflow:
+Dieser Command orchestriert vier spezialisierte Agenten, um produktionsreife Claude Code Skills aus Benutzeranforderungen zu erstellen. Folge diesem strukturierten Workflow:
 
-### Phase 1: Requirements Elicitation
+### Phase 1: Anforderungserhebung
 
 **Agent**: `skill-elicitation-agent`
 
-1. **Activate Elicitation Agent**
-   - Launch the skill-elicitation-agent using the Task tool
-   - Provide context: "The user wants to create a new Claude Code Skill"
-   - Include any initial requirements or ideas the user has shared
+1. **Elicitation-Agent aktivieren**
+   - Starte den skill-elicitation-agent mit dem Task-Tool
+   - Gib Kontext: "Der Benutzer möchte einen neuen Claude Code Skill erstellen"
+   - Füge alle initialen Anforderungen oder Ideen hinzu, die der Benutzer geteilt hat
 
-2. **Elicitation Questions**
-   - The agent will ask 3-5 targeted questions to understand:
-     - Purpose and scope of the skill
-     - Complexity and structure requirements
-     - Tool permissions needed
-     - Context and references
-     - Success criteria
+2. **Elicitation-Fragen**
+   - Der Agent stellt 3-5 gezielte Fragen, um zu verstehen:
+     - Zweck und Umfang des Skills
+     - Komplexitäts- und Strukturanforderungen
+     - Benötigte Tool-Berechtigungen
+     - Kontext und Referenzen
+     - Erfolgskriterien
 
-3. **Specification Creation**
-   - Agent will create a comprehensive skill specification document
-   - Includes: metadata, structure, instructions outline, code needs, examples, dependencies
-   - Uses progressive disclosure strategy
-   - Validates completeness before proceeding
+3. **Spezifikationserstellung**
+   - Agent erstellt ein umfassendes Skill-Spezifikationsdokument
+   - Enthält: Metadaten, Struktur, Anweisungsübersicht, Code-Anforderungen, Beispiele, Abhängigkeiten
+   - Verwendet Progressive-Disclosure-Strategie
+   - Validiert Vollständigkeit vor dem Fortfahren
 
-4. **User Approval**
-   - Present the specification to the user
-   - Confirm understanding and agreement
-   - Make adjustments if needed
-   - Get explicit approval to proceed to generation
+4. **Benutzerfreigabe**
+   - Präsentiere die Spezifikation dem Benutzer
+   - Bestätige Verständnis und Zustimmung
+   - Nimm Anpassungen vor, falls nötig
+   - Hole explizite Freigabe zum Fortfahren mit der Generierung
 
-### Phase 2: Skill Generation
+### Phase 2: Skill-Generierung
 
 **Agent**: `skill-generator-agent`
 
-1. **Activate Generator Agent**
-   - Launch the skill-generator-agent using the Task tool
-   - Pass the approved specification document
-   - Specify target location (personal, project, or plugin skill)
+1. **Generator-Agent aktivieren**
+   - Starte den skill-generator-agent mit dem Task-Tool
+   - Übergib das freigegebene Spezifikationsdokument
+   - Spezifiziere Zielort (persönlicher, Projekt- oder Plugin-Skill)
 
-2. **Directory Structure Creation**
-   - Agent creates appropriate directory structure:
+2. **Verzeichnisstruktur erstellen**
+   - Agent erstellt die entsprechende Verzeichnisstruktur:
 
      ```text
      skill-name/
-     ├── SKILL.md (required)
-     ├── reference.md (if needed)
-     ├── examples.md (if needed)
-     ├── scripts/ (if needed)
-     └── templates/ (if needed)
+     ├── SKILL.md (erforderlich)
+     ├── reference.md (falls benötigt)
+     ├── examples.md (falls benötigt)
+     ├── scripts/ (falls benötigt)
+     └── templates/ (falls benötigt)
      ```
 
-3. **SKILL.md Generation**
-   - Creates main skill file with proper frontmatter
-   - Includes clear instructions and examples
-   - Follows progressive disclosure principles
-   - Links to supporting files
+3. **SKILL.md-Generierung**
+   - Erstellt Haupt-Skill-Datei mit korrektem Frontmatter
+   - Enthält klare Anweisungen und Beispiele
+   - Folgt Progressive-Disclosure-Prinzipien
+   - Verlinkt zu unterstützenden Dateien
 
-4. **Supporting Files Generation**
-   - Creates reference documentation
-   - Generates example files
-   - Writes scripts with proper error handling
-   - Creates reusable templates
+4. **Unterstützende Dateien generieren**
+   - Erstellt Referenzdokumentation
+   - Generiert Beispieldateien
+   - Schreibt Scripts mit korrekter Fehlerbehandlung
+   - Erstellt wiederverwendbare Templates
 
-5. **Dependency Documentation**
-   - Documents all required packages
-   - Provides installation instructions
-   - Notes version requirements
+5. **Abhängigkeitsdokumentation**
+   - Dokumentiert alle erforderlichen Pakete
+   - Stellt Installationsanweisungen bereit
+   - Notiert Versionsanforderungen
 
-6. **Quality Checks**
-   - Validates YAML frontmatter
-   - Checks file structure
-   - Verifies code syntax
-   - Tests progressive disclosure
+6. **Qualitätsprüfungen**
+   - Validiert YAML-Frontmatter
+   - Prüft Dateistruktur
+   - Verifiziert Code-Syntax
+   - Testet Progressive Disclosure
 
-### Phase 3: Validation and Testing
+### Phase 3: Validierung und Tests
 
 **Agent**: `skill-validator-agent`
 
-1. **Activate Validator Agent**
-   - Launch the skill-validator-agent using the Task tool
-   - Provide path to generated skill
-   - Request comprehensive validation
+1. **Validator-Agent aktivieren**
+   - Starte den skill-validator-agent mit dem Task-Tool
+   - Gib Pfad zum generierten Skill an
+   - Fordere umfassende Validierung an
 
-2. **YAML Validation**
-   - Check frontmatter syntax
-   - Verify required fields
-   - Validate optional fields
-   - Test YAML parsing
+2. **YAML-Validierung**
+   - Prüfe Frontmatter-Syntax
+   - Verifiziere erforderliche Felder
+   - Validiere optionale Felder
+   - Teste YAML-Parsing
 
-3. **Description Analysis**
-   - Assess discoverability
-   - Check trigger keywords
-   - Verify clarity and completeness
-   - Compare to best practices
+3. **Beschreibungsanalyse**
+   - Bewerte Auffindbarkeit
+   - Prüfe Trigger-Schlüsselwörter
+   - Verifiziere Klarheit und Vollständigkeit
+   - Vergleiche mit Best Practices
 
-4. **Structure Validation**
-   - Verify file organization
-   - Check all references
-   - Test script execution
-   - Validate permissions
+4. **Strukturvalidierung**
+   - Verifiziere Dateiorganisation
+   - Prüfe alle Referenzen
+   - Teste Script-Ausführung
+   - Validiere Berechtigungen
 
-5. **Code Testing**
-   - Syntax validation
-   - Security checks
-   - Dependency verification
-   - Error handling tests
+5. **Code-Tests**
+   - Syntax-Validierung
+   - Sicherheitsprüfungen
+   - Abhängigkeitsverifizierung
+   - Fehlerbehandlungstests
 
-6. **Integration Testing**
-   - Test skill loading
-   - Verify triggering
-   - Check execution flow
-   - Validate outputs
+6. **Integrationstests**
+   - Teste Skill-Laden
+   - Verifiziere Triggering
+   - Prüfe Ausführungsablauf
+   - Validiere Ausgaben
 
-7. **Validation Report**
-   - Generate comprehensive report
-   - Score each category
-   - List issues by severity
-   - Provide actionable fixes
+7. **Validierungsbericht**
+   - Generiere umfassenden Bericht
+   - Bewerte jede Kategorie
+   - Liste Probleme nach Schweregrad
+   - Stelle umsetzbare Korrekturen bereit
 
-8. **Issue Resolution**
-   - If issues found, work with generator agent to fix
-   - Re-validate after fixes
-   - Iterate until validation passes
+8. **Problemlösung**
+   - Falls Probleme gefunden, arbeite mit Generator-Agent zur Behebung
+   - Re-validiere nach Korrekturen
+   - Iteriere bis Validierung bestanden
 
-### Phase 4: Documentation Enhancement
+### Phase 4: Dokumentationsverbesserung
 
 **Agent**: `skill-documenter-agent`
 
-1. **Activate Documenter Agent**
-   - Launch the skill-documenter-agent using the Task tool
-   - Provide skill path and specification
-   - Request comprehensive documentation
+1. **Documenter-Agent aktivieren**
+   - Starte den skill-documenter-agent mit dem Task-Tool
+   - Gib Skill-Pfad und Spezifikation an
+   - Fordere umfassende Dokumentation an
 
-2. **SKILL.md Enhancement**
-   - Refine instructions for clarity
-   - Add comprehensive examples
-   - Include best practices
-   - Create troubleshooting section
+2. **SKILL.md-Verbesserung**
+   - Verfeinere Anweisungen für Klarheit
+   - Füge umfassende Beispiele hinzu
+   - Integriere Best Practices
+   - Erstelle Troubleshooting-Abschnitt
 
-3. **Reference Documentation**
-   - Create detailed technical reference (if needed)
-   - Document API and configuration
-   - Provide advanced patterns
-   - Include performance tuning tips
+3. **Referenzdokumentation**
+   - Erstelle detaillierte technische Referenz (falls benötigt)
+   - Dokumentiere API und Konfiguration
+   - Stelle fortgeschrittene Muster bereit
+   - Integriere Performance-Tuning-Tipps
 
-4. **Example Collection**
-   - Generate beginner to advanced examples
-   - Include troubleshooting examples
-   - Show integration patterns
-   - Provide case studies
+4. **Beispielsammlung**
+   - Generiere Beispiele von Anfänger bis Fortgeschritten
+   - Füge Troubleshooting-Beispiele hinzu
+   - Zeige Integrationsmuster
+   - Stelle Fallstudien bereit
 
-5. **README Creation**
-   - Create skill directory README (if distributing)
-   - Document installation
-   - Provide quick start
-   - Link to full documentation
+5. **README-Erstellung**
+   - Erstelle Skill-Verzeichnis-README (falls zur Verteilung)
+   - Dokumentiere Installation
+   - Stelle Schnellstart bereit
+   - Verlinke zur vollständigen Dokumentation
 
-6. **Documentation Quality Check**
-   - Verify clarity and completeness
-   - Test all code examples
-   - Check organization
-   - Validate accuracy
+6. **Dokumentationsqualitätsprüfung**
+   - Verifiziere Klarheit und Vollständigkeit
+   - Teste alle Code-Beispiele
+   - Prüfe Organisation
+   - Validiere Genauigkeit
 
-### Phase 5: Final Delivery
+### Phase 5: Finale Lieferung
 
-1. **Generate Summary**
-   - List all files created
-   - Document location (personal/project/plugin)
-   - Provide usage instructions
-   - Include test scenarios
+1. **Zusammenfassung generieren**
+   - Liste alle erstellten Dateien
+   - Dokumentiere Speicherort (persönlich/Projekt/Plugin)
+   - Stelle Nutzungsanweisungen bereit
+   - Füge Testszenarien hinzu
 
-2. **Installation Verification**
-   - Confirm skill is in correct location
-   - Verify file permissions
-   - Check dependencies documented
-   - Test skill loading
+2. **Installationsverifizierung**
+   - Bestätige, dass Skill am korrekten Ort ist
+   - Verifiziere Dateiberechtigungen
+   - Prüfe, dass Abhängigkeiten dokumentiert sind
+   - Teste Skill-Laden
 
-3. **Usage Guide**
-   - Explain how to trigger the skill
-   - Provide example prompts
-   - Show expected behavior
-   - Link to documentation
+3. **Nutzungsanleitung**
+   - Erkläre, wie der Skill ausgelöst wird
+   - Stelle Beispiel-Prompts bereit
+   - Zeige erwartetes Verhalten
+   - Verlinke zur Dokumentation
 
-4. **Next Steps**
-   - Suggest testing approach
-   - Recommend improvements
-   - Explain maintenance
-   - Note future enhancements
+4. **Nächste Schritte**
+   - Schlage Testansatz vor
+   - Empfehle Verbesserungen
+   - Erkläre Wartung
+   - Notiere zukünftige Erweiterungen
 
-## Agent Coordination
+## Agentenkoordination
 
-### Sequential Flow
+### Sequenzieller Ablauf
 
 ```text
-User Request
+Benutzeranfrage
     ↓
-skill-elicitation-agent (Requirements)
+skill-elicitation-agent (Anforderungen)
     ↓
-User Approval
+Benutzerfreigabe
     ↓
-skill-generator-agent (Creation)
+skill-generator-agent (Erstellung)
     ↓
-skill-validator-agent (Testing)
+skill-validator-agent (Tests)
     ↓
-Fixes if needed (loop back to generator)
+Korrekturen falls nötig (zurück zum Generator)
     ↓
-skill-documenter-agent (Enhancement)
+skill-documenter-agent (Verbesserung)
     ↓
-Final Delivery
+Finale Lieferung
 ```
 
-### Agent Communication
+### Agentenkommunikation
 
-**Between Agents**:
+**Zwischen Agenten**:
 
-- Elicitation → Generator: Pass specification document
-- Generator → Validator: Pass skill location and files
-- Validator → Generator: Pass validation issues (if any)
-- Generator → Documenter: Pass skill for enhancement
-- Documenter → User: Final documentation
+- Elicitation → Generator: Übergabe des Spezifikationsdokuments
+- Generator → Validator: Übergabe von Skill-Ort und Dateien
+- Validator → Generator: Übergabe von Validierungsproblemen (falls vorhanden)
+- Generator → Documenter: Übergabe des Skills zur Verbesserung
+- Documenter → Benutzer: Finale Dokumentation
 
-**With User**:
+**Mit Benutzer**:
 
-- Get approval after elicitation
-- Confirm location preference (personal/project)
-- Review validation results
-- Approve final deliverable
+- Freigabe nach Elicitation einholen
+- Standortpräferenz bestätigen (persönlich/Projekt)
+- Validierungsergebnisse überprüfen
+- Finales Ergebnis freigeben
 
 ## Best Practices
 
-1. **Always Start with Elicitation**
-   - Don't skip the question phase
-   - Understand deeply before building
-   - Get user approval on specification
+1. **Immer mit Elicitation beginnen**
+   - Die Fragephase nicht überspringen
+   - Tiefgreifend verstehen vor dem Bauen
+   - Benutzerfreigabe zur Spezifikation einholen
 
-2. **Use All Four Agents**
-   - Each has specialized expertise
-   - Complete flow ensures quality
-   - Don't shortcut the process
+2. **Alle vier Agenten verwenden**
+   - Jeder hat spezialisierte Expertise
+   - Vollständiger Ablauf sichert Qualität
+   - Den Prozess nicht abkürzen
 
-3. **Iterate Based on Validation**
-   - Fix issues immediately
-   - Re-validate after changes
-   - Don't proceed with failures
+3. **Basierend auf Validierung iterieren**
+   - Probleme sofort beheben
+   - Nach Änderungen re-validieren
+   - Nicht mit Fehlern fortfahren
 
-4. **Test Comprehensively**
-   - Manual trigger testing
-   - Script execution testing
-   - Integration testing
-   - Real-world scenario testing
+4. **Umfassend testen**
+   - Manuelles Trigger-Testing
+   - Script-Ausführungstests
+   - Integrationstests
+   - Tests mit realen Szenarien
 
-5. **Document Thoroughly**
-   - Clear instructions
-   - Comprehensive examples
-   - Troubleshooting guides
-   - Best practices
+5. **Gründlich dokumentieren**
+   - Klare Anweisungen
+   - Umfassende Beispiele
+   - Troubleshooting-Anleitungen
+   - Best Practices
 
-## Location Options
+## Speicherortoptionen
 
-### Personal Skills (`~/.claude/skills/`)
+### Persönliche Skills (`~/.claude/skills/`)
 
-Use for:
+Verwenden für:
 
-- Individual workflows
-- Experimental skills
-- Personal preferences
-- Private tools
+- Individuelle Workflows
+- Experimentelle Skills
+- Persönliche Präferenzen
+- Private Tools
 
-### Project Skills (`.claude/skills/`)
+### Projekt-Skills (`.claude/skills/`)
 
-Use for:
+Verwenden für:
 
-- Team-shared workflows
-- Project-specific expertise
-- Version-controlled skills
-- Collaborative tools
+- Team-geteilte Workflows
+- Projektspezifische Expertise
+- Versionskontrollierte Skills
+- Kollaborative Tools
 
-### Plugin Skills (Plugin directory structure)
+### Plugin-Skills (Plugin-Verzeichnisstruktur)
 
-Use for:
+Verwenden für:
 
-- Distributable skills
-- Marketplace deployment
-- Public sharing
-- Bundled capabilities
+- Verteilbare Skills
+- Marketplace-Deployment
+- Öffentliches Teilen
+- Gebündelte Fähigkeiten
 
-## Output Format
+## Ausgabeformat
 
-Provide the user with a comprehensive summary:
+Stelle dem Benutzer eine umfassende Zusammenfassung bereit:
 
 ```text
-🎉 Skill Created Successfully!
+Skill erfolgreich erstellt!
 
-📋 Skill: [Skill Name]
-📁 Location: [path]
-📝 Type: [simple/multi-file/tool-restricted/code-execution]
+Skill: [Skill-Name]
+Speicherort: [Pfad]
+Typ: [einfach/multi-file/tool-restricted/code-execution]
 
-📄 Files Created:
-✅ SKILL.md - Main skill instructions
-✅ reference.md - Technical reference (if created)
-✅ examples.md - Comprehensive examples (if created)
-✅ scripts/[name].py - Helper scripts (if created)
-✅ README.md - Installation guide (if created)
+Erstellte Dateien:
+- SKILL.md - Haupt-Skill-Anweisungen
+- reference.md - Technische Referenz (falls erstellt)
+- examples.md - Umfassende Beispiele (falls erstellt)
+- scripts/[name].py - Hilfsskripte (falls erstellt)
+- README.md - Installationsanleitung (falls erstellt)
 
-🧪 Validation: ✅ PASSED (Score: X/10)
+Validierung: BESTANDEN (Bewertung: X/10)
 
-📦 Dependencies:
-[List if any, or "None"]
+Abhängigkeiten:
+[Liste falls vorhanden, oder "Keine"]
 
-🎯 Usage:
-Trigger this skill by saying:
-- "[Example trigger 1]"
-- "[Example trigger 2]"
+Nutzung:
+Löse diesen Skill aus durch:
+- "[Beispiel-Trigger 1]"
+- "[Beispiel-Trigger 2]"
 
-Or explicitly: "Use [skill-name] to [task]"
+Oder explizit: "Verwende [skill-name] für [Aufgabe]"
 
-✨ Test with:
-[Specific test scenario]
+Testen mit:
+[Spezifisches Testszenario]
 
-📚 Documentation:
-- See SKILL.md for instructions
-- See examples.md for comprehensive examples
-- See reference.md for technical details
+Dokumentation:
+- Siehe SKILL.md für Anweisungen
+- Siehe examples.md für umfassende Beispiele
+- Siehe reference.md für technische Details
 
-🚀 Next Steps:
-1. Test the skill with provided scenarios
-2. Refine based on usage
-3. Share with team (if project skill)
-4. Consider adding more examples over time
+Nächste Schritte:
+1. Teste den Skill mit bereitgestellten Szenarien
+2. Verfeinere basierend auf Nutzung
+3. Teile mit Team (falls Projekt-Skill)
+4. Erwäge, weitere Beispiele hinzuzufügen
 ```
 
-## Troubleshooting
+## Fehlerbehebung
 
-**Agent Not Found**: Ensure `.claude/agents/skill-builder/` exists with all agent files
+**Agent nicht gefunden**: Stelle sicher, dass `.claude/agents/skill-builder/` mit allen Agent-Dateien existiert
 
-**Permission Errors**: Check file permissions with `chmod +x scripts/*.py`
+**Berechtigungsfehler**: Prüfe Dateiberechtigungen mit `chmod +x scripts/*.py`
 
-**YAML Errors**: Validator will catch and report these
+**YAML-Fehler**: Validator wird diese erfassen und melden
 
-**Agent Confusion**: Use explicit agent names: "Launch skill-elicitation-agent"
+**Agent-Verwirrung**: Verwende explizite Agent-Namen: "Starte skill-elicitation-agent"
 
-## Examples
+## Beispiele
 
-### Example 1: Simple Instruction-Only Skill
+### Beispiel 1: Einfacher Nur-Anweisungen-Skill
 
-**Request**: "Create a skill for writing conventional commit messages"
+**Anfrage**: "Erstelle einen Skill zum Schreiben von Conventional Commit Messages"
 
-**Flow**:
+**Ablauf**:
 
-1. Elicitation asks about commit style, projects, examples
-2. Generates simple single-file SKILL.md
-3. Validates structure and description
-4. Documents with examples and best practices
+1. Elicitation fragt nach Commit-Stil, Projekten, Beispielen
+2. Generiert einfache einzelne SKILL.md
+3. Validiert Struktur und Beschreibung
+4. Dokumentiert mit Beispielen und Best Practices
 
-### Example 2: Multi-File Skill with Scripts
+### Beispiel 2: Multi-File-Skill mit Scripts
 
-**Request**: "Create a skill for PDF form filling"
+**Anfrage**: "Erstelle einen Skill zum Ausfüllen von PDF-Formularen"
 
-**Flow**:
+**Ablauf**:
 
-1. Elicitation asks about PDF types, operations, dependencies
-2. Generates SKILL.md + scripts/fill_form.py + FORMS.md
-3. Validates code execution and file structure
-4. Documents with comprehensive examples and API reference
+1. Elicitation fragt nach PDF-Typen, Operationen, Abhängigkeiten
+2. Generiert SKILL.md + scripts/fill_form.py + FORMS.md
+3. Validiert Code-Ausführung und Dateistruktur
+4. Dokumentiert mit umfassenden Beispielen und API-Referenz
 
-### Example 3: Tool-Restricted Read-Only Skill
+### Beispiel 3: Tool-beschränkter Read-Only-Skill
 
-**Request**: "Create a skill for security code analysis"
+**Anfrage**: "Erstelle einen Skill für Sicherheits-Code-Analyse"
 
-**Flow**:
+**Ablauf**:
 
-1. Elicitation determines read-only requirement
-2. Generates SKILL.md with allowed-tools: Read, Grep, Glob
-3. Validates tool restrictions
-4. Documents security patterns and analysis techniques
+1. Elicitation ermittelt Read-Only-Anforderung
+2. Generiert SKILL.md mit allowed-tools: Read, Grep, Glob
+3. Validiert Tool-Beschränkungen
+4. Dokumentiert Sicherheitsmuster und Analysetechniken
 
-## Remember
+## Denke daran
 
-- **Quality over speed** - Take time for thorough elicitation
-- **User involvement** - Get approval at key stages
-- **Comprehensive validation** - Test everything
-- **Excellent documentation** - Make skills easy to use
-- **Iterative improvement** - Skills can evolve over time
+- **Qualität vor Geschwindigkeit** - Nimm dir Zeit für gründliche Elicitation
+- **Benutzereinbindung** - Hole Freigabe an wichtigen Stellen ein
+- **Umfassende Validierung** - Teste alles
+- **Exzellente Dokumentation** - Mache Skills einfach nutzbar
+- **Iterative Verbesserung** - Skills können sich mit der Zeit weiterentwickeln
 
-This command ensures every skill is production-ready, well-documented, and follows Claude Code best practices!
+Dieser Command stellt sicher, dass jeder Skill produktionsreif, gut dokumentiert ist und den Claude Code Best Practices folgt!
