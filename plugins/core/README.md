@@ -1,10 +1,10 @@
 # Core Utilities Plugin
 
-Comprehensive development utilities for plugin/command/agent development, validation, CI automation, and OpenSource project initialization.
+Umfassende Entwicklungs-Utilities für Plugin/Command/Agent-Entwicklung, Validierung, CI-Automatisierung und OpenSource-Projektinitialisierung.
 
-## Version 2.0.0
+## Version 2.1.0
 
-**Major Update:** Now includes 8 commands and 3 expert agents for complete development workflow automation.
+**Update:** Enthält nun 8 Commands, 1 Skill und 3 Experten-Agenten für vollständige Entwicklungs-Workflow-Automatisierung.
 
 ## Commands
 
@@ -231,6 +231,40 @@ Comprehensive agent system for building Claude Code Skills.
 
 **Location:** `agents/skill-builder/`
 
+## Skills
+
+### Humanizer
+
+Entfernt Anzeichen von KI-generiertem Text, um Texte natürlicher und menschlicher klingen zu lassen.
+
+**Features:**
+- 🔍 Erkennung von 24 KI-Schreibmustern
+- ✏️ Automatisches Umschreiben problematischer Abschnitte
+- 🎯 Erhalt von Bedeutung und Stimme
+- 💡 Hinzufügen von Persönlichkeit und Seele
+
+**Erkannte Muster:**
+- Aufgeblasene Symbolik und Bedeutung
+- Werbesprache und übertriebene Betonung
+- Oberflächliche Partizip-Analysen
+- Vage Zuschreibungen und Wieselwörter
+- KI-Vokabular (darüber hinaus, entscheidend, etc.)
+- Gedankenstrich-Übernutzung
+- Dreierregel-Übernutzung
+- Negative Parallelismen
+- Und 16 weitere Muster...
+
+**Basiert auf:** [Wikipedia:Signs of AI writing](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing)
+
+**Verwendung:**
+```
+"Humanisiere diesen Text"
+"Entferne KI-Schreibmuster aus diesem Dokument"
+"Mach diesen Text menschlicher"
+```
+
+**Location:** `skills/humanizer/SKILL.md`
+
 ## Installation
 
 This plugin is part of the Talent Factory marketplace.
@@ -267,6 +301,9 @@ core/
 │       ├── skill-generator-agent.md
 │       ├── skill-validator-agent.md
 │       └── skill-documenter-agent.md
+├── skills/
+│   └── humanizer/
+│       └── SKILL.md
 └── README.md
 ```
 
@@ -352,6 +389,27 @@ User: "I need an agent for React component optimization"
 # - Example interactions
 ```
 
+### Example 5: Text humanisieren
+
+```bash
+# Humanizer Skill verwenden
+
+User: "Humanisiere diesen Text: Das neue Software-Update
+dient als Zeugnis für das Engagement des Unternehmens
+für Innovation. Darüber hinaus bietet es eine nahtlose,
+intuitive und leistungsstarke Benutzererfahrung."
+
+# Claude mit Humanizer Skill:
+# - Identifiziert KI-Muster (aufgeblasene Symbolik,
+#   KI-Vokabular, Dreierregel)
+# - Schreibt Text natürlicher um
+# - Fügt konkrete Details hinzu
+
+# Ergebnis:
+# "Das Software-Update fügt Stapelverarbeitung,
+# Tastenkürzel und Offline-Modus hinzu."
+```
+
 ## Best Practices
 
 ### Command Development
@@ -412,6 +470,13 @@ User: "I need an agent for React component optimization"
 - Initialize course projects
 - Validate student submissions
 
+### For Content Writers
+
+- Remove AI writing patterns from text
+- Make content more natural and human
+- Improve text authenticity
+- Editorial quality assurance
+
 ## Requirements
 
 - **Claude Code:** Latest version
@@ -450,6 +515,13 @@ User: "I need an agent for React component optimization"
 - **Solution:** Review error logs carefully
 
 ## Changelog
+
+### Version 2.1.0 (2026-01-19)
+
+**Update:**
+- ✨ Neuer Humanizer Skill zum Entfernen von KI-Schreibmustern
+- 🌐 Commands `/build-skill` und `/package-skill` auf Deutsch übersetzt
+- 📚 Dokumentation auf Schweizer Schreibweise aktualisiert
 
 ### Version 2.0.0 (2026-01-10)
 

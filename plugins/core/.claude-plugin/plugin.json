@@ -1,7 +1,7 @@
 {
   "name": "core",
-  "version": "2.0.0",
-  "description": "Comprehensive development utilities for plugin/command/agent development, validation, CI automation, and OpenSource project initialization with expert agents",
+  "version": "2.1.0",
+  "description": "Comprehensive development utilities for plugin/command/agent development, validation, CI automation, OpenSource project initialization, and text humanization with expert agents",
   "author": {
     "name": "Talent Factory GmbH",
     "email": "support@talent-factory.ch"

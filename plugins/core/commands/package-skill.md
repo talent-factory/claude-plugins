@@ -1,352 +1,352 @@
 ---
-description: Validate and package a Claude Code Skill into a distributable zip file
+description: Validiere und paketiere einen Claude Code Skill als verteilbare ZIP-Datei
 allowed-tools:
   - Bash
   - Read
 ---
 
-# Package Skill for Distribution
+# Skill für Distribution paketieren
 
-Validate and package a Claude Code Skill into a distributable zip file
+Validiere und paketiere einen Claude Code Skill als verteilbare ZIP-Datei
 
-## Instructions
+## Anweisungen
 
-This command validates and packages an existing skill for distribution. Follow these steps:
+Dieser Command validiert und paketiert einen bestehenden Skill für die Distribution. Folge diesen Schritten:
 
-### Phase 1: Skill Selection
+### Phase 1: Skill-Auswahl
 
-1. **Identify the skill to package**
-   - Determine skill location (personal or project)
-   - Verify skill exists and has SKILL.md
-   - Check current state of the skill
+1. **Zu paketierenden Skill identifizieren**
+   - Skill-Speicherort ermitteln (persönlich oder Projekt)
+   - Verifizieren, dass Skill existiert und SKILL.md hat
+   - Aktuellen Zustand des Skills prüfen
 
-2. **Pre-package checks**
-   - Ensure all TODOs are completed
-   - Verify documentation is finalized
-   - Check that examples are tested
+2. **Vorab-Prüfungen**
+   - Sicherstellen, dass alle TODOs abgeschlossen sind
+   - Verifizieren, dass Dokumentation finalisiert ist
+   - Prüfen, dass Beispiele getestet sind
 
-### Phase 2: Validation
+### Phase 2: Validierung
 
-1. **Run quick validation**
-   - Use the quick_validate.py script
-   - Check YAML frontmatter validity
-   - Verify required fields (name, description)
-   - Check for prohibited characters
-   - Validate directory structure
+1. **Schnellvalidierung ausführen**
+   - Das quick_validate.py-Script verwenden
+   - YAML-Frontmatter-Gültigkeit prüfen
+   - Erforderliche Felder verifizieren (name, description)
+   - Auf verbotene Zeichen prüfen
+   - Verzeichnisstruktur validieren
 
-2. **Run comprehensive validation** (if quick validation passes)
-   - Use validate-skill.sh for detailed checks
-   - Verify all 10 validation phases
-   - Check word counts for progressive disclosure
-   - Validate file references
-   - Test script syntax
+2. **Umfassende Validierung ausführen** (falls Schnellvalidierung bestanden)
+   - validate-skill.sh für detaillierte Prüfungen verwenden
+   - Alle 10 Validierungsphasen verifizieren
+   - Wortanzahl für Progressive Disclosure prüfen
+   - Dateireferenzen validieren
+   - Script-Syntax testen
 
-3. **Review validation results**
-   - Fix any critical errors
-   - Address warnings if needed
-   - Re-validate after fixes
+3. **Validierungsergebnisse überprüfen**
+   - Kritische Fehler beheben
+   - Warnungen bei Bedarf adressieren
+   - Nach Korrekturen erneut validieren
 
-### Phase 3: Packaging
+### Phase 3: Paketierung
 
-1. **Execute packaging script**
+1. **Paketierungs-Script ausführen**
 
    ```bash
-   python .claude/commands/skills/references/scripts/package_skill.py <skill-path> [output-dir]
+   python .claude/commands/skills/references/scripts/package_skill.py <skill-pfad> [ausgabe-verzeichnis]
    ```
 
-2. **Package creation process**
-   - Script validates again before packaging
-   - Creates zip file with skill name
-   - Includes all files while maintaining structure
-   - Excludes hidden files and `__pycache__`
+2. **Paketerstellungsprozess**
+   - Script validiert erneut vor Paketierung
+   - Erstellt ZIP-Datei mit Skill-Namen
+   - Enthält alle Dateien unter Beibehaltung der Struktur
+   - Schliesst versteckte Dateien und `__pycache__` aus
 
-3. **Verify package**
-   - Check zip file created successfully
-   - Note file count and size
-   - Confirm ready for distribution
+3. **Paket verifizieren**
+   - Prüfen, dass ZIP-Datei erfolgreich erstellt wurde
+   - Dateianzahl und Grösse notieren
+   - Bereitschaft zur Distribution bestätigen
 
-### Phase 4: Distribution Options
+### Phase 4: Distributionsoptionen
 
-1. **Personal distribution**
-   - Share zip file directly
-   - Upload to file sharing service
-   - Include installation instructions
+1. **Persönliche Distribution**
+   - ZIP-Datei direkt teilen
+   - Auf Datei-Sharing-Dienst hochladen
+   - Installationsanweisungen beifügen
 
-2. **Team distribution**
-   - Add to shared repository
-   - Upload to team storage
-   - Document in team wiki
+2. **Team-Distribution**
+   - Zum gemeinsamen Repository hinzufügen
+   - In Team-Speicher hochladen
+   - Im Team-Wiki dokumentieren
 
-3. **Public distribution**
-   - Upload to skill marketplace (if available)
-   - Share on GitHub
-   - Add to community repositories
+3. **Öffentliche Distribution**
+   - Zum Skill-Marketplace hochladen (falls verfügbar)
+   - Auf GitHub teilen
+   - Zu Community-Repositories hinzufügen
 
-## Command Execution Flow
+## Befehlsausführungsablauf
 
-### Step 1: Locate Skill
+### Schritt 1: Skill lokalisieren
 
 ```bash
-# Personal skills
+# Persönliche Skills
 ls ~/.claude/skills/
 
-# Project skills
+# Projekt-Skills
 ls .claude/skills/
 ```
 
-### Step 2: Quick Validation
+### Schritt 2: Schnellvalidierung
 
 ```bash
-python .claude/commands/skills/references/scripts/quick_validate.py <skill-path>
+python .claude/commands/skills/references/scripts/quick_validate.py <skill-pfad>
 ```
 
-Expected output:
+Erwartete Ausgabe:
 
-- ✅ Skill validation passed!
-- Or specific error messages to fix
+- Skill-Validierung bestanden!
+- Oder spezifische Fehlermeldungen zum Beheben
 
-### Step 3: Comprehensive Validation (Optional)
+### Schritt 3: Umfassende Validierung (Optional)
 
 ```bash
-.claude/commands/skills/references/scripts/validate-skill.sh <skill-path>
+.claude/commands/skills/references/scripts/validate-skill.sh <skill-pfad>
 ```
 
-Expected output:
+Erwartete Ausgabe:
 
-- Detailed 10-phase validation report
-- Score and recommendations
+- Detaillierter 10-Phasen-Validierungsbericht
+- Bewertung und Empfehlungen
 
-### Step 4: Package Creation
+### Schritt 4: Paketerstellung
 
 ```bash
-# Package to current directory
-python .claude/commands/skills/references/scripts/package_skill.py ~/.claude/skills/my-skill
+# Ins aktuelle Verzeichnis paketieren
+python .claude/commands/skills/references/scripts/package_skill.py ~/.claude/skills/mein-skill
 
-# Package to specific directory
-python .claude/commands/skills/references/scripts/package_skill.py ~/.claude/skills/my-skill ./dist
+# In spezifisches Verzeichnis paketieren
+python .claude/commands/skills/references/scripts/package_skill.py ~/.claude/skills/mein-skill ./dist
 ```
 
-Expected output:
+Erwartete Ausgabe:
 
 ```text
-🔍 Validating skill...
-✅ Skill validation passed!
+Validiere Skill...
+Skill-Validierung bestanden!
 
-📦 Creating package...
-  Added: my-skill/SKILL.md
-  Added: my-skill/scripts/helper.py
-  Added: my-skill/references/api-docs.md
+Erstelle Paket...
+  Hinzugefügt: mein-skill/SKILL.md
+  Hinzugefügt: mein-skill/scripts/helper.py
+  Hinzugefügt: mein-skill/references/api-docs.md
   ...
 
-✅ Successfully packaged skill!
-   📦 Package: ./my-skill.zip
-   📊 Files: 8
-   💾 Size: 0.15 MB
+Skill erfolgreich paketiert!
+   Paket: ./mein-skill.zip
+   Dateien: 8
+   Grösse: 0.15 MB
 
-📤 Ready for distribution!
+Bereit zur Distribution!
 ```
 
-## Validation Criteria
+## Validierungskriterien
 
-The packaging script checks:
+Das Paketierungs-Script prüft:
 
-### Required Elements
+### Erforderliche Elemente
 
-- SKILL.md exists
-- Valid YAML frontmatter
-- Name and description fields present
-- No TODO markers in description
+- SKILL.md existiert
+- Gültiges YAML-Frontmatter
+- Name- und Description-Felder vorhanden
+- Keine TODO-Marker in der Beschreibung
 
-### Quality Checks
+### Qualitätsprüfungen
 
-- Description in third-person format
-- Description mentions when to use skill
-- No angle brackets in description
-- Word count within limits (<5,000 for SKILL.md)
+- Beschreibung in dritter Person
+- Beschreibung erwähnt, wann Skill zu verwenden ist
+- Keine spitzen Klammern in der Beschreibung
+- Wortanzahl innerhalb der Grenzen (<5.000 für SKILL.md)
 
-### Structure Validation
+### Strukturvalidierung
 
-- Proper directory organization
-- Scripts are executable
-- File references are valid
-- No duplicate content between SKILL.md and references/
+- Korrekte Verzeichnisorganisation
+- Scripts sind ausführbar
+- Dateireferenzen sind gültig
+- Kein doppelter Inhalt zwischen SKILL.md und references/
 
-## Distribution Guidelines
+## Distributionsrichtlinien
 
-### Installation Instructions Template
+### Installationsanweisungen-Vorlage
 
-Include with your packaged skill:
+Mit deinem paketierten Skill beifügen:
 
 ```markdown
-# Installing {{SKILL_NAME}}
+# Installation von {{SKILL_NAME}}
 
-## Personal Installation
-1. Download {{skill-name}}.zip
-2. Extract to ~/.claude/skills/
-3. Restart Claude Code
+## Persönliche Installation
+1. {{skill-name}}.zip herunterladen
+2. Nach ~/.claude/skills/ extrahieren
+3. Claude Code neu starten
 
-## Project Installation
-1. Extract to .claude/skills/ in your project
-2. Commit to version control
-3. Team members get skill on pull
+## Projekt-Installation
+1. Nach .claude/skills/ im Projekt extrahieren
+2. In Versionskontrolle committen
+3. Teammitglieder erhalten Skill beim Pull
 
-## Verification
-After installation, test with:
-"Use the {{SKILL_NAME}} skill to {{example task}}"
+## Verifizierung
+Nach Installation testen mit:
+"Verwende den {{SKILL_NAME}} Skill für {{Beispielaufgabe}}"
 ```
 
-### Version Management
+### Versionsverwaltung
 
-For skill updates:
+Für Skill-Updates:
 
-1. Update skill files
-2. Document changes in SKILL.md
-3. Increment version if using versioning
-4. Re-package with same process
-5. Distribute new package
+1. Skill-Dateien aktualisieren
+2. Änderungen in SKILL.md dokumentieren
+3. Version erhöhen, falls Versionierung verwendet wird
+4. Mit gleichem Prozess neu paketieren
+5. Neues Paket verteilen
 
-## Troubleshooting
+## Fehlerbehebung
 
-### Validation Fails
+### Validierung schlägt fehl
 
-**Issue**: Package script reports validation errors
+**Problem**: Paketierungs-Script meldet Validierungsfehler
 
-**Solution**:
+**Lösung**:
 
-1. Run quick_validate.py to see specific errors
-2. Fix reported issues
-3. Re-run validation
-4. Try packaging again
+1. quick_validate.py ausführen, um spezifische Fehler zu sehen
+2. Gemeldete Probleme beheben
+3. Validierung erneut ausführen
+4. Paketierung erneut versuchen
 
-### Package Not Created
+### Paket nicht erstellt
 
-**Issue**: Zip file not generated
+**Problem**: ZIP-Datei nicht generiert
 
-**Possible causes**:
+**Mögliche Ursachen**:
 
-- Validation failed (fix errors first)
-- No write permissions (check directory)
-- Disk space issues (check available space)
+- Validierung fehlgeschlagen (zuerst Fehler beheben)
+- Keine Schreibrechte (Verzeichnis prüfen)
+- Speicherplatzprobleme (verfügbaren Platz prüfen)
 
-### Scripts Not Executable
+### Scripts nicht ausführbar
 
-**Issue**: Warning about non-executable scripts
+**Problem**: Warnung über nicht ausführbare Scripts
 
-**Solution**:
+**Lösung**:
 
 ```bash
-chmod +x <skill-path>/scripts/*.py
-chmod +x <skill-path>/scripts/*.sh
+chmod +x <skill-pfad>/scripts/*.py
+chmod +x <skill-pfad>/scripts/*.sh
 ```
 
-### Large Package Size
+### Grosse Paketgrösse
 
-**Issue**: Package is very large
+**Problem**: Paket ist sehr gross
 
-**Solutions**:
+**Lösungen**:
 
-- Move large docs to references/ directory
-- Remove unnecessary files
-- Compress images if included
-- Use .gitignore patterns
+- Grosse Dokumentationen ins references/-Verzeichnis verschieben
+- Unnötige Dateien entfernen
+- Bilder komprimieren, falls enthalten
+- .gitignore-Muster verwenden
 
 ## Best Practices
 
-1. **Complete all TODOs** before packaging
-2. **Test the skill** thoroughly before distribution
-3. **Document dependencies** clearly
-4. **Include examples** that work
-5. **Version your skills** for updates
-6. **Test installation** on clean system
-7. **Include uninstall instructions** if complex
+1. **Alle TODOs abschliessen** vor der Paketierung
+2. **Skill gründlich testen** vor der Distribution
+3. **Abhängigkeiten klar dokumentieren**
+4. **Funktionierende Beispiele beifügen**
+5. **Skills versionieren** für Updates
+6. **Installation testen** auf sauberem System
+7. **Deinstallationsanweisungen beifügen** falls komplex
 
-## Examples
+## Beispiele
 
-### Example 1: Package Simple Skill
+### Beispiel 1: Einfachen Skill paketieren
 
 ```bash
-# Validate first
+# Zuerst validieren
 python .claude/commands/skills/references/scripts/quick_validate.py ~/.claude/skills/commit-helper
 
-# Package if valid
+# Falls gültig, paketieren
 python .claude/commands/skills/references/scripts/package_skill.py ~/.claude/skills/commit-helper
 
-# Result: commit-helper.zip created
+# Ergebnis: commit-helper.zip erstellt
 ```
 
-### Example 2: Package to Distribution Directory
+### Beispiel 2: In Distributionsverzeichnis paketieren
 
 ```bash
-# Create dist directory
+# Dist-Verzeichnis erstellen
 mkdir -p ~/skill-packages
 
-# Package to specific location
+# An spezifischen Ort paketieren
 python .claude/commands/skills/references/scripts/package_skill.py \
   ~/.claude/skills/pdf-processor \
   ~/skill-packages
 
-# Result: ~/skill-packages/pdf-processor.zip
+# Ergebnis: ~/skill-packages/pdf-processor.zip
 ```
 
-### Example 3: Fix and Re-package
+### Beispiel 3: Korrigieren und neu paketieren
 
 ```bash
-# Initial validation fails
-python .claude/commands/skills/references/scripts/quick_validate.py ~/.claude/skills/my-skill
-# ❌ Description contains TODO markers
+# Initiale Validierung schlägt fehl
+python .claude/commands/skills/references/scripts/quick_validate.py ~/.claude/skills/mein-skill
+# Beschreibung enthält TODO-Marker
 
-# Fix the issue
-# Edit SKILL.md to complete TODOs
+# Problem beheben
+# SKILL.md bearbeiten, um TODOs abzuschliessen
 
-# Re-validate
-python .claude/commands/skills/references/scripts/quick_validate.py ~/.claude/skills/my-skill
-# ✅ Skill validation passed!
+# Erneut validieren
+python .claude/commands/skills/references/scripts/quick_validate.py ~/.claude/skills/mein-skill
+# Skill-Validierung bestanden!
 
-# Package
-python .claude/commands/skills/references/scripts/package_skill.py ~/.claude/skills/my-skill
-# ✅ Successfully packaged!
+# Paketieren
+python .claude/commands/skills/references/scripts/package_skill.py ~/.claude/skills/mein-skill
+# Erfolgreich paketiert!
 ```
 
-## Output Format
+## Ausgabeformat
 
-The command provides clear feedback:
+Der Command liefert klares Feedback:
 
 ```text
-📦 Packaging skill: {{skill-name}}
+Paketiere Skill: {{skill-name}}
 
-🔍 Validating skill...
-[Validation results]
+Validiere Skill...
+[Validierungsergebnisse]
 
-📦 Creating package...
-[File listing]
+Erstelle Paket...
+[Dateiliste]
 
-✅ Successfully packaged skill!
-   📦 Package: {{path/to/package.zip}}
-   📊 Files: {{count}}
-   💾 Size: {{size}} MB
+Skill erfolgreich paketiert!
+   Paket: {{pfad/zum/paket.zip}}
+   Dateien: {{anzahl}}
+   Grösse: {{grösse}} MB
 
-📤 Ready for distribution!
+Bereit zur Distribution!
 ```
 
-## Next Steps
+## Nächste Schritte
 
-After packaging:
+Nach der Paketierung:
 
-1. **Test installation** on another system
-2. **Share with team** or community
-3. **Document** in skill catalog
-4. **Gather feedback** for improvements
-5. **Plan updates** based on usage
+1. **Installation testen** auf anderem System
+2. **Mit Team teilen** oder Community
+3. **Im Skill-Katalog dokumentieren**
+4. **Feedback sammeln** für Verbesserungen
+5. **Updates planen** basierend auf Nutzung
 
-## Related Commands
+## Verwandte Commands
 
-- `/build-skill` - Create new skills
-- `/package-skill` - Package skill for distribution
+- `/build-skill` - Neue Skills erstellen
+- `/package-skill` - Skill für Distribution paketieren
 
-## Scripts Used
+## Verwendete Scripts
 
-- `package_skill.py` - Main packaging script
-- `quick_validate.py` - Fast validation
-- `validate-skill.sh` - Comprehensive validation
+- `package_skill.py` - Haupt-Paketierungs-Script
+- `quick_validate.py` - Schnelle Validierung
+- `validate-skill.sh` - Umfassende Validierung
 
-Your skill is now ready for distribution! 📦
+Dein Skill ist jetzt bereit zur Distribution!
