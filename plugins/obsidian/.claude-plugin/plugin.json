@@ -1,13 +1,9 @@
 {
   "name": "obsidian",
-  "version": "1.0.0",
-  "displayName": "Obsidian Integration",
+  "version": "1.0.1",
   "description": "Integration mit Obsidian via TaskNotes Plugin API - Aufgabenverwaltung direkt aus Claude Code",
-  "keywords": ["obsidian", "tasks", "aufgaben", "tasknotes", "productivity"],
   "author": {
     "name": "Talent Factory GmbH",
     "email": "info@talent-factory.ch"
-  },
-  "repository": "https://github.com/talent-factory/claude-plugins",
-  "license": "MIT"
+  }
 }
