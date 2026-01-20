@@ -83,6 +83,20 @@
         "humanizer",
         "ai-writing"
       ]
+    },
+    {
+      "name": "obsidian",
+      "description": "Obsidian Integration - Aufgabenverwaltung via TaskNotes Plugin API mit natürlicher Sprache (DE/EN)",
+      "source": "./plugins/obsidian",
+      "version": "1.0.0",
+      "tags": [
+        "obsidian",
+        "tasks",
+        "aufgaben",
+        "tasknotes",
+        "productivity",
+        "integration"
+      ]
     }
   ]
 }
