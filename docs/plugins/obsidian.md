@@ -1,0 +1,1 @@
+../../plugins/obsidian/README.md
