@@ -1,0 +1,228 @@
+site_name: Talent Factory Claude Plugins
+site_url: https://talent-factory.github.io/claude-plugins/
+site_description: Professional Claude Code plugins for software development and education
+site_author: Talent Factory GmbH
+repo_url: https://github.com/talent-factory/claude-plugins
+repo_name: talent-factory/claude-plugins
+edit_uri: edit/main/docs/
+
+validation:
+  links:
+    not_found: info
+    absolute_links: info
+    unrecognized_links: info
+
+theme:
+  name: material
+  language: en
+  logo: assets/tf-small.png
+  favicon: assets/tf-favicon.ico
+  palette:
+    # Dark Mode
+    - scheme: slate
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+      primary: blue
+      accent: deep purple
+
+    # Light Mode
+    - scheme: default
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+      primary: blue
+      accent: deep orange
+
+  features:
+    # Navigation
+    - navigation.instant          # Instant loading (SPA-like)
+    - navigation.instant.progress # Progress indicator
+    - navigation.tracking         # URL updates with scroll
+    - navigation.tabs             # Top-level sections as tabs
+    - navigation.tabs.sticky      # Tabs always visible
+    - navigation.sections         # Sections in sidebar
+    - navigation.expand           # Expand all sections by default
+    - navigation.path             # Breadcrumbs
+    - navigation.indexes          # Section index pages
+    - navigation.top              # Back to top button
+    - navigation.footer           # Previous/Next in footer
+
+    # Search
+    - search.suggest              # Search suggestions
+    - search.highlight            # Highlight search terms
+    - search.share                # Share search results
+
+    # Content
+    - content.code.copy           # Copy button for code blocks
+    - content.code.annotate       # Code annotations
+    - content.tabs.link           # Link content tabs
+    - content.tooltips            # Improved tooltips
+    - content.action.edit         # Edit button on pages
+    - content.action.view         # View source button
+
+    # Table of Contents
+    - toc.follow                  # TOC follows scroll
+    - toc.integrate               # TOC integrated in sidebar
+
+plugins:
+  - search:
+      lang:
+        - en
+        - de
+      separator: '[\s\-,:!=\[\]()"/]+|(?!\b)(?=[A-Z][a-z])|\.(?!\d)|&[lg]t;'
+  - tags
+  - git-revision-date-localized:
+      enable_creation_date: true
+      type: timeago
+      fallback_to_build_date: true
+      enabled: !ENV [ENABLE_GIT_DATES, false]
+  - minify:
+      minify_html: true
+      minify_js: true
+      minify_css: true
+      htmlmin_opts:
+        remove_comments: true
+      cache_safe: true
+
+markdown_extensions:
+  # Python Markdown
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+      permalink_title: Anchor link to this section
+      toc_depth: 3
+
+  # PyMdown Extensions
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.mark
+  - pymdownx.tilde
+  - pymdownx.critic
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+      auto_title: true
+      linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.magiclink:
+      repo_url_shorthand: true
+      user: talent-factory
+      repo: claude-plugins
+  - pymdownx.smartsymbols
+  - pymdownx.snippets:
+      base_path:
+        - docs
+        - .
+      auto_append:
+        - includes/abbreviations.md
+      check_paths: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+      combine_header_slug: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+      clickable_checkbox: false
+
+extra:
+  # Versioning with mike - disabled for now, enable when ready to deploy multiple versions
+  # version:
+  #   provider: mike
+  #   default: latest
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/talent-factory
+      name: Talent Factory on GitHub
+    - icon: fontawesome/solid/globe
+      link: https://talent-factory.ch
+      name: Talent Factory Website
+  analytics:
+    provider: google
+    property: !ENV GOOGLE_ANALYTICS_KEY
+  consent:
+    title: Cookie consent
+    description: >-
+      We use cookies to recognize your repeated visits and preferences, as well
+      as to measure the effectiveness of our documentation and whether users
+      find what they're searching for. With your consent, you're helping us to
+      make our documentation better.
+
+extra_css:
+  - stylesheets/extra.css
+
+extra_javascript:
+  - javascripts/extra.js
+
+nav:
+  - Home: index.md
+
+  - Getting Started:
+    - getting-started/index.md
+    - Installation: getting-started/installation.md
+    - Quick Start: getting-started/quickstart.md
+    - Marketplace Setup: getting-started/marketplace-setup.md
+
+  - Plugins:
+    - plugins/index.md
+    - Git Workflow: plugins/git-workflow.md
+    - Project Management: plugins/project-management.md
+    - Code Quality: plugins/code-quality.md
+    - Education: plugins/education.md
+    - Core Utilities: plugins/core.md
+    - Obsidian Integration: plugins/obsidian.md
+
+  - Guides:
+    - guides/index.md
+    - Your First Commit: guides/first-commit.md
+    - Create Your First PR: guides/create-first-pr.md
+    - PRD-Based Workflow: guides/prd-workflow.md
+    - Linear Integration: guides/linear-integration.md
+
+  - Development:
+    - development/index.md
+    - Plugin Development: development/plugin-development.md
+    - Contributing: development/contributing.md
+    - Architecture: development/architecture.md
+    - Testing: development/testing.md
+    - CI/CD: development/ci-cd.md
+    - Best Practices: development/best-practices.md
+
+  - Reference:
+    - reference/index.md
+    - marketplace.json: reference/marketplace-json.md
+    - plugin.json: reference/plugin-json.md
+    - Command Format: reference/command-format.md
+    - Agent Format: reference/agent-format.md
+    - Skill Format: reference/skill-format.md
+    - Conventional Commits: reference/conventional-commits.md
+
+  - Community:
+    - community/index.md
+    - Code of Conduct: community/code-of-conduct.md
+    - Security: community/security.md
+    - Changelog: community/changelog.md
+    - Migration Guide: community/migration.md
+
+copyright: >
+  Copyright &copy; 2024-2025 Talent Factory GmbH –
+  <a href="#__consent">Change cookie settings</a>

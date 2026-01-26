@@ -1,0 +1,118 @@
+/* Custom styles for Talent Factory Claude Plugins documentation */
+
+/* Grid cards styling */
+.md-typeset .grid.cards > ul > li {
+  border-radius: 0.5rem;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.md-typeset .grid.cards > ul > li:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Plugin badges */
+.plugin-badge {
+  display: inline-block;
+  padding: 0.2em 0.6em;
+  margin: 0.2em;
+  font-size: 0.85em;
+  font-weight: 600;
+  border-radius: 0.25rem;
+  background-color: var(--md-primary-fg-color);
+  color: var(--md-primary-bg-color);
+}
+
+/* Command syntax highlighting */
+.command-syntax {
+  font-family: var(--md-code-font-family);
+  background-color: var(--md-code-bg-color);
+  padding: 0.2em 0.4em;
+  border-radius: 0.25rem;
+  font-size: 0.9em;
+}
+
+/* Table improvements */
+.md-typeset table:not([class]) {
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.md-typeset table:not([class]) th {
+  background-color: var(--md-primary-fg-color);
+  color: var(--md-primary-bg-color);
+  font-weight: 600;
+}
+
+/* Admonition custom colors */
+.md-typeset .admonition.plugin {
+  border-color: #2196f3;
+}
+
+.md-typeset .admonition.plugin > .admonition-title {
+  background-color: rgba(33, 150, 243, 0.1);
+}
+
+.md-typeset .admonition.plugin > .admonition-title::before {
+  background-color: #2196f3;
+  -webkit-mask-image: var(--md-admonition-icon--plugin);
+  mask-image: var(--md-admonition-icon--plugin);
+}
+
+/* Code block improvements */
+.md-typeset pre > code {
+  border-radius: 0.5rem;
+}
+
+/* Button styling */
+.md-button {
+  border-radius: 0.5rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.md-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Footer improvements */
+.md-footer {
+  border-top: 1px solid var(--md-default-fg-color--lightest);
+}
+
+/* Search improvements */
+.md-search__input {
+  border-radius: 0.5rem;
+}
+
+/* Navigation improvements */
+.md-nav__link--active {
+  font-weight: 600;
+}
+
+/* Responsive improvements */
+@media screen and (max-width: 76.1875em) {
+  .md-typeset .grid.cards > ul > li {
+    margin-bottom: 1rem;
+  }
+}
+
+/* Dark mode specific adjustments */
+[data-md-color-scheme="slate"] {
+  --md-code-bg-color: #2d2d2d;
+}
+
+[data-md-color-scheme="slate"] .md-typeset table:not([class]) th {
+  background-color: var(--md-primary-fg-color--dark);
+}
+
+/* Print styles */
+@media print {
+  .md-header,
+  .md-footer,
+  .md-sidebar,
+  .md-nav__link--active::before {
+    display: none;
+  }
+}
+
