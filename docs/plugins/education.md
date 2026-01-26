@@ -1,0 +1,1 @@
+../../plugins/education/README.md

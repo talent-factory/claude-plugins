@@ -1,0 +1,2 @@
+--8<-- "INSTALLATION.md"
+

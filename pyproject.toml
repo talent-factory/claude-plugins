@@ -1,0 +1,11 @@
+[project]
+name = "claude-plugins"
+version = "0.1.0"
+description = "Professional Claude Code plugins for software development and education"
+readme = "README.md"
+requires-python = ">=3.13.1"
+dependencies = [
+    "mkdocs-material>=9.7.1",
+    "mkdocs-git-revision-date-localized-plugin>=1.3.0",
+    "mkdocs-minify-plugin>=0.8.0",
+]
