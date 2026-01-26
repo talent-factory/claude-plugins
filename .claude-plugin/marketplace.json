@@ -27,7 +27,7 @@
       "name": "project-management",
       "description": "Comprehensive project management with PRD generation, project planning, task implementation, Linear integration, and git worktree workflow",
       "source": "./plugins/project-management",
-      "version": "2.1.0",
+      "version": "2.2.0",
       "tags": [
         "planning",
         "prd",
