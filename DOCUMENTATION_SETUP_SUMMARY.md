@@ -41,9 +41,9 @@ docs/
 ├── guides/                           ✅ Tutorials
 │   ├── index.md
 │   ├── first-commit.md               (Vollständiges Tutorial)
-│   ├── create-first-pr.md            (Stub - "Coming Soon")
-│   ├── prd-workflow.md               (Stub - "Coming Soon")
-│   └── linear-integration.md         (Stub - "Coming Soon")
+│   ├── create-first-pr.md            (Vollständiges Tutorial)
+│   ├── prd-workflow.md               (Vollständiges Tutorial)
+│   └── linear-integration.md         (Vollständiges Tutorial)
 ├── development/                      ✅ Entwickler-Guides
 │   ├── index.md
 │   ├── plugin-development.md         (Include von PLUGIN_DEVELOPMENT.md)
@@ -169,7 +169,7 @@ docs/plugins/git-workflow.md → ../../plugins/git-workflow/README.md
 
 ### Kurzfristig (nächste Wochen)
 
-- [ ] Restliche Tutorials vervollständigen:
+- [x] Restliche Tutorials vervollständigen:
   - `docs/guides/create-first-pr.md`
   - `docs/guides/prd-workflow.md`
   - `docs/guides/linear-integration.md`
