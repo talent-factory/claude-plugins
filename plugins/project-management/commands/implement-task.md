@@ -22,10 +22,11 @@ Dieser Command orchestriert den kompletten Workflow von Task bis Pull Request:
 1. **Task auswählen** - Aus Filesystem oder Linear (via `--linear` Flag)
 2. **Worktree erstellen** - In `.worktrees/task-<task-id>/` für parallele Arbeit
 3. **Branch erstellen** - Im Hauptrepo und allen Submodulen
-4. **Status aktualisieren** - Task auf "In Progress" setzen
-5. **Implementierung** - Code-Änderungen basierend auf Task-Beschreibung
-6. **PR erstellen** - Pull Request mit Task-Verlinkung
-7. **Finalisierung** - Task-Status auf "Completed", Tracking aktualisieren
+4. **Draft-PR vorbereiten** - Frühzeitige PR-Erstellung für Sichtbarkeit und CI/CD
+5. **Status aktualisieren** - Task auf "In Progress" setzen
+6. **Implementierung** - Code-Änderungen basierend auf Task-Beschreibung
+7. **PR finalisieren** - Draft-PR zum Review freigeben
+8. **Finalisierung** - Task-Status auf "Completed", Tracking aktualisieren
 
 ## Verwendung
 
@@ -183,6 +184,94 @@ git submodule status
 - ✅ `.worktrees/` existiert oder wird erstellt
 - ✅ Worktree existiert noch nicht für diese Task-ID
 
+### 3b. Draft-PR Vorbereitung (OBLIGATORISCH)
+
+> ⚠️ **WICHTIG**: Direkt nach Branch-Erstellung wird ein Draft-PR erstellt!
+
+Der Draft-PR dient als:
+- **Frühzeitige Sichtbarkeit**: Team sieht, dass am Task gearbeitet wird
+- **CI/CD-Integration**: Automatische Checks laufen von Anfang an
+- **Review-Vorbereitung**: Reviewer können früh Feedback geben
+- **Task-Verlinkung**: PR ist von Beginn an mit Task verknüpft
+
+#### Draft-PR Workflow
+
+```bash
+# 1. Im Worktree: Initial-Commit erstellen (falls nötig)
+cd ".worktrees/task-<task-id>"
+git commit --allow-empty -m "🚧 wip: Starte Arbeit an <task-id>"
+
+# 2. Branch pushen
+git push -u origin "$BRANCH_NAME"
+
+# 3. Draft-PR erstellen via /git-workflow:create-pr
+/git-workflow:create-pr --draft --target main
+```
+
+#### Alternative: Manueller Draft-PR mit gh CLI
+
+Falls `/git-workflow:create-pr` nicht verfügbar:
+
+```bash
+# Draft-PR mit GitHub CLI erstellen
+gh pr create --draft \
+  --title "🚧 WIP: [<task-id>] <Task-Titel>" \
+  --body "$(cat <<'EOF'
+## Beschreibung
+
+Implementierung von Task <task-id>: <Task-Titel>
+
+## Status
+
+🚧 **Work in Progress** - Dieser PR ist noch nicht bereit für Review.
+
+## Task-Referenz
+
+- **Task-ID**: <task-id>
+- **Provider**: Filesystem / Linear
+- **Link**: [Task-Details](<link-to-task>)
+
+## Geplante Änderungen
+
+- [ ] <Akzeptanzkriterium 1>
+- [ ] <Akzeptanzkriterium 2>
+- [ ] <Akzeptanzkriterium 3>
+
+## Test-Plan
+
+- [ ] Unit Tests
+- [ ] Integration Tests
+- [ ] Manuelle Verifikation
+
+---
+*Dieser Draft-PR wurde automatisch erstellt via `/implement-task`*
+EOF
+)"
+```
+
+#### Submodule Draft-PRs
+
+> ⚠️ **Bei Projekten mit Submodulen**: Auch für Submodule werden Draft-PRs erstellt!
+
+```bash
+# Für jedes Submodul mit Änderungen: Draft-PR erstellen
+git submodule foreach --recursive '
+  # Nur wenn Branch gepusht werden kann
+  git push -u origin "<type>/<task-id>-<description>" 2>/dev/null && \
+  gh pr create --draft \
+    --title "🚧 WIP: [<task-id>] <Task-Titel> (Submodule: $(basename $PWD))" \
+    --body "Part of parent PR for <task-id>"
+'
+```
+
+#### Draft-PR Checkliste
+
+- ✅ Branch ist gepusht (`git push -u origin`)
+- ✅ Draft-PR ist erstellt (`gh pr create --draft`)
+- ✅ PR-Titel enthält Task-ID und WIP-Marker
+- ✅ PR-Body enthält Task-Referenz und Akzeptanzkriterien
+- ✅ Submodule haben eigene Draft-PRs (falls betroffen)
+
 ### 4. Status-Update
 
 | Provider | Transition |
@@ -256,9 +345,9 @@ git branch -d <type>/<task-id>-<description>  # lokaler Branch
 
 ## Siehe auch
 
-- **[/create-plan](./create-plan.md)** - Projektplanung (Filesystem/Linear)
-- **[/commit](./commit.md)** - Professionelle Git-Commits
-- **[/create-pr](./create-pr.md)** - Pull Request-Erstellung
+- **[/project-management:create-plan](./create-plan.md)** - Projektplanung (Filesystem/Linear)
+- **[/git-workflow:commit](../../git-workflow/commands/commit.md)** - Professionelle Git-Commits
+- **[/git-workflow:create-pr](../../git-workflow/commands/create-pr.md)** - Pull Request-Erstellung
 
 ---
 
