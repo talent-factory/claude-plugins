@@ -133,7 +133,7 @@ Changes are grouped by category:
 
 - [GitHub Releases](https://github.com/talent-factory/claude-plugins/releases)
 - [GitHub Milestones](https://github.com/talent-factory/claude-plugins/milestones)
-- [Roadmap](README.md#roadmap)
+- [Roadmap](https://github.com/talent-factory/claude-plugins#roadmap)
 
 ---
 

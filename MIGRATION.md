@@ -70,7 +70,7 @@ rm ~/.claude/agents/*
 ```
 
 #### Step 3: Install Plugins
-Follow the [Quick Start Guide](./QUICKSTART.md)
+Follow the [Quick Start Guide](https://talent-factory.github.io/claude-plugins/getting-started/quickstart/)
 
 #### Step 4: Verify
 ```bash

@@ -45,13 +45,13 @@ Create professional git commits with automated pre-commit checks and emoji conve
 - 🧪 `test` - Testing
 - 🔧 `chore` - Build/tools/config
 
-See [commit-types.md](./references/commit/commit-types.md) for complete list.
+See [commit-types.md](https://github.com/talent-factory/claude-plugins/blob/main/plugins/git-workflow/references/commit/commit-types.md) for complete list.
 
 **References:**
-- [Best Practices](./references/commit/best-practices.md) - Commit quality guidelines
-- [Commit Types](./references/commit/commit-types.md) - Complete emoji conventional commit types
-- [Pre-Commit Checks](./references/commit/pre-commit-checks.md) - Automated validation details
-- [Troubleshooting](./references/commit/troubleshooting.md) - Common issues and solutions
+- [Best Practices](https://github.com/talent-factory/claude-plugins/blob/main/plugins/git-workflow/references/commit/best-practices.md) - Commit quality guidelines
+- [Commit Types](https://github.com/talent-factory/claude-plugins/blob/main/plugins/git-workflow/references/commit/commit-types.md) - Complete emoji conventional commit types
+- [Pre-Commit Checks](https://github.com/talent-factory/claude-plugins/blob/main/plugins/git-workflow/references/commit/pre-commit-checks.md) - Automated validation details
+- [Troubleshooting](https://github.com/talent-factory/claude-plugins/blob/main/plugins/git-workflow/references/commit/troubleshooting.md) - Common issues and solutions
 
 ### `/create-pr`
 
@@ -83,10 +83,10 @@ Create pull requests with automated branch management, commit analysis, and prof
 - Generated with Claude Code attribution
 
 **References:**
-- [Code Formatting](./references/create-pr/code-formatting.md) - Automatic code formatting
-- [Commit Workflow](./references/create-pr/commit-workflow.md) - Commit management in PRs
-- [PR Template](./references/create-pr/pr-template.md) - PR description structure
-- [Troubleshooting](./references/create-pr/troubleshooting.md) - Common PR issues
+- [Code Formatting](https://github.com/talent-factory/claude-plugins/blob/main/plugins/git-workflow/references/create-pr/code-formatting.md) - Automatic code formatting
+- [Commit Workflow](https://github.com/talent-factory/claude-plugins/blob/main/plugins/git-workflow/references/create-pr/commit-workflow.md) - Commit management in PRs
+- [PR Template](https://github.com/talent-factory/claude-plugins/blob/main/plugins/git-workflow/references/create-pr/pr-template.md) - PR description structure
+- [Troubleshooting](https://github.com/talent-factory/claude-plugins/blob/main/plugins/git-workflow/references/create-pr/troubleshooting.md) - Common PR issues
 
 ### `/pr-edit-history`
 
@@ -121,7 +121,7 @@ This plugin includes two powerful skills for enhanced performance:
 
 **Location:** `./skills/professional-commit-workflow/`
 
-**Documentation:** [professional-commit-workflow/README.md](./skills/professional-commit-workflow/README.md)
+**Documentation:** [professional-commit-workflow/README.md](https://github.com/talent-factory/claude-plugins/blob/main/plugins/git-workflow/skills/professional-commit-workflow/README.md)
 
 ### professional-pr-workflow
 
@@ -136,7 +136,7 @@ Automated PR creation with branch management and code formatting.
 
 **Location:** `./skills/professional-pr-workflow/`
 
-**Documentation:** [professional-pr-workflow/README.md](./skills/professional-pr-workflow/README.md)
+**Documentation:** [professional-pr-workflow/README.md](https://github.com/talent-factory/claude-plugins/blob/main/plugins/git-workflow/skills/professional-pr-workflow/README.md)
 
 ## Installation
 
@@ -308,7 +308,7 @@ Closes #123
 ### Commit Command Issues
 
 **Problem:** Pre-commit checks fail
-- **Solution:** See [commit/troubleshooting.md](./references/commit/troubleshooting.md)
+- **Solution:** See [commit/troubleshooting.md](https://github.com/talent-factory/claude-plugins/blob/main/plugins/git-workflow/references/commit/troubleshooting.md)
 
 **Problem:** Commit message too long
 - **Solution:** Keep subject line ≤ 72 characters, use body for details
@@ -327,7 +327,7 @@ Closes #123
 **Problem:** PR description truncated
 - **Solution:** Large diffs may truncate; commit more frequently
 
-See [create-pr/troubleshooting.md](./references/create-pr/troubleshooting.md) for more solutions.
+See [create-pr/troubleshooting.md](https://github.com/talent-factory/claude-plugins/blob/main/plugins/git-workflow/references/create-pr/troubleshooting.md) for more solutions.
 
 ## Requirements
 
@@ -371,11 +371,11 @@ See [create-pr/troubleshooting.md](./references/create-pr/troubleshooting.md) fo
 
 ## Contributing
 
-See [CONTRIBUTING.md](../../CONTRIBUTING.md) in the main repository.
+See [CONTRIBUTING.md](https://github.com/talent-factory/claude-plugins/blob/main/CONTRIBUTING.md) in the main repository.
 
 ## License
 
-MIT License - see [LICENSE](../../LICENSE) file for details.
+MIT License - see [LICENSE](https://github.com/talent-factory/claude-plugins/blob/main/LICENSE) file for details.
 
 ---
 

@@ -370,7 +370,7 @@ or
 
 ## Getting Help
 
-- **Documentation:** [README.md](./README.md)
+- **Documentation:** [Talent Factory Claude Plugins](https://talent-factory.github.io/claude-plugins/)
 - **Issues:** [GitHub Issues](https://github.com/talent-factory/claude-plugins/issues)
 - **Discussions:** [GitHub Discussions](https://github.com/talent-factory/claude-plugins/discussions)
 - **Email:** support@talent-factory.ch
