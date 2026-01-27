@@ -215,9 +215,13 @@ license: MIT
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `name` | string | Yes | Skill identifier (lowercase, hyphen-separated) |
-| `description` | string | Yes | Brief skill purpose (1-2 sentences) |
-| `version` | string | Yes | Skill version (semantic versioning) |
+| `name` | string | Yes | Skill identifier (lowercase, hyphen-separated, max 64 chars) |
+| `description` | string | Yes | What the skill does and when to use it. Claude uses this for skill selection. Max 1024 chars. Use `>` for multiline YAML. Write in third person. |
+| `version` | string | No | Skill version (semantic versioning) |
+| `allowed-tools` | list | No | Tools Claude can use without asking permission (e.g., Read, Write, Edit, Grep, Glob, Bash) |
+| `disable-model-invocation` | boolean | No | Set `true` to prevent automatic loading. Manual-only via `/name`. Default: `false` |
+| `user-invocable` | boolean | No | Set `false` to hide from `/` menu. Background knowledge only. Default: `true` |
+| `argument-hint` | string | No | Hint for autocomplete (e.g., `[filename]`, `[issue-number]`) |
 | `tags` | array | No | Keywords for discoverability |
 | `author` | string | No | Skill creator |
 | `license` | string | No | License type (MIT, Apache-2.0, etc.) |
@@ -662,6 +666,38 @@ plugins/core/skills/humanizer/
 - Detailed guide on humanization techniques
 - Examples of before/after transformations
 - No scripts needed (pure text transformation)
+
+### Example 4: Markdown Syntax Formatter Skill
+
+From the education plugin:
+
+**Directory Structure**:
+
+```
+plugins/education/skills/markdown-syntax-formatter/
+├── SKILL.md
+├── swiss-german-conventions.md
+└── linter-exceptions.md
+```
+
+**Key Features**:
+
+- Converts visual formatting into proper Markdown syntax
+- Fixes heading hierarchies and document structure
+- Progressive disclosure with two reference files loaded on demand
+- Swiss German orthography support for German-language documents
+- Context-aware linter exception handling
+- Uses `allowed-tools` to declare Read, Write, Edit, Grep, Glob permissions
+- Multiline `description` with trigger keywords for automatic activation
+
+**Why this is a good example for BSc students**:
+
+This skill demonstrates several important patterns:
+
+1. **Progressive disclosure**: Core instructions stay in SKILL.md (207 lines), detailed conventions live in separate reference files that load only when needed
+2. **Separation of concerns**: Language conventions and linter exceptions are isolated into their own files
+3. **Discoverability**: The description includes both what the skill does ("Converts text...") and when to use it ("Use this skill when formatting...")
+4. **No scripts needed**: Pure instruction-based skill without code dependencies
 
 ---
 
