@@ -13,7 +13,7 @@ Browse all available plugins in the Talent Factory marketplace. Each plugin prov
 | [Code Quality](code-quality.md) | 2.0.0 | 3 | 3 | 0 | review, quality, Python, Java |
 | [Education](education.md) | 1.1.0 | 2 | 1 | 0 | teaching, learning, students |
 | [Core Utilities](core.md) | 2.1.0 | 8 | 3 | 1 | validation, CI, development |
-| [Obsidian Integration](obsidian.md) | 1.0.0 | 4 | 0 | 0 | tasks, Obsidian, productivity |
+| [Obsidian Integration](obsidian.md) | 1.0.1 | 4 | 0 | 0 | tasks, Obsidian, productivity |
 
 ---
 

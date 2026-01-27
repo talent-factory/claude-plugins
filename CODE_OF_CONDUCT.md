@@ -56,6 +56,16 @@ Examples of representing our community include using an official e-mail address,
 posting via an official social media account, or acting as an appointed
 representative at an online or offline event.
 
+### Educational Context
+
+This project is designed to support students, educators, and developers in learning
+and professional development. We are committed to:
+
+* **Fostering a learning environment** - Questions at all skill levels are welcome
+* **Supporting diverse backgrounds** - We value contributions from students, professionals, and educators
+* **Encouraging collaboration** - Sharing knowledge and helping others learn is core to our mission
+* **Respecting academic integrity** - While we provide educational tools, users are responsible for following their institution's academic policies
+
 ## Enforcement
 
 Instances of abusive, harassing, or otherwise unacceptable behavior may be

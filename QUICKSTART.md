@@ -108,14 +108,14 @@ Validate your command files.
 
 ## Next Steps
 
-- 📖 Read [Full Documentation](./README.md)
-- 🔧 See [Installation Guide](./INSTALLATION.md)
+- 📖 Read [Full Documentation](https://talent-factory.github.io/claude-plugins/)
+- 🔧 See [Installation Guide](https://talent-factory.github.io/claude-plugins/getting-started/installation/)
 - 📦 Explore individual plugin READMEs
 - 🤝 Join [GitHub Discussions](https://github.com/talent-factory/claude-plugins/discussions)
 
 ## Need Help?
 
-- [Installation Issues](./INSTALLATION.md#troubleshooting)
+- [Installation Issues](https://talent-factory.github.io/claude-plugins/getting-started/installation/#troubleshooting)
 - [GitHub Issues](https://github.com/talent-factory/claude-plugins/issues)
 - Email: support@talent-factory.ch
 

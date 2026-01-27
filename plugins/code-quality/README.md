@@ -211,7 +211,7 @@ Expert for creating Next.js applications with React, shadcn/ui, and Tailwind CSS
 
 ## License
 
-MIT License - see [LICENSE](../../LICENSE) file for details.
+MIT License - see [LICENSE](https://github.com/talent-factory/claude-plugins/blob/main/LICENSE) file for details.
 
 ---
 

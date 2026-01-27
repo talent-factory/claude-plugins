@@ -222,7 +222,7 @@ Our CI/CD pipeline enforces these rules automatically:
 
 ## 📚 Additional Resources
 
-- [Plugin Development Guide](./docs/PLUGIN_DEVELOPMENT.md)
+- [Plugin Development Guide](https://talent-factory.github.io/claude-plugins/development/plugin-development/)
 - [Claude Code Documentation](https://docs.claude.com)
 - [Conventional Commits](https://www.conventionalcommits.org/)
 

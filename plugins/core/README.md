@@ -555,11 +555,11 @@ intuitive und leistungsstarke Benutzererfahrung."
 
 ## Contributing
 
-See [CONTRIBUTING.md](../../CONTRIBUTING.md) in the main repository.
+See [CONTRIBUTING.md](https://github.com/talent-factory/claude-plugins/blob/main/CONTRIBUTING.md) in the main repository.
 
 ## License
 
-MIT License - see [LICENSE](../../LICENSE) file for details.
+MIT License - see [LICENSE](https://github.com/talent-factory/claude-plugins/blob/main/LICENSE) file for details.
 
 ---
 

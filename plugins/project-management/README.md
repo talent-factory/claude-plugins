@@ -39,9 +39,9 @@ Generate professional Product Requirements Documents (PRDs) for features and pro
 - Risks & Mitigation
 
 **References:**
-- [Best Practices](./references/create-prd/best-practices.md) - PRD quality guidelines
-- [Sections Guide](./references/create-prd/sections-guide.md) - Detailed section templates
-- [Templates](./references/create-prd/templates.md) - Ready-to-use PRD templates
+- [Best Practices](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/create-prd/best-practices.md) - PRD quality guidelines
+- [Sections Guide](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/create-prd/sections-guide.md) - Detailed section templates
+- [Templates](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/create-prd/templates.md) - Ready-to-use PRD templates
 
 ### `/create-plan`
 
@@ -70,11 +70,11 @@ Transform PRDs into actionable project plans with task breakdown and Linear inte
 - Priority levels
 
 **References:**
-- [Agent Mapping](./references/create-plan/agent-mapping.md) - Agent selection guidelines
-- [Best Practices](./references/create-plan/best-practices.md) - Planning methodologies
-- [Filesystem](./references/create-plan/filesystem.md) - File-based plan storage
-- [Linear Integration](./references/create-plan/linear-integration.md) - Linear API usage
-- [Task Breakdown](./references/create-plan/task-breakdown.md) - Task decomposition strategies
+- [Agent Mapping](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/create-plan/agent-mapping.md) - Agent selection guidelines
+- [Best Practices](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/create-plan/best-practices.md) - Planning methodologies
+- [Filesystem](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/create-plan/filesystem.md) - File-based plan storage
+- [Linear Integration](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/create-plan/linear-integration.md) - Linear API usage
+- [Task Breakdown](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/create-plan/task-breakdown.md) - Task decomposition strategies
 
 ### `/implement-task`
 
@@ -104,11 +104,11 @@ Implement tasks with git worktree workflow, branch creation, and PR automation.
 6. Syncs with Linear
 
 **References:**
-- [Best Practices](./references/implement-task/best-practices.md) - Implementation guidelines
-- [Filesystem](./references/implement-task/filesystem.md) - Task file management
-- [Linear](./references/implement-task/linear.md) - Linear integration
-- [Troubleshooting](./references/implement-task/troubleshooting.md) - Common issues
-- [Workflow](./references/implement-task/workflow.md) - Complete workflow guide
+- [Best Practices](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/implement-task/best-practices.md) - Implementation guidelines
+- [Filesystem](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/implement-task/filesystem.md) - Task file management
+- [Linear](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/implement-task/linear.md) - Linear integration
+- [Troubleshooting](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/implement-task/troubleshooting.md) - Common issues
+- [Workflow](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/implement-task/workflow.md) - Complete workflow guide
 
 ## Installation
 
@@ -315,7 +315,7 @@ User: "We need OAuth login with Google and GitHub"
 ### Plan Creation
 
 **Problem:** Tasks too large
-- **Solution:** See [task-breakdown.md](./references/create-plan/task-breakdown.md)
+- **Solution:** See [task-breakdown.md](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/create-plan/task-breakdown.md)
 
 **Problem:** Linear sync fails
 - **Solution:** Check API key and team ID in settings
@@ -323,7 +323,7 @@ User: "We need OAuth login with Google and GitHub"
 ### Task Implementation
 
 **Problem:** Worktree creation fails
-- **Solution:** See [troubleshooting.md](./references/implement-task/troubleshooting.md)
+- **Solution:** See [troubleshooting.md](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/implement-task/troubleshooting.md)
 
 **Problem:** Branch already exists
 - **Solution:** Use different task ID or clean up old branches
@@ -357,11 +357,11 @@ User: "We need OAuth login with Google and GitHub"
 
 ## Contributing
 
-See [CONTRIBUTING.md](../../CONTRIBUTING.md) in the main repository.
+See [CONTRIBUTING.md](https://github.com/talent-factory/claude-plugins/blob/main/CONTRIBUTING.md) in the main repository.
 
 ## License
 
-MIT License - see [LICENSE](../../LICENSE) file for details.
+MIT License - see [LICENSE](https://github.com/talent-factory/claude-plugins/blob/main/LICENSE) file for details.
 
 ---
 
