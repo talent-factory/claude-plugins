@@ -34,9 +34,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 🔧 Improved PR description generation from all commits
 - 📖 Extensive README with examples, best practices, and troubleshooting
 
-#### project-management 2.0.0 (Major Update)
+#### project-management 2.2.0 (Major Update)
 - ✨ Added `/create-plan` command with Linear integration and task breakdown
 - ✨ Added `/implement-task` command with git worktree workflow
+- ✨ Added `/update-task` command for task status updates
 - ✨ Enhanced `/create-prd` with comprehensive templates
 - 📚 Added comprehensive reference documentation (13 files):
   - create-prd/best-practices.md - PRD quality guidelines
@@ -56,7 +57,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 🌲 Added git worktree support for isolated development
 - 📖 Extensive README with workflow examples and Linear setup
 
-#### core 2.0.0 (Major Update)
+#### core 2.1.0 (Major Update)
 - ✨ Added `/check` command for project validation without commits
 - ✨ Added `/create-command` for pattern-based command generation
 - ✨ Added `/init-project` for OpenSource project initialization
@@ -68,11 +69,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - skill-generator-agent - Code generation
   - skill-validator-agent - Testing and validation
   - skill-documenter-agent - Documentation creation
+- 🎨 Added humanizer skill for text humanization and AI writing improvement
 - 🔧 Enhanced `/check-commands` with best practices validation
 - 🔧 Enhanced `/check-agents` with color attribute checking
 - 🔧 Enhanced `/build-skill` with elicitation-driven development
 - 🔧 Enhanced `/package-skill` with dependency checking
-- 📖 Extensive README with 8 commands and 3 agent descriptions
+- 📖 Extensive README with 8 commands, 3 agents, and 1 skill
 
 #### code-quality 2.0.0 (Major Update)
 - ✨ Added `/ruff-check` command for Python linting with Ruff
@@ -85,6 +87,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 🤖 Added markdown-syntax-formatter agent for Markdown formatting
 - 📚 Converts visually formatted text to proper Markdown syntax
 - ✅ Fixes formatting issues (lists, headings, code blocks, emphasis)
+
+#### obsidian 1.0.1
+- ✨ Initial release with TaskNotes Plugin API integration
+- 🎯 Task management via natural language (German/English)
+- 📝 List, create, update, and delete tasks in Obsidian
+- 💡 Work recommendations based on task priorities
+- 🔗 Direct integration with Obsidian vault via HTTP API
+- 🛠️ CLI commands for task management
+- 📖 Comprehensive documentation with setup guide
 
 ### Infrastructure
 - GitHub Issue templates (bug report, feature request)

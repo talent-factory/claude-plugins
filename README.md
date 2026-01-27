@@ -2,7 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Claude Code](https://img.shields.io/badge/Claude%20Code-Plugins-blue)](https://claude.ai)
-[![Plugins](https://img.shields.io/badge/Plugins-5-green)](https://github.com/talent-factory/claude-plugins)
+[![Plugins](https://img.shields.io/badge/Plugins-6-green)](https://github.com/talent-factory/claude-plugins)
 
 Professional Claude Code plugins for software development and education by Talent Factory GmbH.
 
@@ -87,7 +87,7 @@ Teaching aids and student support for IT education.
 ---
 
 ### 🛠️ Core Utilities
-Development utilities for plugin/command/agent development, validation, and CI automation.
+Development utilities for plugin/command/agent development, validation, CI automation, project initialization, and text humanization.
 
 **Commands:**
 - `/check` - Project validation without commits
@@ -104,7 +104,26 @@ Development utilities for plugin/command/agent development, validation, and CI a
 - Command Expert - CLI development
 - Skill Builder - Complete skill-building system
 
+**Skills:**
+- Humanizer - Text humanization and AI writing improvement
+
 [📖 Documentation](./plugins/core/README.md)
+
+---
+
+### 📝 Obsidian Integration
+Task management via TaskNotes Plugin API with natural language support (DE/EN).
+
+**Skills:**
+- TaskNotes - Obsidian task management integration
+
+**Features:**
+- List, create, update, and delete tasks
+- Work recommendations
+- Natural language interface (German/English)
+- Direct integration with Obsidian vault
+
+[📖 Documentation](./plugins/obsidian/README.md)
 
 ## 🎯 Who Is This For?
 
@@ -165,7 +184,8 @@ Development utilities for plugin/command/agent development, validation, and CI a
     "git-workflow@talent-factory": true,
     "project-management@talent-factory": true,
     "code-quality@talent-factory": true,
-    "core@talent-factory": true
+    "core@talent-factory": true,
+    "obsidian@talent-factory": true
   }
 }
 ```
