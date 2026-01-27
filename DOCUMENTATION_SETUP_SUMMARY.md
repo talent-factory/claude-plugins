@@ -46,12 +46,12 @@ docs/
 │   └── linear-integration.md         (Vollständiges Tutorial)
 ├── development/                      ✅ Entwickler-Guides
 │   ├── index.md
-│   ├── plugin-development.md         (Include von PLUGIN_DEVELOPMENT.md)
+│   ├── plugin-development.md         (Vollständiger Guide)
 │   ├── contributing.md               (Include von CONTRIBUTING.md)
-│   ├── architecture.md               (Stub - "Coming Soon")
-│   ├── testing.md                    (Stub - "Coming Soon")
-│   ├── ci-cd.md                      (Stub - "Coming Soon")
-│   └── best-practices.md             (Stub - "Coming Soon")
+│   ├── architecture.md               (Vollständiger Guide)
+│   ├── testing.md                    (Vollständiger Guide)
+│   ├── ci-cd.md                      (Vollständiger Guide)
+│   └── best-practices.md             (Vollständiger Guide)
 ├── reference/                        ✅ Technische Referenz
 │   ├── index.md
 │   ├── marketplace-json.md           (Stub - "Coming Soon")
@@ -179,7 +179,8 @@ docs/plugins/git-workflow.md → ../../plugins/git-workflow/README.md
   - `docs/reference/command-format.md`
   - `docs/reference/agent-format.md`
   - `docs/reference/skill-format.md`
-- [ ] Development-Guides vervollständigen:
+- [x] Development-Guides vervollständigen:
+  - `docs/development/plugin-development.md`
   - `docs/development/architecture.md`
   - `docs/development/testing.md`
   - `docs/development/ci-cd.md`
