@@ -82,7 +82,7 @@ jobs:
 
             // Emoji Conventional Commit pattern
             // Format: <optional emoji> <type>(<optional scope>): <description>
-            const conventionalCommitPattern = /^([^\x00-\x7F]+\s+)?(feat|fix|docs|style|refactor|test|chore|perf|ci|build|revert|security|i18n|a11y|deps)(\(.+\))?: .+/;
+            const conventionalCommitPattern = /^([^\x00-\x7F]+\s+)?(feat|fix|docs|style|refactor|test|chore|perf|ci|build|revert|security|i18n|a11y|deps|init|deploy|merge)(\(.+\))?: .+/;
 
             // Patterns to skip (merge commits, release commits)
             const skipPatterns = [
