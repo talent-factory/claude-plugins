@@ -12,7 +12,8 @@ Comprehensive code quality tools with Python linting, code review, and expert ag
 
 Lint and format all Python files in the project with Ruff.
 
-**Features:**
+**Features:** 
+
 - ⚡ Fast Python linting with Ruff
 - 🔧 Automatic code formatting
 - ✅ PEP 8 compliance checking

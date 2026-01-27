@@ -90,7 +90,7 @@ graph LR
 
 A typical plugin has this structure:
 
-```
+```text
 plugins/your-plugin/
 ├── .claude-plugin/
 │   └── plugin.json          # Plugin metadata
@@ -189,6 +189,7 @@ Description of your plugin.
 Brief description.
 
 **Usage:**
+
 /my-command [options]
 
 ## Installation

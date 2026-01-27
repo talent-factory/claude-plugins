@@ -72,7 +72,7 @@ Each plugin is self-contained in its own directory under `plugins/`. A plugin de
 
 ### Directory Structure
 
-```
+```text
 plugins/your-plugin/
 ├── .claude-plugin/
 │   └── plugin.json          # Plugin metadata (required)
@@ -159,7 +159,7 @@ skills/humanizer/
 
 References in `references/` provide supporting documentation that commands and agents can link to for detailed information without bloating the main command file.
 
-```
+```text
 references/commit/
 ├── best-practices.md
 ├── commit-types.md

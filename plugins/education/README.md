@@ -8,6 +8,7 @@ Teaching aids, code explanations, and student support for IT education.
 Provide clear, educational explanations of code for students learning programming.
 
 **Features:**
+
 - Step-by-step code breakdown
 - Concept explanations with examples
 - Visual flow diagrams
@@ -27,6 +28,7 @@ Claude will ask about the student's level and provide tailored explanations.
 Expert Java programming instructor specializing in teaching students.
 
 **Specialties:**
+
 - Java fundamentals and OOP
 - Data structures and algorithms
 - Best practices and clean code

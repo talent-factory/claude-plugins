@@ -9,6 +9,7 @@ Thank you for your interest in contributing to our Claude Code plugins! We welco
 Before creating bug reports, please check the [existing issues](https://github.com/talent-factory/claude-plugins/issues) to avoid duplicates.
 
 **When filing a bug report, please include:**
+
 - A clear and descriptive title
 - Steps to reproduce the issue
 - Expected behavior vs. actual behavior
@@ -21,7 +22,7 @@ Before creating bug reports, please check the [existing issues](https://github.c
 
 We love to hear your ideas! Enhancement suggestions are tracked as GitHub issues.
 
-**When suggesting an enhancement, please include:**
+**When suggesting an enhancement, please include:** 
 - A clear and descriptive title
 - Detailed description of the proposed feature
 - Use cases and benefits
@@ -87,6 +88,7 @@ footer (optional)
 ```
 
 **Types:**
+
 - `feat`: New feature
 - `fix`: Bug fix
 - `docs`: Documentation changes
@@ -114,7 +116,7 @@ docs(readme): update installation instructions
 
 When creating or modifying plugins, follow this structure:
 
-```
+```text
 plugins/your-plugin/
 ├── .claude-plugin/
 │   └── plugin.json          # Plugin metadata
@@ -212,6 +214,7 @@ Before submitting a PR:
 ### Automated Protection
 
 Our CI/CD pipeline enforces these rules automatically:
+
 - Validates branch naming conventions
 - Checks commit message format
 - Runs plugin validation tests

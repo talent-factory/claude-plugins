@@ -229,7 +229,7 @@ Not every linter warning needs fixing. The skill recognizes legitimate exception
 In a lab exercise document, repeating headings like "Exercise" and "Solution" per chapter
 is expected:
 
-```markdown
+````markdown
 ## Chapter 1: Variables
 
 ### Exercise
@@ -253,7 +253,7 @@ Write a program that prints numbers 1-10...
 ```java
 for (int i = 1; i <= 10; i++) { ... }
 ```
-```
+````
 
 The skill recognizes this as training material and does **not** rename the headings.
 
@@ -274,7 +274,7 @@ A typical BSc project README with common issues:
 
 **Before:**
 
-```markdown
+````markdown
 # semester project 2024
 
 ### team members
@@ -293,11 +293,11 @@ npm start
 
 ##### technologies used
 We used React and Node.js
-```
+````
 
 **After:**
 
-```markdown
+````markdown
 # Semester Project 2024
 
 ## Team Members
@@ -322,7 +322,7 @@ npm start
 ## Technologies Used
 
 We used React and Node.js.
-```
+````
 
 **What changed:**
 
@@ -362,7 +362,7 @@ public void bubbleSort(int[] arr) {
 
 **After:**
 
-```markdown
+````markdown
 # Experiment 3: Sorting Algorithms
 
 ## Objective
@@ -389,7 +389,7 @@ public void bubbleSort(int[] arr) {
     // implementation
 }
 ```
-```
+````
 
 **What changed:**
 

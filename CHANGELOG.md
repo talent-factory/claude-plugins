@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+
 - Initial project setup with OpenSource best practices
 - Comprehensive documentation for contributors
 - GitHub Actions workflows for CI/CD
@@ -17,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Plugins
 
 #### git-workflow 2.0.0 (Major Update)
+
 - ✨ Migrated comprehensive commands from dotfiles with full references
 - ✨ Added `/pr-edit-history` command for PR description tracking
 - ✨ Integrated professional-commit-workflow skill (~70% faster)
@@ -35,6 +37,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 📖 Extensive README with examples, best practices, and troubleshooting
 
 #### project-management 2.2.0 (Major Update)
+
 - ✨ Added `/create-plan` command with Linear integration and task breakdown
 - ✨ Added `/implement-task` command with git worktree workflow
 - ✨ Added `/update-task` command for task status updates
@@ -58,6 +61,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 📖 Extensive README with workflow examples and Linear setup
 
 #### core 2.1.0 (Major Update)
+
 - ✨ Added `/check` command for project validation without commits
 - ✨ Added `/create-command` for pattern-based command generation
 - ✨ Added `/init-project` for OpenSource project initialization
@@ -77,6 +81,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 📖 Extensive README with 8 commands, 3 agents, and 1 skill
 
 #### code-quality 2.0.0 (Major Update)
+
 - ✨ Added `/ruff-check` command for Python linting with Ruff
 - 🤖 Added code-reviewer agent for proactive code reviews
 - 🤖 Added python-expert agent for idiomatic Python development
@@ -84,11 +89,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 🤖 Added frontend-developer agent for Next.js/React/Tailwind
 
 #### education 1.1.0
+
 - 🤖 Added markdown-syntax-formatter agent for Markdown formatting
 - 📚 Converts visually formatted text to proper Markdown syntax
 - ✅ Fixes formatting issues (lists, headings, code blocks, emphasis)
 
 #### obsidian 1.0.1
+
 - ✨ Initial release with TaskNotes Plugin API integration
 - 🎯 Task management via natural language (German/English)
 - 📝 List, create, update, and delete tasks in Obsidian
@@ -98,6 +105,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 📖 Comprehensive documentation with setup guide
 
 ### Infrastructure
+
 - GitHub Issue templates (bug report, feature request)
 - Pull Request template with comprehensive checklist
 - Automated PR labeling based on content and size
@@ -109,6 +117,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Markdown link checking
 
 ### Documentation
+
 - CODE_OF_CONDUCT.md with contact information
 - SECURITY.md with security policies and reporting
 - CONTRIBUTING.md with detailed contribution guidelines
@@ -117,6 +126,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Enhanced .gitignore for better exclusions
 
 ### Configuration
+
 - GitHub labeler configuration
 - Markdown link check configuration
 - Funding configuration (prepared for future use)
@@ -124,6 +134,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Version Format
 
 Versions follow semantic versioning (MAJOR.MINOR.PATCH):
+
 - **MAJOR:** Breaking changes
 - **MINOR:** New features, backwards compatible
 - **PATCH:** Bug fixes, backwards compatible
@@ -131,6 +142,7 @@ Versions follow semantic versioning (MAJOR.MINOR.PATCH):
 ## Categories
 
 Changes are grouped by category:
+
 - **Added:** New features
 - **Changed:** Changes to existing functionality
 - **Deprecated:** Features that will be removed
