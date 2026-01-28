@@ -150,17 +150,21 @@
 <span class=normal><a href=#__codelineno-16-8> 8</a></span>
 <span class=normal><a href=#__codelineno-16-9> 9</a></span>
 <span class=normal><a href=#__codelineno-16-10>10</a></span>
-<span class=normal><a href=#__codelineno-16-11>11</a></span></pre></div></td><td class=code><div><pre><span></span><code><span id=__span-16-1><a id=__codelineno-16-1 name=__codelineno-16-1></a><span class=gu>## Error Handling</span>
+<span class=normal><a href=#__codelineno-16-11>11</a></span>
+<span class=normal><a href=#__codelineno-16-12>12</a></span>
+<span class=normal><a href=#__codelineno-16-13>13</a></span></pre></div></td><td class=code><div><pre><span></span><code><span id=__span-16-1><a id=__codelineno-16-1 name=__codelineno-16-1></a><span class=gu>## Error Handling</span>
 </span><span id=__span-16-2><a id=__codelineno-16-2 name=__codelineno-16-2></a>
 </span><span id=__span-16-3><a id=__codelineno-16-3 name=__codelineno-16-3></a>If no changes are detected:
-</span><span id=__span-16-4><a id=__codelineno-16-4 name=__codelineno-16-4></a><span class=k>1.</span> Run <span class=sb>`git status`</span> to verify
-</span><span id=__span-16-5><a id=__codelineno-16-5 name=__codelineno-16-5></a><span class=k>2.</span> Show the user: &quot;No changes to commit&quot;
-</span><span id=__span-16-6><a id=__codelineno-16-6 name=__codelineno-16-6></a><span class=k>3.</span> Suggest: &quot;Make changes first, then run /commit again&quot;
-</span><span id=__span-16-7><a id=__codelineno-16-7 name=__codelineno-16-7></a>
-</span><span id=__span-16-8><a id=__codelineno-16-8 name=__codelineno-16-8></a>If tests fail:
-</span><span id=__span-16-9><a id=__codelineno-16-9 name=__codelineno-16-9></a><span class=k>1.</span> Show the failing test output
-</span><span id=__span-16-10><a id=__codelineno-16-10 name=__codelineno-16-10></a><span class=k>2.</span> Suggest fixes if possible
-</span><span id=__span-16-11><a id=__codelineno-16-11 name=__codelineno-16-11></a><span class=k>3.</span> Offer: &quot;Use /commit --no-verify to skip checks&quot;
+</span><span id=__span-16-4><a id=__codelineno-16-4 name=__codelineno-16-4></a>
+</span><span id=__span-16-5><a id=__codelineno-16-5 name=__codelineno-16-5></a><span class=k>1.</span> Run <span class=sb>`git status`</span> to verify
+</span><span id=__span-16-6><a id=__codelineno-16-6 name=__codelineno-16-6></a><span class=k>2.</span> Show the user: &quot;No changes to commit&quot;
+</span><span id=__span-16-7><a id=__codelineno-16-7 name=__codelineno-16-7></a><span class=k>3.</span> Suggest: &quot;Make changes first, then run /commit again&quot;
+</span><span id=__span-16-8><a id=__codelineno-16-8 name=__codelineno-16-8></a>
+</span><span id=__span-16-9><a id=__codelineno-16-9 name=__codelineno-16-9></a>If tests fail:
+</span><span id=__span-16-10><a id=__codelineno-16-10 name=__codelineno-16-10></a>
+</span><span id=__span-16-11><a id=__codelineno-16-11 name=__codelineno-16-11></a><span class=k>1.</span> Show the failing test output
+</span><span id=__span-16-12><a id=__codelineno-16-12 name=__codelineno-16-12></a><span class=k>2.</span> Suggest fixes if possible
+</span><span id=__span-16-13><a id=__codelineno-16-13 name=__codelineno-16-13></a><span class=k>3.</span> Offer: &quot;Use /commit --no-verify to skip checks&quot;
 </span></code></pre></div></td></tr></table></div> <hr> <h2 id=performance>Performance<a class=headerlink href=#performance title="Anchor link to this section">&para;</a></h2> <h3 id=keep-prompts-concise>Keep Prompts Concise<a class=headerlink href=#keep-prompts-concise title="Anchor link to this section">&para;</a></h3> <p>Long command files consume more tokens. Structure them efficiently:</p> <ul> <li>Use bullet points instead of paragraphs</li> <li>Reference details in <code>references/</code> instead of inlining</li> <li>Avoid repeating information</li> </ul> <h3 id=use-skills-for-complex-logic>Use Skills for Complex Logic<a class=headerlink href=#use-skills-for-complex-logic title="Anchor link to this section">&para;</a></h3> <p>For commands with significant logic (formatters, validators), consider using Skills with Python scripts:</p> <div class="language-text highlight"><table class=highlighttable><tr><th colspan=2 class=filename><span class=filename>Text Only</span></th></tr><tr><td class=linenos><div class=linenodiv><pre><span></span><span class=normal><a href=#__codelineno-17-1>1</a></span>
 <span class=normal><a href=#__codelineno-17-2>2</a></span>
 <span class=normal><a href=#__codelineno-17-3>3</a></span>
