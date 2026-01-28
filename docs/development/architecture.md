@@ -72,7 +72,7 @@ Each plugin is self-contained in its own directory under `plugins/`. A plugin de
 
 ### Directory Structure
 
-```
+```text
 plugins/your-plugin/
 ├── .claude-plugin/
 │   └── plugin.json          # Plugin metadata (required)
@@ -159,7 +159,7 @@ skills/humanizer/
 
 References in `references/` provide supporting documentation that commands and agents can link to for detailed information without bloating the main command file.
 
-```
+```text
 references/commit/
 ├── best-practices.md
 ├── commit-types.md
@@ -225,9 +225,9 @@ When plugin changes are pushed to the repository, users receive updates automati
 | git-workflow | 2.0.0 | 3 | — | 2 | Git operations |
 | project-management | 2.2.0 | 4 | — | — | PRD, planning, tasks |
 | code-quality | 2.0.0 | 1 | 4 | — | Code review, linting |
-| education | 1.1.0 | — | 2 | — | Teaching aids |
+| education | 1.2.0 | 1 | 1 | 1 | Teaching aids |
 | core | 2.1.0 | 8 | 3 | 1 | Development utilities |
-| obsidian | 1.0.0 | — | — | 1 | Obsidian integration |
+| obsidian | 1.0.1 | — | — | 1 | Obsidian integration |
 
 ---
 

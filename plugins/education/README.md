@@ -8,6 +8,7 @@ Teaching aids, code explanations, and student support for IT education.
 Provide clear, educational explanations of code for students learning programming.
 
 **Features:**
+
 - Step-by-step code breakdown
 - Concept explanations with examples
 - Visual flow diagrams
@@ -27,6 +28,7 @@ Claude will ask about the student's level and provide tailored explanations.
 Expert Java programming instructor specializing in teaching students.
 
 **Specialties:**
+
 - Java fundamentals and OOP
 - Data structures and algorithms
 - Best practices and clean code
@@ -35,6 +37,29 @@ Expert Java programming instructor specializing in teaching students.
 
 **Activation:**
 Use `/agents` and select "Java Tutor" for Java-specific teaching support.
+
+## Skills
+
+### Markdown Syntax Formatter
+
+Converts text with visual formatting into proper Markdown syntax, fixes formatting issues,
+and ensures consistent document structure.
+
+**Capabilities:**
+
+- Fix heading hierarchies and document structure
+- Convert visual formatting cues to proper Markdown syntax
+- Apply Swiss German orthography to German-language documents
+- Handle linter exceptions for training materials and templates
+
+**Activation:**
+
+The skill activates automatically when formatting or reviewing Markdown files,
+or invoke it manually:
+
+```
+/markdown-syntax-formatter
+```
 
 ## Who This Is For
 

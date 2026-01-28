@@ -52,6 +52,7 @@ Then: `/plugin` → Browse → Install
 Best for most users.
 
 #### Step 1: Backup Current Setup
+
 ```bash
 # Backup your current Claude configs
 cp -r ~/.claude ~/.claude.backup
@@ -59,6 +60,7 @@ cp -r .claude .claude.backup
 ```
 
 #### Step 2: Remove Old Symlinks
+
 ```bash
 # Check current symlinks
 ls -la ~/.claude/commands
@@ -70,10 +72,12 @@ rm ~/.claude/agents/*
 ```
 
 #### Step 3: Install Plugins
+
 Follow the [Quick Start Guide](https://talent-factory.github.io/claude-plugins/getting-started/quickstart/)
 
 #### Step 4: Verify
 ```bash
+
 claude
 /plugin
 # Check that plugins are loaded
@@ -84,16 +88,20 @@ claude
 Keep both systems during transition.
 
 #### Step 1: Install Plugins
+
 Add marketplace and install plugins (see Quick Start).
 
 #### Step 2: Test Side-by-Side
+
 Keep dotfiles symlinks active while testing plugins.
 
 Commands will be namespaced:
+
 - Dotfiles: `/commit`
 - Plugin: `git-workflow:commit`
 
 #### Step 3: Switch When Ready
+
 ```bash
 # Disable dotfiles commands
 rm ~/.claude/commands/*
@@ -152,21 +160,27 @@ Use dotfiles for non-Claude agents, plugins for Claude.
 All commands from dotfiles are available in plugins with improvements:
 
 ### Git Workflow Plugin
-✅ All git commands  
-✅ Pre-commit validation  
-✅ PR templates  
+
+- ✅ All git commands  
+- ✅ Pre-commit validation  
+- ✅ PR templates  
+
 **New:** Better error handling  
 **New:** More validation checks  
 
 ### Education Plugin
-✅ Code explanation  
+
+- ✅ Code explanation  
+
 **New:** Java Tutor agent  
 **New:** Student level adaptation  
 **New:** Practice exercises  
 
 ### Core Plugin
-✅ Command validation  
-✅ Agent checking  
+
+- ✅ Command validation  
+- ✅ Agent checking  
+
 **New:** Automated reports  
 **New:** Fix suggestions  
 
@@ -220,6 +234,7 @@ Or add to marketplace for team use.
 **Problem:** Can't find commands after migration
 
 **Solution:**
+
 1. Verify plugins are enabled: `/plugin`
 2. Check `.claude/settings.json` syntax
 3. Restart Claude Code
@@ -229,6 +244,7 @@ Or add to marketplace for team use.
 **Problem:** Commands from both dotfiles and plugins
 
 **Solution:**
+
 1. Remove dotfiles symlinks
 2. Or use namespaced commands: `plugin-name:command`
 
@@ -258,16 +274,19 @@ cd ~/.dotfiles
 For teams using dotfiles:
 
 ### Phase 1: Pilot (Week 1)
+
 - 2-3 team members test plugins
 - Gather feedback
 - Document issues
 
 ### Phase 2: Gradual Rollout (Week 2-3)
+
 - Share marketplace config
 - Team members install at their pace
 - Support available
 
 ### Phase 3: Full Migration (Week 4)
+
 - All team members on plugins
 - Remove dotfiles from workflow
 - Update documentation

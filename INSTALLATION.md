@@ -144,6 +144,7 @@ Install plugins for a specific project:
 Share plugin configuration with your team by committing `.claude/settings.json` to version control.
 
 Team members will be prompted to:
+
 1. Trust the marketplace
 2. Install suggested plugins
 
@@ -293,6 +294,7 @@ Remove from `.claude/settings.json`:
 **Problem:** Marketplace added but plugins don't appear
 
 **Solutions:**
+
 1. Restart Claude Code
 2. Verify `.claude/settings.json` syntax
 3. Check you trusted the repository
@@ -303,6 +305,7 @@ Remove from `.claude/settings.json`:
 **Problem:** Commands appear but don't execute
 
 **Solutions:**
+
 1. Check plugin is enabled in settings
 2. Verify plugin is compatible with your Claude Code version
 3. Check command syntax: `/command-name` not `command-name`
@@ -312,6 +315,7 @@ Remove from `.claude/settings.json`:
 **Problem:** Can't add marketplace
 
 **Solutions:**
+
 1. Verify GitHub repository exists and is public
 2. Check internet connection
 3. Verify JSON syntax in settings.json
@@ -322,6 +326,7 @@ Remove from `.claude/settings.json`:
 **Problem:** Plugin fails validation
 
 **Solutions:**
+
 1. Run `/plugin validate .` in plugin directory
 2. Check plugin.json for required fields
 3. Verify commands have correct file extension (.md)

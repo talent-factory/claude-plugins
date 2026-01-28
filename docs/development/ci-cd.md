@@ -136,7 +136,7 @@ Checks that commits follow the **Emoji Conventional Commits** format:
 
 **Examples**:
 
-```
+```text
 ✅ ✨ feat: Füge Benutzer-Dashboard hinzu
 ✅ 🐛 fix(auth): Behebe Login-Fehler
 ✅ 📚 docs: Aktualisiere README

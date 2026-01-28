@@ -1,9 +1,12 @@
 {
   "name": "education",
-  "version": "1.0.0",
-  "description": "Teaching aids, code explanations, and student support for IT education",
+  "version": "1.2.0",
+  "displayName": "Education",
+  "description": "Teaching aids with Java Tutor agent, Markdown syntax formatter skill, and code explanation for IT education",
+  "keywords": ["education", "teaching", "learning", "students", "markdown", "formatting"],
   "author": {
     "name": "Talent Factory GmbH",
     "email": "support@talent-factory.ch"
-  }
+  },
+  "license": "MIT"
 }

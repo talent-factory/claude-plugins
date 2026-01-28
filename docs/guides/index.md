@@ -25,10 +25,20 @@ Step-by-step guides to help you master common workflows with Talent Factory Clau
 
     Use `/create-pr` to create professional pull requests.
 
-    **Duration**: 10 minutes  
+    **Duration**: 10 minutes
     **Level**: Beginner
 
     [:octicons-arrow-right-24: Start Guide](create-first-pr.md)
+
+-   :material-language-markdown:{ .lg .middle } **Formatting Markdown**
+
+    ---
+
+    Produce clean, consistent Markdown with the `markdown-syntax-formatter` skill.
+
+    **Level**: Beginner
+
+    [:octicons-arrow-right-24: Start Guide](markdown-formatting.md)
 
 </div>
 
@@ -68,10 +78,11 @@ Step-by-step guides to help you master common workflows with Talent Factory Clau
 
 ### Beginner Level
 
-| Guide | Plugin | Duration | Topics |
-|-------|--------|----------|--------|
-| [Your First Commit](first-commit.md) | git-workflow | 5 min | Git, commits, pre-commit checks |
-| [Create Your First PR](create-first-pr.md) | git-workflow | 10 min | Pull requests, code review |
+| Guide | Plugin | Topics |
+|-------|--------|--------|
+| [Your First Commit](first-commit.md) | git-workflow | Git, commits, pre-commit checks |
+| [Create Your First PR](create-first-pr.md) | git-workflow | Pull requests, code review |
+| [Formatting Markdown](markdown-formatting.md) | education | Markdown syntax, headings, lists, Swiss German |
 
 ### Intermediate Level
 
@@ -116,15 +127,17 @@ graph LR
 
 ```mermaid
 graph LR
-    A[Your First Commit] --> B[Code Quality Basics]
-    B --> C[Educational Workflows]
+    A[Formatting Markdown] --> B[Your First Commit]
+    B --> C[Create Your First PR]
+    C --> D[Code Quality Basics]
 ```
 
 **Recommended order**:
 
-1. [Your First Commit](first-commit.md) - Learn professional git habits
-2. Code Quality Basics (coming soon) - Use code review tools
-3. Educational Workflows (coming soon) - Teaching with plugins
+1. [Formatting Markdown](markdown-formatting.md) - Write clean documentation
+2. [Your First Commit](first-commit.md) - Learn professional git habits
+3. [Create Your First PR](create-first-pr.md) - Submit work for review
+4. Code Quality Basics (coming soon) - Use code review tools
 
 ---
 

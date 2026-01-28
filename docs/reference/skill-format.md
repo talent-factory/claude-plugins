@@ -12,7 +12,7 @@ Skills are reusable, multi-step workflows that combine instructions, scripts, re
 
 ## Directory Structure
 
-```
+```text
 plugins/your-plugin/skills/your-skill/
 ├── SKILL.md              # Main skill definition (required)
 ├── scripts/              # Helper scripts (optional)
@@ -169,7 +169,6 @@ This skill includes the following resources:
 - Ignore error conditions
 - Modify workflow without understanding
 - Assume user context without checking
-```
 
 ## Troubleshooting
 
@@ -215,9 +214,13 @@ license: MIT
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `name` | string | Yes | Skill identifier (lowercase, hyphen-separated) |
-| `description` | string | Yes | Brief skill purpose (1-2 sentences) |
-| `version` | string | Yes | Skill version (semantic versioning) |
+| `name` | string | Yes | Skill identifier (lowercase, hyphen-separated, max 64 chars) |
+| `description` | string | Yes | What the skill does and when to use it. Claude uses this for skill selection. Max 1024 chars. Use `>` for multiline YAML. Write in third person. |
+| `version` | string | No | Skill version (semantic versioning) |
+| `allowed-tools` | list | No | Tools Claude can use without asking permission (e.g., Read, Write, Edit, Grep, Glob, Bash) |
+| `disable-model-invocation` | boolean | No | Set `true` to prevent automatic loading. Manual-only via `/name`. Default: `false` |
+| `user-invocable` | boolean | No | Set `false` to hide from `/` menu. Background knowledge only. Default: `true` |
+| `argument-hint` | string | No | Hint for autocomplete (e.g., `[filename]`, `[issue-number]`) |
 | `tags` | array | No | Keywords for discoverability |
 | `author` | string | No | Skill creator |
 | `license` | string | No | License type (MIT, Apache-2.0, etc.) |
@@ -473,7 +476,7 @@ References provide detailed documentation:
 
 **Example: references/conventional-commits.md**
 
-```markdown
+````markdown
 # Conventional Commits Reference
 
 Complete guide to conventional commits format used in this project.
@@ -494,7 +497,7 @@ Complete guide to conventional commits format used in this project.
 - **fix**: Bug fix
 - **docs**: Documentation changes
 ...
-```
+````
 
 ### Assets Directory
 
@@ -502,7 +505,7 @@ Assets provide templates and configuration:
 
 **Example: assets/commit-template.txt**
 
-```
+````text
 <emoji> <type>: <description>
 
 # Why this change is needed:
@@ -516,7 +519,7 @@ Assets provide templates and configuration:
 
 # Issues closed:
 # Fixes #
-```
+````
 
 ---
 
@@ -562,7 +565,7 @@ Assets provide templates and configuration:
 
 **❌ Bad**:
 
-```
+```text
 skills/commit/
 ├── SKILL.md              # Vague instructions
 └── script.sh             # Does everything, poorly documented
@@ -570,9 +573,9 @@ skills/commit/
 
 **✅ Good**:
 
-```
+```text
 skills/professional-commit-workflow/
-├── SKILL.md              # Clear, detailed workflow
+├── SKILL.md                      # Clear, detailed workflow
 ├── scripts/
 │   ├── validate-commit-msg.sh    # Single responsibility
 │   ├── generate-changelog.py     # Well-documented
@@ -596,7 +599,7 @@ From the git-workflow plugin:
 
 **Directory Structure**:
 
-```
+```text
 plugins/git-workflow/skills/professional-commit-workflow/
 ├── SKILL.md
 ├── scripts/
@@ -623,7 +626,7 @@ From the obsidian plugin:
 
 **Directory Structure**:
 
-```
+```text
 plugins/obsidian/skills/tasknotes/
 ├── SKILL.md
 ├── references/
@@ -648,7 +651,7 @@ From the core plugin:
 
 **Directory Structure**:
 
-```
+```text
 plugins/core/skills/humanizer/
 ├── SKILL.md
 └── references/
@@ -663,27 +666,59 @@ plugins/core/skills/humanizer/
 - Examples of before/after transformations
 - No scripts needed (pure text transformation)
 
+### Example 4: Markdown Syntax Formatter Skill
+
+From the education plugin:
+
+**Directory Structure**:
+
+```text
+plugins/education/skills/markdown-syntax-formatter/
+├── SKILL.md
+├── swiss-german-conventions.md
+└── linter-exceptions.md
+```
+
+**Key Features**:
+
+- Converts visual formatting into proper Markdown syntax
+- Fixes heading hierarchies and document structure
+- Progressive disclosure with two reference files loaded on demand
+- Swiss German orthography support for German-language documents
+- Context-aware linter exception handling
+- Uses `allowed-tools` to declare Read, Write, Edit, Grep, Glob permissions
+- Multiline `description` with trigger keywords for automatic activation
+
+**Why this is a good example for BSc students**:
+
+This skill demonstrates several important patterns:
+
+1. **Progressive disclosure**: Core instructions stay in SKILL.md (207 lines), detailed conventions live in separate reference files that load only when needed
+2. **Separation of concerns**: Language conventions and linter exceptions are isolated into their own files
+3. **Discoverability**: The description includes both what the skill does ("Converts text...") and when to use it ("Use this skill when formatting...")
+4. **No scripts needed**: Pure instruction-based skill without code dependencies
+
 ---
 
 ## Validation Checklist
 
 Before submitting a skill, verify:
 
-- [ ] SKILL.md includes frontmatter with name, description, version
-- [ ] Title clearly identifies the skill
-- [ ] Introduction explains purpose and benefits
-- [ ] Purpose section explains when to use (and when not to)
-- [ ] Workflow section provides detailed, actionable steps
-- [ ] Resources section lists all supporting files
-- [ ] At least 2 examples provided showing different scenarios
-- [ ] All scripts are executable and include comments
-- [ ] All scripts have clear, single responsibilities
-- [ ] All references are complete and well-organized
-- [ ] All assets are properly formatted and documented
-- [ ] Directory structure follows naming conventions
-- [ ] Markdown syntax is valid
-- [ ] Code examples use proper syntax highlighting
-- [ ] No duplicate or redundant information
+- ✅ SKILL.md includes frontmatter with name, description, version
+- ✅ Title clearly identifies the skill
+- ✅ Introduction explains purpose and benefits
+- ✅ Purpose section explains when to use (and when not to)
+- ✅ Workflow section provides detailed, actionable steps
+- ✅ Resources section lists all supporting files
+- ✅ At least 2 examples provided showing different scenarios
+- ✅ All scripts are executable and include comments
+- ✅ All scripts have clear, single responsibilities
+- ✅ All references are complete and well-organized
+- ✅ All assets are properly formatted and documented
+- ✅ Directory structure follows naming conventions
+- ✅ Markdown syntax is valid
+- ✅ Code examples use proper syntax highlighting
+- ✅ No duplicate or redundant information
 
 ---
 

@@ -288,7 +288,7 @@ Skills are reusable capabilities that can include scripts and configuration.
 
 ### Skill Structure
 
-```
+```text
 skills/my-skill/
 ├── SKILL.md              # Skill definition (required)
 ├── config/               # Configuration files

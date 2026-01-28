@@ -44,6 +44,7 @@ claude
 Professional git commands for commits, PRs, and branch management.
 
 **Commands:**
+
 - `/commit` - Conventional commits with validation
 - `/create-pr` - Professional PR creation
 
@@ -52,9 +53,11 @@ Professional git commands for commits, PRs, and branch management.
 ---
 
 ### 📋 Project Management
+
 PRD generation, planning, and Linear integration.
 
 **Commands:**
+
 - `/create-prd` - Generate Product Requirements Documents
 - `/create-plan` - Create project plans with Linear integration
 
@@ -63,9 +66,11 @@ PRD generation, planning, and Linear integration.
 ---
 
 ### ✨ Code Quality
+
 Code review, refactoring, and quality checks.
 
 **Commands:**
+
 - `/review` - Comprehensive code reviews
 - `/refactor` - Guided refactoring
 
@@ -74,12 +79,15 @@ Code review, refactoring, and quality checks.
 ---
 
 ### 🎓 Education Tools
+
 Teaching aids and student support for IT education.
 
 **Commands:**
+
 - `/explain-code` - Educational code explanations
 
 **Agents:**
+
 - Java Tutor - Expert Java instructor
 
 [📖 Documentation](./plugins/education/README.md)
@@ -87,9 +95,11 @@ Teaching aids and student support for IT education.
 ---
 
 ### 🛠️ Core Utilities
+
 Development utilities for plugin/command/agent development, validation, CI automation, project initialization, and text humanization.
 
 **Commands:**
+
 - `/check` - Project validation without commits
 - `/check-commands` - Validate command files
 - `/check-agents` - Validate agent configurations
@@ -100,11 +110,13 @@ Development utilities for plugin/command/agent development, validation, CI autom
 - `/run-ci` - Run CI checks locally
 
 **Agents:**
+
 - Agent Expert - Agent design and optimization
 - Command Expert - CLI development
 - Skill Builder - Complete skill-building system
 
 **Skills:**
+
 - Humanizer - Text humanization and AI writing improvement
 
 [📖 Documentation](./plugins/core/README.md)
@@ -112,12 +124,15 @@ Development utilities for plugin/command/agent development, validation, CI autom
 ---
 
 ### 📝 Obsidian Integration
+
 Task management via TaskNotes Plugin API with natural language support (DE/EN).
 
 **Skills:**
+
 - TaskNotes - Obsidian task management integration
 
 **Features:**
+
 - List, create, update, and delete tasks
 - Work recommendations
 - Natural language interface (German/English)
@@ -128,15 +143,18 @@ Task management via TaskNotes Plugin API with natural language support (DE/EN).
 ## 🎯 Who Is This For?
 
 ### Students
+
 - BSc Computer Science students
 - Self-learners
 
 ### Developers
+
 - Software engineers
 - Team leads
 - Code reviewers
 
 ### Educators
+
 - Programming instructors
 - Course developers
 - Teaching assistants
@@ -193,11 +211,13 @@ Task management via TaskNotes Plugin API with natural language support (DE/EN).
 ## 📚 Documentation
 
 ### For Users
+
 - [Installation Guide](#quick-start)
 - [Plugin Overview](#available-plugins)
 - Individual Plugin READMEs
 
 ### For Contributors
+
 - [Contributing Guidelines](./CONTRIBUTING.md)
 - [Plugin Development Guide](./docs/PLUGIN_DEVELOPMENT.md)
 - [Code of Conduct](./CODE_OF_CONDUCT.md)
@@ -235,11 +255,13 @@ We welcome contributions! Please see our [Contributing Guidelines](./CONTRIBUTIN
 ## 📋 Roadmap
 
 ### Q1 2026
+
 - [ ] Additional education agents (Python Tutor, Algorithm Coach)
 - [ ] More project management integrations
 - [ ] Advanced code quality checks
 
 ### Q2 2026
+
 - [ ] CI/CD integration plugins
 - [ ] Team collaboration tools
 - [ ] Performance analysis plugins
@@ -263,6 +285,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 📞 Contact
 
 **Talent Factory GmbH**
+
 - Website: [talent-factory.ch](https://talent-factory.xyz)
 - GitHub: [@talent-factory](https://github.com/talent-factory)
 - Maintainer: Daniel Senften

@@ -184,7 +184,7 @@ You should:
 
 Keep command files concise by moving detailed documentation to `references/`:
 
-```
+```text
 commands/
   commit.md              → Main command (concise)
 references/commit/
@@ -295,11 +295,13 @@ After each step, show the user what was done:
 ## Error Handling
 
 If no changes are detected:
+
 1. Run `git status` to verify
 2. Show the user: "No changes to commit"
 3. Suggest: "Make changes first, then run /commit again"
 
 If tests fail:
+
 1. Show the failing test output
 2. Suggest fixes if possible
 3. Offer: "Use /commit --no-verify to skip checks"
@@ -321,7 +323,7 @@ Long command files consume more tokens. Structure them efficiently:
 
 For commands with significant logic (formatters, validators), consider using Skills with Python scripts:
 
-```
+```text
 skills/professional-commit-workflow/
 ├── SKILL.md
 ├── config/

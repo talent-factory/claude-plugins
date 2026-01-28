@@ -11,7 +11,7 @@ Browse all available plugins in the Talent Factory marketplace. Each plugin prov
 | [Git Workflow](git-workflow.md) | 2.0.0 | 3 | 0 | 2 | git, workflow, commits, PRs |
 | [Project Management](project-management.md) | 2.2.0 | 4 | 0 | 2 | planning, PRD, Linear, agile |
 | [Code Quality](code-quality.md) | 2.0.0 | 3 | 3 | 0 | review, quality, Python, Java |
-| [Education](education.md) | 1.1.0 | 2 | 1 | 0 | teaching, learning, students |
+| [Education](education.md) | 1.2.0 | 1 | 1 | 1 | teaching, learning, markdown |
 | [Core Utilities](core.md) | 2.1.0 | 8 | 3 | 1 | validation, CI, development |
 | [Obsidian Integration](obsidian.md) | 1.0.1 | 4 | 0 | 0 | tasks, Obsidian, productivity |
 
@@ -84,10 +84,11 @@ Browse all available plugins in the Talent Factory marketplace. Each plugin prov
 
     ---
 
-    Teaching aids and student support for IT education with Java Tutor agent.
+    Teaching aids and student support for IT education with Java Tutor agent and Markdown formatting skill.
 
-    **Commands:** `/explain-code`, `/format-markdown`  
+    **Commands:** `/explain-code`
     **Agents:** `java-tutor`
+    **Skills:** `markdown-syntax-formatter`
 
     [:octicons-arrow-right-24: Details](education.md)
 

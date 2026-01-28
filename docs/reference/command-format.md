@@ -34,7 +34,7 @@ Every command file must include:
 
 ## Basic Template
 
-```markdown
+````markdown
 # Command Name
 
 Brief one-sentence description of what this command does.
@@ -87,7 +87,7 @@ Expected outcome: Description of what happens.
 **Problem**: Description of the problem
 
 **Solution**: How to fix it
-```
+````
 
 ---
 
@@ -122,7 +122,7 @@ Create professional pull requests with automated formatting and comprehensive de
 
 ### 3. Usage Section (Required)
 
-```markdown
+````markdown
 ## Usage
 
 ```
@@ -134,7 +134,7 @@ Create professional pull requests with automated formatting and comprehensive de
 - `--draft` - Create as draft PR
 - `--target <branch>` - Target branch (default: main)
 - `--no-format` - Skip code formatting
-```
+````
 
 - **Format**: H2 heading (`##`)
 - **Content**: Command syntax and available options
@@ -218,7 +218,7 @@ Follow these steps to create a pull request:
 
 ### 6. Examples Section (Recommended)
 
-```markdown
+````markdown
 ## Examples
 
 ### Example 1: Basic PR Creation
@@ -250,7 +250,7 @@ Creates a draft PR for early feedback without requesting reviews.
 ```
 
 Creates PR targeting `develop` instead of `main`.
-```
+````
 
 - **Format**: H2 heading with H3 subheadings for each example
 - **Content**: Real-world usage scenarios

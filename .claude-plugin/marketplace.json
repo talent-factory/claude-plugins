@@ -56,15 +56,16 @@
     },
     {
       "name": "education",
-      "description": "Teaching aids with Java Tutor agent and Markdown syntax formatter for IT education",
+      "description": "Teaching aids with Java Tutor agent, Markdown syntax formatter skill, and code explanation for IT education",
       "source": "./plugins/education",
-      "version": "1.1.0",
+      "version": "1.2.0",
       "tags": [
         "education",
         "teaching",
         "learning",
         "students",
-        "markdown"
+        "markdown",
+        "formatting"
       ]
     },
     {
