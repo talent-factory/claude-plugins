@@ -13,6 +13,7 @@ Professional git workflow automation with pre-commit checks, emoji conventional 
 Create professional git commits with automated pre-commit checks and emoji conventional commit format.
 
 **Features:**
+
 - 🎨 Emoji Conventional Commits (✨ feat, 🐛 fix, 📚 docs, etc.)
 - ⚡ Automated pre-commit checks for Java, Python, React, and Documentation
 - 🔍 Project type detection (Maven, Gradle, npm, pytest, etc.)
@@ -30,12 +31,14 @@ Create professional git commits with automated pre-commit checks and emoji conve
 ```
 
 **Pre-Commit Checks:**
+
 - **Java**: Maven/Gradle build, Checkstyle, JUnit tests
 - **Python**: Ruff/Black formatting, pytest, mypy type checking
 - **React/Node.js**: ESLint, Prettier, TypeScript compilation, Jest/Vitest
 - **Documentation**: LaTeX compilation, Markdown linting
 
 **Supported Commit Types:**
+
 - ✨ `feat` - New features
 - 🐛 `fix` - Bug fixes
 - 📚 `docs` - Documentation changes
@@ -58,6 +61,7 @@ See [commit-types.md](https://github.com/talent-factory/claude-plugins/blob/main
 Create pull requests with automated branch management, commit analysis, and professional PR descriptions.
 
 **Features:**
+
 - 📝 Automatic PR description generation from commits
 - 🔍 Branch status verification and validation
 - 💪 Related issue linking and references
@@ -75,6 +79,7 @@ Create pull requests with automated branch management, commit analysis, and prof
 ```
 
 **PR Description Includes:**
+
 - Summary of changes from all commits (not just latest!)
 - Technical implementation details
 - Breaking changes (if any)
@@ -83,6 +88,7 @@ Create pull requests with automated branch management, commit analysis, and prof
 - Generated with Claude Code attribution
 
 **References:**
+
 - [Code Formatting](https://github.com/talent-factory/claude-plugins/blob/main/plugins/git-workflow/references/create-pr/code-formatting.md) - Automatic code formatting
 - [Commit Workflow](https://github.com/talent-factory/claude-plugins/blob/main/plugins/git-workflow/references/create-pr/commit-workflow.md) - Commit management in PRs
 - [PR Template](https://github.com/talent-factory/claude-plugins/blob/main/plugins/git-workflow/references/create-pr/pr-template.md) - PR description structure
@@ -93,6 +99,7 @@ Create pull requests with automated branch management, commit analysis, and prof
 Display the edit history of a GitHub Pull Request description.
 
 **Features:**
+
 - 📜 View all edits made to PR description
 - 👤 See who made each edit
 - ⏰ Timestamps for all changes
@@ -104,15 +111,20 @@ Display the edit history of a GitHub Pull Request description.
 /pr-edit-history 123       # For PR #123
 ```
 
-## Professional Workflow Skills
+## Skills
 
-This plugin includes two powerful skills for enhanced performance:
+This plugin includes two powerful skills for enhanced performance. See [Skills & Agents Activation Guide](../reference/skills-agents-activation.md) for details.
 
 ### professional-commit-workflow
 
 **~70% faster** than standard command with reduced token consumption.
 
+**Activation:**
+
+- Via command: `/commit --with-skills`
+
 **Features:**
+
 - Automatic project type detection
 - Pre-commit validation (Java, Python, React, Docs)
 - Emoji Conventional Commit generation
@@ -127,7 +139,12 @@ This plugin includes two powerful skills for enhanced performance:
 
 Automated PR creation with branch management and code formatting.
 
+**Activation:**
+
+- Via command: `/create-pr --with-skills`
+
 **Features:**
+
 - Branch creation and management
 - Automatic commit splitting
 - Code formatter integration (Biome, Black, Prettier)
@@ -345,6 +362,7 @@ See [create-pr/troubleshooting.md](https://github.com/talent-factory/claude-plug
 ### Version 2.0.0 (2026-01-10)
 
 **Major Update:**
+
 - ✨ Added comprehensive reference documentation
 - ✨ Integrated professional-commit-workflow skill
 - ✨ Integrated professional-pr-workflow skill
@@ -355,6 +373,7 @@ See [create-pr/troubleshooting.md](https://github.com/talent-factory/claude-plug
 - 🔧 Improved PR description generation
 
 **Migration from 1.0.0:**
+
 - All existing commands remain compatible
 - New `--with-skills` flag optional
 - References available for enhanced guidance

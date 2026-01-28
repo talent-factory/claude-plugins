@@ -1,10 +1,10 @@
 # Code Quality Plugin
 
-Comprehensive code quality tools with Python linting, code review, and expert agents for Python, Java, and Frontend development.
+Comprehensive code quality tools with Python linting, code review, and expert agents for Python and Frontend development.
 
-## Version 2.0.0
+## Version 3.0.0
 
-**Major Update:** Now includes `/ruff-check` command and 4 expert agents for proactive code quality assistance.
+**Breaking Change:** Java developer agent moved to `development` plugin. Now includes `/ruff-check` command and 3 expert agents for proactive code quality assistance.
 
 ## Commands
 
@@ -36,9 +36,15 @@ Lint and format all Python files in the project with Ruff.
 
 ## Agents
 
+All agents activate automatically based on context. See [Skills & Agents Activation Guide](../reference/skills-agents-activation.md) for details.
+
 ### Code Reviewer
 
 Expert for comprehensive code reviews with focus on quality, security, and maintainability.
+
+**Activation:**
+- Automatic: After writing/changing code, during PR reviews
+- Manual: "Review this code for quality and security"
 
 **Expertise:**
 - 🔍 Code quality analysis
@@ -63,9 +69,11 @@ Expert for comprehensive code reviews with focus on quality, security, and maint
 
 ### Python Expert
 
-Expert for writing idiom
+Expert for writing idiomatic Python code with advanced features.
 
-atic Python code with advanced features.
+**Activation:**
+- Automatic: Python refactoring, optimization, or architecture questions
+- Manual: "Use python-expert to optimize this code"
 
 **Expertise:**
 - 🐍 Idiomatic Python patterns
@@ -89,35 +97,13 @@ atic Python code with advanced features.
 - Metaclasses
 - Performance tuning
 
-### Java Developer
-
-Expert for modern Java with Streams, Concurrency, and JVM optimization.
-
-**Expertise:**
-- ☕ Modern Java (17+)
-- 🌊 Streams and functional programming
-- 🔄 Concurrency and threading
-- 🏗️ Spring Boot
-- ⚡ Reactive programming
-- 🏢 Enterprise patterns
-
-**Use proactively for:**
-- Java performance tuning
-- Concurrent programming
-- Complex enterprise solutions
-- Spring Boot applications
-- JVM optimization
-
-**Specializations:**
-- Virtual threads (Java 21)
-- Stream API optimization
-- CompletableFuture patterns
-- Spring WebFlux
-- JMH benchmarking
-
 ### Frontend Developer
 
 Expert for creating Next.js applications with React, shadcn/ui, and Tailwind CSS.
+
+**Activation:**
+- Automatic: React/Next.js development, UI component creation
+- Manual: "Use frontend-developer to create this component"
 
 **Expertise:**
 - ⚛️ React components and hooks
@@ -166,16 +152,6 @@ Expert for creating Next.js applications with React, shadcn/ui, and Tailwind CSS
 # - Adds type hints
 ```
 
-### Java Development
-
-```bash
-# Claude (with java-developer):
-# - Reviews Spring Boot code
-# - Optimizes concurrency
-# - Suggests modern Java patterns
-# - Improves performance
-```
-
 ### React/Next.js Development
 
 ```bash
@@ -198,13 +174,17 @@ Expert for creating Next.js applications with React, shadcn/ui, and Tailwind CSS
 
 ## Changelog
 
+### Version 3.0.0 (2026-01-28)
+
+- Breaking: Moved java-developer agent to development plugin
+- Updated description to reflect current agent inventory
+
 ### Version 2.0.0 (2026-01-10)
 
-- ✨ Added `/ruff-check` command for Python linting
-- 🤖 Added code-reviewer agent for proactive reviews
-- 🤖 Added python-expert agent for Python development
-- 🤖 Added java-developer agent for Java/Spring development
-- 🤖 Added frontend-developer agent for Next.js/React development
+- Added `/ruff-check` command for Python linting
+- Added code-reviewer agent for proactive reviews
+- Added python-expert agent for Python development
+- Added frontend-developer agent for Next.js/React development
 
 ### Version 1.0.0
 

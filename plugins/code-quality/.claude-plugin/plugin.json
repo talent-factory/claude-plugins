@@ -1,7 +1,7 @@
 {
   "name": "code-quality",
-  "version": "2.0.0",
-  "description": "Comprehensive code quality tools with Python linting, code review, and expert agents for Python, Java, and Frontend development",
+  "version": "3.0.0",
+  "description": "Comprehensive code quality tools with Python linting, code review, and expert agents for Python and Frontend development",
   "author": {
     "name": "Talent Factory GmbH",
     "email": "support@talent-factory.ch"

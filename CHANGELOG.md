@@ -17,6 +17,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Plugins
 
+#### development 1.1.0 (NEW)
+
+- New plugin for expert development agents and project initialization
+- Added `java-developer` agent (moved from code-quality plugin)
+- Added `/init-project` command (moved from core plugin)
+- All documentation in professional English
+
+#### code-quality 3.0.0 (Breaking Change)
+
+- Breaking: Moved `java-developer` agent to development plugin
+- Updated description and documentation
+
+#### core 3.0.0 (Breaking Change)
+
+- Breaking: Moved `/init-project` command to development plugin
+- Updated documentation to English
+- Now includes 7 commands, 1 skill, and 2 expert agents
+
 #### git-workflow 2.0.0 (Major Update)
 
 - ✨ Migrated comprehensive commands from dotfiles with full references

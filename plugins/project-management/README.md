@@ -2,9 +2,9 @@
 
 Comprehensive project management tools for PRD generation, project planning, task implementation with Linear integration and git worktree workflow.
 
-## Version 2.0.0
+## Version 2.2.0
 
-**Major Update:** Now includes `/create-plan` and `/implement-task` commands with comprehensive references and Linear integration.
+**Major Update:** Now includes `/create-plan`, `/implement-task`, and `/document-handoff` commands with comprehensive references and Linear integration.
 
 ## Commands
 
