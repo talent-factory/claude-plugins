@@ -2,6 +2,8 @@
 
 Teaching aids, code explanations, and student support for IT education.
 
+## Version 1.2.0
+
 ## Commands
 
 ### `/explain-code`
@@ -24,7 +26,10 @@ Claude will ask about the student's level and provide tailored explanations.
 
 ## Agents
 
+See [Skills & Agents Activation Guide](../reference/skills-agents-activation.md) for detailed activation instructions.
+
 ### Java Tutor
+
 Expert Java programming instructor specializing in teaching students.
 
 **Specialties:**
@@ -39,6 +44,8 @@ Expert Java programming instructor specializing in teaching students.
 Use `/agents` and select "Java Tutor" for Java-specific teaching support.
 
 ## Skills
+
+See [Skills & Agents Activation Guide](../reference/skills-agents-activation.md) for detailed activation instructions.
 
 ### Markdown Syntax Formatter
 

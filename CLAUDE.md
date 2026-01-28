@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository Overview
 
-This is a **Claude Code plugin marketplace** maintained by Talent Factory GmbH. It hosts 6 professional plugins distributed via GitHub for software development, education, and project management. The repository serves as both a marketplace configuration and a development workspace for plugin contributors.
+This is a **Claude Code plugin marketplace** maintained by Talent Factory GmbH. It hosts 7 professional plugins distributed via GitHub for software development, education, and project management. The repository serves as both a marketplace configuration and a development workspace for plugin contributors.
 
 **Target Users:** Students, software developers, educators, and development teams.
 
@@ -28,10 +28,11 @@ The repository uses a two-level architecture:
 ### Plugin Types
 
 - **git-workflow**: Git operations (`/commit`, `/create-pr`, `/pr-edit-history`)
-- **project-management**: PRD generation, project planning, task implementation (`/create-prd`, `/create-plan`, `/implement-task`)
-- **code-quality**: Code review, refactoring, Python linting (`/ruff-check`)
+- **project-management**: PRD generation, project planning, task implementation (`/create-prd`, `/create-plan`, `/implement-task`, `/document-handoff`)
+- **code-quality**: Python linting and expert agents for Python/Frontend (`/ruff-check`)
+- **development**: Java expert agent and project initialization (`/init-project`)
 - **education**: Teaching aids with Java Tutor and Markdown formatter agents
-- **core**: Development utilities (`/check`, `/check-commands`, `/check-agents`, `/build-skill`, `/create-command`, `/init-project`, `/run-ci`, etc.)
+- **core**: Plugin development utilities (`/check`, `/check-commands`, `/check-agents`, `/build-skill`, `/package-skill`, `/create-command`, `/run-ci`)
 - **obsidian**: Obsidian integration via TaskNotes Plugin API (task management with natural language)
 
 ### How Plugins Work

@@ -1,10 +1,10 @@
 # Core Utilities Plugin
 
-Umfassende Entwicklungs-Utilities für Plugin/Command/Agent-Entwicklung, Validierung, CI-Automatisierung und OpenSource-Projektinitialisierung.
+Comprehensive development utilities for plugin/command/agent development, validation, CI automation, and text humanization.
 
-## Version 2.1.0
+## Version 3.0.0
 
-**Update:** Enthält nun 8 Commands, 1 Skill und 3 Experten-Agenten für vollständige Entwicklungs-Workflow-Automatisierung.
+**Breaking Change:** `init-project` command moved to `development` plugin. Now includes 7 commands, 1 skill, and 2 expert agents for development workflow automation.
 
 ## Commands
 
@@ -119,34 +119,7 @@ Create new commands following existing patterns and organizational structure.
 /create-command
 ```
 
-### Project & CI
-
-#### `/init-project`
-
-Initialize new OpenSource projects with GitHub best practices.
-
-**Features:**
-- 📋 Complete project structure
-- 🔒 Security policy (SECURITY.md)
-- 🤝 Contributing guidelines
-- 📄 License files
-- 🔧 CI/CD workflows
-- 🏷️ Issue/PR templates
-
-**Usage:**
-```bash
-/init-project
-```
-
-**Creates:**
-- CODE_OF_CONDUCT.md
-- CONTRIBUTING.md
-- SECURITY.md
-- LICENSE
-- README.md
-- .github/workflows/
-- .github/ISSUE_TEMPLATE/
-- .github/PULL_REQUEST_TEMPLATE.md
+### CI Automation
 
 #### `/run-ci`
 
@@ -175,9 +148,15 @@ Execute CI checks locally and fix all errors until tests pass.
 
 ## Agents
 
+See [Skills & Agents Activation Guide](../reference/skills-agents-activation.md) for detailed activation instructions.
+
 ### Agent Expert
 
 Expert for creating and optimizing specialized Claude Code Agents.
+
+**Activation:**
+- Automatic: Agent creation or improvement requests
+- Manual: "Use agent-expert to design this agent"
 
 **Expertise:**
 - 🎯 Agent design and architecture
@@ -198,6 +177,10 @@ Expert for creating and optimizing specialized Claude Code Agents.
 
 Expert for creating CLI commands for automation and tooling.
 
+**Activation:**
+- Automatic: CLI command creation or design requests
+- Manual: "Use command-expert to design this CLI"
+
 **Expertise:**
 - 🛠️ Command-line interface design
 - 📋 Argument parsing
@@ -212,30 +195,17 @@ Expert for creating CLI commands for automation and tooling.
 
 **Location:** `agents/command-expert.md`
 
-### Skill Builder
-
-Comprehensive agent system for building Claude Code Skills.
-
-**Agents:**
-- skill-elicitation-agent - Requirements gathering
-- skill-generator-agent - Skill code generation
-- skill-validator-agent - Testing and validation
-- skill-documenter-agent - Documentation creation
-
-**Use proactively for:**
-- Building new skills
-- Skill requirements elicitation
-- Skill specification creation
-- Skill validation and testing
-- Documentation generation
-
-**Location:** `agents/skill-builder/`
-
 ## Skills
+
+See [Skills & Agents Activation Guide](../reference/skills-agents-activation.md) for detailed activation instructions.
 
 ### Humanizer
 
-Entfernt Anzeichen von KI-generiertem Text, um Texte natürlicher und menschlicher klingen zu lassen.
+Removes signs of AI-generated text to make content more natural and human.
+
+**Activation:**
+- Automatic: "Humanize this text", "remove AI patterns"
+- Manual: "Make this text more natural"
 
 **Features:**
 - 🔍 Erkennung von 24 KI-Schreibmustern
@@ -291,16 +261,10 @@ core/
 │   ├── build-skill.md
 │   ├── package-skill.md
 │   ├── create-command.md
-│   ├── init-project.md
 │   └── run-ci.md
 ├── agents/
 │   ├── agent-expert.md
-│   ├── command-expert.md
-│   └── skill-builder/
-│       ├── skill-elicitation-agent.md
-│       ├── skill-generator-agent.md
-│       ├── skill-validator-agent.md
-│       └── skill-documenter-agent.md
+│   └── command-expert.md
 ├── skills/
 │   └── humanizer/
 │       └── SKILL.md
@@ -313,7 +277,7 @@ core/
 
 ```bash
 # 1. Initialize project structure
-/init-project
+/development:init-project
 
 # 2. Create first command
 /create-command
@@ -451,7 +415,6 @@ intuitive und leistungsstarke Benutzererfahrung."
 
 ### For Project Maintainers
 
-- Initialize OpenSource projects
 - Enforce best practices
 - Automate validation
 - Maintain code quality
@@ -480,9 +443,8 @@ intuitive und leistungsstarke Benutzererfahrung."
 ## Requirements
 
 - **Claude Code:** Latest version
-- **Git:** For project initialization
+- **Git:** For version control
 - **Node.js/Python:** For specific project types
-- **GitHub CLI:** Optional for `/init-project`
 
 ## Troubleshooting
 
@@ -516,32 +478,27 @@ intuitive und leistungsstarke Benutzererfahrung."
 
 ## Changelog
 
+### Version 3.0.0 (2026-01-28)
+
+**Breaking Change:**
+- Moved `/init-project` command to development plugin
+- Removed skill-builder agent system (available via `/build-skill` command)
+- Updated documentation to English
+
 ### Version 2.1.0 (2026-01-19)
 
-**Update:**
-- ✨ Neuer Humanizer Skill zum Entfernen von KI-Schreibmustern
-- 🌐 Commands `/build-skill` und `/package-skill` auf Deutsch übersetzt
-- 📚 Dokumentation auf Schweizer Schreibweise aktualisiert
+- Added Humanizer skill for removing AI writing patterns
+- Added `/build-skill` and `/package-skill` commands
 
 ### Version 2.0.0 (2026-01-10)
 
-**Major Update:**
-- ✨ Added `/check` command for project validation without commits
-- ✨ Added `/create-command` for pattern-based command generation
-- ✨ Added `/init-project` for OpenSource project initialization
-- ✨ Added `/run-ci` for local CI execution
-- 🤖 Added agent-expert agent for agent development
-- 🤖 Added command-expert agent for CLI development
-- 🤖 Added skill-builder agent system (4 specialized agents)
-- 🔧 Enhanced `/check-commands` with best practices validation
-- 🔧 Enhanced `/check-agents` with color attribute checking
-- 🔧 Enhanced `/build-skill` with elicitation workflow
-- 🔧 Enhanced `/package-skill` with dependency checking
-
-**Migration from 1.0.0:**
-- All existing commands remain compatible
-- New commands optional but recommended
-- Agents provide proactive assistance
+- Added `/check` command for project validation
+- Added `/create-command` for pattern-based command generation
+- Added `/run-ci` for local CI execution
+- Added agent-expert agent for agent development
+- Added command-expert agent for CLI development
+- Enhanced `/check-commands` with best practices validation
+- Enhanced `/check-agents` with color attribute checking
 
 ### Version 1.0.0
 

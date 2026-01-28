@@ -40,16 +40,15 @@
     },
     {
       "name": "code-quality",
-      "description": "Comprehensive code quality with Python linting and expert agents for Python, Java, and Frontend development",
+      "description": "Comprehensive code quality with Python linting and expert agents for Python and Frontend development",
       "source": "./plugins/code-quality",
-      "version": "2.0.0",
+      "version": "3.0.0",
       "tags": [
         "review",
         "quality",
         "refactoring",
         "best-practices",
         "python",
-        "java",
         "react",
         "linting"
       ]
@@ -70,9 +69,9 @@
     },
     {
       "name": "core",
-      "description": "Comprehensive development utilities with 8 commands, 1 skill, and 3 expert agents for plugin/command/agent development, validation, CI automation, project initialization, and text humanization",
+      "description": "Comprehensive development utilities with 7 commands, 1 skill, and 3 expert agents for plugin/command/agent development, validation, CI automation, and text humanization",
       "source": "./plugins/core",
-      "version": "2.1.0",
+      "version": "3.0.0",
       "tags": [
         "utilities",
         "validation",
@@ -97,6 +96,23 @@
         "tasknotes",
         "productivity",
         "integration"
+      ]
+    },
+    {
+      "name": "development",
+      "description": "Expert development agents and project initialization for modern programming languages and frameworks",
+      "source": "./plugins/development",
+      "version": "1.1.0",
+      "tags": [
+        "java",
+        "development",
+        "spring-boot",
+        "enterprise",
+        "performance",
+        "concurrency",
+        "open-source",
+        "project-init",
+        "github"
       ]
     }
   ]

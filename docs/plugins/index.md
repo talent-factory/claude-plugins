@@ -9,11 +9,12 @@ Browse all available plugins in the Talent Factory marketplace. Each plugin prov
 | Plugin | Version | Commands | Agents | Skills | Tags |
 |--------|---------|----------|--------|--------|------|
 | [Git Workflow](git-workflow.md) | 2.0.0 | 3 | 0 | 2 | git, workflow, commits, PRs |
-| [Project Management](project-management.md) | 2.2.0 | 4 | 0 | 2 | planning, PRD, Linear, agile |
-| [Code Quality](code-quality.md) | 2.0.0 | 3 | 3 | 0 | review, quality, Python, Java |
+| [Project Management](project-management.md) | 2.2.0 | 4 | 0 | 0 | planning, PRD, Linear, agile |
+| [Code Quality](code-quality.md) | 3.0.0 | 1 | 3 | 0 | review, quality, Python, React |
 | [Education](education.md) | 1.2.0 | 1 | 1 | 1 | teaching, learning, markdown |
-| [Core Utilities](core.md) | 2.1.0 | 8 | 3 | 1 | validation, CI, development |
-| [Obsidian Integration](obsidian.md) | 1.0.1 | 4 | 0 | 0 | tasks, Obsidian, productivity |
+| [Core Utilities](core.md) | 3.0.0 | 7 | 2 | 1 | validation, CI, development |
+| [Obsidian Integration](obsidian.md) | 1.0.1 | 0 | 0 | 1 | tasks, Obsidian, productivity |
+| [Development](development.md) | 1.1.0 | 1 | 1 | 0 | java, spring-boot, open-source |
 
 ---
 
@@ -30,6 +31,7 @@ Browse all available plugins in the Talent Factory marketplace. Each plugin prov
     Professional git automation with emoji conventional commits, pre-commit checks, and PR management.
 
     **Commands:** `/commit`, `/create-pr`, `/pr-edit-history`
+    **Skills:** `professional-commit-workflow`, `professional-pr-workflow`
 
     [:octicons-arrow-right-24: Details](git-workflow.md)
 
@@ -39,7 +41,7 @@ Browse all available plugins in the Talent Factory marketplace. Each plugin prov
 
     Comprehensive project planning with PRD generation, Linear integration, and git worktree workflows.
 
-    **Commands:** `/create-prd`, `/create-plan`, `/implement-task`, `/sync-linear`
+    **Commands:** `/create-prd`, `/create-plan`, `/implement-task`, `/document-handoff`
 
     [:octicons-arrow-right-24: Details](project-management.md)
 
@@ -47,7 +49,7 @@ Browse all available plugins in the Talent Factory marketplace. Each plugin prov
 
 ---
 
-### :material-code-braces: Code Quality
+### :material-code-braces: Code Quality & Development
 
 <div class="grid cards" markdown>
 
@@ -55,20 +57,33 @@ Browse all available plugins in the Talent Factory marketplace. Each plugin prov
 
     ---
 
-    Expert code review and refactoring with specialized agents for Python, Java, and React.
+    Expert code review and refactoring with specialized agents for Python and React/Frontend development.
 
-    **Commands:** `/review`, `/refactor`, `/lint-python`  
-    **Agents:** `python-expert`, `java-expert`, `frontend-expert`
+    **Commands:** `/ruff-check`
+    **Agents:** `python-expert`, `frontend-developer`, `code-reviewer`
 
     [:octicons-arrow-right-24: Details](code-quality.md)
+
+-   **Development**
+
+    ---
+
+    Expert development agents and project initialization for modern programming languages and frameworks.
+
+    **Commands:** `/init-project`
+    **Agents:** `java-developer`
+
+    [:octicons-arrow-right-24: Details](development.md)
 
 -   **Core Utilities**
 
     ---
 
-    Development utilities for plugin validation, CI automation, and project initialization.
+    Development utilities for plugin validation, CI automation, and plugin/command/agent development.
 
-    **Commands:** `/check`, `/check-commands`, `/check-agents`, `/build-skill`, `/create-command`, `/init-project`, `/run-ci`, `/humanize`
+    **Commands:** `/check`, `/check-commands`, `/check-agents`, `/build-skill`, `/package-skill`, `/create-command`, `/run-ci`
+    **Agents:** `agent-expert`, `command-expert`
+    **Skills:** `humanizer`
 
     [:octicons-arrow-right-24: Details](core.md)
 
@@ -98,7 +113,7 @@ Browse all available plugins in the Talent Factory marketplace. Each plugin prov
 
     Task management via Obsidian TaskNotes Plugin API with natural language support (DE/EN).
 
-    **Commands:** `/task`, `/tasks`, `/task-complete`, `/task-delete`
+    **Skills:** `tasknotes`
 
     [:octicons-arrow-right-24: Details](obsidian.md)
 
@@ -149,16 +164,16 @@ To install plugins from this marketplace:
 
 ### Feature Matrix
 
-| Feature | Git Workflow | Project Mgmt | Code Quality | Education | Core | Obsidian |
-|---------|:------------:|:------------:|:------------:|:---------:|:----:|:--------:|
-| Git Integration | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ |
-| Pre-commit Checks | ✅ | ❌ | ✅ | ❌ | ✅ | ❌ |
-| Linear Integration | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ |
-| Code Review | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ |
-| Expert Agents | ❌ | ❌ | ✅ | ✅ | ✅ | ❌ |
-| Task Management | ❌ | ✅ | ❌ | ❌ | ❌ | ✅ |
-| CI Automation | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
-| Documentation | ❌ | ✅ | ❌ | ✅ | ❌ | ❌ |
+| Feature | Git Workflow | Project Mgmt | Code Quality | Development | Education | Core | Obsidian |
+|---------|:------------:|:------------:|:------------:|:-----------:|:---------:|:----:|:--------:|
+| Git Integration | Yes | Yes | No | Yes | No | No | No |
+| Pre-commit Checks | Yes | No | Yes | No | No | Yes | No |
+| Linear Integration | No | Yes | No | No | No | No | No |
+| Code Review | No | No | Yes | No | No | No | No |
+| Expert Agents | No | No | Yes | Yes | Yes | Yes | No |
+| Task Management | No | Yes | No | No | No | No | Yes |
+| CI Automation | No | No | No | No | No | Yes | No |
+| Project Init | No | No | No | Yes | No | No | No |
 
 ---
 
@@ -172,6 +187,7 @@ To install plugins from this marketplace:
     "git-workflow@talent-factory": true,
     "project-management@talent-factory": true,
     "code-quality@talent-factory": true,
+    "development@talent-factory": true,
     "core@talent-factory": true
   }
 }
@@ -203,6 +219,7 @@ To install plugins from this marketplace:
 {
   "enabledPlugins": {
     "git-workflow@talent-factory": true,
+    "development@talent-factory": true,
     "obsidian@talent-factory": true,
     "core@talent-factory": true
   }

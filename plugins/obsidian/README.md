@@ -2,6 +2,8 @@
 
 Integration mit Obsidian via TaskNotes Plugin API - Aufgabenverwaltung direkt aus Claude Code.
 
+## Version 1.0.1
+
 ## Features
 
 - **Aufgaben auflisten** - "zeige meine Aufgaben" / "show my tasks"
@@ -91,9 +93,11 @@ uv run tasks.py update "Tasks/meeting.md" --status done
 
 ## Skills
 
+See [Skills & Agents Activation Guide](../reference/skills-agents-activation.md) for detailed activation instructions.
+
 ### tasknotes
 
-Der Hauptskill für Aufgabenverwaltung. Wird automatisch aktiviert bei:
+Main skill for task management. Automatically activated for:
 
 - Aufgaben-bezogenen Anfragen
 - Task-Management-Fragen
@@ -101,7 +105,7 @@ Der Hauptskill für Aufgabenverwaltung. Wird automatisch aktiviert bei:
 
 ## Projektstruktur
 
-```
+```text
 obsidian/
 ├── .claude-plugin/
 │   └── plugin.json

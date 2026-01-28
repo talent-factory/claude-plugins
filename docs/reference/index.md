@@ -48,6 +48,14 @@ Comprehensive technical documentation for Claude Code plugin development and mar
 
     [:octicons-arrow-right-24: Format Guide](skill-format.md)
 
+-   :material-play:{ .lg .middle } **Skills & Agents Activation**
+
+    ---
+
+    How to activate and use skills and agents.
+
+    [:octicons-arrow-right-24: Activation Guide](skills-agents-activation.md)
+
 -   :material-git:{ .lg .middle } **Conventional Commits**
 
     ---
