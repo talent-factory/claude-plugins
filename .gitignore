@@ -61,7 +61,7 @@ yarn.lock
 Pipfile.lock
 
 # Claude Code specific
-.claude/
+.claude/settings.local.json
 .claude-plugin/cache/
 
 # Archives and compressed files
