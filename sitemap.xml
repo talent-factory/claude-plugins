@@ -109,6 +109,10 @@
          <lastmod>2026-01-28</lastmod>
     </url>
     <url>
+         <loc>https://talent-factory.github.io/claude-plugins/plugins/development/</loc>
+         <lastmod>2026-01-28</lastmod>
+    </url>
+    <url>
          <loc>https://talent-factory.github.io/claude-plugins/plugins/education/</loc>
          <lastmod>2026-01-28</lastmod>
     </url>
@@ -150,6 +154,10 @@
     </url>
     <url>
          <loc>https://talent-factory.github.io/claude-plugins/reference/skill-format/</loc>
+         <lastmod>2026-01-28</lastmod>
+    </url>
+    <url>
+         <loc>https://talent-factory.github.io/claude-plugins/reference/skills-agents-activation/</loc>
          <lastmod>2026-01-28</lastmod>
     </url>
 </urlset>
