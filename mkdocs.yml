@@ -190,6 +190,7 @@ nav:
     - Education: plugins/education.md
     - Core Utilities: plugins/core.md
     - Obsidian Integration: plugins/obsidian.md
+    - Development: plugins/development.md
 
   - Guides:
     - guides/index.md
@@ -197,6 +198,7 @@ nav:
     - Create Your First PR: guides/create-first-pr.md
     - PRD-Based Workflow: guides/prd-workflow.md
     - Linear Integration: guides/linear-integration.md
+    - Markdown Formatting: guides/markdown-formatting.md
 
   - Development:
     - development/index.md
@@ -214,6 +216,7 @@ nav:
     - Command Format: reference/command-format.md
     - Agent Format: reference/agent-format.md
     - Skill Format: reference/skill-format.md
+    - Skills & Agents Activation: reference/skills-agents-activation.md
     - Conventional Commits: reference/conventional-commits.md
 
   - Community:
