@@ -79,6 +79,82 @@ Version Mismatch Detected:
   - README.md: 2.0.0 ← OUTDATED
 ```
 
+### 2a. Detect Required Version Bumps
+
+**IMPORTANT:** When plugin components change, recommend appropriate version bumps using Semantic Versioning.
+
+**Analyze changes in each plugin:**
+
+| Change Type | Version Bump | Examples |
+|-------------|--------------|----------|
+| **MAJOR** | X.0.0 | Breaking API changes, removed commands/skills, incompatible config changes |
+| **MINOR** | x.Y.0 | New commands, new skills, new agents, new features, new CLI flags |
+| **PATCH** | x.y.Z | Bug fixes, documentation updates, translation changes, refactoring |
+
+**Detection rules:**
+
+```
+For each plugin with uncommitted or recent changes:
+
+1. Check for NEW files in:
+   - commands/*.md → MINOR (new command)
+   - agents/*.md → MINOR (new agent)
+   - skills/*/SKILL.md → MINOR (new skill)
+
+2. Check for MODIFIED files:
+   - SKILL.md with new features/flags → MINOR
+   - SKILL.md with bug fixes only → PATCH
+   - scripts/*.py with new functions → MINOR
+   - scripts/*.py with fixes only → PATCH
+   - README.md only → PATCH
+   - Translation changes → PATCH (unless adding new language = MINOR)
+
+3. Check for DELETED files:
+   - Any command/agent/skill removed → MAJOR (breaking change)
+
+4. Check for RENAMED files:
+   - Command/skill renamed → MAJOR (breaking change)
+```
+
+**Report version bump recommendations:**
+
+```
+Version Bump Recommendations:
+=============================
+
+Plugin: obsidian (current: 1.0.1)
+  Changes detected:
+    - MODIFIED: skills/tasknotes/SKILL.md (new --scan, --all flags)
+    - MODIFIED: skills/tasknotes/scripts/tasks.py (new functions)
+  Recommendation: MINOR bump → 1.1.0
+  Reason: New features added (--scan, --all flags)
+
+Plugin: core (current: 3.0.0)
+  Changes detected:
+    - MODIFIED: commands/check.md (documentation only)
+  Recommendation: No bump needed (docs only)
+
+Plugin: git-workflow (current: 2.0.0)
+  Changes detected:
+    - DELETED: commands/old-command.md
+  Recommendation: MAJOR bump → 3.0.0
+  Reason: Breaking change (command removed)
+```
+
+**Prompt user for confirmation:**
+
+If version bumps are recommended, ask:
+1. "Apply recommended version bumps? (Y/n)"
+2. If no, allow manual override
+
+**Update all version locations:**
+
+When a version bump is applied, update ALL of these files:
+1. `plugins/NAME/.claude-plugin/plugin.json`
+2. `.claude-plugin/marketplace.json`
+3. `plugins/NAME/README.md`
+4. `docs/plugins/index.md`
+
 ### 3. Update docs/plugins/index.md
 
 **Update plugin table:**

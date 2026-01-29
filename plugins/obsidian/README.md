@@ -1,42 +1,43 @@
 # Obsidian Integration Plugin
 
-Integration mit Obsidian via TaskNotes Plugin API - Aufgabenverwaltung direkt aus Claude Code.
+Integration with Obsidian via the TaskNotes Plugin API - task management directly from Claude Code.
 
-## Version 1.0.1
+## Version 1.1.0
 
 ## Features
 
-- **Aufgaben auflisten** - "zeige meine Aufgaben" / "show my tasks"
-- **Aufgaben erstellen** - "erstelle eine Aufgabe für X" / "create a task for X"
-- **Aufgaben aktualisieren** - Status ändern, Details hinzufügen
-- **Aufgaben löschen** - Tasks entfernen
-- **Arbeitsempfehlungen** - "was soll ich machen?" / "what should I work on?"
+- **List tasks** - "show my tasks"
+- **Create tasks** - "create a task for X"
+- **Update tasks** - Change status, add details
+- **Delete tasks** - Remove tasks
+- **Work recommendations** - "what should I work on?"
+- **Vault-wide scanning** - Find all tasks in your entire vault with `--scan`
 
-## Voraussetzungen
+## Prerequisites
 
 ### 1. TaskNotes Plugin in Obsidian
 
-1. Obsidian Community Plugins öffnen
-2. "TaskNotes" suchen und installieren
-3. Plugin aktivieren
+1. Open Obsidian Community Plugins
+2. Search for "TaskNotes" and install
+3. Enable the plugin
 
-### 2. HTTP API aktivieren
+### 2. Enable HTTP API
 
-1. Obsidian Einstellungen → TaskNotes
-2. "HTTP API" Toggle aktivieren
-3. Port setzen (Standard: 8080)
-4. Optional: API Token für Sicherheit setzen
+1. Obsidian Settings → TaskNotes
+2. Enable "HTTP API" toggle
+3. Set port (default: 8080)
+4. Optional: Set API token for security
 
-### 3. Umgebungsvariablen (optional)
+### 3. Environment Variables (optional)
 
-Falls Authentifizierung verwendet wird, `.env` Datei im Obsidian Vault erstellen:
+If using authentication, create a `.env` file in your Obsidian vault:
 
 ```env
 TASKNOTES_API_PORT=8080
-TASKNOTES_API_KEY=dein_geheimer_token
+TASKNOTES_API_KEY=your_secret_token
 ```
 
-Alternativ kann `OBSIDIAN_VAULT_PATH` als Umgebungsvariable gesetzt werden, um den Vault-Pfad anzugeben.
+Alternatively, set `OBSIDIAN_VAULT_PATH` as an environment variable to specify the vault path.
 
 ## Installation
 
@@ -50,24 +51,15 @@ Alternativ kann `OBSIDIAN_VAULT_PATH` als Umgebungsvariable gesetzt werden, um d
 }
 ```
 
-### Lokales Testing
+### Local Testing
 
 ```bash
 claude --plugin-dir ./plugins/obsidian
 ```
 
-## Verwendung
+## Usage
 
-### Natürliche Sprache (Deutsch)
-
-```
-zeige meine Aufgaben
-erstelle eine Aufgabe um die Landing Page fertigzustellen
-was soll ich machen?
-markiere "Tasks/landing-page.md" als erledigt
-```
-
-### Natürliche Sprache (Englisch)
+### Natural Language
 
 ```
 show my tasks
@@ -76,34 +68,47 @@ what should I work on?
 mark "Tasks/landing-page.md" as done
 ```
 
-### CLI-Befehle
+### CLI Commands
 
-Das Plugin stellt auch direkte CLI-Befehle bereit:
+The plugin also provides direct CLI commands:
 
 ```bash
-# Aufgaben auflisten
-uv run tasks.py list --table
+# List all tasks in the vault (recommended)
+uv run tasks.py list --scan --table
 
-# Aufgabe erstellen
-uv run tasks.py create "Meeting vorbereiten" --project "Arbeit" --priority high
+# List all tasks including completed
+uv run tasks.py list --all --table
 
-# Status aktualisieren
+# Create a task
+uv run tasks.py create "Prepare meeting" --project "Work" --priority high
+
+# Update status
 uv run tasks.py update "Tasks/meeting.md" --status done
+
+# Filter by status
+uv run tasks.py list --status in-progress --scan --table
 ```
 
 ## Skills
 
-See [Skills & Agents Activation Guide](../reference/skills-agents-activation.md) for detailed activation instructions.
+See [Skills & Agents Activation Guide](../../docs/reference/skills-agents-activation.md) for detailed activation instructions.
 
 ### tasknotes
 
 Main skill for task management. Automatically activated for:
 
-- Aufgaben-bezogenen Anfragen
-- Task-Management-Fragen
-- Produktivitäts-Workflows
+- Task-related requests
+- Task management questions
+- Productivity workflows
 
-## Projektstruktur
+**Key Features:**
+
+- `--scan` flag: Scans the entire vault filesystem to find ALL tasks with the #task tag
+- `--all` flag: Includes completed and cancelled tasks in listings
+- Automatic vault detection via `.obsidian` folder
+- Smart sorting by scheduled/due dates
+
+## Project Structure
 
 ```text
 obsidian/
@@ -117,6 +122,6 @@ obsidian/
 └── README.md
 ```
 
-## Lizenz
+## License
 
 MIT

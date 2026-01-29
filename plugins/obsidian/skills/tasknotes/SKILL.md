@@ -1,161 +1,169 @@
 ---
 name: tasknotes
-description: Dieser Skill wird verwendet, wenn der Benutzer nach "zeige meine Aufgaben", "show my tasks", "erstelle eine Aufgabe", "create a task", "was soll ich machen", "what should I work on", "markiere als erledigt", "mark as done" fragt, oder Aufgaben nach Status/Projekt filtern möchte.
+description: Use this skill when the user asks to "show my tasks", "create a task", "what should I work on", "mark as done", or wants to filter tasks by status/project.
 ---
 
 # TaskNotes Skill
 
-Aufgabenverwaltung in Obsidian via TaskNotes Plugin HTTP API.
-
-<example>
-User: "zeige meine Aufgaben"
-Action: Führe `list --table` aus um alle Aufgaben anzuzeigen
-</example>
-
-<example>
-User: "erstelle eine Aufgabe um die Landing Page zu erledigen"
-Action: Führe `create "Landing Page erledigen"` aus
-</example>
-
-<example>
-User: "was soll ich machen?"
-Action: Führe `list --status in-progress --table` aus um aktive Aufgaben zu zeigen
-</example>
+Task management in Obsidian via the TaskNotes Plugin HTTP API.
 
 <example>
 User: "show my tasks"
-Action: Run `list --table` to show all tasks
+Action: Execute `list --scan --table` to display all tasks in the vault
 </example>
 
 <example>
-User: "create a task to finish landing page"
-Action: Run `create "Finish landing page"`
+User: "create a task to finish the landing page"
+Action: Execute `create "Finish landing page"`
 </example>
 
-## Voraussetzungen
+<example>
+User: "what should I work on?"
+Action: Execute `list --status in-progress --scan --table` to show active tasks
+</example>
 
-1. **TaskNotes Plugin** in Obsidian installiert
-2. **HTTP API aktivieren** in TaskNotes Einstellungen:
-   - Obsidian Einstellungen öffnen → TaskNotes
-   - "HTTP API" Toggle aktivieren
-   - API Port setzen (Standard: 8080)
-   - API Token: leer lassen für keine Authentifizierung, oder Token für Sicherheit setzen
-3. **Umgebungsvariablen** in `.env` Datei im Vault-Root (falls Authentifizierung verwendet wird):
+<example>
+User: "mark task X as done"
+Action: Execute `update "Tasks/task-x.md" --status done`
+</example>
+
+## Prerequisites
+
+1. **TaskNotes Plugin** installed in Obsidian
+2. **HTTP API enabled** in TaskNotes settings:
+   - Open Obsidian Settings → TaskNotes
+   - Enable "HTTP API" toggle
+   - Set API port (default: 8080)
+   - API Token: leave empty for no authentication, or set a token for security
+3. **Environment variables** in `.env` file at vault root (if authentication is used):
    ```
    TASKNOTES_API_PORT=8080
-   TASKNOTES_API_KEY=dein_token_hier
+   TASKNOTES_API_KEY=your_token_here
    ```
-   Falls TaskNotes kein Auth-Token gesetzt hat, ist keine `.env` Datei nötig.
+   If TaskNotes has no auth token configured, no `.env` file is required.
 
-## CLI-Befehle
+## CLI Commands
 
-Das Script befindet sich unter `${CLAUDE_PLUGIN_ROOT}/skills/tasknotes/scripts/tasks.py`.
+The script is located at `${CLAUDE_PLUGIN_ROOT}/skills/tasknotes/scripts/tasks.py`.
 
 ```bash
-# Alle Aufgaben auflisten
+# List all tasks (API-monitored folders only)
 uv run ${CLAUDE_PLUGIN_ROOT}/skills/tasknotes/scripts/tasks.py list
 
-# Nach Status filtern (verwende deine konfigurierten Status-Werte)
-uv run ${CLAUDE_PLUGIN_ROOT}/skills/tasknotes/scripts/tasks.py list --status "in-progress"
+# Find all tasks in the ENTIRE vault (scans filesystem)
+uv run ${CLAUDE_PLUGIN_ROOT}/skills/tasknotes/scripts/tasks.py list --scan --table
 
-# Nach Projekt filtern
-uv run ${CLAUDE_PLUGIN_ROOT}/skills/tasknotes/scripts/tasks.py list --project "Mein Projekt"
+# All active tasks (excluding completed) in the entire vault
+uv run ${CLAUDE_PLUGIN_ROOT}/skills/tasknotes/scripts/tasks.py list --scan --table
 
-# Aufgabe erstellen
-uv run ${CLAUDE_PLUGIN_ROOT}/skills/tasknotes/scripts/tasks.py create "Aufgabentitel" --project "Mein Projekt" --priority high
+# ALL tasks including completed in the entire vault
+uv run ${CLAUDE_PLUGIN_ROOT}/skills/tasknotes/scripts/tasks.py list --all --table
 
-# Aufgabe mit geplantem Zeitpunkt erstellen
-uv run ${CLAUDE_PLUGIN_ROOT}/skills/tasknotes/scripts/tasks.py create "Meeting-Vorbereitung" --scheduled "2025-01-15T14:00:00"
+# Filter by status (use your configured status values)
+uv run ${CLAUDE_PLUGIN_ROOT}/skills/tasknotes/scripts/tasks.py list --status "in-progress" --scan
 
-# Aufgaben-Status aktualisieren
-uv run ${CLAUDE_PLUGIN_ROOT}/skills/tasknotes/scripts/tasks.py update "Tasks/aufgabe.md" --status done
+# Filter by project
+uv run ${CLAUDE_PLUGIN_ROOT}/skills/tasknotes/scripts/tasks.py list --project "My Project" --scan
 
-# Beschreibung hinzufügen/aktualisieren
-uv run ${CLAUDE_PLUGIN_ROOT}/skills/tasknotes/scripts/tasks.py update "Tasks/aufgabe.md" --details "Zusätzlicher Kontext hier."
+# Create a task
+uv run ${CLAUDE_PLUGIN_ROOT}/skills/tasknotes/scripts/tasks.py create "Task title" --project "My Project" --priority high
 
-# Aufgabe löschen
-uv run ${CLAUDE_PLUGIN_ROOT}/skills/tasknotes/scripts/tasks.py delete "Tasks/aufgabe.md"
+# Create a task with scheduled time
+uv run ${CLAUDE_PLUGIN_ROOT}/skills/tasknotes/scripts/tasks.py create "Meeting preparation" --scheduled "2025-01-15T14:00:00"
 
-# Verfügbare Optionen abrufen (Status, Prioritäten, Projekte)
+# Update task status
+uv run ${CLAUDE_PLUGIN_ROOT}/skills/tasknotes/scripts/tasks.py update "Tasks/task.md" --status done
+
+# Add/update description
+uv run ${CLAUDE_PLUGIN_ROOT}/skills/tasknotes/scripts/tasks.py update "Tasks/task.md" --details "Additional context here."
+
+# Delete a task
+uv run ${CLAUDE_PLUGIN_ROOT}/skills/tasknotes/scripts/tasks.py delete "Tasks/task.md"
+
+# Retrieve available options (statuses, priorities, projects)
 uv run ${CLAUDE_PLUGIN_ROOT}/skills/tasknotes/scripts/tasks.py options --table
 
-# Menschenlesbare Ausgabe (--table hinzufügen)
+# Human-readable output (add --table)
 uv run ${CLAUDE_PLUGIN_ROOT}/skills/tasknotes/scripts/tasks.py list --table
 ```
 
-## Aufgaben-Eigenschaften
+## Task Properties
 
-**Status- und Prioritätswerte:** In den TaskNotes Plugin-Einstellungen konfiguriert. Den `options`-Befehl ausführen, um verfügbare Werte zu sehen:
+**Status and priority values:** Configured in TaskNotes plugin settings. Execute the `options` command to view available values:
 
 ```bash
 uv run ${CLAUDE_PLUGIN_ROOT}/skills/tasknotes/scripts/tasks.py options --table
 ```
 
-**Weitere Felder:**
-- `projects` - Array von Projekt-Links, z.B. `["[[Projektname]]"]`
-- `contexts` - Array wie `["office", "energy-high"]`
-- `due` - Fälligkeitsdatum (YYYY-MM-DD)
-- `scheduled` - Geplantes Datum/Zeit (YYYY-MM-DD oder YYYY-MM-DDTHH:MM:SS)
-- `timeEstimate` - Minuten (Zahl)
-- `tags` - Array von Tags
-- `details` - Aufgabenbeschreibung (schreibt in Markdown-Body, nicht Frontmatter)
+**Additional fields:**
+- `projects` - Array of project links, e.g., `["[[ProjectName]]"]`
+- `contexts` - Array such as `["office", "energy-high"]`
+- `due` - Due date (YYYY-MM-DD)
+- `scheduled` - Scheduled date/time (YYYY-MM-DD or YYYY-MM-DDTHH:MM:SS)
+- `timeEstimate` - Minutes (number)
+- `tags` - Array of tags
+- `details` - Task description (writes to Markdown body, not frontmatter)
 
-## API-Referenz
+## API Reference
 
-Basis-URL: `http://localhost:8080/api`
+Base URL: `http://localhost:8080/api`
 
-| Methode | Endpunkt | Beschreibung |
-|---------|----------|--------------|
-| GET | /tasks | Aufgaben auflisten (unterstützt Filter) |
-| POST | /tasks | Aufgabe erstellen |
-| GET | /tasks/{id} | Einzelne Aufgabe abrufen |
-| PUT | /tasks/{id} | Aufgabe aktualisieren |
-| DELETE | /tasks/{id} | Aufgabe löschen |
-| GET | /filter-options | Verfügbare Status, Prioritäten, Projekte |
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | /tasks | List tasks (supports filters) |
+| POST | /tasks | Create task |
+| GET | /tasks/{id} | Retrieve single task |
+| PUT | /tasks/{id} | Update task |
+| DELETE | /tasks/{id} | Delete task |
+| GET | /filter-options | Available statuses, priorities, projects |
 
-### Query-Parameter für GET /tasks
+### Query Parameters for GET /tasks
 
-- `status` - Nach Status filtern
-- `project` - Nach Projektname filtern
-- `priority` - Nach Priorität filtern
-- `tag` - Nach Tag filtern
+- `status` - Filter by status
+- `project` - Filter by project name
+- `priority` - Filter by priority
+- `tag` - Filter by tag
 - `overdue` - true/false
-- `sort` - Sortierfeld
-- `limit` - Max. Ergebnisse
-- `offset` - Paginierungs-Offset
+- `sort` - Sort field
+- `limit` - Maximum results
+- `offset` - Pagination offset
 
-## Verwendungsmuster
+## Usage Patterns
 
-| Benutzeranfrage | Aktion |
-|-----------------|--------|
-| "erstelle eine Aufgabe für X" | Aufgabe erstellen |
-| "zeige meine Aufgaben" | Alle Aufgaben auflisten |
-| "zeige laufende Aufgaben" | list --status in-progress |
-| "markiere X als erledigt" | Aufgaben-Status auf done setzen |
-| "was soll ich machen" | Aufgaben nach Status auflisten |
-| "show my tasks" | Alle Aufgaben auflisten |
-| "create a task for X" | Aufgabe erstellen |
-| "what should I work on" | Aufgaben nach Status auflisten |
+| User Request | Action |
+|--------------|--------|
+| "create a task for X" | Create task |
+| "show my tasks" | list --scan --table (finds all tasks in vault) |
+| "show in-progress tasks" | list --status in-progress --scan --table |
+| "mark X as done" | Set task status to done |
+| "what should I work on" | list --scan --table |
 
-## Beispiel-Workflow
+**IMPORTANT:** Always use `--scan` when listing to find ALL tasks in the entire vault, not just those in the configured TaskNotes folder.
+
+## Example Workflow
 
 ```bash
-# Morgens: Prüfen woran gearbeitet werden soll
-uv run ${CLAUDE_PLUGIN_ROOT}/skills/tasknotes/scripts/tasks.py list --status in-progress --table
-uv run ${CLAUDE_PLUGIN_ROOT}/skills/tasknotes/scripts/tasks.py list --limit 5 --table
+# Morning: Check what to work on (all tasks in vault)
+uv run ${CLAUDE_PLUGIN_ROOT}/skills/tasknotes/scripts/tasks.py list --scan --table
+uv run ${CLAUDE_PLUGIN_ROOT}/skills/tasknotes/scripts/tasks.py list --status in-progress --scan --table
 
-# Aufgabe mit Projekt-Verknüpfung erstellen
-uv run ${CLAUDE_PLUGIN_ROOT}/skills/tasknotes/scripts/tasks.py create "Landing Page fertigstellen" \
+# Show top 5 tasks
+uv run ${CLAUDE_PLUGIN_ROOT}/skills/tasknotes/scripts/tasks.py list --scan --limit 5 --table
+
+# Create a task with project association
+uv run ${CLAUDE_PLUGIN_ROOT}/skills/tasknotes/scripts/tasks.py create "Complete landing page" \
   --project "Website Redesign" \
   --priority high
 
-# Aufgabe abschliessen
-uv run ${CLAUDE_PLUGIN_ROOT}/skills/tasknotes/scripts/tasks.py update "Tasks/landing-page-fertigstellen.md" --status done
+# Complete a task
+uv run ${CLAUDE_PLUGIN_ROOT}/skills/tasknotes/scripts/tasks.py update "Tasks/complete-landing-page.md" --status done
 ```
 
-## Wichtige Hinweise
+## Important Notes
 
-- **JSON-Ausgabe** (Standard): Für programmatische Verarbeitung geeignet
-- **Table-Ausgabe** (`--table`): Für menschenlesbare Darstellung
-- **Vault-Pfad**: Das Script erwartet die `.env` Datei im Vault-Root (4 Verzeichnisse über dem Script)
-- **Fehlerbehandlung**: Bei Verbindungsfehlern prüfen, ob Obsidian läuft und TaskNotes API aktiviert ist
+- **JSON output** (default): Suitable for programmatic processing
+- **Table output** (`--table`): For human-readable display
+- **Vault path**: The script expects the `.env` file at the vault root or automatically locates the Obsidian vault
+- **Error handling**: On connection errors, verify that Obsidian is running and the TaskNotes API is enabled
+- **Scan mode** (`--scan`): Directly scans the filesystem and finds ALL tasks with the #task tag in the entire vault, regardless of the configured TaskNotes folder. **This is the recommended mode for listing tasks.**
+- **API mode** (without `--scan`): Uses the TaskNotes HTTP API but only finds tasks in TaskNotes-monitored folders
