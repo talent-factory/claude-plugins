@@ -2,7 +2,7 @@
 
 Integration with Obsidian via the TaskNotes Plugin API - task management directly from Claude Code.
 
-## Version 1.0.1
+## Version 1.1.0
 
 ## Features
 

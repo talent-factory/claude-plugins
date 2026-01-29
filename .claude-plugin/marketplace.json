@@ -88,7 +88,7 @@
       "name": "obsidian",
       "description": "Obsidian Integration - Task management via TaskNotes Plugin API with natural language support and vault-wide scanning",
       "source": "./plugins/obsidian",
-      "version": "1.0.1",
+      "version": "1.1.0",
       "tags": [
         "obsidian",
         "tasks",
