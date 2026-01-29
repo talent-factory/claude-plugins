@@ -86,15 +86,15 @@
     },
     {
       "name": "obsidian",
-      "description": "Obsidian Integration - Aufgabenverwaltung via TaskNotes Plugin API mit natürlicher Sprache (DE/EN)",
+      "description": "Obsidian Integration - Task management via TaskNotes Plugin API with natural language support and vault-wide scanning",
       "source": "./plugins/obsidian",
       "version": "1.0.1",
       "tags": [
         "obsidian",
         "tasks",
-        "aufgaben",
         "tasknotes",
         "productivity",
+        "task-management",
         "integration"
       ]
     },
