@@ -1,8 +1,12 @@
-# Education Tools Plugin
+# Education Plugin
 
 Teaching aids, code explanations, and student support for IT education.
 
 ## Version 1.2.0
+
+This plugin provides educational tools for students and instructors, including code explanations, a Java Tutor agent, and Markdown formatting skills.
+
+---
 
 ## Commands
 
@@ -133,14 +137,32 @@ This plugin is designed to complement computer science curricula:
 - Prepares students for exams
 - Connects to other CS concepts
 
-## Support
+---
 
-For issues or questions, please open an issue in the main [claude-plugins](https://github.com/talent-factory/claude-plugins) repository.
+## Installation
 
-## Contributing
+```json
+{
+  "enabledPlugins": {
+    "education@talent-factory": true
+  }
+}
+```
 
-We welcome contributions! If you're an educator with ideas for new commands or agents, please submit a PR.
+---
+
+## Related Plugins
+
+- **[Code Quality](code-quality.md)** - Python and Frontend expert agents
+- **[Development](development.md)** - Java developer agent
+- **[Core Utilities](core.md)** - Plugin development and validation
+
+---
 
 ## License
 
-MIT
+MIT License - see [LICENSE](https://github.com/talent-factory/claude-plugins/blob/main/LICENSE) for details.
+
+---
+
+**Made with care by Talent Factory GmbH**
