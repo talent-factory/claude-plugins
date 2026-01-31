@@ -1,32 +1,39 @@
 # Development Plugin
 
-Expert development agents and project initialization for modern programming languages and frameworks.
+Expert development agents and project initialization with Git branching strategy, Java/Gradle Kotlin DSL, and Python/uv support.
 
-## Version 1.1.0
+## Version 1.2.0
 
-This plugin provides specialized agents for Java development and commands for initializing open source projects with GitHub best practices.
+This plugin provides specialized agents for Java development and commands for initializing open source projects with GitHub best practices and professional Git branching.
+
+---
 
 ## Commands
 
 ### `/init-project`
 
-Initialize new open source projects with GitHub best practices.
+Initialize new open source projects with GitHub best practices and Git branching strategy.
 
 **Features:**
 
+- **Git Branching**: develop → main strategy (Standard)
+- **Java Support**: Gradle Kotlin DSL with Java 21 toolchain
+- **Python Support**: uv-based project structure
 - Complete project structure with community standards
 - LICENSE, CONTRIBUTING.md, CODE_OF_CONDUCT.md, SECURITY.md
 - GitHub templates (issues, PRs, workflows)
-- Language-specific setup (Python, Node.js, Go, Java)
 - CI/CD ready with GitHub Actions
 
 **Usage:**
 
 ```bash
 /init-project --git              # Standard Git project
+/init-project --java             # Java project with Gradle (Kotlin DSL)
 /init-project --uv               # Python project with uv
 /init-project --interactive      # Interactive mode
 /init-project --name "project"   # With project name
+/init-project --with-skills      # Skill-based workflow (recommended)
+/init-project --no-branching     # Only main branch, no develop
 ```
 
 **Created Files:**
@@ -44,10 +51,40 @@ Initialize new open source projects with GitHub best practices.
 
 | Type | Flag | Description |
 |------|------|-------------|
-| Git | `--git` | Standard Git repository |
+| Git | `--git` | Standard Git repository with develop/main branching |
+| Java | `--java` | Java with Gradle Kotlin DSL, Java 21, JUnit 5 |
 | Python | `--uv` | Python with uv package manager |
 | Node.js | `--node` | Node.js/TypeScript project |
 | Go | `--go` | Go project structure |
+
+---
+
+## Skills
+
+### professional-init-project
+
+Skill-based project initialization with enhanced automation.
+
+**Activation:**
+
+- Via command: `/init-project --with-skills`
+- Direct: Use scripts in `skills/professional-init-project/scripts/`
+
+**Features:**
+
+- Automatic project type detection
+- Git branching strategy (develop → main)
+- Template-based file generation
+- Gradle wrapper setup for Java projects
+- Python/uv configuration with Ruff
+
+**Usage:**
+
+```bash
+/init-project --with-skills --java --name "my-app"
+```
+
+---
 
 ## Agents
 
@@ -97,6 +134,8 @@ Expert for modern Java with Streams, Concurrency, and JVM optimization.
 - Try-with-resources for error handling
 - OWASP security guidelines
 
+---
+
 ## Installation
 
 ```json
@@ -107,7 +146,23 @@ Expert for modern Java with Streams, Concurrency, and JVM optimization.
 }
 ```
 
+---
+
 ## Use Cases
+
+### Initialize Java Project with Gradle
+
+```bash
+# Create new Java project
+/init-project --java --name "my-app"
+
+# Claude:
+# - Creates Gradle Kotlin DSL project
+# - Configures Java 21 toolchain
+# - Sets up JUnit 5 tests
+# - Creates develop and main branches
+# - Adds community standards
+```
 
 ### Initialize Open Source Project
 
@@ -120,6 +175,7 @@ Expert for modern Java with Streams, Concurrency, and JVM optimization.
 # - Adds community standards
 # - Sets up GitHub templates
 # - Configures CI/CD workflows
+# - Uses develop → main branching
 ```
 
 ### Java Development
@@ -145,18 +201,7 @@ User: "The application is slow processing large datasets"
 # - Creates JMH benchmarks
 ```
 
-### Reactive Programming
-
-```bash
-# Ask about reactive patterns
-User: "Implement a REST endpoint with reactive database"
-
-# Claude (with java-developer):
-# - Uses Spring WebFlux
-# - Implements R2DBC for database
-# - Applies backpressure patterns
-# - Handles errors reactively
-```
+---
 
 ## Project Structure
 
@@ -168,47 +213,29 @@ development/
 │   └── init-project.md
 ├── agents/
 │   └── java-developer.md
+├── skills/
+│   └── professional-init-project/
+│       ├── SKILL.md
+│       ├── README.md
+│       ├── scripts/
+│       │   ├── main.py
+│       │   ├── git_initializer.py
+│       │   └── generators/
+│       ├── templates/
+│       └── config/
 └── README.md
 ```
 
-## Workflow Examples
-
-### Example 1: New Open Source Library
-
-```bash
-# 1. Initialize project
-/init-project --uv --name "my-library"
-
-# 2. Claude creates:
-# - pyproject.toml with metadata
-# - src/my_library/ package structure
-# - tests/ directory
-# - All community standards
-# - GitHub Actions CI
-
-# 3. Start development
-# Claude (with python-expert from code-quality):
-# - Writes idiomatic Python
-# - Adds type hints
-# - Creates comprehensive tests
-```
-
-### Example 2: Java Microservice
-
-```bash
-# Working with java-developer proactively
-
-User: "Create a Spring Boot service with Virtual Threads"
-
-# Claude (with java-developer):
-# - Creates Spring Boot 3.x project
-# - Configures Virtual Threads
-# - Implements reactive patterns
-# - Adds JUnit 5 tests
-# - Includes JMH benchmarks
-```
+---
 
 ## Best Practices
+
+### Git Branching Strategy
+
+- **develop**: Active development, default branch
+- **main**: Stable releases, protected
+- **feature/xxx**: New features, branch from develop
+- **fix/xxx**: Bug fixes, branch from develop
 
 ### Project Initialization
 
@@ -216,16 +243,28 @@ User: "Create a Spring Boot service with Virtual Threads"
 2. **Complete community standards** - All files present
 3. **Set up CI/CD early** - Automated testing from start
 4. **Document thoroughly** - README with quick start
+5. **Use develop → main** - Professional branching strategy
 
 ### Java Development
 
 1. **Use LTS versions** - Java 17, 21, or 25
-2. **Prefer immutability** - Records for data classes
+2. **Prefer Gradle Kotlin DSL** - Modern, type-safe build configuration
 3. **Handle errors properly** - Try-with-resources
 4. **Test comprehensively** - Parameterized tests
 5. **Document APIs** - Complete Javadoc
 
+---
+
 ## Changelog
+
+### Version 1.2.0 (2026-01-31)
+
+- **New**: `--java` parameter for Java/Gradle Kotlin DSL projects
+- **New**: `--with-skills` parameter for skill-based workflow
+- **New**: `--no-branching` parameter to opt-out of develop/main strategy
+- **New**: professional-init-project skill
+- **Changed**: Git branching now uses develop → main by default
+- **Changed**: Java projects use Gradle Kotlin DSL instead of Maven
 
 ### Version 1.1.0 (2026-01-28)
 
@@ -237,11 +276,15 @@ User: "Create a Spring Boot service with Virtual Threads"
 - Initial release
 - Added java-developer agent (moved from code-quality plugin)
 
+---
+
 ## Related Plugins
 
 - **[Code Quality](code-quality.md)** - Python and Frontend expert agents
 - **[Core Utilities](core.md)** - Plugin development and validation
 - **[Git Workflow](git-workflow.md)** - Commit and PR automation
+
+---
 
 ## License
 
