@@ -199,7 +199,9 @@ class AppTest {{
     }}
 }}
 """
-        test_path = self.project_path / f"src/test/java/{self.package_path}/AppTest.java"
+        test_path = (
+            self.project_path / f"src/test/java/{self.package_path}/AppTest.java"
+        )
         test_path.write_text(content)
 
     def _setup_gradle_wrapper(self) -> None:
@@ -217,9 +219,12 @@ class AppTest {{
         except FileNotFoundError:
             pass
 
-        # Fallback: create minimal wrapper files
+        # Fallback: create wrapper properties only
+        # Note: We don't create wrapper scripts due to security concerns.
+        # Users should install Gradle and run: gradle wrapper --gradle-version=X.Y
         self._create_wrapper_properties()
-        self._create_wrapper_scripts()
+        print("⚠️  Gradle nicht gefunden. Bitte installiere Gradle und führe aus:")
+        print(f"   gradle wrapper --gradle-version={self.gradle_version}")
 
     def _create_wrapper_properties(self) -> None:
         """Create gradle-wrapper.properties file."""
@@ -233,36 +238,3 @@ zipStorePath=wrapper/dists
 """
         props_path = self.project_path / "gradle/wrapper/gradle-wrapper.properties"
         props_path.write_text(content)
-
-    def _create_wrapper_scripts(self) -> None:
-        """Create gradlew and gradlew.bat scripts."""
-        # Unix script (simplified)
-        gradlew = """#!/bin/sh
-# Gradle wrapper script - download wrapper jar if missing
-GRADLE_WRAPPER_JAR="gradle/wrapper/gradle-wrapper.jar"
-
-if [ ! -f "$GRADLE_WRAPPER_JAR" ]; then
-    echo "Downloading Gradle wrapper..."
-    mkdir -p gradle/wrapper
-    curl -sL "https://raw.githubusercontent.com/gradle/gradle/master/gradle/wrapper/gradle-wrapper.jar" -o "$GRADLE_WRAPPER_JAR"
-fi
-
-exec java -jar "$GRADLE_WRAPPER_JAR" "$@"
-"""
-        gradlew_path = self.project_path / "gradlew"
-        gradlew_path.write_text(gradlew)
-        gradlew_path.chmod(0o755)
-
-        # Windows script (simplified)
-        gradlew_bat = """@echo off
-set GRADLE_WRAPPER_JAR=gradle\\wrapper\\gradle-wrapper.jar
-
-if not exist "%GRADLE_WRAPPER_JAR%" (
-    echo Downloading Gradle wrapper...
-    mkdir gradle\\wrapper 2>nul
-    powershell -Command "Invoke-WebRequest -Uri 'https://raw.githubusercontent.com/gradle/gradle/master/gradle/wrapper/gradle-wrapper.jar' -OutFile '%GRADLE_WRAPPER_JAR%'"
-)
-
-java -jar "%GRADLE_WRAPPER_JAR%" %*
-"""
-        (self.project_path / "gradlew.bat").write_text(gradlew_bat)

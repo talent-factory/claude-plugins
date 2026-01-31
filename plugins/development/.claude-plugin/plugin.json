@@ -1,7 +1,7 @@
 {
   "name": "development",
   "version": "1.2.1",
-  "description": "Expert development agents and project initialization for modern programming languages and frameworks",
+  "description": "Expert development agents and professional project initialization with Git branching (develop→main), Gradle Kotlin DSL for Java, Python/uv support, and complete open source setup",
   "author": {
     "name": "Talent Factory GmbH",
     "email": "support@talent-factory.ch"
