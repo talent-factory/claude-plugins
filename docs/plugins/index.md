@@ -14,7 +14,7 @@ Browse all available plugins in the Talent Factory marketplace. Each plugin prov
 | [Education](education.md) | 1.2.0 | 1 | 1 | 1 | teaching, learning, markdown |
 | [Core Utilities](core.md) | 3.0.0 | 7 | 2 | 1 | validation, CI, development |
 | [Obsidian Integration](obsidian.md) | 1.1.0 | 0 | 0 | 1 | tasks, Obsidian, productivity |
-| [Development](development.md) | 1.2.0 | 1 | 1 | 1 | java, gradle, python, git-branching |
+| [Development](development.md) | 1.2.1 | 1 | 1 | 1 | java, gradle, python, git-branching |
 
 ---
 

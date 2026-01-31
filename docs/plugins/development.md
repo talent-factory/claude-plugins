@@ -2,7 +2,7 @@
 
 Expert development agents and project initialization with Git branching strategy, Java/Gradle Kotlin DSL, and Python/uv support.
 
-## Version 1.2.0
+## Version 1.2.1
 
 This plugin provides specialized agents for Java development and commands for initializing open source projects with GitHub best practices and professional Git branching.
 
@@ -256,6 +256,12 @@ development/
 ---
 
 ## Changelog
+
+### Version 1.2.1 (2026-01-31)
+
+- **Fix**: Java-Projekte verwenden jetzt IMMER Gradle Kotlin DSL (nicht Maven)
+- **Fix**: Initialer Commit verwendet jetzt `/git-workflow:commit`
+- **Improved**: Klarere Schritt-für-Schritt-Anweisungen im Skill
 
 ### Version 1.2.0 (2026-01-31)
 
