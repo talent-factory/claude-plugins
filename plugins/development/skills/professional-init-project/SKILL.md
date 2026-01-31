@@ -1,129 +1,245 @@
 ---
 name: professional-init-project
 description: Initialisiert Open-Source-Projekte mit GitHub Best Practices und Git-Branching-Strategie
-version: 1.0.0
+version: 1.0.1
 ---
 
 # Professional Init-Project Workflow
 
-## Overview
+Dieser Skill führt dich durch die Projekt-Initialisierung. **Folge diesen Anweisungen Schritt für Schritt.**
 
-Automatisiert die Projekt-Initialisierung mit:
-- **Git-Branching**: develop → main Strategie (Standard)
-- **Community Standards**: LICENSE, CONTRIBUTING, CODE_OF_CONDUCT, SECURITY
-- **GitHub Templates**: Issue-Templates, PR-Template
-- **Projekttyp-spezifisch**: Java/Gradle, Python/uv, Node.js, Go, Rust
+## WICHTIGE REGELN
 
-## Prerequisites
+1. **Java-Projekte verwenden IMMER Gradle Kotlin DSL** - NIEMALS Maven!
+2. **Initialer Commit MUSS über `/git-workflow:commit` erfolgen** - NIEMALS direkt `git commit`!
+3. **Git-Branching: develop → main** ist der Standard
 
-- Git 2.0+
-- Python 3.8+ (für Scripts)
-- Optional: gh CLI (für GitHub-Repository-Erstellung)
-- Optional: Gradle 8.x (für Java, wird via Wrapper bereitgestellt)
+---
 
-## Usage Workflow
+## Schritt 1: Projekttyp und Parameter erkennen
 
-1. **Projekttyp erkennen** aus Argumenten:
-   - `--git`: Standard Git-Projekt
-   - `--java`: Java mit Gradle Kotlin DSL
-   - `--uv`: Python mit uv
-   - `--node`: Node.js/TypeScript
-   - `--go`: Go-Projekt
-   - `--rust`: Rust-Projekt
+Analysiere die Argumente des Users:
 
-2. **Projekt-Detection ausführen**:
-   ```bash
-   python scripts/main.py --type <type> --name <name>
-   ```
+| Argument | Projekttyp | Build-Tool |
+|----------|-----------|------------|
+| `--java` | Java | **Gradle Kotlin DSL** (NICHT Maven!) |
+| `--uv` | Python | uv |
+| `--git` | Standard | - |
+| `--node` | Node.js | npm/pnpm |
 
-3. **Git-Repository initialisieren**:
-   ```bash
-   python scripts/git_initializer.py
-   ```
-   - Erstellt Repository
-   - Wechselt zu `develop` Branch
-   - Erstellt `main` nach initialem Commit
+Optionale Argumente:
+- `--name "xyz"`: Projektname
+- `--no-branching`: Nur main, kein develop
 
-4. **Projektstruktur generieren**:
-   - Community Standards (LICENSE, etc.)
-   - GitHub Templates (.github/)
-   - Projekttyp-spezifische Dateien
+---
 
-5. **Initialen Commit erstellen**:
-   ```bash
-   git add .
-   git commit -m "feat: Initial open source setup"
-   ```
+## Schritt 2: Projektverzeichnis erstellen
 
-6. **Branches synchronisieren**:
-   ```bash
-   git branch main  # main von develop erstellen
-   ```
+```bash
+# Falls --name angegeben
+mkdir -p <project-name>
+cd <project-name>
+```
 
-## Configuration
+---
 
-### project_types.json
+## Schritt 3: Git-Repository initialisieren
 
-```json
-{
-  "java": {
-    "build_tool": "gradle-kotlin",
-    "java_version": 21,
-    "test_framework": "junit5"
-  },
-  "python": {
-    "package_manager": "uv",
-    "python_version": "3.12"
-  }
+```bash
+# Repository initialisieren
+git init
+
+# Auf develop Branch wechseln (Standard)
+git checkout -b develop
+```
+
+Falls `--no-branching`: Stattdessen `git branch -M main`
+
+---
+
+## Schritt 4: Projektstruktur generieren
+
+### Bei `--java`: Gradle Kotlin DSL Projekt
+
+**WICHTIG: IMMER Gradle verwenden, NIEMALS Maven!**
+
+Erstelle folgende Dateien:
+
+**build.gradle.kts:**
+```kotlin
+plugins {
+    java
+    application
+}
+
+group = "com.example"
+version = "0.1.0"
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation(platform("org.junit:junit-bom:5.11.4"))
+    testImplementation("org.junit.jupiter:junit-jupiter")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+}
+
+application {
+    mainClass = "com.example.App"
+}
+
+tasks.test {
+    useJUnitPlatform()
+    testLogging {
+        events("passed", "skipped", "failed")
+    }
 }
 ```
 
-## Output
-
-```text
-✓ Git-Repository initialisiert
-✓ Branch 'develop' erstellt (aktiv)
-✓ Projektstruktur generiert (Java/Gradle)
-✓ Community Standards erstellt
-✓ GitHub Templates erstellt
-✓ Initialer Commit erstellt
-✓ Branch 'main' erstellt (synchron mit develop)
-
-📁 Projekt bereit: my-project/
-   Branch: develop (aktiv)
-   Nächster Schritt: Entwicklung starten
+**settings.gradle.kts:**
+```kotlin
+rootProject.name = "<project-name>"
 ```
 
-## Error Handling
+**Verzeichnisstruktur:**
+```
+<project-name>/
+├── build.gradle.kts
+├── settings.gradle.kts
+├── gradle/wrapper/gradle-wrapper.properties
+├── gradlew (executable)
+├── gradlew.bat
+├── src/main/java/com/example/App.java
+├── src/main/resources/
+├── src/test/java/com/example/AppTest.java
+└── src/test/resources/
+```
 
-**Git nicht installiert:**
-- Zeige Fehlermeldung mit Installationsanleitung
-- Beende mit Exit-Code 1
+**gradle/wrapper/gradle-wrapper.properties:**
+```properties
+distributionBase=GRADLE_USER_HOME
+distributionPath=wrapper/dists
+distributionUrl=https\://services.gradle.org/distributions/gradle-8.12-bin.zip
+networkTimeout=10000
+validateDistributionUrl=true
+zipStoreBase=GRADLE_USER_HOME
+zipStorePath=wrapper/dists
+```
 
-**Verzeichnis existiert bereits:**
-- Frage ob überschreiben oder abbrechen
-- Bei --force: Überschreiben ohne Nachfrage
+**.gitignore (Java/Gradle):**
+```gitignore
+# Gradle
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
 
-**Gradle nicht gefunden (bei --java):**
-- Erstelle Wrapper manuell aus Templates
-- Warnung anzeigen, dass Gradle für Build benötigt wird
+# IDE
+.idea/
+*.iml
+.vscode/
 
-## Best Practices
+# OS
+.DS_Store
+```
 
-**Atomare Initialisierung:**
-- Alle Dateien werden vor dem ersten Commit erstellt
-- Kein inkonsistenter Zustand möglich
+### Bei `--uv`: Python Projekt
 
-**Flexible Konfiguration:**
-- project_types.json für Anpassungen
-- Templates können überschrieben werden
+Verwende `uv init` falls verfügbar, sonst manuell:
 
-**Erweiterbarkeit:**
-- Neue Projekttypen einfach hinzufügbar
-- Generator-Module sind unabhängig
+```bash
+uv init <project-name> || mkdir -p src/<package_name> tests
+```
 
-## References
+---
 
-- **[docs/branching-strategy.md](docs/branching-strategy.md)**: Git-Branching Details
-- **[docs/templates.md](docs/templates.md)**: Template-Anpassung
-- **[docs/troubleshooting.md](docs/troubleshooting.md)**: Fehlerbehebung
+## Schritt 5: Community Standards erstellen
+
+Erstelle diese Dateien in jedem Projekt:
+
+- **LICENSE** (MIT als Standard)
+- **README.md** (mit Badges und Struktur)
+- **CONTRIBUTING.md** (Contribution Guidelines)
+- **CODE_OF_CONDUCT.md** (Contributor Covenant 2.1)
+- **SECURITY.md** (Security Policy)
+
+---
+
+## Schritt 6: GitHub Templates erstellen
+
+Erstelle `.github/` Verzeichnis mit:
+
+- **ISSUE_TEMPLATE/bug_report.yml**
+- **ISSUE_TEMPLATE/feature_request.yml**
+- **ISSUE_TEMPLATE/config.yml**
+- **PULL_REQUEST_TEMPLATE.md**
+
+---
+
+## Schritt 7: Initialen Commit erstellen
+
+**WICHTIG: Verwende IMMER den `/git-workflow:commit` Command!**
+
+Rufe den Skill auf:
+```
+/git-workflow:commit
+```
+
+Der Commit-Skill wird:
+1. Alle Dateien stagen
+2. Pre-Commit-Checks durchführen
+3. Einen professionellen Commit erstellen mit Emoji Conventional Commit Format
+
+**NIEMALS direkt `git commit` verwenden!**
+
+---
+
+## Schritt 8: Main Branch erstellen
+
+Nach dem initialen Commit auf develop:
+
+```bash
+# Main Branch von develop erstellen (synchron)
+git branch main
+```
+
+---
+
+## Schritt 9: Abschluss
+
+Zeige dem User:
+
+```
+✓ Git-Repository initialisiert
+✓ Branch 'develop' erstellt (aktiv)
+✓ Projektstruktur generiert (<Projekttyp>)
+✓ Community Standards erstellt
+✓ GitHub Templates erstellt
+✓ Initialer Commit erstellt (via /git-workflow:commit)
+✓ Branch 'main' erstellt (synchron mit develop)
+
+📁 Projekt bereit: <project-name>/
+   Branch: develop (aktiv)
+
+   Nächste Schritte:
+   - Java: ./gradlew build
+   - Python: uv venv && source .venv/bin/activate
+```
+
+---
+
+## Zusammenfassung der wichtigsten Regeln
+
+| Regel | Beschreibung |
+|-------|--------------|
+| **Gradle, nicht Maven** | Java-Projekte verwenden IMMER Gradle Kotlin DSL |
+| **Commit via Skill** | Initialer Commit IMMER über `/git-workflow:commit` |
+| **develop → main** | Standard-Branching-Strategie |
+| **Java 21** | Aktuelle LTS-Version |
+| **JUnit 5** | Standard Test-Framework |
