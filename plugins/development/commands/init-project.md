@@ -10,13 +10,16 @@ allowed-tools:
 
 # Initialize Open Source Project
 
-Creates a new open source project with complete GitHub infrastructure and community standards.
+Creates a new open source project with complete GitHub infrastructure, community standards, and professional Git branching strategy.
 
 ## Usage
 
 ```bash
 # Standard Git project
 /init-project --git
+
+# Java project with Gradle (Kotlin DSL)
+/init-project --java
 
 # Python project with uv
 /init-project --uv
@@ -26,24 +29,44 @@ Creates a new open source project with complete GitHub infrastructure and commun
 
 # Interactive mode
 /init-project --interactive
+
+# Using skill-based workflow (recommended)
+/init-project --with-skills
+
+# Without develop/main branching (only main)
+/init-project --git --no-branching
 ```
 
 ## Features
 
+- **Git Branching**: develop → main strategy (Standard)
 - **Community Standards**: LICENSE, CONTRIBUTING.md, CODE_OF_CONDUCT.md, SECURITY.md
 - **GitHub Templates**: Issue templates, PR template, security advisories
 - **Documentation**: README.md with badges, structure, and best practices
 - **Git Setup**: .gitignore, .gitattributes, branch protection recommendations
-- **Python Support**: uv-based project structure (optional)
+- **Java Support**: Gradle Kotlin DSL with Java 21 toolchain
+- **Python Support**: uv-based project structure
 - **CI/CD Ready**: GitHub Actions workflows
 
-## Process
+## Workflow
+
+### Bei `--with-skills` Option
+
+Wenn `--with-skills` verwendet wird, wird der **professional-init-project Skill** aktiviert:
+
+1. **Skill-Ausführung**: Nutze den professional-init-project Skill
+   - Location: `../skills/professional-init-project/`
+   - Features: Automatische Projekterkennung, Git-Branching, Templates
+
+2. **Skill-Details**: Siehe [professional-init-project README](../skills/professional-init-project/README.md)
+
+### Standard Workflow (ohne `--with-skills`)
 
 ### 1. Determine Project Type
 
 **With `--interactive`**:
 
-- Ask project type: Git, Python (uv), Node.js, Go, Rust, Java
+- Ask project type: Git, Java (Gradle), Python (uv), Node.js, Go, Rust
 - Ask project name
 - Ask license type: MIT, Apache 2.0, GPL-3.0, BSD-3-Clause
 - Ask primary language
@@ -53,6 +76,12 @@ Creates a new open source project with complete GitHub infrastructure and commun
 - Standard Git project
 - Detect language from existing files
 
+**With `--java`**:
+
+- Java project with Gradle Kotlin DSL
+- Java 21 toolchain configuration
+- JUnit 5 test setup
+
 **With `--uv`**:
 
 - Check if `uv` is installed
@@ -60,16 +89,136 @@ Creates a new open source project with complete GitHub infrastructure and commun
 - Run `uv init`
 - Extend with GitHub standards
 
-### 2. Base Initialization
+### 2. Git Initialization (Standard: develop → main)
 
-**Git Project** (`--git`):
+**Standard Branching** (default):
+```bash
+# Initialize repository
+git init
+
+# Create and switch to develop branch
+git checkout -b develop
+
+# ... create project files ...
+
+# Initial commit on develop
+git add .
+git commit -m "feat: Initial open source setup"
+
+# Create main branch from develop (synchronized)
+git branch main
+
+# Stay on develop for further development
+```
+
+**Without Branching** (`--no-branching`):
 ```bash
 git init
 git branch -M main
 git commit --allow-empty -m "Initial commit"
 ```
 
-**Python Project** (`--uv`):
+### 3. Java Project (`--java`)
+
+**Gradle Initialization**:
+```bash
+# Create Gradle wrapper (if gradle available)
+gradle wrapper --gradle-version 8.12
+
+# Or download wrapper manually
+```
+
+**build.gradle.kts**:
+```kotlin
+plugins {
+    java
+    application
+}
+
+group = "com.example"
+version = "0.1.0"
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation(platform("org.junit:junit-bom:5.11.4"))
+    testImplementation("org.junit.jupiter:junit-jupiter")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+}
+
+application {
+    mainClass = "com.example.App"
+}
+
+tasks.test {
+    useJUnitPlatform()
+    testLogging {
+        events("passed", "skipped", "failed")
+    }
+}
+```
+
+**settings.gradle.kts**:
+```kotlin
+rootProject.name = "project-name"
+```
+
+**Project Structure**:
+```text
+project-name/
+├── build.gradle.kts
+├── settings.gradle.kts
+├── gradle/
+│   └── wrapper/
+│       ├── gradle-wrapper.jar
+│       └── gradle-wrapper.properties
+├── gradlew
+├── gradlew.bat
+├── src/
+│   ├── main/
+│   │   ├── java/
+│   │   │   └── com/example/App.java
+│   │   └── resources/
+│   └── test/
+│       ├── java/
+│       │   └── com/example/AppTest.java
+│       └── resources/
+├── .gitignore
+├── README.md
+├── LICENSE
+├── CONTRIBUTING.md
+├── CODE_OF_CONDUCT.md
+└── SECURITY.md
+```
+
+**.gitignore** (Java/Gradle):
+```gitignore
+# Gradle
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# IDE
+.idea/
+*.iml
+.vscode/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+```
+
+### 4. Python Project (`--uv`)
+
 ```bash
 # Install uv if needed
 command -v uv || pip install uv --break-system-packages
@@ -80,10 +229,32 @@ cd [project_name]
 
 # Create virtual environment
 uv venv
-source .venv/bin/activate  # or .venv\Scripts\activate (Windows)
+source .venv/bin/activate
 ```
 
-### 3. Create Community Standards
+**Project Structure**:
+```text
+project_name/
+├── .github/
+│   ├── ISSUE_TEMPLATE/
+│   ├── PULL_REQUEST_TEMPLATE.md
+│   └── workflows/
+├── src/
+│   └── project_name/
+│       └── __init__.py
+├── tests/
+│   └── __init__.py
+├── docs/
+├── .gitignore
+├── pyproject.toml
+├── README.md
+├── LICENSE
+├── CONTRIBUTING.md
+├── CODE_OF_CONDUCT.md
+└── SECURITY.md
+```
+
+### 5. Create Community Standards
 
 **LICENSE** (MIT as default):
 ```text
@@ -93,18 +264,15 @@ Copyright (c) [YEAR] [AUTHOR]
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+in the Software without restriction...
 
 [Standard MIT License Text]
 ```
 
 **CONTRIBUTING.md**:
 
-- Feature branch workflow
-- PR process
+- Feature branch workflow (feature/, fix/, docs/)
+- PR process with review requirements
 - Code standards
 - Testing requirements
 
@@ -120,7 +288,7 @@ furnished to do so, subject to the following conditions:
 - Reporting process
 - Security advisories link
 
-### 4. Create GitHub Templates
+### 6. Create GitHub Templates
 
 **.github/ISSUE_TEMPLATE/**:
 
@@ -141,9 +309,8 @@ furnished to do so, subject to the following conditions:
 - `ci.yml` - Base CI/CD pipeline
 - `lint.yml` - Code quality checks
 
-### 5. Create README.md
+### 7. Create README.md
 
-**Structure**:
 ```markdown
 # [Project Name]
 
@@ -185,49 +352,8 @@ See [CONTRIBUTING.md](CONTRIBUTING.md)
 - Security: See [SECURITY.md](SECURITY.md)
 ```
 
-### 6. Create .gitignore
+### 8. Create Initial Commit
 
-**Python**:
-```gitignore
-# Virtual Environment
-.venv/
-venv/
-env/
-
-# Python
-__pycache__/
-*.py[cod]
-*.egg-info/
-dist/
-build/
-
-# IDE
-.vscode/
-.idea/
-*.swp
-
-# OS
-.DS_Store
-Thumbs.db
-
-# Testing
-.pytest_cache/
-.coverage
-htmlcov/
-```
-
-**Node.js**:
-```gitignore
-node_modules/
-npm-debug.log*
-.env
-dist/
-build/
-```
-
-### 7. Create Initial Commits
-
-**Initial Commit**:
 ```bash
 git add .
 git commit -m "feat: Initial open source setup
@@ -239,9 +365,12 @@ git commit -m "feat: Initial open source setup
 - .gitignore for [Language]
 - CI/CD workflows
 "
+
+# Create main branch (synchronized with develop)
+git branch main
 ```
 
-### 8. Create GitHub Repository (optional)
+### 9. Create GitHub Repository (optional)
 
 ```bash
 # With gh CLI
@@ -249,98 +378,11 @@ gh repo create [name] --public --description "[description]"
 gh repo edit --enable-issues --enable-discussions
 gh repo edit --enable-wiki=false
 
-# Add remote
-git remote add origin https://github.com/[user]/[name].git
-git push -u origin main
-```
+# Push both branches
+git push -u origin develop main
 
-## Language-Specific Setups
-
-### Python (uv)
-
-**Project Structure**:
-```text
-project_name/
-├── .github/
-│   ├── ISSUE_TEMPLATE/
-│   ├── PULL_REQUEST_TEMPLATE.md
-│   └── workflows/
-├── src/
-│   └── project_name/
-│       └── __init__.py
-├── tests/
-│   └── __init__.py
-├── docs/
-├── .gitignore
-├── pyproject.toml
-├── README.md
-├── LICENSE
-├── CONTRIBUTING.md
-├── CODE_OF_CONDUCT.md
-└── SECURITY.md
-```
-
-**pyproject.toml** (extended):
-```toml
-[project]
-name = "project-name"
-version = "0.1.0"
-description = "Project description"
-authors = [{name = "Author", email = "email@example.com"}]
-readme = "README.md"
-license = {file = "LICENSE"}
-requires-python = ">=3.11"
-
-[project.urls]
-Homepage = "https://github.com/user/repo"
-Documentation = "https://github.com/user/repo#readme"
-Repository = "https://github.com/user/repo"
-Issues = "https://github.com/user/repo/issues"
-
-[build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
-
-[tool.ruff]
-line-length = 100
-target-version = "py311"
-
-[tool.pytest.ini_options]
-testpaths = ["tests"]
-```
-
-### JavaScript/TypeScript
-
-**package.json** (extended):
-```json
-{
-  "name": "project-name",
-  "version": "0.1.0",
-  "description": "Project description",
-  "license": "MIT",
-  "author": "Author <email@example.com>",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/user/repo"
-  },
-  "bugs": "https://github.com/user/repo/issues",
-  "homepage": "https://github.com/user/repo#readme"
-}
-```
-
-### Go
-
-**go.mod and Structure**:
-```text
-project_name/
-├── cmd/
-│   └── main.go
-├── internal/
-├── pkg/
-├── README.md
-├── LICENSE
-├── go.mod
-└── .github/
+# Set develop as default branch
+gh repo edit --default-branch develop
 ```
 
 ## Best Practices
@@ -356,9 +398,14 @@ project_name/
 
 **Recommendation**: MIT for maximum adoption, Apache 2.0 for patent protection
 
-### README Best Practices
+### Git Branching Strategy
 
-**Good practices**:
+- **develop**: Active development, default branch
+- **main**: Stable releases, protected
+- **feature/xxx**: New features, branch from develop
+- **fix/xxx**: Bug fixes, branch from develop
+
+### README Best Practices
 
 - Badges show status at a glance
 - Quick start under 5 minutes
@@ -366,24 +413,16 @@ project_name/
 - Clear installation steps
 - Links to detailed documentation
 
-**Avoid**:
-
-- Missing or outdated badges
-- Missing installation instructions
-- No examples
-- Broken links
-
-### Contributing Guidelines
-
-**Essentials**:
-
-- Branch naming: `feature/`, `fix/`, `docs/`
-- PR process with review requirements
-- Code style (linter, formatter)
-- Test coverage requirements
-- Commit message format
-
 ## Troubleshooting
+
+**Gradle not found**:
+```bash
+# macOS
+brew install gradle
+
+# Or use wrapper (recommended)
+# The command will create the wrapper for you
+```
 
 **uv not found**:
 ```bash
@@ -421,4 +460,5 @@ git config --global user.email "your.email@example.com"
 - [GitHub Community Standards](https://docs.github.com/en/communities)
 - [Contributor Covenant](https://www.contributor-covenant.org/)
 - [Choose a License](https://choosealicense.com/)
+- [Gradle Kotlin DSL](https://docs.gradle.org/current/userguide/kotlin_dsl.html)
 - [uv Documentation](https://docs.astral.sh/uv/)

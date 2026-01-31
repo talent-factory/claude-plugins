@@ -1,0 +1,88 @@
+{
+  "java": {
+    "build_tool": "gradle-kotlin",
+    "java_version": 21,
+    "test_framework": "junit5",
+    "gradle_version": "8.12",
+    "junit_version": "5.11.4",
+    "package_structure": "com.example",
+    "files": [
+      "build.gradle.kts",
+      "settings.gradle.kts",
+      "gradlew",
+      "gradlew.bat",
+      "gradle/wrapper/gradle-wrapper.jar",
+      "gradle/wrapper/gradle-wrapper.properties",
+      "src/main/java/{package}/App.java",
+      "src/main/resources/.gitkeep",
+      "src/test/java/{package}/AppTest.java",
+      "src/test/resources/.gitkeep"
+    ]
+  },
+  "python": {
+    "package_manager": "uv",
+    "python_version": "3.12",
+    "test_framework": "pytest",
+    "line_length": 100,
+    "files": [
+      "pyproject.toml",
+      "src/{name}/__init__.py",
+      "tests/__init__.py",
+      "tests/test_{name}.py"
+    ]
+  },
+  "node": {
+    "package_manager": "npm",
+    "node_version": "22",
+    "typescript": true,
+    "files": [
+      "package.json",
+      "tsconfig.json",
+      "src/index.ts",
+      "tests/index.test.ts"
+    ]
+  },
+  "go": {
+    "go_version": "1.23",
+    "files": [
+      "go.mod",
+      "cmd/main.go",
+      "internal/.gitkeep",
+      "pkg/.gitkeep"
+    ]
+  },
+  "rust": {
+    "edition": "2024",
+    "files": [
+      "Cargo.toml",
+      "src/main.rs",
+      "src/lib.rs",
+      "tests/integration_test.rs"
+    ]
+  },
+  "git": {
+    "minimal": true,
+    "files": []
+  },
+  "common": {
+    "license": "mit",
+    "files": [
+      "README.md",
+      "LICENSE",
+      "CONTRIBUTING.md",
+      "CODE_OF_CONDUCT.md",
+      "SECURITY.md",
+      ".gitignore",
+      ".github/ISSUE_TEMPLATE/bug_report.yml",
+      ".github/ISSUE_TEMPLATE/feature_request.yml",
+      ".github/ISSUE_TEMPLATE/config.yml",
+      ".github/PULL_REQUEST_TEMPLATE.md"
+    ]
+  },
+  "licenses": {
+    "mit": "MIT License",
+    "apache2": "Apache License 2.0",
+    "gpl3": "GNU General Public License v3.0",
+    "bsd3": "BSD 3-Clause License"
+  }
+}

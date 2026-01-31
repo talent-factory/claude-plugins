@@ -4,6 +4,10 @@ Integration with Obsidian via the TaskNotes Plugin API - task management directl
 
 ## Version 1.1.0
 
+This plugin enables seamless task management between Claude Code and Obsidian using the TaskNotes Plugin API.
+
+---
+
 ## Features
 
 - **List tasks** - "show my tasks"
@@ -122,6 +126,19 @@ obsidian/
 └── README.md
 ```
 
+---
+
+## Related Plugins
+
+- **[Project Management](project-management.md)** - PRD and task planning
+- **[Git Workflow](git-workflow.md)** - Commit and PR automation
+
+---
+
 ## License
 
-MIT
+MIT License - see [LICENSE](https://github.com/talent-factory/claude-plugins/blob/main/LICENSE) for details.
+
+---
+
+**Made with care by Talent Factory GmbH**

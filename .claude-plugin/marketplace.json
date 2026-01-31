@@ -100,11 +100,13 @@
     },
     {
       "name": "development",
-      "description": "Expert development agents and project initialization for modern programming languages and frameworks",
+      "description": "Expert development agents and project initialization with Git branching strategy, Java/Gradle Kotlin DSL, and Python/uv support",
       "source": "./plugins/development",
-      "version": "1.1.0",
+      "version": "1.2.0",
       "tags": [
         "java",
+        "gradle",
+        "python",
         "development",
         "spring-boot",
         "enterprise",
@@ -112,7 +114,8 @@
         "concurrency",
         "open-source",
         "project-init",
-        "github"
+        "github",
+        "git-branching"
       ]
     }
   ]
