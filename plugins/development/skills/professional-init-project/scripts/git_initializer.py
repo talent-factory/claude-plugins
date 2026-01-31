@@ -70,15 +70,14 @@ def init_repository(
     return True
 
 
-def create_initial_commit(
-    project_path: Path,
-    message: str = "feat: Initial open source setup",
-) -> bool:
-    """Create the initial commit with all staged files.
+def stage_files_for_commit(project_path: Path) -> bool:
+    """Stage all files for the initial commit.
+
+    Note: This function only stages files. The actual commit should be created
+    using /git-workflow:commit to ensure proper commit format and pre-commit checks.
 
     Args:
         project_path: Path to the project directory
-        message: Commit message
 
     Returns:
         True if successful, False otherwise.
@@ -89,22 +88,8 @@ def create_initial_commit(
         print(f"❌ Failed to stage files: {output}")
         return False
 
-    # Check if there are files to commit
-    success, output = run_git(["status", "--porcelain"], cwd=project_path)
-    if not output:
-        # No files to commit, create empty commit
-        success, output = run_git(
-            ["commit", "--allow-empty", "-m", message],
-            cwd=project_path,
-        )
-    else:
-        success, output = run_git(["commit", "-m", message], cwd=project_path)
-
-    if not success:
-        print(f"❌ Failed to create commit: {output}")
-        return False
-    print("✓ Initialer Commit erstellt")
-
+    print("✓ Dateien für Commit bereitgestellt")
+    print("⚠️  WICHTIG: Verwende jetzt /git-workflow:commit für den initialen Commit!")
     return True
 
 
@@ -133,13 +118,15 @@ def setup_remote(
     project_path: Path,
     repo_name: str,
     push_branches: bool = True,
+    use_branching: bool = True,
 ) -> bool:
     """Setup GitHub remote and push branches.
 
     Args:
         project_path: Path to the project directory
         repo_name: GitHub repository name (user/repo or just repo)
-        push_branches: If True, push develop and main branches
+        push_branches: If True, push branches to remote
+        use_branching: If True, push develop and main. If False, only push main.
 
     Returns:
         True if successful, False otherwise.
@@ -163,25 +150,36 @@ def setup_remote(
     print(f"✓ GitHub Repository erstellt: {repo_name}")
 
     if push_branches:
-        # Push both branches
-        success, output = run_git(
-            ["push", "-u", "origin", "develop", "main"],
-            cwd=project_path,
-        )
-        if not success:
-            print(f"⚠️  Push fehlgeschlagen: {output}")
-            return False
-        print("✓ Branches gepusht (develop, main)")
+        if use_branching:
+            # Push both develop and main branches
+            success, output = run_git(
+                ["push", "-u", "origin", "develop", "main"],
+                cwd=project_path,
+            )
+            if not success:
+                print(f"⚠️  Push fehlgeschlagen: {output}")
+                return False
+            print("✓ Branches gepusht (develop, main)")
 
-        # Set develop as default branch
-        result = subprocess.run(
-            ["gh", "repo", "edit", "--default-branch", "develop"],
-            cwd=project_path,
-            capture_output=True,
-            text=True,
-        )
-        if result.returncode == 0:
-            print("✓ develop als Standard-Branch gesetzt")
+            # Set develop as default branch
+            result = subprocess.run(
+                ["gh", "repo", "edit", "--default-branch", "develop"],
+                cwd=project_path,
+                capture_output=True,
+                text=True,
+            )
+            if result.returncode == 0:
+                print("✓ develop als Standard-Branch gesetzt")
+        else:
+            # Push only main branch
+            success, output = run_git(
+                ["push", "-u", "origin", "main"],
+                cwd=project_path,
+            )
+            if not success:
+                print(f"⚠️  Push fehlgeschlagen: {output}")
+                return False
+            print("✓ Branch gepusht (main)")
 
     return True
 
@@ -195,12 +193,16 @@ def initialize_project(
 ) -> bool:
     """Complete git initialization workflow.
 
+    Note: This function does NOT create the initial commit. After running this,
+    you must use /git-workflow:commit to create the initial commit with proper
+    format and pre-commit checks.
+
     Args:
         project_path: Path to the project directory
         use_branching: If True, use develop → main strategy
-        commit_message: Custom commit message (optional)
-        setup_github: If True, create GitHub repository
-        repo_name: GitHub repository name (required if setup_github is True)
+        commit_message: Custom commit message (ignored - kept for compatibility)
+        setup_github: If True, show GitHub setup instructions
+        repo_name: GitHub repository name (for instructions)
 
     Returns:
         True if all steps successful, False otherwise.
@@ -209,19 +211,25 @@ def initialize_project(
     if not init_repository(project_path, use_branching):
         return False
 
-    # Step 2: Create initial commit
-    message = commit_message or "feat: Initial open source setup"
-    if not create_initial_commit(project_path, message):
+    # Step 2: Stage files for commit (but don't commit yet)
+    if not stage_files_for_commit(project_path):
         return False
 
-    # Step 3: Create main branch (if using branching strategy)
-    if use_branching:
-        if not create_main_branch(project_path):
-            return False
+    print("\n📋 Nächste Schritte:")
+    print("1. Verwende /git-workflow:commit für den initialen Commit")
 
-    # Step 4: Setup GitHub remote (optional)
+    if use_branching:
+        print("2. Erstelle main branch: git branch main")
+
     if setup_github and repo_name:
-        setup_remote(project_path, repo_name)
+        print(
+            f"3. GitHub Repository erstellen: gh repo create {repo_name} --public --source ."
+        )
+        if use_branching:
+            print("4. Branches pushen: git push -u origin develop main")
+            print("5. Default branch setzen: gh repo edit --default-branch develop")
+        else:
+            print("4. Branch pushen: git push -u origin main")
 
     return True
 

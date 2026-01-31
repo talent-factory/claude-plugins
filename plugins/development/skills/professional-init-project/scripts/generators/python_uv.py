@@ -56,9 +56,9 @@ class PythonUvGenerator:
             # Check if uv is available
             subprocess.run(["uv", "--version"], capture_output=True, check=True)
 
-            # Initialize with uv
+            # Initialize with uv in the project directory
             result = subprocess.run(
-                ["uv", "init", "--name", self.project_name],
+                ["uv", "init", "--name", self.project_name, str(self.project_path)],
                 cwd=self.project_path.parent,
                 capture_output=True,
                 text=True,
@@ -112,7 +112,7 @@ packages = ["src/{self.package_name}"]
 
 [tool.ruff]
 line-length = 100
-target-version = "py{self.python_version.replace('.', '')}"
+target-version = "py{self.python_version.replace(".", "")}"
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "N", "W", "UP"]
@@ -140,7 +140,7 @@ strict = true
             content += f"""
 [tool.ruff]
 line-length = 100
-target-version = "py{self.python_version.replace('.', '')}"
+target-version = "py{self.python_version.replace(".", "")}"
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "N", "W", "UP"]

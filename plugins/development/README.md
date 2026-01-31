@@ -2,7 +2,7 @@
 
 Expert development agents and project initialization for modern programming languages and frameworks.
 
-## Version 1.2.0
+## Version 1.2.1
 
 ---
 
@@ -88,6 +88,12 @@ Add to your Claude Code settings:
 ---
 
 ## Changelog
+
+### 1.2.1
+
+- **Fix**: Java-Projekte verwenden jetzt IMMER Gradle Kotlin DSL (nicht Maven)
+- **Fix**: Initialer Commit verwendet jetzt `/git-workflow:commit`
+- **Improved**: Klarere Schritt-für-Schritt-Anweisungen im Skill
 
 ### 1.2.0
 

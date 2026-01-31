@@ -102,7 +102,7 @@
       "name": "development",
       "description": "Expert development agents and project initialization with Git branching strategy, Java/Gradle Kotlin DSL, and Python/uv support",
       "source": "./plugins/development",
-      "version": "1.2.0",
+      "version": "1.2.1",
       "tags": [
         "java",
         "gradle",

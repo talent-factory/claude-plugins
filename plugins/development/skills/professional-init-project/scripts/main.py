@@ -114,6 +114,14 @@ Examples:
             email=args.email,
         )
         success = generator.generate_all()
+    elif project_type in ["node", "go", "rust"]:
+        # Warn about unsupported language types
+        print(
+            f"⚠️  WARNUNG: Typ '{project_type}' wird noch nicht vollständig unterstützt."
+        )
+        print(f"   Es werden nur Community-Standards und Git-Initialisierung erstellt.")
+        print(f"   Für vollständige Unterstützung verwende: --type java oder --type uv")
+        print()
 
     if not success:
         return 1
