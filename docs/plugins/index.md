@@ -6,15 +6,15 @@ Browse all available plugins in the Talent Factory marketplace. Each plugin prov
 
 ## All Plugins
 
-| Plugin | Version | Commands | Agents | Skills | Tags |
-|--------|---------|----------|--------|--------|------|
-| [Git Workflow](git-workflow.md) | 2.0.0 | 3 | 0 | 2 | git, workflow, commits, PRs |
-| [Project Management](project-management.md) | 2.3.0 | 5 | 1 | 0 | planning, PRD, Linear, EPIC, agile |
-| [Code Quality](code-quality.md) | 3.0.0 | 1 | 3 | 0 | review, quality, Python, React |
-| [Education](education.md) | 1.2.0 | 1 | 1 | 1 | teaching, learning, markdown |
-| [Core Utilities](core.md) | 3.0.0 | 7 | 2 | 1 | validation, CI, development |
-| [Obsidian Integration](obsidian.md) | 1.1.0 | 0 | 0 | 1 | tasks, Obsidian, productivity |
-| [Development](development.md) | 1.2.1 | 1 | 1 | 1 | java, gradle, python, git-branching |
+| Plugin                                      | Version | Commands | Agents | Skills | Tags                                |
+| ------------------------------------------- | ------- | -------- | ------ | ------ | ----------------------------------- |
+| [Git Workflow](git-workflow.md)             | 2.0.0   | 3        | 0      | 2      | git, workflow, commits, PRs         |
+| [Project Management](project-management.md) | 2.3.0   | 5        | 1      | 0      | planning, PRD, Linear, EPIC, agile  |
+| [Code Quality](code-quality.md)             | 3.0.0   | 1        | 3      | 0      | review, quality, Python, React      |
+| [Education](education.md)                   | 1.3.0   | 1        | 2      | 1      | teaching, learning, markdown        |
+| [Core Utilities](core.md)                   | 3.0.0   | 7        | 2      | 1      | validation, CI, development         |
+| [Obsidian Integration](obsidian.md)         | 1.1.0   | 0        | 0      | 1      | tasks, Obsidian, productivity       |
+| [Development](development.md)               | 1.2.1   | 1        | 1      | 1      | java, gradle, python, git-branching |
 
 ---
 
@@ -24,27 +24,27 @@ Browse all available plugins in the Talent Factory marketplace. Each plugin prov
 
 <div class="grid cards" markdown>
 
--   **Git Workflow**
+- **Git Workflow**
 
-    ---
+  ***
 
-    Professional git automation with emoji conventional commits, pre-commit checks, and PR management.
+  Professional git automation with emoji conventional commits, pre-commit checks, and PR management.
 
-    **Commands:** `/commit`, `/create-pr`, `/pr-edit-history`
-    **Skills:** `professional-commit-workflow`, `professional-pr-workflow`
+  **Commands:** `/commit`, `/create-pr`, `/pr-edit-history`
+  **Skills:** `professional-commit-workflow`, `professional-pr-workflow`
 
-    [:octicons-arrow-right-24: Details](git-workflow.md)
+  [:octicons-arrow-right-24: Details](git-workflow.md)
 
--   **Project Management**
+- **Project Management**
 
-    ---
+  ***
 
-    Comprehensive project planning with PRD generation, EPIC automation, Linear integration, and git worktree workflows.
+  Comprehensive project planning with PRD generation, EPIC automation, Linear integration, and git worktree workflows.
 
-    **Commands:** `/create-prd`, `/create-plan`, `/implement-task`, `/implement-epic`, `/document-handoff`
-    **Agents:** `epic-orchestrator`
+  **Commands:** `/create-prd`, `/create-plan`, `/implement-task`, `/implement-epic`, `/document-handoff`
+  **Agents:** `epic-orchestrator`
 
-    [:octicons-arrow-right-24: Details](project-management.md)
+  [:octicons-arrow-right-24: Details](project-management.md)
 
 </div>
 
@@ -54,40 +54,40 @@ Browse all available plugins in the Talent Factory marketplace. Each plugin prov
 
 <div class="grid cards" markdown>
 
--   **Code Quality**
+- **Code Quality**
 
-    ---
+  ***
 
-    Expert code review and refactoring with specialized agents for Python and React/Frontend development.
+  Expert code review and refactoring with specialized agents for Python and React/Frontend development.
 
-    **Commands:** `/ruff-check`
-    **Agents:** `python-expert`, `frontend-developer`, `code-reviewer`
+  **Commands:** `/ruff-check`
+  **Agents:** `python-expert`, `frontend-developer`, `code-reviewer`
 
-    [:octicons-arrow-right-24: Details](code-quality.md)
+  [:octicons-arrow-right-24: Details](code-quality.md)
 
--   **Development**
+- **Development**
 
-    ---
+  ***
 
-    Expert development agents and project initialization with Git branching (develop → main), Java/Gradle Kotlin DSL, and Python/uv support.
+  Expert development agents and project initialization with Git branching (develop → main), Java/Gradle Kotlin DSL, and Python/uv support.
 
-    **Commands:** `/init-project`
-    **Agents:** `java-developer`
-    **Skills:** `professional-init-project`
+  **Commands:** `/init-project`
+  **Agents:** `java-developer`
+  **Skills:** `professional-init-project`
 
-    [:octicons-arrow-right-24: Details](development.md)
+  [:octicons-arrow-right-24: Details](development.md)
 
--   **Core Utilities**
+- **Core Utilities**
 
-    ---
+  ***
 
-    Development utilities for plugin validation, CI automation, and plugin/command/agent development.
+  Development utilities for plugin validation, CI automation, and plugin/command/agent development.
 
-    **Commands:** `/check`, `/check-commands`, `/check-agents`, `/build-skill`, `/package-skill`, `/create-command`, `/run-ci`
-    **Agents:** `agent-expert`, `command-expert`
-    **Skills:** `humanizer`
+  **Commands:** `/check`, `/check-commands`, `/check-agents`, `/build-skill`, `/package-skill`, `/create-command`, `/run-ci`
+  **Agents:** `agent-expert`, `command-expert`
+  **Skills:** `humanizer`
 
-    [:octicons-arrow-right-24: Details](core.md)
+  [:octicons-arrow-right-24: Details](core.md)
 
 </div>
 
@@ -97,27 +97,27 @@ Browse all available plugins in the Talent Factory marketplace. Each plugin prov
 
 <div class="grid cards" markdown>
 
--   **Education**
+- **Education**
 
-    ---
+  ***
 
-    Teaching aids and student support for IT education with Java Tutor agent and Markdown formatting skill.
+  Teaching aids and student support for IT education with Java Tutor agent and Markdown formatting skill.
 
-    **Commands:** `/explain-code`
-    **Agents:** `java-tutor`
-    **Skills:** `markdown-syntax-formatter`
+  **Commands:** `/explain-code`
+  **Agents:** `java-tutor`, `markdown-syntax-formatter`
+  **Skills:** `markdown-syntax-formatter`
 
-    [:octicons-arrow-right-24: Details](education.md)
+  [:octicons-arrow-right-24: Details](education.md)
 
--   **Obsidian Integration**
+- **Obsidian Integration**
 
-    ---
+  ***
 
-    Task management via Obsidian TaskNotes Plugin API with natural language support (DE/EN).
+  Task management via Obsidian TaskNotes Plugin API with natural language support (DE/EN).
 
-    **Skills:** `tasknotes`
+  **Skills:** `tasknotes`
 
-    [:octicons-arrow-right-24: Details](obsidian.md)
+  [:octicons-arrow-right-24: Details](obsidian.md)
 
 </div>
 
@@ -128,6 +128,7 @@ Browse all available plugins in the Talent Factory marketplace. Each plugin prov
 To install plugins from this marketplace:
 
 1. **Add the marketplace** to `.claude/settings.json`:
+
    ```json
    {
      "extraKnownMarketplaces": {
@@ -142,6 +143,7 @@ To install plugins from this marketplace:
    ```
 
 2. **Browse and install** plugins:
+
    ```bash
    claude
    /plugin
@@ -166,17 +168,17 @@ To install plugins from this marketplace:
 
 ### Feature Matrix
 
-| Feature | Git Workflow | Project Mgmt | Code Quality | Development | Education | Core | Obsidian |
-|---------|:------------:|:------------:|:------------:|:-----------:|:---------:|:----:|:--------:|
-| Git Integration | Yes | Yes | No | Yes | No | No | No |
-| Pre-commit Checks | Yes | No | Yes | No | No | Yes | No |
-| Linear Integration | No | Yes | No | No | No | No | No |
-| Code Review | No | No | Yes | No | No | No | No |
-| Expert Agents | No | Yes | Yes | Yes | Yes | Yes | No |
-| Task Management | No | Yes | No | No | No | No | Yes |
-| CI Automation | No | No | No | No | No | Yes | No |
-| Project Init | No | No | No | Yes | No | No | No |
-| EPIC Automation | No | Yes | No | No | No | No | No |
+| Feature            | Git Workflow | Project Mgmt | Code Quality | Development | Education | Core | Obsidian |
+| ------------------ | :----------: | :----------: | :----------: | :---------: | :-------: | :--: | :------: |
+| Git Integration    |     Yes      |     Yes      |      No      |     Yes     |    No     |  No  |    No    |
+| Pre-commit Checks  |     Yes      |      No      |     Yes      |     No      |    No     | Yes  |    No    |
+| Linear Integration |      No      |     Yes      |      No      |     No      |    No     |  No  |    No    |
+| Code Review        |      No      |      No      |     Yes      |     No      |    No     |  No  |    No    |
+| Expert Agents      |      No      |     Yes      |     Yes      |     Yes     |    Yes    | Yes  |    No    |
+| Task Management    |      No      |     Yes      |      No      |     No      |    No     |  No  |   Yes    |
+| CI Automation      |      No      |      No      |      No      |     No      |    No     | Yes  |    No    |
+| Project Init       |      No      |      No      |      No      |     Yes     |    No     |  No  |    No    |
+| EPIC Automation    |      No      |     Yes      |      No      |     No      |    No     |  No  |    No    |
 
 ---
 
@@ -238,4 +240,3 @@ To install plugins from this marketplace:
 - **[Getting Started](../getting-started/index.md)** - Install and configure plugins
 - **[Guides](../guides/index.md)** - Learn common workflows
 - **[Development](../development/index.md)** - Create your own plugins
-

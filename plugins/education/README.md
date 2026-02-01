@@ -2,7 +2,7 @@
 
 Teaching aids, code explanations, and student support for IT education.
 
-## Version 1.2.0
+## Version 1.3.0
 
 This plugin provides educational tools for students and instructors, including code explanations, a Java Tutor agent, and Markdown formatting skills.
 
@@ -11,6 +11,7 @@ This plugin provides educational tools for students and instructors, including c
 ## Commands
 
 ### `/explain-code`
+
 Provide clear, educational explanations of code for students learning programming.
 
 **Features:**
@@ -22,6 +23,7 @@ Provide clear, educational explanations of code for students learning programmin
 - Adaptable to student level (beginner/intermediate/advanced)
 
 **Usage:**
+
 ```
 /explain-code
 ```
@@ -29,8 +31,6 @@ Provide clear, educational explanations of code for students learning programmin
 Claude will ask about the student's level and provide tailored explanations.
 
 ## Agents
-
-See [Skills & Agents Activation Guide](../reference/skills-agents-activation.md) for detailed activation instructions.
 
 ### Java Tutor
 
@@ -47,9 +47,25 @@ Expert Java programming instructor specializing in teaching students.
 **Activation:**
 Use `/agents` and select "Java Tutor" for Java-specific teaching support.
 
-## Skills
+### Markdown Syntax Formatter
 
-See [Skills & Agents Activation Guide](../reference/skills-agents-activation.md) for detailed activation instructions.
+Expert Markdown formatting specialist with comprehensive knowledge of CommonMark and GitHub Flavored Markdown specifications.
+
+**Capabilities:**
+
+- Convert visual formatting cues into proper Markdown syntax
+- Correct heading hierarchies ensuring logical progression
+- Format lists with consistent markers and proper indentation
+- Handle code blocks with appropriate language identifiers
+- Apply Swiss orthography rules for German text
+- Handle linter exceptions for training materials
+
+**Activation:**
+
+- **Automatic:** Triggered when formatting or reviewing Markdown documents
+- **Manual:** Use Task tool with `subagent_type: "education:markdown-syntax-formatter"`
+
+## Skills
 
 ### Markdown Syntax Formatter
 
@@ -91,6 +107,7 @@ This plugin follows evidence-based teaching principles:
 ## Examples
 
 ### Explaining Simple Code
+
 ```
 /explain-code
 
@@ -103,6 +120,7 @@ Claude: [Provides detailed explanation with analogies and practice exercises]
 ```
 
 ### Using Java Tutor Agent
+
 ```
 /agents
 > Select: Java Tutor
