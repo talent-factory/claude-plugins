@@ -272,12 +272,95 @@ git submodule foreach --recursive '
 - ✅ PR-Body enthält Task-Referenz und Akzeptanzkriterien
 - ✅ Submodule haben eigene Draft-PRs (falls betroffen)
 
-### 4. Status-Update
+### 4. Status-Update (KRITISCH für paralleles Arbeiten)
 
-| Provider | Transition |
-|----------|------------|
-| Filesystem | `pending` → `in_progress` in Task-Datei |
-| Linear | `Backlog` → `In Progress` via MCP |
+> ⚠️ **WICHTIG**: Das Status-Update muss **im Hauptbranch** erfolgen, damit andere Entwickler sehen, dass der Task in Bearbeitung ist! Dies verhindert Überschneidungen bei paralleler Arbeit.
+
+| Provider | Transition | Ort |
+|----------|------------|-----|
+| Filesystem | `pending` → `in_progress` in Task-Datei + STATUS.md | **Hauptbranch** |
+| Linear | `Backlog` → `In Progress` via MCP | Remote (automatisch sichtbar) |
+
+#### Filesystem Status-Update Workflow
+
+> 🔴 **OBLIGATORISCH**: Diese Schritte MÜSSEN ausgeführt werden, bevor mit der Implementierung begonnen wird!
+
+```bash
+# 1. Zurück zum Hauptverzeichnis (Hauptbranch)
+cd <projekt-root>
+
+# 2. Sicherstellen, dass wir auf dem Hauptbranch sind (main/develop)
+git checkout main  # oder develop, je nach Projekt
+git pull origin main
+```
+
+**Task-Datei aktualisieren** (mit Edit-Tool):
+
+```python
+# In der Task-Datei: Status ändern
+old_string = "- **Status**: pending"
+new_string = "- **Status**: in_progress"
+
+# Updated-Datum aktualisieren
+from datetime import date
+today = date.today().isoformat()
+# - **Updated**: <altes-datum> → - **Updated**: <heute>
+```
+
+**STATUS.md regenerieren**:
+
+Die STATUS.md im Plan-Verzeichnis muss ebenfalls aktualisiert werden:
+- Abschnitt "In Progress 🚧" um den Task erweitern
+- Abschnitt "Pending ⏳" entsprechend reduzieren
+- Progress-Übersicht anpassen (Prozentangaben)
+
+**Änderungen committen**:
+
+```bash
+# 3. Änderungen stagen und committen
+git add .plans/<feature-name>/tasks/task-<id>-*.md
+git add .plans/<feature-name>/STATUS.md
+git commit -m "🔄 chore: Starte task-<id> Implementierung"
+
+# 4. Zum Remote pushen (damit andere es sehen!)
+git push origin main  # oder develop
+```
+
+**Dann erst in Worktree wechseln**:
+
+```bash
+# 5. In den Worktree wechseln für die eigentliche Implementierung
+cd ".worktrees/task-<task-id>"
+```
+
+#### Filesystem Status-Update Checkliste
+
+- ✅ Im Hauptbranch (nicht Worktree) arbeiten
+- ✅ Task-Datei: `pending` → `in_progress`
+- ✅ Task-Datei: `Updated`-Datum aktualisiert
+- ✅ STATUS.md: Task unter "In Progress" verschoben
+- ✅ STATUS.md: Progress-Übersicht aktualisiert
+- ✅ Änderungen committed: `🔄 chore: Starte task-<id> Implementierung`
+- ✅ Änderungen gepusht zum Remote
+- ✅ Erst dann in Worktree wechseln
+
+#### Linear Status-Update
+
+Bei Linear ist das Update einfacher, da der Status zentral gespeichert wird:
+
+```python
+# Via MCP-Tool
+linear_update_issue(
+    issue_id="PROJ-123",
+    state="In Progress"
+)
+
+# Optional: Kommentar hinzufügen
+linear_create_comment(
+    issue_id="PROJ-123",
+    body="🚀 Implementierung gestartet\n- Branch: `feature/proj-123-...`\n- Worktree: `.worktrees/task-proj-123/`"
+)
+```
 
 ### 5. Implementierung
 

@@ -64,7 +64,17 @@ completed  blocked
 | `completed` | Fertig und merged | Keine Aktion nötig |
 | `blocked` | Kann nicht fortgesetzt werden | Blocker auflösen |
 
-## Status-Update
+## Status-Update (KRITISCH für paralleles Arbeiten)
+
+> ⚠️ **WICHTIG**: Status-Updates MÜSSEN im **Hauptbranch** (main/develop) erfolgen und sofort gepusht werden! Nur so können andere Entwickler sehen, dass ein Task bereits in Bearbeitung ist. Dies verhindert Überschneidungen bei paralleler Arbeit.
+
+### Workflow für Status-Update
+
+1. **Im Hauptbranch bleiben** (nicht in Worktree wechseln!)
+2. **Task-Datei aktualisieren**
+3. **STATUS.md aktualisieren**
+4. **Committen und pushen**
+5. **Dann erst in Worktree wechseln**
 
 ### Mit Edit-Tool
 
@@ -82,15 +92,22 @@ edit_file(task_file, old_date_line, f"- **Updated**: {today}")
 
 ### Git-Commit für Status-Update
 
-```bash
-# Start
-git commit -m "🔄 chore: Start task-001 implementation"
+> 🔴 **OBLIGATORISCH**: Nach dem Commit MUSS gepusht werden!
 
-# Complete
-git commit -m "✅ chore: Mark task-001 as completed"
+```bash
+# Start - IM HAUPTBRANCH, nicht im Worktree!
+git add .plans/<feature>/tasks/task-001-*.md
+git add .plans/<feature>/STATUS.md
+git commit -m "🔄 chore: Starte task-001 Implementierung"
+git push origin main  # WICHTIG: Pushen damit andere es sehen!
+
+# Complete (nach PR-Merge, wieder im Hauptbranch)
+git commit -m "✅ chore: Markiere task-001 als abgeschlossen"
+git push origin main
 
 # Block
-git commit -m "🚫 chore: Block task-001 (waiting for API spec)"
+git commit -m "🚫 chore: Blockiere task-001 (warte auf API-Spec)"
+git push origin main
 ```
 
 ## STATUS.md Regenerierung
