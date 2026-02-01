@@ -4,13 +4,14 @@ Comprehensive project management tools for PRD generation, project planning, tas
 
 ## Version 2.3.0
 
-**Major Update:** Now includes `/implement-epic` for **autonomous, parallel EPIC implementation** using the Ralph Wiggum Pattern!
+**Major Update:** Now includes `/implement-epic` for **autonomous, parallel EPIC implementation** using the Ralph Wiggum Pattern.
 
 **New in 2.3.0:**
-- 🤖 `/implement-epic` - Vollautomatische EPIC-Implementierung mit parallelen Agents
-- 🔄 Ralph Wiggum Integration - Autonome Entwicklungsschleifen
-- 👥 `epic-orchestrator` Agent - Koordiniert parallele Task-Agents
-- 📊 Echtzeit-Fortschrittstracking
+
+- 🤖 `/implement-epic` - Fully autonomous EPIC implementation with parallel agents
+- 🔄 Ralph Wiggum Integration - Autonomous development loops
+- 👥 `epic-orchestrator` Agent - Coordinates parallel task agents
+- 📊 Real-time progress tracking
 
 ## Commands
 
@@ -19,6 +20,7 @@ Comprehensive project management tools for PRD generation, project planning, tas
 Generate professional Product Requirements Documents (PRDs) for features and products.
 
 **Features:**
+
 - 📋 Comprehensive PRD structure with all essential sections
 - 🎯 Goal-oriented format with clear objectives
 - 👥 User personas and use cases
@@ -28,11 +30,13 @@ Generate professional Product Requirements Documents (PRDs) for features and pro
 - 📚 Extensive templates and best practices
 
 **Usage:**
+
 ```bash
 /create-prd
 ```
 
 **PRD Sections:**
+
 - Executive Summary
 - Goals & Objectives
 - User Personas
@@ -45,6 +49,7 @@ Generate professional Product Requirements Documents (PRDs) for features and pro
 - Risks & Mitigation
 
 **References:**
+
 - [Best Practices](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/create-prd/best-practices.md) - PRD quality guidelines
 - [Sections Guide](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/create-prd/sections-guide.md) - Detailed section templates
 - [Templates](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/create-prd/templates.md) - Ready-to-use PRD templates
@@ -54,20 +59,23 @@ Generate professional Product Requirements Documents (PRDs) for features and pro
 Transform PRDs into actionable project plans with task breakdown and Linear integration.
 
 **Features:**
+
 - 📋 Automatic task extraction from PRD
 - 🎯 Task prioritization and dependencies
 - 👥 Agent-to-task mapping
-- 🔗 Linear issue creation and syncing
+- 🔗 Linear issue creation and synchronization
 - 📂 Filesystem-based plan management
 - 🗂️ Hierarchical task organization
 
 **Usage:**
+
 ```bash
 /create-plan                    # From filesystem PRD
 /create-plan --linear ISSUE-123 # From Linear issue
 ```
 
 **Plan Structure:**
+
 - High-level milestones
 - Detailed task breakdown
 - Agent assignment recommendations
@@ -76,6 +84,7 @@ Transform PRDs into actionable project plans with task breakdown and Linear inte
 - Priority levels
 
 **References:**
+
 - [Agent Mapping](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/create-plan/agent-mapping.md) - Agent selection guidelines
 - [Best Practices](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/create-plan/best-practices.md) - Planning methodologies
 - [Filesystem](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/create-plan/filesystem.md) - File-based plan storage
@@ -87,6 +96,7 @@ Transform PRDs into actionable project plans with task breakdown and Linear inte
 Implement tasks with git worktree workflow, branch creation, and PR automation.
 
 **Features:**
+
 - 🌲 Git worktree creation for isolated development
 - 🌿 Automatic branch creation and management
 - 📝 Task status tracking
@@ -95,6 +105,7 @@ Implement tasks with git worktree workflow, branch creation, and PR automation.
 - ✅ Completion verification
 
 **Usage:**
+
 ```bash
 /implement-task                 # From filesystem plan
 /implement-task TASK-ID         # Specific task
@@ -102,14 +113,16 @@ Implement tasks with git worktree workflow, branch creation, and PR automation.
 ```
 
 **Workflow:**
+
 1. Creates git worktree for task
 2. Checks out new feature branch
 3. Tracks implementation progress
 4. Updates task status
 5. Creates PR when complete
-6. Syncs with Linear
+6. Synchronizes with Linear
 
 **References:**
+
 - [Best Practices](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/implement-task/best-practices.md) - Implementation guidelines
 - [Filesystem](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/implement-task/filesystem.md) - Task file management
 - [Linear](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/implement-task/linear.md) - Linear integration
@@ -118,79 +131,87 @@ Implement tasks with git worktree workflow, branch creation, and PR automation.
 
 ### `/implement-epic` 🆕
 
-**Autonome, parallele EPIC-Implementierung** mit dem Ralph Wiggum Pattern für selbstständige Entwicklungsschleifen.
+**Autonomous, parallel EPIC implementation** using the Ralph Wiggum Pattern for self-sustaining development loops.
 
 **Features:**
-- 🤖 **Vollautomatisch** - Startet und koordiniert alle Tasks selbstständig
-- 🔀 **Parallel** - Mehrere Tasks gleichzeitig in separaten Worktrees
-- 🔄 **Ralph Wiggum Pattern** - Iterative Loops bis zum Erfolg
-- 👀 **Auto-Review** - Automatische Code-Reviews mit Fix-Loops
-- 📊 **Live-Tracking** - Echtzeit-Fortschrittsanzeige
-- 🛡️ **Fehlertoleranz** - Blockierte Tasks werden dokumentiert, andere laufen weiter
+
+- 🤖 **Fully Autonomous** - Initiates and coordinates all tasks independently
+- 🔀 **Parallel Execution** - Multiple tasks simultaneously in separate worktrees
+- 🔄 **Ralph Wiggum Pattern** - Iterative loops until success
+- 👀 **Auto-Review** - Automatic code reviews with fix loops
+- 📊 **Live Tracking** - Real-time progress display
+- 🛡️ **Fault Tolerance** - Blocked tasks are documented while others continue
 
 **Usage:**
+
 ```bash
-/implement-epic                              # Interaktive Auswahl
-/implement-epic dark-mode-toggle             # Plan-Name
+/implement-epic                              # Interactive selection
+/implement-epic dark-mode-toggle             # Plan name
 /implement-epic --linear PROJ-123            # Linear EPIC
-/implement-epic feature-x --max-parallel 5   # Mit Optionen
+/implement-epic feature-x --max-parallel 5   # With options
 ```
 
-**Voraussetzungen:**
+**Prerequisites:**
+
 ```bash
-# Ralph Wiggum Plugin muss installiert sein
+# Ralph Wiggum Plugin must be installed
 /plugin install ralph-wiggum@claude-plugins-official
 ```
 
 **Workflow:**
+
 ```
-1. EPIC laden & Dependency-Graph analysieren
+1. Load EPIC & analyze dependency graph
          ↓
-2. Parallelisierbare Tasks identifizieren (keine Blocker)
+2. Identify parallelizable tasks (no blockers)
          ↓
-3. Pro Task: Agent in eigenem Worktree starten
+3. Per task: Start agent in dedicated worktree
          ↓
-4. Ralph-Loop für Implementation (bis TASK_COMPLETE)
+4. Ralph-Loop for implementation (until TASK_COMPLETE)
          ↓
-5. Ralph-Loop für Review (bis REVIEW_COMPLETE)
+5. Ralph-Loop for review (until REVIEW_COMPLETE)
          ↓
-6. STATUS.md aktualisieren, nächste Tasks starten
+6. Update STATUS.md, start next tasks
          ↓
-7. Wiederholen bis alle Tasks erledigt
+7. Repeat until all tasks complete
 ```
 
-**Optionen:**
-| Option | Default | Beschreibung |
-|--------|---------|--------------|
-| `--max-parallel` | 3 | Max. gleichzeitige Agents |
-| `--max-iterations` | 30 | Max. Iterationen pro Task |
-| `--skip-review` | false | Review-Phase überspringen |
-| `--dry-run` | false | Nur Analyse anzeigen |
+**Options:**
+
+| Option             | Default | Description                 |
+| ------------------ | ------- | --------------------------- |
+| `--max-parallel`   | 3       | Maximum concurrent agents   |
+| `--max-iterations` | 30      | Maximum iterations per task |
+| `--skip-review`    | false   | Skip review phase           |
+| `--dry-run`        | false   | Display analysis only       |
 
 **References:**
-- [Orchestrator Architecture](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/implement-epic/orchestrator-architecture.md) - Technische Details
-- [Ralph Integration](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/implement-epic/ralph-integration.md) - Ralph Wiggum Konfiguration
-- [Parallel Strategies](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/implement-epic/parallel-strategies.md) - Parallelisierungs-Patterns
-- [Troubleshooting](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/implement-epic/troubleshooting.md) - Häufige Probleme
+
+- [Orchestrator Architecture](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/implement-epic/orchestrator-architecture.md) - Technical details
+- [Ralph Integration](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/implement-epic/ralph-integration.md) - Ralph Wiggum configuration
+- [Parallel Strategies](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/implement-epic/parallel-strategies.md) - Parallelization patterns
+- [Troubleshooting](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/implement-epic/troubleshooting.md) - Common issues
 
 ## Agents
 
 ### `epic-orchestrator`
 
-Koordiniert die parallele Implementierung aller Tasks eines EPICs.
+Coordinates the parallel implementation of all tasks within an EPIC.
 
 **Capabilities:**
-- Dependency-Graph Analyse
-- Agent-Lifecycle Management
-- Fortschritts-Tracking
-- Error-Recovery
-- User-Eskalation bei Blockern
+
+- Dependency graph analysis
+- Agent lifecycle management
+- Progress tracking
+- Error recovery
+- User escalation for blockers
 
 ## Installation
 
 This plugin is part of the Talent Factory marketplace.
 
 **Add to `.claude/settings.json`:**
+
 ```json
 {
   "enabledPlugins": {
@@ -288,7 +309,7 @@ project-management/
 
 ### Project Planning
 
-1. **Break down into small tasks** - < 1 day of work each
+1. **Break down into small tasks** - Less than one day of work each
 2. **Identify dependencies** - Critical path planning
 3. **Assign appropriate agents** - Match skills to tasks
 4. **Set realistic timelines** - Buffer for unknowns
@@ -391,25 +412,31 @@ User: "We need OAuth login with Google and GitHub"
 ### PRD Generation
 
 **Problem:** PRD too generic
+
 - **Solution:** Provide more context about users and use cases
 
 **Problem:** Missing technical details
-- **Solution:** Explicitly ask for architecture and technical constraints
+
+- **Solution:** Explicitly request architecture and technical constraints
 
 ### Plan Creation
 
 **Problem:** Tasks too large
+
 - **Solution:** See [task-breakdown.md](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/create-plan/task-breakdown.md)
 
 **Problem:** Linear sync fails
+
 - **Solution:** Check API key and team ID in settings
 
 ### Task Implementation
 
 **Problem:** Worktree creation fails
+
 - **Solution:** See [troubleshooting.md](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/implement-task/troubleshooting.md)
 
 **Problem:** Branch already exists
+
 - **Solution:** Use different task ID or clean up old branches
 
 ## Changelog
@@ -417,6 +444,7 @@ User: "We need OAuth login with Google and GitHub"
 ### Version 2.3.0 (2026-02-01)
 
 **Autonomous EPIC Implementation:**
+
 - 🤖 Added `/implement-epic` command with Ralph Wiggum Pattern integration
 - 🔀 Parallel task execution with isolated worktrees
 - 👥 Added `epic-orchestrator` agent for coordination
@@ -426,11 +454,13 @@ User: "We need OAuth login with Google and GitHub"
 - 🔗 Ralph Wiggum plugin as dependency
 
 **Dependencies:**
+
 - `ralph-wiggum@claude-plugins-official` - For autonomous loops
 
 ### Version 2.0.0 (2026-01-10)
 
 **Major Update:**
+
 - ✨ Added `/create-plan` command with Linear integration
 - ✨ Added `/implement-task` command with worktree workflow
 - 📚 Added comprehensive reference documentation (13 files)
@@ -439,6 +469,7 @@ User: "We need OAuth login with Google and GitHub"
 - 📋 Enhanced PRD templates and best practices
 
 **Migration from 1.0.0:**
+
 - `/create-prd` remains compatible
 - New commands optional but recommended
 - Linear integration opt-in

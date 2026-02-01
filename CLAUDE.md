@@ -290,13 +290,20 @@ Users don't clone this repository. Instead, Claude Code fetches plugin definitio
 ### Educational Context
 The education plugin (Java Tutor agent) is tailored for students. It references Swiss computer science curriculum and teaching methodologies specific to those institutions.
 
-### Schweizer Schreibweise für Dokumente
+### Documentation Language
 
-Alle deutschsprachigen Dokumente in diesem Repository verwenden **Schweizer Schreibweise**:
+**Primary Language:** All new documentation must be written in **professional English at an academic level**.
 
-- **Umlaute**: Echte Umlaute verwenden (ä, ö, ü), nicht Ersatzschreibung (ae, oe, ue)
-- **Eszett**: Kein "ß" verwenden, stattdessen "ss" (z.B. "gross" statt "groß", "übermässig" statt "übermäßig")
-- **Beispiele**:
+- Use formal, precise terminology appropriate for technical documentation
+- Maintain consistent academic tone throughout
+- Avoid colloquialisms and informal expressions
+- Structure content with clear logical flow
+
+**Exception for German Content:** When German is required, use **Swiss orthography**:
+
+- **Umlaute**: Use proper umlauts (ä, ö, ü), not substitutions (ae, oe, ue)
+- **Eszett**: Never use "ß", always use "ss" (e.g., "gross" not "groß", "übermässig" not "übermäßig")
+- **Examples**:
   - ✅ "grösste", "übermässig", "schliesslich", "Strasse"
   - ❌ "größte", "übermäßig", "schließlich", "Straße"
   - ❌ "groesste", "uebermaessig", "schliesslich"
