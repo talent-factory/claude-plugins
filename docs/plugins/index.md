@@ -9,7 +9,7 @@ Browse all available plugins in the Talent Factory marketplace. Each plugin prov
 | Plugin                                      | Version | Commands | Agents | Skills | Tags                                |
 | ------------------------------------------- | ------- | -------- | ------ | ------ | ----------------------------------- |
 | [Git Workflow](git-workflow.md)             | 2.0.0   | 3        | 0      | 2      | git, workflow, commits, PRs         |
-| [Project Management](project-management.md) | 2.3.0   | 5        | 1      | 0      | planning, PRD, Linear, EPIC, agile  |
+| [Project Management](project-management.md) | 2.4.0   | 5        | 1      | 0      | planning, PRD, Linear, EPIC, agile  |
 | [Code Quality](code-quality.md)             | 3.0.0   | 1        | 3      | 0      | review, quality, Python, React      |
 | [Education](education.md)                   | 1.3.0   | 1        | 2      | 1      | teaching, learning, markdown        |
 | [Core Utilities](core.md)                   | 3.0.0   | 7        | 2      | 1      | validation, CI, development         |

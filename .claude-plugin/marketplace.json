@@ -25,9 +25,9 @@
     },
     {
       "name": "project-management",
-      "description": "Comprehensive project management with PRD generation, project planning, task implementation, EPIC automation (Ralph Wiggum Pattern), Linear integration, and git worktree workflow",
+      "description": "Comprehensive project management with PRD generation, project planning, task implementation, autonomous EPIC automation, Linear integration, and git worktree workflow",
       "source": "./plugins/project-management",
-      "version": "2.3.0",
+      "version": "2.4.0",
       "tags": [
         "planning",
         "prd",
@@ -37,8 +37,7 @@
         "worktree",
         "task-management",
         "epic",
-        "automation",
-        "ralph-wiggum"
+        "automation"
       ]
     },
     {

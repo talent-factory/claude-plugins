@@ -1,7 +1,7 @@
 ---
-description: Erstelle ein Produkt-Anforderungsdokument (PRD) für eine Produktfunktion
+description: Create a Product Requirements Document (PRD) for a product feature
 category: project
-argument-hint: "<Funktionsbeschreibung> [Ausgabepfad]"
+argument-hint: "<feature-description> [output-path]"
 allowed-tools:
   - Write
   - TodoWrite
@@ -10,214 +10,214 @@ allowed-tools:
 
 # Claude Command: Create PRD
 
-Erstelle ein umfassendes, professionelles Product Requirements Document (PRD) basierend auf Industry-Best-Practices.
+Create a comprehensive, professional Product Requirements Document (PRD) based on industry best practices.
 
-## Verwendung
+## Usage
 
 ```bash
-/create-prd "Funktionsbeschreibung"
-/create-prd "Funktionsbeschreibung" /path/to/output.md
+/create-prd "Feature description"
+/create-prd "Feature description" /path/to/output.md
 ```
 
-**Beispiele**:
+**Examples**:
 
 ```bash
-/create-prd "Dark Mode Toggle zu Einstellungen hinzufügen"
-/create-prd "KI-gestützte Budgetierung" docs/prds/budget-ai.md
+/create-prd "Add Dark Mode Toggle to settings"
+/create-prd "AI-powered budgeting" docs/prds/budget-ai.md
 ```
 
 ## Workflow
 
-1. **Analyse der Funktionsbeschreibung**
-   - Verstehe Umfang und Komplexität
-   - Identifiziere Projekttyp (Feature, Initiative, Technical)
-   - Wähle passendes PRD-Template
+1. **Analyze the Feature Description**
+   - Understand scope and complexity
+   - Identify project type (Feature, Initiative, Technical)
+   - Select appropriate PRD template
 
-2. **Strukturiertes PRD erstellen**
-   - Executive Summary (Problem, Lösung, Impact)
-   - Problemstellung mit Evidenz
-   - Messbare Ziele & Erfolgsmetriken
-   - User Stories mit Akzeptanzkriterien
-   - Funktionale & Nicht-funktionale Anforderungen
-   - Klare Abgrenzung (Out of Scope)
-   - Risikobewertung mit Mitigation
-   - Timeline & Meilensteine
+2. **Create Structured PRD**
+   - Executive Summary (Problem, Solution, Impact)
+   - Problem Statement with evidence
+   - Measurable objectives and success metrics
+   - User Stories with acceptance criteria
+   - Functional and non-functional requirements
+   - Clear scope boundaries (Out of Scope)
+   - Risk assessment with mitigation strategies
+   - Timeline and milestones
 
-3. **TodoWrite für Tracking**
-   - Nutze TodoWrite um PRD-Abschnitte während Erstellung zu verfolgen
-   - Stelle Vollständigkeit sicher
+3. **TodoWrite for Tracking**
+   - Use TodoWrite to track PRD sections during creation
+   - Ensure completeness
 
-4. **Ausgabe**
-   - Speichere PRD am angegebenen Pfad
-   - Standard: `PRD.md` im aktuellen Verzeichnis
+4. **Output**
+   - Save PRD at the specified path
+   - Default: `PRD.md` in the current directory
 
-## PRD-Grundprinzipien
+## PRD Fundamental Principles
 
-### Nutzer-zentriert, nicht lösungszentriert
+### User-Centered, Not Solution-Centered
 
-**Fokus auf**:
+**Focus on**:
 
-- **Problem**: Welches Problem lösen wir?
-- **Nutzer**: Für wen lösen wir es?
-- **Impact**: Welchen Wert schaffen wir?
+- **Problem**: What problem are we solving?
+- **User**: For whom are we solving it?
+- **Impact**: What value are we creating?
 
-**NICHT auf**:
+**NOT on**:
 
-- Technische Implementierung
-- Spezifische Lösungsansätze
-- Code/Architektur-Details
+- Technical implementation
+- Specific solution approaches
+- Code/architecture details
 
-### SMART Ziele
+### SMART Objectives
 
-- **S**pezifisch: Klar definiert
-- **M**essbar: Quantifizierbar
-- **A**rreichbar: Realistisch
-- **R**elevant: Wichtig für Business/User
-- **T**erminiert: Klarer Zeitrahmen
+- **S**pecific: Clearly defined
+- **M**easurable: Quantifiable
+- **A**chievable: Realistic
+- **R**elevant: Important for business/user
+- **T**ime-bound: Clear timeframe
 
-### Klare Priorisierung
+### Clear Prioritization
 
-**MoSCoW-Methode**:
+**MoSCoW Method**:
 
-- **Must-Have**: Kritisch für MVP
-- **Should-Have**: Wichtig, nicht kritisch
-- **Could-Have**: Nice-to-Have
-- **Won't-Have**: Explizit ausgeschlossen
+- **Must-Have**: Critical for MVP
+- **Should-Have**: Important, not critical
+- **Could-Have**: Nice-to-have
+- **Won't-Have**: Explicitly excluded
 
-## PRD-Struktur
+## PRD Structure
 
-### 1. Executive Summary (3-5 Sätze)
+### 1. Executive Summary (3-5 sentences)
 
-Was, Für wen, Warum, Impact, Timeline
+What, For whom, Why, Impact, Timeline
 
-### 2. Problemstellung
+### 2. Problem Statement
 
-- Aktueller Zustand
-- Problembeschreibung
-- Auswirkungen (quantifiziert)
-- Evidenz (Daten, Research)
-- Warum jetzt?
+- Current state
+- Problem description
+- Impact (quantified)
+- Evidence (data, research)
+- Why now?
 
-### 3. Ziele & Erfolgsmetriken
+### 3. Objectives and Success Metrics
 
-- Produkt-Ziele
-- Business-Ziele
-- Primäre Metriken (mit Baseline & Target)
-- Sekundäre Metriken
-- Guardrail Metriken
+- Product objectives
+- Business objectives
+- Primary metrics (with baseline and target)
+- Secondary metrics
+- Guardrail metrics
 
-### 4. User Stories & Personas
+### 4. User Stories and Personas
 
-- Detaillierte Personas (datenbasiert)
-- User Stories (Als X möchte ich Y damit Z)
-- Akzeptanzkriterien (testbar)
-- Kontext & Rationale
+- Detailed personas (data-driven)
+- User Stories (As X, I want Y so that Z)
+- Acceptance criteria (testable)
+- Context and rationale
 
-### 5. Funktionale Anforderungen
+### 5. Functional Requirements
 
-- Nach Priorität geordnet (Must/Should/Could/Won't)
-- Detaillierte Beschreibung
-- Akzeptanzkriterien
-- Edge Cases
-- User Flows
+- Ordered by priority (Must/Should/Could/Won't)
+- Detailed description
+- Acceptance criteria
+- Edge cases
+- User flows
 
-### 6. Nicht-funktionale Anforderungen
+### 6. Non-Functional Requirements
 
-- Performance (Geschwindigkeit, Latenz)
-- Security & Privacy (GDPR, etc.)
-- Scalability (Wachstum)
-- Usability & Accessibility (WCAG 2.1)
-- Reliability (Uptime, Error Rate)
+- Performance (speed, latency)
+- Security and Privacy (GDPR, etc.)
+- Scalability (growth)
+- Usability and Accessibility (WCAG 2.1)
+- Reliability (uptime, error rate)
 
-### 7. Abgrenzung (Out of Scope)
+### 7. Scope Boundaries (Out of Scope)
 
-- Was NICHT gebaut wird
-- Rationale für Ausschlüsse
-- Geplante Timeline für Future Features
+- What will NOT be built
+- Rationale for exclusions
+- Planned timeline for future features
 
-### 8. Risikobewertung
+### 8. Risk Assessment
 
-- Risiko-Matrix (Impact × Likelihood)
-- Mitigation-Strategien
-- Contingency-Pläne
-- Owner-Zuweisung
+- Risk matrix (Impact x Likelihood)
+- Mitigation strategies
+- Contingency plans
+- Owner assignment
 
-### 9. Timeline & Meilensteine
+### 9. Timeline and Milestones
 
-- Phasen-Plan
-- Key Milestones
+- Phase plan
+- Key milestones
 - Dependencies
 - Approvals
 
-## Template-Auswahl
+## Template Selection
 
-Basierend auf Projekt-Komplexität:
+Based on project complexity:
 
-| Typ              | Dauer          | Template         |
-|------------------|----------------|------------------|
-| Small Feature    | < 2 Wochen     | Minimal MVP      |
-| Standard Feature | 4-8 Wochen     | Standard Feature |
-| Major Initiative | > 2 Monate     | Major Initiative |
-| Platform/Infra.  | Variabel       | Technical PRD    |
+| Type             | Duration   | Template         |
+| ---------------- | ---------- | ---------------- |
+| Small Feature    | < 2 weeks  | Minimal MVP      |
+| Standard Feature | 4-8 weeks  | Standard Feature |
+| Major Initiative | > 2 months | Major Initiative |
+| Platform/Infra.  | Variable   | Technical PRD    |
 
 **Details**: [templates.md](../references/create-prd/templates.md)
 
 ## Best Practices
 
-**DO ✅**:
+**DO**:
 
-- Nutzerbedürfnisse und Business Value fokussieren
-- Messbare, SMART-Ziele definieren
-- Konkrete Akzeptanzkriterien schreiben
-- Daten und Evidenz einbinden
-- Risiken proaktiv adressieren
-- Klare Abgrenzung kommunizieren
+- Focus on user needs and business value
+- Define measurable, SMART objectives
+- Write concrete acceptance criteria
+- Include data and evidence
+- Address risks proactively
+- Communicate clear scope boundaries
 
-**DON'T ❌**:
+**DON'T**:
 
-- Technische Implementierung vorschreiben
-- Vage Ziele ("mehr Nutzer")
-- Anforderungen ohne Priorisierung
-- Features ohne Rationale
-- Out-of-Scope ignorieren
+- Prescribe technical implementation
+- Use vague objectives ("more users")
+- Include requirements without prioritization
+- Add features without rationale
+- Ignore out-of-scope items
 
-**Vollständiger Guide**: [best-practices.md](../references/create-prd/best-practices.md)
+**Complete Guide**: [best-practices.md](../references/create-prd/best-practices.md)
 
-## Qualitätskriterien
+## Quality Criteria
 
-### Inhalt
+### Content
 
-- [ ] Executive Summary prägnant (< 5 Sätze)
-- [ ] Problem klar mit Evidenz definiert
-- [ ] Ziele sind SMART
-- [ ] User Stories mit Akzeptanzkriterien
-- [ ] Anforderungen priorisiert (Must/Should/Could)
-- [ ] NFRs für Performance, Security, Usability
-- [ ] Erfolgsmetriken mit konkreten Zahlen
-- [ ] Risiken identifiziert mit Mitigation
-- [ ] "Out of Scope" definiert
+- [ ] Executive Summary is concise (< 5 sentences)
+- [ ] Problem is clearly defined with evidence
+- [ ] Objectives are SMART
+- [ ] User Stories include acceptance criteria
+- [ ] Requirements are prioritized (Must/Should/Could)
+- [ ] NFRs cover Performance, Security, Usability
+- [ ] Success metrics include specific numbers
+- [ ] Risks are identified with mitigation strategies
+- [ ] "Out of Scope" is defined
 
 ### Format
 
-- [ ] Konsistente Formatierung
-- [ ] Hierarchische Struktur
-- [ ] Listen & Tabellen für Übersicht
-- [ ] Professionelle Sprache
+- [ ] Consistent formatting
+- [ ] Hierarchical structure
+- [ ] Lists and tables for clarity
+- [ ] Professional language
 
-### Prozess
+### Process
 
-- [ ] Vollständig und actionable
-- [ ] Verständlich für alle Stakeholder
-- [ ] Keine Widersprüche
-- [ ] Realistischer Scope
+- [ ] Complete and actionable
+- [ ] Understandable for all stakeholders
+- [ ] No contradictions
+- [ ] Realistic scope
 
-## Weitere Informationen
+## Additional Information
 
 - **Best Practices**: [best-practices.md](../references/create-prd/best-practices.md)
-  - Grundprinzipien
-  - Erfolgsmetriken definieren
-  - Stakeholder-Management
-  - Häufige Fehler vermeiden
+  - Fundamental principles
+  - Defining success metrics
+  - Stakeholder management
+  - Avoiding common mistakes
 
 - **Templates**: [templates.md](../references/create-prd/templates.md)
   - Minimal MVP Template
@@ -225,11 +225,11 @@ Basierend auf Projekt-Komplexität:
   - Major Initiative Template
   - Technical PRD Template
 
-- **Abschnitte-Guide**: [sections-guide.md](../references/create-prd/sections-guide.md)
-  - Detaillierte Anleitung für jeden Abschnitt
-  - Beispiele (Gut vs. Schlecht)
-  - Häufige Fehler pro Abschnitt
-  - Schreibtipps
+- **Sections Guide**: [sections-guide.md](../references/create-prd/sections-guide.md)
+  - Detailed instructions for each section
+  - Examples (Good vs. Bad)
+  - Common mistakes per section
+  - Writing tips
 
 ---
 

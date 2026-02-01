@@ -1,12 +1,9 @@
 {
   "name": "project-management",
-  "version": "2.3.0",
-  "description": "Comprehensive project management with PRD generation, project planning, task implementation, EPIC automation (Ralph Wiggum Pattern), Linear integration, and git worktree workflow for agile development",
+  "version": "2.4.0",
+  "description": "Comprehensive project management with PRD generation, project planning, task implementation, autonomous EPIC automation, Linear integration, and git worktree workflow for agile development",
   "author": {
     "name": "Talent Factory GmbH",
     "email": "support@talent-factory.ch"
-  },
-  "dependencies": {
-    "ralph-wiggum": "claude-plugins-official"
   }
 }

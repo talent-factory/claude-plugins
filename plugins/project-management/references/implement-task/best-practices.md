@@ -1,56 +1,56 @@
 # Best Practices: Task Implementation
 
-Best Practices für die Implementierung von Tasks (Filesystem oder Linear).
+Best practices for implementing tasks (Filesystem or Linear).
 
-## Branch-Naming
+## Branch Naming
 
-### Einheitliches Format
+### Standardized Format
 
-**Alle Provider nutzen dasselbe Format**:
+**All providers utilize the same format**:
 
 ```
 feature/<ISSUE-ID>-<description>
 ```
 
-| Provider | Beispiel |
-|----------|----------|
+| Provider   | Example                                |
+| ---------- | -------------------------------------- |
 | Filesystem | `feature/task-001-ui-toggle-component` |
-| Linear | `feature/proj-123-oauth2-auth` |
+| Linear     | `feature/proj-123-oauth2-auth`         |
 
-### Regeln
+### Conventions
 
-1. **Prefix `feature/`**: Für alle Feature-Branches
-2. **Lowercase**: Immer kleingeschrieben
-3. **Kebab-case**: Wörter mit Bindestrichen trennen
-4. **Issue-ID nach Prefix**: `feature/<ID>-...`
-5. **Kurze Beschreibung**: Max. 3-4 Wörter nach ID
-6. **Keine Emojis**: Nur ASCII-Zeichen
+1. **Prefix `feature/`**: Required for all feature branches
+2. **Lowercase**: Always use lowercase characters
+3. **Kebab-case**: Separate words with hyphens
+4. **Issue ID after prefix**: `feature/<ID>-...`
+5. **Concise description**: Maximum 3-4 words following the ID
+6. **No emojis**: Use ASCII characters only
 
-### Beispiele
+### Examples
 
 ```bash
-# Gut ✅
+# Recommended
 feature/task-001-ui-toggle-component
 feature/proj-123-user-authentication
 
-# Schlecht ❌
-task-001-ui-toggle          # Fehlt feature/ prefix
-feature/oauth               # Fehlt Issue-ID
-Feature/PROJ-123            # Nicht lowercase
-daniels-branch              # Kein Standard-Format
+# Not Recommended
+task-001-ui-toggle          # Missing feature/ prefix
+feature/oauth               # Missing Issue ID
+Feature/PROJ-123            # Not lowercase
+daniels-branch              # Non-standard format
 ```
 
 ### Alternative Prefixes
 
-Für andere Branch-Typen:
+For other branch types:
 
-| Typ | Format | Beispiel |
-|-----|--------|----------|
-| Feature | `feature/<ID>-desc` | `feature/task-001-toggle` |
-| Bugfix | `fix/<ID>-desc` | `fix/task-002-button-crash` |
-| Hotfix | `hotfix/<ID>-desc` | `hotfix/proj-999-security` |
+| Type    | Format              | Example                     |
+| ------- | ------------------- | --------------------------- |
+| Feature | `feature/<ID>-desc` | `feature/task-001-toggle`   |
+| Bugfix  | `fix/<ID>-desc`     | `fix/task-002-button-crash` |
+| Hotfix  | `hotfix/<ID>-desc`  | `hotfix/proj-999-security`  |
 
-## Commit-Messages
+## Commit Messages
 
 ### Format
 
@@ -60,189 +60,191 @@ Für andere Branch-Typen:
 [optional body]
 ```
 
-### Commit-Typen aus Task-Labels
+### Commit Types Derived from Task Labels
 
-| Task-Label | Commit-Typ | Emoji |
-|------------|------------|-------|
-| `bug`, `fix` | fix | 🐛 |
-| `feature`, `enhancement` | feat | ✨ |
-| `docs`, `documentation` | docs | 📚 |
-| `refactor` | refactor | ♻️ |
-| `performance` | perf | ⚡ |
-| `test` | test | 🧪 |
-| `style` | style | 💎 |
-| `chore` | chore | 🔧 |
+| Task Label               | Commit Type | Emoji |
+| ------------------------ | ----------- | ----- |
+| `bug`, `fix`             | fix         | 🐛    |
+| `feature`, `enhancement` | feat        | ✨    |
+| `docs`, `documentation`  | docs        | 📚    |
+| `refactor`               | refactor    | ♻️    |
+| `performance`            | perf        | ⚡    |
+| `test`                   | test        | 🧪    |
+| `style`                  | style       | 💎    |
+| `chore`                  | chore       | 🔧    |
 
-### Beispiele
+### Examples
 
 ```bash
 # Feature
 git commit -m "✨ feat: Add ThemeToggle component"
 
-# Bug-Fix
+# Bug Fix
 git commit -m "🐛 fix: Correct theme persistence bug"
 
 # Tests
 git commit -m "🧪 test: Add ThemeToggle unit tests"
 
-# Status-Updates
+# Status Updates
 git commit -m "🔄 chore: Start task-001 implementation"
 git commit -m "✅ chore: Mark task-001 as completed"
 ```
 
 ### Atomic Commits
 
-**Best Practice**: Ein Commit pro logischer Änderung
+**Best Practice**: One commit per logical change
 
 ```bash
-# Gut ✅
+# Recommended
 git commit -m "✨ feat: Add ThemeToggle component"
 git commit -m "🧪 test: Add ThemeToggle tests"
 git commit -m "📚 docs: Document ThemeToggle usage"
 
-# Schlecht ❌
+# Not Recommended
 git commit -m "Implement everything"
 ```
 
-## PR-Gestaltung
+## Pull Request Design
 
-### PR-Titel
+### PR Title
 
 ```bash
-# Einheitliches Format
+# Standardized Format
 feat(task-001): UI Toggle Component
 feat(proj-123): User Authentication via OAuth2
 ```
 
-### PR-Body-Template
+### PR Body Template
 
 ```markdown
-## Task: [ID] - [Titel]
+## Task: [ID] - [Title]
 
-**Beschreibung**:
-<Task-Beschreibung>
+**Description**:
+<Task description>
 
-**Änderungen**:
-- <Änderung 1>
-- <Änderung 2>
+**Changes**:
 
-**Test-Plan**:
-- [x] Akzeptanzkriterium 1
-- [x] Akzeptanzkriterium 2
+- <Change 1>
+- <Change 2>
+
+**Test Plan**:
+
+- [x] Acceptance criterion 1
+- [x] Acceptance criterion 2
 
 **Status**: In Progress → Completed
 ```
 
-### PR-Größe
+### PR Size
 
-| LOC | Bewertung |
-|-----|-----------|
-| < 150 | ✅ Sehr gut, schnelles Review |
-| 150-400 | ✅ Gut, normales Review |
-| 400-800 | ⚠️ OK, langsames Review |
-| > 800 | ❌ Zu groß, aufteilen! |
+| LOC     | Assessment                      |
+| ------- | ------------------------------- |
+| < 150   | Excellent, enables rapid review |
+| 150-400 | Good, standard review time      |
+| 400-800 | Acceptable, extended review     |
+| > 800   | Excessive, consider splitting   |
 
 ## Testing
 
-### Mindest-Coverage
+### Minimum Coverage Requirements
 
-- **Neue Features**: 80%+
-- **Bug-Fixes**: 100% (Bug + Fix covered)
-- **Refactoring**: Keine Reduktion
+- **New Features**: 80%+
+- **Bug Fixes**: 100% (both bug scenario and fix covered)
+- **Refactoring**: No reduction in coverage
 - **Critical Paths**: 100%
 
-### Akzeptanzkriterien als Tests
+### Acceptance Criteria as Tests
 
 ```javascript
-// Issue-AC: "User can log in with Google"
+// Issue AC: "User can log in with Google"
 // → Test:
-it('should allow user to log in with Google', async () => {
+it("should allow user to log in with Google", async () => {
   // Test implementation
-})
+});
 ```
 
-### Test-Pyramide
+### Test Pyramid
 
 ```
-       / E2E \        ← 10% Wenige, wichtigste Flows
-     /Integration\   ← 20% Mittelviel, API-Tests
-   /  Unit Tests   \ ← 70% Viele, alle Funktionen
+       / E2E \        ← 10% Few tests, critical flows only
+     /Integration\   ← 20% Moderate, API tests
+   /  Unit Tests   \ ← 70% Comprehensive, all functions
 ```
 
-## Code-Qualität
+## Code Quality
 
-### Vor PR-Erstellung
+### Pre-PR Checklist
 
-- [ ] Alle Akzeptanzkriterien erfüllt?
-- [ ] Tests geschrieben und grün?
-- [ ] Linting erfolgreich?
-- [ ] Build erfolgreich?
-- [ ] Keine Debug-Code?
-- [ ] Dokumentation aktualisiert?
+- [ ] All acceptance criteria satisfied?
+- [ ] Tests written and passing?
+- [ ] Linting successful?
+- [ ] Build successful?
+- [ ] Debug code removed?
+- [ ] Documentation updated?
 
 ### Self-Review
 
 ```bash
-# Diff anschauen
+# Review the diff
 git diff main...HEAD
 
-# Fragen:
-# - Würde ich diesen Code mergen?
-# - Ist der Code verständlich ohne Kontext?
-# - Fehlen Tests für Edge Cases?
+# Consider:
+# - Would I approve this code in a review?
+# - Is the code comprehensible without additional context?
+# - Are edge cases covered by tests?
 ```
 
-## Task-Organisation
+## Task Organization
 
-### Status-Workflow
+### Status Workflow
 
-**Best Practice**: Max. 1-2 Tasks gleichzeitig in Bearbeitung
+**Best Practice**: Maximum 1-2 tasks in progress concurrently
 
 ```
-1. Task auswählen (pending/Backlog)
+1. Select task (pending/Backlog)
 2. Status → in_progress/In Progress
-3. Implementieren
-4. PR erstellen
+3. Implement
+4. Create PR
 5. Status → completed/Done
-6. Nächsten Task auswählen
+6. Select next task
 ```
 
-### Dependency-Awareness (Filesystem)
+### Dependency Awareness (Filesystem)
 
-**Vor Task-Start**: Dependencies prüfen!
+**Before starting a task**: Verify dependencies are resolved.
 
 ```markdown
 ## Dependencies
-- **Requires**: task-001, task-003  ← Müssen completed sein!
+
+- **Requires**: task-001, task-003 ← Must be completed first
 - **Blocks**: task-005
 ```
 
-## Summary: Do's & Don'ts
+## Summary: Guidelines
 
-### DO ✅
+### Recommended Practices
 
-1. **Aussagekräftige Branch-Names**
-2. **Atomic Commits** mit Emoji Conventional Format
-3. **Kleine PRs** (< 400 LOC)
-4. **Tests schreiben** (80%+ Coverage)
-5. **Dependencies prüfen** vor Task-Start
-6. **Status aktuell halten**
-7. **Self-Review** vor PR
+1. **Descriptive branch names**
+2. **Atomic commits** following Emoji Conventional format
+3. **Small PRs** (< 400 LOC)
+4. **Write tests** (80%+ coverage)
+5. **Verify dependencies** before starting tasks
+6. **Maintain current status**
+7. **Self-review** before PR submission
 
-### DON'T ❌
+### Practices to Avoid
 
-1. **Vage Branch-Namen** (`fix-stuff`)
-2. **Riesige Commits** (`Implement everything`)
-3. **Große PRs** (> 800 LOC)
-4. **Keine Tests**
-5. **Dependencies ignorieren**
-6. **Veraltete Status**
-7. **Parallele Tasks** (max. 1-2)
+1. **Vague branch names** (`fix-stuff`)
+2. **Large commits** (`Implement everything`)
+3. **Oversized PRs** (> 800 LOC)
+4. **Omitting tests**
+5. **Ignoring dependencies**
+6. **Outdated status information**
+7. **Excessive parallel tasks** (limit to 1-2)
 
-## Siehe auch
+## See Also
 
-- [workflow.md](./workflow.md) - Detaillierter Workflow
-- [filesystem.md](./filesystem.md) - Filesystem-spezifisch
-- [linear.md](./linear.md) - Linear-spezifisch
-- [troubleshooting.md](./troubleshooting.md) - Problemlösungen
-
+- [workflow.md](./workflow.md) - Detailed workflow documentation
+- [filesystem.md](./filesystem.md) - Filesystem-specific guidance
+- [linear.md](./linear.md) - Linear-specific guidance
+- [troubleshooting.md](./troubleshooting.md) - Problem resolution

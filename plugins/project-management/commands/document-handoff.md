@@ -1,5 +1,5 @@
 ---
-description: Erstelle Handoff-Dokumentation vor /compact für nahtlose Weiterarbeit
+description: Create handoff documentation before /compact for seamless continuation
 category: project
 argument-hint: "[task-name] [--output <dir>] [--linear-issue TF-XXX]"
 allowed-tools:
@@ -14,186 +14,186 @@ allowed-tools:
 
 # Claude Command: Document Handoff
 
-Erstelle eine umfassende Handoff-Dokumentation vor einem `/compact`, damit ein neuer Agent mit frischem Kontext nahtlos weiterarbeiten kann.
+Create comprehensive handoff documentation before a `/compact`, enabling a new agent with fresh context to seamlessly continue the work.
 
-## Verwendung
+## Usage
 
 ```bash
-# Standard (Task-Name aus Git Branch)
+# Default (task name derived from Git branch)
 /document-handoff
 
-# Mit explizitem Task-Namen
+# With explicit task name
 /document-handoff "Feature Implementation"
 
-# Mit benutzerdefiniertem Ausgabeverzeichnis
+# With custom output directory
 /document-handoff "Task Name" --output docs/handoffs
 
-# Mit Linear Issue Referenz
+# With Linear issue reference
 /document-handoff --linear-issue TF-177
 ```
 
-## Wann verwenden?
+## When to Use
 
-**Verwenden wenn:**
+**Use when:**
 
-- Context wird zu gross und `/compact` ist nötig
-- Übergabe an anderen Developer/Agent
-- Komplexe Aufgabe muss unterbrochen werden
-- Viele gescheiterte Versuche dokumentiert werden müssen
-- Am Ende eines Arbeitstages für morgen
+- Context is becoming too large and `/compact` is necessary
+- Handing off to another developer/agent
+- Complex task needs to be interrupted
+- Multiple failed attempts need to be documented
+- At the end of a workday for the next session
 
-**Nicht verwenden wenn:**
+**Do not use when:**
 
-- Aufgabe ist in 5 Minuten fertig
-- Keine relevanten Änderungen gemacht
-- Nur Recherche, keine Implementierung
-- Triviale Task ohne wichtigen Kontext
+- Task will be completed in 5 minutes
+- No relevant changes have been made
+- Only research, no implementation
+- Trivial task without significant context
 
 ## Workflow
 
-### 1. Informationen sammeln
+### 1. Gather Information
 
-Sammle automatisch relevante Informationen:
+Automatically collect relevant information:
 
-**Git-Status erfassen:**
+**Capture Git Status:**
 
-- Aktueller Branch und uncommitted Changes
-- Letzte 5 Commits für Kontext
-- Geänderte Dateien (staged und unstaged)
+- Current branch and uncommitted changes
+- Last 5 commits for context
+- Modified files (staged and unstaged)
 
-**Projekt-Status:**
+**Project Status:**
 
-- Laufende Services (Docker, etc.)
-- TODO/FIXME Kommentare im Code
-- Relevante Environment-Variablen
+- Running services (Docker, etc.)
+- TODO/FIXME comments in code
+- Relevant environment variables
 
 **Linear Integration (optional):**
 
-- Issue-Details abrufen falls `--linear-issue` angegeben
-- Verknüpfte Issues und Kommentare
+- Retrieve issue details if `--linear-issue` is specified
+- Linked issues and comments
 
-### 2. Dokumentation strukturieren
+### 2. Structure Documentation
 
-Erstelle Handoff-Dokument mit folgenden Abschnitten:
+Create handoff document with the following sections:
 
-| Abschnitt | Inhalt |
-|-----------|--------|
-| **Original-Aufgabe** | Was soll erreicht werden? |
-| **Bereits erledigt** | Änderungen, erfolgreiche Ansätze |
-| **Gescheiterte Versuche** | Was nicht funktioniert hat und warum |
-| **Aktueller Zustand** | Git Status, Modified Files, Environment |
-| **Nächste Schritte** | Priorisierte Liste mit Dateipfaden |
-| **Wichtige Referenzen** | Dateien, Dokumentation, Code-Patterns |
-| **Für den nächsten Agent** | Zusammenfassung in 2-3 Sätzen |
+| Section                  | Content                                 |
+| ------------------------ | --------------------------------------- |
+| **Original Task**        | What should be achieved?                |
+| **Already Completed**    | Changes, successful approaches          |
+| **Failed Attempts**      | What did not work and why               |
+| **Current State**        | Git status, modified files, environment |
+| **Next Steps**           | Prioritized list with file paths        |
+| **Important References** | Files, documentation, code patterns     |
+| **For the Next Agent**   | Summary in 2-3 sentences                |
 
 **Template**: [templates.md](../references/document-handoff/templates.md)
 
-### 3. Dokumentation speichern
+### 3. Save Documentation
 
-**Ausgabe-Verzeichnis:** `.claude/handoffs/`
+**Output Directory:** `.claude/handoffs/`
 
-**Dateiname-Konvention:** `YYYY-MM-DD_[task-slug].md`
+**Filename Convention:** `YYYY-MM-DD_[task-slug].md`
 
-Beispiele:
+Examples:
 
 - `.claude/handoffs/2026-01-14_system-prompt-extraction.md`
 - `.claude/handoffs/2026-01-14_rbac-regression-fix.md`
 
-### 4. Zusammenfassung ausgeben
+### 4. Output Summary
 
-Nach Erstellung:
+After creation:
 
-- Pfad zur Handoff-Datei anzeigen
-- Wichtigste nächsten Schritte hervorheben
-- Hinweis für Weiterarbeit nach `/compact`
+- Display path to handoff file
+- Highlight most important next steps
+- Provide instructions for continuing after `/compact`
 
-## Handoff-Grundprinzipien
+## Handoff Fundamental Principles
 
-### Selbsterklärend
+### Self-Explanatory
 
-Der nächste Agent braucht **keine Vorkenntnisse**:
+The next agent requires **no prior knowledge**:
 
-- Vollständiger Kontext in der Dokumentation
-- Keine impliziten Annahmen
-- Alle relevanten Dateipfade mit Zeilennummern
+- Complete context in the documentation
+- No implicit assumptions
+- All relevant file paths with line numbers
 
 ### Actionable
 
-**Konkrete Handlungsanweisungen**:
+**Concrete action instructions**:
 
-- "Zeile 123 in `file.py` ändern" statt "Code anpassen"
-- Priorisierte nächste Schritte
-- Klare Akzeptanzkriterien
+- "Modify line 123 in `file.py`" instead of "adjust code"
+- Prioritized next steps
+- Clear acceptance criteria
 
-### Vollständig
+### Complete
 
-**Alles Relevante dokumentieren**:
+**Document everything relevant**:
 
-- Erfolgreiche UND gescheiterte Versuche
-- Fehlermeldungen mit Kontext
-- Dependencies und externe Faktoren
+- Successful AND failed attempts
+- Error messages with context
+- Dependencies and external factors
 
-## Qualitätskriterien
+## Quality Criteria
 
-### Inhalt
+### Content
 
-- [ ] Original-Aufgabe klar beschrieben
-- [ ] Alle Änderungen dokumentiert
-- [ ] Gescheiterte Versuche mit Begründung
-- [ ] Git-Status aktuell
-- [ ] Nächste Schritte priorisiert
-- [ ] Dateipfade mit Zeilennummern
+- [ ] Original task clearly described
+- [ ] All changes documented
+- [ ] Failed attempts with rationale
+- [ ] Git status is current
+- [ ] Next steps are prioritized
+- [ ] File paths include line numbers
 
 ### Format
 
-- [ ] Konsistente Markdown-Struktur
-- [ ] Code-Blöcke für Befehle und Logs
-- [ ] Keine Secrets oder Credentials
-- [ ] Professionelle Sprache
+- [ ] Consistent Markdown structure
+- [ ] Code blocks for commands and logs
+- [ ] No secrets or credentials
+- [ ] Professional language
 
-## Workflow mit Compact
+## Workflow with Compact
 
 ```bash
-# 1. Handoff-Dokumentation erstellen
+# 1. Create handoff documentation
 /document-handoff "Feature Implementation"
 
-# 2. Context komprimieren
+# 2. Compress context
 /compact
 
-# 3. Neue Session: Dokumentation laden
-# "Lies bitte .claude/handoffs/2026-01-14_feature-implementation.md
-#  und arbeite an den nächsten Schritten weiter."
+# 3. New session: Load documentation
+# "Please read .claude/handoffs/2026-01-14_feature-implementation.md
+#  and continue with the next steps."
 ```
 
-## Wichtige Hinweise
+## Important Notes
 
-1. **Vor Compact ausführen**: Die Dokumentation ist nutzlos nach dem Compact, wenn sie nicht erstellt wurde
+1. **Execute before Compact**: The documentation is useless after compact if not created beforehand
 
-2. **Keine Secrets**: Niemals API Keys, Passwörter oder Tokens in die Handoff-Dokumentation schreiben
+2. **No Secrets**: Never include API keys, passwords, or tokens in handoff documentation
 
-3. **Git-Änderungen committen**: Idealerweise alle wichtigen Änderungen vor Handoff committen
+3. **Commit Git Changes**: Ideally commit all important changes before handoff
 
-4. **Aufräumen**: Alte Handoff-Dokumente regelmässig archivieren oder löschen
+4. **Cleanup**: Regularly archive or delete old handoff documents
 
-## Weitere Informationen
+## Additional Information
 
 - **Templates**: [templates.md](../references/document-handoff/templates.md)
-  - Vollständiges Handoff-Template
-  - Minimales Template für schnelle Übergaben
+  - Complete handoff template
+  - Minimal template for quick handoffs
 
-- **Beispiele**: [examples.md](../references/document-handoff/examples.md)
-  - Minimal-Beispiel
-  - Vollständiges Beispiel
+- **Examples**: [examples.md](../references/document-handoff/examples.md)
+  - Minimal example
+  - Complete example
 
 - **Best Practices**: [best-practices.md](../references/document-handoff/best-practices.md)
-  - Tipps für effektive Handoffs
-  - Häufige Fehler vermeiden
+  - Tips for effective handoffs
+  - Avoiding common mistakes
 
-## Siehe auch
+## See Also
 
-- **[/create-plan](./create-plan.md)** - Projektplan erstellen
-- **[/implement-task](./implement-task.md)** - Task implementieren
+- **[/create-plan](./create-plan.md)** - Create project plan
+- **[/implement-task](./implement-task.md)** - Implement task
 
 ---
 
-**Task-Name**: $ARGUMENTS
+**Task Name**: $ARGUMENTS

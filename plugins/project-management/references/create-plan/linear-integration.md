@@ -1,19 +1,19 @@
 # Linear Integration Guide
 
-Umfassende Dokumentation zur Integration mit Linear für EPIC- und Issue-Management.
+Comprehensive documentation for integration with Linear for EPIC and issue management.
 
-## Übersicht
+## Overview
 
-Linear wird als zentrale Projekt-Management-Plattform verwendet:
+Linear serves as the central project management platform:
 
-- **EPICs**: Repräsentieren PRD-basierte Features/Initiativen
-- **Issues**: Individuelle, atomare Tasks
-- **Labels**: Kategorisierung und Filterung
-- **Estimates**: Story Point Schätzungen
-- **Dependencies**: Task-Verknüpfungen
-- **Custom Fields**: Erweiterte Metadaten (z.B. Agent-Empfehlungen)
+- **EPICs**: Represent PRD-based features/initiatives
+- **Issues**: Individual, atomic tasks
+- **Labels**: Categorization and filtering
+- **Estimates**: Story point estimations
+- **Dependencies**: Task relationships
+- **Custom Fields**: Extended metadata (e.g., agent recommendations)
 
-## Linear-Hierarchie
+## Linear Hierarchy
 
 ```
 Workspace (Organization)
@@ -24,53 +24,53 @@ Workspace (Organization)
         └── Issue N
 ```
 
-### EPIC-Struktur
+### EPIC Structure
 
-**EPIC = PRD-Feature**:
+**EPIC = PRD Feature**:
 
 ```yaml
 Title: "[Feature-Name]"
 Description: |
   ## Executive Summary
-  [Aus PRD übernommen]
+  [Adopted from PRD]
 
   ## Business Value
-  [Warum wird das gebaut?]
+  [Why is this being built?]
 
   ## Success Metrics
-  [Messbare Ziele]
+  [Measurable goals]
 
   ## Timeline
-  [Grobe Meilensteine]
+  [Rough milestones]
 
   ## Full PRD
-  Link: [PRD-Pfad oder URL]
+  Link: [PRD path or URL]
 Status: planned | in_progress | completed | canceled
 Priority: urgent | high | medium | low | no_priority
-Estimate: [Summe aller Issue-Estimates]
+Estimate: [Sum of all issue estimates]
 Labels: [epic, feature, ...]
 ```
 
-### Issue-Struktur
+### Issue Structure
 
 **Issue = Atomic Task**:
 
 ```yaml
-Title: "[Prägnante Task-Beschreibung]"
+Title: "[Concise Task Description]"
 Description: |
   ## Task Details
-  [Vollständige Beschreibung]
+  [Complete description]
 
   ## Acceptance Criteria
-  - [ ] Kriterium 1
-  - [ ] Kriterium 2
+  - [ ] Criterion 1
+  - [ ] Criterion 2
 
   ## Technical Notes
-  [Implementierungs-Hinweise]
+  [Implementation hints]
 
   ## Agent Recommendation
-  - Empfohlener Agent: [agent-name]
-  - Rationale: [Warum dieser Agent?]
+  - Recommended agent: [agent-name]
+  - Rationale: [Why this agent?]
 
   ## Dependencies
   - Depends on: LIN-XXX
@@ -86,269 +86,269 @@ Assignee: [Optional]
 
 ## Linear MCP Tools
 
-### Verfügbare Tools
+### Available Tools
 
-Der Linear-MCP-Server bietet folgende Tools:
+The Linear MCP server provides the following tools:
 
 #### Project/EPIC Management
 
 ```typescript
-// EPIC erstellen
+// Create EPIC
 mcp__linear__create_project({
   name: "Dark Mode Toggle",
   description: "Executive Summary + Full Description",
   state: "planned",
   priority: "high",
-  teamId: "TEAM_ID"
-})
+  teamId: "TEAM_ID",
+});
 
-// EPIC auflisten
+// List EPICs
 mcp__linear__list_projects({
   teamId: "TEAM_ID",
-  status: "planned" // planned, in_progress, completed
-})
+  status: "planned", // planned, in_progress, completed
+});
 
-// EPIC Details abrufen
+// Get EPIC details
 mcp__linear__get_project({
-  projectId: "PROJECT_ID"
-})
+  projectId: "PROJECT_ID",
+});
 
-// EPIC aktualisieren
+// Update EPIC
 mcp__linear__update_project({
   projectId: "PROJECT_ID",
   name: "Updated Name",
   description: "Updated Description",
-  state: "in_progress"
-})
+  state: "in_progress",
+});
 ```
 
 #### Issue Management
 
 ```typescript
-// Issue erstellen
+// Create issue
 mcp__linear__create_issue({
   title: "Implement UI Toggle Component",
   description: "Detailed description with acceptance criteria",
-  projectId: "PROJECT_ID", // Verknüpfung mit EPIC
+  projectId: "PROJECT_ID", // Link to EPIC
   priority: "high",
   estimate: 3, // Story Points
   labelIds: ["LABEL_ID_1", "LABEL_ID_2"],
-  teamId: "TEAM_ID"
-})
+  teamId: "TEAM_ID",
+});
 
-// Issues auflisten
+// List issues
 mcp__linear__list_issues({
   projectId: "PROJECT_ID",
   status: "backlog", // backlog, todo, in_progress, done
-  teamId: "TEAM_ID"
-})
+  teamId: "TEAM_ID",
+});
 
-// Issue Details abrufen
+// Get issue details
 mcp__linear__get_issue({
-  issueId: "ISSUE_ID"
-})
+  issueId: "ISSUE_ID",
+});
 
-// Issue aktualisieren
+// Update issue
 mcp__linear__update_issue({
   issueId: "ISSUE_ID",
   title: "Updated Title",
   description: "Updated Description",
   status: "in_progress",
-  estimate: 5
-})
+  estimate: 5,
+});
 
-// Issue löschen (bei Duplikaten)
+// Delete issue (for duplicates)
 mcp__linear__delete_issue({
-  issueId: "ISSUE_ID"
-})
+  issueId: "ISSUE_ID",
+});
 ```
 
 #### Label Management
 
 ```typescript
-// Labels auflisten
+// List labels
 mcp__linear__list_labels({
-  teamId: "TEAM_ID"
-})
+  teamId: "TEAM_ID",
+});
 
-// Label erstellen
+// Create label
 mcp__linear__create_label({
   name: "feature",
   color: "#4CAF50",
-  teamId: "TEAM_ID"
-})
+  teamId: "TEAM_ID",
+});
 
-// Issue Labels zuweisen
+// Assign labels to issue
 mcp__linear__add_label_to_issue({
   issueId: "ISSUE_ID",
-  labelId: "LABEL_ID"
-})
+  labelId: "LABEL_ID",
+});
 ```
 
 #### Dependencies
 
 ```typescript
-// Dependency erstellen
+// Create dependency
 mcp__linear__create_issue_relation({
   issueId: "ISSUE_ID",
   relatedIssueId: "RELATED_ISSUE_ID",
-  type: "blocks" // blocks, blocked_by, related_to
-})
+  type: "blocks", // blocks, blocked_by, related_to
+});
 
-// Dependencies auflisten
+// List dependencies
 mcp__linear__list_issue_relations({
-  issueId: "ISSUE_ID"
-})
+  issueId: "ISSUE_ID",
+});
 ```
 
-## Workflow-Implementation
+## Workflow Implementation
 
-### 1. PRD einlesen
+### 1. Read PRD
 
 ```typescript
-// PRD-Datei einlesen
-const prdContent = await read_file({ file_path: prdPath })
+// Read PRD file
+const prdContent = await read_file({ file_path: prdPath });
 
-// PRD-Struktur validieren
-const prdData = parsePRD(prdContent)
-validatePRDStructure(prdData)
+// Validate PRD structure
+const prdData = parsePRD(prdContent);
+validatePRDStructure(prdData);
 ```
 
-### 2. Duplikat-Check
+### 2. Duplicate Check
 
 ```typescript
-// Existierende EPICs prüfen
+// Check existing EPICs
 const existingProjects = await mcp__linear__list_projects({
   teamId: TEAM_ID,
-  status: "planned,in_progress"
-})
+  status: "planned,in_progress",
+});
 
-// Nach ähnlichen Namen suchen
-const duplicates = existingProjects.filter(p =>
-  similarity(p.name, prdData.title) > 0.8
-)
+// Search for similar names
+const duplicates = existingProjects.filter(
+  (p) => similarity(p.name, prdData.title) > 0.8,
+);
 
 if (duplicates.length > 0) {
-  // Interaktive Bestätigung
+  // Interactive confirmation
   const userChoice = await askUserQuestion({
-    question: "Ähnliches EPIC gefunden. Was möchten Sie tun?",
-    options: [
-      "Neues EPIC erstellen",
-      "Existierendes EPIC erweitern",
-      "Abbrechen"
-    ]
-  })
+    question: "Similar EPIC found. What would you like to do?",
+    options: ["Create new EPIC", "Extend existing EPIC", "Cancel"],
+  });
 }
 ```
 
-### 3. EPIC erstellen
+### 3. Create EPIC
 
 ```typescript
-// EPIC aus PRD erstellen
+// Create EPIC from PRD
 const epic = await mcp__linear__create_project({
   name: prdData.title,
   description: formatEpicDescription(prdData),
   state: "planned",
   priority: mapPRDPriority(prdData.priority),
-  teamId: TEAM_ID
-})
+  teamId: TEAM_ID,
+});
 
-console.log(`✅ EPIC erstellt: ${epic.name} (${epic.identifier})`)
+console.log(`EPIC created: ${epic.name} (${epic.identifier})`);
 ```
 
-### 4. Task-Breakdown
+### 4. Task Breakdown
 
 ```typescript
-// Tasks aus PRD ableiten
-const tasks = breakdownPRDToTasks(prdData)
+// Derive tasks from PRD
+const tasks = breakdownPRDToTasks(prdData);
 
-// Tasks kategorisieren
+// Categorize tasks
 const categorizedTasks = {
-  mustHave: tasks.filter(t => t.priority === "must"),
-  shouldHave: tasks.filter(t => t.priority === "should"),
-  couldHave: tasks.filter(t => t.priority === "could")
-}
+  mustHave: tasks.filter((t) => t.priority === "must"),
+  shouldHave: tasks.filter((t) => t.priority === "should"),
+  couldHave: tasks.filter((t) => t.priority === "could"),
+};
 ```
 
-### 5. Issues erstellen
+### 5. Create Issues
 
 ```typescript
-// Für jeden Task ein Issue erstellen
+// Create an issue for each task
 for (const task of categorizedTasks.mustHave) {
-  // Duplikat-Check
-  const existingIssue = await checkForDuplicateIssue(task, epic.id)
+  // Duplicate check
+  const existingIssue = await checkForDuplicateIssue(task, epic.id);
   if (existingIssue) {
-    console.log(`⚠️  Duplikat gefunden: ${existingIssue.identifier}`)
-    continue
+    console.log(`Duplicate found: ${existingIssue.identifier}`);
+    continue;
   }
 
-  // Labels vorbereiten
-  const labels = await getOrCreateLabels(task.labels, TEAM_ID)
+  // Prepare labels
+  const labels = await getOrCreateLabels(task.labels, TEAM_ID);
 
-  // Issue erstellen
+  // Create issue
   const issue = await mcp__linear__create_issue({
     title: task.title,
     description: formatIssueDescription(task),
     projectId: epic.id,
     priority: mapPriority(task.priority),
     estimate: task.estimate,
-    labelIds: labels.map(l => l.id),
-    teamId: TEAM_ID
-  })
+    labelIds: labels.map((l) => l.id),
+    teamId: TEAM_ID,
+  });
 
-  console.log(`✅ Issue erstellt: ${issue.identifier} - ${issue.title}`)
+  console.log(`Issue created: ${issue.identifier} - ${issue.title}`);
 }
 ```
 
-### 6. Dependencies verknüpfen
+### 6. Link Dependencies
 
 ```typescript
-// Dependencies zwischen Issues erstellen
+// Create dependencies between issues
 for (const task of tasks) {
   if (task.dependencies && task.dependencies.length > 0) {
     for (const depIdentifier of task.dependencies) {
       await mcp__linear__create_issue_relation({
         issueId: task.issueId,
         relatedIssueId: depIdentifier,
-        type: "blocked_by"
-      })
+        type: "blocked_by",
+      });
     }
   }
 }
 ```
 
-## Label-Strategie
+## Label Strategy
 
-### Standard-Labels
+### Standard Labels
 
 **Technology Stack**:
-- `java` - Java/Spring Boot Tasks
-- `python` - Python/Django/FastAPI Tasks
-- `javascript` - JavaScript/TypeScript Tasks
-- `react` - React Frontend
-- `database` - Database-related Tasks
+
+- `java` - Java/Spring Boot tasks
+- `python` - Python/Django/FastAPI tasks
+- `javascript` - JavaScript/TypeScript tasks
+- `react` - React frontend
+- `database` - Database-related tasks
 
 **Task Type**:
-- `feature` - Neue Funktionalität
-- `bug` - Fehlerbehebung
-- `documentation` - Dokumentation
-- `testing` - Test-Tasks
-- `refactor` - Code-Refactoring
-- `security` - Security-Tasks
-- `performance` - Performance-Optimierung
 
-**Priority** (redundant zu Issue-Priority, aber nützlich für Filtering):
-- `must-have` - Must-Have Features
-- `should-have` - Should-Have Features
-- `could-have` - Could-Have Features
+- `feature` - New functionality
+- `bug` - Bug fix
+- `documentation` - Documentation
+- `testing` - Test tasks
+- `refactor` - Code refactoring
+- `security` - Security tasks
+- `performance` - Performance optimization
+
+**Priority** (redundant to issue priority, but useful for filtering):
+
+- `must-have` - Must-have features
+- `should-have` - Should-have features
+- `could-have` - Could-have features
 
 **Agent Tags**:
-- `agent:code-reviewer` - Für Code-Review Tasks
-- `agent:java-developer` - Für Java Tasks
-- `agent:python-expert` - Für Python Tasks
-- `agent:ai-engineer` - Für AI/ML Tasks
 
-### Label-Erstellung
+- `agent:code-reviewer` - For code review tasks
+- `agent:java-developer` - For Java tasks
+- `agent:python-expert` - For Python tasks
+- `agent:ai-engineer` - For AI/ML tasks
+
+### Label Creation
 
 ```typescript
 const standardLabels = [
@@ -362,109 +362,109 @@ const standardLabels = [
   { name: "testing", color: "#9C27B0" },
   { name: "must-have", color: "#D32F2F" },
   { name: "should-have", color: "#FF9800" },
-  { name: "could-have", color: "#8BC34A" }
-]
+  { name: "could-have", color: "#8BC34A" },
+];
 
-// Labels erstellen (falls nicht vorhanden)
+// Create labels (if not present)
 for (const labelDef of standardLabels) {
-  const existingLabel = existingLabels.find(l => l.name === labelDef.name)
+  const existingLabel = existingLabels.find((l) => l.name === labelDef.name);
   if (!existingLabel) {
     await mcp__linear__create_label({
       name: labelDef.name,
       color: labelDef.color,
-      teamId: TEAM_ID
-    })
+      teamId: TEAM_ID,
+    });
   }
 }
 ```
 
 ## Story Point Estimation
 
-**Story Points** basieren auf Komplexität, nicht Zeit:
+**Story Points** are based on complexity, not time:
 
-| Story Points | Komplexität | Beispiel |
-|--------------|-------------|----------|
-| **1** | Trivial | Konfigurationsänderung |
-| **2** | Einfach | Einfache CRUD-Operation |
-| **3** | Mittel | Feature mit wenigen Edge Cases |
-| **5** | Komplex | Feature mit mehreren Edge Cases |
-| **8** | Sehr Komplex | Feature mit vielen Dependencies |
-| **13** | Extrem Komplex | Große Refactoring/Migration |
-| **21** | Episch | Zu groß, aufteilen! |
+| Story Points | Complexity        | Example                          |
+| ------------ | ----------------- | -------------------------------- |
+| **1**        | Trivial           | Configuration change             |
+| **2**        | Simple            | Simple CRUD operation            |
+| **3**        | Medium            | Feature with few edge cases      |
+| **5**        | Complex           | Feature with multiple edge cases |
+| **8**        | Very Complex      | Feature with many dependencies   |
+| **13**       | Extremely Complex | Large refactoring/migration      |
+| **21**       | Epic              | Too large, decompose!            |
 
-**Faustregel**: Tasks > 8 SP sollten in kleinere Tasks aufgeteilt werden.
+**Rule of thumb**: Tasks > 8 SP should be decomposed into smaller tasks.
 
 ## Custom Fields
 
-Linear erlaubt Custom Fields für erweiterte Metadaten:
+Linear allows custom fields for extended metadata:
 
 ```typescript
-// Custom Field für Agent-Empfehlungen
+// Custom field for agent recommendations
 await mcp__linear__create_custom_field({
   teamId: TEAM_ID,
   name: "Recommended Agent",
   type: "text",
-  description: "KI-Agent der für diesen Task empfohlen wird"
-})
+  description: "AI agent recommended for this task",
+});
 
-// Custom Field setzen
+// Set custom field
 await mcp__linear__set_issue_custom_field({
   issueId: issue.id,
   customFieldId: CUSTOM_FIELD_ID,
-  value: "java-developer"
-})
+  value: "java-developer",
+});
 ```
 
 ## Error Handling
 
-### Duplikat-Erkennung
+### Duplicate Detection
 
 ```typescript
 function checkForDuplicateIssue(task, epicId) {
   const existingIssues = await mcp__linear__list_issues({
-    projectId: epicId
-  })
+    projectId: epicId,
+  });
 
-  return existingIssues.find(issue => {
-    // Exakte Titel-Übereinstimmung
-    if (issue.title === task.title) return true
+  return existingIssues.find((issue) => {
+    // Exact title match
+    if (issue.title === task.title) return true;
 
-    // Ähnlichkeit > 90%
-    if (similarity(issue.title, task.title) > 0.9) return true
+    // Similarity > 90%
+    if (similarity(issue.title, task.title) > 0.9) return true;
 
-    return false
-  })
+    return false;
+  });
 }
 ```
 
 ### Rate Limiting
 
-Linear-API hat Rate Limits:
+Linear API has rate limits:
 
 ```typescript
-// Throttle API-Calls
+// Throttle API calls
 async function createIssuesWithThrottle(tasks, epicId) {
   for (const task of tasks) {
-    await createIssue(task, epicId)
-    await sleep(100) // 100ms Pause zwischen Calls
+    await createIssue(task, epicId);
+    await sleep(100); // 100ms pause between calls
   }
 }
 ```
 
-### Fehlerbehandlung
+### Error Handling
 
 ```typescript
 try {
   const issue = await mcp__linear__create_issue({...})
 } catch (error) {
   if (error.code === "DUPLICATE") {
-    console.log(`⚠️  Issue bereits vorhanden: ${task.title}`)
+    console.log(`Issue already exists: ${task.title}`)
   } else if (error.code === "RATE_LIMIT") {
-    console.log("⏳ Rate Limit erreicht, warte 60s...")
+    console.log("Rate limit reached, waiting 60s...")
     await sleep(60000)
     // Retry
   } else {
-    console.error(`❌ Fehler beim Erstellen: ${error.message}`)
+    console.error(`Error creating issue: ${error.message}`)
     throw error
   }
 }
@@ -472,86 +472,94 @@ try {
 
 ## Best Practices
 
-### EPIC-Erstellung
+### EPIC Creation
 
-**DO ✅**:
-- Executive Summary in EPIC-Description
-- Link zum vollständigen PRD
-- Realistische Timeline setzen
-- Business Value klar kommunizieren
+**DO**:
 
-**DON'T ❌**:
-- Technische Implementierung in EPIC
-- Zu viele Details (gehören in Issues)
-- EPICs ohne klare Success Metrics
+- Include executive summary in EPIC description
+- Link to complete PRD
+- Set realistic timeline
+- Communicate business value clearly
 
-### Issue-Erstellung
+**DON'T**:
 
-**DO ✅**:
-- Klare, prägnante Titel
-- Ausführliche Acceptance Criteria
-- Dependencies dokumentieren
-- Realistische Estimates
-- Agent-Empfehlungen hinzufügen
+- Include technical implementation in EPIC
+- Add too many details (belong in issues)
+- Create EPICs without clear success metrics
 
-**DON'T ❌**:
-- Vage Beschreibungen
-- Zu große Tasks (> 8 SP)
-- Issues ohne Akzeptanzkriterien
-- Dependencies ignorieren
+### Issue Creation
 
-### Label-Verwendung
+**DO**:
 
-**DO ✅**:
-- Konsistente Label-Strategie
-- Technology + Type Labels kombinieren
-- Agent-Tags für Empfehlungen
+- Clear, concise titles
+- Comprehensive acceptance criteria
+- Document dependencies
+- Realistic estimates
+- Add agent recommendations
 
-**DON'T ❌**:
-- Zu viele Labels pro Issue (max 5-7)
-- Label-Namen inkonsistent
-- Labels ohne klare Bedeutung
+**DON'T**:
+
+- Vague descriptions
+- Tasks too large (> 8 SP)
+- Issues without acceptance criteria
+- Ignore dependencies
+
+### Label Usage
+
+**DO**:
+
+- Consistent label strategy
+- Combine technology + type labels
+- Agent tags for recommendations
+
+**DON'T**:
+
+- Too many labels per issue (max 5-7)
+- Inconsistent label names
+- Labels without clear meaning
 
 ## Troubleshooting
 
-### "EPIC nicht gefunden"
+### "EPIC Not Found"
 
-**Problem**: Issue kann nicht mit EPIC verknüpft werden
+**Problem**: Issue cannot be linked to EPIC
 
-**Lösung**:
+**Solution**:
+
 ```typescript
-// EPIC-ID verifizieren
-const epic = await mcp__linear__get_project({ projectId: EPIC_ID })
+// Verify EPIC ID
+const epic = await mcp__linear__get_project({ projectId: EPIC_ID });
 if (!epic) {
-  console.error("EPIC existiert nicht!")
+  console.error("EPIC does not exist!");
 }
 ```
 
-### "Label nicht gefunden"
+### "Label Not Found"
 
-**Problem**: Label-ID ist ungültig
+**Problem**: Label ID is invalid
 
-**Lösung**:
+**Solution**:
+
 ```typescript
-// Labels neu abrufen
-const labels = await mcp__linear__list_labels({ teamId: TEAM_ID })
-const labelMap = Object.fromEntries(
-  labels.map(l => [l.name, l.id])
-)
+// Retrieve labels again
+const labels = await mcp__linear__list_labels({ teamId: TEAM_ID });
+const labelMap = Object.fromEntries(labels.map((l) => [l.name, l.id]));
 ```
 
-### "Rate Limit exceeded"
+### "Rate Limit Exceeded"
 
-**Problem**: Zu viele API-Calls
+**Problem**: Too many API calls
 
-**Lösung**:
-- Throttling implementieren (100-200ms zwischen Calls)
-- Batch-Operations verwenden wo möglich
-- Bei 429-Fehler: 60s warten
+**Solution**:
+
+- Implement throttling (100-200ms between calls)
+- Use batch operations where possible
+- On 429 error: wait 60s
 
 ---
 
-**Siehe auch**:
-- [task-breakdown.md](task-breakdown.md) - Task-Breakdown Strategien
-- [agent-mapping.md](agent-mapping.md) - Agent-Empfehlungen
-- [best-practices.md](best-practices.md) - Allgemeine Best Practices
+**See also**:
+
+- [task-breakdown.md](task-breakdown.md) - Task breakdown strategies
+- [agent-mapping.md](agent-mapping.md) - Agent recommendations
+- [best-practices.md](best-practices.md) - General best practices

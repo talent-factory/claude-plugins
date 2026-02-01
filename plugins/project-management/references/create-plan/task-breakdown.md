@@ -1,85 +1,86 @@
-# Task Breakdown Strategien
+# Task Breakdown Strategies
 
-Umfassender Guide zur Aufteilung von PRD-Anforderungen in atomare, umsetzbare Tasks.
+Comprehensive guide for decomposing PRD requirements into atomic, actionable tasks.
 
-## Grundprinzipien
+## Fundamental Principles
 
-### Was ist ein "guter" Task?
+### What Constitutes a "Good" Task?
 
-Ein guter Task erfüllt die **ATOMIC**-Kriterien:
+A good task fulfills the **ATOMIC** criteria:
 
-- **A**ctionable: Sofort umsetzbar ohne weitere Klärung
-- **T**estable: Klare Akzeptanzkriterien
-- **O**wnable: Einer Person/einem Agenten zuweisbar
-- **M**easurable: Fortschritt messbar (Story Points)
-- **I**ndependent: Minimal abhängig von anderen Tasks
-- **C**omplete: In sich abgeschlossen
+- **A**ctionable: Immediately implementable without further clarification
+- **T**estable: Clear acceptance criteria
+- **O**wnable: Assignable to one person/agent
+- **M**easurable: Progress measurable (story points)
+- **I**ndependent: Minimally dependent on other tasks
+- **C**omplete: Self-contained
 
-### Task-Größe
+### Task Size
 
-**Ideale Größe**: 2-5 Story Points (1-2 Tage Arbeit)
+**Ideal Size**: 2-5 story points (1-2 days of work)
 
-| Story Points | Beschreibung | Beispiel |
-|--------------|--------------|----------|
-| **1** | Trivial, < 2h | Config-Änderung, Typo-Fix |
-| **2** | Einfach, 2-4h | Einfaches CRUD, CSS-Anpassung |
-| **3** | Standard, 4-8h | Feature mit wenigen Edge Cases |
-| **5** | Komplex, 1-2 Tage | Feature mit mehreren Edge Cases |
-| **8** | Sehr komplex, 2-3 Tage | Große Feature, viele Dependencies |
-| **13+** | **ZU GROSS!** | In kleinere Tasks aufteilen |
+| Story Points | Description            | Example                          |
+| ------------ | ---------------------- | -------------------------------- |
+| **1**        | Trivial, < 2h          | Config change, typo fix          |
+| **2**        | Simple, 2-4h           | Simple CRUD, CSS adjustment      |
+| **3**        | Standard, 4-8h         | Feature with few edge cases      |
+| **5**        | Complex, 1-2 days      | Feature with multiple edge cases |
+| **8**        | Very complex, 2-3 days | Large feature, many dependencies |
+| **13+**      | **TOO LARGE!**         | Decompose into smaller tasks     |
 
-**Faustregel**: Tasks > 8 SP → Aufteilen!
+**Rule of thumb**: Tasks > 8 SP should be decomposed.
 
-## Breakdown-Strategien
+## Breakdown Strategies
 
-### 1. Aus funktionalen Anforderungen
+### 1. From Functional Requirements
 
-**PRD-Abschnitt**: Funktionale Anforderungen (MoSCoW-priorisiert)
+**PRD Section**: Functional Requirements (MoSCoW-prioritized)
 
-#### Strategie
+#### Strategy
 
-Jede Anforderung wird in **1-N Tasks** zerlegt:
+Each requirement is decomposed into **1-N tasks**:
 
-**Beispiel-Anforderung**:
-> **Must-Have**: User kann Dark Mode in Settings togglen
+**Example Requirement**:
+
+> **Must-Have**: User can toggle Dark Mode in Settings
 
 **Breakdown**:
 
 1. **UI Toggle Component** (3 SP)
-   - Toggle-Switch in Settings-Page
-   - Visual Feedback beim Toggle
-   - Accessibility (ARIA-Labels)
+   - Toggle switch in Settings page
+   - Visual feedback on toggle
+   - Accessibility (ARIA labels)
 
 2. **Theme State Management** (5 SP)
-   - Zustand speichern (Context/Redux)
-   - Theme-Provider implementieren
-   - Theme-Wechsel propagieren
+   - Store state (Context/Redux)
+   - Implement theme provider
+   - Propagate theme changes
 
 3. **CSS Variables Setup** (2 SP)
-   - CSS-Variablen für Light/Dark definieren
-   - Alle Komponenten auf Variables umstellen
-   - Theme-spezifische Styles
+   - Define CSS variables for Light/Dark
+   - Convert all components to use variables
+   - Theme-specific styles
 
 4. **Local Storage Persistence** (2 SP)
-   - Theme-Präferenz speichern
-   - Beim Load wiederherstellen
-   - Fallback auf System-Theme
+   - Save theme preference
+   - Restore on load
+   - Fallback to system theme
 
-#### Mapping zu Tasks
+#### Mapping to Tasks
 
 ```typescript
 function breakdownFunctionalRequirement(requirement) {
-  const tasks = []
+  const tasks = [];
 
-  // Pattern 1: UI-Component Task
+  // Pattern 1: UI Component Task
   if (requirement.hasUI) {
     tasks.push({
       title: `Implement ${requirement.name} UI Component`,
       type: "frontend",
       estimate: estimateUIComplexity(requirement),
       labels: ["feature", "ui"],
-      agent: "react-developer"
-    })
+      agent: "react-developer",
+    });
   }
 
   // Pattern 2: Backend Logic Task
@@ -89,8 +90,8 @@ function breakdownFunctionalRequirement(requirement) {
       type: "backend",
       estimate: estimateBackendComplexity(requirement),
       labels: ["feature", "backend"],
-      agent: "java-developer" || "python-expert"
-    })
+      agent: "java-developer" || "python-expert",
+    });
   }
 
   // Pattern 3: State Management Task
@@ -100,8 +101,8 @@ function breakdownFunctionalRequirement(requirement) {
       type: "state",
       estimate: 3,
       labels: ["feature", "state-management"],
-      agent: "react-developer"
-    })
+      agent: "react-developer",
+    });
   }
 
   // Pattern 4: Persistence Task
@@ -111,121 +112,124 @@ function breakdownFunctionalRequirement(requirement) {
       type: "persistence",
       estimate: 2,
       labels: ["feature", "database"],
-      agent: "java-developer"
-    })
+      agent: "java-developer",
+    });
   }
 
-  return tasks
+  return tasks;
 }
 ```
 
-### 2. Aus nicht-funktionalen Anforderungen
+### 2. From Non-Functional Requirements
 
-**PRD-Abschnitt**: Nicht-funktionale Anforderungen (NFRs)
+**PRD Section**: Non-Functional Requirements (NFRs)
 
-#### Performance-Tasks
+#### Performance Tasks
 
-**Beispiel-NFR**:
-> **Performance**: Seite muss in < 2s laden
+**Example NFR**:
+
+> **Performance**: Page must load in < 2s
 
 **Breakdown**:
 
 1. **Performance Baseline** (2 SP)
-   - Aktuelle Ladezeit messen
-   - Bottlenecks identifizieren
-   - Lighthouse-Report generieren
+   - Measure current load time
+   - Identify bottlenecks
+   - Generate Lighthouse report
 
 2. **Code Splitting** (5 SP)
-   - Lazy Loading implementieren
-   - Route-based Code Splitting
-   - Bundle-Größe optimieren
+   - Implement lazy loading
+   - Route-based code splitting
+   - Optimize bundle size
 
 3. **Image Optimization** (3 SP)
-   - Responsive Images
-   - WebP-Format
-   - Lazy Loading
+   - Responsive images
+   - WebP format
+   - Lazy loading
 
 4. **Caching Strategy** (5 SP)
-   - Service Worker
-   - HTTP-Caching
+   - Service worker
+   - HTTP caching
    - LocalStorage/IndexedDB
 
-#### Security-Tasks
+#### Security Tasks
 
-**Beispiel-NFR**:
+**Example NFR**:
+
 > **Security**: OWASP Top 10 Compliance
 
 **Breakdown**:
 
 1. **Security Audit** (3 SP)
-   - OWASP Top 10 Check
-   - Dependency Audit
-   - Security-Scan (SAST)
+   - OWASP Top 10 check
+   - Dependency audit
+   - Security scan (SAST)
 
 2. **Input Validation** (5 SP)
-   - XSS-Prevention
-   - SQL-Injection Prevention
-   - CSRF-Protection
+   - XSS prevention
+   - SQL injection prevention
+   - CSRF protection
 
 3. **Authentication Hardening** (8 SP)
-   - Password Policy
-   - MFA Implementation
-   - Session Management
+   - Password policy
+   - MFA implementation
+   - Session management
 
 4. **Security Testing** (5 SP)
-   - Penetration Testing
-   - Security Unit Tests
-   - Vulnerability Scanning
+   - Penetration testing
+   - Security unit tests
+   - Vulnerability scanning
 
-#### Accessibility-Tasks
+#### Accessibility Tasks
 
-**Beispiel-NFR**:
+**Example NFR**:
+
 > **Accessibility**: WCAG 2.1 Level AA
 
 **Breakdown**:
 
 1. **Accessibility Audit** (2 SP)
-   - Axe/Lighthouse Scan
-   - Keyboard Navigation Test
-   - Screen Reader Test
+   - Axe/Lighthouse scan
+   - Keyboard navigation test
+   - Screen reader test
 
 2. **Semantic HTML** (3 SP)
-   - ARIA-Labels
-   - Heading Hierarchy
-   - Landmark Regions
+   - ARIA labels
+   - Heading hierarchy
+   - Landmark regions
 
 3. **Keyboard Navigation** (3 SP)
-   - Tab-Order optimieren
-   - Focus States
-   - Skip Links
+   - Optimize tab order
+   - Focus states
+   - Skip links
 
 4. **Accessibility Testing** (3 SP)
-   - Automated Tests (axe-core)
-   - Manual Testing
-   - Screen Reader Testing
+   - Automated tests (axe-core)
+   - Manual testing
+   - Screen reader testing
 
 ### 3. Cross-Cutting Concerns
 
-Tasks, die über mehrere Features hinweg relevant sind:
+Tasks relevant across multiple features:
 
 #### Testing
 
 **Breakdown**:
 
-1. **Unit Tests** (3 SP pro Feature)
-   - Component Tests
-   - Function Tests
-   - Edge Cases
+1. **Unit Tests** (3 SP per feature)
+   - Component tests
+   - Function tests
+   - Edge cases
 
-2. **Integration Tests** (5 SP pro Feature)
-   - API Integration
-   - Component Integration
-   - E2E Happy Path
+2. **Integration Tests** (5 SP per feature)
+   - API integration
+   - Component integration
+   - E2E happy path
 
 3. **E2E Tests** (5 SP)
-   - User Flows
-   - Critical Paths
-   - Cross-Browser
+   - User flows
+   - Critical paths
+   - Cross-browser
 
 #### Documentation
 
@@ -233,79 +237,79 @@ Tasks, die über mehrere Features hinweg relevant sind:
 
 1. **Code Documentation** (2 SP)
    - JSDoc/JavaDoc
-   - README Updates
-   - Architecture Docs
+   - README updates
+   - Architecture docs
 
 2. **User Documentation** (3 SP)
-   - User Guide
+   - User guide
    - Tutorials
    - FAQ
 
 3. **API Documentation** (3 SP)
    - OpenAPI/Swagger
-   - Endpoint Descriptions
-   - Example Requests
+   - Endpoint descriptions
+   - Example requests
 
 #### DevOps/Infrastructure
 
 **Breakdown**:
 
 1. **CI/CD Pipeline** (5 SP)
-   - Build Pipeline
-   - Test Integration
-   - Deployment Automation
+   - Build pipeline
+   - Test integration
+   - Deployment automation
 
-2. **Monitoring & Observability** (5 SP)
-   - Logging Setup
-   - Metrics Collection
+2. **Monitoring and Observability** (5 SP)
+   - Logging setup
+   - Metrics collection
    - Alerting
 
 3. **Infrastructure as Code** (8 SP)
    - Terraform/CloudFormation
-   - Environment Setup
-   - Configuration Management
+   - Environment setup
+   - Configuration management
 
-## Dependency-Management
+## Dependency Management
 
-### Dependency-Typen
+### Dependency Types
 
-**Blocking**: Task A muss vor Task B fertig sein
-**Related**: Tasks teilen Code/Kontext
-**Sequential**: Logische Reihenfolge
+**Blocking**: Task A must complete before Task B can start
+**Related**: Tasks share code/context
+**Sequential**: Logical ordering
 
-### Dependency-Mapping
+### Dependency Mapping
 
 ```typescript
-// Beispiel: Dark Mode Feature
+// Example: Dark Mode Feature
 const tasks = [
   {
     id: "T1",
     title: "CSS Variables Setup",
-    dependencies: [] // Keine Dependencies
+    dependencies: [], // No dependencies
   },
   {
     id: "T2",
     title: "Theme State Management",
-    dependencies: ["T1"] // Blocked by T1
+    dependencies: ["T1"], // Blocked by T1
   },
   {
     id: "T3",
     title: "UI Toggle Component",
-    dependencies: ["T2"] // Blocked by T2
+    dependencies: ["T2"], // Blocked by T2
   },
   {
     id: "T4",
     title: "Local Storage Persistence",
-    dependencies: ["T2"] // Blocked by T2
+    dependencies: ["T2"], // Blocked by T2
   },
   {
     id: "T5",
     title: "Unit Tests",
-    dependencies: ["T3", "T4"] // Blocked by T3 and T4
-  }
-]
+    dependencies: ["T3", "T4"], // Blocked by T3 and T4
+  },
+];
 
-// Visualisierung:
+// Visualization:
 //     T1
 //     ↓
 //     T2
@@ -315,312 +319,361 @@ const tasks = [
 //     T5
 ```
 
-### Minimierung von Dependencies
+### Minimizing Dependencies
 
-**DO ✅**:
-- Tasks so unabhängig wie möglich gestalten
-- Interfaces/Contracts früh definieren
-- Parallele Arbeit ermöglichen
+**DO**:
 
-**DON'T ❌**:
-- Lange Dependency-Ketten (> 3 Ebenen)
-- Zirkuläre Dependencies
-- Unnötige Dependencies
+- Design tasks as independently as possible
+- Define interfaces/contracts early
+- Enable parallel work
+
+**DON'T**:
+
+- Long dependency chains (> 3 levels)
+- Circular dependencies
+- Unnecessary dependencies
 
 ## Story Point Estimation
 
-### Estimation-Faktoren
+### Estimation Factors
 
-**Komplexität**:
-- Anzahl Edge Cases
-- Algorithmus-Komplexität
-- Neue vs. bekannte Technologie
+**Complexity**:
 
-**Unsicherheit**:
-- Klare Anforderungen?
-- Bekannte Codebase?
-- Bekannte Tools/Frameworks?
+- Number of edge cases
+- Algorithm complexity
+- New vs. familiar technology
 
-**Aufwand**:
-- Coding-Aufwand
-- Testing-Aufwand
-- Review-Aufwand
-- Documentation-Aufwand
+**Uncertainty**:
+
+- Clear requirements?
+- Familiar codebase?
+- Familiar tools/frameworks?
+
+**Effort**:
+
+- Coding effort
+- Testing effort
+- Review effort
+- Documentation effort
 
 ### Planning Poker
 
-Team-basierte Estimation:
+Team-based estimation:
 
-1. **Task vorstellen**: PO erklärt Task
-2. **Fragen klären**: Team fragt nach
-3. **Privat schätzen**: Jeder wählt Story Points
-4. **Gleichzeitig aufdecken**: Alle zeigen Schätzung
-5. **Diskutieren**: Bei großen Unterschieden
-6. **Konsens finden**: Team einigt sich
+1. **Present task**: PO explains task
+2. **Clarify questions**: Team asks questions
+3. **Private estimation**: Each person selects story points
+4. **Simultaneous reveal**: All show estimates
+5. **Discuss**: When there are large differences
+6. **Reach consensus**: Team agrees
 
-### Estimation-Beispiele
+### Estimation Examples
 
-#### Beispiel 1: Einfaches CRUD
+#### Example 1: Simple CRUD
 
-**Task**: "User kann Profil bearbeiten"
+**Task**: "User can edit profile"
 
-**Analyse**:
-- ✅ Bekanntes Pattern (CRUD)
-- ✅ Klare Anforderungen
-- ✅ Wenige Edge Cases
+**Analysis**:
+
+- Known pattern (CRUD)
+- Clear requirements
+- Few edge cases
 
 **Estimation**: **3 SP**
 
-#### Beispiel 2: Komplexe Authentifizierung
+#### Example 2: Complex Authentication
 
-**Task**: "MFA mit TOTP implementieren"
+**Task**: "Implement MFA with TOTP"
 
-**Analyse**:
-- ⚠️ Neue Technologie (TOTP)
-- ⚠️ Security-kritisch
-- ⚠️ Viele Edge Cases (Device Lost, Backup Codes)
+**Analysis**:
+
+- New technology (TOTP)
+- Security-critical
+- Many edge cases (device lost, backup codes)
 
 **Estimation**: **8 SP**
 
-#### Beispiel 3: Performance-Optimierung
+#### Example 3: Performance Optimization
 
-**Task**: "Seite Load-Zeit um 50% reduzieren"
+**Task**: "Reduce page load time by 50%"
 
-**Analyse**:
-- ❌ Unklare Anforderungen (Wo optimieren?)
-- ❌ Hohe Unsicherheit
-- ❌ Viele potenzielle Bottlenecks
+**Analysis**:
 
-**Estimation**: **13 SP** → **ZU GROSS, AUFTEILEN!**
+- Unclear requirements (where to optimize?)
+- High uncertainty
+- Many potential bottlenecks
 
-**Besserer Breakdown**:
-1. Performance Baseline (2 SP)
-2. Bottleneck-Analyse (3 SP)
-3. Spezifische Optimierungen (je 3-5 SP)
+**Estimation**: **13 SP** → **TOO LARGE, DECOMPOSE!**
 
-## Task-Templates
+**Better Breakdown**:
 
-### Feature-Task Template
+1. Performance baseline (2 SP)
+2. Bottleneck analysis (3 SP)
+3. Specific optimizations (3-5 SP each)
+
+## Task Templates
+
+### Feature Task Template
 
 ```markdown
 ## Task: [Feature-Name]
 
 ### Description
-[Kurze Beschreibung der Funktionalität]
+
+[Brief description of the functionality]
 
 ### Acceptance Criteria
-- [ ] Kriterium 1 (testbar, messbar)
-- [ ] Kriterium 2
-- [ ] Kriterium 3
+
+- [ ] Criterion 1 (testable, measurable)
+- [ ] Criterion 2
+- [ ] Criterion 3
 
 ### Technical Notes
-- Implementation Details
-- API Endpoints
-- Database Schema
+
+- Implementation details
+- API endpoints
+- Database schema
 
 ### Edge Cases
-- Edge Case 1
-- Edge Case 2
+
+- Edge case 1
+- Edge case 2
 
 ### Testing Requirements
-- Unit Tests: [Was testen?]
-- Integration Tests: [Was testen?]
-- E2E Tests: [Welche Flows?]
+
+- Unit tests: [What to test?]
+- Integration tests: [What to test?]
+- E2E tests: [Which flows?]
 
 ### Dependencies
+
 - Depends on: [Task-IDs]
 - Blocks: [Task-IDs]
 
 ### Agent Recommendation
+
 - **Agent**: [agent-name]
-- **Rationale**: [Warum dieser Agent?]
+- **Rationale**: [Why this agent?]
 
 ### Estimate
+
 **Story Points**: [1, 2, 3, 5, 8]
 ```
 
-### Bug-Task Template
+### Bug Task Template
 
 ```markdown
 ## Task: Fix [Bug-Name]
 
 ### Description
-[Was ist kaputt?]
+
+[What is broken?]
 
 ### Steps to Reproduce
+
 1. Step 1
 2. Step 2
 3. Observe error
 
 ### Expected Behavior
-[Was sollte passieren?]
+
+[What should happen?]
 
 ### Actual Behavior
-[Was passiert tatsächlich?]
+
+[What actually happens?]
 
 ### Root Cause
-[Ursache des Bugs]
+
+[Cause of the bug]
 
 ### Fix Description
-[Wie wird es gefixt?]
+
+[How will it be fixed?]
 
 ### Testing Requirements
-- Unit Tests: [Neue Tests?]
-- Regression Tests: [Welche Flows erneut testen?]
+
+- Unit tests: [New tests?]
+- Regression tests: [Which flows to retest?]
 
 ### Estimate
+
 **Story Points**: [1, 2, 3]
 ```
 
-### Documentation-Task Template
+### Documentation Task Template
 
 ```markdown
 ## Task: Document [Feature-Name]
 
 ### Description
-[Was soll dokumentiert werden?]
+
+[What should be documented?]
 
 ### Documentation Scope
-- [ ] User Guide
-- [ ] API Documentation
-- [ ] Architecture Docs
-- [ ] Code Comments
+
+- [ ] User guide
+- [ ] API documentation
+- [ ] Architecture docs
+- [ ] Code comments
 
 ### Target Audience
-[Entwickler, User, Admin, etc.]
+
+[Developers, users, admin, etc.]
 
 ### Deliverables
+
 - File 1: [Path]
 - File 2: [Path]
 
 ### Estimate
+
 **Story Points**: [2, 3]
 ```
 
-## Häufige Fehler
+## Common Errors
 
-### ❌ Zu große Tasks
+### Tasks Too Large
 
 **Problem**: Tasks > 8 SP
 
-**Beispiel**:
-> "User Authentication System implementieren" (21 SP)
+**Example**:
 
-**Lösung**: Aufteilen in:
-1. User Registration (5 SP)
-2. Login/Logout (3 SP)
-3. Password Reset (3 SP)
-4. Session Management (5 SP)
+> "Implement user authentication system" (21 SP)
+
+**Solution**: Decompose into:
+
+1. User registration (5 SP)
+2. Login/logout (3 SP)
+3. Password reset (3 SP)
+4. Session management (5 SP)
 5. MFA (8 SP)
 
-### ❌ Vage Beschreibungen
+### Vague Descriptions
 
-**Problem**: Unklare Anforderungen
+**Problem**: Unclear requirements
 
-**Schlecht**:
-> "Performance verbessern"
+**Incorrect**:
 
-**Gut**:
-> "Seite Load-Zeit von 5s auf < 2s reduzieren durch Code Splitting und Image Optimization"
+> "Improve performance"
 
-### ❌ Fehlende Akzeptanzkriterien
+**Correct**:
 
-**Problem**: Nicht testbar
+> "Reduce page load time from 5s to < 2s through code splitting and image optimization"
 
-**Schlecht**:
-> "Dark Mode implementieren"
+### Missing Acceptance Criteria
 
-**Gut**:
-> "Dark Mode implementieren"
-> - [ ] Toggle in Settings vorhanden
-> - [ ] Theme wechselt bei Toggle
-> - [ ] Präferenz wird in LocalStorage gespeichert
-> - [ ] Theme wird beim Load wiederhergestellt
+**Problem**: Not testable
 
-### ❌ Ignorieren von Dependencies
+**Incorrect**:
 
-**Problem**: Tasks in falscher Reihenfolge
+> "Implement dark mode"
 
-**Beispiel**:
-- Task 1: "E2E Tests implementieren"
-- Task 2: "Feature implementieren"
+**Correct**:
 
-**Problem**: E2E Tests können nicht vor Feature implementiert werden!
+> "Implement dark mode"
+>
+> - [ ] Toggle present in Settings
+> - [ ] Theme changes on toggle
+> - [ ] Preference saved in LocalStorage
+> - [ ] Theme restored on load
 
-**Lösung**: Dependencies explizit machen:
-- Task 1: "Feature implementieren"
-- Task 2: "E2E Tests implementieren" (depends on Task 1)
+### Ignoring Dependencies
+
+**Problem**: Tasks in wrong order
+
+**Example**:
+
+- Task 1: "Implement E2E tests"
+- Task 2: "Implement feature"
+
+**Problem**: E2E tests cannot be implemented before the feature!
+
+**Solution**: Make dependencies explicit:
+
+- Task 1: "Implement feature"
+- Task 2: "Implement E2E tests" (depends on Task 1)
 
 ## Best Practices
 
-### DO ✅
+### DO
 
-**Atomare Tasks**:
-- Eine logische Einheit pro Task
+**Atomic Tasks**:
+
+- One logical unit per task
 - 2-5 SP ideal
-- In sich abgeschlossen
+- Self-contained
 
-**Klare Beschreibungen**:
-- Was soll gebaut werden?
-- Warum wird es gebaut?
-- Wie wird Erfolg gemessen?
+**Clear Descriptions**:
 
-**Testbare Akzeptanzkriterien**:
-- Messbar und verifizierbar
-- Checkbox-Format
-- Keine Interpretation nötig
+- What should be built?
+- Why is it being built?
+- How is success measured?
 
-**Realistische Schätzungen**:
-- Planning Poker verwenden
-- Historical Data berücksichtigen
-- Bei Unsicherheit: Höher schätzen
+**Testable Acceptance Criteria**:
 
-**Dependencies dokumentieren**:
-- Blocking Tasks identifizieren
-- Parallele Arbeit ermöglichen
-- Visuell darstellen (Graph)
+- Measurable and verifiable
+- Checkbox format
+- No interpretation needed
 
-### DON'T ❌
+**Realistic Estimates**:
 
-**Zu große Tasks**:
-- > 8 SP → Aufteilen
-- Mehrere logische Einheiten → Aufteilen
+- Use planning poker
+- Consider historical data
+- When uncertain: estimate higher
 
-**Vage Anforderungen**:
-- Keine klaren Akzeptanzkriterien
-- Interpretation nötig
-- Scope-Creep möglich
+**Document Dependencies**:
 
-**Ignorieren von Constraints**:
-- NFRs vergessen
-- Cross-Cutting Concerns auslassen
-- Testing als Afterthought
+- Identify blocking tasks
+- Enable parallel work
+- Visualize (graph)
 
-**Unrealistische Schätzungen**:
-- Zu optimistisch
-- Dependencies ignorieren
-- Testing-Aufwand unterschätzen
+### DON'T
 
-## Checkliste: Ist mein Task gut?
+**Tasks Too Large**:
 
-Vor dem Erstellen eines Tasks in Linear:
+- > 8 SP should be decomposed
+- Multiple logical units should be decomposed
 
-- [ ] **Atomic**: Eine logische Einheit?
-- [ ] **Actionable**: Sofort umsetzbar?
-- [ ] **Testable**: Akzeptanzkriterien definiert?
-- [ ] **Ownable**: Einer Person zuweisbar?
-- [ ] **Measurable**: Estimate vorhanden (2-8 SP)?
-- [ ] **Independent**: Minimal abhängig?
-- [ ] **Complete**: In sich abgeschlossen?
-- [ ] **Described**: Vollständige Beschreibung?
-- [ ] **Agent-Mapped**: Empfohlener Agent angegeben?
-- [ ] **Labeled**: Labels für Kategorisierung?
+**Vague Requirements**:
 
-Wenn **alle Punkte** ✅: Task ist bereit!
+- No clear acceptance criteria
+- Interpretation needed
+- Scope creep possible
+
+**Ignore Constraints**:
+
+- Forget NFRs
+- Omit cross-cutting concerns
+- Treat testing as afterthought
+
+**Unrealistic Estimates**:
+
+- Too optimistic
+- Ignore dependencies
+- Underestimate testing effort
+
+## Checklist: Is My Task Good?
+
+Before creating a task in Linear:
+
+- [ ] **Atomic**: One logical unit?
+- [ ] **Actionable**: Immediately implementable?
+- [ ] **Testable**: Acceptance criteria defined?
+- [ ] **Ownable**: Assignable to one person?
+- [ ] **Measurable**: Estimate provided (2-8 SP)?
+- [ ] **Independent**: Minimally dependent?
+- [ ] **Complete**: Self-contained?
+- [ ] **Described**: Full description?
+- [ ] **Agent-Mapped**: Recommended agent specified?
+- [ ] **Labeled**: Labels for categorization?
+
+If **all points** are checked: Task is ready!
 
 ---
 
-**Siehe auch**:
-- [linear-integration.md](linear-integration.md) - Linear-API Details
-- [agent-mapping.md](agent-mapping.md) - Agent-Empfehlungen
-- [best-practices.md](best-practices.md) - Allgemeine Best Practices
+**See also**:
+
+- [linear-integration.md](linear-integration.md) - Linear API details
+- [agent-mapping.md](agent-mapping.md) - Agent recommendations
+- [best-practices.md](best-practices.md) - General best practices

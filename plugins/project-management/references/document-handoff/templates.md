@@ -1,197 +1,202 @@
 # Handoff Templates
 
-## Vollständiges Template
+## Comprehensive Template
 
 ```markdown
-# Handoff: [Aufgaben-Titel]
+# Handoff: [Task Title]
 
-**Datum**: [YYYY-MM-DD HH:MM]
+**Date**: [YYYY-MM-DD HH:MM]
 **Branch**: [branch-name]
-**Linear Issue**: [TF-XXX] - [Issue-Titel] (falls vorhanden)
+**Linear Issue**: [TF-XXX] - [Issue Title] (if applicable)
 
-## Original-Aufgabe
+## Original Task
 
-[Beschreibung der ursprünglichen Anforderung]
+[Description of the original requirement]
 
-**Warum wichtig**: [Business Value / Kontext]
+**Business Value**: [Business value / Context]
 
-## Bereits erledigt
+## Completed Work
 
-### Änderungen
+### Changes
 
-| Datei | Änderung | Status |
-|-------|----------|--------|
-| `path/to/file1.py` | [Beschreibung] | Committed / Uncommitted |
-| `path/to/file2.tsx` | [Beschreibung] | Committed / Uncommitted |
+| File                | Modification  | Status                  |
+| ------------------- | ------------- | ----------------------- |
+| `path/to/file1.py`  | [Description] | Committed / Uncommitted |
+| `path/to/file2.tsx` | [Description] | Committed / Uncommitted |
 
-### Erfolgreiche Ansätze
+### Successful Approaches
 
-1. **[Ansatz 1]**
-   - Was: [Beschreibung]
-   - Warum erfolgreich: [Begründung]
-   - Relevante Dateien: `path/to/file.py:123`
+1. **[Approach 1]**
+   - Implementation: [Description]
+   - Rationale for success: [Justification]
+   - Relevant files: `path/to/file.py:123`
 
-2. **[Ansatz 2]**
-   - Was: [Beschreibung]
-   - Warum erfolgreich: [Begründung]
+2. **[Approach 2]**
+   - Implementation: [Description]
+   - Rationale for success: [Justification]
 
-## Gescheiterte Versuche
+## Failed Attempts
 
-### Versuch 1: [Kurze Beschreibung]
+### Attempt 1: [Brief Description]
 
-**Was versucht**: [Detaillierte Beschreibung]
+**Approach**: [Detailed description]
 
-**Fehlermeldung**:
-```
-[Relevante Fehlermeldung oder Log-Output]
+**Error Message**:
 ```
 
-**Warum gescheitert**: [Analyse der Ursache]
+[Relevant error message or log output]
 
-**Lessons Learned**: [Was daraus gelernt wurde]
+````
 
-### Versuch 2: [Kurze Beschreibung]
+**Failure Analysis**: [Analysis of the cause]
 
-[Gleiche Struktur wie oben]
+**Lessons Learned**: [Insights derived from this attempt]
 
-## Aktueller Zustand
+### Attempt 2: [Brief Description]
+
+[Same structure as above]
+
+## Current State
 
 ### Git Status
 
 ```bash
-[Output von git status]
-```
+[Output of git status]
+````
 
 ### Uncommitted Changes
 
 ```bash
-[Output von git diff --stat]
+[Output of git diff --stat]
 ```
 
 ### Modified Files
 
-| Datei | Beschreibung der Änderungen |
-|-------|----------------------------|
-| `path/to/file1.py` | [Kurze Beschreibung] |
-| `path/to/file2.tsx` | [Kurze Beschreibung] |
+| File                | Description of Changes |
+| ------------------- | ---------------------- |
+| `path/to/file1.py`  | [Brief description]    |
+| `path/to/file2.tsx` | [Brief description]    |
 
 ### Environment
 
-- **Services**: [Welche laufen / nicht laufen]
-- **Database**: [Status, relevante Daten]
-- **Dependencies**: [Relevante Pakete, Versionen]
-- **Config**: [Wichtige Konfigurationen]
+- **Services**: [Which are running / not running]
+- **Database**: [Status, relevant data]
+- **Dependencies**: [Relevant packages, versions]
+- **Configuration**: [Important configurations]
 
-## Nächste Schritte
+## Subsequent Steps
 
-### Priorität 1: [Titel]
+### Priority 1: [Title]
 
-**Was**: [Detaillierte Beschreibung der Aufgabe]
+**Objective**: [Detailed description of the task]
 
-**Wo**: `path/to/file.py:123-145`
+**Location**: `path/to/file.py:123-145`
 
-**Wie**:
-1. [Schritt 1]
-2. [Schritt 2]
-3. [Schritt 3]
+**Approach**:
 
-**Akzeptanzkriterien**:
-- [ ] [Kriterium 1]
-- [ ] [Kriterium 2]
+1. [Step 1]
+2. [Step 2]
+3. [Step 3]
 
-### Priorität 2: [Titel]
+**Acceptance Criteria**:
 
-[Gleiche Struktur wie oben]
+- [ ] [Criterion 1]
+- [ ] [Criterion 2]
 
-### Priorität 3: [Titel]
+### Priority 2: [Title]
 
-[Gleiche Struktur wie oben]
+[Same structure as above]
 
-## Wichtige Referenzen
+### Priority 3: [Title]
 
-### Relevante Dateien
+[Same structure as above]
 
-| Datei | Zeilen | Warum relevant |
-|-------|--------|----------------|
-| `path/to/main.py` | 712-750 | [Beschreibung] |
-| `path/to/config.ts` | 45-60 | [Beschreibung] |
-| `.env.example` | - | [Was beachten] |
+## Important References
 
-### Dokumentation
+### Relevant Files
 
-- [Link zu relevanter Doku]
-- [Link zu ähnlichem gelöstem Problem]
-- [Link zu API-Dokumentation]
+| File                | Lines   | Relevance        |
+| ------------------- | ------- | ---------------- |
+| `path/to/main.py`   | 712-750 | [Description]    |
+| `path/to/config.ts` | 45-60   | [Description]    |
+| `.env.example`      | -       | [Considerations] |
 
-### Code-Patterns
+### Documentation
+
+- [Link to relevant documentation]
+- [Link to similar resolved issue]
+- [Link to API documentation]
+
+### Code Patterns
 
 ```python
-# Beispiel eines wichtigen Patterns im Projekt
+# Example of an important pattern in this project
 def example_pattern():
-    # So wird X im Projekt üblicherweise gemacht
+    # This demonstrates how X is typically implemented in this project
     pass
 ```
 
-## Wichtige Hinweise
+## Important Notes
 
-- [Warnung 1: z.B. "Nicht X machen, weil Y"]
-- [Warnung 2: z.B. "Environment Variable Z muss gesetzt sein"]
-- [Besonderheit: z.B. "Tests müssen mit --flag ausgeführt werden"]
+- [Warning 1: e.g., "Do not perform X because Y"]
+- [Warning 2: e.g., "Environment variable Z must be configured"]
+- [Special consideration: e.g., "Tests must be executed with --flag"]
 
-## Für den nächsten Agent
+## For the Subsequent Agent
 
-[Zusammenfassung in 2-3 Sätzen: Was muss der nächste Agent wissen, um sofort loszulegen? Wichtigste Erkenntnis und nächster konkreter Schritt.]
-```
+[Summary in 2-3 sentences: What must the subsequent agent know to begin immediately? Most critical insight and next concrete step.]
 
-## Minimales Template
+````
 
-Für schnelle Übergaben bei weniger komplexen Aufgaben:
+## Minimal Template
+
+For rapid handovers of less complex tasks:
 
 ```markdown
-# Handoff: [Aufgaben-Titel]
+# Handoff: [Task Title]
 
-**Datum**: [YYYY-MM-DD HH:MM]
+**Date**: [YYYY-MM-DD HH:MM]
 **Branch**: [branch-name]
 
-## Original-Aufgabe
+## Original Task
 
-[1-2 Sätze zur Aufgabe]
+[1-2 sentences describing the task]
 
-## Bereits erledigt
+## Completed Work
 
-- [Änderung 1]
-- [Änderung 2]
+- [Change 1]
+- [Change 2]
 
-## Aktueller Zustand
+## Current State
 
-**Modified Files**: [Liste oder "git status" Output]
+**Modified Files**: [List or "git status" output]
 
-## Nächste Schritte
+## Subsequent Steps
 
-1. **[Schritt 1]**: `path/to/file.py:123`
-2. **[Schritt 2]**: `path/to/file.tsx:45`
+1. **[Step 1]**: `path/to/file.py:123`
+2. **[Step 2]**: `path/to/file.tsx:45`
 
-## Für den nächsten Agent
+## For the Subsequent Agent
 
-[1-2 Sätze Zusammenfassung]
-```
+[1-2 sentence summary]
+````
 
-## Template-Auswahl
+## Template Selection Guidelines
 
-| Situation | Template | Begründung |
-|-----------|----------|------------|
-| Komplexe Feature-Entwicklung | Vollständig | Viele Dateien, Dependencies, gescheiterte Versuche |
-| Bug-Fix mit Recherche | Vollständig | Gescheiterte Versuche dokumentieren wichtig |
-| Einfache Änderung | Minimal | Wenig Kontext nötig |
-| Ende des Arbeitstages | Minimal | Nur Status festhalten |
-| Team-Übergabe | Vollständig | Maximale Klarheit für andere Person |
+| Situation                   | Template      | Rationale                                     |
+| --------------------------- | ------------- | --------------------------------------------- |
+| Complex feature development | Comprehensive | Multiple files, dependencies, failed attempts |
+| Bug fix with investigation  | Comprehensive | Documentation of failed attempts is essential |
+| Simple modification         | Minimal       | Limited context required                      |
+| End of work session         | Minimal       | Status documentation only                     |
+| Team handover               | Comprehensive | Maximum clarity for another individual        |
 
-## Platzhalter-Erklärung
+## Placeholder Reference
 
-| Platzhalter | Beschreibung |
-|-------------|--------------|
-| `[YYYY-MM-DD HH:MM]` | Datum und Uhrzeit der Handoff-Erstellung |
-| `[branch-name]` | Aktueller Git-Branch |
-| `[TF-XXX]` | Linear Issue ID (falls vorhanden) |
-| `path/to/file.py:123` | Dateipfad mit Zeilennummer |
-| `path/to/file.py:123-145` | Dateipfad mit Zeilenbereich |
+| Placeholder               | Description                       |
+| ------------------------- | --------------------------------- |
+| `[YYYY-MM-DD HH:MM]`      | Date and time of handoff creation |
+| `[branch-name]`           | Current Git branch                |
+| `[TF-XXX]`                | Linear issue ID (if applicable)   |
+| `path/to/file.py:123`     | File path with line number        |
+| `path/to/file.py:123-145` | File path with line range         |

@@ -1,5 +1,5 @@
 ---
-description: Implementiere einen kompletten EPIC automatisiert mit parallelen Agents (Ralph Wiggum Pattern)
+description: Implement a complete EPIC automatically with parallel agents using native Claude Code autonomous loops
 argument-hint: "[epic-id | plan-name] [--linear] [--max-parallel 3] [--max-iterations 30]"
 allowed-tools:
   - Read
@@ -14,196 +14,183 @@ allowed-tools:
 
 # Implement EPIC
 
-Automatisierte, parallele Umsetzung aller Tasks eines EPICs mit dem **Ralph Wiggum Pattern** für autonome Entwicklungsschleifen.
+Automated, parallel implementation of all tasks within an EPIC using **native Claude Code autonomous loops** (Task tool with subagents) for self-directed development cycles.
 
-## Übersicht
+## Overview
 
-Dieser Command orchestriert die **vollautomatische Umsetzung eines EPICs**:
+This command orchestrates the **fully automated implementation of an EPIC**:
 
-1. **EPIC laden** - Aus `.plans/` oder Linear
-2. **Dependency-Graph analysieren** - Parallelisierbare Tasks identifizieren
-3. **Parallel starten** - Pro unabhängigem Task ein Agent im eigenen Worktree
-4. **Autonome Implementation** - Ralph-Loop bis Completion-Promise
-5. **Automatischer Review** - Code-Review Agent mit iterativer Verbesserung
-6. **Status-Update** - Kontinuierliche Aktualisierung von STATUS.md
-7. **Nächste Runde** - Neu verfügbare Tasks starten
+1. **Load EPIC** - From `.plans/` or Linear
+2. **Analyze Dependency Graph** - Identify parallelizable tasks
+3. **Start Parallel Execution** - One agent per independent task in its own worktree
+4. **Autonomous Implementation** - Subagent loop until completion
+5. **Automatic Review** - Code review agent with iterative improvements
+6. **Status Update** - Continuous updates to STATUS.md
+7. **Next Round** - Start newly available tasks
 
-## Verwendung
+## Usage
 
 ```bash
-# Filesystem-basiert (Standard)
-/implement-epic                           # Interaktive Auswahl
-/implement-epic dark-mode-toggle          # Plan-Name
-/implement-epic --plan .plans/feature/    # Expliziter Pfad
+# Filesystem-based (default)
+/implement-epic                           # Interactive selection
+/implement-epic dark-mode-toggle          # Plan name
+/implement-epic --plan .plans/feature/    # Explicit path
 
-# Linear-basiert
-/implement-epic --linear                  # Interaktive Auswahl
-/implement-epic --linear PROJ-123         # EPIC-ID
+# Linear-based
+/implement-epic --linear                  # Interactive selection
+/implement-epic --linear PROJ-123         # EPIC ID
 
-# Mit Optionen
+# With options
 /implement-epic feature-x --max-parallel 5 --max-iterations 50
 ```
 
-## Voraussetzungen
+## Prerequisites
 
-### Ralph Wiggum Plugin
+### Native Claude Code Task Tool
 
-> ⚠️ **WICHTIG**: Das Ralph Wiggum Plugin muss installiert sein!
+This command uses Claude Code's built-in **Task tool** to spawn subagents. No external plugins are required. The Task tool enables:
 
-```bash
-# Installation prüfen
-claude plugins list | grep ralph-wiggum
+- Spawning isolated subagents with fresh context
+- Parallel execution of independent work
+- Automatic context management per agent
 
-# Falls nicht installiert
-/plugin install ralph-wiggum@claude-plugins-official
-```
+### Project Structure
 
-### Projekt-Struktur
+The EPIC must have been created via `/create-plan`:
 
-Der EPIC muss via `/create-plan` erstellt worden sein:
-
-```
+```text
 .plans/[feature-name]/
-├── EPIC.md          # Feature-Übersicht
-├── STATUS.md        # Progress-Tracking
+├── EPIC.md          # Feature overview
+├── STATUS.md        # Progress tracking
 └── tasks/
     ├── task-001-*.md
     ├── task-002-*.md
     └── ...
 ```
 
-## Workflow-Details
+## Workflow Details
 
-### Phase 1: EPIC-Analyse
+### Phase 1: EPIC Analysis
 
 ```mermaid
 graph LR
-    A[EPIC laden] --> B[Tasks einlesen]
-    B --> C[Dependency-Graph]
-    C --> D[Parallelisierbare Tasks]
+    A[Load EPIC] --> B[Read Tasks]
+    B --> C[Dependency Graph]
+    C --> D[Parallelizable Tasks]
 ```
 
-**Dependency-Analyse**:
-- Lese `Dependencies.Requires` aus jeder Task-Datei
-- Baue gerichteten Graphen auf
-- Identifiziere Tasks ohne offene Blocker (Einstiegspunkte)
+**Dependency Analysis**:
 
-**Beispiel Dependency-Graph**:
-```
+- Read `Dependencies.Requires` from each task file
+- Build directed graph
+- Identify tasks without open blockers (entry points)
+
+**Example Dependency Graph**:
+
+```text
 task-001 ──┬──► task-003 ──► task-005
            │
 task-002 ──┘
 
-task-004 (unabhängig)
+task-004 (independent)
 ```
 
-→ **Parallel startbar**: task-001, task-002, task-004
+→ **Parallelizable**: task-001, task-002, task-004
 
-### Phase 2: Parallele Implementation
+### Phase 2: Parallel Implementation
 
-Für jeden unabhängigen Task wird ein **separater Agent** gestartet:
+For each independent task, a **separate subagent** is spawned:
 
 ```bash
-# Pro Task in eigenem Worktree:
+# Per task in dedicated worktree:
 Task Agent (fresh context):
 │
-├── 1. Worktree erstellen
+├── 1. Create Worktree
 │      git worktree add -b feature/task-001 .worktrees/task-001 origin/main
 │
-├── 2. Ralph-Loop für Implementation
-│      /ralph-loop "
-│        Implementiere Task task-001:
-│        [Task-Beschreibung]
+├── 2. Autonomous Implementation Loop (via Task tool)
+│      The subagent receives:
+│      - Task description and acceptance criteria
+│      - Instructions to implement until all criteria are met
+│      - Clear completion conditions
 │
-│        Akzeptanzkriterien:
-│        - [ ] Kriterium 1
-│        - [ ] Kriterium 2
-│
-│        Wenn alle Kriterien erfüllt:
-│        Output: <promise>TASK_COMPLETE</promise>
-│
-│        Bei unlösbaren Blockern:
-│        Output: <promise>TASK_BLOCKED</promise>
-│      " --max-iterations $MAX_ITERATIONS --completion-promise "TASK_COMPLETE|TASK_BLOCKED"
+│      Subagent works autonomously:
+│      - Analyzes requirements
+│      - Implements solution
+│      - Runs tests
+│      - Iterates until acceptance criteria pass
 │
 ├── 3. Commit & Push
-│      git add . && git commit -m "✨ feat(task-001): [description]"
+│      git add . && git commit -m "feat(task-001): [description]"
 │      git push -u origin feature/task-001
 │
-└── 4. Draft-PR erstellen
-       gh pr create --draft --title "[task-001] Task-Titel"
+└── 4. Create Draft PR
+       gh pr create --draft --title "[task-001] Task Title"
 ```
 
-### Phase 3: Automatischer Review
+### Phase 3: Automatic Review
 
-Nach Implementation startet automatisch der **Review-Loop**:
+After implementation, the **review loop** starts automatically:
 
 ```bash
 Review Agent (fresh context):
 │
-├── 1. PR-Diff laden
+├── 1. Load PR Diff
 │      gh pr diff [pr-number]
 │
-├── 2. Ralph-Loop für Review
-│      /ralph-loop "
-│        Review PR #[number] für Task task-001:
+├── 2. Autonomous Review Loop (via Task tool)
+│      The review subagent:
+│      - Analyzes all changes
+│      - Checks code quality (see code-reviewer checklist)
+│      - Identifies issues
+│      - Fixes ALL discovered issues autonomously
+│      - Commits fixes with descriptive messages
 │
-│        1. Analysiere alle Änderungen
-│        2. Prüfe Code-Qualität (siehe code-reviewer Checkliste)
-│        3. Identifiziere Probleme
-│        4. Behebe ALLE gefundenen Issues selbst
-│        5. Committe Fixes mit aussagekräftigen Messages
+│      Completion conditions:
+│      - All issues resolved → Mark review complete
+│      - Issues requiring user intervention → Document and flag
 │
-│        Wenn alle Probleme behoben:
-│        Output: <promise>REVIEW_COMPLETE</promise>
-│
-│        Bei Problemen die User-Eingriff benötigen:
-│        - Dokumentiere Problem in PR-Kommentar
-│        - Update Task-Status auf 'needs_attention'
-│        Output: <promise>REVIEW_NEEDS_ATTENTION</promise>
-│      " --max-iterations 15 --completion-promise "REVIEW_COMPLETE|REVIEW_NEEDS_ATTENTION"
-│
-└── 3. PR finalisieren
-       gh pr ready [pr-number]  # Wenn REVIEW_COMPLETE
+└── 3. Finalize PR
+       gh pr ready [pr-number]  # When review complete
 ```
 
-### Phase 4: Status-Update & Nächste Runde
+### Phase 4: Status Update and Next Round
 
-Nach jedem abgeschlossenen Task:
+After each completed task:
 
-1. **STATUS.md aktualisieren**
-   - Task auf `completed` / `needs_attention` setzen
-   - Progress-Statistik neu berechnen
-   - Mermaid-Graph aktualisieren
+1. **Update STATUS.md**
+   - Set task to `completed` / `needs_attention`
+   - Recalculate progress statistics
+   - Update Mermaid graph
 
-2. **Dependency-Graph re-evaluieren**
-   - Welche Tasks sind jetzt freigeschaltet?
-   - Neue parallele Agents starten
+2. **Re-evaluate Dependency Graph**
+   - Which tasks are now unblocked?
+   - Start new parallel agents
 
-3. **Loop bis EPIC complete**
-   - Wiederholen bis alle Tasks erledigt
-   - Oder nur noch blockierte Tasks übrig
+3. **Loop Until EPIC Complete**
+   - Repeat until all tasks are completed
+   - Or only blocked tasks remain
 
-## Orchestrator-Logik
+## Orchestrator Logic
 
 ```python
-# Pseudo-Code für den EPIC-Orchestrator
+# Pseudocode for the EPIC orchestrator
 
 def implement_epic(epic_id, max_parallel=3, max_iterations=30):
     epic = load_epic(epic_id)
     tasks = load_all_tasks(epic)
 
     while not all_tasks_complete(tasks):
-        # Identifiziere startbare Tasks
+        # Identify tasks ready to start
         ready_tasks = [t for t in tasks
                        if t.status == 'pending'
                        and all_dependencies_complete(t, tasks)]
 
-        # Limitiere Parallelität
+        # Limit parallelism
         to_start = ready_tasks[:max_parallel - active_agents_count()]
 
         for task in to_start:
-            # Starte Agent in eigenem Worktree
+            # Spawn agent in dedicated worktree
             spawn_task_agent(
                 task=task,
                 max_iterations=max_iterations,
@@ -211,98 +198,102 @@ def implement_epic(epic_id, max_parallel=3, max_iterations=30):
                 on_blocked=lambda: handle_task_blocked(task)
             )
 
-        # Warte auf nächsten Abschluss
+        # Wait for next completion
         wait_for_any_completion()
 
-        # Status-Update
+        # Status update
         update_status_md(epic)
 
-    # Finalisierung
+    # Finalization
     generate_epic_summary(epic)
     notify_user_completion(epic)
 ```
 
-## Worktree-Management
+## Worktree Management
 
-> ⚠️ **KRITISCH**: Jeder Task arbeitet in einem **isolierten Worktree**!
+> **CRITICAL**: Each task operates in an **isolated worktree**!
 
-### Warum Worktrees?
+### Why Worktrees?
 
-- **Parallele Arbeit**: Mehrere Tasks gleichzeitig ohne Branch-Konflikte
-- **Isolation**: Kein gegenseitiges Überschreiben
-- **Saubere Historie**: Klare Commit-Trennung pro Task
+- **Parallel Work**: Multiple tasks simultaneously without branch conflicts
+- **Isolation**: No mutual overwriting
+- **Clean History**: Clear commit separation per task
 
-### Worktree-Struktur
+### Worktree Structure
 
-```
+```text
 project/
 ├── .worktrees/
-│   ├── task-001/          # Worktree für Task 001
+│   ├── task-001/          # Worktree for Task 001
 │   │   ├── src/
 │   │   └── ...
-│   ├── task-002/          # Worktree für Task 002
+│   ├── task-002/          # Worktree for Task 002
 │   │   ├── src/
 │   │   └── ...
-│   └── task-004/          # Worktree für Task 004
+│   └── task-004/          # Worktree for Task 004
 │       ├── src/
 │       └── ...
-├── src/                   # Hauptrepo (main branch)
+├── src/                   # Main repo (main branch)
 └── .plans/
     └── feature/
         ├── EPIC.md
         └── tasks/
 ```
 
-### Worktree-Lifecycle
+### Worktree Lifecycle
 
 ```bash
-# 1. Erstellen (pro Task)
+# 1. Create (per task)
 git worktree add -b feature/task-001 .worktrees/task-001 origin/main
 
-# 2. Arbeiten (im Worktree-Verzeichnis)
+# 2. Work (in worktree directory)
 cd .worktrees/task-001
-# ... Implementation ...
+# ... implementation ...
 
-# 3. Nach PR-Merge: Cleanup
+# 3. After PR merge: Cleanup
 git worktree remove .worktrees/task-001
 git branch -d feature/task-001
 ```
 
-## Status-Tracking
+## Status Tracking
 
 ### STATUS.md Updates
 
-Der Orchestrator aktualisiert kontinuierlich:
+The orchestrator continuously updates:
 
 ```markdown
 ## Tasks by Status
 
-### Completed ✅
+### Completed
+
 - **task-001**: UI Toggle Component (3 SP) - PR #12 merged
 
-### In Progress 🚧
+### In Progress
+
 - **task-002**: Theme State Management (5 SP) - PR #13 in review
 - **task-004**: Settings Integration (2 SP) - implementing...
 
-### Pending 📋
+### Pending
+
 - **task-003**: LocalStorage Persistence (3 SP) - waiting for task-002
 - **task-005**: E2E Tests (5 SP) - waiting for task-003
 
-### Needs Attention ⚠️
-[Leer oder Tasks die User-Eingriff benötigen]
+### Needs Attention
+
+[Empty or tasks requiring user intervention]
 ```
 
-### Echtzeit-Fortschritt
+### Real-Time Progress
 
 ```
 ╔═══════════════════════════════════════════════════════════╗
 ║  EPIC: Dark Mode Toggle                                   ║
 ╠═══════════════════════════════════════════════════════════╣
-║  Progress: ████████░░░░░░░░░░░░░░░░░░░░░░  40% (2/5)     ║
+║  Progress: ████████░░░░░░░░░░░░░░░░░░░░░░  40% (2/5)      ║
 ║                                                           ║
 ║  Active Agents:                                           ║
-║  • task-002 (Theme State)     [████████░░] 80% iter 24/30║
-║  • task-004 (Settings)        [██████░░░░] 60% iter 18/30║
+║  • task-002 (Theme State)     [████████░░] 80% iter 24/30 ║
+║  • task-004 (Settings)        [██████░░░░] 60% iter 18/30 ║
 ║                                                           ║
 ║  Completed: task-001                                      ║
 ║  Waiting:   task-003 → task-002                           ║
@@ -310,96 +301,96 @@ Der Orchestrator aktualisiert kontinuierlich:
 ╚═══════════════════════════════════════════════════════════╝
 ```
 
-## Error-Handling
+## Error Handling
 
 ### Task Blocked
 
-Wenn ein Task nicht abgeschlossen werden kann:
+When a task cannot be completed:
 
-1. **Status setzen**: `blocked` oder `needs_attention`
-2. **Dokumentation**: Grund in Task-Datei und PR-Kommentar
-3. **User-Notification**: Zusammenfassung was fehlt
-4. **Andere Tasks**: Weitermachen mit unabhängigen Tasks
+1. **Set Status**: `blocked` or `needs_attention`
+2. **Documentation**: Reason in task file and PR comment
+3. **User Notification**: Summary of what is missing
+4. **Other Tasks**: Continue with independent tasks
 
-### Agent-Timeout
+### Agent Timeout
 
-Bei Erreichen von `--max-iterations`:
+When `--max-iterations` is reached:
 
-1. **Fortschritt sichern**: Commit aller Änderungen
-2. **Status**: `in_progress` mit Notiz
-3. **User-Option**: Manuell fortsetzen oder überspringen
+1. **Save Progress**: Commit all changes
+2. **Status**: `in_progress` with note
+3. **User Option**: Continue manually or skip
 
-### Merge-Konflikte
+### Merge Conflicts
 
-Falls Main sich ändert während EPIC läuft:
+If main changes while EPIC is running:
 
 ```bash
-# Im Worktree
+# In worktree
 git fetch origin
 git rebase origin/main
 
-# Bei Konflikten: Task auf 'needs_attention'
+# On conflicts: Set task to 'needs_attention'
 ```
 
 ## Best Practices
 
-### DO ✅
+### DO
 
-- **Klare Akzeptanzkriterien**: Testbar und messbar
-- **Kleine Tasks**: Ideal 1-5 Story Points
-- **Gute Dependencies**: Korrekte Reihenfolge
-- **Realistische Iterations**: 20-50 für komplexe Tasks
-- **Max-Parallel anpassen**: Nach CPU/Memory
+- **Clear Acceptance Criteria**: Testable and measurable
+- **Small Tasks**: Ideally 1-5 Story Points
+- **Proper Dependencies**: Correct sequence
+- **Realistic Iterations**: 20-50 for complex tasks
+- **Adjust Max-Parallel**: Based on CPU/Memory
 
-### DON'T ❌
+### DON'T
 
-- **Riesige Tasks**: > 8 SP schwer automatisierbar
-- **Zirkuläre Dependencies**: Führt zu Deadlock
-- **Vage Kriterien**: "Code soll gut sein"
-- **Zu viele parallel**: > 5 kann System überlasten
-- **Ohne Tests**: Automatische Validierung fehlt
+- **Huge Tasks**: > 8 SP difficult to automate
+- **Circular Dependencies**: Leads to deadlock
+- **Vague Criteria**: "Code should be good"
+- **Too Many Parallel**: > 5 can overload system
+- **Without Tests**: Automatic validation missing
 
-## Optionen
+## Options
 
-| Option | Default | Beschreibung |
-|--------|---------|--------------|
-| `--max-parallel` | 3 | Maximale gleichzeitige Agents |
-| `--max-iterations` | 30 | Max. Iterationen pro Task-Loop |
-| `--linear` | false | Linear statt Filesystem |
-| `--skip-review` | false | Review-Phase überspringen |
-| `--dry-run` | false | Nur Analyse, keine Ausführung |
+| Option             | Default | Description                  |
+| ------------------ | ------- | ---------------------------- |
+| `--max-parallel`   | 3       | Maximum concurrent agents    |
+| `--max-iterations` | 30      | Max iterations per task loop |
+| `--linear`         | false   | Linear instead of filesystem |
+| `--skip-review`    | false   | Skip review phase            |
+| `--dry-run`        | false   | Analysis only, no execution  |
 
-## Kosten-Schätzung
+## Cost Estimation
 
-> ⚠️ **ACHTUNG**: Autonome Loops können signifikante API-Kosten verursachen!
+> **NOTE**: Autonomous loops can incur significant API costs!
 
-**Faustformel**:
-- ~$0.50-2.00 pro Task (je nach Komplexität)
-- Review: ~$0.20-0.50 pro Task
-- EPIC mit 10 Tasks: ~$10-30
+**Rule of Thumb**:
 
-**Kostenkontrolle**:
+- ~$0.50-2.00 per task (depending on complexity)
+- Review: ~$0.20-0.50 per task
+- EPIC with 10 tasks: ~$10-30
+
+**Cost Control**:
+
 ```bash
-# Konservativ
+# Conservative
 /implement-epic feature-x --max-iterations 20 --max-parallel 2
 
-# Schnell aber teurer
+# Fast but more expensive
 /implement-epic feature-x --max-iterations 50 --max-parallel 5
 ```
 
-## Detail-Dokumentation
+## Detailed Documentation
 
-- **[orchestrator-architecture.md](../references/implement-epic/orchestrator-architecture.md)** - Technische Details
-- **[ralph-integration.md](../references/implement-epic/ralph-integration.md)** - Ralph Wiggum Konfiguration
-- **[parallel-strategies.md](../references/implement-epic/parallel-strategies.md)** - Parallelisierungs-Patterns
-- **[troubleshooting.md](../references/implement-epic/troubleshooting.md)** - Häufige Probleme
+- **[orchestrator-architecture.md](../references/implement-epic/orchestrator-architecture.md)** - Technical details
+- **[parallel-strategies.md](../references/implement-epic/parallel-strategies.md)** - Parallelization patterns
+- **[troubleshooting.md](../references/implement-epic/troubleshooting.md)** - Common problems
 
-## Siehe auch
+## See Also
 
-- **[/project-management:create-plan](./create-plan.md)** - EPIC/Tasks erstellen
-- **[/project-management:implement-task](./implement-task.md)** - Einzelne Tasks
-- **[/code-quality:code-reviewer](../../code-quality/agents/code-reviewer.md)** - Review Agent
-- **[Ralph Wiggum Plugin](https://github.com/anthropics/claude-code/tree/main/plugins/ralph-wiggum)** - Autonome Loops
+- **[/project-management:create-plan](./create-plan.md)** - Create EPIC/tasks
+- **[/project-management:implement-task](./implement-task.md)** - Individual tasks
+- **[/code-quality:code-reviewer](../../code-quality/agents/code-reviewer.md)** - Review agent
 
 ---
 

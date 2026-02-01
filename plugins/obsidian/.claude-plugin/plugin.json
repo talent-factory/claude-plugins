@@ -1,8 +1,7 @@
 {
   "name": "obsidian",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Integration with Obsidian via TaskNotes Plugin API - task management directly from Claude Code",
-  "keywords": ["obsidian", "tasks", "tasknotes", "productivity", "task-management"],
   "author": {
     "name": "Talent Factory GmbH",
     "email": "info@talent-factory.ch"
