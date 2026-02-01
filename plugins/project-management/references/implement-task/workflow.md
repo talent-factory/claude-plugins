@@ -1,71 +1,73 @@
 # Workflow: Task Implementation
 
-Detaillierter Workflow für die Implementierung von Tasks (Filesystem oder Linear).
+Detailed workflow for implementing tasks (Filesystem or Linear).
 
-## Übersicht
+## Overview
 
-Der Workflow ist in 8 Phasen unterteilt:
+The workflow comprises 8 phases:
 
 ```
-1. Task-Identifikation
+1. Task Identification
    ↓
-2. Task-Daten einlesen
+2. Task Data Retrieval
    ↓
-3. Worktree-Erstellung
+3. Worktree Creation
    ↓
-4. Branch-Erstellung (inkl. Submodule)
+4. Branch Creation (including Submodules)
    ↓
-5. Task-Status Update
+5. Task Status Update
    ↓
-6. Implementierung
+6. Implementation
    ↓
-7. PR-Erstellung
+7. PR Creation
    ↓
-8. Finalisierung & Cleanup
+8. Finalization and Cleanup
 ```
 
-## Phase 1: Task-Identifikation
+## Phase 1: Task Identification
 
-### Mit Task-ID Argument
+### With Task ID Argument
 
 **Filesystem**: `/implement-task task-001`
 **Linear**: `/implement-task --linear PROJ-123`
 
 **Workflow**:
-1. Task-ID parsen und validieren
-2. Task abrufen (Filesystem: `.plans/*/tasks/`, Linear: MCP)
-3. Bei mehreren Matches: Interaktive Auswahl
 
-### Ohne Argument (Interaktiv)
+1. Parse and validate task ID
+2. Retrieve task (Filesystem: `.plans/*/tasks/`, Linear: MCP)
+3. If multiple matches: Interactive selection
+
+### Without Argument (Interactive)
 
 **Filesystem**: `/implement-task`
 **Linear**: `/implement-task --linear`
 
 **Workflow**:
-1. Verfügbare Tasks auflisten
-2. User wählt Task aus
-3. Task-Daten laden
 
-### Validierungs-Checks
+1. List available tasks
+2. User selects task
+3. Load task data
 
-- ✅ Task existiert
-- ✅ Task ist nicht bereits abgeschlossen
-- ✅ Task hat validen Status (pending/Backlog)
-- ✅ Dependencies erfüllt (nur Filesystem)
+### Validation Checks
 
-## Phase 2: Task-Daten einlesen
+- Task exists
+- Task is not already completed
+- Task has valid status (pending/Backlog)
+- Dependencies satisfied (Filesystem only)
 
-### Gemeinsame Daten
+## Phase 2: Task Data Retrieval
 
-| Feld | Filesystem | Linear |
-|------|------------|--------|
-| Titel | Aus Markdown | `issue.title` |
-| Beschreibung | `## Description` | `issue.description` |
-| Labels | `**Labels**:` | `issue.labels.nodes` |
-| Status | `**Status**:` | `issue.state.name` |
-| Akzeptanzkriterien | `## Acceptance Criteria` | Aus Description parsen |
+### Common Data Fields
 
-### Datenstruktur
+| Field               | Filesystem               | Linear                  |
+| ------------------- | ------------------------ | ----------------------- |
+| Title               | From Markdown            | `issue.title`           |
+| Description         | `## Description`         | `issue.description`     |
+| Labels              | `**Labels**:`            | `issue.labels.nodes`    |
+| Status              | `**Status**:`            | `issue.state.name`      |
+| Acceptance Criteria | `## Acceptance Criteria` | Parsed from description |
+
+### Data Structure
 
 ```python
 task = {
@@ -82,75 +84,76 @@ task = {
 }
 ```
 
-## Phase 3: Worktree-Erstellung
+## Phase 3: Worktree Creation
 
-> ⚠️ **WICHTIG**: Für paralleles Arbeiten an mehreren Tasks werden Git Worktrees verwendet!
+> **IMPORTANT**: Git worktrees are used for parallel work on multiple tasks.
 
-### Worktree-Konzept
+### Worktree Concept
 
-Jeder Task wird in einem eigenen Worktree bearbeitet:
-- **Verzeichnis**: `.worktrees/task-<task-id>/`
-- **Ermöglicht**: Parallele Arbeit an mehreren Tasks ohne Branch-Wechsel
-- **Isoliert**: Jeder Task hat seine eigene Arbeitskopie
+Each task is processed in its own worktree:
 
-### Pre-Worktree-Checks
+- **Directory**: `.worktrees/task-<task-id>/`
+- **Enables**: Parallel work on multiple tasks without branch switching
+- **Isolation**: Each task has its own working copy
+
+### Pre-Worktree Checks
 
 ```bash
-# 1. Working Directory sauber?
+# 1. Working directory clean?
 git status --porcelain
 
 # 2. Remote up-to-date?
 git fetch origin
 
-# 3. Worktree-Verzeichnis existiert?
+# 3. Worktree directory exists?
 mkdir -p .worktrees
 
-# 4. Worktree für diese Task existiert noch nicht?
+# 4. Worktree for this task does not already exist?
 git worktree list | grep "task-<task-id>"
 ```
 
-### Worktree erstellen
+### Create Worktree
 
 ```bash
-# Branch-Name bestimmen
-TASK_ID="task-001"  # oder "proj-123" für Linear
+# Determine branch name
+TASK_ID="task-001"  # or "proj-123" for Linear
 DESCRIPTION="ui-toggle-component"
 BRANCH_NAME="feature/${TASK_ID}-${DESCRIPTION}"
 
-# Worktree mit neuem Branch erstellen
+# Create worktree with new branch
 git worktree add -b "$BRANCH_NAME" ".worktrees/task-${TASK_ID}" origin/main
 
-# In Worktree wechseln
+# Switch to worktree
 cd ".worktrees/task-${TASK_ID}"
 ```
 
-## Phase 4: Branch-Erstellung (inkl. Submodule)
+## Phase 4: Branch Creation (including Submodules)
 
-### Branch-Naming
+### Branch Naming
 
-**Einheitliches Format für alle Provider**:
+**Standardized format for all providers**:
 
 ```
 feature/<ISSUE-ID>-<description>
 ```
 
-| Provider | Beispiel |
-|----------|----------|
+| Provider   | Example                                |
+| ---------- | -------------------------------------- |
 | Filesystem | `feature/task-001-ui-toggle-component` |
-| Linear | `feature/proj-123-user-authentication` |
+| Linear     | `feature/proj-123-user-authentication` |
 
-### Submodule-Handling
+### Submodule Handling
 
-> ⚠️ **Bei Projekten mit Submodulen**: Auch diese müssen in eigene Branches ausgecheckt werden!
+> **For projects with submodules**: These must also be checked out to their own branches.
 
 ```bash
-# 1. Prüfen ob Submodule vorhanden sind
+# 1. Check if submodules exist
 git submodule status
 
-# 2. Falls ja: Submodule initialisieren
+# 2. If present: Initialize submodules
 git submodule update --init --recursive
 
-# 3. Für jedes Submodul: Branch erstellen
+# 3. For each submodule: Create branch
 git submodule foreach --recursive '
   echo "Creating branch in submodule: $name"
   git fetch origin
@@ -158,114 +161,120 @@ git submodule foreach --recursive '
 '
 ```
 
-### Submodule-Validierung
+### Submodule Validation
 
 ```bash
-# Alle Submodule auf korrektem Branch?
+# Verify all submodules are on the correct branch
 git submodule foreach --recursive 'git branch --show-current'
 ```
 
-## Phase 5: Task-Status Update (KRITISCH)
+## Phase 5: Task Status Update (CRITICAL)
 
-> ⚠️ **WICHTIG**: Das Status-Update muss **VOR** dem Wechsel in den Worktree erfolgen und **im Hauptbranch** committed werden! Dies ist essentiell für paralleles Arbeiten - andere Entwickler müssen sehen, dass der Task bereits in Bearbeitung ist.
+> **IMPORTANT**: The status update must occur **BEFORE** switching to the worktree and must be committed **in the main branch**. This is essential for parallel work - other developers must be able to see that the task is already in progress.
 
 ### Filesystem
 
-> 🔴 **OBLIGATORISCH**: Diese Schritte verhindern, dass zwei Entwickler am gleichen Task arbeiten!
+> **MANDATORY**: These steps prevent two developers from working on the same task.
 
-#### Schritt 1: Im Hauptverzeichnis bleiben
+#### Step 1: Remain in the Main Directory
 
 ```bash
-# NICHT in den Worktree wechseln!
-# Wir sind noch im Hauptverzeichnis auf main/develop
-pwd  # sollte <projekt-root> sein, NICHT .worktrees/...
-git branch --show-current  # sollte main oder develop sein
+# DO NOT switch to the worktree
+# We are still in the main directory on main/develop
+pwd  # should be <project-root>, NOT .worktrees/...
+git branch --show-current  # should be main or develop
 ```
 
-#### Schritt 2: Task-Datei aktualisieren
+#### Step 2: Update the Task File
 
 ```markdown
-# Vorher
+# Before
+
 - **Status**: pending
 - **Updated**: 2024-11-15
 
-# Nachher
+# After
+
 - **Status**: in_progress
 - **Updated**: 2024-11-18
 ```
 
-#### Schritt 3: STATUS.md aktualisieren
+#### Step 3: Update STATUS.md
 
-Die STATUS.md im Plan-Verzeichnis muss ebenfalls aktualisiert werden:
+The STATUS.md in the plan directory must also be updated:
 
 ```markdown
 ## Progress Overview
-- **In Progress**: 1 (10%)  ← von 0 erhöht
-- **Pending**: 9 (90%)      ← von 10 reduziert
+
+- **In Progress**: 1 (10%) ← increased from 0
+- **Pending**: 9 (90%) ← reduced from 10
 
 ## Tasks by Status
 
-### In Progress 🚧
-- task-001: UI Toggle (3 SP) ← hier hinzufügen
+### In Progress
 
-### Pending ⏳
-<!-- task-001 hier entfernen -->
+- task-001: UI Toggle (3 SP) ← add here
+
+### Pending
+
+<!-- remove task-001 from here -->
 ```
 
-#### Schritt 4: Änderungen committen und pushen
+#### Step 4: Commit and Push Changes
 
 ```bash
-# Änderungen stagen
+# Stage changes
 git add .plans/<feature-name>/tasks/task-001-*.md
 git add .plans/<feature-name>/STATUS.md
 
-# Committen
-git commit -m "🔄 chore: Starte task-001 Implementierung"
+# Commit
+git commit -m "🔄 chore: Start task-001 implementation"
 
-# ZUM REMOTE PUSHEN (damit andere es sehen!)
-git push origin main  # oder develop
+# PUSH TO REMOTE (so others can see it)
+git push origin main  # or develop
 ```
 
-#### Schritt 5: Erst jetzt in Worktree wechseln
+#### Step 5: Only Now Switch to Worktree
 
 ```bash
 cd ".worktrees/task-001"
-# Jetzt kann die eigentliche Implementierung beginnen
+# Implementation may now begin
 ```
 
-#### Filesystem-Checkliste
+#### Filesystem Checklist
 
-- ✅ Im Hauptbranch (nicht Worktree) arbeiten
-- ✅ Task-Datei: `pending` → `in_progress`
-- ✅ Task-Datei: `Updated`-Datum aktualisiert
-- ✅ STATUS.md: Task unter "In Progress" verschoben
-- ✅ STATUS.md: Progress-Übersicht aktualisiert
-- ✅ Änderungen committed
-- ✅ Änderungen gepusht zum Remote
-- ✅ Erst dann in Worktree wechseln
+- Work in main branch (not worktree)
+- Task file: `pending` → `in_progress`
+- Task file: `Updated` date updated
+- STATUS.md: Task moved to "In Progress"
+- STATUS.md: Progress overview updated
+- Changes committed
+- Changes pushed to remote
+- Only then switch to worktree
 
 ### Linear
 
 Via MCP: `linear_update_issue_state()` → "In Progress"
 
-Linear speichert den Status zentral, daher ist er automatisch für alle sichtbar.
+Linear stores status centrally, making it automatically visible to all team members.
 
 **Optional Comment**:
+
 ```markdown
-🚀 Implementation gestartet in Worktree: `.worktrees/task-proj-123/`
+Implementation started in worktree: `.worktrees/task-proj-123/`
 Branch: `feature/proj-123-...`
 ```
 
-## Phase 6: Implementierung
+## Phase 6: Implementation
 
-### Strategie
+### Strategy
 
-1. **Task-Beschreibung analysieren** - Betroffene Dateien identifizieren
-2. **Akzeptanzkriterien als Checklist** - TodoWrite nutzen
-3. **Code-Änderungen durchführen** - Basierend auf Beschreibung
-4. **Tests schreiben** - Unit/Integration Tests
+1. **Analyze task description** - Identify affected files
+2. **Use acceptance criteria as checklist** - Utilize TodoWrite
+3. **Implement code changes** - Based on description
+4. **Write tests** - Unit/Integration tests
 
-### Labels → Commit-Typ Mapping
+### Label to Commit Type Mapping
 
 ```python
 label_to_commit = {
@@ -278,7 +287,7 @@ label_to_commit = {
 }
 ```
 
-### Atomare Commits
+### Atomic Commits
 
 ```bash
 # Commit 1: Feature
@@ -288,86 +297,87 @@ git commit -m "✨ feat: Add ThemeToggle component"
 git commit -m "🧪 test: Add ThemeToggle tests"
 ```
 
-## Phase 7: PR-Erstellung
+## Phase 7: PR Creation
 
-### PR-Body Template
+### PR Body Template
 
 ```markdown
-## Task: [ID] - [Titel]
+## Task: [ID] - [Title]
 
-**Beschreibung**:
-<Task-Beschreibung>
+**Description**:
+<Task description>
 
-**Änderungen**:
-- <Änderung 1>
-- <Änderung 2>
+**Changes**:
 
-**Test-Plan**:
-- [x] <Akzeptanzkriterium 1>
-- [x] <Akzeptanzkriterium 2>
+- <Change 1>
+- <Change 2>
+
+**Test Plan**:
+
+- [x] <Acceptance criterion 1>
+- [x] <Acceptance criterion 2>
 
 **Status**: In Progress → Completed/In Review
 ```
 
-### PR erstellen
+### Create PR
 
 ```bash
-# Aus dem Worktree heraus
+# From within the worktree
 cd .worktrees/task-<task-id>
 git push -u origin <branch-name>
-gh pr create --title "[ID]: [Titel]" --body "..."
+gh pr create --title "[ID]: [Title]" --body "..."
 ```
 
-## Phase 8: Finalisierung & Cleanup
+## Phase 8: Finalization and Cleanup
 
-### Task-Status Update
+### Task Status Update
 
 #### Filesystem
 
-1. Task-Status → `completed`
-2. STATUS.md aktualisieren
+1. Task status → `completed`
+2. Update STATUS.md
 3. Commit: `✅ chore: Mark task-001 as completed`
 
 #### Linear
 
-1. Issue-Status → `In Review` oder `Done`
-2. Optional: PR-Link als Comment
+1. Issue status → `In Review` or `Done`
+2. Optional: Add PR link as comment
 
-### Worktree-Cleanup (nach PR-Merge)
+### Worktree Cleanup (After PR Merge)
 
-Nach erfolgreichem Merge kann der Worktree aufgeräumt werden:
+After successful merge, the worktree may be removed:
 
 ```bash
-# Vom Hauptrepo aus (nicht aus dem Worktree!)
-cd <projekt-root>
+# From the main repository (not from within the worktree)
+cd <project-root>
 
-# 1. Worktree entfernen
+# 1. Remove the worktree
 git worktree remove .worktrees/task-<task-id>
 
-# 2. Lokalen Branch löschen (falls gewünscht)
+# 2. Delete the local branch (if desired)
 git branch -d feature/<task-id>-<description>
 
-# 3. Bei Submodulen: Branches dort auch löschen
+# 3. For submodules: Delete branches there as well
 git submodule foreach --recursive '
   git checkout main
   git branch -d "feature/<task-id>-<description>" 2>/dev/null || true
 '
 ```
 
-### Worktree-Übersicht
+### Worktree Overview
 
 ```bash
-# Alle aktiven Worktrees anzeigen
+# Display all active worktrees
 git worktree list
 
-# Verwaiste Worktrees aufräumen
+# Clean up orphaned worktrees
 git worktree prune
 ```
 
-## Siehe auch
+## See Also
 
-- [filesystem.md](./filesystem.md) - Filesystem-spezifische Details
-- [linear.md](./linear.md) - Linear-spezifische Details
-- [best-practices.md](./best-practices.md) - Best Practices
-- [troubleshooting.md](./troubleshooting.md) - Problemlösungen
-
+- [filesystem.md](./filesystem.md) - Filesystem-specific details
+- [linear.md](./linear.md) - Linear-specific details
+- [best-practices.md](./best-practices.md) - Best practices
+- [troubleshooting.md](./troubleshooting.md) - Problem resolution

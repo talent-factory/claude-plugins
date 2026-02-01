@@ -2,14 +2,20 @@
 
 Comprehensive project management tools for PRD generation, project planning, task implementation with Linear integration and git worktree workflow.
 
-## Version 2.3.0
+## Version 2.4.0
 
-**Major Update:** Now includes `/implement-epic` for **autonomous, parallel EPIC implementation** using the Ralph Wiggum Pattern.
+**Major Update:** Now includes `/implement-epic` for **autonomous, parallel EPIC implementation** using native Claude Code autonomous loops.
+
+**New in 2.4.0:**
+
+- 🌐 Complete documentation translation to professional English
+- 🔧 Removed external plugin dependencies - uses native Claude Code capabilities
+- 📚 Renamed reference: `autonomous-loop-integration.md`
 
 **New in 2.3.0:**
 
 - 🤖 `/implement-epic` - Fully autonomous EPIC implementation with parallel agents
-- 🔄 Ralph Wiggum Integration - Autonomous development loops
+- 🔄 Autonomous Loop Integration - Self-sustaining development loops via Stop hooks
 - 👥 `epic-orchestrator` Agent - Coordinates parallel task agents
 - 📊 Real-time progress tracking
 
@@ -129,15 +135,15 @@ Implement tasks with git worktree workflow, branch creation, and PR automation.
 - [Troubleshooting](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/implement-task/troubleshooting.md) - Common issues
 - [Workflow](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/implement-task/workflow.md) - Complete workflow guide
 
-### `/implement-epic` 🆕
+### `/implement-epic`
 
-**Autonomous, parallel EPIC implementation** using the Ralph Wiggum Pattern for self-sustaining development loops.
+**Autonomous, parallel EPIC implementation** using native Claude Code autonomous loops for self-sustaining development cycles.
 
 **Features:**
 
 - 🤖 **Fully Autonomous** - Initiates and coordinates all tasks independently
 - 🔀 **Parallel Execution** - Multiple tasks simultaneously in separate worktrees
-- 🔄 **Ralph Wiggum Pattern** - Iterative loops until success
+- 🔄 **Autonomous Loops** - Iterative cycles until success using Stop hooks
 - 👀 **Auto-Review** - Automatic code reviews with fix loops
 - 📊 **Live Tracking** - Real-time progress display
 - 🛡️ **Fault Tolerance** - Blocked tasks are documented while others continue
@@ -151,13 +157,6 @@ Implement tasks with git worktree workflow, branch creation, and PR automation.
 /implement-epic feature-x --max-parallel 5   # With options
 ```
 
-**Prerequisites:**
-
-```bash
-# Ralph Wiggum Plugin must be installed
-/plugin install ralph-wiggum@claude-plugins-official
-```
-
 **Workflow:**
 
 ```
@@ -167,9 +166,9 @@ Implement tasks with git worktree workflow, branch creation, and PR automation.
          ↓
 3. Per task: Start agent in dedicated worktree
          ↓
-4. Ralph-Loop for implementation (until TASK_COMPLETE)
+4. Autonomous loop for implementation (until TASK_COMPLETE)
          ↓
-5. Ralph-Loop for review (until REVIEW_COMPLETE)
+5. Autonomous loop for review (until REVIEW_COMPLETE)
          ↓
 6. Update STATUS.md, start next tasks
          ↓
@@ -188,7 +187,7 @@ Implement tasks with git worktree workflow, branch creation, and PR automation.
 **References:**
 
 - [Orchestrator Architecture](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/implement-epic/orchestrator-architecture.md) - Technical details
-- [Ralph Integration](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/implement-epic/ralph-integration.md) - Ralph Wiggum configuration
+- [Autonomous Loop Integration](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/implement-epic/autonomous-loop-integration.md) - Loop configuration
 - [Parallel Strategies](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/implement-epic/parallel-strategies.md) - Parallelization patterns
 - [Troubleshooting](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/implement-epic/troubleshooting.md) - Common issues
 
@@ -227,12 +226,13 @@ project-management/
 ├── .claude-plugin/
 │   └── plugin.json
 ├── agents/
-│   └── epic-orchestrator.md          # 🆕 EPIC Orchestrator Agent
+│   └── epic-orchestrator.md
 ├── commands/
 │   ├── create-prd.md
 │   ├── create-plan.md
 │   ├── implement-task.md
-│   └── implement-epic.md              # 🆕 EPIC Implementation Command
+│   ├── implement-epic.md
+│   └── document-handoff.md
 ├── references/
 │   ├── create-prd/
 │   │   ├── best-practices.md
@@ -250,11 +250,15 @@ project-management/
 │   │   ├── linear.md
 │   │   ├── troubleshooting.md
 │   │   └── workflow.md
-│   └── implement-epic/                # 🆕 EPIC Implementation References
-│       ├── orchestrator-architecture.md
-│       ├── ralph-integration.md
-│       ├── parallel-strategies.md
-│       └── troubleshooting.md
+│   ├── implement-epic/
+│   │   ├── orchestrator-architecture.md
+│   │   ├── autonomous-loop-integration.md
+│   │   ├── parallel-strategies.md
+│   │   └── troubleshooting.md
+│   └── document-handoff/
+│       ├── best-practices.md
+│       ├── examples.md
+│       └── templates.md
 └── README.md
 ```
 
@@ -441,21 +445,25 @@ User: "We need OAuth login with Google and GitHub"
 
 ## Changelog
 
+### Version 2.4.0 (2026-02-01)
+
+**Documentation & Architecture:**
+
+- 🌐 Complete documentation translation to professional English (academic level)
+- 🔧 Removed external plugin dependency (ralph-wiggum)
+- 🔄 Uses native Claude Code autonomous loops via Stop hooks
+- 📚 Renamed `ralph-integration.md` to `autonomous-loop-integration.md`
+
 ### Version 2.3.0 (2026-02-01)
 
 **Autonomous EPIC Implementation:**
 
-- 🤖 Added `/implement-epic` command with Ralph Wiggum Pattern integration
+- 🤖 Added `/implement-epic` command with autonomous loop integration
 - 🔀 Parallel task execution with isolated worktrees
 - 👥 Added `epic-orchestrator` agent for coordination
 - 🔄 Autonomous implementation and review loops
 - 📊 Real-time progress tracking and status updates
 - 📚 Added 4 new reference documents for EPIC implementation
-- 🔗 Ralph Wiggum plugin as dependency
-
-**Dependencies:**
-
-- `ralph-wiggum@claude-plugins-official` - For autonomous loops
 
 ### Version 2.0.0 (2026-01-10)
 

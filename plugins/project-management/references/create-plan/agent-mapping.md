@@ -1,238 +1,265 @@
 # Agent Mapping Guide
 
-Umfassender Guide zur Zuordnung von Tasks zu KI-Agenten basierend auf Expertise und Task-Typ.
+Comprehensive guide to assigning tasks to AI agents based on expertise and task type.
 
-## Übersicht
+## Overview
 
-KI-Agenten haben spezialisierte Fähigkeiten für bestimmte Task-Typen. Dieses Dokument definiert:
+AI agents possess specialized capabilities for specific task types. This document defines:
 
-- Verfügbare Agenten und ihre Expertise
-- Task-Typ → Agent Mapping
-- Wann welcher Agent verwendet werden sollte
-- Multi-Agent-Workflows
+- Available agents and their areas of expertise
+- Task type to agent mapping
+- When to utilize each agent
+- Multi-agent workflows
 
-## Verfügbare Agenten
+## Available Agents
 
 ### code-reviewer
 
 **Expertise**:
-- Code-Qualitätsprüfung
-- Security-Analyse
-- Performance-Review
-- Best-Practice Validation
 
-**Verwendung**:
+- Code quality assessment
+- Security analysis
+- Performance review
+- Best practice validation
+
+**Usage**:
+
 ```yaml
-Task: "Code Review für Dark Mode Feature"
+Task: "Code Review for Dark Mode Feature"
 Agent: code-reviewer
 Rationale: |
-  Proaktive Code-Qualitätsprüfung nach Implementation.
-  Prüft auf Security Issues, Performance-Probleme und
-  Best-Practice Violations.
+  Proactive code quality assessment following implementation.
+  Examines security issues, performance problems, and
+  best practice violations.
 ```
 
-**Typische Tasks**:
-- Pull Request Reviews
-- Security Audits
-- Code-Qualitäts-Checks
-- Refactoring-Validation
+**Typical Tasks**:
 
-**Wann verwenden**:
-- ✅ Nach Feature-Implementation
-- ✅ Vor Merge in Main Branch
-- ✅ Bei Security-kritischen Änderungen
-- ✅ Bei Performance-kritischem Code
+- Pull request reviews
+- Security audits
+- Code quality checks
+- Refactoring validation
+
+**When to Use**:
+
+- After feature implementation
+- Before merge to main branch
+- For security-critical changes
+- For performance-critical code
 
 ### java-developer
 
 **Expertise**:
-- Java/Spring Boot Development
-- Enterprise Java Patterns
-- JVM-Optimierung
-- Maven/Gradle Build-Management
 
-**Verwendung**:
+- Java/Spring Boot development
+- Enterprise Java patterns
+- JVM optimization
+- Maven/Gradle build management
+
+**Usage**:
+
 ```yaml
-Task: "REST API Endpoint für User-Verwaltung"
+Task: "REST API Endpoint for User Management"
 Agent: java-developer
 Rationale: |
-  Spring Boot REST Controller mit DTO-Mapping,
-  Service-Layer-Logic und Repository-Integration.
-  Expertise in Enterprise Java Patterns erforderlich.
+  Spring Boot REST controller with DTO mapping,
+  service layer logic, and repository integration.
+  Enterprise Java pattern expertise required.
 ```
 
-**Typische Tasks**:
-- REST API Development
-- Service-Layer Implementation
-- Repository/Database Access
-- Spring Boot Configuration
-- JPA/Hibernate Entities
-- Maven/Gradle Build-Scripts
+**Typical Tasks**:
 
-**Wann verwenden**:
-- ✅ Backend-Development in Java
-- ✅ Spring Boot Features
-- ✅ Database-Integration (JPA)
-- ✅ Enterprise Patterns (DI, AOP)
+- REST API development
+- Service layer implementation
+- Repository/database access
+- Spring Boot configuration
+- JPA/Hibernate entities
+- Maven/Gradle build scripts
+
+**When to Use**:
+
+- Backend development in Java
+- Spring Boot features
+- Database integration (JPA)
+- Enterprise patterns (DI, AOP)
 
 ### python-expert
 
 **Expertise**:
-- Python Development (Django, FastAPI)
-- Data Science Libraries (NumPy, Pandas)
-- Async Programming (asyncio)
-- Python Best Practices (PEP 8)
 
-**Verwendung**:
+- Python development (Django, FastAPI)
+- Data science libraries (NumPy, Pandas)
+- Async programming (asyncio)
+- Python best practices (PEP 8)
+
+**Usage**:
+
 ```yaml
-Task: "FastAPI Endpoint für ML-Model Inference"
+Task: "FastAPI Endpoint for ML Model Inference"
 Agent: python-expert
 Rationale: |
-  FastAPI async endpoint mit Pydantic-Validation,
-  ML-Model-Integration und Error-Handling.
-  Python asyncio expertise erforderlich.
+  FastAPI async endpoint with Pydantic validation,
+  ML model integration, and error handling.
+  Python asyncio expertise required.
 ```
 
-**Typische Tasks**:
-- Django/FastAPI Development
-- Data Processing Scripts
-- ML-Pipeline Implementation
-- Python-Package Development
-- Async/Await Code
-- Unit Tests (pytest)
+**Typical Tasks**:
 
-**Wann verwenden**:
-- ✅ Backend-Development in Python
-- ✅ Data Science/ML Tasks
-- ✅ Scripting/Automation
-- ✅ API Development (FastAPI/Django)
+- Django/FastAPI development
+- Data processing scripts
+- ML pipeline implementation
+- Python package development
+- Async/await code
+- Unit tests (pytest)
+
+**When to Use**:
+
+- Backend development in Python
+- Data science/ML tasks
+- Scripting/automation
+- API development (FastAPI/Django)
 
 ### ai-engineer
 
 **Expertise**:
-- LLM-Integration (OpenAI, Anthropic)
-- ML-Pipeline Development
-- Vector Databases (Pinecone, Weaviate)
-- Prompt Engineering
 
-**Verwendung**:
+- LLM integration (OpenAI, Anthropic)
+- ML pipeline development
+- Vector databases (Pinecone, Weaviate)
+- Prompt engineering
+
+**Usage**:
+
 ```yaml
-Task: "LLM-gestützte Content-Generierung"
+Task: "LLM-Powered Content Generation"
 Agent: ai-engineer
 Rationale: |
-  Integration von Claude API für Content-Generierung
-  mit Prompt-Templating, Token-Management und
-  Response-Parsing. LLM-Expertise erforderlich.
+  Integration of Claude API for content generation
+  with prompt templating, token management, and
+  response parsing. LLM expertise required.
 ```
 
-**Typische Tasks**:
-- LLM-Integration
-- RAG (Retrieval-Augmented Generation)
-- Vector Database Setup
-- ML-Model Training/Fine-Tuning
-- Prompt Engineering
-- AI-Feature Development
+**Typical Tasks**:
 
-**Wann verwenden**:
-- ✅ LLM-Integration (ChatGPT, Claude, etc.)
-- ✅ ML-Feature Development
-- ✅ Vector Search/Embeddings
-- ✅ AI-Pipeline Implementation
+- LLM integration
+- RAG (Retrieval-Augmented Generation)
+- Vector database setup
+- ML model training/fine-tuning
+- Prompt engineering
+- AI feature development
+
+**When to Use**:
+
+- LLM integration (ChatGPT, Claude, etc.)
+- ML feature development
+- Vector search/embeddings
+- AI pipeline implementation
 
 ### agent-expert
 
 **Expertise**:
-- KI-Agenten-Entwicklung
-- Multi-Agent-Systemen
-- Agent-Orchestration
-- Tool-Integration für Agenten
 
-**Verwendung**:
+- AI agent development
+- Multi-agent systems
+- Agent orchestration
+- Tool integration for agents
+
+**Usage**:
+
 ```yaml
-Task: "Multi-Agent Workflow für Code-Review"
+Task: "Multi-Agent Workflow for Code Review"
 Agent: agent-expert
 Rationale: |
-  Orchestrierung mehrerer Agenten (code-reviewer,
-  test-runner, security-scanner) mit Workflow-Logic
-  und Result-Aggregation. Agent-Expertise erforderlich.
+  Orchestration of multiple agents (code-reviewer,
+  test-runner, security-scanner) with workflow logic
+  and result aggregation. Agent expertise required.
 ```
 
-**Typische Tasks**:
-- Agent-Development
-- Multi-Agent-Workflows
-- Agent-Tool-Integration
-- Agent-Orchestration
-- Custom Agent Creation
+**Typical Tasks**:
 
-**Wann verwenden**:
-- ✅ Agent-Development Tasks
-- ✅ Multi-Agent-Systeme
-- ✅ Agent-Workflow-Orchestration
-- ✅ Tool-Integration für Agenten
+- Agent development
+- Multi-agent workflows
+- Agent tool integration
+- Agent orchestration
+- Custom agent creation
+
+**When to Use**:
+
+- Agent development tasks
+- Multi-agent systems
+- Agent workflow orchestration
+- Tool integration for agents
 
 ### markdown-syntax-formatter
 
 **Expertise**:
-- Markdown-Formatierung (CommonMark)
-- Documentation-Struktur
-- Best-Practice Markdown
 
-**Verwendung**:
+- Markdown formatting (CommonMark)
+- Documentation structure
+- Best practice Markdown
+
+**Usage**:
+
 ```yaml
-Task: "README.md für Feature X erstellen"
+Task: "Create README.md for Feature X"
 Agent: markdown-syntax-formatter
 Rationale: |
-  Professionelle Markdown-Dokumentation mit
-  CommonMark-Compliance, korrekter Formatierung
-  und Best-Practice-Struktur.
+  Professional Markdown documentation with
+  CommonMark compliance, correct formatting,
+  and best practice structure.
 ```
 
-**Typische Tasks**:
-- README.md Creation
-- Documentation Formatting
-- Markdown-Linting
-- CommonMark-Conversion
+**Typical Tasks**:
 
-**Wann verwenden**:
-- ✅ Documentation Tasks
-- ✅ README Creation
-- ✅ Markdown-File Formatting
-- ✅ Documentation-Struktur
+- README.md creation
+- Documentation formatting
+- Markdown linting
+- CommonMark conversion
 
-### Weitere Agenten (erweiterbar)
+**When to Use**:
 
-Die Liste wird laufend erweitert. Neue Agenten werden hinzugefügt, wenn neue Expertise-Bereiche identifiziert werden:
+- Documentation tasks
+- README creation
+- Markdown file formatting
+- Documentation structure
 
-**Potenzielle zukünftige Agenten**:
-- `react-developer` - React/TypeScript Frontend
-- `devops-engineer` - CI/CD, Infrastructure
-- `database-expert` - Database Design, Optimization
-- `security-specialist` - Security Audits, Penetration Testing
-- `test-automator` - Test-Automation, E2E Tests
-- `ui-ux-designer` - UI/UX Design, Accessibility
+### Additional Agents (Extensible)
 
-## Task-Typ → Agent Mapping
+The list is continuously expanded. New agents are added when new areas of expertise are identified:
+
+**Potential Future Agents**:
+
+- `react-developer` - React/TypeScript frontend
+- `devops-engineer` - CI/CD, infrastructure
+- `database-expert` - Database design, optimization
+- `security-specialist` - Security audits, penetration testing
+- `test-automator` - Test automation, E2E tests
+- `ui-ux-designer` - UI/UX design, accessibility
+
+## Task Type to Agent Mapping
 
 ### Backend Development
 
-**Java-Backend**:
+**Java Backend**:
+
 ```yaml
 Task-Types:
-  - REST API Endpoints
-  - Service-Layer Logic
-  - Repository/Database Access
-  - Spring Boot Configuration
+  - REST API endpoints
+  - Service layer logic
+  - Repository/database access
+  - Spring Boot configuration
 
 Agent: java-developer
 ```
 
-**Python-Backend**:
+**Python Backend**:
+
 ```yaml
 Task-Types:
-  - Django/FastAPI Endpoints
-  - Data Processing
-  - Async Handlers
-  - Python Scripts
+  - Django/FastAPI endpoints
+  - Data processing
+  - Async handlers
+  - Python scripts
 
 Agent: python-expert
 ```
@@ -240,12 +267,13 @@ Agent: python-expert
 ### Frontend Development
 
 **React/TypeScript**:
+
 ```yaml
 Task-Types:
-  - React Components
-  - State Management (Redux, Context)
-  - TypeScript Interfaces
-  - Frontend Testing
+  - React components
+  - State management (Redux, Context)
+  - TypeScript interfaces
+  - Frontend testing
 
 Agent: react-developer (future)
 Fallback: java-developer (TypeScript)
@@ -253,24 +281,26 @@ Fallback: java-developer (TypeScript)
 
 ### AI/ML Features
 
-**LLM-Integration**:
+**LLM Integration**:
+
 ```yaml
 Task-Types:
-  - ChatGPT/Claude Integration
-  - Prompt Engineering
-  - RAG Implementation
-  - Vector Database Setup
+  - ChatGPT/Claude integration
+  - Prompt engineering
+  - RAG implementation
+  - Vector database setup
 
 Agent: ai-engineer
 ```
 
-**ML-Pipeline**:
+**ML Pipeline**:
+
 ```yaml
 Task-Types:
-  - Model Training
-  - Data Preprocessing
-  - Feature Engineering
-  - Model Deployment
+  - Model training
+  - Data preprocessing
+  - Feature engineering
+  - Model deployment
 
 Agent: ai-engineer
 ```
@@ -278,38 +308,41 @@ Agent: ai-engineer
 ### DevOps/Infrastructure
 
 **CI/CD**:
+
 ```yaml
 Task-Types:
-  - GitHub Actions Workflows
-  - Docker Configuration
-  - Kubernetes Manifests
-  - Terraform Scripts
+  - GitHub Actions workflows
+  - Docker configuration
+  - Kubernetes manifests
+  - Terraform scripts
 
 Agent: devops-engineer (future)
-Fallback: java-developer oder python-expert
+Fallback: java-developer or python-expert
 ```
 
 ### Testing
 
 **Unit Tests**:
+
 ```yaml
 Task-Types:
-  - Component Tests
-  - Function Tests
-  - Mock Setup
+  - Component tests
+  - Function tests
+  - Mock setup
 
-Agent: Matching Developer Agent
+Agent: Matching developer agent
   - Java: java-developer
   - Python: python-expert
   - React: react-developer
 ```
 
 **E2E Tests**:
+
 ```yaml
 Task-Types:
-  - Cypress Tests
-  - Playwright Tests
-  - User-Flow Tests
+  - Cypress tests
+  - Playwright tests
+  - User flow tests
 
 Agent: test-automator (future)
 Fallback: react-developer
@@ -318,19 +351,21 @@ Fallback: react-developer
 ### Documentation
 
 **Code Documentation**:
+
 ```yaml
 Task-Types:
   - JavaDoc/JSDoc
-  - Code Comments
-  - Architecture Docs
+  - Code comments
+  - Architecture docs
 
 Agent: markdown-syntax-formatter
 ```
 
 **User Documentation**:
+
 ```yaml
 Task-Types:
-  - User Guides
+  - User guides
   - Tutorials
   - FAQ
 
@@ -340,11 +375,12 @@ Agent: markdown-syntax-formatter
 ### Security
 
 **Security Audits**:
+
 ```yaml
 Task-Types:
-  - OWASP Top 10 Check
-  - Dependency Audit
-  - Code Security Review
+  - OWASP Top 10 check
+  - Dependency audit
+  - Code security review
 
 Agent: security-specialist (future)
 Fallback: code-reviewer
@@ -353,22 +389,24 @@ Fallback: code-reviewer
 ### Code Review
 
 **Quality Review**:
+
 ```yaml
 Task-Types:
-  - Code-Qualitäts-Check
-  - Best-Practice Review
-  - Performance-Analyse
+  - Code quality check
+  - Best practice review
+  - Performance analysis
 
 Agent: code-reviewer
 ```
 
-## Multi-Agent-Workflows
+## Multi-Agent Workflows
 
-Manche Tasks benötigen mehrere Agenten in Sequenz oder parallel.
+Certain tasks require multiple agents in sequence or in parallel.
 
-### Beispiel 1: Feature-Development
+### Example 1: Feature Development
 
 **Workflow**:
+
 ```yaml
 Feature: "User Authentication"
 
@@ -391,21 +429,22 @@ Tasks:
      - "Code Review" → code-reviewer
 ```
 
-### Beispiel 2: AI-Feature-Development
+### Example 2: AI Feature Development
 
 **Workflow**:
+
 ```yaml
-Feature: "AI-gestützte Content-Generierung"
+Feature: "AI-Powered Content Generation"
 
 Tasks:
-  1. LLM-Integration (Sequential):
+  1. LLM Integration (Sequential):
      - "Claude API Integration" → ai-engineer
      - "Prompt Templates" → ai-engineer
      - "Response Parsing" → ai-engineer
 
-  2. Backend-Integration (Sequential):
+  2. Backend Integration (Sequential):
      - "REST Endpoint" → java-developer
-     - "Service-Layer" → java-developer
+     - "Service Layer" → java-developer
      - "Caching" → java-developer
 
   3. Testing (Parallel):
@@ -415,70 +454,77 @@ Tasks:
 
   4. Review:
      - "Code Review" → code-reviewer
-     - "AI-Review" → ai-engineer (Prompt-Qualität)
+     - "AI Review" → ai-engineer (prompt quality)
 ```
 
-## Agent-Empfehlungs-Algorithmus
+## Agent Recommendation Algorithm
 
 ```typescript
 function recommendAgent(task: Task): Agent {
   // 1. Check Task-Type
   if (task.type === "rest-api" && task.language === "java") {
-    return "java-developer"
+    return "java-developer";
   }
 
   if (task.type === "rest-api" && task.language === "python") {
-    return "python-expert"
+    return "python-expert";
   }
 
   if (task.type === "llm-integration") {
-    return "ai-engineer"
+    return "ai-engineer";
   }
 
   if (task.type === "agent-development") {
-    return "agent-expert"
+    return "agent-expert";
   }
 
   if (task.type === "documentation") {
-    return "markdown-syntax-formatter"
+    return "markdown-syntax-formatter";
   }
 
   if (task.type === "code-review") {
-    return "code-reviewer"
+    return "code-reviewer";
   }
 
   // 2. Check Technology Stack
   if (task.technologies.includes("spring-boot")) {
-    return "java-developer"
+    return "java-developer";
   }
 
-  if (task.technologies.includes("django") || task.technologies.includes("fastapi")) {
-    return "python-expert"
+  if (
+    task.technologies.includes("django") ||
+    task.technologies.includes("fastapi")
+  ) {
+    return "python-expert";
   }
 
   if (task.technologies.includes("react")) {
-    return "react-developer"
+    return "react-developer";
   }
 
   // 3. Check Keywords
-  const keywords = task.description.toLowerCase()
+  const keywords = task.description.toLowerCase();
 
-  if (keywords.includes("llm") || keywords.includes("openai") || keywords.includes("claude")) {
-    return "ai-engineer"
+  if (
+    keywords.includes("llm") ||
+    keywords.includes("openai") ||
+    keywords.includes("claude")
+  ) {
+    return "ai-engineer";
   }
 
   if (keywords.includes("agent") || keywords.includes("multi-agent")) {
-    return "agent-expert"
+    return "agent-expert";
   }
 
   // 4. Fallback: No recommendation
-  return null
+  return null;
 }
 ```
 
-## In Linear Issue speichern
+## Storing in Linear Issue
 
-Agent-Empfehlungen werden in Issue-Description als eigener Abschnitt gespeichert:
+Agent recommendations are stored in the issue description as a dedicated section:
 
 ```markdown
 ## Agent Recommendation
@@ -486,120 +532,130 @@ Agent-Empfehlungen werden in Issue-Description als eigener Abschnitt gespeichert
 **Recommended Agent**: `java-developer`
 
 **Rationale**:
-Spring Boot REST Controller mit Service-Layer-Logic.
-Expertise in Enterprise Java Patterns erforderlich.
+Spring Boot REST controller with service layer logic.
+Enterprise Java pattern expertise required.
 
 **Alternative Agents**:
-- `python-expert` (falls Python-Rewrite gewünscht)
+
+- `python-expert` (if Python rewrite is desired)
 
 **Multi-Agent Workflow**:
+
 1. `java-developer` - Implementation
-2. `code-reviewer` - Quality Review
+2. `code-reviewer` - Quality review
 ```
 
 ## Custom Agent Integration
 
-Falls neue Agenten hinzugefügt werden, muss die Mapping-Logik aktualisiert werden:
+When adding new agents, the mapping logic must be updated:
 
-### 1. Agent definieren
+### 1. Define Agent
 
 ```yaml
 # .claude/agents/new-agent.md
 ---
 name: new-agent
-description: Beschreibung des Agenten
+description: Description of the agent
 color: blue
 category: development
 model: sonnet
 ---
-
 # New Agent
-
 ...
 ```
 
-### 2. Mapping aktualisieren
+### 2. Update Mapping
 
 ```typescript
-// In create-plan Command
+// In create-plan command
 const agentMapping = {
   ...existingMappings,
 
   "new-task-type": {
     agent: "new-agent",
-    rationale: "Expertise in X erforderlich"
-  }
-}
+    rationale: "Expertise in X required",
+  },
+};
 ```
 
-### 3. Dokumentation aktualisieren
+### 3. Update Documentation
 
-- `agent-mapping.md` erweitern
-- Neue Task-Typen dokumentieren
-- Verwendungs-Beispiele hinzufügen
+- Extend `agent-mapping.md`
+- Document new task types
+- Add usage examples
 
 ## Best Practices
 
-### DO ✅
+### DO
 
-**Passenden Agent wählen**:
-- Agent-Expertise matched Task-Requirements
-- Rationale dokumentieren
-- Alternative Agenten erwähnen
+**Select Appropriate Agent**:
 
-**Multi-Agent bei Komplexität**:
-- Große Tasks → Mehrere Agenten
-- Sequentielle vs. parallele Workflows
-- Koordination dokumentieren
+- Agent expertise matches task requirements
+- Document rationale
+- Mention alternative agents
 
-**Agent-Empfehlung in Issues**:
-- Immer in Issue-Description
-- Klar formatiert
-- Rationale angeben
+**Use Multi-Agent for Complex Tasks**:
 
-### DON'T ❌
+- Large tasks require multiple agents
+- Sequential vs. parallel workflows
+- Document coordination
 
-**Falschen Agent zuweisen**:
-- Java-Task → python-expert ❌
-- LLM-Integration → java-developer ❌
+**Include Agent Recommendation in Issues**:
 
-**Agent-Empfehlung auslassen**:
-- Jeder Task sollte Empfehlung haben
-- Auch wenn "offensichtlich"
+- Always in issue description
+- Clearly formatted
+- Provide rationale
 
-**Zu viele Agenten**:
+### DON'T
+
+**Assign Wrong Agent**:
+
+- Java task to python-expert
+- LLM integration to java-developer
+
+**Omit Agent Recommendation**:
+
+- Every task should have a recommendation
+- Even when "obvious"
+
+**Use Too Many Agents**:
+
 - Keep it simple
-- Nur wenn wirklich nötig
+- Only when truly necessary
 
-## Häufige Fehler
+## Common Errors
 
-### ❌ Agent-Mismatch
+### Agent Mismatch
 
-**Problem**: Task und Agent passen nicht zusammen
+**Problem**: Task and agent do not align
 
-**Beispiel**:
+**Example**:
+
 ```yaml
-Task: "FastAPI REST Endpoint implementieren"
-Agent: java-developer ❌
+Task: "Implement FastAPI REST Endpoint"
+Agent: java-developer # Incorrect
 ```
 
-**Lösung**:
+**Solution**:
+
 ```yaml
-Task: "FastAPI REST Endpoint implementieren"
-Agent: python-expert ✅
+Task: "Implement FastAPI REST Endpoint"
+Agent: python-expert # Correct
 ```
 
-### ❌ Keine Multi-Agent-Planung
+### Missing Multi-Agent Planning
 
-**Problem**: Großer Task ohne Multi-Agent-Workflow
+**Problem**: Large task without multi-agent workflow
 
-**Beispiel**:
+**Example**:
+
 ```yaml
 Task: "Complete E-Commerce Feature (21 SP)"
-Agent: java-developer ❌
+Agent: java-developer # Incorrect
 ```
 
-**Lösung**: Task aufteilen und Multi-Agent-Workflow:
+**Solution**: Decompose task and use multi-agent workflow:
+
 ```yaml
 Tasks:
   - "Backend API" (5 SP) → java-developer
@@ -609,39 +665,44 @@ Tasks:
   - "Code Review" (2 SP) → code-reviewer
 ```
 
-### ❌ Agent-Rationale fehlt
+### Missing Agent Rationale
 
-**Problem**: Keine Begründung für Agent-Wahl
+**Problem**: No justification for agent selection
 
-**Schlecht**:
+**Incorrect**:
+
 ```markdown
 ## Agent Recommendation
+
 **Agent**: java-developer
 ```
 
-**Gut**:
+**Correct**:
+
 ```markdown
 ## Agent Recommendation
+
 **Agent**: `java-developer`
 
 **Rationale**:
-Spring Boot REST API mit JPA-Repositories.
-Enterprise Java Patterns erforderlich.
+Spring Boot REST API with JPA repositories.
+Enterprise Java pattern expertise required.
 ```
 
-## Checkliste: Agent-Empfehlung
+## Checklist: Agent Recommendation
 
-Vor dem Erstellen eines Tasks:
+Before creating a task:
 
-- [ ] **Agent identifiziert**: Passender Agent für Task-Typ?
-- [ ] **Rationale dokumentiert**: Warum dieser Agent?
-- [ ] **Alternative geprüft**: Gibt es andere passende Agenten?
-- [ ] **Multi-Agent erwägt**: Ist Multi-Agent-Workflow nötig?
-- [ ] **In Issue dokumentiert**: Agent-Empfehlung in Description?
+- [ ] **Agent identified**: Appropriate agent for task type?
+- [ ] **Rationale documented**: Why this agent?
+- [ ] **Alternative considered**: Are there other suitable agents?
+- [ ] **Multi-agent evaluated**: Is multi-agent workflow necessary?
+- [ ] **Documented in issue**: Agent recommendation in description?
 
 ---
 
-**Siehe auch**:
-- [task-breakdown.md](task-breakdown.md) - Task-Breakdown Strategien
-- [linear-integration.md](linear-integration.md) - Linear-Integration Details
-- [best-practices.md](best-practices.md) - Allgemeine Best Practices
+**See also**:
+
+- [task-breakdown.md](task-breakdown.md) - Task breakdown strategies
+- [linear-integration.md](linear-integration.md) - Linear integration details
+- [best-practices.md](best-practices.md) - General best practices

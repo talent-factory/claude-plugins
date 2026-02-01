@@ -1,262 +1,292 @@
 # Troubleshooting
 
-Häufige Probleme und Lösungen bei der EPIC-Implementation.
+Common issues and solutions for EPIC implementation.
 
-## Orchestrator-Probleme
+## Orchestrator Issues
 
-### EPIC wird nicht gefunden
+### EPIC Not Found
 
 **Symptom**:
+
 ```
 Error: EPIC 'feature-x' not found
 ```
 
-**Ursachen & Lösungen**:
+**Causes and Solutions**:
 
-1. **Falscher Pfad**
+1. **Incorrect path**
+
    ```bash
-   # Prüfen
+   # Verify
    ls -la .plans/
 
-   # Korrekter Aufruf
+   # Correct invocation
    /implement-epic --plan .plans/feature-x/
    ```
 
-2. **EPIC.md fehlt**
+2. **Missing EPIC.md**
+
    ```bash
-   # EPIC neu erstellen
+   # Recreate EPIC
    /create-plan --prd PRD.md
    ```
 
-3. **Linear-Flag vergessen**
+3. **Missing Linear flag**
    ```bash
-   # Für Linear-EPICs
+   # For Linear EPICs
    /implement-epic --linear PROJ-123
    ```
 
 ### Circular Dependency Error
 
 **Symptom**:
+
 ```
 Error: Circular dependency detected: task-001 → task-003 → task-001
 ```
 
-**Lösung**:
+**Solution**:
+
 ```bash
-# Dependencies prüfen
+# Inspect dependencies
 grep -r "Requires:" .plans/feature-x/tasks/
 
-# Zirkuläre Referenz auflösen
+# Resolve circular reference
 # In task-001.md:
-# - Requires: task-003  ← Entfernen oder Task aufteilen
+# - Requires: task-003  ← Remove or decompose task
 ```
 
-### Keine Tasks startbar
+### No Tasks Available to Start
 
 **Symptom**:
+
 ```
 Warning: No tasks ready to start (all blocked or completed)
 ```
 
-**Ursachen**:
+**Causes**:
 
-1. **Alle Tasks haben Dependencies**
+1. **All tasks have dependencies**
+
    ```bash
-   # Mindestens ein Task ohne Requires nötig
+   # At least one task must have no requirements
    cat .plans/feature-x/tasks/task-001.md | grep "Requires"
-   # Sollte "Requires: None" sein
+   # Should be "Requires: None"
    ```
 
-2. **Tasks bereits in Bearbeitung**
+2. **Tasks already in progress**
    ```bash
-   # Status prüfen
+   # Check status
    cat .plans/feature-x/STATUS.md
    ```
 
-## Ralph-Loop-Probleme
+## Autonomous Loop Issues
 
-### Loop terminiert nicht
+### Loop Does Not Terminate
 
 **Symptom**:
-Loop läuft endlos, erreicht max-iterations.
+Loop runs indefinitely, reaches max-iterations.
 
-**Lösungen**:
+**Solutions**:
 
-1. **Completion-Promise prüfen**
+1. **Verify completion promise**
+
    ```bash
-   # Promise muss exakt im Output erscheinen
-   # Falsch:
+   # Promise must appear exactly in output
+   # Incorrect:
    Output: TASK_COMPLETE
 
-   # Richtig:
+   # Correct:
    <promise>TASK_COMPLETE</promise>
    ```
 
-2. **Prompt anpassen**
-   ```markdown
-   # Klarere Erfolgskriterien
-   Wenn diese Bedingungen erfüllt sind:
-   1. npm test erfolgreich (exit code 0)
-   2. npm run lint ohne Errors
+2. **Refine prompt**
 
-   Dann output GENAU diesen Text:
+   ```markdown
+   # Clearer success criteria
+
+   When these conditions are satisfied:
+
+   1. npm test succeeds (exit code 0)
+   2. npm run lint returns no errors
+
+   Then output EXACTLY this text:
    <promise>TASK_COMPLETE</promise>
    ```
 
-3. **Fallback einbauen**
+3. **Implement fallback**
+
    ```markdown
-   Nach 25 Iterationen, falls nicht abgeschlossen:
-   1. Dokumentiere Fortschritt in PROGRESS.md
-   2. Liste offene Punkte
+   After 25 iterations, if not completed:
+
+   1. Document progress in PROGRESS.md
+   2. List outstanding items
    3. <promise>TASK_PARTIAL</promise>
    ```
 
-### Falsche Completion
+### Premature Completion
 
 **Symptom**:
-Loop endet obwohl Task nicht fertig ist.
+Loop terminates although task is incomplete.
 
-**Ursachen**:
+**Causes**:
 
-1. **Promise zu früh ausgegeben**
+1. **Promise emitted prematurely**
+
    ```markdown
-   # Prompt anpassen
-   WICHTIG: Output <promise>TASK_COMPLETE</promise> NUR wenn:
-   - Alle Tests grün (npm test zeigt "X passing, 0 failing")
-   - Kein ESLint-Error
-   - Änderungen committed
+   # Refine prompt
+
+   IMPORTANT: Output <promise>TASK_COMPLETE</promise> ONLY when:
+
+   - All tests pass (npm test shows "X passing, 0 failing")
+   - No ESLint errors
+   - Changes committed
    ```
 
-2. **Versehentlicher Match**
+2. **Unintended match**
    ```bash
-   # Wenn Code "TASK_COMPLETE" enthält
-   # Eindeutigeres Promise verwenden
-   --completion-promise "RALPH_EPIC_TASK_001_COMPLETE"
+   # If code contains "TASK_COMPLETE"
+   # Use more distinctive promise
+   --completion-promise "EPIC_TASK_001_COMPLETE"
    ```
 
 ### Memory/Context Issues
 
 **Symptom**:
-Loop wird langsamer, Kontext-Overflow Fehler.
+Loop performance degrades, context overflow errors.
 
-**Lösungen**:
+**Solutions**:
 
-1. **Kontext-Rotation aktivieren**
+1. **Enable context rotation**
+
    ```python
-   # Im Orchestrator
+   # In orchestrator
    spawn_subagent(
        fresh_context=True,
-       memory_handoff='minimal'  # Nur essentielles übergeben
+       memory_handoff='minimal'  # Transfer only essential data
    )
    ```
 
-2. **Tasks aufteilen**
-   ```bash
-   # Statt einem grossen Task
-   task-001: Komplettes Auth-System  # 13 SP ← Zu gross!
+2. **Decompose tasks**
 
-   # Mehrere kleine
-   task-001a: Auth-Service Grundgerüst  # 3 SP
-   task-001b: JWT-Integration            # 3 SP
-   task-001c: Password-Hashing           # 2 SP
-   task-001d: Auth-Tests                 # 3 SP
+   ```bash
+   # Instead of one large task
+   task-001: Complete Auth System  # 13 SP ← Too large!
+
+   # Multiple smaller tasks
+   task-001a: Auth Service scaffold  # 3 SP
+   task-001b: JWT integration        # 3 SP
+   task-001c: Password hashing       # 2 SP
+   task-001d: Auth tests             # 3 SP
    ```
 
-## Worktree-Probleme
+## Worktree Issues
 
-### Worktree existiert bereits
+### Worktree Already Exists
 
 **Symptom**:
+
 ```
 fatal: '.worktrees/task-001' already exists
 ```
 
-**Lösungen**:
+**Solutions**:
 
-1. **Existierenden nutzen**
+1. **Use existing worktree**
+
    ```bash
    cd .worktrees/task-001
-   git status  # Prüfen was dort ist
+   git status  # Inspect contents
    ```
 
-2. **Cleanup und neu erstellen**
+2. **Cleanup and recreate**
    ```bash
    git worktree remove .worktrees/task-001 --force
    git worktree add -b feature/task-001 .worktrees/task-001 origin/main
    ```
 
-### Branch existiert bereits
+### Branch Already Exists
 
 **Symptom**:
+
 ```
 fatal: A branch named 'feature/task-001' already exists
 ```
 
-**Lösungen**:
+**Solutions**:
 
-1. **Existierenden Branch nutzen**
+1. **Use existing branch**
+
    ```bash
    git worktree add .worktrees/task-001 feature/task-001
    ```
 
-2. **Branch löschen (wenn nicht mehr gebraucht)**
+2. **Delete branch (if no longer needed)**
    ```bash
    git branch -D feature/task-001
    git worktree add -b feature/task-001 .worktrees/task-001 origin/main
    ```
 
-### Submodule nicht initialisiert
+### Submodules Not Initialised
 
 **Symptom**:
+
 ```
 Error: Submodule 'libs/shared' not initialized
 ```
 
-**Lösung**:
+**Solution**:
+
 ```bash
 cd .worktrees/task-001
 git submodule update --init --recursive
 ```
 
-## Git-Probleme
+## Git Issues
 
-### Merge-Konflikte
+### Merge Conflicts
 
 **Symptom**:
+
 ```
 CONFLICT (content): Merge conflict in src/utils.ts
 ```
 
-**Automatische Lösung (im Ralph-Loop)**:
+**Automated Resolution (in autonomous loop)**:
+
 ```markdown
-Bei Merge-Konflikten:
+For merge conflicts:
+
 1. git fetch origin
 2. git rebase origin/main
-3. Bei Konflikten:
-   - Analysiere beide Versionen
-   - Wähle sinnvollste Lösung
+3. For conflicts:
+   - Analyse both versions
+   - Select optimal solution
    - git add <file>
    - git rebase --continue
-4. Falls unlösbar: <promise>TASK_BLOCKED</promise>
+4. If unresolvable: <promise>TASK_BLOCKED</promise>
 ```
 
-**Manuelle Lösung**:
+**Manual Resolution**:
+
 ```bash
 cd .worktrees/task-001
-git status  # Konflikt-Dateien sehen
-# Manuell auflösen
+git status  # View conflict files
+# Resolve manually
 git add .
 git rebase --continue
 ```
 
-### Push rejected
+### Push Rejected
 
 **Symptom**:
+
 ```
 ! [rejected] feature/task-001 -> feature/task-001 (non-fast-forward)
 ```
 
-**Lösung**:
+**Solution**:
+
 ```bash
 cd .worktrees/task-001
 git fetch origin
@@ -264,160 +294,170 @@ git rebase origin/feature/task-001
 git push --force-with-lease
 ```
 
-## PR-Probleme
+## Pull Request Issues
 
-### Draft-PR kann nicht erstellt werden
+### Draft PR Creation Failure
 
 **Symptom**:
+
 ```
 Error: Failed to create pull request
 ```
 
-**Ursachen & Lösungen**:
+**Causes and Solutions**:
 
-1. **gh nicht authentifiziert**
+1. **gh not authenticated**
+
    ```bash
    gh auth status
    gh auth login
    ```
 
-2. **Branch nicht gepusht**
+2. **Branch not pushed**
+
    ```bash
    git push -u origin feature/task-001
    ```
 
-3. **Repository-Rechte fehlen**
+3. **Insufficient repository permissions**
    ```bash
-   # Fork statt Push zu Original
+   # Fork instead of pushing to original
    gh repo fork
    git remote add fork <fork-url>
    git push fork feature/task-001
    gh pr create --repo original/repo --head fork:feature/task-001
    ```
 
-### Review-Änderungen werden nicht erkannt
+### Review Changes Not Detected
 
 **Symptom**:
-Review-Loop behebt Issues, aber PR zeigt keine Änderungen.
+Review loop resolves issues, but PR shows no changes.
 
-**Lösung**:
+**Solution**:
+
 ```bash
-# Im Worktree
+# In worktree
 cd .worktrees/task-001
-git status  # Gibt es unstaged Änderungen?
+git status  # Check for unstaged changes
 git add .
 git commit -m "fix: Addressed review comments"
 git push
 ```
 
-## Performance-Probleme
+## Performance Issues
 
-### Zu hohe CPU/Memory-Nutzung
+### Excessive CPU/Memory Utilisation
 
 **Symptom**:
-System wird langsam, Agents crashen.
+System becomes slow, agents crash.
 
-**Lösungen**:
+**Solutions**:
 
-1. **Parallelität reduzieren**
+1. **Reduce parallelism**
+
    ```bash
    /implement-epic feature-x --max-parallel 2
    ```
 
-2. **Iterations begrenzen**
+2. **Limit iterations**
+
    ```bash
    /implement-epic feature-x --max-iterations 20
    ```
 
-3. **Pausen einbauen**
+3. **Introduce pauses**
    ```python
-   # Im Orchestrator
+   # In orchestrator
    after_each_task_complete:
-       await asyncio.sleep(5)  # 5 Sekunden Pause
+       await asyncio.sleep(5)  # 5 second pause
    ```
 
-### Zu hohe API-Kosten
+### Excessive API Costs
 
 **Symptom**:
-Kosten explodieren.
+Costs escalate rapidly.
 
-**Lösungen**:
+**Solutions**:
 
-1. **Dry-Run zuerst**
+1. **Execute dry run first**
+
    ```bash
    /implement-epic feature-x --dry-run
-   # Zeigt geschätzte Kosten
+   # Displays estimated costs
    ```
 
-2. **Kleinere Tasks**
+2. **Smaller tasks**
+
    ```bash
-   # Statt 5 Tasks à 8 SP
-   # Besser: 10 Tasks à 3-4 SP
+   # Instead of 5 tasks at 8 SP
+   # Better: 10 tasks at 3-4 SP
    ```
 
-3. **Effizientere Prompts**
+3. **More efficient prompts**
+
    ```markdown
-   # Kürzere, fokussiertere Prompts
-   # Weniger Kontext = weniger Tokens
+   # Shorter, more focused prompts
+
+   # Less context = fewer tokens
    ```
 
 ## Recovery
 
-### Nach Crash fortsetzen
+### Resume After Crash
 
 ```bash
-# Orchestrator-State prüfen
+# Check orchestrator state
 cat .plans/feature-x/.orchestrator/state.json
 
-# Fortsetzen
+# Resume
 /implement-epic feature-x --resume
 
-# Oder: Spezifischen Task fortsetzen
+# Or: Continue specific task
 /implement-task task-001 --continue
 ```
 
-### Cleanup nach Abbruch
+### Cleanup After Abort
 
 ```bash
-# Alle Worktrees auflisten
+# List all worktrees
 git worktree list
 
-# Nicht mehr gebrauchte entfernen
+# Remove unused worktrees
 git worktree remove .worktrees/task-001 --force
 
-# Verwaiste Branches löschen
+# Delete orphaned branches
 git branch -D feature/task-001
 
-# Orchestrator-State zurücksetzen
+# Reset orchestrator state
 rm -rf .plans/feature-x/.orchestrator/
 ```
 
 ## Debugging
 
-### Verbose-Modus
+### Verbose Mode
 
 ```bash
 /implement-epic feature-x --verbose
-# Zeigt detaillierte Logs
+# Displays detailed logs
 ```
 
-### Einzelnen Task debuggen
+### Debug Individual Task
 
 ```bash
-# Task manuell starten
+# Start task manually
 cd .worktrees/task-001
 
-# Ohne Ralph-Loop, interaktiv
+# Without autonomous loop, interactively
 claude
-> Implementiere Task task-001...
+> Implement Task task-001...
 ```
 
-### Logs analysieren
+### Log Analysis
 
 ```bash
-# Orchestrator-Logs
+# Orchestrator logs
 tail -f .plans/feature-x/.orchestrator/logs/orchestrator.log
 
-# Task-spezifische Logs
+# Task-specific logs
 cat .plans/feature-x/.orchestrator/logs/task-001.log
 ```

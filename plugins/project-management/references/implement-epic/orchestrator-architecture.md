@@ -1,8 +1,8 @@
-# EPIC-Orchestrator Architektur
+# EPIC Orchestrator Architecture
 
-Technische Details zur Implementierung des EPIC-Orchestrators.
+Technical specifications for the implementation of the EPIC Orchestrator system.
 
-## Architektur-Übersicht
+## Architectural Overview
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
@@ -25,8 +25,9 @@ Technische Details zur Implementierung des EPIC-Orchestrators.
 │  (Worktree 1) │  │  (Worktree 2) │  │  (Worktree N) │
 │               │  │               │  │               │
 │ ┌───────────┐ │  │ ┌───────────┐ │  │ ┌───────────┐ │
-│ │Ralph Loop │ │  │ │Ralph Loop │ │  │ │Ralph Loop │ │
-│ └───────────┘ │  └───────────┘ │  │ └───────────┘ │
+│ │   Auto    │ │  │ │   Auto    │ │  │ │   Auto    │ │
+│ │   Loop    │ │  │ │   Loop    │ │  │ │   Loop    │ │
+│ └───────────┘ │  │ └───────────┘ │  │ └───────────┘ │
 │               │  │               │  │               │
 │ ┌───────────┐ │  │ ┌───────────┐ │  │ ┌───────────┐ │
 │ │Review Loop│ │  │ │Review Loop│ │  │ │Review Loop│ │
@@ -34,23 +35,23 @@ Technische Details zur Implementierung des EPIC-Orchestrators.
 └───────────────┘  └───────────────┘  └───────────────┘
 ```
 
-## Komponenten
+## Components
 
 ### 1. EPIC Loader
 
-Lädt EPIC-Daten aus Filesystem oder Linear:
+The EPIC Loader retrieves EPIC data from either the filesystem or Linear.
 
 ```python
 class EPICLoader:
     def load_from_filesystem(self, plan_path: str) -> EPIC:
         """
-        Lädt EPIC aus .plans/[feature]/
+        Loads an EPIC from .plans/[feature]/
 
         Returns:
-            EPIC mit:
-            - metadata (aus EPIC.md)
-            - tasks (aus tasks/*.md)
-            - status (aus STATUS.md)
+            EPIC containing:
+            - metadata (from EPIC.md)
+            - tasks (from tasks/*.md)
+            - status (from STATUS.md)
         """
         epic_path = plan_path / "EPIC.md"
         status_path = plan_path / "STATUS.md"
@@ -64,7 +65,7 @@ class EPICLoader:
 
     def load_from_linear(self, epic_id: str) -> EPIC:
         """
-        Lädt EPIC aus Linear via MCP.
+        Loads an EPIC from Linear via MCP.
 
         Uses:
             - mcp__linear__get_issue(id=epic_id)
@@ -76,7 +77,7 @@ class EPICLoader:
 
 ### 2. Dependency Resolver
 
-Analysiert Task-Dependencies und ermittelt Ausführungsreihenfolge:
+The Dependency Resolver analyses task dependencies and determines the execution order.
 
 ```python
 from dataclasses import dataclass
@@ -86,8 +87,8 @@ from typing import List, Set, Dict
 class Task:
     id: str
     status: str  # pending, in_progress, completed, blocked
-    requires: List[str]  # Task-IDs die vorher fertig sein müssen
-    blocks: List[str]    # Task-IDs die auf diesen warten
+    requires: List[str]  # Task IDs that must be completed first
+    blocks: List[str]    # Task IDs that depend on this task
 
 class DependencyResolver:
     def __init__(self, tasks: List[Task]):
@@ -95,7 +96,7 @@ class DependencyResolver:
         self.graph = self._build_graph()
 
     def _build_graph(self) -> Dict[str, Set[str]]:
-        """Baut Dependency-Graph auf."""
+        """Constructs the dependency graph."""
         graph = {t.id: set() for t in self.tasks.values()}
         for task in self.tasks.values():
             for req in task.requires:
@@ -104,9 +105,9 @@ class DependencyResolver:
 
     def get_ready_tasks(self) -> List[Task]:
         """
-        Gibt Tasks zurück, die gestartet werden können:
+        Returns tasks that are ready for execution:
         - Status = pending
-        - Alle Dependencies sind completed
+        - All dependencies are completed
         """
         ready = []
         for task in self.tasks.values():
@@ -125,7 +126,7 @@ class DependencyResolver:
         return ready
 
     def has_circular_dependency(self) -> bool:
-        """Prüft auf zirkuläre Dependencies."""
+        """Detects circular dependencies."""
         visited = set()
         rec_stack = set()
 
@@ -151,16 +152,16 @@ class DependencyResolver:
 
     def get_critical_path(self) -> List[str]:
         """
-        Berechnet den kritischen Pfad (längste Kette).
-        Nützlich für Zeitschätzung.
+        Computes the critical path (longest chain).
+        Useful for time estimation.
         """
-        # Topologische Sortierung + längster Pfad
+        # Topological sorting + longest path algorithm
         pass
 ```
 
 ### 3. Agent Coordinator
 
-Verwaltet Task-Agents und deren Lifecycle:
+The Agent Coordinator manages Task Agents and their lifecycle.
 
 ```python
 import asyncio
@@ -174,27 +175,27 @@ class AgentCoordinator:
 
     async def spawn_task_agent(self, task: Task, config: AgentConfig) -> TaskAgent:
         """
-        Startet einen neuen Task-Agent.
+        Spawns a new Task Agent.
 
-        1. Worktree erstellen
-        2. Agent mit frischem Kontext spawnen
-        3. Ralph-Loop für Implementation starten
+        1. Create worktree
+        2. Spawn agent with fresh context
+        3. Start autonomous loop for implementation
         """
-        # Warten bis Slot frei
+        # Wait for available slot
         while len(self.active_agents) >= self.max_parallel:
             await self._wait_for_completion()
 
         agent = TaskAgent(task, config)
         self.active_agents[task.id] = agent
 
-        # Agent in eigenem Thread starten
+        # Start agent in separate thread
         future = self.executor.submit(agent.run)
         agent.future = future
 
         return agent
 
     async def _wait_for_completion(self):
-        """Wartet bis ein Agent fertig ist."""
+        """Waits until an agent completes."""
         while True:
             for task_id, agent in list(self.active_agents.items()):
                 if agent.is_complete():
@@ -203,7 +204,7 @@ class AgentCoordinator:
             await asyncio.sleep(5)
 
     def get_status(self) -> Dict:
-        """Aktueller Status aller Agents."""
+        """Returns the current status of all agents."""
         return {
             task_id: {
                 'status': agent.status,
@@ -216,7 +217,7 @@ class AgentCoordinator:
 
 ### 4. Task Agent
 
-Einzelner Agent für Task-Implementation:
+Individual agent responsible for task implementation.
 
 ```python
 class TaskAgent:
@@ -228,7 +229,7 @@ class TaskAgent:
         self.current_iteration = 0
 
     def run(self):
-        """Hauptloop des Task-Agents."""
+        """Main loop of the Task Agent."""
         try:
             self._setup_worktree()
             self._create_draft_pr()
@@ -249,7 +250,7 @@ class TaskAgent:
                 self._handle_needs_attention()
                 return
 
-            # Phase 3: Finalisierung
+            # Phase 3: Finalisation
             self.status = "finalizing"
             self._finalize_pr()
             self._update_task_status("completed")
@@ -258,10 +259,10 @@ class TaskAgent:
             self._handle_error(e)
 
     def _setup_worktree(self):
-        """Git Worktree erstellen."""
+        """Creates the Git worktree."""
         branch_name = f"feature/task-{self.task.id}"
 
-        # Worktree erstellen
+        # Create worktree
         subprocess.run([
             "git", "worktree", "add",
             "-b", branch_name,
@@ -269,7 +270,7 @@ class TaskAgent:
             "origin/main"
         ], check=True)
 
-        # Submodule initialisieren
+        # Initialise submodules
         subprocess.run([
             "git", "submodule", "update",
             "--init", "--recursive"
@@ -277,14 +278,14 @@ class TaskAgent:
 
     def _run_implementation_loop(self) -> str:
         """
-        Ralph-Loop für Implementation.
+        Autonomous loop for implementation.
 
         Returns:
-            "TASK_COMPLETE" oder "TASK_BLOCKED"
+            "TASK_COMPLETE" or "TASK_BLOCKED"
         """
         prompt = self._build_implementation_prompt()
 
-        # Task-Tool mit frischem Kontext nutzen
+        # Use Task tool with fresh context
         result = spawn_subagent(
             type="implementation",
             prompt=prompt,
@@ -297,10 +298,10 @@ class TaskAgent:
 
     def _run_review_loop(self) -> str:
         """
-        Ralph-Loop für Review.
+        Autonomous loop for review.
 
         Returns:
-            "REVIEW_COMPLETE" oder "REVIEW_NEEDS_ATTENTION"
+            "REVIEW_COMPLETE" or "REVIEW_NEEDS_ATTENTION"
         """
         prompt = self._build_review_prompt()
 
@@ -308,66 +309,66 @@ class TaskAgent:
             type="review",
             prompt=prompt,
             working_dir=self.worktree_path,
-            max_iterations=15,  # Reviews brauchen weniger Iterationen
+            max_iterations=15,  # Reviews require fewer iterations
             completion_promise="REVIEW_COMPLETE|REVIEW_NEEDS_ATTENTION"
         )
 
         return result.completion_promise
 
     def _build_implementation_prompt(self) -> str:
-        """Baut den Implementation-Prompt."""
+        """Constructs the implementation prompt."""
         return f"""
-Implementiere Task {self.task.id}: {self.task.title}
+Implement Task {self.task.id}: {self.task.title}
 
-## Beschreibung
+## Description
 {self.task.description}
 
-## Akzeptanzkriterien
+## Acceptance Criteria
 {self._format_acceptance_criteria()}
 
-## Arbeitsverzeichnis
-Du arbeitest in: {self.worktree_path}
+## Working Directory
+You are working in: {self.worktree_path}
 
-## Anweisungen
-1. Analysiere die Aufgabe
-2. Implementiere Schritt für Schritt
-3. Schreibe Tests für jedes Akzeptanzkriterium
-4. Führe Tests aus und behebe Fehler
-5. Committe regelmässig mit aussagekräftigen Messages
+## Instructions
+1. Analyse the task
+2. Implement step by step
+3. Write tests for each acceptance criterion
+4. Execute tests and resolve failures
+5. Commit regularly with descriptive messages
 
 ## Completion
-Wenn alle Akzeptanzkriterien erfüllt:
+When all acceptance criteria are satisfied:
 Output: <promise>TASK_COMPLETE</promise>
 
-Bei unlösbaren Blockern (fehlende Dependencies, unklare Anforderungen):
-- Dokumentiere den Blocker
+For insurmountable blockers (missing dependencies, unclear requirements):
+- Document the blocker
 - Output: <promise>TASK_BLOCKED</promise>
 """
 
     def _build_review_prompt(self) -> str:
-        """Baut den Review-Prompt."""
+        """Constructs the review prompt."""
         return f"""
-Review PR für Task {self.task.id}
+Review PR for Task {self.task.id}
 
-## Aufgabe
-1. Lade PR-Diff: gh pr diff
-2. Prüfe nach Code-Review-Checkliste:
-   - Grundlegende Qualität (Lesbarkeit, Naming, Duplikation)
-   - Sicherheit (keine Secrets, Input-Validierung)
-   - Robustheit (Error-Handling, Logging)
-   - Wartbarkeit (Tests, Dokumentation)
-   - Performance (Algorithmus-Effizienz)
+## Task
+1. Load PR diff: gh pr diff
+2. Evaluate against code review checklist:
+   - Fundamental quality (readability, naming, duplication)
+   - Security (no secrets, input validation)
+   - Robustness (error handling, logging)
+   - Maintainability (tests, documentation)
+   - Performance (algorithm efficiency)
 
-3. Für jedes gefundene Problem:
-   - Behebe es selbst
-   - Committe mit klarer Message
+3. For each identified issue:
+   - Resolve it directly
+   - Commit with clear message
 
 ## Completion
-Wenn alle Issues behoben:
+When all issues are resolved:
 Output: <promise>REVIEW_COMPLETE</promise>
 
-Bei Problemen die User-Eingriff benötigen:
-- Dokumentiere in PR-Kommentar
+For issues requiring user intervention:
+- Document in PR comment
 Output: <promise>REVIEW_NEEDS_ATTENTION</promise>
 """
 ```
@@ -386,36 +387,37 @@ class EPICState:
     updated_at: datetime
 
     def to_status_md(self) -> str:
-        """Generiert STATUS.md Inhalt."""
-        # Template-basierte Generierung
+        """Generates STATUS.md content."""
+        # Template-based generation
         pass
 
     @classmethod
     def from_status_md(cls, content: str) -> 'EPICState':
-        """Parst STATUS.md."""
+        """Parses STATUS.md."""
         pass
 ```
 
 ### Persistence
 
-Der Orchestrator speichert seinen State:
+The orchestrator persists its state in the following structure:
 
 ```
 .plans/[feature]/
 ├── .orchestrator/
-│   ├── state.json       # Aktueller Orchestrator-State
-│   ├── agents.json      # Aktive Agent-States
+│   ├── state.json       # Current orchestrator state
+│   ├── agents.json      # Active agent states
 │   └── logs/
 │       ├── task-001.log
 │       └── task-002.log
 ```
 
-Dies ermöglicht:
-- **Resume nach Crash**: Orchestrator kann fortgesetzt werden
-- **Status-Abfrage**: `/implement-epic --status feature-x`
-- **Debugging**: Logs pro Task
+This enables:
 
-## Event-System
+- **Crash recovery**: Orchestrator can resume from last checkpoint
+- **Status queries**: `/implement-epic --status feature-x`
+- **Debugging**: Per-task log files
+
+## Event System
 
 ```python
 class EPICOrchestrator:
@@ -440,15 +442,15 @@ class EPICOrchestrator:
         self.events.emit('epic_completed', epic_id)
 ```
 
-### Event-Handler
+### Event Handlers
 
 ```python
-# Status-Updates
+# Status updates
 orchestrator.events.on('task_progress', lambda task_id, iteration:
     update_progress_display(task_id, iteration)
 )
 
-# Slack-Notifications (optional)
+# Slack notifications (optional)
 orchestrator.events.on('epic_completed', lambda epic_id:
     send_slack_notification(f"EPIC {epic_id} completed!")
 )
@@ -456,12 +458,12 @@ orchestrator.events.on('epic_completed', lambda epic_id:
 
 ## Error Recovery
 
-### Checkpoint-System
+### Checkpoint System
 
 ```python
 class CheckpointManager:
     def save_checkpoint(self, state: EPICState):
-        """Speichert Checkpoint für Recovery."""
+        """Saves checkpoint for recovery."""
         checkpoint = {
             'state': state.to_dict(),
             'timestamp': datetime.now().isoformat(),
@@ -470,16 +472,16 @@ class CheckpointManager:
         self._write_checkpoint(checkpoint)
 
     def restore_from_checkpoint(self) -> EPICState:
-        """Stellt State aus letztem Checkpoint wieder her."""
+        """Restores state from most recent checkpoint."""
         checkpoint = self._read_latest_checkpoint()
         return EPICState.from_dict(checkpoint['state'])
 ```
 
-### Recovery-Strategien
+### Recovery Strategies
 
-| Fehler | Recovery |
-|--------|----------|
-| Agent-Crash | Worktree behalten, neuen Agent starten |
-| Orchestrator-Crash | Von Checkpoint fortsetzen |
-| Git-Konflikt | Task auf `needs_attention` setzen |
-| API-Limit | Exponential Backoff, dann fortsetzen |
+| Error              | Recovery                             |
+| ------------------ | ------------------------------------ |
+| Agent crash        | Retain worktree, spawn new agent     |
+| Orchestrator crash | Resume from checkpoint               |
+| Git conflict       | Set task status to `needs_attention` |
+| API rate limit     | Exponential backoff, then resume     |

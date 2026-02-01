@@ -1,23 +1,24 @@
-# Filesystem-basierte Projektplanung
+# Filesystem-Based Project Planning
 
-Detaillierte Anleitung zur Filesystem-basierten Projektplanung mit `.plans/`-Struktur.
+Detailed guide for filesystem-based project planning using the `.plans/` structure.
 
-## Verzeichnisstruktur
+## Directory Structure
 
 ```
 .plans/
 ├── [feature-name]/
-│   ├── EPIC.md          # Feature-Übersicht
-│   ├── STATUS.md        # Progress-Tracking
+│   ├── EPIC.md          # Feature overview
+│   ├── STATUS.md        # Progress tracking
 │   └── tasks/
 │       ├── task-001-[slug].md
 │       ├── task-002-[slug].md
 │       └── ...
 ```
 
-**Feature-Name in kebab-case**:
+**Feature name in kebab-case**:
+
 - "Dark Mode Toggle" → `dark-mode-toggle`
-- "RAG-basiertes System" → `rag-basiertes-system`
+- "RAG-Based System" → `rag-based-system`
 - "User Authentication" → `user-authentication`
 
 ## EPIC.md Template
@@ -26,60 +27,67 @@ Detaillierte Anleitung zur Filesystem-basierten Projektplanung mit `.plans/`-Str
 # [Feature-Name]
 
 ## Status
-- **Created**: [Datum]
+
+- **Created**: [Date]
 - **Status**: planned | in_progress | completed
 - **Priority**: high | medium | low
 
 ## Executive Summary
 
-[3-5 Sätze aus PRD Executive Summary]
+[3-5 sentences from PRD Executive Summary]
 
 ## Business Value
 
-**Problem**: [Kern-Problem]
+**Problem**: [Core problem]
 
-**Lösung**: [Lösungsansatz]
+**Solution**: [Solution approach]
 
 **Impact**:
-- **Zeit**: [Zeit-Einsparung]
-- **Kosten**: [Kosten-Einsparung]
-- **Qualität**: [Qualitätsverbesserung]
+
+- **Time**: [Time savings]
+- **Cost**: [Cost savings]
+- **Quality**: [Quality improvement]
 
 ## Success Metrics
 
-| Metric | Baseline | Target | Timeline |
-|--------|----------|--------|----------|
-| [Metrik 1] | [Baseline] | [Target] | [Timeline] |
+| Metric     | Baseline   | Target   | Timeline   |
+| ---------- | ---------- | -------- | ---------- |
+| [Metric 1] | [Baseline] | [Target] | [Timeline] |
 
-## Timeline & Milestones
+## Timeline and Milestones
 
-| Milestone | Target Date | Description |
-|-----------|-------------|-------------|
-| [Phase 1] | [Date] | [Description] |
+| Milestone | Target Date | Description   |
+| --------- | ----------- | ------------- |
+| [Phase 1] | [Date]      | [Description] |
 
 ## Dependencies
 
 ### External Dependencies
+
 - [Dependency 1]
 
 ### Internal Dependencies
+
 - [Dependency 1]
 
 ## Key Risks
 
-| Risiko | Impact | Mitigation |
-|--------|--------|------------|
+| Risk     | Impact   | Mitigation   |
+| -------- | -------- | ------------ |
 | [Risk 1] | [Impact] | [Mitigation] |
 
 ## MVP Scope
 
 ### MUST-HAVE Features
+
 1. [Feature 1]
 
 ### SHOULD-HAVE (Post-MVP)
+
 - [Feature 1]
 
 ### WON'T-HAVE (Out of Scope)
+
 - [Feature 1]
 
 ## Link to PRD
@@ -92,7 +100,7 @@ Detaillierte Anleitung zur Filesystem-basierten Projektplanung mit `.plans/`-Str
 ```markdown
 # Project Status: [Feature-Name]
 
-**Last Updated**: [Datum]
+**Last Updated**: [Date]
 
 ## Progress Overview
 
@@ -105,24 +113,30 @@ Detaillierte Anleitung zur Filesystem-basierten Projektplanung mit `.plans/`-Str
 ## Tasks by Priority
 
 ### Must-Have (MVP)
+
 - [ ] **task-NNN**: [Task-Name] ([SP] SP) - [status]
 
 ### Should-Have (Post-MVP)
+
 - [ ] **task-NNN**: [Task-Name] ([SP] SP) - [status]
 
 ## Tasks by Status
 
-### Completed ✅
-[None yet oder Liste]
+### Completed
 
-### In Progress 🚧
-[None yet oder Liste]
+[None yet or list]
 
-### Pending 📋
+### In Progress
+
+[None yet or list]
+
+### Pending
+
 - **task-NNN-[slug].md** ([SP] SP) [[agent]]
 
-### Blocked 🚫
-[None oder Liste mit Blocker-Grund]
+### Blocked
+
+[None or list with blocking reason]
 
 ## Story Points Summary
 
@@ -132,70 +146,68 @@ Detaillierte Anleitung zur Filesystem-basierten Projektplanung mit `.plans/`-Str
 
 ## Dependencies Graph
 
-```mermaid
 graph TD
-    task001[Task 001: Name] --> task002[Task 002: Name]
-    task002 --> task003[Task 003: Name]
-```
+task001[Task 001: Name] --> task002[Task 002: Name]
+task002 --> task003[Task 003: Name]
 
 ## Critical Path
 
-```
 [Task 1] → [Task 2] → [Task 3] → Launch
-```
 
 ## Next Steps
 
-### Immediate (Woche 0-1)
+### Immediate (Week 0-1)
+
 1. [Step 1]
 
-### Short-Term (Woche 2-4)
+### Short-Term (Week 2-4)
+
 1. [Step 1]
 
-## Team-Assignments
+## Team Assignments
 
-| Agent/Role | Primary Tasks | Workload |
-|------------|---------------|----------|
-| **[agent]** | task-NNN, task-NNN | ~[N] SP |
+| Agent/Role  | Primary Tasks      | Workload |
+| ----------- | ------------------ | -------- |
+| **[agent]** | task-NNN, task-NNN | ~[N] SP  |
 ```
 
-## Task-Datei Template
+## Task File Template
 
-**Dateiname**: `task-NNN-[slug].md`
+**Filename**: `task-NNN-[slug].md`
 
 ```markdown
-# Task-NNN: [Task-Titel]
+# Task-NNN: [Task-Title]
 
 ## Metadata
+
 - **ID**: task-NNN
 - **Status**: pending | in_progress | completed | blocked
 - **Priority**: must | should | could | wont
 - **Estimate**: [N] Story Points
 - **Labels**: [label1, label2, ...]
 - **Assignee**: [agent-name]
-- **Created**: [Datum]
-- **Updated**: [Datum]
+- **Created**: [Date]
+- **Updated**: [Date]
 
 ## Description
 
-[Detaillierte Beschreibung der Aufgabe]
+[Detailed description of the task]
 
-**User Story**: Als [Persona] möchte ich [Aktion] damit [Nutzen].
+**User Story**: As a [Persona], I want to [Action] so that [Benefit].
 
 ## Acceptance Criteria
 
-- [ ] Kriterium 1
-- [ ] Kriterium 2
+- [ ] Criterion 1
+- [ ] Criterion 2
 
 ## Dependencies
 
-- **Requires**: [task-XXX oder None]
-- **Blocks**: [task-YYY oder None]
+- **Requires**: [task-XXX or None]
+- **Blocks**: [task-YYY or None]
 
 ## Agent Recommendation
 
 **Recommended Agent**: `[agent-name]`
 
-**Rationale**: [Warum dieser Agent empfohlen wird]
+**Rationale**: [Why this agent is recommended]
 ```
-

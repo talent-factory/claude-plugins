@@ -1,244 +1,250 @@
-# Handoff Beispiele
+# Handoff Examples
 
-## Beispiel 1: Minimal (Bug-Fix)
+## Example 1: Minimal (Bug Fix)
 
 ```markdown
 # Handoff: RBAC Regression Fix
 
-**Datum**: 2026-01-14 15:30
+**Date**: 2026-01-14 15:30
 **Branch**: feature/TF-177-rbac-regression-exam-creation
 **Linear Issue**: TF-177 - RAG Exam Creator Premium Feature Bug
 
-## Original-Aufgabe
+## Original Task
 
-RAG Exam Creator zeigt "Premium Feature" Upgrade-Prompt trotz Full Deployment Mode.
+RAG Exam Creator displays "Premium Feature" upgrade prompt despite Full Deployment Mode.
 
-## Bereits erledigt
+## Completed Work
 
-- `.env.example` angepasst (DEPLOYMENT_MODE Variablen dokumentiert)
-- `packages/core/backend/main.py` untersucht (RBAC-Logik identifiziert)
-- Frontend Component-Loading analysiert
+- Modified `.env.example` (documented DEPLOYMENT_MODE variables)
+- Investigated `packages/core/backend/main.py` (identified RBAC logic)
+- Analyzed frontend component loading
 
-## Aktueller Zustand
+## Current State
 
 **Modified Files** (uncommitted):
-- `.env.example` - Neue Variablen dokumentiert
-- `packages/core/backend/main.py` - Debug-Logging hinzugefügt
 
-## Nächste Schritte
+- `.env.example` - New variables documented
+- `packages/core/backend/main.py` - Debug logging added
 
-1. **RBAC-Logik prüfen**: `packages/core/backend/main.py:712`
-2. **Frontend Premium Loading testen**: `packages/core/frontend/src/pages/Exams.tsx:45`
-3. **Integration Test schreiben**: Neuer Test für RBAC + Deployment Mode
+## Subsequent Steps
 
-## Für den nächsten Agent
+1. **Verify RBAC logic**: `packages/core/backend/main.py:712`
+2. **Test frontend premium loading**: `packages/core/frontend/src/pages/Exams.tsx:45`
+3. **Write integration test**: New test for RBAC + Deployment Mode
 
-Backend scheint korrekt konfiguriert. Problem liegt wahrscheinlich im Frontend Component Loading. Prüfe `Exams.tsx` auf Premium-Import-Logik und wie `deploymentMode` aus dem Context gelesen wird.
+## For the Subsequent Agent
+
+Backend appears correctly configured. The issue likely resides in frontend component loading. Examine `Exams.tsx` for premium import logic and how `deploymentMode` is retrieved from the context.
 ```
 
-## Beispiel 2: Vollständig (Feature-Entwicklung)
+## Example 2: Comprehensive (Feature Development)
 
 ```markdown
 # Handoff: Dark Mode Implementation
 
-**Datum**: 2026-01-14 18:45
+**Date**: 2026-01-14 18:45
 **Branch**: feature/dark-mode-toggle
-**Linear Issue**: TF-234 - Dark Mode für Settings Page
+**Linear Issue**: TF-234 - Dark Mode for Settings Page
 
-## Original-Aufgabe
+## Original Task
 
-Implementiere einen Dark Mode Toggle in den Anwendungseinstellungen. Der Modus soll persistent gespeichert werden und alle Komponenten betreffen.
+Implement a Dark Mode toggle in the application settings. The mode shall be persistently stored and affect all components.
 
-**Warum wichtig**: Nutzer-Feedback zeigt hohe Nachfrage (47% der Support-Tickets erwähnen Augenbelastung bei Nachtnutzung).
+**Business Value**: User feedback indicates high demand (47% of support tickets mention eye strain during nighttime usage).
 
-## Bereits erledigt
+## Completed Work
 
-### Änderungen
+### Changes
 
-| Datei | Änderung | Status |
-|-------|----------|--------|
-| `src/contexts/ThemeContext.tsx` | Neuer Context für Theme-State | Committed |
-| `src/hooks/useTheme.ts` | Custom Hook für Theme-Zugriff | Committed |
-| `src/components/Settings/ThemeToggle.tsx` | Toggle-Komponente | Uncommitted |
-| `src/styles/themes/dark.css` | Dark Mode CSS Variablen | Uncommitted |
+| File                                      | Modification                 | Status      |
+| ----------------------------------------- | ---------------------------- | ----------- |
+| `src/contexts/ThemeContext.tsx`           | New context for theme state  | Committed   |
+| `src/hooks/useTheme.ts`                   | Custom hook for theme access | Committed   |
+| `src/components/Settings/ThemeToggle.tsx` | Toggle component             | Uncommitted |
+| `src/styles/themes/dark.css`              | Dark mode CSS variables      | Uncommitted |
 
-### Erfolgreiche Ansätze
+### Successful Approaches
 
-1. **CSS Custom Properties für Theming**
-   - Was: Alle Farben als CSS Variablen definiert
-   - Warum erfolgreich: Einfaches Switching ohne Component-Re-Renders
-   - Relevante Dateien: `src/styles/themes/light.css`, `dark.css`
+1. **CSS Custom Properties for Theming**
+   - Implementation: All colors defined as CSS variables
+   - Rationale for success: Simple switching without component re-renders
+   - Relevant files: `src/styles/themes/light.css`, `dark.css`
 
-2. **localStorage für Persistenz**
-   - Was: Theme-Präferenz in localStorage speichern
-   - Warum erfolgreich: Funktioniert auch ohne Backend-Änderung
+2. **localStorage for Persistence**
+   - Implementation: Store theme preference in localStorage
+   - Rationale for success: Functions without backend modification
 
-## Gescheiterte Versuche
+## Failed Attempts
 
-### Versuch 1: Styled-Components ThemeProvider
+### Attempt 1: Styled-Components ThemeProvider
 
-**Was versucht**: Theme über Styled-Components ThemeProvider injizieren
+**Approach**: Inject theme via Styled-Components ThemeProvider
 
-**Fehlermeldung**:
+**Error Message**:
 ```
+
 Warning: Cannot update a component while rendering a different component
 Error in useLayoutEffect when theme changes
+
 ```
 
-**Warum gescheitert**: Race Condition zwischen Theme-Change und Component-Render. Styled-Components erfordert Re-Render aller Komponenten.
+**Failure Analysis**: Race condition between theme change and component render. Styled-Components requires re-rendering of all components.
 
-**Lessons Learned**: CSS Variablen sind performanter für globales Theming.
+**Lessons Learned**: CSS variables are more performant for global theming.
 
-### Versuch 2: System Preference Detection
+### Attempt 2: System Preference Detection
 
-**Was versucht**: `prefers-color-scheme` Media Query als Default
+**Approach**: Use `prefers-color-scheme` media query as default
 
-**Problem**: Funktionierte, aber Override durch User-Setting war kompliziert
+**Issue**: Functioned correctly, but user setting override was complex
 
-**Warum verworfen**: User-Präferenz sollte immer Vorrang haben. Media Query nur als Initial-Default.
+**Rationale for Abandonment**: User preference should always take precedence. Media query only serves as initial default.
 
-## Aktueller Zustand
+## Current State
 
 ### Git Status
 
 ```
+
 On branch feature/dark-mode-toggle
 Changes not staged for commit:
-  modified:   src/components/Settings/ThemeToggle.tsx
-  modified:   src/styles/themes/dark.css
+modified: src/components/Settings/ThemeToggle.tsx
+modified: src/styles/themes/dark.css
 
 Untracked files:
-  src/components/Settings/ThemeToggle.test.tsx
-```
+src/components/Settings/ThemeToggle.test.tsx
+
+````
 
 ### Modified Files
 
-| Datei | Beschreibung der Änderungen |
-|-------|----------------------------|
-| `ThemeToggle.tsx` | Toggle UI fertig, fehlt Animation |
-| `dark.css` | 80% der Variablen definiert, Sidebar fehlt |
+| File | Description of Changes |
+|------|------------------------|
+| `ThemeToggle.tsx` | Toggle UI complete, animation pending |
+| `dark.css` | 80% of variables defined, sidebar pending |
 
 ### Environment
 
-- **Services**: Dev Server läuft auf localhost:3000
-- **Dependencies**: Keine neuen Dependencies nötig
-- **Browser-Support**: CSS Variables ab IE11 (Polyfill vorhanden)
+- **Services**: Dev server running on localhost:3000
+- **Dependencies**: No new dependencies required
+- **Browser Support**: CSS variables supported from IE11 (polyfill available)
 
-## Nächste Schritte
+## Subsequent Steps
 
-### Priorität 1: Dark Theme für Sidebar vervollständigen
+### Priority 1: Complete Dark Theme for Sidebar
 
-**Was**: CSS Variablen für Sidebar-Komponenten definieren
+**Objective**: Define CSS variables for sidebar components
 
-**Wo**: `src/styles/themes/dark.css:45-80`
+**Location**: `src/styles/themes/dark.css:45-80`
 
-**Wie**:
-1. Sidebar Background Variable hinzufügen
-2. Sidebar Border Color anpassen
-3. Active Item Highlight für Dark Mode
+**Approach**:
+1. Add sidebar background variable
+2. Adjust sidebar border color
+3. Configure active item highlight for dark mode
 
-**Akzeptanzkriterien**:
-- [ ] Sidebar hat korrekten Dark Mode Background
-- [ ] Kontrast-Ratio mindestens 4.5:1 (WCAG AA)
-- [ ] Hover-States sichtbar
+**Acceptance Criteria**:
+- [ ] Sidebar displays correct dark mode background
+- [ ] Contrast ratio minimum 4.5:1 (WCAG AA)
+- [ ] Hover states visible
 
-### Priorität 2: Toggle Animation
+### Priority 2: Toggle Animation
 
-**Was**: Smooth Transition beim Theme-Wechsel
+**Objective**: Smooth transition during theme change
 
-**Wo**: `src/components/Settings/ThemeToggle.tsx:23`
+**Location**: `src/components/Settings/ThemeToggle.tsx:23`
 
-**Wie**:
-1. CSS Transition auf body/html Element
-2. 200ms ease-in-out für color und background-color
-3. Kein Flash beim Initial Load (FOUC vermeiden)
+**Approach**:
+1. Apply CSS transition to body/html element
+2. Use 200ms ease-in-out for color and background-color
+3. Prevent flash on initial load (avoid FOUC)
 
-### Priorität 3: Unit Tests
+### Priority 3: Unit Tests
 
-**Was**: Tests für ThemeContext und useTheme Hook
+**Objective**: Tests for ThemeContext and useTheme hook
 
-**Wo**: `src/contexts/ThemeContext.test.tsx` (neu erstellen)
+**Location**: `src/contexts/ThemeContext.test.tsx` (create new file)
 
-**Wie**:
-1. Test: Initial Theme aus localStorage
-2. Test: Theme Toggle funktioniert
-3. Test: System Preference als Fallback
+**Approach**:
+1. Test: Initial theme from localStorage
+2. Test: Theme toggle functionality
+3. Test: System preference as fallback
 
-## Wichtige Referenzen
+## Important References
 
-### Relevante Dateien
+### Relevant Files
 
-| Datei | Zeilen | Warum relevant |
-|-------|--------|----------------|
-| `src/contexts/ThemeContext.tsx` | 1-45 | Zentrale Theme-Logik |
-| `src/styles/themes/light.css` | - | Referenz für Variable-Namen |
-| `src/App.tsx` | 12-15 | ThemeProvider muss hier wrappen |
+| File | Lines | Relevance |
+|------|-------|-----------|
+| `src/contexts/ThemeContext.tsx` | 1-45 | Central theme logic |
+| `src/styles/themes/light.css` | - | Reference for variable names |
+| `src/App.tsx` | 12-15 | ThemeProvider must wrap here |
 
-### Dokumentation
+### Documentation
 
 - [CSS Custom Properties Guide](https://developer.mozilla.org/en-US/docs/Web/CSS/Using_CSS_custom_properties)
 - [WCAG Contrast Requirements](https://www.w3.org/WAI/WCAG21/Understanding/contrast-minimum.html)
 
-### Code-Patterns
+### Code Patterns
 
 ```tsx
-// So wird Theme im Projekt verwendet:
+// Standard theme usage pattern in this project:
 import { useTheme } from '@/hooks/useTheme';
 
 function MyComponent() {
   const { theme, toggleTheme } = useTheme();
   return <button onClick={toggleTheme}>Current: {theme}</button>;
 }
-```
+````
 
-## Wichtige Hinweise
+## Important Notes
 
-- **FOUC vermeiden**: Script in `<head>` muss Theme vor Render setzen (siehe `public/index.html:15`)
-- **Nicht `!important` verwenden**: Alle Styles über CSS Variablen, keine Overrides
-- **Test in Safari**: Safari hat Bug mit CSS Variables in Pseudo-Elements
+- **Prevent FOUC**: Script in `<head>` must set theme before render (refer to `public/index.html:15`)
+- **Avoid `!important`**: All styles via CSS variables, no overrides
+- **Test in Safari**: Safari has a bug with CSS variables in pseudo-elements
 
-## Für den nächsten Agent
+## For the Subsequent Agent
 
-Theme-System ist implementiert und funktioniert. Hauptarbeit ist CSS-Feinarbeit für Sidebar und Animation. Der ThemeContext in `src/contexts/ThemeContext.tsx` ist die zentrale Stelle. Beginne mit `dark.css:45` für die fehlenden Sidebar-Variablen.
-```
+Theme system is implemented and functional. Primary remaining work involves CSS refinement for sidebar and animation. The ThemeContext in `src/contexts/ThemeContext.tsx` is the central location. Begin with `dark.css:45` for the missing sidebar variables.
 
-## Beispiel 3: Mit Linear Issue
+````
+
+## Example 3: With Linear Issue
 
 ```markdown
 # Handoff: API Rate Limiting
 
-**Datum**: 2026-01-14 12:00
+**Date**: 2026-01-14 12:00
 **Branch**: feature/TF-456-api-rate-limiting
 **Linear Issue**: [TF-456](https://linear.app/team/issue/TF-456) - Implement API Rate Limiting
 
-## Original-Aufgabe
+## Original Task
 
-Aus Linear Issue TF-456:
-> Implementiere Rate Limiting für die Public API. Max 100 Requests/Minute pro API Key. 429 Response bei Überschreitung.
+From Linear Issue TF-456:
+> Implement rate limiting for the Public API. Maximum 100 requests/minute per API key. Return 429 response when exceeded.
 
-**Akzeptanzkriterien aus Linear**:
-- [ ] Redis-basiertes Token Bucket
-- [ ] Configurable Limits per Endpoint
-- [ ] Proper 429 Response mit Retry-After Header
+**Acceptance Criteria from Linear**:
+- [ ] Redis-based token bucket
+- [ ] Configurable limits per endpoint
+- [ ] Proper 429 response with Retry-After header
 
-## Bereits erledigt
+## Completed Work
 
-- Redis Client Setup in `src/lib/redis.ts`
-- Rate Limiter Middleware Skeleton
-- Unit Tests für Token Bucket Algorithmus
+- Redis client setup in `src/lib/redis.ts`
+- Rate limiter middleware skeleton
+- Unit tests for token bucket algorithm
 
-## Aktueller Zustand
+## Current State
 
 **Linear Status**: In Progress
-**Blocker**: Redis Connection in Staging Environment nicht konfiguriert
+**Blocker**: Redis connection in staging environment not configured
 
-## Nächste Schritte
+## Subsequent Steps
 
-1. **DevOps kontaktieren**: Redis für Staging anfordern
-2. **Middleware fertigstellen**: `src/middleware/rateLimiter.ts:45`
-3. **Integration Tests**: Nach Redis-Setup
+1. **Contact DevOps**: Request Redis for staging
+2. **Complete middleware**: `src/middleware/rateLimiter.ts:45`
+3. **Integration tests**: After Redis setup
 
-## Für den nächsten Agent
+## For the Subsequent Agent
 
-Rate Limiter Logik ist fertig, aber nicht testbar ohne Redis in Staging. Koordiniere mit DevOps (Ticket TF-457 erstellt) oder teste lokal mit Docker Redis.
-```
+Rate limiter logic is complete but not testable without Redis in staging. Coordinate with DevOps (ticket TF-457 created) or test locally with Docker Redis.
+````

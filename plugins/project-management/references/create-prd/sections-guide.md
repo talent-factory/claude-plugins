@@ -1,899 +1,935 @@
-# PRD Abschnitte: Detaillierter Guide
+# PRD Sections: Detailed Guide
 
-Detaillierte Anleitung für jeden Abschnitt eines PRD mit Best Practices, Beispielen und häufigen Fehlern.
+Comprehensive instructions for each section of a PRD with best practices, examples, and common mistakes.
 
 ## Executive Summary
 
-### Zweck
+### Purpose
 
-Busy Stakeholder in 30 Sekunden den Kern verstehen lassen.
+Enable busy stakeholders to understand the essence in 30 seconds.
 
-### Struktur (3-5 Sätze)
+### Structure (3-5 Sentences)
 
-1. **Was** wird gebaut?
-2. **Für wen** ist es?
-3. **Warum** ist es wichtig?
-4. **Erwarteter Impact** (Business/User)
-5. **Wann** (Timeline)
+1. **What** is being built?
+2. **For whom** is it intended?
+3. **Why** is it important?
+4. **Expected Impact** (business/user)
+5. **When** (timeline)
 
-### Beispiel: Gut ✅
+### Example: Good
 
 ```markdown
 ## Executive Summary
 
-Diese PRD beschreibt ein KI-gestütztes Budgetierungs-Feature für
-FinanceApp, das Nutzern automatische Ausgaben-Kategorisierung und
-Budget-Vorschläge bietet. Primäre Zielgruppe sind die 2.5M aktiven
-Nutzer, die manuell kategorisieren (70% unserer Nutzerbasis).
-Feature adressiert #1 User-Pain-Point aus letztem Research und soll
-User-Engagement um 25% steigern und Onboarding-Drop-off um 15%
-reduzieren. Launch geplant für Q2 2024 nach 8-wöchiger Entwicklung.
+This PRD describes an AI-powered budgeting feature for FinanceApp that provides users with automatic expense categorization and budget suggestions. The primary target audience consists of the 2.5M active users who categorize manually (70% of our user base). The feature addresses the #1 user pain point from recent research and is expected to increase user engagement by 25% and reduce onboarding drop-off by 15%. Launch planned for Q2 2024 following 8-week development.
 ```
 
-### Beispiel: Schlecht ❌
+### Example: Poor
 
 ```markdown
 ## Executive Summary
 
-Wir bauen ein neues Feature. Es wird cool sein und Nutzer werden
-es mögen. Wir starten bald.
+We are building a new feature. It will be cool and users will like it. We are launching soon.
 ```
 
-### Häufige Fehler
+### Common Mistakes
 
-- ❌ Zu lang (> 1 Absatz)
-- ❌ Zu vage (keine konkreten Zahlen)
-- ❌ Zu technisch (Implementation-Details)
-- ❌ Fehlende Business-Metrics
+- Too long (> 1 paragraph)
+- Too vague (no concrete numbers)
+- Too technical (implementation details)
+- Missing business metrics
 
 ---
 
-## Problemstellung
+## Problem Statement
 
-### Zweck
+### Purpose
 
-Klarheit schaffen WARUM wir bauen. Alle Stakeholder müssen Problem verstehen.
+Establish clarity on WHY we are building. All stakeholders must understand the problem.
 
-### Struktur
+### Structure
 
-1. **Aktueller Zustand**: Wie ist es jetzt?
-2. **Problembeschreibung**: Was ist das Problem?
-3. **Auswirkungen**: Wer ist betroffen? Wie stark?
-4. **Evidenz**: Daten, die Problem belegen
-5. **Opportunität**: Warum jetzt lösen?
+1. **Current State**: What is the situation now?
+2. **Problem Description**: What is the problem?
+3. **Impact**: Who is affected? To what extent?
+4. **Evidence**: Data supporting the problem
+5. **Opportunity**: Why address it now?
 
-### Schreibtipps
+### Writing Guidelines
 
-**Konkret, nicht abstrakt**:
-- ✅ "Nutzer verbringen durchschnittlich 12 Minuten mit manueller Kategorisierung"
-- ❌ "Kategorisierung ist zeitaufwändig"
+**Concrete, not abstract**:
 
-**Quantifiziert**:
+- "Users spend an average of 12 minutes on manual categorization"
+- "Categorization is time-consuming"
 
-- ✅ "45% der Nutzer brechen Onboarding bei Kategorisierung ab"
-- ❌ "Viele Nutzer brechen Onboarding ab"
+**Quantified**:
 
-**Nutzer-Zitate einbinden**:
+- "45% of users abandon onboarding at the categorization step"
+- "Many users abandon onboarding"
+
+**Incorporate user quotes**:
 
 ```markdown
-"Ich hasse es, jede Transaktion manuell zu kategorisieren.
-Das dauert ewig!" - Sarah, 32, Freelancerin
+"I hate manually categorizing every transaction.
+It takes forever!" - Sarah, 32, Freelancer
 ```
 
 ### Template
 
 ```markdown
-## Problemstellung
+## Problem Statement
 
-### Aktueller Zustand
+### Current State
 
-[Beschreibe Status Quo neutral]
+[Describe status quo neutrally]
 
-Aktuell müssen Nutzer alle Transaktionen manuell kategorisieren.
-Die App bietet keine automatischen Vorschläge. Neue Nutzer sehen
-eine leere Liste und müssen Kategorien von Grund auf aufbauen.
+Currently, users must manually categorize all transactions.
+The app offers no automatic suggestions. New users see
+an empty list and must build categories from scratch.
 
-### Das Problem
+### The Problem
 
-[Spezifisches Problem identifizieren]
+[Identify specific problem]
 
-**Für Nutzer**:
-- Zeitintensiv: Ø 12 Minuten/Tag für Kategorisierung
-- Frustrierend: Repetitive, manuelle Arbeit
-- Error-prone: 23% falsche Kategorisierungen
+**For Users**:
 
-**Für Business**:
-- Onboarding-Abbruch: 45% brechen bei Kategorisierung ab
-- Support-Last: 300 Tickets/Monat zu "Kategorisierung"
-- Churn-Risiko: 18% der Churned nennen "zu kompliziert"
+- Time-intensive: avg. 12 minutes/day for categorization
+- Frustrating: Repetitive, manual work
+- Error-prone: 23% incorrect categorizations
 
-### Evidenz
+**For Business**:
 
-**Quantitative Daten**:
-- Analytics: Nur 30% nutzen Kategorisierung regelmäßig
-- Time-on-Task: Ø 12 Min. für 20 Transaktionen
-- Error Rate: 23% müssen re-kategorisiert werden
+- Onboarding abandonment: 45% abandon at categorization
+- Support load: 300 tickets/month related to "categorization"
+- Churn risk: 18% of churned users cite "too complicated"
 
-**Qualitative Forschung**:
-- User Interviews (n=50): 94% wünschen Auto-Kategorisierung
-- Support-Feedback: "Kategorisierung" ist #1 Beschwerde
-- NPS-Comments: 67 negative Mentions (letzte 3 Monate)
+### Evidence
+
+**Quantitative Data**:
+
+- Analytics: Only 30% use categorization regularly
+- Time-on-task: avg. 12 min. for 20 transactions
+- Error rate: 23% require re-categorization
+
+**Qualitative Research**:
+
+- User interviews (n=50): 94% desire auto-categorization
+- Support feedback: "Categorization" is #1 complaint
+- NPS comments: 67 negative mentions (last 3 months)
 
 **Competitive Analysis**:
-- 5/5 Top-Competitor haben Auto-Kategorisierung
-- Market Standard seit 2022
-- User erwarten dieses Feature
 
-### Warum jetzt?
+- 5/5 top competitors have auto-categorization
+- Market standard since 2022
+- Users expect this feature
+
+### Why Now?
 
 **Strategic Timing**:
-- Q2 Marketing-Kampagne: 500k neue Nutzer erwartet
-- Onboarding-Optimierung ist Q1 OKR
-- Competitor X launcht ähnliches Feature Q3
+
+- Q2 marketing campaign: 500k new users expected
+- Onboarding optimization is Q1 OKR
+- Competitor X launches similar feature Q3
 
 **Technical Readiness**:
-- ML-Modell bereits trainiert (Accuracy: 89%)
-- Infrastructure vorhanden
-- Design-System hat Components
+
+- ML model already trained (accuracy: 89%)
+- Infrastructure available
+- Design system has components
 
 **Business Impact**:
-- Projected Revenue Impact: +€250k/Jahr (15% Churn-Reduktion)
-- ROI: Break-even nach 4 Monaten
+
+- Projected revenue impact: +EUR 250k/year (15% churn reduction)
+- ROI: Break-even after 4 months
 ```
 
-### Häufige Fehler
+### Common Mistakes
 
-- ❌ Lösung statt Problem beschreiben
-- ❌ Keine Daten zur Untermauerung
-- ❌ Problem zu klein (nicht worth building)
-- ❌ Problem zu groß (nicht solvable)
+- Describing solution instead of problem
+- No data to substantiate claims
+- Problem too small (not worth building)
+- Problem too large (not solvable)
 
 ---
 
-## Ziele & Erfolgsmetriken
+## Objectives & Success Metrics
 
-### Zweck
+### Purpose
 
-Definieren wie wir Erfolg messen. Basis für Post-Launch-Review.
+Define how we measure success. Foundation for post-launch review.
 
-### SMART Ziele
+### SMART Objectives
 
-- **S**pezifisch: Klar was gemessen wird
-- **M**essbar: Quantifizierbar
-- **A**rreichbar: Realistisch
-- **R**elevant: Wichtig für Business/User
-- **T**erminiert: Klarer Zeitrahmen
+- **S**pecific: Clear what is being measured
+- **M**easurable: Quantifiable
+- **A**chievable: Realistic
+- **R**elevant: Important for business/user
+- **T**ime-bound: Clear timeframe
 
-### Struktur
+### Structure
 
-```markdown
-## Ziele & Erfolgsmetriken
+````markdown
+## Objectives & Success Metrics
 
-### Produkt-Ziele
+### Product Objectives
 
-1. **Benutzer-Engagement verbessern**
-   - Mehr Nutzer verwenden Kategorisierung regelmäßig
-   - Längere Session-Dauer auf App
-   - Höhere Feature-Discovery
+1. **Improve User Engagement**
+   - More users utilize categorization regularly
+   - Longer session duration in app
+   - Higher feature discovery
 
-2. **Onboarding-Erlebnis optimieren**
-   - Schnelleres Onboarding
-   - Weniger Abbrüche
-   - Bessere First-Time-UX
+2. **Optimize Onboarding Experience**
+   - Faster onboarding
+   - Fewer abandonments
+   - Better first-time UX
 
-3. **Support-Last reduzieren**
-   - Weniger Support-Tickets
-   - Self-Service-Rate erhöhen
+3. **Reduce Support Load**
+   - Fewer support tickets
+   - Increase self-service rate
 
-### Business-Ziele
+### Business Objectives
 
-- **Revenue**: Churn-Reduktion → +€250k ARR
-- **Kosten**: Support-Kosten um €50k/Jahr reduzieren
-- **Wachstum**: Onboarding-Completion-Rate steigern
+- **Revenue**: Churn reduction - +EUR 250k ARR
+- **Costs**: Reduce support costs by EUR 50k/year
+- **Growth**: Increase onboarding completion rate
 
-### Erfolgsmetriken
+### Success Metrics
 
-#### Primäre Metriken (Launch + 4 Wochen)
+#### Primary Metrics (Launch + 4 Weeks)
 
-| Metrik | Beschreibung | Baseline | Target | Messung |
-|--------|--------------|----------|--------|---------|
-| **Feature Adoption** | % Nutzer die Auto-Kategorisierung aktivieren | 0% | 60% | Analytics Event |
-| **Categorization Accuracy** | % korrekt kategorisierte Transaktionen | 77% (manual) | 85% | User Confirmation Rate |
-| **Time-to-Categorize** | Ø Zeit für 20 Transaktionen | 12 Min. | < 2 Min. | Event Timing |
+| Metric                      | Description                            | Baseline     | Target   | Measurement            |
+| --------------------------- | -------------------------------------- | ------------ | -------- | ---------------------- |
+| **Feature Adoption**        | % users activating auto-categorization | 0%           | 60%      | Analytics Event        |
+| **Categorization Accuracy** | % correctly categorized transactions   | 77% (manual) | 85%      | User Confirmation Rate |
+| **Time-to-Categorize**      | avg. time for 20 transactions          | 12 min.      | < 2 min. | Event Timing           |
 
-#### Sekundäre Metriken (Launch + 8 Wochen)
+#### Secondary Metrics (Launch + 8 Weeks)
 
-| Metrik | Beschreibung | Baseline | Target | Messung |
-|--------|--------------|----------|--------|---------|
-| **Onboarding Completion** | % die Onboarding abschließen | 55% | 70% | Funnel Analysis |
-| **Support Tickets** | Tickets zu "Kategorisierung" | 300/Monat | < 150/Monat | Zendesk Tags |
-| **NPS Impact** | NPS-Score Verbesserung | 35 | 40+ | In-App Survey |
-| **Daily Active Users** | % DAU die Feature nutzen | N/A | 40% | Analytics |
+| Metric                    | Description                         | Baseline  | Target      | Measurement     |
+| ------------------------- | ----------------------------------- | --------- | ----------- | --------------- |
+| **Onboarding Completion** | % completing onboarding             | 55%       | 70%         | Funnel Analysis |
+| **Support Tickets**       | Tickets related to "categorization" | 300/month | < 150/month | Zendesk Tags    |
+| **NPS Impact**            | NPS score improvement               | 35        | 40+         | In-App Survey   |
+| **Daily Active Users**    | % DAU using feature                 | N/A       | 40%         | Analytics       |
 
-#### Guardrail Metriken
+#### Guardrail Metrics
 
-Metrics die NICHT negativ beeinflusst werden dürfen:
+Metrics that must NOT be negatively impacted:
 
-- Performance: App-Ladezeit bleibt < 3s
-- Accuracy: Kategorisierung-Fehler nicht > 20%
-- Privacy: Keine User-Complaints zu Datennutzung
+- Performance: App load time remains < 3s
+- Accuracy: Categorization errors not > 20%
+- Privacy: No user complaints about data usage
 
-### Tracking-Plan
+### Tracking Plan
 
 **Analytics Events**:
+
 ```javascript
 // Feature Activation
-track('auto_categorization_enabled', {
+track("auto_categorization_enabled", {
   user_id: string,
-  timestamp: datetime
-})
+  timestamp: datetime,
+});
 
-// Kategorisierung
-track('transaction_auto_categorized', {
+// Categorization
+track("transaction_auto_categorized", {
   transaction_id: string,
   category: string,
   confidence: float,
-  user_confirmed: boolean
-})
+  user_confirmed: boolean,
+});
 
-// Korrekturen
-track('category_corrected', {
+// Corrections
+track("category_corrected", {
   transaction_id: string,
   old_category: string,
-  new_category: string
-})
+  new_category: string,
+});
 ```
+````
 
 **Dashboard**: Link to Mixpanel Dashboard
 
 **Review Schedule**:
-- Week 1: Daily Review (PM)
-- Week 2-4: Weekly Review (PM + Eng Lead)
-- Week 8: Comprehensive Post-Mortem (All Stakeholders)
-```
 
-### Häufige Fehler
+- Week 1: Daily review (PM)
+- Week 2-4: Weekly review (PM + Eng Lead)
+- Week 8: Comprehensive post-mortem (all stakeholders)
 
-- ❌ Vage Ziele ("mehr Nutzer")
-- ❌ Zu viele Metriken (Focus verlieren)
-- ❌ Nicht messbare Ziele ("Nutzer glücklicher")
-- ❌ Keine Baseline für Vergleich
-- ❌ Unrealistische Targets
+````
+
+### Common Mistakes
+
+- Vague objectives ("more users")
+- Too many metrics (loss of focus)
+- Non-measurable objectives ("happier users")
+- No baseline for comparison
+- Unrealistic targets
 
 ---
 
 ## User Stories & Personas
 
-### Zweck
+### Purpose
 
-Empathie für Nutzer schaffen. Team versteht WER nutzt WAS WARUM.
+Create empathy for users. Team understands WHO uses WHAT and WHY.
 
-### Personas erstellen
+### Creating Personas
 
-**Basiert auf echten Daten**:
-- User Research
-- Analytics Segmentation
-- Support-Feedback
-- Sales/CS Input
+**Based on actual data**:
+
+- User research
+- Analytics segmentation
+- Support feedback
+- Sales/CS input
 
 ### Persona Template
 
 ```markdown
-## Primäre Personas
+## Primary Personas
 
-### Persona 1: "Budget-Bewusste Sarah"
+### Persona 1: "Budget-Conscious Sarah"
 
 ![Persona Image or Icon]
 
-**Demographie**:
-- Alter: 28-35
-- Beruf: Freelancerin, Wissensarbeit
-- Einkommen: €3.000-4.500/Monat (variabel)
-- Tech-Affinität: Hoch
-- Standort: Urban, Deutschland
+**Demographics**:
+- Age: 28-35
+- Occupation: Freelancer, knowledge work
+- Income: EUR 3,000-4,500/month (variable)
+- Tech-savviness: High
+- Location: Urban, Germany
 
-**Kontext & Verhalten**:
-- Verwendet 5+ Finance-Apps
-- Checkt Finanzen täglich (Routine)
-- Priorisiert Automatisierung
-- Mobile-First User (80% Mobile)
+**Context & Behavior**:
+- Uses 5+ finance apps
+- Checks finances daily (routine)
+- Prioritizes automation
+- Mobile-first user (80% mobile)
 
 **Pain Points**:
-1. "Ich habe keine Zeit für manuelle Arbeit"
-2. "Ich brauche schnellen Überblick"
-3. "Kategorisierung ist repetitiv und nervig"
+1. "I don't have time for manual work"
+2. "I need a quick overview"
+3. "Categorization is repetitive and annoying"
 
-**Ziele mit App**:
-- Automatischer Finanz-Überblick
-- Wenig Maintenance
-- Insights ohne Arbeit
+**Goals with App**:
+- Automatic financial overview
+- Low maintenance
+- Insights without effort
 
 **Quote**:
-> "Ich will morgens beim Kaffee schnell checken können, ob ich
-> on-track bin. Nicht 10 Minuten Transaktionen kategorisieren."
+> "I want to quickly check in the morning with my coffee
+> whether I'm on track. Not spend 10 minutes categorizing transactions."
 
-**Wie misst man Erfolg für Sarah?**:
-- Time-to-Insight < 30 Sekunden
-- Täglich App-Nutzung
-- Hohe NPS-Score
+**How to Measure Success for Sarah?**:
+- Time-to-insight < 30 seconds
+- Daily app usage
+- High NPS score
 
-**Segment Size**: 40% unserer User-Base (~1M Nutzer)
-```
+**Segment Size**: 40% of our user base (~1M users)
+````
 
 ### User Story Format
 
 ```markdown
 ## User Stories
 
-### Epic 1: Automatische Kategorisierung
+### Epic 1: Automatic Categorization
 
-#### US-1.1: Erste automatische Kategorisierung
+#### US-1.1: First Automatic Categorization
 
-**Priorität**: Must-Have
+**Priority**: Must-Have
 **Story Points**: 5
 **Sprint**: 1
 
-**Als** Budget-bewusste Sarah
-**Möchte ich** dass meine Transaktionen automatisch kategorisiert werden
-**Damit** ich keine Zeit mit manueller Kategorisierung verschwende
+**As** Budget-conscious Sarah
+**I want** my transactions to be automatically categorized
+**So that** I don't waste time on manual categorization
 
-**Kontext**:
-- Sarah hat 20-30 neue Transaktionen pro Woche
-- Aktuell verbringt sie 12 Min./Woche mit Kategorisierung
-- Sie checkt die App täglich morgens (8-9 Uhr)
+**Context**:
 
-**Akzeptanzkriterien**:
-- [ ] Neue Transaktionen werden innerhalb 1 Stunde auto-kategorisiert
-- [ ] Kategorisierung-Accuracy ≥ 85% (basierend auf User-Corrections)
-- [ ] User sieht Confidence-Level (Hoch/Mittel/Niedrig)
-- [ ] User kann Kategorie mit 1 Tap korrigieren
-- [ ] Korrektur verbessert zukünftige Predictions (ML-Feedback-Loop)
+- Sarah has 20-30 new transactions per week
+- Currently spends 12 min./week on categorization
+- She checks the app daily in the morning (8-9 AM)
+
+**Acceptance Criteria**:
+
+- [ ] New transactions are auto-categorized within 1 hour
+- [ ] Categorization accuracy >= 85% (based on user corrections)
+- [ ] User sees confidence level (High/Medium/Low)
+- [ ] User can correct category with 1 tap
+- [ ] Correction improves future predictions (ML feedback loop)
 
 **User Flow**:
-1. Sarah öffnet App morgens
-2. Sieht neue Transaktionen mit Auto-Kategorien
+
+1. Sarah opens app in the morning
+2. Sees new transactions with auto-categories
 3. Review:
-   - ✅ Korrekt → Keine Aktion
-   - ❌ Falsch → Tap Kategorie → Wähle neue → Bestätige
-4. Dashboard zeigt aktualisierte Zahlen
+   - Correct - No action
+   - Incorrect - Tap category - Select new - Confirm
+4. Dashboard shows updated figures
 
 **Edge Cases**:
-- **Neue Merchant**: Wenn Merchant unbekannt → "Niedrige Confidence"
-- **Zweideutig**: Z.B. "Amazon" (Shopping oder Cloud) → Frage User
-- **Offline**: Kategorisierung erfolgt wenn online
 
-**Abhängigkeiten**:
-- ML-Modell deployed (ML Team, Sprint 0)
+- **New Merchant**: If merchant unknown - "Low Confidence"
+- **Ambiguous**: e.g., "Amazon" (Shopping or Cloud) - Ask user
+- **Offline**: Categorization occurs when online
+
+**Dependencies**:
+
+- ML model deployed (ML Team, Sprint 0)
 - Transaction API updated (Backend, Sprint 1)
-- UI Components fertig (Design, Sprint 0)
+- UI components complete (Design, Sprint 0)
 
 **Mockups**: [Link to Figma]
 
 **Definition of Done**:
+
 - [ ] Code reviewed & merged
-- [ ] Unit Tests (Coverage ≥ 80%)
-- [ ] QA Testing passed
-- [ ] Analytics Events implemented
+- [ ] Unit tests (coverage >= 80%)
+- [ ] QA testing passed
+- [ ] Analytics events implemented
 - [ ] Documentation updated
-- [ ] Deployed to Production
+- [ ] Deployed to production
 ```
 
-### Häufige Fehler
+### Common Mistakes
 
-- ❌ Personas aus dem Bauch, nicht datenbasiert
-- ❌ User Stories ohne Akzeptanzkriterien
-- ❌ Zu technische User Stories ("Als System")
-- ❌ Fehlender Kontext/Rationale
-- ❌ Keine Priorisierung
+- Personas based on intuition, not data
+- User stories without acceptance criteria
+- Too technical user stories ("As a system")
+- Missing context/rationale
+- No prioritization
 
 ---
 
-## Funktionale Anforderungen
+## Functional Requirements
 
-### Zweck
+### Purpose
 
-Beschreiben WAS gebaut wird (nicht WIE).
+Describe WHAT is being built (not HOW).
 
-### Struktur nach MoSCoW
+### Structure by MoSCoW
 
-- **M**ust-Have: Ohne geht es nicht
-- **S**hould-Have: Wichtig, aber nicht kritisch
+- **M**ust-Have: Essential
+- **S**hould-Have: Important, but not critical
 - **C**ould-Have: Nice-to-Have
-- **W**on't-Have: Explizit ausgeschlossen
+- **W**on't-Have: Explicitly excluded
 
 ### Template
 
 ```markdown
-## Funktionale Anforderungen
+## Functional Requirements
 
-### Must-Have (MVP - Ohne geht Launch nicht)
+### Must-Have (MVP - Launch Cannot Proceed Without)
 
-#### FR-1: Automatische Kategorisierung neuer Transaktionen
+#### FR-1: Automatic Categorization of New Transactions
 
-**Beschreibung**:
-System kategorisiert neue Transaktionen automatisch basierend auf
-ML-Modell, das auf historischen Daten und User-Korrekturen trainiert wurde.
+**Description**:
+System automatically categorizes new transactions based on ML model trained on historical data and user corrections.
 
-**Funktionale Details**:
-- Kategorisierung erfolgt innerhalb 1 Stunde nach Transaction-Import
-- 15 vordefinierte Kategorien (siehe Appendix A)
-- Confidence-Level angezeigt: Hoch (>90%), Mittel (70-90%), Niedrig (<70%)
-- User kann Kategorie ändern mit 1-Tap-Correction
-- Korrektur fließt in Training-Data (Feedback-Loop)
+**Functional Details**:
 
-**Verhalten**:
+- Categorization occurs within 1 hour of transaction import
+- 15 predefined categories (see Appendix A)
+- Confidence level displayed: High (>90%), Medium (70-90%), Low (<70%)
+- User can change category with 1-tap correction
+- Correction feeds into training data (feedback loop)
 
-| Szenario | System-Verhalten |
-|----------|------------------|
-| Bekannter Merchant | Auto-Kategorisieren mit "Hoch" Confidence |
-| Ähnlicher Merchant | Auto-Kategorisieren mit "Mittel" Confidence |
-| Neuer Merchant | Best-Guess mit "Niedrig" Confidence |
-| Ambiguous (z.B. Amazon) | Frage User bei erstem Mal |
+**Behavior**:
+
+| Scenario                 | System Behavior                          |
+| ------------------------ | ---------------------------------------- |
+| Known merchant           | Auto-categorize with "High" confidence   |
+| Similar merchant         | Auto-categorize with "Medium" confidence |
+| New merchant             | Best-guess with "Low" confidence         |
+| Ambiguous (e.g., Amazon) | Ask user on first occurrence             |
 
 **Edge Cases**:
 
-1. **Split-Transactions**: Wenn User Split erstellt, Original-Kategorie
-   wird auf Splits übertragen
+1. **Split Transactions**: When user creates split, original category is transferred to splits
 
-2. **Bulk-Correction**: User ändert Kategorie für Merchant → System
-   fragt "Alle früheren Transaktionen auch ändern?"
+2. **Bulk Correction**: User changes category for merchant - System asks "Change all previous transactions too?"
 
-3. **Offline-Mode**: Transaktionen werden gecached und kategorisiert
-   sobald online
+3. **Offline Mode**: Transactions are cached and categorized when online
 
 **User Interface**:
 ```
-┌─────────────────────────────┐
-│ Neue Transaktionen          │
-│                             │
-│ ✓ Edeka Supermarkt    🛒   │
-│   Groceries (Hoch)          │
-│   -42,50 €                  │
-│                             │
-│ ? Amazon.de           📦   │
-│   Shopping (Mittel)         │
-│   -89,99 €                  │
-│   [Kategorie korrekt?]      │
-└─────────────────────────────┘
+
++-----------------------------+
+| New Transactions |
+| |
+| Edeka Supermarket |
+| Groceries (High) |
+| -42.50 EUR |
+| |
+| ? Amazon.de |
+| Shopping (Medium) |
+| -89.99 EUR |
+| [Category correct?] |
++-----------------------------+
+
 ```
 
-**Akzeptanzkriterien**:
-- [ ] Neue Transaktionen werden auto-kategorisiert
-- [ ] Confidence-Level wird angezeigt
-- [ ] User kann mit max. 2 Taps korrigieren
-- [ ] Korrektur verbessert Model (verified via Testing)
+**Acceptance Criteria**:
+- [ ] New transactions are auto-categorized
+- [ ] Confidence level is displayed
+- [ ] User can correct with max. 2 taps
+- [ ] Correction improves model (verified via testing)
 - [ ] Works on iOS & Android
-- [ ] Ladezeit < 2 Sekunden
+- [ ] Load time < 2 seconds
 
-**Non-Goals (für dieses FR)**:
-- ❌ Custom User-Kategorien (kommt in Should-Have)
-- ❌ Sub-Kategorien (Future)
-- ❌ Regel-basierte Kategorisierung (nur ML)
+**Non-Goals (for this FR)**:
+- Custom user categories (deferred to Should-Have)
+- Sub-categories (future)
+- Rule-based categorization (ML only)
 
-**Abhängigkeiten**:
-- ML-Model deployed & accessible via API
-- Transaction-Import funktioniert
-- Categories-Master-Data definiert
+**Dependencies**:
+- ML model deployed & accessible via API
+- Transaction import functional
+- Category master data defined
 
-**Test-Strategie**:
-- Unit Tests: Model-Prediction Logic
-- Integration: API End-to-End
-- E2E: User korrigiert Kategorie → Nächste Transaction same Merchant korrekt
-- Performance: 1000 Transactions < 5s
+**Test Strategy**:
+- Unit tests: Model prediction logic
+- Integration: API end-to-end
+- E2E: User corrects category - Next transaction from same merchant correct
+- Performance: 1000 transactions < 5s
 
 **Mockups**: [Figma Link]
 
-#### FR-2: Kategorie-Korrektur
+#### FR-2: Category Correction
 
 [...]
 
-### Should-Have (Post-MVP, vor Ende Q2)
+### Should-Have (Post-MVP, before end of Q2)
 
-#### FR-5: Custom User-Kategorien
+#### FR-5: Custom User Categories
 
-**Beschreibung**: User können eigene Kategorien erstellen
+**Description**: Users can create their own categories
 
-**Rationale für Should-Have**:
-- Nicht kritisch für MVP
-- 35% User-Request (nicht Mehrheit)
-- Erhöht Complexity (Testing, Migration)
-- Kann post-launch hinzugefügt werden
+**Rationale for Should-Have**:
+- Not critical for MVP
+- 35% user request (not majority)
+- Increases complexity (testing, migration)
+- Can be added post-launch
 
 [Details...]
 
 ### Could-Have (Backlog, re-evaluate post-launch)
 
-#### FR-8: Kategorie-Regeln
+#### FR-8: Category Rules
 
-**Beschreibung**: User definiert Regel "Alle Transaktionen von X → Kategorie Y"
+**Description**: User defines rule "All transactions from X - Category Y"
 
-**Rationale für Could-Have**:
-- Nur 12% User-Request
-- Hoher Implementierungsaufwand
-- ML-Model should learn from corrections anyway
-- Evaluate if needed basierend auf Post-Launch-Feedback
+**Rationale for Could-Have**:
+- Only 12% user request
+- High implementation effort
+- ML model should learn from corrections anyway
+- Evaluate if needed based on post-launch feedback
 
-### Won't-Have (Explizit ausgeschlossen)
+### Won't-Have (Explicitly Excluded)
 
-#### Sub-Kategorien
+#### Sub-Categories
 
-**Rationale**: Zu komplex für MVP, User Research zeigt geringen Wert (8% Request)
+**Rationale**: Too complex for MVP, user research shows low value (8% request)
 
 #### Auto-Tagging
 
-**Rationale**: Separate Feature, eigene PRD in Q3
+**Rationale**: Separate feature, own PRD in Q3
 ```
 
-### Häufige Fehler
+### Common Mistakes
 
-- ❌ Zu technisch ("Verwende Redis-Cache")
-- ❌ Keine Prioritäts-Begründung
-- ❌ Unklare Akzeptanzkriterien
-- ❌ Fehlende Edge Cases
-- ❌ Keine User-Perspektive
+- Too technical ("Use Redis cache")
+- No priority justification
+- Unclear acceptance criteria
+- Missing edge cases
+- No user perspective
 
 ---
 
-## Nicht-funktionale Anforderungen (NFRs)
+## Non-Functional Requirements (NFRs)
 
-### Zweck
+### Purpose
 
-Qualitäts-Attribute definieren: Wie gut muss es sein?
+Define quality attributes: How good must it be?
 
-### Kategorien
+### Categories
 
-1. **Performance**: Geschwindigkeit, Latenz
-2. **Scalability**: Wachstum, Load
-3. **Security**: Sicherheit, Privacy
-4. **Reliability**: Uptime, Error Rate
-5. **Usability**: Benutzerfreundlichkeit
-6. **Accessibility**: Barrierefreiheit
-7. **Maintainability**: Wartbarkeit (für Dev-Team)
+1. **Performance**: Speed, latency
+2. **Scalability**: Growth, load
+3. **Security**: Security, privacy
+4. **Reliability**: Uptime, error rate
+5. **Usability**: User-friendliness
+6. **Accessibility**: Barrier-free access
+7. **Maintainability**: Maintenance (for dev team)
 
 ### Template
 
 ```markdown
-## Nicht-funktionale Anforderungen
+## Non-Functional Requirements
 
 ### Performance
 
 **NFR-1: Response Time**
-- **Requirement**: 95% der API-Requests < 500ms
-- **Rationale**: User erwarten sofortige Antwort, Mobile-First
-- **Messung**: APM (Application Performance Monitoring)
-- **Testing**: Load Tests mit 1000 concurrent users
+
+- **Requirement**: 95% of API requests < 500ms
+- **Rationale**: Users expect immediate response, mobile-first
+- **Measurement**: APM (Application Performance Monitoring)
+- **Testing**: Load tests with 1000 concurrent users
 
 **NFR-2: UI Responsiveness**
-- **Requirement**: Time-to-Interactive < 2 Sekunden
-- **Rationale**: Mobile 3G-Connection Mindest-Standard
-- **Messung**: Lighthouse Performance Score > 90
-- **Testing**: Real Device Testing, Throttled Network
+
+- **Requirement**: Time-to-interactive < 2 seconds
+- **Rationale**: Mobile 3G connection minimum standard
+- **Measurement**: Lighthouse Performance Score > 90
+- **Testing**: Real device testing, throttled network
 
 ### Scalability
 
 **NFR-3: User Load**
-- **Requirement**: System funktioniert bei 100k DAU
+
+- **Requirement**: System functions at 100k DAU
 - **Current**: 50k DAU
 - **Growth**: +50k expected in Q2
-- **Testing**: Load Tests, Stress Tests
+- **Testing**: Load tests, stress tests
 
 **NFR-4: Data Volume**
-- **Requirement**: Performant mit 1M+ Transaktionen pro User
-- **Rationale**: Power-Users mit mehrjährigen Daten
-- **Testing**: Test mit Production-Data-Samples
+
+- **Requirement**: Performant with 1M+ transactions per user
+- **Rationale**: Power users with multi-year data
+- **Testing**: Test with production data samples
 
 ### Security & Privacy
 
 **NFR-5: Data Encryption**
+
 - **Requirement**: All PII encrypted at rest (AES-256)
 - **Compliance**: GDPR, PCI-DSS (if applicable)
-- **Audit**: Pentesting vor Launch
+- **Audit**: Penetration testing before launch
 
 **NFR-6: GDPR Compliance**
-- **Requirement**: User kann Daten exportieren & löschen
-- **Timeline**: Must be ready at Launch (Legal Requirement)
-- **Validation**: Legal Review
+
+- **Requirement**: User can export & delete data
+- **Timeline**: Must be ready at launch (legal requirement)
+- **Validation**: Legal review
 
 **NFR-7: ML Model Privacy**
-- **Requirement**: Model-Training nur mit anonymisierten Daten
-- **Rationale**: Privacy-First, keine User-Identifiables
-- **Validation**: Privacy Impact Assessment
+
+- **Requirement**: Model training only with anonymized data
+- **Rationale**: Privacy-first, no user identifiables
+- **Validation**: Privacy impact assessment
 
 ### Reliability
 
 **NFR-8: Availability**
-- **Requirement**: 99.9% Uptime (< 43 Min. Downtime/Monat)
-- **Rationale**: Finance-App, Users checken täglich
+
+- **Requirement**: 99.9% uptime (< 43 min. downtime/month)
+- **Rationale**: Finance app, users check daily
 - **Monitoring**: Uptime Robot, PagerDuty
 
 **NFR-9: Error Rate**
-- **Requirement**: < 0.1% Error Rate für Kategorisierung
-- **Rationale**: Trust in Auto-Kategorisierung kritisch
-- **Monitoring**: Sentry, Error Tracking
+
+- **Requirement**: < 0.1% error rate for categorization
+- **Rationale**: Trust in auto-categorization is critical
+- **Monitoring**: Sentry, error tracking
 
 **NFR-10: Data Loss Prevention**
+
 - **Requirement**: Zero data loss
-- **Strategy**: Backups, Redundancy
-- **RTO/RPO**: Recovery Time < 1h, Recovery Point < 5 Min.
+- **Strategy**: Backups, redundancy
+- **RTO/RPO**: Recovery time < 1h, recovery point < 5 min.
 
 ### Usability
 
 **NFR-11: Intuitive UI**
-- **Requirement**: 90% der User verstehen Feature ohne Onboarding
-- **Validation**: Usability Testing (n ≥ 10)
-- **Metrics**: Task Success Rate, Time-on-Task
+
+- **Requirement**: 90% of users understand feature without onboarding
+- **Validation**: Usability testing (n >= 10)
+- **Metrics**: Task success rate, time-on-task
 
 **NFR-12: Error Messages**
-- **Requirement**: Fehler klar kommuniziert mit Handlungsempfehlung
-- **Example**: "Kategorisierung fehlgeschlagen. Bitte prüfe Internetverbindung."
-- **Validation**: Review mit UX Writer
+
+- **Requirement**: Errors clearly communicated with recommended action
+- **Example**: "Categorization failed. Please check your internet connection."
+- **Validation**: Review with UX writer
 
 ### Accessibility
 
 **NFR-13: WCAG 2.1 Compliance**
+
 - **Requirement**: Level AA compliant
-- **Rationale**: Inklusives Design, Legal in einigen Märkten
+- **Rationale**: Inclusive design, legal in some markets
 - **Testing**:
   - Automated: axe DevTools, Lighthouse
-  - Manual: Screen Reader Testing (NVDA, VoiceOver)
+  - Manual: Screen reader testing (NVDA, VoiceOver)
 
 **NFR-14: Keyboard Navigation**
-- **Requirement**: Alle Funktionen per Keyboard erreichbar
-- **Testing**: Manual Keyboard-Only Testing
+
+- **Requirement**: All functions accessible via keyboard
+- **Testing**: Manual keyboard-only testing
 
 **NFR-15: Color Contrast**
-- **Requirement**: Min. 4.5:1 für Text, 3:1 für UI Components
+
+- **Requirement**: Min. 4.5:1 for text, 3:1 for UI components
 - **Tool**: Color Contrast Analyzer
 
 ### Maintainability
 
 **NFR-16: Code Quality**
-- **Requirement**: Test Coverage ≥ 80%
-- **Rationale**: Feature wird iteriert, Tests schützen
-- **Enforcement**: CI/CD Pipeline checks
+
+- **Requirement**: Test coverage >= 80%
+- **Rationale**: Feature will be iterated, tests protect
+- **Enforcement**: CI/CD pipeline checks
 
 **NFR-17: Documentation**
+
 - **Requirement**: API documented, Architecture Decision Records
-- **Rationale**: Team-Skalierung, Knowledge-Transfer
+- **Rationale**: Team scaling, knowledge transfer
 - **Format**: OpenAPI Spec, ADRs in repo
 ```
 
-### Häufige Fehler
+### Common Mistakes
 
-- ❌ Vage Anforderungen ("muss schnell sein")
-- ❌ Keine messbaren Targets
-- ❌ Unrealistische Anforderungen
-- ❌ NFRs vergessen (nur auf Funktionalität fokussiert)
+- Vague requirements ("must be fast")
+- No measurable targets
+- Unrealistic requirements
+- NFRs forgotten (focus only on functionality)
 
 ---
 
-## Out of Scope / Abgrenzung
+## Out of Scope / Delimitation
 
-### Zweck
+### Purpose
 
-Erwartungen managen. Klar kommunizieren was NICHT gebaut wird.
+Manage expectations. Clearly communicate what will NOT be built.
 
 ### Template
 
 ```markdown
-## Abgrenzung (Out of Scope)
+## Delimitation (Out of Scope)
 
-### Nicht in diesem Release
+### Not in This Release
 
-| Feature | Rationale | Geplant für |
-|---------|-----------|-------------|
-| **Custom User-Kategorien** | Erhöht MVP-Complexity, nur 35% Request | Q2 Post-Launch |
-| **Sub-Kategorien** | Geringer User-Wert (8% Request) | Q3 if validated |
-| **Bulk-Edit** | Nice-to-Have, nicht kritisch | Backlog |
-| **ML-Model Self-Learning** | Technisch komplex, separate Initiative | Q4 Tech Roadmap |
+| Feature                    | Rationale                                  | Planned For     |
+| -------------------------- | ------------------------------------------ | --------------- |
+| **Custom User Categories** | Increases MVP complexity, only 35% request | Q2 post-launch  |
+| **Sub-Categories**         | Low user value (8% request)                | Q3 if validated |
+| **Bulk Edit**              | Nice-to-have, not critical                 | Backlog         |
+| **ML Model Self-Learning** | Technically complex, separate initiative   | Q4 tech roadmap |
 
-### Explizit ausgeschlossen
+### Explicitly Excluded
 
-- ❌ **Automatisches Tagging**: Separate PRD, Q3 Feature
-- ❌ **Budget-Integration**: Out of Scope für Kategorisierung
-- ❌ **Multi-Währung**: Bereits vorhanden, nicht Teil dieser PRD
-- ❌ **Historical Data Migration**: User-Daten bleiben wie sind
+- **Automatic Tagging**: Separate PRD, Q3 feature
+- **Budget Integration**: Out of scope for categorization
+- **Multi-Currency**: Already available, not part of this PRD
+- **Historical Data Migration**: User data remains as is
 
-**Rationale**: Focus auf Core-Feature (Auto-Categorization).
-MVP-Ansatz für schnelles Launch & User-Feedback.
+**Rationale**: Focus on core feature (auto-categorization). MVP approach for rapid launch & user feedback.
 
-### Abgrenzung zu anderen Projekten
+### Delimitation from Other Projects
 
-- **"Budget-Alerts" PRD**: Nutzt Kategorien, aber separate Initiative
-- **"Reports V2" PRD**: Displayed Kategorien, aber nicht Teil dieser PRD
+- **"Budget Alerts" PRD**: Uses categories, but separate initiative
+- **"Reports V2" PRD**: Displays categories, but not part of this PRD
 
 ### Future Considerations
 
-Features die VIELLEICHT später kommen:
+Features that MAY come later:
 
-- **AI-Suggested Categories**: ML schlägt neue Kategorien vor
-- **Kategorie-Marketplace**: User teilen Kategorie-Sets
-- **Family-Kategorien**: Gemeinsame Kategorien für Partner
+- **AI-Suggested Categories**: ML suggests new categories
+- **Category Marketplace**: Users share category sets
+- **Family Categories**: Shared categories for partners
 
-**Entscheidung**: Re-evaluate nach Launch basierend auf:
-- User-Feedback & Feature-Requests
-- Usage Analytics
-- Business Prioritäten
+**Decision**: Re-evaluate after launch based on:
+
+- User feedback & feature requests
+- Usage analytics
+- Business priorities
 ```
 
-### Häufige Fehler
+### Common Mistakes
 
-- ❌ Out-of-Scope nicht dokumentiert
-- ❌ Scope Creep während Development
-- ❌ Keine Rationale für Ausschluss
-- ❌ Unklare Zukunftspläne
+- Out-of-scope not documented
+- Scope creep during development
+- No rationale for exclusion
+- Unclear future plans
 
 ---
 
-## Risikobewertung
+## Risk Assessment
 
-### Zweck
+### Purpose
 
-Proaktiv Probleme identifizieren und Mitigation planen.
+Proactively identify problems and plan mitigation.
 
-### Risiko-Matrix
+### Risk Matrix
 
 ```
            Impact
-         │  Low  │ Medium │  High  │
-─────────┼───────┼────────┼────────┤
-High     │   🟨  │   🟧   │   🟥   │ Priority
-Likelihood│       │        │        │
-Medium   │   🟩  │   🟨   │   🟧   │
-         │       │        │        │
-Low      │   🟩  │   🟩   │   🟨   │
+         |  Low  | Medium |  High  |
+---------+-------+--------+--------+
+High     |       |        |        | Priority
+Likelihood       |        |        |
+Medium   |       |        |        |
+         |       |        |        |
+Low      |       |        |        |
 ```
 
 ### Template
 
 ```markdown
-## Risikobewertung
+## Risk Assessment
 
-### Risiko-Matrix
+### Risk Matrix
 
-| ID | Risiko | Impact | Likelihood | Priority | Owner |
-|----|--------|--------|------------|----------|-------|
-| R-1 | ML-Accuracy zu niedrig | 🟥 High | 🟨 Medium | 🟧 | ML Lead |
-| R-2 | Performance bei Scale | 🟧 Medium | 🟩 Low | 🟩 | Eng Lead |
-| R-3 | Privacy Concerns | 🟥 High | 🟩 Low | 🟨 | PM + Legal |
+| ID  | Risk                 | Impact | Likelihood | Priority | Owner      |
+| --- | -------------------- | ------ | ---------- | -------- | ---------- |
+| R-1 | ML accuracy too low  | High   | Medium     | High     | ML Lead    |
+| R-2 | Performance at scale | Medium | Low        | Low      | Eng Lead   |
+| R-3 | Privacy concerns     | High   | Low        | Medium   | PM + Legal |
 
-### Detaillierte Risiko-Analyse
+### Detailed Risk Analysis
 
-#### R-1: ML-Modell-Accuracy unter Target (🟧 High Priority)
+#### R-1: ML Model Accuracy Below Target (High Priority)
 
-**Risiko-Beschreibung**:
-ML-Modell erreicht nicht die target 85% Accuracy in Production.
-Model wurde mit synthetic data trainiert und könnte bei echten
-User-Daten schlechter performen.
+**Risk Description**:
+ML model does not achieve the target 85% accuracy in production.
+Model was trained with synthetic data and may perform worse with real user data.
 
-**Impact**: 🟥 High
-- User-Trust in Auto-Kategorisierung sinkt
-- Mehr manuelle Korrekturen → schlechte UX
-- Negative NPS, möglicherweise Churn
-- Feature-Adoption < Target
+**Impact**: High
 
-**Likelihood**: 🟨 Medium
-- Model in Testing: 89% Accuracy
-- Aber: Test-Data != Production-Data
-- Neue Merchants/Edge Cases in Production
+- User trust in auto-categorization decreases
+- More manual corrections - poor UX
+- Negative NPS, potentially churn
+- Feature adoption < target
 
-**Mitigation-Strategie** (Proaktiv):
+**Likelihood**: Medium
+
+- Model in testing: 89% accuracy
+- But: Test data != production data
+- New merchants/edge cases in production
+
+**Mitigation Strategy** (Proactive):
 
 1. **Pre-Launch**:
-   - [ ] Test mit Production-Data-Sample (anonymisiert)
-   - [ ] A/B Test: 10% User Beta (2 Wochen vor Launch)
-   - [ ] Confidence-Thresholds kalibrieren
+   - [ ] Test with production data sample (anonymized)
+   - [ ] A/B test: 10% user beta (2 weeks before launch)
+   - [ ] Calibrate confidence thresholds
 
 2. **Launch**:
-   - [ ] Phased Rollout: 1% → 10% → 50% → 100%
-   - [ ] Real-time Model Monitoring (Accuracy, Confidence-Distribution)
-   - [ ] Weekly Model-Retraining mit User-Corrections
+   - [ ] Phased rollout: 1% - 10% - 50% - 100%
+   - [ ] Real-time model monitoring (accuracy, confidence distribution)
+   - [ ] Weekly model retraining with user corrections
 
 3. **Post-Launch**:
-   - [ ] User-Feedback-Loop: "War diese Kategorisierung hilfreich?"
-   - [ ] Manual Review von Low-Confidence Predictions
-   - [ ] Continuous Model Improvement
+   - [ ] User feedback loop: "Was this categorization helpful?"
+   - [ ] Manual review of low-confidence predictions
+   - [ ] Continuous model improvement
 
-**Contingency Plan** (Falls es eintritt):
+**Contingency Plan** (If it occurs):
 
-- **Trigger**: Accuracy < 80% für 3 Tage consecutive
+- **Trigger**: Accuracy < 80% for 3 consecutive days
 - **Action**:
-  1. Feature-Flag OFF für neue Users (bestehende können weiter nutzen)
-  2. Emergency Model-Retraining mit production data
-  3. Bring in ML-Expert für Deep Dive
-  4. Communication: Transparent mit Users ("Wir verbessern noch")
-- **Timeline**: 5 Tage für Fix
-- **Rollback**: Falls nicht fixable in 1 Woche → Rollback, re-plan
+  1. Feature flag OFF for new users (existing can continue)
+  2. Emergency model retraining with production data
+  3. Bring in ML expert for deep dive
+  4. Communication: Transparent with users ("We are still improving")
+- **Timeline**: 5 days for fix
+- **Rollback**: If not fixable in 1 week - Rollback, re-plan
 
 **Owner**: ML Lead (Primary), PM (Secondary)
 
-**Status**: Mitigation in Progress (Pre-Launch Testing läuft)
+**Status**: Mitigation in progress (pre-launch testing underway)
 
 ---
 
-#### R-2: Performance-Degradation bei High Scale (🟩 Low Priority)
+#### R-2: Performance Degradation at High Scale (Low Priority)
 
-**Risiko**: System langsam bei 100k+ concurrent categorization requests
+**Risk**: System slow at 100k+ concurrent categorization requests
 
-**Impact**: 🟧 Medium
-- User-Experience leidet (langsame Kategorisierung)
-- Potentiell Timeouts
-- Negative Impact auf NFR-1 (Response Time)
+**Impact**: Medium
 
-**Likelihood**: 🟩 Low
-- Load-Tests zeigen Performance OK bis 150k users
-- Current: 50k DAU, Growth zu 100k dauert 6+ Monate
-- Zeit für Skalierung falls nötig
+- User experience suffers (slow categorization)
+- Potentially timeouts
+- Negative impact on NFR-1 (response time)
+
+**Likelihood**: Low
+
+- Load tests show performance OK up to 150k users
+- Current: 50k DAU, growth to 100k takes 6+ months
+- Time for scaling if needed
 
 **Mitigation**:
-- Load Tests im CI/CD
-- Auto-Scaling konfiguriert
-- Performance-Monitoring (APM)
-- Fallback: Async Kategorisierung falls Load hoch
+
+- Load tests in CI/CD
+- Auto-scaling configured
+- Performance monitoring (APM)
+- Fallback: Async categorization if load high
 
 **Owner**: Engineering Lead
 
 ---
 
-#### R-3: Privacy/GDPR Concerns (🟨 Medium Priority)
+#### R-3: Privacy/GDPR Concerns (Medium Priority)
 
-**Risiko**: User besorgt über Datennutzung für ML-Training
+**Risk**: Users concerned about data usage for ML training
 
-**Impact**: 🟥 High (wenn eintritt)
-- PR-Problem
-- Trust-Loss
-- Potentiell Legal Issues
+**Impact**: High (if it occurs)
 
-**Likelihood**: 🟩 Low
-- Privacy Impact Assessment durchgeführt
-- Legal Sign-off erhalten
-- Transparent kommuniziert in Privacy Policy
+- PR problem
+- Trust loss
+- Potentially legal issues
+
+**Likelihood**: Low
+
+- Privacy impact assessment completed
+- Legal sign-off obtained
+- Transparently communicated in privacy policy
 
 **Mitigation**:
-- Privacy-Notice vor Feature-Activation
-- Opt-Out-Option verfügbar
-- Model-Training nur mit anonymisierten Daten
-- Clear Communication im UI
+
+- Privacy notice before feature activation
+- Opt-out option available
+- Model training only with anonymized data
+- Clear communication in UI
 
 **Owner**: PM + Legal Lead
 
 ### Risk Review Schedule
 
-- **Pre-Launch**: Weekly Risk Review (PM, Eng Lead, ML Lead)
-- **Launch Week**: Daily Monitoring
-- **Post-Launch**: Bi-Weekly Review bis Metrics stable
+- **Pre-Launch**: Weekly risk review (PM, Eng Lead, ML Lead)
+- **Launch Week**: Daily monitoring
+- **Post-Launch**: Bi-weekly review until metrics stable
 ```
 
-### Häufige Fehler
+### Common Mistakes
 
-- ❌ Risks nicht dokumentiert
-- ❌ Keine Mitigation-Pläne
-- ❌ Unrealistische Risk-Assessment
-- ❌ Kein Owner assigned
-- ❌ Keine Contingency-Pläne
+- Risks not documented
+- No mitigation plans
+- Unrealistic risk assessment
+- No owner assigned
+- No contingency plans
 
 ---
 
-## Weitere wichtige Abschnitte
+## Additional Important Sections
 
-### Timeline & Meilensteine
+### Timeline & Milestones
 
-- Realistische Zeitschätzungen
-- Puffer einplanen (15-20%)
-- Dependencies berücksichtigen
-- Milestones klar definiert
+- Realistic time estimates
+- Include buffer (15-20%)
+- Consider dependencies
+- Clearly defined milestones
 
-### Anhang
+### Appendix
 
-- Mockups/Wireframes
-- Technical Specs (Links)
-- Research Reports (Links)
-- Competitive Analysis
-- Glossar für Fach-Begriffe
+- Mockups/wireframes
+- Technical specs (links)
+- Research reports (links)
+- Competitive analysis
+- Glossary for technical terms
 
 ### Approval & Sign-off
 
-- Alle Stakeholder gelistet
-- Clear Approval-Process
-- Timeline für Reviews
-- Dokumentierte Approvals
+- All stakeholders listed
+- Clear approval process
+- Timeline for reviews
+- Documented approvals

@@ -1,197 +1,216 @@
 # Troubleshooting: Task Implementation
 
-Häufige Probleme bei der Implementierung von Tasks und deren Lösungen.
+Common issues encountered during task implementation and their solutions.
 
-## Task-Identifikation
+## Task Identification
 
-### Task nicht gefunden
+### Task Not Found
 
 **Symptom**:
+
 ```
 ❌ Error: Task [ID] not found
 ```
 
-**Lösungen**:
+**Solutions**:
 
 **Filesystem**:
+
 ```bash
-# Alle Tasks auflisten
+# List all tasks
 find .plans -name "task-*.md"
 
-# Mit Plan-Kontext suchen
+# Search with plan context
 /implement-task --plan dark-mode-toggle task-001
 ```
 
 **Linear**:
-```bash
-# Issue-ID validieren (Format: [A-Z]+-[0-9]+)
-# Beispiel: PROJ-123, nicht proj-123
 
-# API-Test
+```bash
+# Validate issue ID (format: [A-Z]+-[0-9]+)
+# Example: PROJ-123, not proj-123
+
+# API test
 curl -H "Authorization: Bearer $LINEAR_API_KEY" \
   https://api.linear.app/graphql \
   -d '{"query":"query{issue(id:\"PROJ-123\"){id title}}"}'
 ```
 
-## Worktree-Probleme
+## Worktree Issues
 
-### Worktree existiert bereits
+### Worktree Already Exists
 
 **Symptom**:
+
 ```
 ❌ fatal: '.worktrees/task-001' already exists
 ```
 
-**Lösungen**:
+**Solutions**:
 
-1. **In existierenden Worktree wechseln**:
+1. **Switch to the existing worktree**:
+
    ```bash
    cd .worktrees/task-001
-   # Weiterarbeiten
+   # Continue working
    ```
 
-2. **Worktree entfernen und neu erstellen**:
+2. **Remove and recreate the worktree**:
+
    ```bash
    git worktree remove .worktrees/task-001
    git worktree add -b feature/task-001-desc .worktrees/task-001 origin/main
    ```
 
-3. **Verwaisten Worktree bereinigen** (falls Verzeichnis manuell gelöscht wurde):
+3. **Clean up orphaned worktree** (if directory was manually deleted):
    ```bash
    git worktree prune
    git worktree add -b feature/task-001-desc .worktrees/task-001 origin/main
    ```
 
-### Worktree-Verzeichnis fehlt
+### Worktree Directory Missing
 
 **Symptom**:
+
 ```
 ❌ Error: .worktrees directory not found
 ```
 
-**Lösung**:
+**Solution**:
+
 ```bash
 mkdir -p .worktrees
-# Dann erneut versuchen
+# Retry the operation
 ```
 
-### Branch bereits in anderem Worktree ausgecheckt
+### Branch Already Checked Out in Another Worktree
 
 **Symptom**:
+
 ```
 ❌ fatal: 'feature/task-001-...' is already checked out at '/path/to/.worktrees/...'
 ```
 
-**Lösungen**:
+**Solutions**:
 
-1. **Anderen Worktree finden und verwenden**:
+1. **Locate and use the other worktree**:
+
    ```bash
    git worktree list
-   # Zeigt: .worktrees/task-001  abc1234 [feature/task-001-desc]
+   # Shows: .worktrees/task-001  abc1234 [feature/task-001-desc]
    cd .worktrees/task-001
    ```
 
-2. **Alten Worktree entfernen**:
+2. **Remove the old worktree**:
    ```bash
    git worktree remove /path/to/old/worktree
-   # Dann neu erstellen
+   # Then recreate
    ```
 
-### Alle Worktrees auflisten
+### List All Worktrees
 
-**Diagnose**:
+**Diagnosis**:
+
 ```bash
 git worktree list
-# Ausgabe:
+# Output:
 # /path/to/main           abc1234 [main]
 # /path/to/.worktrees/task-001  def5678 [feature/task-001-desc]
 ```
 
-### Verwaiste Worktrees bereinigen
+### Clean Up Orphaned Worktrees
 
-**Symptom**: Worktree-Verzeichnis wurde manuell gelöscht, Git kennt es noch
+**Symptom**: Worktree directory was manually deleted, but Git still references it
 
-**Lösung**:
+**Solution**:
+
 ```bash
 git worktree prune
-git worktree list  # Verifizieren
+git worktree list  # Verify
 ```
 
-### Worktree nach Merge aufräumen
+### Clean Up Worktree After Merge
 
-**Nach erfolgreichem PR-Merge**:
+**After successful PR merge**:
+
 ```bash
-# Vom Hauptrepo aus (NICHT aus dem Worktree!)
+# From the main repository (NOT from within the worktree)
 cd /path/to/main/repo
 
-# 1. Worktree entfernen
+# 1. Remove the worktree
 git worktree remove .worktrees/task-001
 
-# 2. Lokalen Branch löschen
+# 2. Delete the local branch
 git branch -d feature/task-001-desc
 
-# 3. Remote-Branch löschen (optional, meist via PR erledigt)
+# 3. Delete the remote branch (optional, typically handled via PR)
 git push origin --delete feature/task-001-desc
 ```
 
-## Submodule-Probleme
+## Submodule Issues
 
-### Submodule nicht initialisiert im Worktree
+### Submodule Not Initialized in Worktree
 
 **Symptom**:
+
 ```
 ❌ Submodule path 'libs/shared' not initialized
 ```
 
-**Lösung**:
+**Solution**:
+
 ```bash
 cd .worktrees/task-001
 git submodule update --init --recursive
 ```
 
-### Branch-Konflikt in Submodul
+### Branch Conflict in Submodule
 
 **Symptom**:
+
 ```
 ❌ fatal: A branch named 'feature/task-001-...' already exists in submodule
 ```
 
-**Lösungen**:
+**Solutions**:
 
-1. **Existierenden Branch verwenden**:
+1. **Use the existing branch**:
+
    ```bash
    cd .worktrees/task-001/libs/shared
    git checkout feature/task-001-desc
    ```
 
-2. **Branch in Submodul löschen und neu erstellen**:
+2. **Delete and recreate the branch in the submodule**:
    ```bash
    cd .worktrees/task-001/libs/shared
    git branch -D feature/task-001-desc
    git checkout -b feature/task-001-desc origin/main
    ```
 
-### Submodule-Status prüfen
+### Verify Submodule Status
 
-**Diagnose**:
+**Diagnosis**:
+
 ```bash
 cd .worktrees/task-001
 
-# Alle Submodule und deren Branches anzeigen
+# Display all submodules and their branches
 git submodule foreach --recursive 'echo "=== $name ===" && git branch --show-current'
 
-# Submodule-Status
+# Submodule status
 git submodule status --recursive
 ```
 
-### Submodule-Branches nach Merge aufräumen
+### Clean Up Submodule Branches After Merge
 
-**Nach erfolgreichem PR-Merge**:
+**After successful PR merge**:
+
 ```bash
-# Vom Worktree aus
+# From within the worktree
 cd .worktrees/task-001
 
-# Alle Submodule auf main zurücksetzen und Branches löschen
+# Reset all submodules to main and delete branches
 git submodule foreach --recursive '
   git checkout main
   git pull origin main
@@ -199,119 +218,132 @@ git submodule foreach --recursive '
 '
 ```
 
-### Submodule zeigt "detached HEAD"
+### Submodule Shows "detached HEAD"
 
 **Symptom**:
+
 ```
 HEAD detached at abc1234
 ```
 
-**Ursache**: Submodul wurde nicht auf Branch ausgecheckt
+**Cause**: Submodule was not checked out to a branch
 
-**Lösung**:
+**Solution**:
+
 ```bash
 cd .worktrees/task-001/libs/shared
 git checkout -b feature/task-001-desc
-# oder falls Branch existiert:
+# Or if the branch exists:
 git checkout feature/task-001-desc
 ```
 
-## Branch-Probleme
+## Branch Issues
 
-### Branch existiert bereits
+### Branch Already Exists
 
 **Symptom**:
+
 ```
 ⚠️ Branch feature/proj-123-... already exists
 ```
 
-**Lösungen**:
+**Solutions**:
 
-1. **Existierenden Worktree mit diesem Branch finden**:
+1. **Locate the existing worktree using this branch**:
+
    ```bash
    git worktree list | grep "feature/proj-123"
    ```
 
-2. **Branch löschen und neu erstellen** (falls kein Worktree):
+2. **Delete and recreate the branch** (if no worktree exists):
+
    ```bash
    git branch -D feature/proj-123-user-auth
    git worktree add -b feature/proj-123-user-auth .worktrees/task-proj-123 origin/main
    ```
 
-3. **Anderen Task wählen**
+3. **Select a different task**
 
-### Working Directory nicht sauber
+### Working Directory Not Clean
 
 **Symptom**:
+
 ```
 ❌ Error: Working directory not clean
 ```
 
-**Lösungen**:
+**Solutions**:
 
 ```bash
-# Option 1: Committen
+# Option 1: Commit changes
 /commit
 
-# Option 2: Stashen
+# Option 2: Stash changes
 git stash save "WIP before implementing task"
 
-# Option 3: Verwerfen (Vorsicht!)
+# Option 3: Discard changes (use with caution)
 git reset --hard HEAD
 ```
 
-> 💡 **Hinweis**: Bei Worktrees ist das Hauptrepo oft sauber, da Änderungen im Worktree isoliert sind.
+> **Note**: When using worktrees, the main repository is typically clean since changes are isolated within the worktree.
 
-### Remote nicht up-to-date
+### Remote Not Up-to-Date
 
 **Symptom**:
+
 ```
 ⚠️ Local branch is behind remote
 ```
 
-**Lösung**:
+**Solution**:
+
 ```bash
 git fetch origin
 git pull --rebase origin main
 ```
 
-## Status-Update Probleme
+## Status Update Issues
 
-### Filesystem: Status-Update schlägt fehl
+### Filesystem: Status Update Fails
 
 **Symptom**:
+
 ```
 ❌ Could not update task status
 Old string not found: "- **Status**: pending"
 ```
 
-**Ursache**: Format in Task-Datei weicht ab
+**Cause**: Format in task file deviates from expected format
 
-**Lösung**: Task-Datei manuell korrigieren:
+**Solution**: Manually correct the task file:
+
 ```markdown
 - **Status**: pending
 ```
 
-### Linear: MCP Server nicht verfügbar
+### Linear: MCP Server Unavailable
 
 **Symptom**:
+
 ```
 ❌ Linear MCP server not available
 ```
 
-**Diagnose**:
+**Diagnosis**:
+
 ```bash
-# MCP-Konfiguration prüfen
+# Verify MCP configuration
 cat ~/.config/claude/mcp_config.json
 
-# API Key testen
+# Test API key
 echo $LINEAR_API_KEY
 curl -H "Authorization: Bearer $LINEAR_API_KEY" \
   https://api.linear.app/graphql \
   -d '{"query":"{ viewer { id } }"}'
 ```
 
-**Lösung**: MCP-Konfiguration erstellen:
+**Solution**: Create MCP configuration:
+
 ```json
 {
   "mcpServers": {
@@ -324,132 +356,141 @@ curl -H "Authorization: Bearer $LINEAR_API_KEY" \
 }
 ```
 
-### Linear: API Key ungültig
+### Linear: Invalid API Key
 
 **Symptom**:
+
 ```
 ❌ Error 401: Unauthorized
 ```
 
-**Lösung**:
-1. Neuen Key generieren: https://linear.app → Settings → API
-2. In `~/.env` aktualisieren:
+**Solution**:
+
+1. Generate a new key: https://linear.app → Settings → API
+2. Update in `~/.env`:
    ```bash
    export LINEAR_API_KEY="lin_api_NEW_KEY"
    source ~/.env
    ```
 
-## PR-Erstellung Probleme
+## PR Creation Issues
 
-### GitHub CLI nicht authentifiziert
+### GitHub CLI Not Authenticated
 
 **Symptom**:
+
 ```
 ❌ gh: Not authenticated
 ```
 
-**Lösung**:
+**Solution**:
+
 ```bash
 gh auth login
-# Folge dem Browser-Login
-gh auth status  # Verifizieren
+# Follow the browser login flow
+gh auth status  # Verify
 ```
 
-### Keine Commits für PR
+### No Commits for PR
 
 **Symptom**:
+
 ```
 ❌ No commits between main and feature-branch
 ```
 
-**Lösung**:
+**Solution**:
+
 ```bash
-# Änderungen committen
+# Commit changes
 git add .
 git commit -m "✨ feat: Implement feature"
 
-# Dann PR erstellen
+# Then create PR
 /create-pr
 ```
 
-## Finalisierung Probleme
+## Finalization Issues
 
-### Task bleibt in_progress nach PR
+### Task Remains in_progress After PR
 
-**Symptom**: Task-Status ist noch `in_progress` obwohl PR erstellt
+**Symptom**: Task status remains `in_progress` despite PR creation
 
-**Lösung**:
+**Solution**:
 
 **Filesystem**:
-```bash
-# Task-Status manuell setzen
-# Edit: - **Status**: completed
-# Edit: - **Updated**: <heute>
 
-# STATUS.md regenerieren
+```bash
+# Manually set task status
+# Edit: - **Status**: completed
+# Edit: - **Updated**: <today>
+
+# Regenerate STATUS.md
 git add .plans/*/tasks/*.md .plans/*/STATUS.md
 git commit -m "✅ chore: Mark task as completed"
 ```
 
 **Linear**:
+
 ```bash
-# Issue-Status in Linear auf "In Review" oder "Done" setzen
+# Set issue status in Linear to "In Review" or "Done"
 ```
 
-## Performance-Probleme
+## Performance Issues
 
-### Command hängt
+### Command Hangs
 
-**Symptom**: Keine Ausgabe für >5 Minuten
+**Symptom**: No output for >5 minutes
 
-**Lösungen**:
-1. `Ctrl+C` zum Abbrechen
-2. Rate Limit prüfen (Linear: 1200 req/hour)
-3. Neu starten mit Debug: `export DEBUG=*`
+**Solutions**:
 
-### Suche zu langsam (Filesystem)
+1. `Ctrl+C` to abort
+2. Check rate limit (Linear: 1,200 requests/hour)
+3. Restart with debug logging: `export DEBUG=*`
 
-**Symptom**: Task-Suche dauert >5 Sekunden
+### Search Too Slow (Filesystem)
 
-**Lösung**: Plan-Kontext angeben
+**Symptom**: Task search takes >5 seconds
+
+**Solution**: Specify plan context
+
 ```bash
-# Statt
+# Instead of
 /implement-task task-001
 
-# Besser
+# Use
 /implement-task --plan dark-mode task-001
 ```
 
-## Quick Reference: Worktree-Befehle
+## Quick Reference: Worktree Commands
 
 ```bash
-# === WORKTREE ERSTELLEN ===
+# === CREATE WORKTREE ===
 mkdir -p .worktrees
 git worktree add -b feature/task-001-desc .worktrees/task-001 origin/main
 cd .worktrees/task-001
 
-# === SUBMODULE INITIALISIEREN ===
+# === INITIALIZE SUBMODULES ===
 git submodule update --init --recursive
 git submodule foreach --recursive 'git checkout -b feature/task-001-desc origin/main'
 
-# === WORKTREE AUFLISTEN ===
+# === LIST WORKTREES ===
 git worktree list
 
-# === WORKTREE ENTFERNEN ===
+# === REMOVE WORKTREE ===
 git worktree remove .worktrees/task-001
 git branch -d feature/task-001-desc
 
-# === VERWAISTE WORKTREES BEREINIGEN ===
+# === CLEAN UP ORPHANED WORKTREES ===
 git worktree prune
 
-# === SUBMODULE-STATUS ===
+# === SUBMODULE STATUS ===
 git submodule foreach --recursive 'echo "=== $name ===" && git branch --show-current'
 ```
 
-## Siehe auch
+## See Also
 
-- [workflow.md](./workflow.md) - Detaillierter Workflow
-- [best-practices.md](./best-practices.md) - Best Practices
-- [filesystem.md](./filesystem.md) - Filesystem-spezifisch
-- [linear.md](./linear.md) - Linear-spezifisch
-
+- [workflow.md](./workflow.md) - Detailed workflow documentation
+- [best-practices.md](./best-practices.md) - Best practices
+- [filesystem.md](./filesystem.md) - Filesystem-specific guidance
+- [linear.md](./linear.md) - Linear-specific guidance

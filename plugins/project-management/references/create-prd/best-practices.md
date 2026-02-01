@@ -1,538 +1,541 @@
 # PRD Best Practices
 
-Ein Product Requirements Document (PRD) ist ein kritisches Dokument im Produktentwicklungsprozess. Hier sind die Best Practices für erstklassige PRDs.
+A Product Requirements Document (PRD) is a critical document in the product development process. The following best practices ensure the creation of high-quality PRDs.
 
-## Grundprinzipien
+## Fundamental Principles
 
-### 1. Nutzerzentriert, nicht lösungszentriert
+### 1. User-Centric, Not Solution-Centric
 
-**DO ✅**:
+**DO:**
 
 ```markdown
-## Problemstellung
+## Problem Statement
 
-Benutzer können ihre monatlichen Ausgaben nicht effektiv nachverfolgen,
-was zu Budgetüberschreitungen und finanzieller Unsicherheit führt.
+Users cannot effectively track their monthly expenses, resulting in budget overruns and financial uncertainty.
 
-Nutzerfeedback:
-- "Ich weiß nie, wofür ich mein Geld ausgegeben habe"
-- "Am Ende des Monats ist immer zu wenig übrig"
-- "Ich brauche einen besseren Überblick"
+User Feedback:
+
+- "I never know where my money went"
+- "There is always too little left at the end of the month"
+- "I need a better overview"
 ```
 
-**DON'T ❌**:
+**DON'T:**
 
 ```markdown
-## Lösung
+## Solution
 
-Wir implementieren ein Dashboard mit React und PostgreSQL,
-das Transaktionen trackt.
+We will implement a dashboard with React and PostgreSQL that tracks transactions.
 ```
 
-**Warum?**: PRDs fokussieren auf das WARUM (Problem) und WAS (Anforderungen), nicht auf das WIE (Implementierung).
+**Rationale**: PRDs focus on the WHY (problem) and WHAT (requirements), not on the HOW (implementation).
 
-### 2. Messbare Ziele
+### 2. Measurable Objectives
 
-**DO ✅**:
+**DO:**
 
 ```markdown
-## Ziele
+## Objectives
 
-1. **Benutzer-Engagement**:
-   - 70% der Nutzer verwenden das Feature mindestens 3x/Woche
-   - Durchschnittliche Session-Dauer: 5+ Minuten
+1. **User Engagement**:
+   - 70% of users utilize the feature at least 3x/week
+   - Average session duration: 5+ minutes
 
 2. **Business Impact**:
-   - 20% Reduktion in Support-Tickets zu "Transaktionen finden"
-   - 15% Erhöhung der User-Retention nach 3 Monaten
+   - 20% reduction in support tickets related to "finding transactions"
+   - 15% increase in user retention after 3 months
 
 3. **Technical Performance**:
-   - Feature lädt in < 2 Sekunden
-   - 99.9% Uptime
+   - Feature loads in < 2 seconds
+   - 99.9% uptime
 ```
 
-**DON'T ❌**:
+**DON'T:**
 
 ```markdown
-## Ziele
+## Objectives
 
-- Benutzer sollen glücklicher sein
-- Mehr Engagement
-- Bessere Performance
+- Users should be happier
+- More engagement
+- Better performance
 ```
 
-### 3. Klare Abgrenzung (Out of Scope)
+### 3. Clear Delimitation (Out of Scope)
 
-**DO ✅**:
+**DO:**
 
 ```markdown
-## Abgrenzung (Out of Scope)
+## Delimitation (Out of Scope)
 
-Diese PRD deckt **NICHT** ab:
+This PRD does **NOT** cover:
 
-- ❌ Budgetierungs-Features (separate PRD in Q2)
-- ❌ Multi-Währungs-Support (erst in v2)
-- ❌ Export zu Steuer-Software (Future Consideration)
-- ❌ Automatische Kategorisierung via ML (Tech Debt)
+- Budgeting features (separate PRD in Q2)
+- Multi-currency support (deferred to v2)
+- Export to tax software (future consideration)
+- Automatic categorization via ML (technical debt)
 
-**Warum**: Fokus auf Core-Feature für Initial Launch.
-MVP-Ansatz mit schnellem User Feedback.
+**Rationale**: Focus on core feature for initial launch. MVP approach with rapid user feedback.
 ```
 
-**DON'T ❌**:
+**DON'T:**
 
 ```markdown
-Alles andere kommt später.
+Everything else comes later.
 ```
 
-### 4. User Stories mit Kontext
+### 4. User Stories with Context
 
-**DO ✅**:
+**DO:**
 
 ```markdown
 ## User Stories
 
-### US-1: Schneller Ausgaben-Überblick (Must-Have)
+### US-1: Quick Expense Overview (Must-Have)
 
-**Als** Sarah (Freelancerin, 28, Budget-bewusst)
-**Möchte ich** auf einen Blick meine Ausgaben der letzten 30 Tage sehen
-**Damit** ich rechtzeitig reagieren kann, bevor ich mein Budget überziehe
+**As** Sarah (freelancer, 28, budget-conscious)
+**I want to** see my expenses for the last 30 days at a glance
+**So that** I can react in time before exceeding my budget
 
-**Akzeptanzkriterien**:
-- [ ] Dashboard zeigt Gesamt-Ausgaben für 7/30/90 Tage
-- [ ] Visueller Vergleich zum Vormonat (±%)
-- [ ] Top 3 Ausgaben-Kategorien prominent angezeigt
-- [ ] Lädt in < 2 Sekunden
+**Acceptance Criteria**:
 
-**Kontext**:
-- 60% unserer Nutzer sind Freelancer mit unregelmäßigem Einkommen
-- User Research zeigt: "Monatlicher Überblick" #1 Request
+- [ ] Dashboard displays total expenses for 7/30/90 days
+- [ ] Visual comparison with previous month (±%)
+- [ ] Top 3 expense categories prominently displayed
+- [ ] Loads in < 2 seconds
+
+**Context**:
+
+- 60% of our users are freelancers with irregular income
+- User research indicates: "Monthly overview" is the #1 request
 - Mockup: Link to Figma
 ```
 
-**DON'T ❌**:
+**DON'T:**
 
 ```markdown
 ## User Stories
 
-Als Nutzer möchte ich Ausgaben sehen.
+As a user I want to see expenses.
 ```
 
-## PRD-Struktur Best Practices
+## PRD Structure Best Practices
 
 ### Executive Summary
 
-**Länge**: 3-5 Sätze, maximal 1 Absatz
+**Length**: 3-5 sentences, maximum 1 paragraph
 
-**Inhalt**:
-- Was wird gebaut?
-- Für wen?
-- Warum ist es wichtig?
-- Erwarteter Impact
+**Content**:
 
-**Beispiel**:
+- What is being built?
+- For whom?
+- Why is it important?
+- Expected impact
+
+**Example**:
 
 ```markdown
 ## Executive Summary
 
-Dieses PRD beschreibt ein Ausgaben-Dashboard für FinanceApp,
-das Benutzern einen sofortigen Überblick über ihre monatlichen
-Ausgaben gibt. Primäre Zielgruppe sind Freelancer und
-Budget-bewusste Nutzer (60% unserer Nutzerbasis). Feature
-soll Engagement um 20% steigern und Support-Last um 15%
-reduzieren. Geschätzte Entwicklungszeit: 4 Wochen, Launch Q2.
+This PRD describes an expense dashboard for FinanceApp that provides users with an immediate overview of their monthly expenses. The primary target audience consists of freelancers and budget-conscious users (60% of our user base). The feature is intended to increase engagement by 20% and reduce support load by 15%. Estimated development time: 4 weeks, launch Q2.
 ```
 
-### Problemstellung
+### Problem Statement
 
-**Struktur**:
-1. **Aktueller Zustand**: Was ist das Problem?
-2. **Auswirkungen**: Wen betrifft es? Wie stark?
-3. **Evidenz**: Daten, Feedback, Metrics
-4. **Opportunität**: Warum jetzt lösen?
+**Structure**:
 
-**Beispiel**:
+1. **Current State**: What is the problem?
+2. **Impact**: Who is affected? To what extent?
+3. **Evidence**: Data, feedback, metrics
+4. **Opportunity**: Why address it now?
+
+**Example**:
 
 ```markdown
-## Problemstellung
+## Problem Statement
 
-### Aktueller Zustand
+### Current State
 
-Nutzer haben keinen schnellen Überblick über ihre Ausgaben.
-Sie müssen durch Transaktionslisten scrollen und manuell
-rechnen, um zu verstehen, wo ihr Geld hingeht.
+Users lack a quick overview of their expenses. They must scroll through transaction lists and calculate manually to understand where their money is going.
 
-### Auswirkungen
+### Impact
 
-- **Nutzer-Frustration**: 45% geben in Umfragen "unübersichtlich" an
-- **Support-Last**: 120 Tickets/Monat zu "Ausgaben finden"
-- **Churn-Risiko**: 25% der abgewanderten Nutzer nennen
-  "fehlende Übersicht" als Grund
+- **User Frustration**: 45% indicate "unclear" in surveys
+- **Support Load**: 120 tickets/month related to "finding expenses"
+- **Churn Risk**: 25% of churned users cite "lack of overview" as the reason
 
-### Evidenz
+### Evidence
 
-- User Interviews (n=50): 92% wünschen Dashboard
-- Analytics: Nur 15% der Nutzer entdecken Report-Feature
-- Competitor Analysis: Alle Top-3-Wettbewerber haben Dashboard
+- User Interviews (n=50): 92% desire a dashboard
+- Analytics: Only 15% of users discover the report feature
+- Competitor Analysis: All top 3 competitors have dashboards
 
-### Opportunität
+### Opportunity
 
-Mit bevorstehendem Marketing-Push (Q2) ist jetzt der ideale
-Zeitpunkt, um Retention durch bessere UX zu verbessern.
+With the upcoming marketing push (Q2), now is the ideal time to improve retention through better UX.
 ```
 
-### Funktionale Anforderungen
+### Functional Requirements
 
-**Priorisierung**: Must-Have, Should-Have, Nice-to-Have
+**Prioritization**: Must-Have, Should-Have, Nice-to-Have
 
-**Format**: User-orientiert, nicht technisch
+**Format**: User-oriented, not technical
 
-**Beispiel**:
+**Example**:
 
 ```markdown
-## Funktionale Anforderungen
+## Functional Requirements
 
 ### Must-Have (MVP)
 
-#### FR-1: Ausgaben-Übersicht
+#### FR-1: Expense Overview
 
-**Beschreibung**: Dashboard zeigt aggregierte Ausgaben für
-gewählten Zeitraum.
-
-**Details**:
-- Zeiträume: 7 Tage, 30 Tage, 90 Tage (Tabs)
-- Anzeige: Gesamtbetrag + Vergleich zum Vorperiode
-- Visuell: Trend-Grafik (Line Chart)
-- Ladezeit: < 2 Sekunden
-
-**Akzeptanzkriterien**:
-- [ ] Nutzer kann Zeitraum wählen
-- [ ] Gesamtbetrag wird korrekt berechnet
-- [ ] Trend-Grafik zeigt tägliche Summen
-- [ ] Funktioniert auf Mobile und Desktop
-
-**Abhängigkeiten**:
-- Transaktionsdaten-API (bereits vorhanden)
-- Design System Components
-
-#### FR-2: Kategorien-Breakdown
-
-**Beschreibung**: Top-Kategorien mit Prozentwerten anzeigen
+**Description**: Dashboard displays aggregated expenses for the selected time period.
 
 **Details**:
-- Zeige Top 5 Ausgaben-Kategorien
-- Prozent vom Gesamtbetrag
-- Klickbar für Details (Link zu Transaktionen)
 
-**Akzeptanzkriterien**:
-- [ ] Kategorien sortiert nach Höhe
-- [ ] Prozente summieren sich zu 100%
-- [ ] Link führt zu gefilterten Transaktionen
+- Time periods: 7 days, 30 days, 90 days (tabs)
+- Display: Total amount + comparison to previous period
+- Visual: Trend graph (line chart)
+- Load time: < 2 seconds
+
+**Acceptance Criteria**:
+
+- [ ] User can select time period
+- [ ] Total amount is calculated correctly
+- [ ] Trend graph shows daily totals
+- [ ] Functions on mobile and desktop
+
+**Dependencies**:
+
+- Transaction data API (already available)
+- Design system components
+
+#### FR-2: Category Breakdown
+
+**Description**: Display top categories with percentage values
+
+**Details**:
+
+- Show top 5 expense categories
+- Percentage of total amount
+- Clickable for details (link to transactions)
+
+**Acceptance Criteria**:
+
+- [ ] Categories sorted by amount
+- [ ] Percentages sum to 100%
+- [ ] Link navigates to filtered transactions
 
 ### Should-Have (Post-MVP)
 
-#### FR-3: Budget-Warnungen
+#### FR-3: Budget Warnings
 
-**Beschreibung**: Visuelle Warnung bei Budgetüberschreitung
+**Description**: Visual warning upon budget exceedance
 
 **Details**:
-- Wenn Ausgaben > 80% des Monatsbudgets: Warnung
-- Wenn Ausgaben > 100%: Kritische Warnung
-- Konfigurierbar in Settings
 
-**Rationale**: Hohe Nachfrage in User Research (65%),
-aber nicht kritisch für Launch.
+- When expenses > 80% of monthly budget: Warning
+- When expenses > 100%: Critical warning
+- Configurable in settings
+
+**Rationale**: High demand in user research (65%), but not critical for launch.
 
 ### Nice-to-Have (Future Consideration)
 
-#### FR-4: Export als PDF
+#### FR-4: Export as PDF
 
-**Beschreibung**: Dashboard als PDF exportieren
+**Description**: Export dashboard as PDF
 
-**Rationale**: Geringer User-Request (12%), hoher Aufwand.
-Evaluieren nach Launch basierend auf Feedback.
+**Rationale**: Low user request (12%), high effort. Evaluate after launch based on feedback.
 ```
 
-### Nicht-funktionale Anforderungen
+### Non-Functional Requirements
 
-**Kategorien**: Performance, Security, Usability, Accessibility
+**Categories**: Performance, Security, Usability, Accessibility
 
-**Beispiel**:
+**Example**:
 
 ```markdown
-## Nicht-funktionale Anforderungen
+## Non-Functional Requirements
 
 ### Performance
 
-- **NFR-1**: Dashboard lädt in < 2s (p95)
-- **NFR-2**: API-Response < 500ms
-- **NFR-3**: Funktioniert mit 100k+ Transaktionen
+- **NFR-1**: Dashboard loads in < 2s (p95)
+- **NFR-2**: API response < 500ms
+- **NFR-3**: Functions with 100k+ transactions
 
-**Messung**:
+**Measurement**:
+
 - Lighthouse Performance Score > 90
-- Real User Monitoring (RUM) Setup
+- Real User Monitoring (RUM) setup
 
 ### Security
 
-- **NFR-4**: Sensible Finanzdaten verschlüsselt (AES-256)
-- **NFR-5**: GDPR-konform (Daten-Minimierung)
-- **NFR-6**: Audit-Log für Datenzugriffe
+- **NFR-4**: Sensitive financial data encrypted (AES-256)
+- **NFR-5**: GDPR-compliant (data minimization)
+- **NFR-6**: Audit log for data access
 
 ### Usability
 
-- **NFR-7**: Mobile-First Design (60% Mobile-Traffic)
-- **NFR-8**: Intuitive Nutzung ohne Onboarding
-- **NFR-9**: Error States klar kommuniziert
+- **NFR-7**: Mobile-first design (60% mobile traffic)
+- **NFR-8**: Intuitive use without onboarding
+- **NFR-9**: Error states clearly communicated
 
-**Validierung**: Usability-Testing mit 10 Nutzern
+**Validation**: Usability testing with 10 users
 
 ### Accessibility
 
-- **NFR-10**: WCAG 2.1 Level AA konform
-- **NFR-11**: Screen-Reader kompatibel
-- **NFR-12**: Keyboard-Navigation vollständig
+- **NFR-10**: WCAG 2.1 Level AA compliant
+- **NFR-11**: Screen reader compatible
+- **NFR-12**: Full keyboard navigation
 
 **Tools**:
+
 - Lighthouse Accessibility Audit
 - axe DevTools
-- Screen Reader Testing (NVDA, VoiceOver)
+- Screen reader testing (NVDA, VoiceOver)
 ```
 
-## Erfolgsmetriken
+## Success Metrics
 
 ### SMART Metrics
 
-**Spezifisch, Messbar, Erreichbar, Relevant, Zeitgebunden**
+**Specific, Measurable, Achievable, Relevant, Time-bound**
 
-**DO ✅**:
+**DO:**
 
 ```markdown
-## Erfolgsmetriken
+## Success Metrics
 
-### Primäre Metriken (Launch + 4 Wochen)
+### Primary Metrics (Launch + 4 Weeks)
 
-1. **Feature-Adoption**
-   - **Metrik**: % der aktiven Nutzer, die Dashboard besuchen
-   - **Ziel**: 60% innerhalb 4 Wochen nach Launch
-   - **Baseline**: N/A (neues Feature)
-   - **Messung**: Analytics Event "dashboard_viewed"
+1. **Feature Adoption**
+   - **Metric**: % of active users visiting dashboard
+   - **Target**: 60% within 4 weeks of launch
+   - **Baseline**: N/A (new feature)
+   - **Measurement**: Analytics event "dashboard_viewed"
 
 2. **Engagement**
-   - **Metrik**: Durchschnittliche Besuche pro Woche
-   - **Ziel**: 3+ Besuche/Woche pro aktiven Nutzer
+   - **Metric**: Average visits per week
+   - **Target**: 3+ visits/week per active user
    - **Baseline**: N/A
-   - **Messung**: Analytics, tracked weekly
+   - **Measurement**: Analytics, tracked weekly
 
 3. **User Satisfaction**
-   - **Metrik**: NPS Score für Dashboard
-   - **Ziel**: NPS > 40
+   - **Metric**: NPS Score for dashboard
+   - **Target**: NPS > 40
    - **Baseline**: Overall App NPS = 35
-   - **Messung**: In-App Survey (n > 100)
+   - **Measurement**: In-app survey (n > 100)
 
-### Sekundäre Metriken (Launch + 8 Wochen)
+### Secondary Metrics (Launch + 8 Weeks)
 
 4. **Support Impact**
-   - **Metrik**: Tickets zu "Ausgaben finden"
-   - **Ziel**: -20% Reduktion
-   - **Baseline**: 120 Tickets/Monat
-   - **Messung**: Support Ticket Tags
+   - **Metric**: Tickets related to "finding expenses"
+   - **Target**: -20% reduction
+   - **Baseline**: 120 tickets/month
+   - **Measurement**: Support ticket tags
 
 5. **Retention**
-   - **Metrik**: 90-Tage User Retention
-   - **Ziel**: +5% Verbesserung
+   - **Metric**: 90-day user retention
+   - **Target**: +5% improvement
    - **Baseline**: 68% retention
-   - **Messung**: Cohort Analysis
+   - **Measurement**: Cohort analysis
 
-### Tracking-Plan
+### Tracking Plan
 
-| Metrik | Tool | Frequenz | Owner |
-|--------|------|----------|-------|
-| Dashboard Views | Mixpanel | Daily | PM |
-| Session Duration | Google Analytics | Weekly | PM |
-| NPS Survey | In-App | 2 weeks post-launch | UX |
-| Support Tickets | Zendesk | Weekly | Support Lead |
+| Metric           | Tool             | Frequency           | Owner        |
+| ---------------- | ---------------- | ------------------- | ------------ |
+| Dashboard Views  | Mixpanel         | Daily               | PM           |
+| Session Duration | Google Analytics | Weekly              | PM           |
+| NPS Survey       | In-App           | 2 weeks post-launch | UX           |
+| Support Tickets  | Zendesk          | Weekly              | Support Lead |
 ```
 
-**DON'T ❌**:
+**DON'T:**
 
 ```markdown
-## Erfolgsmetriken
+## Success Metrics
 
-- Nutzer sind zufriedener
-- Feature wird verwendet
-- Support-Tickets reduzieren sich
+- Users are more satisfied
+- Feature is used
+- Support tickets decrease
 ```
 
-## Risikobewertung
+## Risk Assessment
 
-**Format**: Risiko → Impact → Likelihood → Mitigation
+**Format**: Risk - Impact - Likelihood - Mitigation
 
-**Beispiel**:
+**Example**:
 
 ```markdown
-## Risikobewertung
+## Risk Assessment
 
-### Hohe Priorität (Kritisch)
+### High Priority (Critical)
 
-#### R-1: Performance bei großen Datenmengen
+#### R-1: Performance with Large Data Volumes
 
-- **Risiko**: Dashboard langsam bei Nutzern mit 50k+ Transaktionen
-- **Impact**: Hoch (betrifft 15% Power-User)
-- **Likelihood**: Mittel (nicht in allen Tests reproduziert)
+- **Risk**: Dashboard slow for users with 50k+ transactions
+- **Impact**: High (affects 15% power users)
+- **Likelihood**: Medium (not reproduced in all tests)
 - **Mitigation**:
-  - Backend-Caching implementieren
-  - Progressive Loading für große Datensätze
-  - Performance-Tests mit Produktionsdaten
-  - Fallback: Pagination bei > 10k Transaktionen
+  - Implement backend caching
+  - Progressive loading for large datasets
+  - Performance tests with production data
+  - Fallback: Pagination for > 10k transactions
 
-#### R-2: Datenschutz-Bedenken
+#### R-2: Privacy Concerns
 
-- **Risiko**: Nutzer besorgt über Dashboard-Daten-Speicherung
-- **Impact**: Hoch (kann zu Churn führen)
-- **Likelihood**: Niedrig (basierend auf bestehenden Features)
+- **Risk**: Users concerned about dashboard data storage
+- **Impact**: High (can lead to churn)
+- **Likelihood**: Low (based on existing features)
 - **Mitigation**:
-  - Transparente Privacy-Notice
-  - Opt-Out Option
-  - GDPR-Review vor Launch
-  - Clear Kommunikation: "Keine neue Datenspeicherung"
+  - Transparent privacy notice
+  - Opt-out option
+  - GDPR review before launch
+  - Clear communication: "No new data storage"
 
-### Mittlere Priorität
+### Medium Priority
 
-#### R-3: Kategorisierung-Genauigkeit
+#### R-3: Categorization Accuracy
 
-- **Risiko**: Auto-Kategorisierung falsch → Dashboard ungenau
-- **Impact**: Mittel (Nutzer können manuell korrigieren)
-- **Likelihood**: Mittel (bekannte Limitierung)
+- **Risk**: Auto-categorization incorrect - dashboard inaccurate
+- **Impact**: Medium (users can correct manually)
+- **Likelihood**: Medium (known limitation)
 - **Mitigation**:
-  - ML-Modell-Training verbessern (pre-launch)
-  - Einfache Re-Kategorisierung im UI
-  - User Feedback Loop für Training
+  - Improve ML model training (pre-launch)
+  - Simple re-categorization in UI
+  - User feedback loop for training
 
-### Niedrige Priorität
+### Low Priority
 
-#### R-4: Browser-Kompatibilität
+#### R-4: Browser Compatibility
 
-- **Risiko**: Chart-Library funktioniert nicht in IE11
-- **Impact**: Niedrig (< 2% IE11 Nutzer)
-- **Likelihood**: Hoch
+- **Risk**: Chart library does not work in IE11
+- **Impact**: Low (< 2% IE11 users)
+- **Likelihood**: High
 - **Mitigation**:
   - Polyfills
-  - Graceful Degradation (Tabelle statt Chart)
-  - Sunset IE11 Support Q3
+  - Graceful degradation (table instead of chart)
+  - Sunset IE11 support Q3
 ```
 
-## Stakeholder-Management
+## Stakeholder Management
 
 ### Approvals Matrix
 
 ```markdown
-## Stakeholder & Approvals
+## Stakeholders & Approvals
 
-| Rolle | Name | Verantwortung | Approval Required |
-|-------|------|---------------|-------------------|
-| Product Owner | Sarah Chen | Final PRD Approval | ✅ Must |
-| Engineering Lead | Mike Johnson | Technical Feasibility | ✅ Must |
-| Design Lead | Anna Schmidt | UX/UI Alignment | ✅ Must |
-| Data/Analytics | Tom Williams | Metrics Definition | ✅ Must |
-| Legal/Compliance | Legal Team | GDPR Review | ✅ Must |
-| Marketing | Jane Doe | Go-to-Market | ℹ️ Informed |
-| Support Lead | Chris Brown | Support Readiness | ℹ️ Informed |
+| Role             | Name         | Responsibility        | Approval Required |
+| ---------------- | ------------ | --------------------- | ----------------- |
+| Product Owner    | Sarah Chen   | Final PRD approval    | Must              |
+| Engineering Lead | Mike Johnson | Technical feasibility | Must              |
+| Design Lead      | Anna Schmidt | UX/UI alignment       | Must              |
+| Data/Analytics   | Tom Williams | Metrics definition    | Must              |
+| Legal/Compliance | Legal Team   | GDPR review           | Must              |
+| Marketing        | Jane Doe     | Go-to-market          | Informed          |
+| Support Lead     | Chris Brown  | Support readiness     | Informed          |
 
 **Approval Timeline**:
+
 - Draft PRD: 2024-11-01
-- Review Period: 5 business days
-- Final Approval: 2024-11-08
+- Review period: 5 business days
+- Final approval: 2024-11-08
 - Kickoff: 2024-11-11
 ```
 
-## Versionierung & Updates
+## Versioning & Updates
 
-**Best Practice**: PRD ist lebendiges Dokument
-
-```markdown
-## Änderungshistorie
-
-| Version | Datum | Autor | Änderungen |
-|---------|-------|-------|-----------|
-| 1.0 | 2024-10-30 | Sarah Chen | Initial Draft |
-| 1.1 | 2024-11-02 | Sarah Chen | Added NFR-10 (Accessibility) based on Legal Review |
-| 1.2 | 2024-11-05 | Sarah Chen | Reduced Scope: Moved Budget-Warnings to Should-Have |
-| 2.0 | 2024-11-08 | Sarah Chen | Final Approved Version |
-
-## Status: ✅ APPROVED (2024-11-08)
-```
-
-## Häufige Fehler vermeiden
-
-### ❌ Zu technisch
+**Best Practice**: PRD is a living document
 
 ```markdown
-BAD: "Implementiere Redis-Caching mit TTL von 3600s"
-GOOD: "Dashboard-Daten werden gecacht für schnelle Ladezeit"
+## Change History
+
+| Version | Date       | Author     | Changes                                             |
+| ------- | ---------- | ---------- | --------------------------------------------------- |
+| 1.0     | 2024-10-30 | Sarah Chen | Initial draft                                       |
+| 1.1     | 2024-11-02 | Sarah Chen | Added NFR-10 (Accessibility) based on legal review  |
+| 1.2     | 2024-11-05 | Sarah Chen | Reduced scope: Moved budget warnings to Should-Have |
+| 2.0     | 2024-11-08 | Sarah Chen | Final approved version                              |
+
+## Status: APPROVED (2024-11-08)
 ```
 
-### ❌ Zu vage
+## Common Mistakes to Avoid
+
+### Too Technical
 
 ```markdown
-BAD: "Nutzer sollen Ausgaben sehen können"
-GOOD: "Nutzer sehen aggregierte Ausgaben für 7/30/90 Tage
-       mit Trend-Grafik und Top-5-Kategorien"
+BAD: "Implement Redis caching with TTL of 3600s"
+GOOD: "Dashboard data is cached for fast load time"
 ```
 
-### ❌ Fehlende Priorisierung
+### Too Vague
 
 ```markdown
-BAD: Alle Features sind "wichtig"
-GOOD: Klare Must/Should/Nice-to-Have Einteilung mit Rationale
+BAD: "Users should be able to see expenses"
+GOOD: "Users see aggregated expenses for 7/30/90 days
+with trend graph and top 5 categories"
 ```
 
-### ❌ Keine Metrics
+### Missing Prioritization
 
 ```markdown
-BAD: "Feature wird erfolgreich sein"
-GOOD: "Erfolg gemessen an 60% Adoption in 4 Wochen"
+BAD: All features are "important"
+GOOD: Clear Must/Should/Nice-to-Have classification with rationale
 ```
 
-### ❌ Keine Abgrenzung
+### No Metrics
 
 ```markdown
-BAD: Feature-Liste ohne Ende
-GOOD: Explizite "Out of Scope" Sektion mit Begründung
+BAD: "Feature will be successful"
+GOOD: "Success measured by 60% adoption within 4 weeks"
 ```
 
-## Checkliste: Gutes PRD
+### No Delimitation
 
-Vor Finalisierung prüfen:
+```markdown
+BAD: Feature list without end
+GOOD: Explicit "Out of Scope" section with justification
+```
 
-### Inhalt
-- [ ] Executive Summary prägnant (< 5 Sätze)
-- [ ] Problem klar definiert mit Evidenz
-- [ ] Ziele SMART (spezifisch, messbar, erreichbar)
-- [ ] User Stories mit Akzeptanzkriterien
-- [ ] Funktionale Anforderungen priorisiert
-- [ ] NFRs für Performance, Security, Usability
-- [ ] Erfolgsmetriken mit konkreten Zahlen
-- [ ] Risiken identifiziert mit Mitigation
-- [ ] "Out of Scope" klar definiert
+## Checklist: Quality PRD
+
+Verify before finalization:
+
+### Content
+
+- [ ] Executive summary concise (< 5 sentences)
+- [ ] Problem clearly defined with evidence
+- [ ] Objectives SMART (specific, measurable, achievable)
+- [ ] User stories with acceptance criteria
+- [ ] Functional requirements prioritized
+- [ ] NFRs for performance, security, usability
+- [ ] Success metrics with concrete numbers
+- [ ] Risks identified with mitigation
+- [ ] "Out of Scope" clearly defined
 
 ### Format
-- [ ] Konsistente Formatierung
-- [ ] Überschriften hierarchisch
-- [ ] Listen & Tabellen für Übersicht
-- [ ] Mockups/Wireframes verlinkt
-- [ ] Technische Begriffe erklärt
 
-### Prozess
-- [ ] Stakeholder-Input eingeholt
-- [ ] Technische Feasibility geklärt
-- [ ] Design-Alignment bestätigt
-- [ ] Legal/Compliance Review (falls nötig)
-- [ ] Approvals dokumentiert
-- [ ] Versionierung implementiert
+- [ ] Consistent formatting
+- [ ] Hierarchical headings
+- [ ] Lists and tables for clarity
+- [ ] Mockups/wireframes linked
+- [ ] Technical terms explained
 
-### Qualität
-- [ ] Nutzer-zentriert (nicht lösungs-zentriert)
-- [ ] Verständlich für alle Stakeholder
-- [ ] Keine Widersprüche
-- [ ] Realistischer Scope
-- [ ] Actionable für Entwicklungsteam
+### Process
+
+- [ ] Stakeholder input obtained
+- [ ] Technical feasibility clarified
+- [ ] Design alignment confirmed
+- [ ] Legal/compliance review (if required)
+- [ ] Approvals documented
+- [ ] Versioning implemented
+
+### Quality
+
+- [ ] User-centric (not solution-centric)
+- [ ] Understandable for all stakeholders
+- [ ] No contradictions
+- [ ] Realistic scope
+- [ ] Actionable for development team

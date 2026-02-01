@@ -1,65 +1,67 @@
-# PRD Templates und Beispiele
+# PRD Templates and Examples
 
-Verschiedene PRD-Templates für unterschiedliche Projekttypen und Komplexitätsstufen.
+Various PRD templates for different project types and complexity levels.
 
 ## Template 1: Minimal Viable PRD (MVP)
 
-Für kleine Features oder schnelle Iterationen.
+For small features or rapid iterations.
 
 ```markdown
 # PRD: [Feature Name]
 
 **Status**: Draft | Review | Approved
-**Autor**: [Name]
-**Datum**: [YYYY-MM-DD]
+**Author**: [Name]
+**Date**: [YYYY-MM-DD]
 **Version**: 1.0
 
 ## tl;dr (Executive Summary)
 
-[2-3 Sätze: Was, Für wen, Warum, Erwarteter Impact]
+[2-3 sentences: What, For whom, Why, Expected impact]
 
 ## Problem
 
-[Welches Problem lösen wir? Mit Evidenz.]
+[What problem are we solving? With evidence.]
 
-## Ziel
+## Objective
 
-[1 primäres, messbares Ziel]
-- **Metrik**: [Was messen wir?]
-- **Target**: [Spezifischer Zielwert]
-- **Timeline**: [Bis wann?]
+[1 primary, measurable objective]
+
+- **Metric**: [What are we measuring?]
+- **Target**: [Specific target value]
+- **Timeline**: [By when?]
 
 ## User Story
 
-Als [Persona]
-Möchte ich [Aktion]
-Damit [Benefit]
+As [Persona]
+I want [Action]
+So that [Benefit]
 
-**Akzeptanzkriterien**:
-- [ ] Kriterium 1
-- [ ] Kriterium 2
-- [ ] Kriterium 3
+**Acceptance Criteria**:
+
+- [ ] Criterion 1
+- [ ] Criterion 2
+- [ ] Criterion 3
 
 ## Out of Scope
 
-- ❌ [Was nicht gebaut wird]
-- ❌ [Was in späterer Version kommt]
+- [What is not being built]
+- [What is deferred to a later version]
 
 ## Success Metrics
 
-- **Primär**: [Metrik + Target]
-- **Sekundär**: [Metrik + Target]
+- **Primary**: [Metric + Target]
+- **Secondary**: [Metric + Target]
 
-## Risiken
+## Risks
 
-- [Risiko 1 + Mitigation]
-- [Risiko 2 + Mitigation]
+- [Risk 1 + Mitigation]
+- [Risk 2 + Mitigation]
 
 ## Timeline
 
-- Design: [Datum]
-- Development: [Datum]
-- Launch: [Datum]
+- Design: [Date]
+- Development: [Date]
+- Launch: [Date]
 
 ## Approvals
 
@@ -68,165 +70,174 @@ Damit [Benefit]
 - [ ] Design Lead
 ```
 
-**Wann verwenden**:
+**When to use**:
 
-- Kleine Features (< 2 Wochen Entwicklung)
-- Klarer Scope
-- Wenig Abhängigkeiten
-- Experimentelle Features
+- Small features (< 2 weeks development)
+- Clear scope
+- Few dependencies
+- Experimental features
 
 ## Template 2: Standard Feature PRD
 
-Für typische neue Features.
+For typical new features.
 
-```markdown
+````markdown
 # Product Requirements Document: [Feature Name]
 
 ---
 
-## Dokument-Informationen
+## Document Information
 
 |----------------|---------------------------|
-| **Status**     | Draft / Review / Approved |
-| **Autor**      | [Name, Team]              |
-| **Stakeholder**| [Liste]                   |
-| **Erstellt**   | [Datum]                   |
-| **Zuletzt aktualisiert** | [Datum]         |
-| **Version**      | 1.0                     |
-| **Ziel-Release** | Q[X] YYYY               |
+| **Status** | Draft / Review / Approved |
+| **Author** | [Name, Team] |
+| **Stakeholders**| [List] |
+| **Created** | [Date] |
+| **Last Updated** | [Date] |
+| **Version** | 1.0 |
+| **Target Release** | Q[X] YYYY |
 
 ---
 
 ## Executive Summary
 
-[3-5 Sätze zusammenfassend:]
-- Was wird gebaut?
-- Für wen?
-- Warum wichtig?
-- Erwarteter Business-Impact?
+[3-5 sentences summarizing:]
+
+- What is being built?
+- For whom?
+- Why is it important?
+- Expected business impact?
 - Timeline?
 
 ---
 
-## Inhaltsverzeichnis
+## Table of Contents
 
-1. [Problemstellung](#problemstellung)
-2. [Ziele & Erfolgsmetriken](#ziele--erfolgsmetriken)
+1. [Problem Statement](#problem-statement)
+2. [Objectives & Success Metrics](#objectives--success-metrics)
 3. [User Stories & Personas](#user-stories--personas)
-4. [Funktionale Anforderungen](#funktionale-anforderungen)
-5. [Nicht-funktionale Anforderungen](#nicht-funktionale-anforderungen)
-6. [Abgrenzung (Out of Scope)](#abgrenzung-out-of-scope)
+4. [Functional Requirements](#functional-requirements)
+5. [Non-Functional Requirements](#non-functional-requirements)
+6. [Delimitation (Out of Scope)](#delimitation-out-of-scope)
 7. [User Experience](#user-experience)
-8. [Technische Überlegungen](#technische-überlegungen)
-9. [Risikobewertung](#risikobewertung)
-10. [Abhängigkeiten](#abhängigkeiten)
-11. [Timeline & Meilensteine](#timeline--meilensteine)
-12. [Anhang](#anhang)
+8. [Technical Considerations](#technical-considerations)
+9. [Risk Assessment](#risk-assessment)
+10. [Dependencies](#dependencies)
+11. [Timeline & Milestones](#timeline--milestones)
+12. [Appendix](#appendix)
 
 ---
 
-## 1. Problemstellung
+## 1. Problem Statement
 
-### Aktueller Zustand
+### Current State
 
-[Beschreibe die aktuelle Situation]
+[Describe the current situation]
 
-### Problembeschreibung
+### Problem Description
 
-[Was ist das spezifische Problem? Wen betrifft es?]
+[What is the specific problem? Who is affected?]
 
-### Auswirkungen
+### Impact
 
-**Nutzer-Impact**:
-- [Auswirkung 1 mit Daten]
-- [Auswirkung 2 mit Daten]
+**User Impact**:
 
-**Business-Impact**:
-- [Metrik 1: z.B. Churn-Rate]
-- [Metrik 2: z.B. Support-Tickets]
-- [Metrik 3: z.B. Revenue-Impact]
+- [Impact 1 with data]
+- [Impact 2 with data]
 
-### Evidenz & Research
+**Business Impact**:
 
-**Quantitativ**:
-- Analytics: [Daten]
-- Metrics: [Zahlen]
+- [Metric 1: e.g., churn rate]
+- [Metric 2: e.g., support tickets]
+- [Metric 3: e.g., revenue impact]
 
-**Qualitativ**:
-- User Interviews: [n=X, Key Findings]
-- Support Feedback: [Patterns]
-- Surveys: [n=X, Results]
+### Evidence & Research
 
-**Marktanalyse**:
-- Competitor Features: [Vergleich]
-- Industry Trends: [Relevante Trends]
+**Quantitative**:
 
-### Warum jetzt?
+- Analytics: [Data]
+- Metrics: [Numbers]
 
-[Timingness, Opportunity, Strategic Importance]
+**Qualitative**:
+
+- User interviews: [n=X, key findings]
+- Support feedback: [Patterns]
+- Surveys: [n=X, results]
+
+**Market Analysis**:
+
+- Competitor features: [Comparison]
+- Industry trends: [Relevant trends]
+
+### Why Now?
+
+[Timing, opportunity, strategic importance]
 
 ---
 
-## 2. Ziele & Erfolgsmetriken
+## 2. Objectives & Success Metrics
 
-### Produkt-Ziele
+### Product Objectives
 
-1. **[Ziel-Name]**
-   - Beschreibung: [Details]
-   - Rationale: [Warum wichtig?]
-   - Messung: [Wie messen?]
+1. **[Objective Name]**
+   - Description: [Details]
+   - Rationale: [Why important?]
+   - Measurement: [How to measure?]
 
-2. **[Ziel-Name]**
+2. **[Objective Name]**
    - ...
 
-### Business-Ziele
+### Business Objectives
 
-- [Business-Ziel 1 mit Kontext]
-- [Business-Ziel 2 mit Kontext]
+- [Business objective 1 with context]
+- [Business objective 2 with context]
 
-### Erfolgsmetriken
+### Success Metrics
 
-#### Primäre Metriken (Launch + 4 Wochen)
+#### Primary Metrics (Launch + 4 Weeks)
 
-| Metrik | Baseline | Target | Messmethode | Owner |
-|--------|----------|--------|-------------|-------|
-| [Metrik 1] | [Wert] | [Ziel] | [Tool/Method] | [Name] |
-| [Metrik 2] | [Wert] | [Ziel] | [Tool/Method] | [Name] |
+| Metric     | Baseline | Target   | Measurement Method | Owner  |
+| ---------- | -------- | -------- | ------------------ | ------ |
+| [Metric 1] | [Value]  | [Target] | [Tool/Method]      | [Name] |
+| [Metric 2] | [Value]  | [Target] | [Tool/Method]      | [Name] |
 
-#### Sekundäre Metriken (Launch + 8 Wochen)
+#### Secondary Metrics (Launch + 8 Weeks)
 
-| Metrik | Baseline | Target | Messmethode | Owner |
-|--------|----------|--------|-------------|-------|
-| [Metrik 3] | [Wert] | [Ziel] | [Tool/Method] | [Name] |
-| [Metrik 4] | [Wert] | [Ziel] | [Tool/Method] | [Name] |
+| Metric     | Baseline | Target   | Measurement Method | Owner  |
+| ---------- | -------- | -------- | ------------------ | ------ |
+| [Metric 3] | [Value]  | [Target] | [Tool/Method]      | [Name] |
+| [Metric 4] | [Value]  | [Target] | [Tool/Method]      | [Name] |
 
-#### Guardrail Metriken
+#### Guardrail Metrics
 
-[Metriken die nicht negativ beeinflusst werden dürfen]
+[Metrics that must not be negatively impacted]
 
 ---
 
 ## 3. User Stories & Personas
 
-### Primäre Personas
+### Primary Personas
 
 #### Persona 1: [Name]
 
-**Demographie**:
-- Rolle: [z.B. Freelancer]
-- Alter: [Range]
-- Tech-Savviness: [Level]
+**Demographics**:
 
-**Kontext**:
-- [Relevanter Background]
-- [Nutzungskontext]
-- [Pain Points]
+- Role: [e.g., Freelancer]
+- Age: [Range]
+- Tech-savviness: [Level]
 
-**Ziele**:
-- [Ziel 1]
-- [Ziel 2]
+**Context**:
 
-**Quote**: "[Typisches Nutzer-Zitat]"
+- [Relevant background]
+- [Usage context]
+- [Pain points]
+
+**Goals**:
+
+- [Goal 1]
+- [Goal 2]
+
+**Quote**: "[Typical user quote]"
 
 ### User Stories
 
@@ -234,22 +245,25 @@ Für typische neue Features.
 
 **US-1.1: [Story Title]** (Priority: Must-Have)
 
-**Als** [Persona]
-**Möchte ich** [Aktion/Feature]
-**Damit** [Benefit/Outcome]
+**As** [Persona]
+**I want** [Action/Feature]
+**So that** [Benefit/Outcome]
 
-**Akzeptanzkriterien**:
-- [ ] [Spezifisches, testbares Kriterium 1]
-- [ ] [Spezifisches, testbares Kriterium 2]
-- [ ] [Spezifisches, testbares Kriterium 3]
+**Acceptance Criteria**:
 
-**Kontext**:
-- [Zusätzliche Informationen]
-- [User Research Findings]
-- [Mockup Links]
+- [ ] [Specific, testable criterion 1]
+- [ ] [Specific, testable criterion 2]
+- [ ] [Specific, testable criterion 3]
 
-**Abhängigkeiten**:
-- [Technische/Feature Abhängigkeiten]
+**Context**:
+
+- [Additional information]
+- [User research findings]
+- [Mockup links]
+
+**Dependencies**:
+
+- [Technical/feature dependencies]
 
 **US-1.2: [Story Title]** (Priority: Should-Have)
 
@@ -257,33 +271,38 @@ Für typische neue Features.
 
 ---
 
-## 4. Funktionale Anforderungen
+## 4. Functional Requirements
 
 ### Must-Have (MVP)
 
 #### FR-1: [Requirement Name]
 
-**Beschreibung**: [Detaillierte Beschreibung]
+**Description**: [Detailed description]
 
 **Details**:
-- [Spezifikation 1]
-- [Spezifikation 2]
-- [Spezifikation 3]
+
+- [Specification 1]
+- [Specification 2]
+- [Specification 3]
 
 **User Flow**:
-1. Nutzer [Aktion]
-2. System [Reaktion]
-3. Nutzer [Nächste Aktion]
 
-**Akzeptanzkriterien**:
-- [ ] [Kriterium 1]
-- [ ] [Kriterium 2]
+1. User [Action]
+2. System [Reaction]
+3. User [Next action]
+
+**Acceptance Criteria**:
+
+- [ ] [Criterion 1]
+- [ ] [Criterion 2]
 
 **Edge Cases**:
-- [Edge Case 1 + Handling]
-- [Edge Case 2 + Handling]
 
-**Abhängigkeiten**:
+- [Edge case 1 + Handling]
+- [Edge case 2 + Handling]
+
+**Dependencies**:
+
 - [API, Service, Feature]
 
 **Mockups**: [Link]
@@ -296,7 +315,7 @@ Für typische neue Features.
 
 #### FR-X: [Requirement Name]
 
-**Rationale für Should-Have**: [Warum nicht MVP?]
+**Rationale for Should-Have**: [Why not MVP?]
 
 [...]
 
@@ -304,62 +323,62 @@ Für typische neue Features.
 
 #### FR-Y: [Requirement Name]
 
-**Rationale**: [Warum später/vielleicht?]
+**Rationale**: [Why later/maybe?]
 
 [...]
 
 ---
 
-## 5. Nicht-funktionale Anforderungen
+## 5. Non-Functional Requirements
 
 ### Performance
 
-- **NFR-1**: [Requirement mit spezifischem Target]
-  - Messung: [Wie testen?]
-  - Rationale: [Warum wichtig?]
+- **NFR-1**: [Requirement with specific target]
+  - Measurement: [How to test?]
+  - Rationale: [Why important?]
 
 ### Security & Privacy
 
-- **NFR-X**: [Security Requirement]
+- **NFR-X**: [Security requirement]
   - Compliance: [GDPR, HIPAA, etc.]
-  - Implementation: [High-level Ansatz]
+  - Implementation: [High-level approach]
 
 ### Scalability
 
-- **NFR-X**: [Scalability Requirement]
-  - Expected Load: [Zahlen]
-  - Target: [Performance bei Load]
+- **NFR-X**: [Scalability requirement]
+  - Expected load: [Numbers]
+  - Target: [Performance at load]
 
 ### Usability
 
-- **NFR-X**: [Usability Requirement]
-  - Validation: [Usability Testing Plan]
+- **NFR-X**: [Usability requirement]
+  - Validation: [Usability testing plan]
 
 ### Accessibility
 
 - **NFR-X**: WCAG 2.1 Level AA Compliance
-  - Testing: [Tools & Methoden]
+  - Testing: [Tools & methods]
 
 ### Reliability
 
-- **NFR-X**: [Uptime, Error Rate Requirements]
-  - Monitoring: [Wie überwachen?]
+- **NFR-X**: [Uptime, error rate requirements]
+  - Monitoring: [How to monitor?]
 
 ---
 
-## 6. Abgrenzung (Out of Scope)
+## 6. Delimitation (Out of Scope)
 
-### Nicht in diesem Release
+### Not in This Release
 
-| Feature | Rationale | Geplant für |
-|---------|-----------|-------------|
-| [Feature 1] | [Grund] | [Q/Version] |
-| [Feature 2] | [Grund] | [Q/Version] |
+| Feature     | Rationale | Planned For |
+| ----------- | --------- | ----------- |
+| [Feature 1] | [Reason]  | [Q/Version] |
+| [Feature 2] | [Reason]  | [Q/Version] |
 
-### Explizit ausgeschlossen
+### Explicitly Excluded
 
-- ❌ **[Feature]**: [Detaillierte Begründung]
-- ❌ **[Feature]**: [Detaillierte Begründung]
+- **[Feature]**: [Detailed justification]
+- **[Feature]**: [Detailed justification]
 
 ---
 
@@ -367,7 +386,7 @@ Für typische neue Features.
 
 ### User Flows
 
-[Visuelle User Flow Diagramme oder Links]
+[Visual user flow diagrams or links]
 
 ### Wireframes/Mockups
 
@@ -376,134 +395,135 @@ Für typische neue Features.
 
 ### Interaction Patterns
 
-[Beschreibung wichtiger Interaktionen]
+[Description of important interactions]
 
 ### Mobile Considerations
 
-[Spezifische mobile UX Anforderungen]
+[Specific mobile UX requirements]
 
 ---
 
-## 8. Technische Überlegungen
+## 8. Technical Considerations
 
-**Hinweis**: Fokus auf WAS, nicht WIE. Technische Entscheidungen
-sind Aufgabe des Entwicklungsteams.
+**Note**: Focus on WHAT, not HOW. Technical decisions are the responsibility of the development team.
 
-### Systeme betroffen
+### Systems Affected
 
-- [System 1]: [Art der Änderung]
-- [System 2]: [Art der Änderung]
+- [System 1]: [Type of change]
+- [System 2]: [Type of change]
 
-### APIs benötigt
+### APIs Required
 
-- [API 1]: [Zweck]
-- [API 2]: [Zweck]
+- [API 1]: [Purpose]
+- [API 2]: [Purpose]
 
-### Datenmodell
+### Data Model
 
-[Neue Entities, wichtige Änderungen - High Level]
+[New entities, important changes - high level]
 
-### Drittanbieter-Integrationen
+### Third-Party Integrations
 
-- [Service 1]: [Zweck, Lizenz-Überlegungen]
+- [Service 1]: [Purpose, licensing considerations]
 
-### Performance-Überlegungen
+### Performance Considerations
 
-[Kritische Performance-Aspekte]
+[Critical performance aspects]
 
-### Sicherheits-Überlegungen
+### Security Considerations
 
-[Wichtige Security-Aspekte]
+[Important security aspects]
 
 ---
 
-## 9. Risikobewertung
+## 9. Risk Assessment
 
-| ID | Risiko | Impact | Likelihood | Mitigation | Owner |
-|----|--------|--------|------------|------------|-------|
-| R-1 | [Risiko] | H/M/L | H/M/L | [Strategie] | [Name] |
-| R-2 | [Risiko] | H/M/L | H/M/L | [Strategie] | [Name] |
+| ID  | Risk   | Impact | Likelihood | Mitigation | Owner  |
+| --- | ------ | ------ | ---------- | ---------- | ------ |
+| R-1 | [Risk] | H/M/L  | H/M/L      | [Strategy] | [Name] |
+| R-2 | [Risk] | H/M/L  | H/M/L      | [Strategy] | [Name] |
 
-### Details zu High-Priority Risiken
+### Details for High-Priority Risks
 
-#### R-1: [Risiko-Name]
+#### R-1: [Risk Name]
 
-**Beschreibung**: [Detaillierte Beschreibung]
+**Description**: [Detailed description]
 
-**Impact**: [Auswirkungen wenn es eintritt]
+**Impact**: [Effects if it occurs]
 
-**Likelihood**: [Wahrscheinlichkeit]
+**Likelihood**: [Probability]
 
-**Mitigation-Strategie**:
-1. [Präventive Maßnahme 1]
-2. [Präventive Maßnahme 2]
+**Mitigation Strategy**:
+
+1. [Preventive measure 1]
+2. [Preventive measure 2]
 
 **Contingency Plan**:
-[Was tun wenn es eintritt?]
+[What to do if it occurs?]
 
 ---
 
-## 10. Abhängigkeiten
+## 10. Dependencies
 
-### Interne Abhängigkeiten
+### Internal Dependencies
 
-| Abhängigkeit | Team | Status | Impact if Delayed |
-|--------------|------|--------|-------------------|
-| [Feature/API] | [Team] | [Status] | [Impact] |
+| Dependency    | Team   | Status   | Impact if Delayed |
+| ------------- | ------ | -------- | ----------------- |
+| [Feature/API] | [Team] | [Status] | [Impact]          |
 
-### Externe Abhängigkeiten
+### External Dependencies
 
-| Abhängigkeit | Vendor | Timeline | Risk |
-|--------------|--------|----------|------|
-| [Service/API] | [Vendor] | [ETA] | [Risk Level] |
+| Dependency    | Vendor   | Timeline | Risk         |
+| ------------- | -------- | -------- | ------------ |
+| [Service/API] | [Vendor] | [ETA]    | [Risk Level] |
 
 ### Blocking Issues
 
-[Kritische Blocker die resolved werden müssen]
+[Critical blockers that must be resolved]
 
 ---
 
-## 11. Timeline & Meilensteine
+## 11. Timeline & Milestones
 
-### Phasen
+### Phases
 
 ```text
-Discovery ────▶ Design ────▶ Development ────▶ Testing ────▶ Launch
-Week 1-2       Week 3-4      Week 5-8           Week 9       Week 10
+Discovery -----> Design -----> Development -----> Testing -----> Launch
+Week 1-2        Week 3-4       Week 5-8           Week 9        Week 10
 ```
+````
 
-### Detaillierter Zeitplan
+### Detailed Schedule
 
-| Phase | Aktivitäten | Deliverables | Datum | Owner |
-|-------|-------------|--------------|-------|-------|
-| **Discovery** | Research, PRD | Finalized PRD | [Datum] | PM |
-| **Design** | Mockups, Specs | Design Specs | [Datum] | Design |
-| **Development** | Sprint 1 | Backend APIs | [Datum] | Eng |
-| **Development** | Sprint 2 | Frontend UI | [Datum] | Eng |
-| **Testing** | QA, UAT | Test Reports | [Datum] | QA |
-| **Launch** | Deploy, Monitor | Launch Metrics | [Datum] | PM |
+| Phase           | Activities      | Deliverables   | Date   | Owner  |
+| --------------- | --------------- | -------------- | ------ | ------ |
+| **Discovery**   | Research, PRD   | Finalized PRD  | [Date] | PM     |
+| **Design**      | Mockups, Specs  | Design Specs   | [Date] | Design |
+| **Development** | Sprint 1        | Backend APIs   | [Date] | Eng    |
+| **Development** | Sprint 2        | Frontend UI    | [Date] | Eng    |
+| **Testing**     | QA, UAT         | Test Reports   | [Date] | QA     |
+| **Launch**      | Deploy, Monitor | Launch Metrics | [Date] | PM     |
 
-### Meilensteine
+### Milestones
 
-- **M1**: PRD Approval - [Datum]
-- **M2**: Design Approval - [Datum]
-- **M3**: Development Complete - [Datum]
-- **M4**: QA Sign-off - [Datum]
-- **M5**: Production Launch - [Datum]
-- **M6**: Success Metrics Review - [Datum]
+- **M1**: PRD Approval - [Date]
+- **M2**: Design Approval - [Date]
+- **M3**: Development Complete - [Date]
+- **M4**: QA Sign-off - [Date]
+- **M5**: Production Launch - [Date]
+- **M6**: Success Metrics Review - [Date]
 
 ---
 
-## 12. Anhang
+## 12. Appendix
 
-### Änderungshistorie
+### Change History
 
-| Version | Datum | Autor | Änderungen |
-|---------|-------|-------|-----------|
-| 0.1 | [Datum] | [Name] | Initial Draft |
-| 1.0 | [Datum] | [Name] | First Complete Version |
+| Version | Date   | Author | Changes                |
+| ------- | ------ | ------ | ---------------------- |
+| 0.1     | [Date] | [Name] | Initial draft          |
+| 1.0     | [Date] | [Name] | First complete version |
 
-### Referenzen
+### References
 
 - [User Research Report: Link]
 - [Competitive Analysis: Link]
@@ -512,46 +532,48 @@ Week 1-2       Week 3-4      Week 5-8           Week 9       Week 10
 
 ### Approvals
 
-| Rolle | Name | Datum | Unterschrift/Approval |
-|-------|------|-------|-----------------------|
-| Product Owner | [Name] | [Datum] | ✅ |
-| Engineering Lead | [Name] | [Datum] | ✅ |
-| Design Lead | [Name] | [Datum] | ✅ |
-| Legal/Compliance | [Name] | [Datum] | ✅ |
+| Role             | Name   | Date   | Signature/Approval |
+| ---------------- | ------ | ------ | ------------------ |
+| Product Owner    | [Name] | [Date] |                    |
+| Engineering Lead | [Name] | [Date] |                    |
+| Design Lead      | [Name] | [Date] |                    |
+| Legal/Compliance | [Name] | [Date] |                    |
 
-### Glossar
+### Glossary
 
 - **[Term]**: [Definition]
 - **[Term]**: [Definition]
 
-**Wann verwenden**:
+````
 
-- Standard neue Features
-- Mittlere Komplexität
-- Multiple Stakeholder
-- 4-8 Wochen Entwicklung
+**When to use**:
+
+- Standard new features
+- Medium complexity
+- Multiple stakeholders
+- 4-8 weeks development
 
 ## Template 3: Major Initiative PRD
 
-Für große, strategische Projekte.
+For large, strategic projects.
 
-[Beinhaltet alle Elemente von Template 2, plus:]
+[Includes all elements from Template 2, plus:]
 
 ```markdown
-## Strategischer Kontext
+## Strategic Context
 
 ### Vision
 
-[Langfristige Vision]
+[Long-term vision]
 
 ### Strategic Alignment
 
 **Company OKRs**:
-- [OKR 1]: Wie trägt Feature bei?
-- [OKR 2]: Wie trägt Feature bei?
+- [OKR 1]: How does the feature contribute?
+- [OKR 2]: How does the feature contribute?
 
 **Product Strategy**:
-[Wie passt es in größere Produkt-Roadmap?]
+[How does it fit into the larger product roadmap?]
 
 ### Market Opportunity
 
@@ -561,53 +583,53 @@ Für große, strategische Projekte.
 - SOM: [Serviceable Obtainable Market]
 
 **Competitive Advantage**:
-[Wie differenziert uns das?]
+[How does this differentiate us?]
 
 ### Business Case
 
 **Investment**:
-- Engineering: [Person-Weeks]
-- Design: [Person-Weeks]
-- Estimated Cost: [EUR/USD]
+- Engineering: [Person-weeks]
+- Design: [Person-weeks]
+- Estimated cost: [EUR/USD]
 
 **Expected Return**:
-- Revenue Impact: [Projection]
-- Cost Savings: [Projection]
-- User Growth: [Projection]
+- Revenue impact: [Projection]
+- Cost savings: [Projection]
+- User growth: [Projection]
 
 **ROI Calculation**:
-[Formula + Expected ROI]
+[Formula + expected ROI]
 
 ## Go-to-Market Strategy
 
 ### Launch Plan
 
 **Pre-Launch** (T-4 weeks):
-- [Aktivität 1]
-- [Aktivität 2]
+- [Activity 1]
+- [Activity 2]
 
 **Launch** (T-0):
-- [Aktivität 1]
-- [Aktivität 2]
+- [Activity 1]
+- [Activity 2]
 
 **Post-Launch** (T+2 weeks):
-- [Aktivität 1]
-- [Aktivität 2]
+- [Activity 1]
+- [Activity 2]
 
 ### Marketing & Communication
 
 **Internal**:
-- [Team Communication Plan]
+- [Team communication plan]
 
 **External**:
-- [User Communication Plan]
+- [User communication plan]
 - [Press/PR if applicable]
 
 ### Training & Documentation
 
-- User Documentation: [Plan]
-- Support Training: [Plan]
-- Sales Enablement: [If B2B]
+- User documentation: [Plan]
+- Support training: [Plan]
+- Sales enablement: [If B2B]
 
 ## Rollout Strategy
 
@@ -663,23 +685,23 @@ Für große, strategische Projekte.
 
 ### Post-Mortem
 
-**Scheduled**: [Datum, 4 weeks post-launch]
+**Scheduled**: [Date, 4 weeks post-launch]
 
 **Participants**: [List]
 
 **Format**: [Structured review of goals vs. actuals]
-```
+````
 
-**Wann verwenden**:
+**When to use**:
 
-- Strategische Initiativen
-- Große Investments (>2 Monate Entwicklung)
+- Strategic initiatives
+- Large investments (>2 months development)
 - High business impact
 - Executive visibility
 
 ## Template 4: Technical PRD
 
-Für Platform/Infrastructure-Projekte.
+For platform/infrastructure projects.
 
 ```markdown
 # Technical PRD: [Project Name]
@@ -691,66 +713,68 @@ Für Platform/Infrastructure-Projekte.
 ### Current State
 
 **Architecture**:
-[Aktuelle technische Architektur]
+[Current technical architecture]
 
 **Pain Points**:
+
 - [Performance issue]
 - [Scalability issue]
 - [Maintenance issue]
 
 **Technical Debt**:
-[Relevantes Tech Debt]
+[Relevant tech debt]
 
 ### Proposed Solution (High-Level)
 
-[Architektur-Überblick, nicht zu detailliert]
+[Architecture overview, not too detailed]
 
 ## Technical Requirements
 
 ### TR-1: [Requirement]
 
-**Current**: [Aktueller Zustand]
-**Target**: [Ziel-Zustand]
-**Rationale**: [Warum wichtig?]
+**Current**: [Current state]
+**Target**: [Target state]
+**Rationale**: [Why important?]
 
 **Acceptance Criteria**:
-- [ ] [Testbares Kriterium]
+
+- [ ] [Testable criterion]
 
 ### Performance Requirements
 
-| Metrik | Current | Target | Measurement |
-|--------|---------|--------|-------------|
-| Latency | [ms] | [ms] | [Method] |
-| Throughput | [req/s] | [req/s] | [Method] |
-| Uptime | [%] | [%] | [Method] |
+| Metric     | Current | Target  | Measurement |
+| ---------- | ------- | ------- | ----------- |
+| Latency    | [ms]    | [ms]    | [Method]    |
+| Throughput | [req/s] | [req/s] | [Method]    |
+| Uptime     | [%]     | [%]     | [Method]    |
 
 ### Compatibility Requirements
 
-- Backward Compatibility: [Yes/No, Details]
-- API Versioning: [Strategy]
-- Migration Path: [Plan]
+- Backward compatibility: [Yes/No, details]
+- API versioning: [Strategy]
+- Migration path: [Plan]
 
 ## Impact Assessment
 
 ### Systems Affected
 
-| System | Impact | Downtime Required | Migration |
-|--------|--------|-------------------|-----------|
-| [System] | [High/Med/Low] | [Duration] | [Yes/No] |
+| System   | Impact         | Downtime Required | Migration |
+| -------- | -------------- | ----------------- | --------- |
+| [System] | [High/Med/Low] | [Duration]        | [Yes/No]  |
 
 ### Data Migration
 
 **Scope**: [What data needs migration]
 **Volume**: [Size]
-**Strategy**: [Online/Offline, Phased]
+**Strategy**: [Online/Offline, phased]
 **Rollback**: [Plan]
 
 ## Testing Strategy
 
 ### Unit Tests
 
-- Coverage Target: [%]
-- New Tests: [Estimated count]
+- Coverage target: [%]
+- New tests: [Estimated count]
 
 ### Integration Tests
 
@@ -758,8 +782,8 @@ Für Platform/Infrastructure-Projekte.
 
 ### Performance Tests
 
-- Load Tests: [Scenarios]
-- Stress Tests: [Scenarios]
+- Load tests: [Scenarios]
+- Stress tests: [Scenarios]
 - Benchmarks: [What to benchmark]
 
 ### Chaos Engineering
@@ -767,33 +791,33 @@ Für Platform/Infrastructure-Projekte.
 [If applicable, chaos testing plans]
 ```
 
-**Wann verwenden**:
+**When to use**:
 
-- Infrastructure-Projekte
-- Platform-Features
-- Architecture-Änderungen
-- Developer-facing Features
+- Infrastructure projects
+- Platform features
+- Architecture changes
+- Developer-facing features
 
-## Schnell-Referenz: Template-Wahl
+## Quick Reference: Template Selection
 
-| Projekt-Typ | Dauer | Komplexität | Template |
-|-------------|-------|-------------|----------|
-| Quick Enhancement | < 2 Wochen | Niedrig | Minimal MVP |
-| Standard Feature | 4-8 Wochen | Mittel | Standard Feature |
-| Major Initiative | > 2 Monate | Hoch | Major Initiative |
-| Platform/Infra | Variabel | Mittel-Hoch | Technical |
+| Project Type      | Duration   | Complexity  | Template         |
+| ----------------- | ---------- | ----------- | ---------------- |
+| Quick Enhancement | < 2 weeks  | Low         | Minimal MVP      |
+| Standard Feature  | 4-8 weeks  | Medium      | Standard Feature |
+| Major Initiative  | > 2 months | High        | Major Initiative |
+| Platform/Infra    | Variable   | Medium-High | Technical        |
 
-## Template-Anpassung
+## Template Customization
 
 **DO**:
 
-- ✅ Template als Ausgangspunkt nutzen
-- ✅ Nicht relevante Sektionen entfernen
-- ✅ Projektspezifische Sektionen hinzufügen
-- ✅ Auf Zielgruppe anpassen
+- Use template as starting point
+- Remove non-relevant sections
+- Add project-specific sections
+- Adapt to target audience
 
 **DON'T**:
 
-- ❌ Sektionen nur ausfüllen um Vorlage zu folgen
-- ❌ Irrelevante Informationen hinzufügen
-- ❌ Kritische Sektionen weglassen
+- Fill sections just to follow template
+- Add irrelevant information
+- Omit critical sections

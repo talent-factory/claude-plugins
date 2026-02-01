@@ -1,219 +1,235 @@
 # Handoff Best Practices
 
-## Grundprinzipien
+## Fundamental Principles
 
-### 1. Selbsterklärend schreiben
+### 1. Write Self-Explanatory Documentation
 
-Der nächste Agent hat **keinen vorherigen Kontext**. Schreibe so, dass jemand ohne Vorkenntnisse sofort verstehen kann:
+The subsequent agent possesses **no prior context**. Compose documentation such that an individual without background knowledge can comprehend it immediately:
 
-**Gut:**
-> Die Funktion `validateUser()` in `src/auth/validator.ts:45` wirft einen TypeError, weil `user.roles` undefined ist wenn der User über OAuth kommt. Die Rolle muss aus dem OAuth-Token extrahiert werden (siehe `src/auth/oauth.ts:123`).
+**Appropriate:**
 
-**Schlecht:**
-> Die Validierung funktioniert nicht bei OAuth-Usern.
+> The function `validateUser()` in `src/auth/validator.ts:45` throws a TypeError because `user.roles` is undefined when the user authenticates via OAuth. The role must be extracted from the OAuth token (refer to `src/auth/oauth.ts:123`).
 
-### 2. Spezifisch sein
+**Inappropriate:**
 
-Immer konkrete Dateipfade und Zeilennummern angeben:
+> The validation does not function for OAuth users.
 
-| Schlecht | Gut |
-|----------|-----|
-| "im Auth-Modul" | `src/auth/validator.ts:45-67` |
-| "die Config anpassen" | `config/database.yml:12` (Wert von X auf Y ändern) |
-| "Test fixen" | `tests/unit/auth.test.ts:89` (`describe` Block für OAuth) |
+### 2. Maintain Specificity
 
-### 3. Gescheiterte Versuche dokumentieren
+Always provide concrete file paths and line numbers:
 
-**Warum wichtig**: Verhindert, dass der nächste Agent die gleichen Fehler macht.
+| Inappropriate        | Appropriate                                               |
+| -------------------- | --------------------------------------------------------- |
+| "in the Auth module" | `src/auth/validator.ts:45-67`                             |
+| "adjust the config"  | `config/database.yml:12` (change value from X to Y)       |
+| "fix test"           | `tests/unit/auth.test.ts:89` (`describe` block for OAuth) |
 
-**Was dokumentieren**:
-- Was wurde versucht?
-- Welche Fehlermeldung kam?
-- Warum hat es nicht funktioniert?
-- Was wurde daraus gelernt?
+### 3. Document Failed Attempts
 
-### 4. Priorisieren
+**Rationale**: Prevents the subsequent agent from repeating identical errors.
 
-Nächste Schritte immer nach Priorität ordnen:
+**Elements to Document**:
+
+- What approach was attempted?
+- What error message was produced?
+- Why did the approach fail?
+- What insights were derived from this experience?
+
+### 4. Establish Prioritization
+
+Always order subsequent steps by priority:
 
 ```markdown
-### Priorität 1: [Blockierend]
-### Priorität 2: [Wichtig]
-### Priorität 3: [Nice-to-have]
+### Priority 1: [Blocking]
+
+### Priority 2: [Important]
+
+### Priority 3: [Nice-to-have]
 ```
 
 ## DO: Best Practices
 
-### Vor der Handoff-Erstellung
+### Prior to Handoff Creation
 
-- ✅ **Änderungen committen** (wenn möglich)
-- ✅ **Git Status prüfen** und dokumentieren
-- ✅ **Offene Fragen notieren**
-- ✅ **Fehlermeldungen kopieren** (nicht paraphrasieren)
+- Commit changes (when feasible)
+- Verify and document Git status
+- Record outstanding questions
+- Copy error messages verbatim (do not paraphrase)
 
-### In der Dokumentation
+### Within the Documentation
 
-- ✅ **Kontext erklären**: Warum wurde etwas gemacht?
-- ✅ **Dateipfade mit Zeilennummern**: `file.py:123` oder `file.py:123-145`
-- ✅ **Code-Beispiele**: Wichtige Patterns zeigen
-- ✅ **Screenshots/Logs**: Bei UI-Problemen oder komplexen Errors
-- ✅ **Links**: Zu relevanter Dokumentation, Issues, PRs
+- **Explain context**: Why was a particular action taken?
+- **Include file paths with line numbers**: `file.py:123` or `file.py:123-145`
+- **Provide code examples**: Demonstrate important patterns
+- **Include screenshots/logs**: For UI issues or complex errors
+- **Add links**: To relevant documentation, issues, and pull requests
 
-### Für den nächsten Agent
+### For the Subsequent Agent
 
-- ✅ **Zusammenfassung**: 2-3 Sätze, was am wichtigsten ist
-- ✅ **Erster Schritt**: Konkreter Startpunkt
-- ✅ **Warnungen**: Was sollte vermieden werden?
+- **Summary**: 2-3 sentences highlighting the most critical information
+- **Initial step**: A concrete starting point
+- **Warnings**: What should be avoided?
 
-## DON'T: Häufige Fehler
+## DON'T: Common Mistakes
 
-### Inhaltliche Fehler
+### Content-Related Errors
 
-- ❌ **Vage Beschreibungen**: "Code funktioniert nicht"
-- ❌ **Fehlende Kontextinformationen**: Nur Symptome, keine Ursachen
-- ❌ **Implizite Annahmen**: "Wie besprochen" (wurde nicht besprochen)
-- ❌ **Unvollständige Fehlermeldungen**: Nur die letzte Zeile
+- **Vague descriptions**: "Code does not function"
+- **Missing contextual information**: Symptoms only, no causes
+- **Implicit assumptions**: "As discussed" (when no discussion occurred)
+- **Incomplete error messages**: Only the final line
 
-### Sicherheitsfehler
+### Security Violations
 
-- ❌ **Secrets dokumentieren**: API Keys, Passwörter, Tokens
-- ❌ **Credentials in Code-Beispielen**: Auch nicht als Platzhalter
-- ❌ **Private URLs**: Interne Dashboards, Admin-Panels
+- **Documenting secrets**: API keys, passwords, tokens
+- **Credentials in code examples**: Including as placeholders
+- **Private URLs**: Internal dashboards, admin panels
 
-### Strukturelle Fehler
+### Structural Errors
 
-- ❌ **Zu lange Dokumente**: Fokus auf das Wesentliche
-- ❌ **Keine Priorisierung**: Alles gleich wichtig
-- ❌ **Fehlende nächste Schritte**: Nur Ist-Zustand
+- **Excessive document length**: Maintain focus on essential elements
+- **Absence of prioritization**: Treating all items as equally important
+- **Missing subsequent steps**: Documenting only the current state
 
-## Qualitätscheckliste
+## Quality Checklist
 
-### Vor dem Speichern prüfen
+### Verification Prior to Saving
 
 ```markdown
-## Inhalt
-- [ ] Original-Aufgabe klar beschrieben
-- [ ] Alle relevanten Änderungen dokumentiert
-- [ ] Gescheiterte Versuche mit Begründung
-- [ ] Nächste Schritte priorisiert
-- [ ] Dateipfade mit Zeilennummern
+## Content
 
-## Sicherheit
-- [ ] Keine API Keys oder Tokens
-- [ ] Keine Passwörter oder Credentials
-- [ ] Keine internen URLs (ausser Linear Issues)
+- [ ] Original task clearly described
+- [ ] All relevant changes documented
+- [ ] Failed attempts with rationale
+- [ ] Subsequent steps prioritized
+- [ ] File paths with line numbers
 
-## Nutzbarkeit
-- [ ] Selbsterklärend ohne Vorkenntnisse
-- [ ] Konkrete Handlungsanweisungen
-- [ ] Zusammenfassung für schnellen Einstieg
+## Security
+
+- [ ] No API keys or tokens
+- [ ] No passwords or credentials
+- [ ] No internal URLs (except Linear issues)
+
+## Usability
+
+- [ ] Self-explanatory without prior knowledge
+- [ ] Concrete action instructions
+- [ ] Summary for rapid orientation
 ```
 
-## Spezielle Situationen
+## Special Situations
 
-### Bei komplexen Bugs
+### For Complex Bugs
 
 ```markdown
 ## Symptom
-[Was passiert?]
 
-## Reproduktion
-1. [Schritt 1]
-2. [Schritt 2]
-3. [Fehler tritt auf]
+[What is occurring?]
 
-## Erwartetes Verhalten
-[Was sollte passieren?]
+## Reproduction Steps
 
-## Bisherige Analyse
-- Hypothese A: [Beschreibung] → [Ergebnis]
-- Hypothese B: [Beschreibung] → [Ergebnis]
+1. [Step 1]
+2. [Step 2]
+3. [Error manifests]
 
-## Verdächtige Stellen
-- `file.py:123` - [Warum verdächtig]
+## Expected Behavior
+
+[What should occur?]
+
+## Analysis to Date
+
+- Hypothesis A: [Description] → [Result]
+- Hypothesis B: [Description] → [Result]
+
+## Suspected Locations
+
+- `file.py:123` - [Rationale for suspicion]
 ```
 
-### Bei Feature-Entwicklung
+### For Feature Development
 
 ```markdown
-## Implementierungsstand
-| Komponente | Status | Datei |
-|------------|--------|-------|
-| Backend API | ✅ Fertig | `api/routes.py` |
-| Frontend UI | 🔄 In Arbeit | `components/Feature.tsx` |
-| Tests | ❌ Fehlt | - |
+## Implementation Status
 
-## Architektur-Entscheidungen
-- [Entscheidung 1]: [Begründung]
-- [Entscheidung 2]: [Begründung]
+| Component   | Status      | File                     |
+| ----------- | ----------- | ------------------------ |
+| Backend API | Complete    | `api/routes.py`          |
+| Frontend UI | In Progress | `components/Feature.tsx` |
+| Tests       | Pending     | -                        |
+
+## Architectural Decisions
+
+- [Decision 1]: [Rationale]
+- [Decision 2]: [Rationale]
 ```
 
-### Bei Team-Übergaben
+### For Team Handovers
 
-Zusätzliche Informationen für menschliche Entwickler:
+Additional information for human developers:
 
 ```markdown
-## Kontext für Entwickler
-- **Deadline**: [Falls relevant]
-- **Stakeholder**: [Wer wartet auf das Feature?]
-- **Dependencies**: [Andere Teams/Services]
-- **Review benötigt**: [Ja/Nein, von wem]
+## Context for Developers
+
+- **Deadline**: [If applicable]
+- **Stakeholders**: [Who is awaiting this feature?]
+- **Dependencies**: [Other teams/services]
+- **Review required**: [Yes/No, by whom]
 ```
 
-## Beispiel: Vorher/Nachher
+## Example: Before and After
 
-### Vorher (Schlecht)
+### Before (Inappropriate)
 
-> Die Auth funktioniert nicht. Hab verschiedenes probiert. Muss noch gefixt werden.
+> The auth does not work. Tried various approaches. Still needs to be fixed.
 
-### Nachher (Gut)
+### After (Appropriate)
 
-> **Problem**: OAuth-Login wirft TypeError bei `user.roles` (undefined).
+> **Problem**: OAuth login throws TypeError on `user.roles` (undefined).
 >
-> **Ursache**: OAuth-Provider liefert Rollen im `permissions` Feld, nicht `roles`.
+> **Cause**: OAuth provider delivers roles in the `permissions` field, not `roles`.
 >
-> **Gescheitert**: Direktes Mapping in `oauth.ts:45` → Brach bestehende Email-Auth.
+> **Failed Attempt**: Direct mapping in `oauth.ts:45` → Broke existing email authentication.
 >
-> **Nächster Schritt**: Adapter-Pattern in `src/auth/adapters/` implementieren, der beide Formate normalisiert. Siehe `src/auth/adapters/email.ts` als Referenz.
+> **Subsequent Step**: Implement adapter pattern in `src/auth/adapters/` to normalize both formats. Refer to `src/auth/adapters/email.ts` as reference.
 
-## Workflow-Integration
+## Workflow Integration
 
-### Mit /compact
+### With /compact
 
 ```bash
-# 1. Vor Compact: Handoff erstellen
+# 1. Prior to Compact: Create handoff
 /document-handoff "Feature Name"
 
-# 2. Compact ausführen
+# 2. Execute Compact
 /compact
 
-# 3. Nach Compact: Handoff laden
-"Lies .claude/handoffs/2026-01-14_feature-name.md und arbeite weiter."
+# 3. After Compact: Load handoff
+"Read .claude/handoffs/2026-01-14_feature-name.md and continue working."
 ```
 
-### Mit Linear
+### With Linear
 
 ```bash
-# Handoff mit Linear Issue verknüpfen
+# Link handoff with Linear issue
 /document-handoff --linear-issue TF-123
 
-# Handoff referenziert automatisch:
-# - Issue-Details
-# - Akzeptanzkriterien
-# - Verknüpfte Issues
+# Handoff automatically references:
+# - Issue details
+# - Acceptance criteria
+# - Linked issues
 ```
 
-### Mit Git Workflow
+### With Git Workflow
 
 ```bash
-# Vor Handoff: Änderungen committen
-/commit "WIP: Feature in Arbeit"
+# Prior to handoff: Commit changes
+/commit "WIP: Feature in progress"
 
-# Dann Handoff erstellen
+# Then create handoff
 /document-handoff
 
-# Handoff enthält automatisch:
-# - Branch-Name
-# - Letzte Commits
-# - Uncommitted Changes
+# Handoff automatically includes:
+# - Branch name
+# - Recent commits
+# - Uncommitted changes
 ```

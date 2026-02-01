@@ -1,27 +1,27 @@
 # Linear Integration Guide
 
-Anleitung zur Integration des Linear MCP Servers mit Claude Code.
+Guide to integrating the Linear MCP Server with Claude Code.
 
-## Übersicht
+## Overview
 
-Der Linear MCP Server ermöglicht Claude Code direkten Zugriff auf Linear-Daten:
+The Linear MCP Server provides Claude Code with direct access to Linear data:
 
-- Issue-Abruf und Suche
-- Status-Updates
-- Comment-Erstellung
-- Workflow-Management
+- Issue retrieval and search
+- Status updates
+- Comment creation
+- Workflow management
 
 ## Installation
 
-### 1. Linear API Key generieren
+### 1. Generate Linear API Key
 
-1. Öffne Linear: https://linear.app
-2. Gehe zu **Settings** → **API**
-3. Klicke **Create new API key**
-4. **Scopes auswählen**: `read`, `write`
-5. API Key kopieren
+1. Navigate to Linear: https://linear.app
+2. Go to **Settings** → **API**
+3. Click **Create new API key**
+4. **Select scopes**: `read`, `write`
+5. Copy the API key
 
-### 2. MCP Server konfigurieren
+### 2. Configure MCP Server
 
 **~/.config/claude/mcp_config.json**:
 
@@ -39,7 +39,7 @@ Der Linear MCP Server ermöglicht Claude Code direkten Zugriff auf Linear-Daten:
 }
 ```
 
-### 3. Environment Variable setzen
+### 3. Set Environment Variable
 
 **~/.env**:
 
@@ -47,7 +47,7 @@ Der Linear MCP Server ermöglicht Claude Code direkten Zugriff auf Linear-Daten:
 export LINEAR_API_KEY="lin_api_xxxxxxxxxxxxxxxxxxxxxxxx"
 ```
 
-### 4. Verifikation
+### 4. Verification
 
 ```bash
 # In Claude Code:
@@ -55,87 +55,93 @@ export LINEAR_API_KEY="lin_api_xxxxxxxxxxxxxxxxxxxxxxxx"
 "Show Linear team information"
 ```
 
-## MCP Server Funktionen
+## MCP Server Functions
 
 ### `linear_get_issue`
 
-Issue-Details abrufen:
+Retrieve issue details:
 
 ```javascript
-linear_get_issue({ issueId: "PROJ-123" })
+linear_get_issue({ issueId: "PROJ-123" });
 // → { id, identifier, title, description, state, assignee, labels }
 ```
 
 ### `linear_list_my_issues`
 
-Zugewiesene Issues auflisten:
+List assigned issues:
 
 ```javascript
-linear_list_my_issues({ filter: "in_progress" })
-// → Array von Issue-Objekten
+linear_list_my_issues({ filter: "in_progress" });
+// → Array of issue objects
 ```
 
 ### `linear_update_issue_state`
 
-Issue-Status ändern:
+Modify issue status:
 
 ```javascript
-linear_update_issue_state({ issueId: "PROJ-123", stateId: "state_inprogress" })
+linear_update_issue_state({ issueId: "PROJ-123", stateId: "state_inprogress" });
 ```
 
 ### `linear_create_comment`
 
-Comment hinzufügen:
+Add a comment:
 
 ```javascript
-linear_create_comment({ issueId: "PROJ-123", body: "Started implementation" })
+linear_create_comment({ issueId: "PROJ-123", body: "Started implementation" });
 ```
 
 ### `linear_get_workflow_states`
 
-Workflow-States abrufen:
+Retrieve workflow states:
 
 ```javascript
-linear_get_workflow_states({ teamId: "team_abc" })
+linear_get_workflow_states({ teamId: "team_abc" });
 // → [{ id: "state1", name: "Backlog" }, ...]
 ```
 
-## Workflow-States Mapping
+## Workflow State Mapping
 
-**Standard-Workflow**:
+**Standard Workflow**:
 
-| State | Bedeutung |
-|-------|-----------|
-| Backlog | Neue Issues |
-| Todo | Geplant |
-| In Progress | Wird bearbeitet |
-| In Review | PR erstellt |
-| Done | Abgeschlossen |
-| Canceled | Abgebrochen |
+| State       | Definition       |
+| ----------- | ---------------- |
+| Backlog     | New issues       |
+| Todo        | Scheduled        |
+| In Progress | Currently active |
+| In Review   | PR created       |
+| Done        | Completed        |
+| Canceled    | Discontinued     |
 
-## Team & Projekt Setup
+## Team and Project Setup
 
-### Team-ID ermitteln
+### Determine Team ID
 
 ```graphql
 query GetTeams {
   teams {
-    nodes { id, name, key }
+    nodes {
+      id
+      name
+      key
+    }
   }
 }
 ```
 
-### Projekt-Konfiguration in CLAUDE.md
+### Project Configuration in CLAUDE.md
 
 ```markdown
 ## Linear Integration
 
 ### Teams
-- **Engineering**: `PROJ` (Team-Key)
-  - Team-ID: `team_abc123`
+
+- **Engineering**: `PROJ` (Team Key)
+  - Team ID: `team_abc123`
   - Workflow: Backlog → In Progress → In Review → Done
 
-### Status-IDs
+### Status IDs
+
 - Backlog: `state_backlog123`
 - In Progress: `state_inprogress456`
 - In Review: `state_review789`
@@ -144,40 +150,41 @@ query GetTeams {
 
 ## API Rate Limits
 
-- **Rate Limit**: 1.200 Requests/Stunde
-- **Burst**: 100 Requests/Minute
+- **Rate Limit**: 1,200 requests/hour
+- **Burst**: 100 requests/minute
 
-**Empfehlungen**:
-- ✅ Batching nutzen
-- ✅ Caching für häufig abgerufene Daten
-- ❌ Keine unnötigen API-Calls
+**Recommendations**:
+
+- Utilize batching
+- Cache frequently retrieved data
+- Avoid unnecessary API calls
 
 ## Security
 
-**API Key Schutz**:
-- ✅ Environment Variables nutzen
-- ✅ Niemals in Git committen
-- ✅ `.env` in `.gitignore`
-- ✅ Key alle 90 Tage rotieren
+**API Key Protection**:
+
+- Use environment variables
+- Never commit to Git
+- Add `.env` to `.gitignore`
+- Rotate keys every 90 days
 
 ## Error Handling
 
-| Error | Ursache | Lösung |
-|-------|---------|--------|
-| 401 | API Key ungültig | Neuen Key generieren |
-| 403 | Fehlende Permissions | Scopes prüfen |
-| 404 | Issue existiert nicht | Issue-ID validieren |
-| 429 | Rate Limit | Warten und Retry |
+| Error | Cause                    | Resolution         |
+| ----- | ------------------------ | ------------------ |
+| 401   | Invalid API key          | Generate a new key |
+| 403   | Insufficient permissions | Verify scopes      |
+| 404   | Issue does not exist     | Validate issue ID  |
+| 429   | Rate limit exceeded      | Wait and retry     |
 
-## Weiterführende Ressourcen
+## Additional Resources
 
-- **Linear API Docs**: https://developers.linear.app/docs
+- **Linear API Documentation**: https://developers.linear.app/docs
 - **GraphQL Schema**: https://studio.apollographql.com/public/Linear-API/home
 - **Linear MCP Server**: https://github.com/modelcontextprotocol/servers
 
-## Siehe auch
+## See Also
 
-- [workflow.md](./workflow.md) - Workflow-Beispiele
-- [best-practices.md](./best-practices.md) - Best Practices
-- [troubleshooting.md](./troubleshooting.md) - Problemlösungen
-
+- [workflow.md](./workflow.md) - Workflow examples
+- [best-practices.md](./best-practices.md) - Best practices
+- [troubleshooting.md](./troubleshooting.md) - Problem resolution
