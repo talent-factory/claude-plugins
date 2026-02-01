@@ -2,9 +2,15 @@
 
 Comprehensive project management tools for PRD generation, project planning, task implementation with Linear integration and git worktree workflow.
 
-## Version 2.2.0
+## Version 2.3.0
 
-**Major Update:** Now includes `/create-plan`, `/implement-task`, and `/document-handoff` commands with comprehensive references and Linear integration.
+**Major Update:** Now includes `/implement-epic` for **autonomous, parallel EPIC implementation** using the Ralph Wiggum Pattern!
+
+**New in 2.3.0:**
+- 🤖 `/implement-epic` - Vollautomatische EPIC-Implementierung mit parallelen Agents
+- 🔄 Ralph Wiggum Integration - Autonome Entwicklungsschleifen
+- 👥 `epic-orchestrator` Agent - Koordiniert parallele Task-Agents
+- 📊 Echtzeit-Fortschrittstracking
 
 ## Commands
 
@@ -110,6 +116,76 @@ Implement tasks with git worktree workflow, branch creation, and PR automation.
 - [Troubleshooting](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/implement-task/troubleshooting.md) - Common issues
 - [Workflow](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/implement-task/workflow.md) - Complete workflow guide
 
+### `/implement-epic` 🆕
+
+**Autonome, parallele EPIC-Implementierung** mit dem Ralph Wiggum Pattern für selbstständige Entwicklungsschleifen.
+
+**Features:**
+- 🤖 **Vollautomatisch** - Startet und koordiniert alle Tasks selbstständig
+- 🔀 **Parallel** - Mehrere Tasks gleichzeitig in separaten Worktrees
+- 🔄 **Ralph Wiggum Pattern** - Iterative Loops bis zum Erfolg
+- 👀 **Auto-Review** - Automatische Code-Reviews mit Fix-Loops
+- 📊 **Live-Tracking** - Echtzeit-Fortschrittsanzeige
+- 🛡️ **Fehlertoleranz** - Blockierte Tasks werden dokumentiert, andere laufen weiter
+
+**Usage:**
+```bash
+/implement-epic                              # Interaktive Auswahl
+/implement-epic dark-mode-toggle             # Plan-Name
+/implement-epic --linear PROJ-123            # Linear EPIC
+/implement-epic feature-x --max-parallel 5   # Mit Optionen
+```
+
+**Voraussetzungen:**
+```bash
+# Ralph Wiggum Plugin muss installiert sein
+/plugin install ralph-wiggum@claude-plugins-official
+```
+
+**Workflow:**
+```
+1. EPIC laden & Dependency-Graph analysieren
+         ↓
+2. Parallelisierbare Tasks identifizieren (keine Blocker)
+         ↓
+3. Pro Task: Agent in eigenem Worktree starten
+         ↓
+4. Ralph-Loop für Implementation (bis TASK_COMPLETE)
+         ↓
+5. Ralph-Loop für Review (bis REVIEW_COMPLETE)
+         ↓
+6. STATUS.md aktualisieren, nächste Tasks starten
+         ↓
+7. Wiederholen bis alle Tasks erledigt
+```
+
+**Optionen:**
+| Option | Default | Beschreibung |
+|--------|---------|--------------|
+| `--max-parallel` | 3 | Max. gleichzeitige Agents |
+| `--max-iterations` | 30 | Max. Iterationen pro Task |
+| `--skip-review` | false | Review-Phase überspringen |
+| `--dry-run` | false | Nur Analyse anzeigen |
+
+**References:**
+- [Orchestrator Architecture](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/implement-epic/orchestrator-architecture.md) - Technische Details
+- [Ralph Integration](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/implement-epic/ralph-integration.md) - Ralph Wiggum Konfiguration
+- [Parallel Strategies](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/implement-epic/parallel-strategies.md) - Parallelisierungs-Patterns
+- [Troubleshooting](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/implement-epic/troubleshooting.md) - Häufige Probleme
+
+## Agents
+
+### `epic-orchestrator`
+
+Koordiniert die parallele Implementierung aller Tasks eines EPICs.
+
+**Capabilities:**
+- Dependency-Graph Analyse
+- Agent-Lifecycle Management
+- Fortschritts-Tracking
+- Error-Recovery
+- User-Eskalation bei Blockern
+
 ## Installation
 
 This plugin is part of the Talent Factory marketplace.
@@ -129,10 +205,13 @@ This plugin is part of the Talent Factory marketplace.
 project-management/
 ├── .claude-plugin/
 │   └── plugin.json
+├── agents/
+│   └── epic-orchestrator.md          # 🆕 EPIC Orchestrator Agent
 ├── commands/
 │   ├── create-prd.md
 │   ├── create-plan.md
-│   └── implement-task.md
+│   ├── implement-task.md
+│   └── implement-epic.md              # 🆕 EPIC Implementation Command
 ├── references/
 │   ├── create-prd/
 │   │   ├── best-practices.md
@@ -144,12 +223,17 @@ project-management/
 │   │   ├── filesystem.md
 │   │   ├── linear-integration.md
 │   │   └── task-breakdown.md
-│   └── implement-task/
-│       ├── best-practices.md
-│       ├── filesystem.md
-│       ├── linear.md
-│       ├── troubleshooting.md
-│       └── workflow.md
+│   ├── implement-task/
+│   │   ├── best-practices.md
+│   │   ├── filesystem.md
+│   │   ├── linear.md
+│   │   ├── troubleshooting.md
+│   │   └── workflow.md
+│   └── implement-epic/                # 🆕 EPIC Implementation References
+│       ├── orchestrator-architecture.md
+│       ├── ralph-integration.md
+│       ├── parallel-strategies.md
+│       └── troubleshooting.md
 └── README.md
 ```
 
@@ -329,6 +413,20 @@ User: "We need OAuth login with Google and GitHub"
 - **Solution:** Use different task ID or clean up old branches
 
 ## Changelog
+
+### Version 2.3.0 (2026-02-01)
+
+**Autonomous EPIC Implementation:**
+- 🤖 Added `/implement-epic` command with Ralph Wiggum Pattern integration
+- 🔀 Parallel task execution with isolated worktrees
+- 👥 Added `epic-orchestrator` agent for coordination
+- 🔄 Autonomous implementation and review loops
+- 📊 Real-time progress tracking and status updates
+- 📚 Added 4 new reference documents for EPIC implementation
+- 🔗 Ralph Wiggum plugin as dependency
+
+**Dependencies:**
+- `ralph-wiggum@claude-plugins-official` - For autonomous loops
 
 ### Version 2.0.0 (2026-01-10)
 
