@@ -165,24 +165,90 @@ git submodule foreach --recursive '
 git submodule foreach --recursive 'git branch --show-current'
 ```
 
-## Phase 5: Task-Status Update
+## Phase 5: Task-Status Update (KRITISCH)
+
+> ⚠️ **WICHTIG**: Das Status-Update muss **VOR** dem Wechsel in den Worktree erfolgen und **im Hauptbranch** committed werden! Dies ist essentiell für paralleles Arbeiten - andere Entwickler müssen sehen, dass der Task bereits in Bearbeitung ist.
 
 ### Filesystem
+
+> 🔴 **OBLIGATORISCH**: Diese Schritte verhindern, dass zwei Entwickler am gleichen Task arbeiten!
+
+#### Schritt 1: Im Hauptverzeichnis bleiben
+
+```bash
+# NICHT in den Worktree wechseln!
+# Wir sind noch im Hauptverzeichnis auf main/develop
+pwd  # sollte <projekt-root> sein, NICHT .worktrees/...
+git branch --show-current  # sollte main oder develop sein
+```
+
+#### Schritt 2: Task-Datei aktualisieren
 
 ```markdown
 # Vorher
 - **Status**: pending
+- **Updated**: 2024-11-15
 
 # Nachher
 - **Status**: in_progress
 - **Updated**: 2024-11-18
 ```
 
-**Commit**: `🔄 chore: Start task-001 implementation`
+#### Schritt 3: STATUS.md aktualisieren
+
+Die STATUS.md im Plan-Verzeichnis muss ebenfalls aktualisiert werden:
+
+```markdown
+## Progress Overview
+- **In Progress**: 1 (10%)  ← von 0 erhöht
+- **Pending**: 9 (90%)      ← von 10 reduziert
+
+## Tasks by Status
+
+### In Progress 🚧
+- task-001: UI Toggle (3 SP) ← hier hinzufügen
+
+### Pending ⏳
+<!-- task-001 hier entfernen -->
+```
+
+#### Schritt 4: Änderungen committen und pushen
+
+```bash
+# Änderungen stagen
+git add .plans/<feature-name>/tasks/task-001-*.md
+git add .plans/<feature-name>/STATUS.md
+
+# Committen
+git commit -m "🔄 chore: Starte task-001 Implementierung"
+
+# ZUM REMOTE PUSHEN (damit andere es sehen!)
+git push origin main  # oder develop
+```
+
+#### Schritt 5: Erst jetzt in Worktree wechseln
+
+```bash
+cd ".worktrees/task-001"
+# Jetzt kann die eigentliche Implementierung beginnen
+```
+
+#### Filesystem-Checkliste
+
+- ✅ Im Hauptbranch (nicht Worktree) arbeiten
+- ✅ Task-Datei: `pending` → `in_progress`
+- ✅ Task-Datei: `Updated`-Datum aktualisiert
+- ✅ STATUS.md: Task unter "In Progress" verschoben
+- ✅ STATUS.md: Progress-Übersicht aktualisiert
+- ✅ Änderungen committed
+- ✅ Änderungen gepusht zum Remote
+- ✅ Erst dann in Worktree wechseln
 
 ### Linear
 
 Via MCP: `linear_update_issue_state()` → "In Progress"
+
+Linear speichert den Status zentral, daher ist er automatisch für alle sichtbar.
 
 **Optional Comment**:
 ```markdown

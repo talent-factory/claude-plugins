@@ -9,7 +9,7 @@ Browse all available plugins in the Talent Factory marketplace. Each plugin prov
 | Plugin | Version | Commands | Agents | Skills | Tags |
 |--------|---------|----------|--------|--------|------|
 | [Git Workflow](git-workflow.md) | 2.0.0 | 3 | 0 | 2 | git, workflow, commits, PRs |
-| [Project Management](project-management.md) | 2.2.0 | 4 | 0 | 0 | planning, PRD, Linear, agile |
+| [Project Management](project-management.md) | 2.3.0 | 5 | 1 | 0 | planning, PRD, Linear, EPIC, agile |
 | [Code Quality](code-quality.md) | 3.0.0 | 1 | 3 | 0 | review, quality, Python, React |
 | [Education](education.md) | 1.2.0 | 1 | 1 | 1 | teaching, learning, markdown |
 | [Core Utilities](core.md) | 3.0.0 | 7 | 2 | 1 | validation, CI, development |
@@ -39,9 +39,10 @@ Browse all available plugins in the Talent Factory marketplace. Each plugin prov
 
     ---
 
-    Comprehensive project planning with PRD generation, Linear integration, and git worktree workflows.
+    Comprehensive project planning with PRD generation, EPIC automation, Linear integration, and git worktree workflows.
 
-    **Commands:** `/create-prd`, `/create-plan`, `/implement-task`, `/document-handoff`
+    **Commands:** `/create-prd`, `/create-plan`, `/implement-task`, `/implement-epic`, `/document-handoff`
+    **Agents:** `epic-orchestrator`
 
     [:octicons-arrow-right-24: Details](project-management.md)
 
@@ -171,10 +172,11 @@ To install plugins from this marketplace:
 | Pre-commit Checks | Yes | No | Yes | No | No | Yes | No |
 | Linear Integration | No | Yes | No | No | No | No | No |
 | Code Review | No | No | Yes | No | No | No | No |
-| Expert Agents | No | No | Yes | Yes | Yes | Yes | No |
+| Expert Agents | No | Yes | Yes | Yes | Yes | Yes | No |
 | Task Management | No | Yes | No | No | No | No | Yes |
 | CI Automation | No | No | No | No | No | Yes | No |
 | Project Init | No | No | No | Yes | No | No | No |
+| EPIC Automation | No | Yes | No | No | No | No | No |
 
 ---
 
