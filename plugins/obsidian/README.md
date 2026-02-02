@@ -95,7 +95,7 @@ uv run tasks.py list --status in-progress --scan --table
 
 ## Skills
 
-See [Skills & Agents Activation Guide](../../docs/reference/skills-agents-activation.md) for detailed activation instructions.
+See [Skills & Agents Activation Guide](../reference/skills-agents-activation.md) for detailed activation instructions.
 
 ### tasknotes
 
