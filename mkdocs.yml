@@ -221,6 +221,7 @@ nav:
 
   - Community:
     - community/index.md
+    - External Resources: community/external-resources.md
     - Code of Conduct: community/code-of-conduct.md
     - Security: community/security.md
     - Changelog: community/changelog.md
