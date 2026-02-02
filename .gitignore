@@ -93,3 +93,4 @@ trivy-results.json
 # Documentation build
 site/
 _site/
+.grepai/
