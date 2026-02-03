@@ -17,6 +17,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Plugins
 
+#### git-workflow 2.1.0 (Minor Update)
+
+- ✨ Added `post-merge-cleanup` skill for automated branch cleanup after merge
+- Now includes 3 skills total
+
+#### obsidian 1.1.1
+
+- 🔧 Patch release with minor improvements
+
+#### education 1.3.1
+
+- 🔧 Patch release with minor improvements
+
+#### development 1.2.1
+
+- 🔧 Java projects now always use Gradle Kotlin DSL (not Maven)
+- 🔧 Initial commit uses `/git-workflow:commit`
+- 📚 Clearer step-by-step instructions in skill
+
 #### development 1.1.0 (NEW)
 
 - New plugin for expert development agents and project initialization

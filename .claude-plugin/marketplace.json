@@ -11,7 +11,7 @@
       "name": "git-workflow",
       "description": "Professional git workflow with automated pre-commit checks, emoji conventional commits, PR management, and comprehensive references",
       "source": "./plugins/git-workflow",
-      "version": "2.0.0",
+      "version": "2.1.0",
       "tags": [
         "git",
         "workflow",
@@ -59,7 +59,7 @@
       "name": "education",
       "description": "Teaching aids with Java Tutor agent, Markdown syntax formatter agent and skill, and code explanation for IT education",
       "source": "./plugins/education",
-      "version": "1.3.0",
+      "version": "1.3.1",
       "tags": [
         "education",
         "teaching",
@@ -90,7 +90,7 @@
       "name": "obsidian",
       "description": "Obsidian Integration - Task management via TaskNotes Plugin API with natural language support and vault-wide scanning",
       "source": "./plugins/obsidian",
-      "version": "1.1.0",
+      "version": "1.1.1",
       "tags": [
         "obsidian",
         "tasks",
