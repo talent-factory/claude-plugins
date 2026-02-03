@@ -2,7 +2,7 @@
 
 Teaching aids, code explanations, and student support for IT education.
 
-## Version 1.3.0
+## Version 1.3.1
 
 This plugin provides educational tools for students and instructors, including code explanations, a Java Tutor agent, and Markdown formatting skills.
 

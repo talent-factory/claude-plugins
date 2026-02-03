@@ -2,7 +2,7 @@
 
 Integration with Obsidian via the TaskNotes Plugin API - task management directly from Claude Code.
 
-## Version 1.1.0
+## Version 1.1.1
 
 This plugin enables seamless task management between Claude Code and Obsidian using the TaskNotes Plugin API.
 
@@ -95,7 +95,7 @@ uv run tasks.py list --status in-progress --scan --table
 
 ## Skills
 
-See [Skills & Agents Activation Guide](../../docs/reference/skills-agents-activation.md) for detailed activation instructions.
+See [Skills & Agents Activation Guide](../reference/skills-agents-activation.md) for detailed activation instructions.
 
 ### tasknotes
 

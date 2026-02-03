@@ -8,12 +8,12 @@ Browse all available plugins in the Talent Factory marketplace. Each plugin prov
 
 | Plugin                                      | Version | Commands | Agents | Skills | Tags                                |
 | ------------------------------------------- | ------- | -------- | ------ | ------ | ----------------------------------- |
-| [Git Workflow](git-workflow.md)             | 2.0.0   | 3        | 0      | 2      | git, workflow, commits, PRs         |
+| [Git Workflow](git-workflow.md)             | 2.1.0   | 3        | 0      | 3      | git, workflow, commits, PRs         |
 | [Project Management](project-management.md) | 2.4.0   | 5        | 1      | 0      | planning, PRD, Linear, EPIC, agile  |
 | [Code Quality](code-quality.md)             | 3.0.0   | 1        | 3      | 0      | review, quality, Python, React      |
-| [Education](education.md)                   | 1.3.0   | 1        | 2      | 1      | teaching, learning, markdown        |
+| [Education](education.md)                   | 1.3.1   | 1        | 2      | 1      | teaching, learning, markdown        |
 | [Core Utilities](core.md)                   | 3.0.0   | 7        | 2      | 1      | validation, CI, development         |
-| [Obsidian Integration](obsidian.md)         | 1.1.0   | 0        | 0      | 1      | tasks, Obsidian, productivity       |
+| [Obsidian Integration](obsidian.md)         | 1.1.1   | 0        | 0      | 1      | tasks, Obsidian, productivity       |
 | [Development](development.md)               | 1.2.1   | 1        | 1      | 1      | java, gradle, python, git-branching |
 
 ---
@@ -31,7 +31,7 @@ Browse all available plugins in the Talent Factory marketplace. Each plugin prov
   Professional git automation with emoji conventional commits, pre-commit checks, and PR management.
 
   **Commands:** `/commit`, `/create-pr`, `/pr-edit-history`
-  **Skills:** `professional-commit-workflow`, `professional-pr-workflow`
+  **Skills:** `professional-commit-workflow`, `professional-pr-workflow`, `post-merge-cleanup`
 
   [:octicons-arrow-right-24: Details](git-workflow.md)
 

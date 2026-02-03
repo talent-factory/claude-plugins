@@ -2,9 +2,9 @@
 
 Professional git workflow automation with pre-commit checks, emoji conventional commits, PR management, and comprehensive references.
 
-## Version 2.0.0
+## Version 2.1.0
 
-**Major Update:** Now includes comprehensive references, best practices documentation, professional workflow skills, and PR edit history tracking.
+**Minor Update:** Added `post-merge-cleanup` skill for automated branch cleanup after merge. Now includes 3 professional workflow skills.
 
 ## Commands
 
@@ -358,6 +358,13 @@ See [create-pr/troubleshooting.md](https://github.com/talent-factory/claude-plug
 - **React/Node.js:** ESLint, Prettier, TypeScript (optional)
 
 ## Changelog
+
+### Version 2.1.0 (2026-02-03)
+
+**Minor Update:**
+
+- ✨ Added `post-merge-cleanup` skill for automated branch cleanup after merge
+- Now includes 3 professional workflow skills
 
 ### Version 2.0.0 (2026-01-10)
 
