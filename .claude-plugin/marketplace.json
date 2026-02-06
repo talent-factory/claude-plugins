@@ -71,9 +71,9 @@
     },
     {
       "name": "core",
-      "description": "Comprehensive development utilities with 7 commands, 1 skill, and 3 expert agents for plugin/command/agent development, validation, CI automation, and text humanization",
+      "description": "Comprehensive development utilities with 7 commands, 2 skills, and 2 expert agents for plugin/command/agent development, validation, CI automation, text humanization, and PDF-to-Markdown conversion",
       "source": "./plugins/core",
-      "version": "3.0.0",
+      "version": "3.1.0",
       "tags": [
         "utilities",
         "validation",

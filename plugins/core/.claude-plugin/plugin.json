@@ -1,7 +1,7 @@
 {
   "name": "core",
-  "version": "3.0.0",
-  "description": "Comprehensive development utilities for plugin/command/agent development, validation, CI automation, and text humanization with expert agents",
+  "version": "3.1.0",
+  "description": "Comprehensive development utilities for plugin/command/agent development, validation, CI automation, text humanization, and PDF-to-Markdown conversion with expert agents",
   "author": {
     "name": "Talent Factory GmbH",
     "email": "support@talent-factory.ch"

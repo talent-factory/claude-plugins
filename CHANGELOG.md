@@ -17,6 +17,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Plugins
 
+#### core 3.1.0 (Minor Update)
+
+- ✨ Added `pdf-to-markdown` skill for PDF to Markdown conversion
+- 📄 Dual-mode support: fast (PyMuPDF) and vision (Claude Code analysis)
+- 🔍 LaTeX umlaut correction (¨a → ä, ¨o → ö, ¨u → ü)
+- 🇨🇭 Swiss German orthography (ß → ss)
+- 📊 Table recognition and code block detection
+- 📚 Added comprehensive guide in docs/guides/pdf-to-markdown.md
+- Now includes 7 commands, 2 skills, and 2 expert agents
+
 #### git-workflow 2.1.0 (Minor Update)
 
 - ✨ Added `post-merge-cleanup` skill for automated branch cleanup after merge

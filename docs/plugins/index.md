@@ -12,7 +12,7 @@ Browse all available plugins in the Talent Factory marketplace. Each plugin prov
 | [Project Management](project-management.md) | 2.4.0   | 5        | 1      | 0      | planning, PRD, Linear, EPIC, agile  |
 | [Code Quality](code-quality.md)             | 3.0.0   | 1        | 3      | 0      | review, quality, Python, React      |
 | [Education](education.md)                   | 1.3.1   | 1        | 2      | 1      | teaching, learning, markdown        |
-| [Core Utilities](core.md)                   | 3.0.0   | 7        | 2      | 1      | validation, CI, development         |
+| [Core Utilities](core.md)                   | 3.1.0   | 7        | 2      | 2      | validation, CI, PDF, development    |
 | [Obsidian Integration](obsidian.md)         | 1.1.1   | 0        | 0      | 1      | tasks, Obsidian, productivity       |
 | [Development](development.md)               | 1.2.1   | 1        | 1      | 1      | java, gradle, python, git-branching |
 
@@ -81,11 +81,11 @@ Browse all available plugins in the Talent Factory marketplace. Each plugin prov
 
   ***
 
-  Development utilities for plugin validation, CI automation, and plugin/command/agent development.
+  Development utilities for plugin validation, CI automation, plugin development, and PDF-to-Markdown conversion.
 
   **Commands:** `/check`, `/check-commands`, `/check-agents`, `/build-skill`, `/package-skill`, `/create-command`, `/run-ci`
   **Agents:** `agent-expert`, `command-expert`
-  **Skills:** `humanizer`
+  **Skills:** `humanizer`, `pdf-to-markdown`
 
   [:octicons-arrow-right-24: Details](core.md)
 
