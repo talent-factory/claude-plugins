@@ -1,10 +1,10 @@
 # Core Utilities Plugin
 
-Comprehensive development utilities for plugin/command/agent development, validation, CI automation, and text humanization.
+Comprehensive development utilities for plugin/command/agent development, validation, CI automation, text humanization, and PDF-to-Markdown conversion.
 
-## Version 3.0.0
+## Version 3.1.0
 
-**Breaking Change:** `init-project` command moved to `development` plugin. Now includes 7 commands, 1 skill, and 2 expert agents for development workflow automation.
+**New:** Added `pdf-to-markdown` skill for converting PDF documents to Markdown with dual-mode support (fast text extraction or Claude Code vision analysis). Now includes 7 commands, 2 skills, and 2 expert agents.
 
 ## Commands
 
@@ -235,6 +235,50 @@ Removes signs of AI-generated text to make content more natural and human.
 
 **Location:** `skills/humanizer/SKILL.md`
 
+### PDF to Markdown
+
+Converts PDF files to Markdown with dual-mode support for different document types.
+
+**Activation:**
+- Natural language: "Konvertiere document.pdf zu Markdown"
+- Direct: `/pdf-to-markdown path/to/file.pdf`
+
+**Modes:**
+
+| Mode | Method | Speed | Best For |
+|------|--------|-------|----------|
+| `fast` | PyMuPDF text extraction | Very fast | Simple text documents |
+| `vision` | Claude Code image analysis | Medium | Complex layouts, code, tables |
+
+**Features:**
+- 📄 Dual-mode conversion (fast/vision)
+- 🔍 LaTeX umlaut correction (¨a → ä)
+- 🇨🇭 Swiss German orthography (ß → ss)
+- 📊 Table recognition and Markdown formatting
+- 💻 Code block detection with language identification
+- 🖼️ Image extraction (fast mode) or description (vision mode)
+
+**Usage:**
+```
+"Konvertiere report.pdf zu Markdown"
+"Konvertiere java-buch.pdf zu Markdown, enthält viel Code"
+"Konvertiere textbook.pdf Seiten 10-30 zu Markdown"
+```
+
+**Prerequisites:**
+```bash
+# Fast mode
+pip install PyMuPDF Pillow --break-system-packages
+
+# Vision mode (additional)
+pip install pdf2image --break-system-packages
+brew install poppler  # macOS
+```
+
+**Location:** `skills/pdf-to-markdown/SKILL.md`
+
+[:octicons-arrow-right-24: PDF to Markdown Guide](../guides/pdf-to-markdown.md)
+
 ## Installation
 
 This plugin is part of the Talent Factory marketplace.
@@ -266,8 +310,12 @@ core/
 │   ├── agent-expert.md
 │   └── command-expert.md
 ├── skills/
-│   └── humanizer/
-│       └── SKILL.md
+│   ├── humanizer/
+│   │   └── SKILL.md
+│   └── pdf-to-markdown/
+│       ├── SKILL.md
+│       └── scripts/
+│           └── pdf_converter.py
 └── README.md
 ```
 
@@ -477,6 +525,13 @@ intuitive und leistungsstarke Benutzererfahrung."
 - **Solution:** Review error logs carefully
 
 ## Changelog
+
+### Version 3.1.0 (2026-02-06)
+
+**New Features:**
+- Added `pdf-to-markdown` skill for PDF to Markdown conversion
+- Dual-mode support: fast (PyMuPDF) and vision (Claude Code analysis)
+- LaTeX umlaut correction and Swiss German orthography
 
 ### Version 3.0.0 (2026-01-28)
 
