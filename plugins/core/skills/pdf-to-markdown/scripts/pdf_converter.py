@@ -201,6 +201,25 @@ def convert_vision_prepare(
 # VISION MODE - Direct API (optional, requires ANTHROPIC_API_KEY)
 # ============================================================================
 
+
+def _extract_page_with_pymupdf(pdf_path: Path, page_num: int) -> str:
+    """Fallback: Extract text directly from PDF with pymupdf4llm (without Vision API)."""
+    try:
+        import pymupdf4llm
+
+        # pymupdf4llm uses 0-based page numbers
+        markdown = pymupdf4llm.to_markdown(
+            str(pdf_path),
+            pages=[page_num - 1],  # 0-based
+            show_progress=False,
+        )
+        return f"<!-- Fallback: pymupdf4llm extraction -->\n\n{markdown}"
+    except ImportError:
+        return f"[Page {page_num} skipped: pymupdf4llm not installed for fallback]"
+    except Exception as e:
+        return f"[Page {page_num} skipped: Fallback failed - {e}]"
+
+
 DEFAULT_VISION_PROMPT = """Analysiere diese Buchseite und konvertiere den gesamten Inhalt in gut strukturiertes Markdown.
 
 Beachte folgende Regeln:
@@ -334,6 +353,15 @@ def convert_vision_api(
                 }],
             )
             markdown_parts.append(f"<!-- Page {page_num} -->\n\n{message.content[0].text}")
+
+        except anthropic.BadRequestError as e:
+            if "content filtering" in str(e).lower():
+                print(f"\n⚠️  Content-Filter at page {page_num} - Fallback to pymupdf4llm...")
+                fallback_md = _extract_page_with_pymupdf(pdf_path, page_num)
+                markdown_parts.append(f"<!-- Page {page_num} -->\n\n{fallback_md}")
+            else:
+                print(f"\n❌ API error on page {page_num}: {e}")
+                markdown_parts.append(f"<!-- Page {page_num} -->\n\n[Fehler bei der Konvertierung: {e}]")
 
         except Exception as e:
             print(f"\n❌ Error on page {page_num}: {e}")
