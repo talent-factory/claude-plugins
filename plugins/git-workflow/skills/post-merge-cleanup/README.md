@@ -47,7 +47,7 @@ Automates the cleanup process after a Pull Request has been merged, handling bot
 |---------|-------------|---------|
 | `task-NNN` | Filesystem | `task-013` |
 | `NNN` (numeric) | Filesystem | `013` |
-| `PROJ-NNN` | Linear | `SUB-123` |
+| `PROJ-NNN` | Linear | `PROJ-123` |
 
 Override with `--linear` or `--file` flags.
 
