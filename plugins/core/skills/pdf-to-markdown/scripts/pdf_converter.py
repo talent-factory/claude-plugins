@@ -113,6 +113,7 @@ def convert_fast(
                         try:
                             from PIL import Image
                             import io
+
                             img_pil = Image.open(io.BytesIO(image_bytes))
                             img_pil.save(str(image_path), "PNG")
                         except ImportError:
@@ -125,7 +126,9 @@ def convert_fast(
                             f.write(image_bytes)
 
                     relative_path = f"{base_name}_images/{image_filename}"
-                    markdown_lines.append(f"![Image {image_count}]({relative_path})\n\n")
+                    markdown_lines.append(
+                        f"![Image {image_count}]({relative_path})\n\n"
+                    )
 
     doc.close()
 
@@ -172,22 +175,28 @@ def convert_vision_prepare(
     print(f"📄 Converting PDF to images: {pdf_path.name}")
     print(f"   DPI: {dpi}")
 
-    # Convert PDF to images
-    images = convert_from_path(str(pdf_path), dpi=dpi)
-    total_pages = len(images)
-    print(f"   Found {total_pages} pages")
-
-    # Handle page range
-    start_page = 1
-    end_page = total_pages
+    # Handle page range - use pdf2image's built-in parameters to avoid loading entire PDF
+    first_page = None
+    last_page = None
     if page_range:
-        start_page = max(1, page_range[0])
-        end_page = min(total_pages, page_range[1])
+        first_page = max(1, page_range[0])
+        last_page = page_range[1]
+        print(f"   Processing pages {first_page}-{last_page}")
 
-    print(f"   Processing pages {start_page}-{end_page}")
+    # Convert PDF to images with page range
+    images = convert_from_path(
+        str(pdf_path), dpi=dpi, first_page=first_page, last_page=last_page
+    )
+    total_pages = len(images)
+
+    if not page_range:
+        print(f"   Found {total_pages} pages")
+
+    # Calculate starting page number for filenames
+    start_page = first_page if first_page else 1
 
     image_paths = []
-    for i, image in enumerate(images[start_page - 1:end_page], start=start_page):
+    for i, image in enumerate(images, start=start_page):
         image_path = images_dir / f"page_{i:03d}.png"
         image.save(str(image_path), "PNG")
         image_paths.append(str(image_path))
@@ -287,26 +296,33 @@ def convert_vision_api(
         image.save(buffer, format="JPEG", quality=85)
         buffer.seek(0)
 
-        return base64.standard_b64encode(buffer.getvalue()).decode("utf-8"), "image/jpeg"
+        return base64.standard_b64encode(buffer.getvalue()).decode(
+            "utf-8"
+        ), "image/jpeg"
 
-    # Convert PDF to images
-    images = convert_from_path(str(pdf_path), dpi=dpi)
-    total_pages = len(images)
-    print(f"   Found {total_pages} pages")
-
-    # Handle page range
-    start_page = 1
-    end_page = total_pages
+    # Handle page range - use pdf2image's built-in parameters to avoid loading entire PDF
+    first_page = None
+    last_page = None
     if page_range:
-        start_page = max(1, page_range[0])
-        end_page = min(total_pages, page_range[1])
+        first_page = max(1, page_range[0])
+        last_page = page_range[1]
+        print(f"   Processing pages {first_page}-{last_page}")
 
-    selected_images = images[start_page - 1:end_page]
-    print(f"   Processing pages {start_page}-{end_page}")
+    # Convert PDF to images with page range
+    images = convert_from_path(
+        str(pdf_path), dpi=dpi, first_page=first_page, last_page=last_page
+    )
+    total_pages = len(images)
+
+    if not page_range:
+        print(f"   Found {total_pages} pages")
+
+    # Calculate starting page number
+    start_page = first_page if first_page else 1
 
     # Convert each page
     markdown_parts = []
-    iterator = list(enumerate(selected_images, start=start_page))
+    iterator = list(enumerate(images, start=start_page))
     iterator = tqdm(iterator, desc="🔄 Converting", unit="page", ncols=80)
 
     for page_num, image in iterator:
@@ -316,20 +332,22 @@ def convert_vision_api(
             message = client.messages.create(
                 model=model,
                 max_tokens=4096,
-                messages=[{
-                    "role": "user",
-                    "content": [
-                        {
-                            "type": "image",
-                            "source": {
-                                "type": "base64",
-                                "media_type": media_type,
-                                "data": base64_image,
+                messages=[
+                    {
+                        "role": "user",
+                        "content": [
+                            {
+                                "type": "image",
+                                "source": {
+                                    "type": "base64",
+                                    "media_type": media_type,
+                                    "data": base64_image,
+                                },
                             },
-                        },
-                        {"type": "text", "text": prompt},
-                    ],
-                }],
+                            {"type": "text", "text": prompt},
+                        ],
+                    }
+                ],
             )
 
             markdown = message.content[0].text
@@ -344,28 +362,45 @@ def convert_vision_api(
             message = client.messages.create(
                 model=model,
                 max_tokens=4096,
-                messages=[{
-                    "role": "user",
-                    "content": [
-                        {"type": "image", "source": {"type": "base64", "media_type": media_type, "data": base64_image}},
-                        {"type": "text", "text": prompt},
-                    ],
-                }],
+                messages=[
+                    {
+                        "role": "user",
+                        "content": [
+                            {
+                                "type": "image",
+                                "source": {
+                                    "type": "base64",
+                                    "media_type": media_type,
+                                    "data": base64_image,
+                                },
+                            },
+                            {"type": "text", "text": prompt},
+                        ],
+                    }
+                ],
             )
-            markdown_parts.append(f"<!-- Page {page_num} -->\n\n{message.content[0].text}")
+            markdown_parts.append(
+                f"<!-- Page {page_num} -->\n\n{message.content[0].text}"
+            )
 
         except anthropic.BadRequestError as e:
             if "content filtering" in str(e).lower():
-                print(f"\n⚠️  Content-Filter at page {page_num} - Fallback to pymupdf4llm...")
+                print(
+                    f"\n⚠️  Content-Filter at page {page_num} - Fallback to pymupdf4llm..."
+                )
                 fallback_md = _extract_page_with_pymupdf(pdf_path, page_num)
                 markdown_parts.append(f"<!-- Page {page_num} -->\n\n{fallback_md}")
             else:
                 print(f"\n❌ API error on page {page_num}: {e}")
-                markdown_parts.append(f"<!-- Page {page_num} -->\n\n[Fehler bei der Konvertierung: {e}]")
+                markdown_parts.append(
+                    f"<!-- Page {page_num} -->\n\n[Fehler bei der Konvertierung: {e}]"
+                )
 
         except Exception as e:
             print(f"\n❌ Error on page {page_num}: {e}")
-            markdown_parts.append(f"<!-- Page {page_num} -->\n\n[Fehler bei der Konvertierung: {e}]")
+            markdown_parts.append(
+                f"<!-- Page {page_num} -->\n\n[Fehler bei der Konvertierung: {e}]"
+            )
 
     # Build final markdown
     header = f"""# {pdf_path.stem}
@@ -386,6 +421,7 @@ def convert_vision_api(
 # ============================================================================
 # MAIN
 # ============================================================================
+
 
 def main():
     parser = argparse.ArgumentParser(
@@ -411,9 +447,14 @@ Examples:
     )
 
     parser.add_argument("input", help="Input PDF file")
-    parser.add_argument("output", nargs="?", help="Output path (default: input_name.md or input_name_pages/)")
     parser.add_argument(
-        "--mode", "-m",
+        "output",
+        nargs="?",
+        help="Output path: .md file for fast/API mode, directory for vision mode (default: auto)",
+    )
+    parser.add_argument(
+        "--mode",
+        "-m",
         choices=["fast", "vision"],
         default="fast",
         help="Conversion mode: fast (PyMuPDF) or vision (image-based)",
@@ -479,7 +520,9 @@ Examples:
 
     # Run conversion based on mode
     if args.mode == "fast":
-        output_path = Path(args.output) if args.output else input_path.with_suffix(".md")
+        output_path = (
+            Path(args.output) if args.output else input_path.with_suffix(".md")
+        )
         convert_fast(
             pdf_path=input_path,
             output_path=output_path,
@@ -489,7 +532,9 @@ Examples:
     elif args.mode == "vision":
         if args.use_api:
             # Direct API mode
-            output_path = Path(args.output) if args.output else input_path.with_suffix(".md")
+            output_path = (
+                Path(args.output) if args.output else input_path.with_suffix(".md")
+            )
             try:
                 convert_vision_api(
                     pdf_path=input_path,
@@ -514,8 +559,10 @@ Examples:
                 dpi=args.dpi,
                 page_range=page_range,
             )
+            # Show actual location of images
+            images_dir = output_dir / f"{input_path.stem}_pages"
             print(f"\n📋 Next step: Let Claude Code analyze the images:")
-            print(f"   Images are in: {input_path.stem}_pages/")
+            print(f"   Images are in: {images_dir}")
             print(f"   Claude Code can read these with the Read tool")
 
 
