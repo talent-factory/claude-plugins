@@ -1,0 +1,34 @@
+{
+  "rules": [
+    {
+      "id": "tech-stack",
+      "source": {
+        "file": "CLAUDE.md",
+        "section": "Tech Stack"
+      },
+      "targets": [
+        {"file": "README.md", "section": "Tech Stack"}
+      ]
+    },
+    {
+      "id": "dev-commands",
+      "source": {
+        "file": "CLAUDE.md",
+        "section": "Development Commands (Make)"
+      },
+      "targets": [
+        {"file": "README.md", "section": "Make-Befehle"}
+      ]
+    },
+    {
+      "id": "project-structure",
+      "source": {
+        "file": "CLAUDE.md",
+        "section": "Project Structure"
+      },
+      "targets": [
+        {"file": "README.md", "section": "Project Structure"}
+      ]
+    }
+  ]
+}

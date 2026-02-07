@@ -1,8 +1,8 @@
 # Development Plugin
 
-Expert development agents and project initialization with Git branching strategy, Java/Gradle Kotlin DSL, and Python/uv support.
+Expert development agents, project initialization with Git branching, Java/Gradle Kotlin DSL, Python/uv support, and documentation synchronization tools.
 
-## Version 1.2.1
+## Version 1.3.0
 
 This plugin provides specialized agents for Java development and commands for initializing open source projects with GitHub best practices and professional Git branching.
 
@@ -82,6 +82,31 @@ Skill-based project initialization with enhanced automation.
 
 ```bash
 /init-project --with-skills --java --name "my-app"
+```
+
+### update-documents
+
+Synchronize documentation between CLAUDE.md, README.md, and docs/.
+
+**Activation:**
+
+- Natural language: "Synchronize my documentation", "Check if docs are in sync"
+- Direct: Use scripts in `skills/update-documents/scripts/`
+
+**Features:**
+
+- Automatic sync status analysis (✓ synchron, ⚠ veraltet, ✗ fehlend)
+- CLAUDE.md as technical source of truth
+- Configurable sync rules via JSON
+- Whitespace-tolerant comparison
+- Section-based synchronization
+
+**Usage:**
+
+```bash
+"Synchronisiere die Dokumentation"
+"Prüfe ob die Docs aktuell sind"
+"Update README von CLAUDE.md"
 ```
 
 ---
@@ -214,14 +239,14 @@ development/
 ├── agents/
 │   └── java-developer.md
 ├── skills/
-│   └── professional-init-project/
+│   ├── professional-init-project/
+│   │   ├── SKILL.md
+│   │   ├── scripts/
+│   │   ├── templates/
+│   │   └── config/
+│   └── update-documents/
 │       ├── SKILL.md
-│       ├── README.md
 │       ├── scripts/
-│       │   ├── main.py
-│       │   ├── git_initializer.py
-│       │   └── generators/
-│       ├── templates/
 │       └── config/
 └── README.md
 ```
@@ -256,6 +281,12 @@ development/
 ---
 
 ## Changelog
+
+### Version 1.3.0 (2026-02-07)
+
+- **New**: `update-documents` skill for documentation synchronization
+- **New**: Configurable sync rules between CLAUDE.md, README.md, and docs/
+- **New**: Automatic sync status analysis with visual indicators
 
 ### Version 1.2.1 (2026-01-31)
 

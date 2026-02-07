@@ -14,7 +14,7 @@ Browse all available plugins in the Talent Factory marketplace. Each plugin prov
 | [Education](education.md)                   | 1.3.1   | 1        | 2      | 1      | teaching, learning, markdown        |
 | [Core Utilities](core.md)                   | 3.1.0   | 7        | 2      | 2      | validation, CI, PDF, development    |
 | [Obsidian Integration](obsidian.md)         | 1.1.1   | 0        | 0      | 1      | tasks, Obsidian, productivity       |
-| [Development](development.md)               | 1.2.1   | 1        | 1      | 1      | java, gradle, python, git-branching |
+| [Development](development.md)               | 1.3.0   | 1        | 1      | 2      | java, gradle, python, documentation |
 
 ---
 
@@ -69,11 +69,11 @@ Browse all available plugins in the Talent Factory marketplace. Each plugin prov
 
   ***
 
-  Expert development agents and project initialization with Git branching (develop → main), Java/Gradle Kotlin DSL, and Python/uv support.
+  Expert development agents, project initialization with Git branching, Java/Gradle, Python/uv, and documentation synchronization tools.
 
   **Commands:** `/init-project`
   **Agents:** `java-developer`
-  **Skills:** `professional-init-project`
+  **Skills:** `professional-init-project`, `update-documents`
 
   [:octicons-arrow-right-24: Details](development.md)
 
