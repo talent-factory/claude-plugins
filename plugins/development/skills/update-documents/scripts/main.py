@@ -34,7 +34,10 @@ def analyze(project_root: Path, config_path: Path) -> dict:
         Dict mit Analyse-Ergebnissen
     """
     rules = load_rules(config_path)
-    results = {"rules": [], "summary": {"total": 0, "outdated": 0, "missing": 0, "ok": 0}}
+    results = {
+        "rules": [],
+        "summary": {"total": 0, "outdated": 0, "missing": 0, "ok": 0},
+    }
 
     for rule in rules:
         source_path = project_root / rule.source_file
@@ -56,6 +59,9 @@ def analyze(project_root: Path, config_path: Path) -> dict:
             results["summary"]["missing"] += 1
         else:
             all_ok = True
+            has_missing = False
+            has_outdated = False
+
             for target in rule.targets:
                 target_path = project_root / target.file
                 target_content = extract_section(target_path, target.section)
@@ -72,10 +78,12 @@ def analyze(project_root: Path, config_path: Path) -> dict:
                     target_result["status"] = "missing"
                     target_result["needs_update"] = True
                     all_ok = False
+                    has_missing = True
                 elif _normalize(target_content) != _normalize(source_content):
                     target_result["status"] = "outdated"
                     target_result["needs_update"] = True
                     all_ok = False
+                    has_outdated = True
                 else:
                     target_result["status"] = "ok"
 
@@ -84,6 +92,9 @@ def analyze(project_root: Path, config_path: Path) -> dict:
             rule_result["status"] = "ok" if all_ok else "needs_sync"
             if all_ok:
                 results["summary"]["ok"] += 1
+            elif has_missing:
+                # Prioritize missing over outdated in summary
+                results["summary"]["missing"] += 1
             else:
                 results["summary"]["outdated"] += 1
 
@@ -151,7 +162,10 @@ def sync(project_root: Path, config_path: Path) -> dict:
                 )
                 continue
 
-            success = update_section(target_path, target.section, source_content)
+            # Try to update section, create if missing
+            success = update_section(
+                target_path, target.section, source_content, create_if_missing=True
+            )
 
             if success:
                 results["updated"].append(
@@ -166,7 +180,7 @@ def sync(project_root: Path, config_path: Path) -> dict:
                     {
                         "rule": rule.id,
                         "target": target.file,
-                        "error": f"Section '{target.section}' not found in {target.file}",
+                        "error": f"Failed to update section '{target.section}' in {target.file}",
                     }
                 )
 
@@ -208,7 +222,9 @@ def main():
 
     # Pfade bestimmen
     project_root = args.project_root or get_project_root()
-    config_path = args.config or (Path(__file__).parent.parent / "config" / "sync_rules.json")
+    config_path = args.config or (
+        Path(__file__).parent.parent / "config" / "sync_rules.json"
+    )
 
     if not config_path.exists():
         print(f"Error: Config not found: {config_path}", file=sys.stderr)

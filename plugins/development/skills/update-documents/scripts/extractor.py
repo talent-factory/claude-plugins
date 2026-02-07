@@ -24,24 +24,30 @@ def extract_section(file_path: Path, section_name: str) -> str | None:
     section_start = None
     section_level = None
     result_lines = []
+    in_code_block = False
 
     for i, line in enumerate(lines):
-        # Prüfe ob es ein Heading ist
-        heading_match = re.match(r"^(#{1,6})\s+(.+)$", line)
+        # Track fenced code blocks
+        if line.strip().startswith("```"):
+            in_code_block = not in_code_block
 
-        if heading_match:
-            level = len(heading_match.group(1))
-            title = heading_match.group(2).strip()
+        # Only process headings outside of code blocks
+        if not in_code_block:
+            heading_match = re.match(r"^(#{1,6})\s+(.+)$", line)
 
-            # Gefundenes Section-Heading
-            if section_start is None and title.lower() == section_name.lower():
-                section_start = i
-                section_level = level
-                continue
+            if heading_match:
+                level = len(heading_match.group(1))
+                title = heading_match.group(2).strip()
 
-            # Ende der Section (gleiches oder höheres Level)
-            if section_start is not None and level <= section_level:
-                break
+                # Gefundenes Section-Heading
+                if section_start is None and title.lower() == section_name.lower():
+                    section_start = i
+                    section_level = level
+                    continue
+
+                # Ende der Section (gleiches oder höheres Level)
+                if section_start is not None and level <= section_level:
+                    break
 
         # Sammle Zeilen innerhalb der Section
         if section_start is not None:
@@ -72,16 +78,23 @@ def list_sections(file_path: Path) -> list[dict]:
     content = file_path.read_text(encoding="utf-8")
     lines = content.split("\n")
     sections = []
+    in_code_block = False
 
     for i, line in enumerate(lines):
-        heading_match = re.match(r"^(#{1,6})\s+(.+)$", line)
-        if heading_match:
-            sections.append(
-                {
-                    "level": len(heading_match.group(1)),
-                    "title": heading_match.group(2).strip(),
-                    "line_number": i + 1,
-                }
-            )
+        # Track fenced code blocks
+        if line.strip().startswith("```"):
+            in_code_block = not in_code_block
+
+        # Only process headings outside of code blocks
+        if not in_code_block:
+            heading_match = re.match(r"^(#{1,6})\s+(.+)$", line)
+            if heading_match:
+                sections.append(
+                    {
+                        "level": len(heading_match.group(1)),
+                        "title": heading_match.group(2).strip(),
+                        "line_number": i + 1,
+                    }
+                )
 
     return sections
