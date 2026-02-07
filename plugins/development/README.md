@@ -2,7 +2,7 @@
 
 Expert development agents and project initialization for modern programming languages and frameworks.
 
-## Version 1.2.1
+## Version 1.3.0
 
 ---
 
@@ -49,6 +49,24 @@ Skill-based project initialization with enhanced automation.
 - Template-based file generation
 - Gradle wrapper setup for Java projects
 
+### update-documents
+
+Synchronize documentation between CLAUDE.md, README.md, and docs/.
+
+**Usage:**
+```
+"Synchronize my documentation"
+"Check if docs are in sync"
+"Update README from CLAUDE.md"
+```
+
+**Features:**
+- Automatic sync status analysis
+- CLAUDE.md as technical source of truth
+- Configurable sync rules via JSON
+- Whitespace-tolerant comparison
+- Section-based synchronization
+
 ---
 
 ## Agents
@@ -88,6 +106,12 @@ Add to your Claude Code settings:
 ---
 
 ## Changelog
+
+### 1.3.0
+
+- **New**: `update-documents` skill for documentation synchronization
+- **New**: Configurable sync rules between CLAUDE.md, README.md, and docs/
+- **New**: Automatic sync status analysis with visual indicators
 
 ### 1.2.1
 

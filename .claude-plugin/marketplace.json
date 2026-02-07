@@ -102,9 +102,9 @@
     },
     {
       "name": "development",
-      "description": "Expert development agents and project initialization with Git branching strategy, Java/Gradle Kotlin DSL, and Python/uv support",
+      "description": "Expert development agents, project initialization with Git branching, Java/Gradle, Python/uv, and documentation synchronization tools",
       "source": "./plugins/development",
-      "version": "1.2.1",
+      "version": "1.3.0",
       "tags": [
         "java",
         "gradle",
@@ -117,7 +117,9 @@
         "open-source",
         "project-init",
         "github",
-        "git-branching"
+        "git-branching",
+        "documentation",
+        "sync"
       ]
     }
   ]
