@@ -9,6 +9,15 @@ on:
       - "mkdocs.yml"
       - "plugins/*/README.md"
       - ".github/workflows/deploy-docs.yml"
+  pull_request:
+    types: [closed]
+    branches:
+      - main
+    paths:
+      - "docs/**"
+      - "mkdocs.yml"
+      - "plugins/*/README.md"
+      - ".github/workflows/deploy-docs.yml"
   workflow_dispatch:
 
 permissions:
@@ -16,6 +25,8 @@ permissions:
 
 jobs:
   deploy:
+    # Skip if PR was closed without merge, run for push/workflow_dispatch or merged PRs
+    if: github.event_name != 'pull_request' || github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
