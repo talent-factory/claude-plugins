@@ -9,9 +9,9 @@
   "plugins": [
     {
       "name": "git-workflow",
-      "description": "Professional git workflow with automated pre-commit checks, emoji conventional commits, PR management, and comprehensive references",
+      "description": "Professional git workflow with automated pre-commit checks, emoji conventional commits, PR management, intelligent merge conflict resolution, and comprehensive references",
       "source": "./plugins/git-workflow",
-      "version": "2.1.0",
+      "version": "2.2.0",
       "tags": [
         "git",
         "workflow",
@@ -20,7 +20,8 @@
         "pull-requests",
         "automation",
         "pre-commit",
-        "conventional-commits"
+        "conventional-commits",
+        "merge-conflicts"
       ]
     },
     {

@@ -1,7 +1,7 @@
 {
   "name": "git-workflow",
-  "version": "2.1.0",
-  "description": "Professional git commands with automated pre-commit checks, emoji conventional commits, PR creation and edit history. Includes comprehensive references, best practices, and professional workflow skills.",
+  "version": "2.2.0",
+  "description": "Professional git commands with automated pre-commit checks, emoji conventional commits, PR creation, edit history, and intelligent merge conflict resolution. Includes comprehensive references, best practices, and professional workflow skills.",
   "author": {
     "name": "Talent Factory GmbH",
     "email": "support@talent-factory.ch"

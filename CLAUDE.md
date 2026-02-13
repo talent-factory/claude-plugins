@@ -27,7 +27,7 @@ The repository uses a two-level architecture:
 
 ### Plugin Types
 
-- **git-workflow**: Git operations (`/commit`, `/create-pr`, `/pr-edit-history`)
+- **git-workflow**: Git operations (`/commit`, `/create-pr`, `/pr-edit-history`, `/resolve-conflicts`)
 - **project-management**: PRD generation, project planning, task implementation (`/create-prd`, `/create-plan`, `/implement-task`, `/document-handoff`)
 - **code-quality**: Python linting and expert agents for Python/Frontend (`/ruff-check`)
 - **development**: Java expert agent and project initialization with Git branching (`/init-project --java --with-skills`). Uses Gradle Kotlin DSL (NOT Maven!) and `/git-workflow:commit` for initial commits.

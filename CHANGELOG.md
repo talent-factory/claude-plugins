@@ -17,6 +17,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Plugins
 
+#### git-workflow 2.2.0 (Minor Update)
+
+- ✨ Added `/resolve-conflicts` command for intelligent merge conflict resolution
+- 📖 Added comprehensive reference documentation (strategies, best practices, troubleshooting)
+- 🧠 Smart merge strategy with semantic code analysis
+- 🔀 Support for `smart`, `ours`, and `theirs` strategies
+- 🧪 Automated test and lint validation after resolution
+- Now includes 4 commands and 3 professional workflow skills
+
+#### development 1.3.0 (Minor Update)
+
+- ✨ Added `update-documents` skill for documentation synchronization
+- 📄 Syncs content between CLAUDE.md, README.md, and docs/
+- 🔍 Code block awareness to avoid false section detection
+- 📝 Auto-creation of missing sections in target files
+- Now includes 1 command, 1 agent, and 2 skills
+
 #### core 3.1.0 (Minor Update)
 
 - ✨ Added `pdf-to-markdown` skill for PDF to Markdown conversion
