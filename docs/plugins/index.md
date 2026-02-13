@@ -8,7 +8,7 @@ Browse all available plugins in the Talent Factory marketplace. Each plugin prov
 
 | Plugin                                      | Version | Commands | Agents | Skills | Tags                                |
 | ------------------------------------------- | ------- | -------- | ------ | ------ | ----------------------------------- |
-| [Git Workflow](git-workflow.md)             | 2.1.0   | 3        | 0      | 3      | git, workflow, commits, PRs         |
+| [Git Workflow](git-workflow.md)             | 2.2.0   | 4        | 0      | 3      | git, workflow, commits, PRs, merge  |
 | [Project Management](project-management.md) | 2.4.0   | 5        | 1      | 0      | planning, PRD, Linear, EPIC, agile  |
 | [Code Quality](code-quality.md)             | 3.0.0   | 1        | 3      | 0      | review, quality, Python, React      |
 | [Education](education.md)                   | 1.3.1   | 1        | 2      | 1      | teaching, learning, markdown        |
@@ -28,9 +28,9 @@ Browse all available plugins in the Talent Factory marketplace. Each plugin prov
 
   ***
 
-  Professional git automation with emoji conventional commits, pre-commit checks, and PR management.
+  Professional git automation with emoji conventional commits, pre-commit checks, PR management, and intelligent merge conflict resolution.
 
-  **Commands:** `/commit`, `/create-pr`, `/pr-edit-history`
+  **Commands:** `/commit`, `/create-pr`, `/pr-edit-history`, `/resolve-conflicts`
   **Skills:** `professional-commit-workflow`, `professional-pr-workflow`, `post-merge-cleanup`
 
   [:octicons-arrow-right-24: Details](git-workflow.md)
@@ -171,6 +171,7 @@ To install plugins from this marketplace:
 | Feature            | Git Workflow | Project Mgmt | Code Quality | Development | Education | Core | Obsidian |
 | ------------------ | :----------: | :----------: | :----------: | :---------: | :-------: | :--: | :------: |
 | Git Integration    |     Yes      |     Yes      |      No      |     Yes     |    No     |  No  |    No    |
+| Merge Conflicts    |     Yes      |      No      |      No      |     No      |    No     |  No  |    No    |
 | Pre-commit Checks  |     Yes      |      No      |     Yes      |     No      |    No     | Yes  |    No    |
 | Linear Integration |      No      |     Yes      |      No      |     No      |    No     |  No  |    No    |
 | Code Review        |      No      |      No      |     Yes      |     No      |    No     |  No  |    No    |

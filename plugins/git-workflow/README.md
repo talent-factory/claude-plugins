@@ -2,9 +2,9 @@
 
 Professional git workflow automation with pre-commit checks, emoji conventional commits, PR management, and comprehensive references.
 
-## Version 2.1.0
+## Version 2.2.0
 
-**Minor Update:** Added `post-merge-cleanup` skill for automated branch cleanup after merge. Now includes 3 professional workflow skills.
+**Minor Update:** Added `/resolve-conflicts` command for intelligent merge conflict resolution with semantic analysis, automated test validation, and comprehensive reference documentation.
 
 ## Commands
 
@@ -94,6 +94,45 @@ Create pull requests with automated branch management, commit analysis, and prof
 - [PR Template](https://github.com/talent-factory/claude-plugins/blob/main/plugins/git-workflow/references/create-pr/pr-template.md) - PR description structure
 - [Troubleshooting](https://github.com/talent-factory/claude-plugins/blob/main/plugins/git-workflow/references/create-pr/troubleshooting.md) - Common PR issues
 
+### `/resolve-conflicts`
+
+Analyze and resolve merge conflicts intelligently with automated root cause analysis, semantic code merging, and test validation.
+
+**Features:**
+
+- 🔍 Automatic conflict root cause analysis with source identification
+- 🧠 Smart strategy with semantic understanding of code changes
+- 🔀 Three merge strategies: `smart` (default), `ours`, `theirs`
+- 🧪 Automated test execution and linting after resolution
+- 📋 Comprehensive conflict resolution report
+- 🏗️ Worktree-aware operation
+- 📖 Extensive reference documentation
+
+**Usage:**
+```bash
+/resolve-conflicts                         # Merge target into current branch
+/resolve-conflicts --target develop        # Specify target branch
+/resolve-conflicts --dry-run               # Analyze only, no changes
+/resolve-conflicts --no-tests              # Skip test execution
+/resolve-conflicts --strategy smart        # Strategy: smart, ours, theirs
+/resolve-conflicts feature/task-009        # Specify branch
+/resolve-conflicts 42                      # PR number
+```
+
+**Smart Strategy Capabilities:**
+
+- **Lock-Files**: Automatic regeneration (`uv.lock`, `bun.lockb`, `package-lock.json`)
+- **Import blocks**: Union merge with alphabetical sorting
+- **Additive changes**: Both sides preserved (routes, exports, configs)
+- **Same-line edits**: Context analysis with feature branch prioritization
+- **Alembic migrations**: Revision chain linearization and head merging
+- **Architectural conflicts**: Halts for user decision
+
+**References:**
+- [Strategies](https://github.com/talent-factory/claude-plugins/blob/main/plugins/git-workflow/references/resolve-conflicts/strategies.md) - Detailed merge strategies and decision tree
+- [Best Practices](https://github.com/talent-factory/claude-plugins/blob/main/plugins/git-workflow/references/resolve-conflicts/best-practices.md) - Prevention and resolution guidelines
+- [Troubleshooting](https://github.com/talent-factory/claude-plugins/blob/main/plugins/git-workflow/references/resolve-conflicts/troubleshooting.md) - Common issues and solutions
+
 ### `/pr-edit-history`
 
 Display the edit history of a GitHub Pull Request description.
@@ -113,7 +152,7 @@ Display the edit history of a GitHub Pull Request description.
 
 ## Skills
 
-This plugin includes two powerful skills for enhanced performance. See [Skills & Agents Activation Guide](../reference/skills-agents-activation.md) for details.
+This plugin includes three powerful skills for enhanced performance. See [Skills & Agents Activation Guide](../reference/skills-agents-activation.md) for details.
 
 ### professional-commit-workflow
 
@@ -192,19 +231,25 @@ git-workflow/
 ├── commands/
 │   ├── commit.md             # Commit command
 │   ├── create-pr.md          # PR creation command
-│   └── pr-edit-history.md    # PR edit history
+│   ├── pr-edit-history.md    # PR edit history
+│   └── resolve-conflicts.md  # Merge conflict resolution
 ├── references/
 │   ├── commit/
 │   │   ├── best-practices.md
 │   │   ├── commit-types.md
 │   │   ├── pre-commit-checks.md
 │   │   └── troubleshooting.md
-│   └── create-pr/
-│       ├── code-formatting.md
-│       ├── commit-workflow.md
-│       ├── pr-template.md
+│   ├── create-pr/
+│   │   ├── code-formatting.md
+│   │   ├── commit-workflow.md
+│   │   ├── pr-template.md
+│   │   └── troubleshooting.md
+│   └── resolve-conflicts/
+│       ├── best-practices.md
+│       ├── strategies.md
 │       └── troubleshooting.md
 ├── skills/
+│   ├── post-merge-cleanup/
 │   ├── professional-commit-workflow/
 │   └── professional-pr-workflow/
 └── README.md
@@ -358,6 +403,17 @@ See [create-pr/troubleshooting.md](https://github.com/talent-factory/claude-plug
 - **React/Node.js:** ESLint, Prettier, TypeScript (optional)
 
 ## Changelog
+
+### Version 2.2.0 (2026-02-13)
+
+**Minor Update:**
+
+- ✨ Added `/resolve-conflicts` command for intelligent merge conflict resolution
+- 📖 Added comprehensive reference documentation (strategies, best practices, troubleshooting)
+- 🧠 Smart merge strategy with semantic code analysis
+- 🔀 Support for `smart`, `ours`, and `theirs` strategies
+- 🧪 Automated test and lint validation after resolution
+- Now includes 4 commands and 3 professional workflow skills
 
 ### Version 2.1.0 (2026-02-03)
 
