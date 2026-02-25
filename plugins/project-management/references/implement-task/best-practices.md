@@ -1,6 +1,6 @@
 # Best Practices: Task Implementation
 
-Best practices for implementing tasks (Filesystem or Linear).
+Best practices for implementing tasks (Filesystem or Linear) with intelligent plugin orchestration.
 
 ## Branch Naming
 
@@ -171,16 +171,117 @@ it("should allow user to log in with Google", async () => {
    /  Unit Tests   \ ← 70% Comprehensive, all functions
 ```
 
+## Context Analysis (Brainstorm)
+
+### When to Brainstorm
+
+| Task Complexity | Brainstorm? | Rationale |
+| --- | --- | --- |
+| New feature with unclear requirements | Yes | Refine before coding |
+| Complex refactoring across modules | Yes | Understand impact first |
+| Simple bug fix with reproduction steps | No (`--skip-brainstorm`) | Requirements already clear |
+| Configuration change | No (`--skip-brainstorm`) | Minimal code impact |
+| Documentation task | No (`--skip-brainstorm`) | No code analysis needed |
+
+### Brainstorm Best Practices
+
+**DO**:
+
+- Use `/superpowers:brainstorm` when available (Socratic design refinement)
+- Identify ALL affected files before coding
+- Understand existing architecture patterns
+- Verify dependency impacts
+- Create a concrete TodoWrite implementation plan
+
+**DON'T**:
+
+- Skip brainstorm for complex features
+- Start coding without understanding the codebase
+- Ignore existing patterns and conventions
+- Assume you know the full impact without analysis
+
+### Superpowers Plugin Setup
+
+If not already installed:
+
+```bash
+/plugin marketplace add obra/superpowers-marketplace
+/plugin install superpowers@superpowers-marketplace
+```
+
+## Agent & Plugin Routing
+
+### Agent Selection Best Practices
+
+**DO**:
+
+- Trust explicit agent recommendations from task files
+- Let technology detection drive agent selection
+- Use the resolved agent's methodology consistently
+- Fall back gracefully when plugins are unavailable
+
+**DON'T**:
+
+- Override agent resolution without good reason
+- Mix methodologies from different agents in one task
+- Assume all plugins are always available
+- Ignore agent recommendations from `/create-plan`
+
+### Plugin Availability
+
+Ensure required plugins are installed for optimal workflow:
+
+| Plugin | Purpose | Installation |
+| --- | --- | --- |
+| `git-workflow` | Commits, PRs | Built-in marketplace |
+| `superpowers` (obra) | Brainstorm | `/plugin marketplace add obra/superpowers-marketplace` |
+| `code-quality` | Review, linting | Built-in marketplace |
+| `development` | Java agent | Built-in marketplace |
+
+## Quality Gate
+
+### When to Use Quality Gate
+
+**Always use** (default):
+- New feature implementations
+- Security-related changes
+- Public API modifications
+- Database schema changes
+
+**May skip** (`--skip-quality-gate`):
+- Hotfixes for production issues (time-critical)
+- Trivial typo corrections
+- Configuration-only changes
+
+### Quality Gate Best Practices
+
+**DO**:
+
+- Fix all critical issues identified by `@code-reviewer`
+- Run language-specific linting before PR finalization
+- Verify every acceptance criterion is implemented AND tested
+- Use `/git-workflow:commit` for standardized commit messages
+
+**DON'T**:
+
+- Skip quality gate for non-trivial changes
+- Ignore linting warnings systematically
+- Mark acceptance criteria as "done" without tests
+- Use non-standard commit messages
+
 ## Code Quality
 
-### Pre-PR Checklist
+### Pre-PR Checklist (Enhanced)
 
+- [ ] Context analysis completed (or explicitly skipped)?
+- [ ] Correct agent methodology followed?
 - [ ] All acceptance criteria satisfied?
 - [ ] Tests written and passing?
-- [ ] Linting successful?
+- [ ] Quality gate passed (code review + linting)?
 - [ ] Build successful?
 - [ ] Debug code removed?
 - [ ] Documentation updated?
+- [ ] Commits follow Emoji Conventional format?
 
 ### Self-Review
 
@@ -192,6 +293,7 @@ git diff main...HEAD
 # - Would I approve this code in a review?
 # - Is the code comprehensible without additional context?
 # - Are edge cases covered by tests?
+# - Does it follow the agent's methodology?
 ```
 
 ## Task Organization
@@ -224,27 +326,35 @@ git diff main...HEAD
 
 ### Recommended Practices
 
-1. **Descriptive branch names**
-2. **Atomic commits** following Emoji Conventional format
-3. **Small PRs** (< 400 LOC)
-4. **Write tests** (80%+ coverage)
-5. **Verify dependencies** before starting tasks
-6. **Maintain current status**
-7. **Self-review** before PR submission
+1. **Brainstorm before coding** (use `/superpowers:brainstorm` or built-in analysis)
+2. **Trust agent resolution** (let the system select the right agent)
+3. **Descriptive branch names**
+4. **Atomic commits** following Emoji Conventional format (use `/git-workflow:commit`)
+5. **Small PRs** (< 400 LOC)
+6. **Write tests** (80%+ coverage)
+7. **Run quality gate** before PR finalization
+8. **Verify dependencies** before starting tasks
+9. **Maintain current status**
 
 ### Practices to Avoid
 
-1. **Vague branch names** (`fix-stuff`)
-2. **Large commits** (`Implement everything`)
-3. **Oversized PRs** (> 800 LOC)
-4. **Omitting tests**
-5. **Ignoring dependencies**
-6. **Outdated status information**
-7. **Excessive parallel tasks** (limit to 1-2)
+1. **Skipping brainstorm for complex tasks**
+2. **Ignoring agent recommendations**
+3. **Vague branch names** (`fix-stuff`)
+4. **Large commits** (`Implement everything`)
+5. **Oversized PRs** (> 800 LOC)
+6. **Omitting tests**
+7. **Skipping quality gate for non-trivial changes**
+8. **Ignoring dependencies**
+9. **Outdated status information**
+10. **Excessive parallel tasks** (limit to 1-2)
 
 ## See Also
 
 - [workflow.md](./workflow.md) - Detailed workflow documentation
+- [context-analysis.md](./context-analysis.md) - Brainstorm and context analysis
+- [agent-routing.md](./agent-routing.md) - Agent selection logic
+- [quality-gate.md](./quality-gate.md) - Quality gate details
 - [filesystem.md](./filesystem.md) - Filesystem-specific guidance
 - [linear.md](./linear.md) - Linear-specific guidance
 - [troubleshooting.md](./troubleshooting.md) - Problem resolution
