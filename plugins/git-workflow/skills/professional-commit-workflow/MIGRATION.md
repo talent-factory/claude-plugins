@@ -1,6 +1,6 @@
-# Migration Guide: `/commit` Command → `professional-commit-workflow` Skill
+# Migration Guide: `/git-workflow:commit` Command → `professional-commit-workflow` Skill
 
-Dieses Dokument beschreibt die Migration vom alten `/commit` Slash-Command zum neuen `professional-commit-workflow` Skill.
+Dieses Dokument beschreibt die Migration vom alten `/git-workflow:commit` Slash-Command zum neuen `professional-commit-workflow` Skill.
 
 ## Warum migrieren?
 
@@ -96,7 +96,7 @@ rm commit.md
 **Option C: Command behalten**
 
 Beide können koexistieren:
-- `/commit` für einfache Workflows (Prompt-basiert)
+- `/git-workflow:commit` für einfache Workflows (Prompt-basiert)
 - Skill für komplexe Workflows (Performance-optimiert)
 
 ### Schritt 5: Claude Code neu starten
@@ -119,7 +119,7 @@ Nutze das professional-commit-workflow Skill um Änderungen zu committen
 
 ## Feature-Vergleich
 
-| Feature | `/commit` Command | Skill |
+| Feature | `/git-workflow:commit` Command | Skill |
 |---------|------------------|-------|
 | **Projekterkennung** | ✅ Via Prompts | ✅ Python Script (schneller) |
 | **Pre-Commit-Checks** | ✅ Bash-basiert | ✅ Python-Module (strukturiert) |
@@ -142,7 +142,7 @@ Nutze das professional-commit-workflow Skill um Änderungen zu committen
 ### Alter Command-Workflow
 
 ```
-User: /commit
+User: /git-workflow:commit
 ↓
 Claude lädt commit.md (96 Zeilen)
 ↓
@@ -196,9 +196,9 @@ Die Migration ist **nicht-invasiv**:
 
 ```bash
 # Alt
-/commit --no-verify
-/commit --force-push
-/commit --skip-tests
+/git-workflow:commit --no-verify
+/git-workflow:commit --force-push
+/git-workflow:commit --skip-tests
 ```
 
 **Skill-Optionen:**

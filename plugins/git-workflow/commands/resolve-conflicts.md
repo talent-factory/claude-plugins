@@ -22,18 +22,18 @@ Analysiere und loese Merge-Konflikte intelligent mit automatischer Ursachenanaly
 Standard (aktuellen Branch mit Target mergen):
 
 ```bash
-/resolve-conflicts
+/git-workflow:resolve-conflicts
 ```
 
 Mit Optionen:
 
 ```bash
-/resolve-conflicts --target develop          # Ziel-Branch (Standard: develop)
-/resolve-conflicts --dry-run                 # Nur Analyse, keine Aenderungen
-/resolve-conflicts --no-tests                # Tests ueberspringen
-/resolve-conflicts --strategy smart          # Strategie: smart (Standard), ours, theirs
-/resolve-conflicts feature/task-009          # Spezifischen Branch angeben
-/resolve-conflicts 42                        # PR-Nummer angeben
+/git-workflow:resolve-conflicts --target develop          # Ziel-Branch (Standard: develop)
+/git-workflow:resolve-conflicts --dry-run                 # Nur Analyse, keine Aenderungen
+/git-workflow:resolve-conflicts --no-tests                # Tests ueberspringen
+/git-workflow:resolve-conflicts --strategy smart          # Strategie: smart (Standard), ours, theirs
+/git-workflow:resolve-conflicts feature/task-009          # Spezifischen Branch angeben
+/git-workflow:resolve-conflicts 42                        # PR-Nummer angeben
 ```
 
 ## Parameter
@@ -289,7 +289,7 @@ Benutzer fragen welche Aktion gewuenscht ist.
 ```
 ❌ Lock-File konnte nicht regeneriert werden.
    Bitte manuell ausfuehren: uv lock / bun install
-   Dann erneut: /resolve-conflicts --no-tests
+   Dann erneut: /git-workflow:resolve-conflicts --no-tests
 ```
 
 ### Tests fehlgeschlagen nach Aufloesung

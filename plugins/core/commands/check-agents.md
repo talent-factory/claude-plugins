@@ -20,10 +20,10 @@ Dieser Command validiert Claude Code Agenten auf:
 
 ```bash
 # Spezifischen Agenten prüfen
-/check-agents agents/claude/agents/code-reviewer.md
+/core:check-agents agents/claude/agents/code-reviewer.md
 
 # Oder ohne Pfad für interaktive Auswahl
-/check-agents
+/core:check-agents
 ```
 
 ## Validierungs-Checks
@@ -350,14 +350,14 @@ Dieser Command ist nützlich:
 **Einzelner Agent mit Color**:
 
 ```text
-/check-agents agents/claude/agents/code-reviewer.md
+/core:check-agents agents/claude/agents/code-reviewer.md
 → ✅ Fully compliant (color: blue)
 ```
 
 **Einzelner Agent ohne Color**:
 
 ```text
-/check-agents agents/claude/agents/markdown-syntax-formatter.md
+/core:check-agents agents/claude/agents/markdown-syntax-formatter.md
 → ❌ Missing color attribute
 → 💡 Recommended: yellow (documentation agent)
 ```
@@ -365,7 +365,7 @@ Dieser Command ist nützlich:
 **Alle Agenten prüfen**:
 
 ```text
-/check-agents
+/core:check-agents
 → Found 5 agents, 4 missing color
 → [Bulk Report anzeigen]
 ```
@@ -373,7 +373,7 @@ Dieser Command ist nützlich:
 **Mit Auto-Fix**:
 
 ```text
-/check-agents --fix
+/core:check-agents --fix
 → Fixed 4 agents, added color attributes
 → [Show changes]
 ```

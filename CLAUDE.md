@@ -27,12 +27,12 @@ The repository uses a two-level architecture:
 
 ### Plugin Types
 
-- **git-workflow**: Git operations (`/commit`, `/create-pr`, `/pr-edit-history`, `/resolve-conflicts`)
-- **project-management**: PRD generation, project planning, task implementation (`/create-prd`, `/create-plan`, `/implement-task`, `/document-handoff`)
-- **code-quality**: Python linting and expert agents for Python/Frontend (`/ruff-check`)
-- **development**: Java expert agent and project initialization with Git branching (`/init-project --java --with-skills`). Uses Gradle Kotlin DSL (NOT Maven!) and `/git-workflow:commit` for initial commits.
+- **git-workflow**: Git operations (`/git-workflow:commit`, `/git-workflow:create-pr`, `/git-workflow:pr-edit-history`, `/git-workflow:resolve-conflicts`)
+- **project-management**: PRD generation, project planning, task implementation (`/project-management:create-prd`, `/project-management:create-plan`, `/project-management:implement-task`, `/project-management:implement-epic`, `/project-management:document-handoff`)
+- **code-quality**: Python linting and expert agents for Python/Frontend (`/code-quality:ruff-check`)
+- **development**: Java expert agent and project initialization with Git branching (`/development:init-project --java --with-skills`). Uses Gradle Kotlin DSL (NOT Maven!) and `/git-workflow:commit` for initial commits.
 - **education**: Teaching aids with Java Tutor and Markdown formatter agents
-- **core**: Plugin development utilities (`/check`, `/check-commands`, `/check-agents`, `/build-skill`, `/package-skill`, `/create-command`, `/run-ci`)
+- **core**: Plugin development utilities (`/core:check`, `/core:check-commands`, `/core:check-agents`, `/core:build-skill`, `/core:package-skill`, `/core:create-command`, `/core:run-ci`)
 - **obsidian**: Obsidian integration via TaskNotes Plugin API (task management with natural language)
 
 ### How Plugins Work
@@ -68,8 +68,8 @@ claude --plugin-dir ./plugins/PLUGIN-NAME
 claude --plugin-dir .
 
 # Inside Claude Code, validate structure
-/check-commands  # Validates command markdown files
-/check-agents    # Validates agent definitions
+/core:check-commands  # Validates command markdown files
+/core:check-agents    # Validates agent definitions
 ```
 
 ### Validation
@@ -185,8 +185,8 @@ claude --plugin-dir ./plugins/your-plugin
 /your-command
 
 # Validate structure
-/check-commands
-/check-agents
+/core:check-commands
+/core:check-agents
 ```
 
 ### Submitting Changes
@@ -270,7 +270,7 @@ Auto-labels PRs based on:
 2. Write `plugin.json`, commands, README
 3. Add entry to `.claude-plugin/marketplace.json`
 4. Test locally: `claude --plugin-dir ./plugins/new-plugin`
-5. Validate: `/check-commands` and `/check-agents`
+5. Validate: `/core:check-commands` and `/core:check-agents`
 6. Create PR with complete documentation
 
 ## Special Considerations
@@ -279,7 +279,7 @@ Auto-labels PRs based on:
 Only the maintainer (dsenften) can push directly to `develop`. This is enforced via GitHub branch protection with `enforce_admins: false` for develop only.
 
 ### Conventional Commits with Emoji
-This project uses emoji prefixes on commit types. The `/commit` command in git-workflow plugin generates these automatically. If committing manually, follow the format in CONTRIBUTING.md.
+This project uses emoji prefixes on commit types. The `/git-workflow:commit` command generates these automatically. If committing manually, follow the format in CONTRIBUTING.md.
 
 ### No Build Step
 This repository contains only configuration files (JSON, Markdown). There are no compilation, transpilation, or build artifacts. Validation is purely structural and syntactic.

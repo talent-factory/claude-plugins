@@ -16,25 +16,25 @@ Creates a new open source project with complete GitHub infrastructure, community
 
 ```bash
 # Standard Git project
-/init-project --git
+/development:init-project --git
 
 # Java project with Gradle (Kotlin DSL)
-/init-project --java
+/development:init-project --java
 
 # Python project with uv
-/init-project --uv
+/development:init-project --uv
 
 # With project name
-/init-project --git --name "my-awesome-project"
+/development:init-project --git --name "my-awesome-project"
 
 # Interactive mode
-/init-project --interactive
+/development:init-project --interactive
 
 # Using skill-based workflow (recommended)
-/init-project --with-skills
+/development:init-project --with-skills
 
 # Without develop/main branching (only main)
-/init-project --git --no-branching
+/development:init-project --git --no-branching
 ```
 
 ## Features

@@ -28,16 +28,16 @@ You function as a **Scrum Master, Product Owner, and Development Lead** with the
 
 ```bash
 # Filesystem-based (default)
-/create-plan                         # PRD.md in CWD
-/create-plan --prd feature.md        # Specific PRD
-/create-plan PRDs/01-rag-system.md   # Direct path
+/project-management:create-plan                         # PRD.md in CWD
+/project-management:create-plan --prd feature.md        # Specific PRD
+/project-management:create-plan PRDs/01-rag-system.md   # Direct path
 
 # Linear-based
-/create-plan --linear                # PRD.md in CWD
-/create-plan --linear --prd feature.md
+/project-management:create-plan --linear                # PRD.md in CWD
+/project-management:create-plan --linear --prd feature.md
 
 # Interactive mode
-/create-plan --interactive
+/project-management:create-plan --interactive
 ```
 
 ## Provider Selection
@@ -254,10 +254,10 @@ Based on task type, AI agents are recommended:
 
 ```bash
 # 1. Create PRD
-/create-prd "Dark Mode Toggle"
+/project-management:create-prd "Dark Mode Toggle"
 
 # 2. Generate plan from PRD
-/create-plan PRD.md
+/project-management:create-plan PRD.md
 
 # Output:
 # PRD read: PRD.md
@@ -272,17 +272,17 @@ Based on task type, AI agents are recommended:
 # Total: 21 SP
 
 # 3. Implement task
-/implement-task task-001
+/project-management:implement-task task-001
 ```
 
 ### Linear (`--linear`)
 
 ```bash
 # 1. Create PRD
-/create-prd "Dark Mode Toggle"
+/project-management:create-prd "Dark Mode Toggle"
 
 # 2. Generate plan in Linear
-/create-plan --linear --prd PRD.md
+/project-management:create-plan --linear --prd PRD.md
 
 # Output:
 # PRD read: PRD.md
@@ -295,7 +295,7 @@ Based on task type, AI agents are recommended:
 # Labels added
 
 # 3. Implement task
-/implement-task --linear LIN-124
+/project-management:implement-task --linear LIN-124
 ```
 
 ## Detailed Documentation
@@ -313,8 +313,8 @@ Based on task type, AI agents are recommended:
 
 ## See Also
 
-- **[/create-prd](./create-prd.md)** - PRD creation
-- **[/implement-task](./implement-task.md)** - Task implementation
+- **[/project-management:create-prd](./create-prd.md)** - PRD creation
+- **[/project-management:implement-task](./implement-task.md)** - Task implementation
 
 ---
 

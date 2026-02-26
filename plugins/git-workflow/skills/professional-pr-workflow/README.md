@@ -89,4 +89,4 @@ Siehe `config/pr_config.json` für Anpassungen:
 
 **Version**: 1.0.0
 **Date**: 2024-12-21
-**Refactored from**: `/create-pr` Command
+**Refactored from**: `/git-workflow:create-pr` Command

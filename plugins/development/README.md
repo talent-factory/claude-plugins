@@ -14,12 +14,12 @@ Initialize a new open source project with GitHub best practices and professional
 
 **Usage:**
 ```bash
-/init-project --git              # Standard Git project
-/init-project --java             # Java project with Gradle (Kotlin DSL)
-/init-project --uv               # Python project with uv
-/init-project --interactive      # Interactive mode
-/init-project --with-skills      # Skill-based workflow (recommended)
-/init-project --no-branching     # Only main branch, no develop
+/development:init-project --git              # Standard Git project
+/development:init-project --java             # Java project with Gradle (Kotlin DSL)
+/development:init-project --uv               # Python project with uv
+/development:init-project --interactive      # Interactive mode
+/development:init-project --with-skills      # Skill-based workflow (recommended)
+/development:init-project --no-branching     # Only main branch, no develop
 ```
 
 **Features:**
@@ -40,7 +40,7 @@ Skill-based project initialization with enhanced automation.
 
 **Usage:**
 ```bash
-/init-project --with-skills --java --name "my-app"
+/development:init-project --with-skills --java --name "my-app"
 ```
 
 **Features:**

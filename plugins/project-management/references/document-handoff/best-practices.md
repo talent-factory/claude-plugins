@@ -198,7 +198,7 @@ Additional information for human developers:
 
 ```bash
 # 1. Prior to Compact: Create handoff
-/document-handoff "Feature Name"
+/project-management:document-handoff "Feature Name"
 
 # 2. Execute Compact
 /compact
@@ -211,7 +211,7 @@ Additional information for human developers:
 
 ```bash
 # Link handoff with Linear issue
-/document-handoff --linear-issue TF-123
+/project-management:document-handoff --linear-issue TF-123
 
 # Handoff automatically references:
 # - Issue details
@@ -223,10 +223,10 @@ Additional information for human developers:
 
 ```bash
 # Prior to handoff: Commit changes
-/commit "WIP: Feature in progress"
+/git-workflow:commit "WIP: Feature in progress"
 
 # Then create handoff
-/document-handoff
+/project-management:document-handoff
 
 # Handoff automatically includes:
 # - Branch name

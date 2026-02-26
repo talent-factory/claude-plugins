@@ -10,7 +10,7 @@ This plugin provides educational tools for students and instructors, including c
 
 ## Commands
 
-### `/explain-code`
+### `/education:explain-code`
 
 Provide clear, educational explanations of code for students learning programming.
 
@@ -25,7 +25,7 @@ Provide clear, educational explanations of code for students learning programmin
 **Usage:**
 
 ```
-/explain-code
+/education:explain-code
 ```
 
 Claude will ask about the student's level and provide tailored explanations.
@@ -85,7 +85,7 @@ The skill activates automatically when formatting or reviewing Markdown files,
 or invoke it manually:
 
 ```
-/markdown-syntax-formatter
+/education:markdown-syntax-formatter
 ```
 
 ## Who This Is For
@@ -109,7 +109,7 @@ This plugin follows evidence-based teaching principles:
 ### Explaining Simple Code
 
 ```
-/explain-code
+/education:explain-code
 
 Student: Can you explain this loop?
 for (int i = 0; i < 10; i++) {
@@ -140,7 +140,7 @@ While the plugin works with any programming language, it has specialized support
 
 ## Best Practices for Instructors
 
-1. Use `/explain-code` to generate teaching materials
+1. Use `/education:explain-code` to generate teaching materials
 2. Activate Java Tutor for consistent Java teaching
 3. Encourage students to ask questions
 4. Use generated exercises for practice

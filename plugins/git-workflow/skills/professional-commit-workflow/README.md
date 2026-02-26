@@ -423,13 +423,13 @@ fix: bug
 - **[Best Practices](docs/best-practices.md)** - Git-Commit-Best-Practices
 - **[Troubleshooting](docs/troubleshooting.md)** - Fehlerbehebung
 
-## Migration vom /commit Command
+## Migration vom /git-workflow:commit Command
 
-Wenn du bisher den `/commit` Command verwendet hast:
+Wenn du bisher den `/git-workflow:commit` Command verwendet hast:
 
 1. **Skill installieren** (siehe oben)
 2. **Claude verwenden**: "Erstelle Commit mit professional-commit-workflow"
-3. **Optional**: `/commit` Command deaktivieren oder für Legacy-Projekte behalten
+3. **Optional**: `/git-workflow:commit` Command deaktivieren oder für Legacy-Projekte behalten
 
 **Vorteile**:
 - ✅ Wiederverwendbar über Projekte hinweg
@@ -449,5 +449,5 @@ Contributions welcome! Siehe [CONTRIBUTING.md](CONTRIBUTING.md).
 
 **Version**: 1.0.0
 **Author**: talent-factory
-**Refactored from**: `/commit` Command
+**Refactored from**: `/git-workflow:commit` Command
 **Date**: 2024-12-21
