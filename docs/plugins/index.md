@@ -9,7 +9,7 @@ Browse all available plugins in the Talent Factory marketplace. Each plugin prov
 | Plugin                                      | Version | Commands | Agents | Skills | Tags                                |
 | ------------------------------------------- | ------- | -------- | ------ | ------ | ----------------------------------- |
 | [Git Workflow](git-workflow.md)             | 2.2.0   | 4        | 0      | 3      | git, workflow, commits, PRs, merge  |
-| [Project Management](project-management.md) | 2.4.0   | 5        | 1      | 0      | planning, PRD, Linear, EPIC, agile  |
+| [Project Management](project-management.md) | 2.5.0   | 6        | 1      | 0      | planning, PRD, Linear, EPIC, agile  |
 | [Code Quality](code-quality.md)             | 3.0.0   | 1        | 3      | 0      | review, quality, Python, React      |
 | [Education](education.md)                   | 1.3.1   | 1        | 2      | 1      | teaching, learning, markdown        |
 | [Core Utilities](core.md)                   | 3.1.0   | 7        | 2      | 2      | validation, CI, PDF, development    |
@@ -30,7 +30,7 @@ Browse all available plugins in the Talent Factory marketplace. Each plugin prov
 
   Professional git automation with emoji conventional commits, pre-commit checks, PR management, and intelligent merge conflict resolution.
 
-  **Commands:** `/commit`, `/create-pr`, `/pr-edit-history`, `/resolve-conflicts`
+  **Commands:** `/git-workflow:commit`, `/git-workflow:create-pr`, `/git-workflow:pr-edit-history`, `/git-workflow:resolve-conflicts`
   **Skills:** `professional-commit-workflow`, `professional-pr-workflow`, `post-merge-cleanup`
 
   [:octicons-arrow-right-24: Details](git-workflow.md)
@@ -41,7 +41,7 @@ Browse all available plugins in the Talent Factory marketplace. Each plugin prov
 
   Comprehensive project planning with PRD generation, EPIC automation, Linear integration, and git worktree workflows.
 
-  **Commands:** `/create-prd`, `/create-plan`, `/implement-task`, `/implement-epic`, `/document-handoff`
+  **Commands:** `/project-management:create-prd`, `/project-management:create-plan`, `/project-management:implement-task`, `/project-management:implement-epic`, `/project-management:document-handoff`
   **Agents:** `epic-orchestrator`
 
   [:octicons-arrow-right-24: Details](project-management.md)
@@ -60,7 +60,7 @@ Browse all available plugins in the Talent Factory marketplace. Each plugin prov
 
   Expert code review and refactoring with specialized agents for Python and React/Frontend development.
 
-  **Commands:** `/ruff-check`
+  **Commands:** `/code-quality:ruff-check`
   **Agents:** `python-expert`, `frontend-developer`, `code-reviewer`
 
   [:octicons-arrow-right-24: Details](code-quality.md)
@@ -71,7 +71,7 @@ Browse all available plugins in the Talent Factory marketplace. Each plugin prov
 
   Expert development agents, project initialization with Git branching, Java/Gradle, Python/uv, and documentation synchronization tools.
 
-  **Commands:** `/init-project`
+  **Commands:** `/development:init-project`
   **Agents:** `java-developer`
   **Skills:** `professional-init-project`, `update-documents`
 
@@ -83,7 +83,7 @@ Browse all available plugins in the Talent Factory marketplace. Each plugin prov
 
   Development utilities for plugin validation, CI automation, plugin development, and PDF-to-Markdown conversion.
 
-  **Commands:** `/check`, `/check-commands`, `/check-agents`, `/build-skill`, `/package-skill`, `/create-command`, `/run-ci`
+  **Commands:** `/core:check`, `/core:check-commands`, `/core:check-agents`, `/core:build-skill`, `/core:package-skill`, `/core:create-command`, `/core:run-ci`
   **Agents:** `agent-expert`, `command-expert`
   **Skills:** `humanizer`, `pdf-to-markdown`
 
@@ -103,7 +103,7 @@ Browse all available plugins in the Talent Factory marketplace. Each plugin prov
 
   Teaching aids and student support for IT education with Java Tutor agent and Markdown formatting skill.
 
-  **Commands:** `/explain-code`
+  **Commands:** `/education:explain-code`
   **Agents:** `java-tutor`, `markdown-syntax-formatter`
   **Skills:** `markdown-syntax-formatter`
 

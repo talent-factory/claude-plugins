@@ -2,17 +2,15 @@
 
 Comprehensive project management tools for PRD generation, project planning, task implementation with Linear integration and git worktree workflow.
 
-## Version 2.4.0
+## Version 2.5.0
 
-**Major Update:** Now includes `/project-management:implement-epic` for **autonomous, parallel EPIC implementation** using native Claude Code autonomous loops.
+**New in 2.5.0:**
 
-**New in 2.4.0:**
+- 🧠 Intelligent plugin orchestration for `/project-management:implement-task` (Superpowers brainstorm, agent routing, quality gate)
+- 📋 Added `/project-management:document-handoff` command for context preservation before `/compact`
+- ⚡ Skip options: `--skip-brainstorm`, `--skip-quality-gate`
 
-- 🌐 Complete documentation translation to professional English
-- 🔧 Removed external plugin dependencies - uses native Claude Code capabilities
-- 📚 Renamed reference: `autonomous-loop-integration.md`
-
-**New in 2.3.0:**
+**Previous:**
 
 - 🤖 `/project-management:implement-epic` - Fully autonomous EPIC implementation with parallel agents
 - 🔄 Autonomous Loop Integration - Self-sustaining development loops via Stop hooks
@@ -190,6 +188,31 @@ Implement tasks with git worktree workflow, branch creation, and PR automation.
 - [Autonomous Loop Integration](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/implement-epic/autonomous-loop-integration.md) - Loop configuration
 - [Parallel Strategies](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/implement-epic/parallel-strategies.md) - Parallelization patterns
 - [Troubleshooting](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/implement-epic/troubleshooting.md) - Common issues
+
+### `/project-management:document-handoff`
+
+Create handoff documentation before `/compact` for seamless context continuation.
+
+**Features:**
+
+- 📋 Captures current task state and progress
+- 🔄 Ensures seamless context continuation after compaction
+- 📝 Documents decisions, blockers, and next steps
+- 🔗 Linear issue synchronization support
+
+**Usage:**
+
+```bash
+/project-management:document-handoff
+/project-management:document-handoff "Feature Implementation"
+/project-management:document-handoff --linear-issue TF-177
+```
+
+**References:**
+
+- [Best Practices](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/document-handoff/best-practices.md) - Handoff quality guidelines
+- [Examples](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/document-handoff/examples.md) - Example handoff documents
+- [Templates](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/document-handoff/templates.md) - Ready-to-use templates
 
 ## Agents
 
@@ -444,6 +467,15 @@ User: "We need OAuth login with Google and GitHub"
 - **Solution:** Use different task ID or clean up old branches
 
 ## Changelog
+
+### Version 2.5.0 (2026-02-26)
+
+**Plugin Orchestration & Handoff:**
+
+- 🧠 Added plugin orchestration to `/project-management:implement-task` (Superpowers brainstorm, agent routing, quality gate)
+- 📋 Added `/project-management:document-handoff` command for context preservation
+- ⚡ Added skip options: `--skip-brainstorm`, `--skip-quality-gate`
+- 📚 Added reference documentation: agent-routing, context-analysis, quality-gate
 
 ### Version 2.4.0 (2026-02-01)
 
