@@ -4,7 +4,7 @@ Comprehensive project management tools for PRD generation, project planning, tas
 
 ## Version 2.4.0
 
-**Major Update:** Now includes `/implement-epic` for **autonomous, parallel EPIC implementation** using native Claude Code autonomous loops.
+**Major Update:** Now includes `/project-management:implement-epic` for **autonomous, parallel EPIC implementation** using native Claude Code autonomous loops.
 
 **New in 2.4.0:**
 
@@ -14,14 +14,14 @@ Comprehensive project management tools for PRD generation, project planning, tas
 
 **New in 2.3.0:**
 
-- 🤖 `/implement-epic` - Fully autonomous EPIC implementation with parallel agents
+- 🤖 `/project-management:implement-epic` - Fully autonomous EPIC implementation with parallel agents
 - 🔄 Autonomous Loop Integration - Self-sustaining development loops via Stop hooks
 - 👥 `epic-orchestrator` Agent - Coordinates parallel task agents
 - 📊 Real-time progress tracking
 
 ## Commands
 
-### `/create-prd`
+### `/project-management:create-prd`
 
 Generate professional Product Requirements Documents (PRDs) for features and products.
 
@@ -38,7 +38,7 @@ Generate professional Product Requirements Documents (PRDs) for features and pro
 **Usage:**
 
 ```bash
-/create-prd
+/project-management:create-prd
 ```
 
 **PRD Sections:**
@@ -60,7 +60,7 @@ Generate professional Product Requirements Documents (PRDs) for features and pro
 - [Sections Guide](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/create-prd/sections-guide.md) - Detailed section templates
 - [Templates](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/create-prd/templates.md) - Ready-to-use PRD templates
 
-### `/create-plan`
+### `/project-management:create-plan`
 
 Transform PRDs into actionable project plans with task breakdown and Linear integration.
 
@@ -76,8 +76,8 @@ Transform PRDs into actionable project plans with task breakdown and Linear inte
 **Usage:**
 
 ```bash
-/create-plan                    # From filesystem PRD
-/create-plan --linear ISSUE-123 # From Linear issue
+/project-management:create-plan                    # From filesystem PRD
+/project-management:create-plan --linear ISSUE-123 # From Linear issue
 ```
 
 **Plan Structure:**
@@ -97,7 +97,7 @@ Transform PRDs into actionable project plans with task breakdown and Linear inte
 - [Linear Integration](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/create-plan/linear-integration.md) - Linear API usage
 - [Task Breakdown](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/create-plan/task-breakdown.md) - Task decomposition strategies
 
-### `/implement-task`
+### `/project-management:implement-task`
 
 Implement tasks with git worktree workflow, branch creation, and PR automation.
 
@@ -113,9 +113,9 @@ Implement tasks with git worktree workflow, branch creation, and PR automation.
 **Usage:**
 
 ```bash
-/implement-task                 # From filesystem plan
-/implement-task TASK-ID         # Specific task
-/implement-task --linear ISSUE  # From Linear
+/project-management:implement-task                 # From filesystem plan
+/project-management:implement-task TASK-ID         # Specific task
+/project-management:implement-task --linear ISSUE  # From Linear
 ```
 
 **Workflow:**
@@ -135,7 +135,7 @@ Implement tasks with git worktree workflow, branch creation, and PR automation.
 - [Troubleshooting](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/implement-task/troubleshooting.md) - Common issues
 - [Workflow](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/implement-task/workflow.md) - Complete workflow guide
 
-### `/implement-epic`
+### `/project-management:implement-epic`
 
 **Autonomous, parallel EPIC implementation** using native Claude Code autonomous loops for self-sustaining development cycles.
 
@@ -151,10 +151,10 @@ Implement tasks with git worktree workflow, branch creation, and PR automation.
 **Usage:**
 
 ```bash
-/implement-epic                              # Interactive selection
-/implement-epic dark-mode-toggle             # Plan name
-/implement-epic --linear PROJ-123            # Linear EPIC
-/implement-epic feature-x --max-parallel 5   # With options
+/project-management:implement-epic                              # Interactive selection
+/project-management:implement-epic dark-mode-toggle             # Plan name
+/project-management:implement-epic --linear PROJ-123            # Linear EPIC
+/project-management:implement-epic feature-x --max-parallel 5   # With options
 ```
 
 **Workflow:**
@@ -268,21 +268,21 @@ project-management/
 
 ```bash
 # 1. Create PRD
-/create-prd
+/project-management:create-prd
 # Generates: docs/prd/feature-name.md
 
 # 2. Create Project Plan
-/create-plan
+/project-management:create-plan
 # Generates: docs/plans/feature-name-plan.md
 # Creates Linear issues (if configured)
 
 # 3. Implement Tasks
-/implement-task TASK-1
+/project-management:implement-task TASK-1
 # Creates worktree and branch
 # Develops feature
 # Creates PR when done
 
-/implement-task TASK-2
+/project-management:implement-task TASK-2
 # Repeat for each task
 ```
 
@@ -290,14 +290,14 @@ project-management/
 
 ```bash
 # 1. Create PRD from Linear epic
-/create-prd --linear EPIC-123
+/project-management:create-prd --linear EPIC-123
 
 # 2. Generate plan with Linear sync
-/create-plan --linear EPIC-123
+/project-management:create-plan --linear EPIC-123
 # Creates sub-issues in Linear
 
 # 3. Implement with Linear tracking
-/implement-task --linear EPIC-123-1
+/project-management:implement-task --linear EPIC-123-1
 # Updates Linear issue status automatically
 ```
 
@@ -360,7 +360,7 @@ export LINEAR_API_KEY=your_key_here
 # User request: "Add OAuth login"
 
 # Step 1: Create PRD
-/create-prd
+/project-management:create-prd
 
 User: "We need OAuth login with Google and GitHub"
 
@@ -372,7 +372,7 @@ User: "We need OAuth login with Google and GitHub"
 # - Security considerations
 
 # Step 2: Create plan
-/create-plan
+/project-management:create-plan
 
 # Claude generates:
 # - 12 tasks broken down by milestone
@@ -381,7 +381,7 @@ User: "We need OAuth login with Google and GitHub"
 # - Linear issues created
 
 # Step 3: Implement first task
-/implement-task TASK-1
+/project-management:implement-task TASK-1
 
 # Claude:
 # - Creates worktree: ../oauth-feature-task1
@@ -397,10 +397,10 @@ User: "We need OAuth login with Google and GitHub"
 # Linear issue: "Memory leaks in WebSocket connections"
 
 # Create plan from Linear
-/create-plan --linear BUG-456
+/project-management:create-plan --linear BUG-456
 
 # Implement fix
-/implement-task --linear BUG-456-1
+/project-management:implement-task --linear BUG-456-1
 
 # Status automatically synced to Linear
 ```
@@ -458,7 +458,7 @@ User: "We need OAuth login with Google and GitHub"
 
 **Autonomous EPIC Implementation:**
 
-- 🤖 Added `/implement-epic` command with autonomous loop integration
+- 🤖 Added `/project-management:implement-epic` command with autonomous loop integration
 - 🔀 Parallel task execution with isolated worktrees
 - 👥 Added `epic-orchestrator` agent for coordination
 - 🔄 Autonomous implementation and review loops
@@ -469,8 +469,8 @@ User: "We need OAuth login with Google and GitHub"
 
 **Major Update:**
 
-- ✨ Added `/create-plan` command with Linear integration
-- ✨ Added `/implement-task` command with worktree workflow
+- ✨ Added `/project-management:create-plan` command with Linear integration
+- ✨ Added `/project-management:implement-task` command with worktree workflow
 - 📚 Added comprehensive reference documentation (13 files)
 - 🔗 Integrated Linear API for issue management
 - 🌲 Added git worktree support for isolated development
@@ -478,13 +478,13 @@ User: "We need OAuth login with Google and GitHub"
 
 **Migration from 1.0.0:**
 
-- `/create-prd` remains compatible
+- `/project-management:create-prd` remains compatible
 - New commands optional but recommended
 - Linear integration opt-in
 
 ### Version 1.0.0
 
-- Initial release with `/create-prd`
+- Initial release with `/project-management:create-prd`
 
 ## Support
 

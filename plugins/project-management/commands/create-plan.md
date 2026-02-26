@@ -28,16 +28,16 @@ You function as a **Scrum Master, Product Owner, and Development Lead** with the
 
 ```bash
 # Filesystem-based (default)
-/create-plan                         # PRD.md in CWD
-/create-plan --prd feature.md        # Specific PRD
-/create-plan PRDs/01-rag-system.md   # Direct path
+/project-management:create-plan                         # PRD.md in CWD
+/project-management:create-plan --prd feature.md        # Specific PRD
+/project-management:create-plan PRDs/01-rag-system.md   # Direct path
 
 # Linear-based
-/create-plan --linear                # PRD.md in CWD
-/create-plan --linear --prd feature.md
+/project-management:create-plan --linear                # PRD.md in CWD
+/project-management:create-plan --linear --prd feature.md
 
 # Interactive mode
-/create-plan --interactive
+/project-management:create-plan --interactive
 ```
 
 ## Provider Selection
@@ -165,7 +165,7 @@ Based on task type, AI agents are recommended:
 | **Documentation**      | `markdown-syntax-formatter` | Docs, READMEs                 |
 | **Testing**            | `test-automator`            | Unit/Integration tests        |
 
-**Details**: [agent-mapping.md](../references/create-plan/agent-mapping.md)
+**Details**: [agent-mapping.md](../references/project-management:create-plan/agent-mapping.md)
 
 ## Quality Criteria
 
@@ -223,7 +223,7 @@ Based on task type, AI agents are recommended:
 - CI/CD setup
 - Monitoring and observability
 
-**Details**: [task-breakdown.md](../references/create-plan/task-breakdown.md)
+**Details**: [task-breakdown.md](../references/project-management:create-plan/task-breakdown.md)
 
 ## Best Practices
 
@@ -246,7 +246,7 @@ Based on task type, AI agents are recommended:
 - Ignoring dependencies
 - Populating Linear without duplicate check
 
-**Complete Guide**: [best-practices.md](../references/create-plan/best-practices.md)
+**Complete Guide**: [best-practices.md](../references/project-management:create-plan/best-practices.md)
 
 ## Example Workflows
 
@@ -254,10 +254,10 @@ Based on task type, AI agents are recommended:
 
 ```bash
 # 1. Create PRD
-/create-prd "Dark Mode Toggle"
+/project-management:create-prd "Dark Mode Toggle"
 
 # 2. Generate plan from PRD
-/create-plan PRD.md
+/project-management:create-plan PRD.md
 
 # Output:
 # PRD read: PRD.md
@@ -272,17 +272,17 @@ Based on task type, AI agents are recommended:
 # Total: 21 SP
 
 # 3. Implement task
-/implement-task task-001
+/project-management:implement-task task-001
 ```
 
 ### Linear (`--linear`)
 
 ```bash
 # 1. Create PRD
-/create-prd "Dark Mode Toggle"
+/project-management:create-prd "Dark Mode Toggle"
 
 # 2. Generate plan in Linear
-/create-plan --linear --prd PRD.md
+/project-management:create-plan --linear --prd PRD.md
 
 # Output:
 # PRD read: PRD.md
@@ -295,26 +295,26 @@ Based on task type, AI agents are recommended:
 # Labels added
 
 # 3. Implement task
-/implement-task --linear LIN-124
+/project-management:implement-task --linear LIN-124
 ```
 
 ## Detailed Documentation
 
 ### General
 
-- **[task-breakdown.md](../references/create-plan/task-breakdown.md)** - Task sizing, dependencies, Story Points
-- **[agent-mapping.md](../references/create-plan/agent-mapping.md)** - Agent recommendations per task type
-- **[best-practices.md](../references/create-plan/best-practices.md)** - Atomic tasks, acceptance criteria
+- **[task-breakdown.md](../references/project-management:create-plan/task-breakdown.md)** - Task sizing, dependencies, Story Points
+- **[agent-mapping.md](../references/project-management:create-plan/agent-mapping.md)** - Agent recommendations per task type
+- **[best-practices.md](../references/project-management:create-plan/best-practices.md)** - Atomic tasks, acceptance criteria
 
 ### Provider-Specific
 
-- **[filesystem.md](../references/create-plan/filesystem.md)** - Directory structure, templates (EPIC.md, STATUS.md, task files)
-- **[linear-integration.md](../references/create-plan/linear-integration.md)** - Linear API, EPIC/issue structure, labels
+- **[filesystem.md](../references/project-management:create-plan/filesystem.md)** - Directory structure, templates (EPIC.md, STATUS.md, task files)
+- **[linear-integration.md](../references/project-management:create-plan/linear-integration.md)** - Linear API, EPIC/issue structure, labels
 
 ## See Also
 
-- **[/create-prd](./create-prd.md)** - PRD creation
-- **[/implement-task](./implement-task.md)** - Task implementation
+- **[/project-management:create-prd](./project-management:create-prd.md)** - PRD creation
+- **[/project-management:implement-task](./project-management:implement-task.md)** - Task implementation
 
 ---
 

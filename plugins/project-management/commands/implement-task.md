@@ -36,24 +36,24 @@ This command orchestrates the complete workflow from task to pull request, lever
 
 ```bash
 # Filesystem-based (default)
-/implement-task              # Interactive selection
-/implement-task task-001     # With task ID
-/implement-task --plan dark-mode task-003  # With plan context
+/project-management:implement-task              # Interactive selection
+/project-management:implement-task task-001     # With task ID
+/project-management:implement-task --plan dark-mode task-003  # With plan context
 
 # Linear-based
-/implement-task --linear           # Interactive selection
-/implement-task --linear PROJ-123  # With issue ID
+/project-management:implement-task --linear           # Interactive selection
+/project-management:implement-task --linear PROJ-123  # With issue ID
 
 # Skip optional phases
-/implement-task task-001 --skip-brainstorm     # Skip context analysis
-/implement-task task-001 --skip-quality-gate   # Skip quality gate
+/project-management:implement-task task-001 --skip-brainstorm     # Skip context analysis
+/project-management:implement-task task-001 --skip-quality-gate   # Skip quality gate
 ```
 
 ## Provider Selection
 
 ### Filesystem (Default)
 
-**When to use**: Tasks were created via `/create-plan` and reside in `.plans/*/tasks/`.
+**When to use**: Tasks were created via `/project-management:create-plan` and reside in `.plans/*/tasks/`.
 
 **Expected Structure**:
 
@@ -101,7 +101,7 @@ Extract the following information:
 - **Status** - Must be "pending" / "Backlog"
 - **Acceptance Criteria** - As test plan checklist
 - **Dependencies** - Verify before starting (filesystem only)
-- **Agent Recommendation** - From task file (if available from `/create-plan`)
+- **Agent Recommendation** - From task file (if available from `/project-management:create-plan`)
 
 ### 3. Context Analysis (Brainstorm)
 
@@ -177,7 +177,7 @@ TodoWrite:
   - [ ] Estimate scope of changes
 ```
 
-**Details**: [context-analysis.md](../references/implement-task/context-analysis.md)
+**Details**: [context-analysis.md](../references/project-management:implement-task/context-analysis.md)
 
 ### 4. Agent & Plugin Resolution
 
@@ -217,7 +217,7 @@ Based on resolved context, prepare the following plugin integrations:
 | Linting (Python) | `/code-quality:ruff-check` | If Python project detected |
 | PR Creation | `/git-workflow:create-pr` | Always |
 
-**Details**: [agent-routing.md](../references/implement-task/agent-routing.md)
+**Details**: [agent-routing.md](../references/project-management:implement-task/agent-routing.md)
 
 ### 5. Worktree and Branch Creation
 
@@ -375,7 +375,7 @@ Implementation of Task <task-id>: <Task-Title>
 - [ ] Manual Verification
 
 ---
-*This draft PR was automatically created via `/implement-task`*
+*This draft PR was automatically created via `/project-management:implement-task`*
 EOF
 )"
 ```
@@ -598,7 +598,7 @@ Use `/git-workflow:commit` for the final commit set:
 - [ ] Tests written and passing
 - [ ] Commits follow project conventions
 
-**Details**: [quality-gate.md](../references/implement-task/quality-gate.md)
+**Details**: [quality-gate.md](../references/project-management:implement-task/quality-gate.md)
 
 ### 9. PR Finalization
 
@@ -643,7 +643,7 @@ git branch -d <type>/<task-id>-<description>  # local branch
 | Plugin | Commands / Agents Used | Condition |
 | --- | --- | --- |
 | **superpowers** (obra) | `/superpowers:brainstorm` | Phase 3, if installed |
-| **code-quality** | `@code-reviewer`, `@python-expert`, `@frontend-developer`, `/ruff-check` | Phase 4, 7, 8 |
+| **code-quality** | `@code-reviewer`, `@python-expert`, `@frontend-developer`, `/code-quality:ruff-check` | Phase 4, 7, 8 |
 | **development** | `@java-developer` | Phase 7, if Java detected |
 | **education** | `@markdown-syntax-formatter` | Phase 7, if docs task |
 
@@ -670,17 +670,17 @@ If an optional plugin is not available, the workflow continues gracefully:
 
 ### General
 
-- **[workflow.md](../references/implement-task/workflow.md)** - Detailed workflow with examples
-- **[context-analysis.md](../references/implement-task/context-analysis.md)** - Brainstorm and context analysis guide
-- **[agent-routing.md](../references/implement-task/agent-routing.md)** - Agent selection logic and mapping
-- **[quality-gate.md](../references/implement-task/quality-gate.md)** - Quality gate checks and configuration
-- **[best-practices.md](../references/implement-task/best-practices.md)** - Branch naming, commits, PR design
-- **[troubleshooting.md](../references/implement-task/troubleshooting.md)** - Common problems and solutions
+- **[workflow.md](../references/project-management:implement-task/workflow.md)** - Detailed workflow with examples
+- **[context-analysis.md](../references/project-management:implement-task/context-analysis.md)** - Brainstorm and context analysis guide
+- **[agent-routing.md](../references/project-management:implement-task/agent-routing.md)** - Agent selection logic and mapping
+- **[quality-gate.md](../references/project-management:implement-task/quality-gate.md)** - Quality gate checks and configuration
+- **[best-practices.md](../references/project-management:implement-task/best-practices.md)** - Branch naming, commits, PR design
+- **[troubleshooting.md](../references/project-management:implement-task/troubleshooting.md)** - Common problems and solutions
 
 ### Provider-Specific
 
-- **[filesystem.md](../references/implement-task/filesystem.md)** - Filesystem tasks, STATUS.md
-- **[linear.md](../references/implement-task/linear.md)** - Linear MCP setup, API details
+- **[filesystem.md](../references/project-management:implement-task/filesystem.md)** - Filesystem tasks, STATUS.md
+- **[linear.md](../references/project-management:implement-task/linear.md)** - Linear MCP setup, API details
 
 ## See Also
 

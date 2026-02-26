@@ -32,16 +32,16 @@ This command orchestrates the **fully automated implementation of an EPIC**:
 
 ```bash
 # Filesystem-based (default)
-/implement-epic                           # Interactive selection
-/implement-epic dark-mode-toggle          # Plan name
-/implement-epic --plan .plans/feature/    # Explicit path
+/project-management:implement-epic                           # Interactive selection
+/project-management:implement-epic dark-mode-toggle          # Plan name
+/project-management:implement-epic --plan .plans/feature/    # Explicit path
 
 # Linear-based
-/implement-epic --linear                  # Interactive selection
-/implement-epic --linear PROJ-123         # EPIC ID
+/project-management:implement-epic --linear                  # Interactive selection
+/project-management:implement-epic --linear PROJ-123         # EPIC ID
 
 # With options
-/implement-epic feature-x --max-parallel 5 --max-iterations 50
+/project-management:implement-epic feature-x --max-parallel 5 --max-iterations 50
 ```
 
 ## Prerequisites
@@ -56,7 +56,7 @@ This command uses Claude Code's built-in **Task tool** to spawn subagents. No ex
 
 ### Project Structure
 
-The EPIC must have been created via `/create-plan`:
+The EPIC must have been created via `/project-management:create-plan`:
 
 ```text
 .plans/[feature-name]/
@@ -374,17 +374,17 @@ git rebase origin/main
 
 ```bash
 # Conservative
-/implement-epic feature-x --max-iterations 20 --max-parallel 2
+/project-management:implement-epic feature-x --max-iterations 20 --max-parallel 2
 
 # Fast but more expensive
-/implement-epic feature-x --max-iterations 50 --max-parallel 5
+/project-management:implement-epic feature-x --max-iterations 50 --max-parallel 5
 ```
 
 ## Detailed Documentation
 
-- **[orchestrator-architecture.md](../references/implement-epic/orchestrator-architecture.md)** - Technical details
-- **[parallel-strategies.md](../references/implement-epic/parallel-strategies.md)** - Parallelization patterns
-- **[troubleshooting.md](../references/implement-epic/troubleshooting.md)** - Common problems
+- **[orchestrator-architecture.md](../references/project-management:implement-epic/orchestrator-architecture.md)** - Technical details
+- **[parallel-strategies.md](../references/project-management:implement-epic/parallel-strategies.md)** - Parallelization patterns
+- **[troubleshooting.md](../references/project-management:implement-epic/troubleshooting.md)** - Common problems
 
 ## See Also
 

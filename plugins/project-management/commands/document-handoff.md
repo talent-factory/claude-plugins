@@ -20,16 +20,16 @@ Create comprehensive handoff documentation before a `/compact`, enabling a new a
 
 ```bash
 # Default (task name derived from Git branch)
-/document-handoff
+/project-management:document-handoff
 
 # With explicit task name
-/document-handoff "Feature Implementation"
+/project-management:document-handoff "Feature Implementation"
 
 # With custom output directory
-/document-handoff "Task Name" --output docs/handoffs
+/project-management:document-handoff "Task Name" --output docs/handoffs
 
 # With Linear issue reference
-/document-handoff --linear-issue TF-177
+/project-management:document-handoff --linear-issue TF-177
 ```
 
 ## When to Use
@@ -86,7 +86,7 @@ Create handoff document with the following sections:
 | **Important References** | Files, documentation, code patterns     |
 | **For the Next Agent**   | Summary in 2-3 sentences                |
 
-**Template**: [templates.md](../references/document-handoff/templates.md)
+**Template**: [templates.md](../references/project-management:document-handoff/templates.md)
 
 ### 3. Save Documentation
 
@@ -155,7 +155,7 @@ The next agent requires **no prior knowledge**:
 
 ```bash
 # 1. Create handoff documentation
-/document-handoff "Feature Implementation"
+/project-management:document-handoff "Feature Implementation"
 
 # 2. Compress context
 /compact
@@ -177,15 +177,15 @@ The next agent requires **no prior knowledge**:
 
 ## Additional Information
 
-- **Templates**: [templates.md](../references/document-handoff/templates.md)
+- **Templates**: [templates.md](../references/project-management:document-handoff/templates.md)
   - Complete handoff template
   - Minimal template for quick handoffs
 
-- **Examples**: [examples.md](../references/document-handoff/examples.md)
+- **Examples**: [examples.md](../references/project-management:document-handoff/examples.md)
   - Minimal example
   - Complete example
 
-- **Best Practices**: [best-practices.md](../references/document-handoff/best-practices.md)
+- **Best Practices**: [best-practices.md](../references/project-management:document-handoff/best-practices.md)
   - Tips for effective handoffs
   - Avoiding common mistakes
 

@@ -205,7 +205,7 @@ number = false
    - Automatisches Add
 
 4. **Commit erstellt**
-   - Via `/commit` Command
+   - Via `/git-workflow:commit` Command
    - Mit Formatierungs-Hinweis
 
 ### Manuelle Ausführung
@@ -329,7 +329,7 @@ npm install -g markdownlint-cli
 **Option**: Formatierung überspringen
 
 ```bash
-/create-pr --no-format
+/git-workflow:create-pr --no-format
 ```
 
 ### Zu lange Ausführungszeit

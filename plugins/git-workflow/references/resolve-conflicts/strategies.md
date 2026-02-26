@@ -2,7 +2,7 @@
 
 ## Strategie-Uebersicht
 
-Der `/resolve-conflicts` Command unterstuetzt drei Strategien:
+Der `/git-workflow:resolve-conflicts` Command unterstuetzt drei Strategien:
 
 | Strategie | Beschreibung | Anwendungsfall |
 |-----------|-------------|----------------|

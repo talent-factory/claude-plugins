@@ -117,7 +117,7 @@ npm run build           # Full Build
 1. **Tests überspringen** (nur für Debugging):
 
    ```bash
-   /commit --skip-tests
+   /git-workflow:commit --skip-tests
    ```
 
 2. **Einzelne Tests debuggen**:
@@ -270,7 +270,7 @@ git commit -v              # Verbose Output
    ```bash
    git commit --no-verify
    # Oder
-   /commit --no-verify
+   /git-workflow:commit --no-verify
    ```
 
 **Warnung**: `--no-verify` nur verwenden, wenn du weißt was du tust!

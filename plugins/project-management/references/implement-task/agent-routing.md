@@ -24,7 +24,7 @@ Implementation Phase (Phase 7)
 
 ### Priority 1: Explicit Agent Recommendation
 
-If the task file contains an agent recommendation (created by `/create-plan`), this takes highest priority:
+If the task file contains an agent recommendation (created by `/project-management:create-plan`), this takes highest priority:
 
 ```markdown
 ## Agent Recommendation
@@ -177,7 +177,7 @@ After agent resolution, determine which plugins and commands are needed:
 | --- | --- | --- | --- |
 | `superpowers` (obra) | `/superpowers:brainstorm` | Installed AND not `--skip-brainstorm` | 3 |
 | `code-quality` | `@code-reviewer` | Not `--skip-quality-gate` | 8 |
-| `code-quality` | `/ruff-check` | Python project detected | 8 |
+| `code-quality` | `/code-quality:ruff-check` | Python project detected | 8 |
 | `code-quality` | `@python-expert` | Python resolved as agent | 7 |
 | `code-quality` | `@frontend-developer` | Frontend resolved as agent | 7 |
 | `development` | `@java-developer` | Java resolved as agent | 7 |

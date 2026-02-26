@@ -32,8 +32,8 @@ The workflow comprises 10 phases:
 
 ### With Task ID Argument
 
-**Filesystem**: `/implement-task task-001`
-**Linear**: `/implement-task --linear PROJ-123`
+**Filesystem**: `/project-management:implement-task task-001`
+**Linear**: `/project-management:implement-task --linear PROJ-123`
 
 **Workflow**:
 
@@ -43,8 +43,8 @@ The workflow comprises 10 phases:
 
 ### Without Argument (Interactive)
 
-**Filesystem**: `/implement-task`
-**Linear**: `/implement-task --linear`
+**Filesystem**: `/project-management:implement-task`
+**Linear**: `/project-management:implement-task --linear`
 
 **Workflow**:
 

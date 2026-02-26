@@ -225,7 +225,7 @@ If not already installed:
 - Override agent resolution without good reason
 - Mix methodologies from different agents in one task
 - Assume all plugins are always available
-- Ignore agent recommendations from `/create-plan`
+- Ignore agent recommendations from `/project-management:create-plan`
 
 ### Plugin Availability
 

@@ -21,20 +21,20 @@ Error: EPIC 'feature-x' not found
    ls -la .plans/
 
    # Correct invocation
-   /implement-epic --plan .plans/feature-x/
+   /project-management:implement-epic --plan .plans/feature-x/
    ```
 
 2. **Missing EPIC.md**
 
    ```bash
    # Recreate EPIC
-   /create-plan --prd PRD.md
+   /project-management:create-plan --prd PRD.md
    ```
 
 3. **Missing Linear flag**
    ```bash
    # For Linear EPICs
-   /implement-epic --linear PROJ-123
+   /project-management:implement-epic --linear PROJ-123
    ```
 
 ### Circular Dependency Error
@@ -356,13 +356,13 @@ System becomes slow, agents crash.
 1. **Reduce parallelism**
 
    ```bash
-   /implement-epic feature-x --max-parallel 2
+   /project-management:implement-epic feature-x --max-parallel 2
    ```
 
 2. **Limit iterations**
 
    ```bash
-   /implement-epic feature-x --max-iterations 20
+   /project-management:implement-epic feature-x --max-iterations 20
    ```
 
 3. **Introduce pauses**
@@ -382,7 +382,7 @@ Costs escalate rapidly.
 1. **Execute dry run first**
 
    ```bash
-   /implement-epic feature-x --dry-run
+   /project-management:implement-epic feature-x --dry-run
    # Displays estimated costs
    ```
 
@@ -410,10 +410,10 @@ Costs escalate rapidly.
 cat .plans/feature-x/.orchestrator/state.json
 
 # Resume
-/implement-epic feature-x --resume
+/project-management:implement-epic feature-x --resume
 
 # Or: Continue specific task
-/implement-task task-001 --continue
+/project-management:implement-task task-001 --continue
 ```
 
 ### Cleanup After Abort
@@ -437,7 +437,7 @@ rm -rf .plans/feature-x/.orchestrator/
 ### Verbose Mode
 
 ```bash
-/implement-epic feature-x --verbose
+/project-management:implement-epic feature-x --verbose
 # Displays detailed logs
 ```
 

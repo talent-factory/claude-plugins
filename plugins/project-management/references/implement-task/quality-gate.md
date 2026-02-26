@@ -326,7 +326,7 @@ git rebase -i main
 For urgent fixes or trivial changes:
 
 ```bash
-/implement-task task-001 --skip-quality-gate
+/project-management:implement-task task-001 --skip-quality-gate
 ```
 
 **When to skip**:

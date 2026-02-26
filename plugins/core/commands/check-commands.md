@@ -20,10 +20,10 @@ Dieser Command validiert Claude Code Commands auf:
 
 ```bash
 # Spezifischen Command prüfen
-/check-commands agents/_shared/commands/commit.md
+/core:check-commands agents/_shared/commands/commit.md
 
 # Oder ohne Pfad für interaktive Auswahl
-/check-commands
+/core:check-commands
 ```
 
 ## Validierungs-Checks
@@ -197,21 +197,21 @@ Dieser Command ist nützlich:
 **Erfolgreiche Validierung**:
 
 ```text
-/check-commands agents/_shared/commands/commit.md
+/core:check-commands agents/_shared/commands/commit.md
 → ✅ Alle Checks bestanden
 ```
 
 **Fehlerhafte Validierung**:
 
 ```text
-/check-commands agents/_shared/commands/broken.md
+/core:check-commands agents/_shared/commands/broken.md
 → ❌ 3 Issues gefunden (siehe Report)
 ```
 
 **Interaktive Auswahl**:
 
 ```text
-/check-commands
+/core:check-commands
 → Zeigt Liste aller Commands
 → User wählt aus
 → Validierung läuft

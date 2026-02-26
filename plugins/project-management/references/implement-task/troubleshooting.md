@@ -21,7 +21,7 @@ Common issues encountered during task implementation and their solutions.
 find .plans -name "task-*.md"
 
 # Search with plan context
-/implement-task --plan dark-mode-toggle task-001
+/project-management:implement-task --plan dark-mode-toggle task-001
 ```
 
 **Linear**:
@@ -276,7 +276,7 @@ git checkout feature/task-001-desc
 
 ```bash
 # Option 1: Commit changes
-/commit
+/git-workflow:commit
 
 # Option 2: Stash changes
 git stash save "WIP before implementing task"
@@ -407,7 +407,7 @@ git add .
 git commit -m "✨ feat: Implement feature"
 
 # Then create PR
-/create-pr
+/git-workflow:create-pr
 ```
 
 ## Finalization Issues
@@ -456,10 +456,10 @@ git commit -m "✅ chore: Mark task as completed"
 
 ```bash
 # Instead of
-/implement-task task-001
+/project-management:implement-task task-001
 
 # Use
-/implement-task --plan dark-mode task-001
+/project-management:implement-task --plan dark-mode task-001
 ```
 
 ## Quick Reference: Worktree Commands

@@ -7,7 +7,7 @@ description: Erstellt professionelle Git-Commits mit automatischen Pre-Commit-Ch
 
 ## Overview
 
-Dieser Skill automatisiert den kompletten Git-Commit-Workflow mit professionellen Qualitätschecks und konventionellen Commit-Nachrichten. Er ersetzt den `/commit` Command mit einem wiederverwendbaren, distribuierbaren Skill.
+Dieser Skill automatisiert den kompletten Git-Commit-Workflow mit professionellen Qualitätschecks und konventionellen Commit-Nachrichten. Er ersetzt den `/git-workflow:commit` Command mit einem wiederverwendbaren, distribuierbaren Skill.
 
 **Special Features:**
 - ✅ **Automatische Projekterkennung** (Java, Python, React, Dokumentation)

@@ -55,11 +55,11 @@ The brainstorm command initiates an interactive design session:
 
 ```bash
 # Automatic: implement-task detects Superpowers availability
-/implement-task task-001
+/project-management:implement-task task-001
 # → Phase 3 invokes /superpowers:brainstorm automatically
 
 # Skip brainstorm for simple tasks
-/implement-task task-001 --skip-brainstorm
+/project-management:implement-task task-001 --skip-brainstorm
 ```
 
 ## Built-in Context Analysis (Fallback)
@@ -252,7 +252,7 @@ Use `--skip-brainstorm` when:
 - The developer already has deep context
 
 ```bash
-/implement-task task-001 --skip-brainstorm
+/project-management:implement-task task-001 --skip-brainstorm
 # → Jumps directly to Phase 4 (Agent Resolution)
 ```
 
