@@ -165,7 +165,7 @@ Based on task type, AI agents are recommended:
 | **Documentation**      | `markdown-syntax-formatter` | Docs, READMEs                 |
 | **Testing**            | `test-automator`            | Unit/Integration tests        |
 
-**Details**: [agent-mapping.md](../references/project-management:create-plan/agent-mapping.md)
+**Details**: [agent-mapping.md](../references/create-plan/agent-mapping.md)
 
 ## Quality Criteria
 
@@ -223,7 +223,7 @@ Based on task type, AI agents are recommended:
 - CI/CD setup
 - Monitoring and observability
 
-**Details**: [task-breakdown.md](../references/project-management:create-plan/task-breakdown.md)
+**Details**: [task-breakdown.md](../references/create-plan/task-breakdown.md)
 
 ## Best Practices
 
@@ -246,7 +246,7 @@ Based on task type, AI agents are recommended:
 - Ignoring dependencies
 - Populating Linear without duplicate check
 
-**Complete Guide**: [best-practices.md](../references/project-management:create-plan/best-practices.md)
+**Complete Guide**: [best-practices.md](../references/create-plan/best-practices.md)
 
 ## Example Workflows
 
@@ -302,19 +302,19 @@ Based on task type, AI agents are recommended:
 
 ### General
 
-- **[task-breakdown.md](../references/project-management:create-plan/task-breakdown.md)** - Task sizing, dependencies, Story Points
-- **[agent-mapping.md](../references/project-management:create-plan/agent-mapping.md)** - Agent recommendations per task type
-- **[best-practices.md](../references/project-management:create-plan/best-practices.md)** - Atomic tasks, acceptance criteria
+- **[task-breakdown.md](../references/create-plan/task-breakdown.md)** - Task sizing, dependencies, Story Points
+- **[agent-mapping.md](../references/create-plan/agent-mapping.md)** - Agent recommendations per task type
+- **[best-practices.md](../references/create-plan/best-practices.md)** - Atomic tasks, acceptance criteria
 
 ### Provider-Specific
 
-- **[filesystem.md](../references/project-management:create-plan/filesystem.md)** - Directory structure, templates (EPIC.md, STATUS.md, task files)
-- **[linear-integration.md](../references/project-management:create-plan/linear-integration.md)** - Linear API, EPIC/issue structure, labels
+- **[filesystem.md](../references/create-plan/filesystem.md)** - Directory structure, templates (EPIC.md, STATUS.md, task files)
+- **[linear-integration.md](../references/create-plan/linear-integration.md)** - Linear API, EPIC/issue structure, labels
 
 ## See Also
 
-- **[/project-management:create-prd](./project-management:create-prd.md)** - PRD creation
-- **[/project-management:implement-task](./project-management:implement-task.md)** - Task implementation
+- **[/project-management:create-prd](./create-prd.md)** - PRD creation
+- **[/project-management:implement-task](./implement-task.md)** - Task implementation
 
 ---
 

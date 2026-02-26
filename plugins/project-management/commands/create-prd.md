@@ -160,7 +160,7 @@ Based on project complexity:
 | Major Initiative | > 2 months | Major Initiative |
 | Platform/Infra.  | Variable   | Technical PRD    |
 
-**Details**: [templates.md](../references/project-management:create-prd/templates.md)
+**Details**: [templates.md](../references/create-prd/templates.md)
 
 ## Best Practices
 
@@ -181,7 +181,7 @@ Based on project complexity:
 - Add features without rationale
 - Ignore out-of-scope items
 
-**Complete Guide**: [best-practices.md](../references/project-management:create-prd/best-practices.md)
+**Complete Guide**: [best-practices.md](../references/create-prd/best-practices.md)
 
 ## Quality Criteria
 
@@ -213,19 +213,19 @@ Based on project complexity:
 
 ## Additional Information
 
-- **Best Practices**: [best-practices.md](../references/project-management:create-prd/best-practices.md)
+- **Best Practices**: [best-practices.md](../references/create-prd/best-practices.md)
   - Fundamental principles
   - Defining success metrics
   - Stakeholder management
   - Avoiding common mistakes
 
-- **Templates**: [templates.md](../references/project-management:create-prd/templates.md)
+- **Templates**: [templates.md](../references/create-prd/templates.md)
   - Minimal MVP Template
   - Standard Feature Template
   - Major Initiative Template
   - Technical PRD Template
 
-- **Sections Guide**: [sections-guide.md](../references/project-management:create-prd/sections-guide.md)
+- **Sections Guide**: [sections-guide.md](../references/create-prd/sections-guide.md)
   - Detailed instructions for each section
   - Examples (Good vs. Bad)
   - Common mistakes per section

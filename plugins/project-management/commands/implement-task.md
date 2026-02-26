@@ -177,7 +177,7 @@ TodoWrite:
   - [ ] Estimate scope of changes
 ```
 
-**Details**: [context-analysis.md](../references/project-management:implement-task/context-analysis.md)
+**Details**: [context-analysis.md](../references/implement-task/context-analysis.md)
 
 ### 4. Agent & Plugin Resolution
 
@@ -217,7 +217,7 @@ Based on resolved context, prepare the following plugin integrations:
 | Linting (Python) | `/code-quality:ruff-check` | If Python project detected |
 | PR Creation | `/git-workflow:create-pr` | Always |
 
-**Details**: [agent-routing.md](../references/project-management:implement-task/agent-routing.md)
+**Details**: [agent-routing.md](../references/implement-task/agent-routing.md)
 
 ### 5. Worktree and Branch Creation
 
@@ -598,7 +598,7 @@ Use `/git-workflow:commit` for the final commit set:
 - [ ] Tests written and passing
 - [ ] Commits follow project conventions
 
-**Details**: [quality-gate.md](../references/project-management:implement-task/quality-gate.md)
+**Details**: [quality-gate.md](../references/implement-task/quality-gate.md)
 
 ### 9. PR Finalization
 
@@ -670,17 +670,17 @@ If an optional plugin is not available, the workflow continues gracefully:
 
 ### General
 
-- **[workflow.md](../references/project-management:implement-task/workflow.md)** - Detailed workflow with examples
-- **[context-analysis.md](../references/project-management:implement-task/context-analysis.md)** - Brainstorm and context analysis guide
-- **[agent-routing.md](../references/project-management:implement-task/agent-routing.md)** - Agent selection logic and mapping
-- **[quality-gate.md](../references/project-management:implement-task/quality-gate.md)** - Quality gate checks and configuration
-- **[best-practices.md](../references/project-management:implement-task/best-practices.md)** - Branch naming, commits, PR design
-- **[troubleshooting.md](../references/project-management:implement-task/troubleshooting.md)** - Common problems and solutions
+- **[workflow.md](../references/implement-task/workflow.md)** - Detailed workflow with examples
+- **[context-analysis.md](../references/implement-task/context-analysis.md)** - Brainstorm and context analysis guide
+- **[agent-routing.md](../references/implement-task/agent-routing.md)** - Agent selection logic and mapping
+- **[quality-gate.md](../references/implement-task/quality-gate.md)** - Quality gate checks and configuration
+- **[best-practices.md](../references/implement-task/best-practices.md)** - Branch naming, commits, PR design
+- **[troubleshooting.md](../references/implement-task/troubleshooting.md)** - Common problems and solutions
 
 ### Provider-Specific
 
-- **[filesystem.md](../references/project-management:implement-task/filesystem.md)** - Filesystem tasks, STATUS.md
-- **[linear.md](../references/project-management:implement-task/linear.md)** - Linear MCP setup, API details
+- **[filesystem.md](../references/implement-task/filesystem.md)** - Filesystem tasks, STATUS.md
+- **[linear.md](../references/implement-task/linear.md)** - Linear MCP setup, API details
 
 ## See Also
 

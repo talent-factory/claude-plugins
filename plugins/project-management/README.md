@@ -7,7 +7,6 @@ Comprehensive project management tools for PRD generation, project planning, tas
 **New in 2.5.0:**
 
 - 🧠 Intelligent plugin orchestration for `/project-management:implement-task` (Superpowers brainstorm, agent routing, quality gate)
-- 📋 Added `/project-management:document-handoff` command for context preservation before `/compact`
 - ⚡ Skip options: `--skip-brainstorm`, `--skip-quality-gate`
 
 **Previous:**
@@ -470,10 +469,9 @@ User: "We need OAuth login with Google and GitHub"
 
 ### Version 2.5.0 (2026-02-26)
 
-**Plugin Orchestration & Handoff:**
+**Plugin Orchestration:**
 
 - 🧠 Added plugin orchestration to `/project-management:implement-task` (Superpowers brainstorm, agent routing, quality gate)
-- 📋 Added `/project-management:document-handoff` command for context preservation
 - ⚡ Added skip options: `--skip-brainstorm`, `--skip-quality-gate`
 - 📚 Added reference documentation: agent-routing, context-analysis, quality-gate
 

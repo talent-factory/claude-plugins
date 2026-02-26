@@ -382,9 +382,9 @@ git rebase origin/main
 
 ## Detailed Documentation
 
-- **[orchestrator-architecture.md](../references/project-management:implement-epic/orchestrator-architecture.md)** - Technical details
-- **[parallel-strategies.md](../references/project-management:implement-epic/parallel-strategies.md)** - Parallelization patterns
-- **[troubleshooting.md](../references/project-management:implement-epic/troubleshooting.md)** - Common problems
+- **[orchestrator-architecture.md](../references/implement-epic/orchestrator-architecture.md)** - Technical details
+- **[parallel-strategies.md](../references/implement-epic/parallel-strategies.md)** - Parallelization patterns
+- **[troubleshooting.md](../references/implement-epic/troubleshooting.md)** - Common problems
 
 ## See Also
 

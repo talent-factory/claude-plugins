@@ -20,10 +20,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 #### project-management 2.5.0 (Minor Update)
 
 - 🧠 Added plugin orchestration to `/project-management:implement-task` (Superpowers brainstorm, agent routing, quality gate)
-- 📋 Added `/project-management:document-handoff` command for context preservation before `/compact`
 - ⚡ Added skip options: `--skip-brainstorm`, `--skip-quality-gate`
 - 📚 Added reference documentation: agent-routing, context-analysis, quality-gate
-- Now includes 6 commands, 1 agent
+- Now includes 5 commands, 1 agent
 
 #### git-workflow 2.2.0 (Minor Update)
 
