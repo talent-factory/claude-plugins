@@ -1,6 +1,6 @@
 # Commit-Workflow Integration
 
-Der `/create-pr` Command integriert sich mit dem `/commit` Command für professionelle Commits.
+Der `/git-workflow:create-pr` Command integriert sich mit dem `/git-workflow:commit` Command für professionelle Commits.
 
 ## Workflow-Übersicht
 
@@ -77,7 +77,7 @@ fi
 $ git branch --show-current
 main
 
-# /create-pr erkennt: geschützter Branch!
+# /git-workflow:create-pr erkennt: geschützter Branch!
 # → Erstellt: feature/neue-funktion-2024-12-12
 # → PR: feature/neue-funktion → main
 ```
@@ -88,7 +88,7 @@ main
 $ git branch --show-current
 feature/login
 
-# /create-pr erkennt: Feature-Branch!
+# /git-workflow:create-pr erkennt: Feature-Branch!
 # → Kein neuer Branch nötig
 # → PR: feature/login → main
 ```
@@ -97,10 +97,10 @@ feature/login
 
 ### Voraussetzungen
 
-Der `/create-pr` Command:
+Der `/git-workflow:create-pr` Command:
 
 - **Prüft auf uncommitted Changes**
-- **Ruft `/commit` auf** falls nötig
+- **Ruft `/git-workflow:commit` auf** falls nötig
 - **Verwendet bestehende Commits** für PR
 - **Erstellt KEINE eigenen Commits**
 
@@ -108,7 +108,7 @@ Der `/create-pr` Command:
 
 **Konsistenz**: Ein Command für Commits = konsistente Qualität
 
-**Keine Duplikation**: Commit-Logik nur in `/commit`
+**Keine Duplikation**: Commit-Logik nur in `/git-workflow:commit`
 
 **Flexibilität**: Du kannst Commits manuell erstellen oder automatisch
 
@@ -127,11 +127,11 @@ modified: tests/test_app.py
 **Workflow**:
 
 ```bash
-/create-pr
+/git-workflow:create-pr
 ```
 
 1. **Erkennt uncommitted Changes**
-2. **Ruft `/commit` auf**
+2. **Ruft `/git-workflow:commit` auf**
    - Pre-Commit-Checks
    - Staging
    - Commit-Erstellung
@@ -153,7 +153,7 @@ ghi9012 📚 docs: Dokumentation aktualisiert
 **Workflow**:
 
 ```bash
-/create-pr
+/git-workflow:create-pr
 ```
 
 1. **Erkennt bestehende Commits**
@@ -177,17 +177,17 @@ modified: src/app.py  # Weitere Änderungen
 **Workflow**:
 
 ```bash
-/create-pr
+/git-workflow:create-pr
 ```
 
 1. **Erkennt uncommitted Changes**
-2. **Ruft `/commit` auf** für neue Änderungen
+2. **Ruft `/git-workflow:commit` auf** für neue Änderungen
 3. **Erstellt Branch** mit allen Commits
 4. **Pushed und erstellt PR**
 
 ## Commit-Aufteilung
 
-Der `/commit` Command kann Änderungen automatisch in logische Commits aufteilen.
+Der `/git-workflow:commit` Command kann Änderungen automatisch in logische Commits aufteilen.
 
 ### Automatische Erkennung
 
@@ -205,7 +205,7 @@ modified: README.md               # Docs
 **Workflow**:
 
 ```bash
-/commit
+/git-workflow:commit
 ```
 
 Kann in separate Commits aufteilen:
@@ -237,7 +237,7 @@ Kann in separate Commits aufteilen:
 **Wenn du alles in einem Commit möchtest**:
 
 ```bash
-/create-pr --single-commit
+/git-workflow:create-pr --single-commit
 ```
 
 ## Branch-Erstellung
@@ -310,7 +310,7 @@ git log --oneline origin/main..HEAD
 **Ausnahme**: Nur bei expliziter Anfrage
 
 ```bash
-/create-pr --force-push  # ⚠️ Vorsicht!
+/git-workflow:create-pr --force-push  # ⚠️ Vorsicht!
 ```
 
 ## PR-Erstellung basierend auf Commits
@@ -380,7 +380,7 @@ Keine
 - [ ] Keine "WIP" oder "fix" Commits
 - [ ] Commit-Historie ist sauber
 
-**Falls nötig**: Commits aufräumen vor `/create-pr`
+**Falls nötig**: Commits aufräumen vor `/git-workflow:create-pr`
 
 ```bash
 git rebase -i HEAD~5
@@ -414,7 +414,7 @@ Grund: Schutz vor API-Missbrauch und DoS-Angriffen.
 
 ### /commit wird nicht aufgerufen
 
-**Problem**: Änderungen werden erkannt, aber `/commit` nicht aufgerufen
+**Problem**: Änderungen werden erkannt, aber `/git-workflow:commit` nicht aufgerufen
 
 **Diagnose**:
 
@@ -448,7 +448,7 @@ git rebase -i origin/main
 
 ```bash
 git checkout -b feature/besserer-name
-/create-pr
+/git-workflow:create-pr
 # Verwendet bestehenden Branch-Namen
 ```
 
@@ -466,7 +466,7 @@ git rebase -i origin/main
 Oder verwenden:
 
 ```bash
-/create-pr --single-commit
+/git-workflow:create-pr --single-commit
 ```
 
 ## Integration mit Git Hooks
@@ -513,7 +513,7 @@ fi
 vim src/feature.py
 
 # 2. PR erstellen (inkl. Commit)
-/create-pr
+/git-workflow:create-pr
 
 # Fertig! Branch, Commits, und PR erstellt
 ```
@@ -523,18 +523,18 @@ vim src/feature.py
 ```bash
 # 1. Feature implementieren
 vim src/auth.py
-/commit
+/git-workflow:commit
 
 # 2. Tests hinzufügen
 vim tests/test_auth.py
-/commit
+/git-workflow:commit
 
 # 3. Docs aktualisieren
 vim README.md
-/commit
+/git-workflow:commit
 
 # 4. PR erstellen
-/create-pr
+/git-workflow:create-pr
 
 # Branch mit 3 sauberen Commits + PR
 ```

@@ -10,7 +10,7 @@ Comprehensive development utilities for plugin/command/agent development, valida
 
 ### Development & Validation
 
-#### `/check`
+#### `/core:check`
 
 Run project checks and fix errors without committing.
 
@@ -23,11 +23,11 @@ Run project checks and fix errors without committing.
 
 **Usage:**
 ```bash
-/check              # Run all checks
-/check --fix        # Auto-fix issues
+/core:check              # Run all checks
+/core:check --fix        # Auto-fix issues
 ```
 
-#### `/check-commands`
+#### `/core:check-commands`
 
 Validate command files, documentation, and best practices.
 
@@ -40,11 +40,11 @@ Validate command files, documentation, and best practices.
 
 **Usage:**
 ```bash
-/check-commands                  # Check all commands
-/check-commands path/to/cmd.md   # Check specific command
+/core:check-commands                  # Check all commands
+/core:check-commands path/to/cmd.md   # Check specific command
 ```
 
-#### `/check-agents`
+#### `/core:check-agents`
 
 Validate agent configurations and YAML frontmatter.
 
@@ -57,13 +57,13 @@ Validate agent configurations and YAML frontmatter.
 
 **Usage:**
 ```bash
-/check-agents                    # Check all agents
-/check-agents path/to/agent.md   # Check specific agent
+/core:check-agents                    # Check all agents
+/core:check-agents path/to/agent.md   # Check specific agent
 ```
 
 ### Plugin & Skill Development
 
-#### `/build-skill`
+#### `/core:build-skill`
 
 Create comprehensive Claude Code Skills through elicitation-driven development.
 
@@ -76,7 +76,7 @@ Create comprehensive Claude Code Skills through elicitation-driven development.
 
 **Usage:**
 ```bash
-/build-skill
+/core:build-skill
 ```
 
 **Workflow:**
@@ -86,7 +86,7 @@ Create comprehensive Claude Code Skills through elicitation-driven development.
 4. Validate implementation
 5. Generate documentation
 
-#### `/package-skill`
+#### `/core:package-skill`
 
 Validate and package Claude Code Skills into distributable zip files.
 
@@ -99,11 +99,11 @@ Validate and package Claude Code Skills into distributable zip files.
 
 **Usage:**
 ```bash
-/package-skill              # Package current directory
-/package-skill path/to/skill  # Package specific skill
+/core:package-skill              # Package current directory
+/core:package-skill path/to/skill  # Package specific skill
 ```
 
-#### `/create-command`
+#### `/core:create-command`
 
 Create new commands following existing patterns and organizational structure.
 
@@ -116,12 +116,12 @@ Create new commands following existing patterns and organizational structure.
 
 **Usage:**
 ```bash
-/create-command
+/core:create-command
 ```
 
 ### CI Automation
 
-#### `/run-ci`
+#### `/core:run-ci`
 
 Execute CI checks locally and fix all errors until tests pass.
 
@@ -134,8 +134,8 @@ Execute CI checks locally and fix all errors until tests pass.
 
 **Usage:**
 ```bash
-/run-ci              # Run all CI checks
-/run-ci --fix        # Auto-fix and retry
+/core:run-ci              # Run all CI checks
+/core:run-ci --fix        # Auto-fix and retry
 ```
 
 **Checks:**
@@ -328,20 +328,20 @@ core/
 /development:init-project
 
 # 2. Create first command
-/create-command
+/core:create-command
 
 # 3. Validate command
-/check-commands
+/core:check-commands
 
 # 4. Run all checks
-/check
+/core:check
 ```
 
 ### Example 2: Build Custom Skill
 
 ```bash
 # 1. Build skill interactively
-/build-skill
+/core:build-skill
 
 # Claude (with skill-elicitation-agent):
 # - Gathers requirements
@@ -349,7 +349,7 @@ core/
 # - Generates skill structure
 
 # 2. Validate skill
-/package-skill
+/core:package-skill
 
 # Claude:
 # - Validates structure
@@ -361,7 +361,7 @@ core/
 
 ```bash
 # 1. Run checks before commit
-/check
+/core:check
 
 # Claude:
 # - Detects project type (Java/Python/React)
@@ -370,10 +370,10 @@ core/
 # - Reports issues
 
 # 2. Fix issues automatically
-/check --fix
+/core:check --fix
 
 # 3. Run CI locally
-/run-ci
+/core:run-ci
 
 # Claude:
 # - Simulates complete CI pipeline
@@ -427,7 +427,7 @@ intuitive und leistungsstarke Benutzererfahrung."
 ### Command Development
 
 1. **Follow conventions** - Use existing patterns
-2. **Validate early** - Run `/check-commands` frequently
+2. **Validate early** - Run `/core:check-commands` frequently
 3. **Document thoroughly** - Include examples and usage
 4. **Test locally** - Use `claude --plugin-dir`
 
@@ -440,16 +440,16 @@ intuitive und leistungsstarke Benutzererfahrung."
 
 ### Skill Development
 
-1. **Elicit requirements** - Use `/build-skill` workflow
-2. **Validate structure** - Run `/package-skill` checks
+1. **Elicit requirements** - Use `/core:build-skill` workflow
+2. **Validate structure** - Run `/core:package-skill` checks
 3. **Test thoroughly** - Verify all functionality
 4. **Document completely** - README, SKILL.md, examples
 
 ### CI/CD
 
-1. **Run locally first** - Use `/run-ci` before push
+1. **Run locally first** - Use `/core:run-ci` before push
 2. **Fix errors iteratively** - Don't ignore warnings
-3. **Automate checks** - `/check` in pre-commit hooks
+3. **Automate checks** - `/core:check` in pre-commit hooks
 4. **Keep builds green** - Address failures immediately
 
 ## Use Cases
@@ -498,28 +498,28 @@ intuitive und leistungsstarke Benutzererfahrung."
 
 ### Command Validation Issues
 
-**Problem:** `/check-commands` fails
+**Problem:** `/core:check-commands` fails
 - **Solution:** Check YAML frontmatter syntax
 - **Solution:** Ensure required fields present
 - **Solution:** Validate markdown structure
 
 ### Agent Validation Issues
 
-**Problem:** `/check-agents` reports errors
+**Problem:** `/core:check-agents` reports errors
 - **Solution:** Verify color attribute is valid
 - **Solution:** Check trigger patterns syntax
 - **Solution:** Ensure required metadata present
 
 ### Skill Packaging Issues
 
-**Problem:** `/package-skill` fails
+**Problem:** `/core:package-skill` fails
 - **Solution:** Validate SKILL.md structure
 - **Solution:** Check for missing dependencies
 - **Solution:** Ensure README.md exists
 
 ### CI Issues
 
-**Problem:** `/run-ci` gets stuck
+**Problem:** `/core:run-ci` gets stuck
 - **Solution:** Check for infinite loops in tests
 - **Solution:** Verify all dependencies installed
 - **Solution:** Review error logs carefully
@@ -536,28 +536,28 @@ intuitive und leistungsstarke Benutzererfahrung."
 ### Version 3.0.0 (2026-01-28)
 
 **Breaking Change:**
-- Moved `/init-project` command to development plugin
-- Removed skill-builder agent system (available via `/build-skill` command)
+- Moved `/development:init-project` command to development plugin
+- Removed skill-builder agent system (available via `/core:build-skill` command)
 - Updated documentation to English
 
 ### Version 2.1.0 (2026-01-19)
 
 - Added Humanizer skill for removing AI writing patterns
-- Added `/build-skill` and `/package-skill` commands
+- Added `/core:build-skill` and `/core:package-skill` commands
 
 ### Version 2.0.0 (2026-01-10)
 
-- Added `/check` command for project validation
-- Added `/create-command` for pattern-based command generation
-- Added `/run-ci` for local CI execution
+- Added `/core:check` command for project validation
+- Added `/core:create-command` for pattern-based command generation
+- Added `/core:run-ci` for local CI execution
 - Added agent-expert agent for agent development
 - Added command-expert agent for CLI development
-- Enhanced `/check-commands` with best practices validation
-- Enhanced `/check-agents` with color attribute checking
+- Enhanced `/core:check-commands` with best practices validation
+- Enhanced `/core:check-agents` with color attribute checking
 
 ### Version 1.0.0
 
-- Initial release with `/check-commands` and `/check-agents`
+- Initial release with `/core:check-commands` and `/core:check-agents`
 
 ## Support
 

@@ -15,15 +15,15 @@ Create a comprehensive, professional Product Requirements Document (PRD) based o
 ## Usage
 
 ```bash
-/create-prd "Feature description"
-/create-prd "Feature description" /path/to/output.md
+/project-management:create-prd "Feature description"
+/project-management:create-prd "Feature description" /path/to/output.md
 ```
 
 **Examples**:
 
 ```bash
-/create-prd "Add Dark Mode Toggle to settings"
-/create-prd "AI-powered budgeting" docs/prds/budget-ai.md
+/project-management:create-prd "Add Dark Mode Toggle to settings"
+/project-management:create-prd "AI-powered budgeting" docs/prds/budget-ai.md
 ```
 
 ## Workflow

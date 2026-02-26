@@ -20,17 +20,17 @@ Erstelle automatisch einen neuen Branch, analysiere Änderungen und erstelle ein
 Standard-Pull-Request:
 
 ```bash
-/create-pr
+/git-workflow:create-pr
 ```
 
 Mit Optionen:
 
 ```bash
-/create-pr --draft          # Erstellt Draft-PR
-/create-pr --no-format      # Überspringt Code-Formatierung
-/create-pr --single-commit  # Alle Änderungen in einem Commit
-/create-pr --target main    # Ziel-Branch angeben (Standard: main)
-/create-pr --with-skills    # Erstelle einen Pull Request mit professional-pr-workflow
+/git-workflow:create-pr --draft          # Erstellt Draft-PR
+/git-workflow:create-pr --no-format      # Überspringt Code-Formatierung
+/git-workflow:create-pr --single-commit  # Alle Änderungen in einem Commit
+/git-workflow:create-pr --target main    # Ziel-Branch angeben (Standard: main)
+/git-workflow:create-pr --with-skills    # Erstelle einen Pull Request mit professional-pr-workflow
 ```
 
 ## Workflow
@@ -59,7 +59,7 @@ Wenn `--with-skills` verwendet wird, wird der **professional-pr-workflow Skill**
 
 2. **Änderungen prüfen**
    - Erkenne uncommitted oder bereits committete Änderungen
-   - Falls uncommitted Changes → Rufe `/commit` auf
+   - Falls uncommitted Changes → Rufe `/git-workflow:commit` auf
    - Falls Commits vorhanden → Verwende diese
    - Details: [commit-workflow.md](../references/create-pr/commit-workflow.md)
 
@@ -89,9 +89,9 @@ Wenn `--with-skills` verwendet wird, wird der **professional-pr-workflow Skill**
 
 **Wichtig**: Dieser Command erstellt KEINE eigenen Commits!
 
-- **Uncommitted Changes**: Ruft `/commit` auf
+- **Uncommitted Changes**: Ruft `/git-workflow:commit` auf
 - **Bestehende Commits**: Verwendet diese für PR
-- **Keine Commit-Duplikation**: Commit-Logik nur in `/commit`
+- **Keine Commit-Duplikation**: Commit-Logik nur in `/git-workflow:commit`
 
 **Workflow-Details**: [commit-workflow.md](../references/create-pr/commit-workflow.md)
 
@@ -162,7 +162,7 @@ cd ../skills/professional-pr-workflow
 python scripts/main.py
 
 # Oder via Command mit --with-skills
-/create-pr --with-skills
+/git-workflow:create-pr --with-skills
 ```
 
 **Skill-Dokumentation**: [professional-pr-workflow/README.md](../skills/professional-pr-workflow/README.md)

@@ -340,8 +340,8 @@ Nach der Paketierung:
 
 ## Verwandte Commands
 
-- `/build-skill` - Neue Skills erstellen
-- `/package-skill` - Skill für Distribution paketieren
+- `/core:build-skill` - Neue Skills erstellen
+- `/core:package-skill` - Skill für Distribution paketieren
 
 ## Verwendete Scripts
 

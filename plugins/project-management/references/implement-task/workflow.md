@@ -1,35 +1,39 @@
 # Workflow: Task Implementation
 
-Detailed workflow for implementing tasks (Filesystem or Linear).
+Detailed workflow for implementing tasks (Filesystem or Linear) with intelligent plugin orchestration.
 
 ## Overview
 
-The workflow comprises 8 phases:
+The workflow comprises 10 phases:
 
 ```
-1. Task Identification
-   ↓
-2. Task Data Retrieval
-   ↓
-3. Worktree Creation
-   ↓
-4. Branch Creation (including Submodules)
-   ↓
-5. Task Status Update
-   ↓
-6. Implementation
-   ↓
-7. PR Creation
-   ↓
-8. Finalization and Cleanup
+ 1. Task Identification
+    ↓
+ 2. Task Data Retrieval
+    ↓
+ 3. Context Analysis (Brainstorm)          ★ NEW
+    ↓
+ 4. Agent & Plugin Resolution              ★ NEW
+    ↓
+ 5. Worktree Creation
+    ↓
+ 6. Branch Creation (including Submodules)
+    ↓
+ 7. Task Status Update
+    ↓
+ 8. Implementation (Agent-Routed)
+    ↓
+ 9. Quality Gate                           ★ NEW
+    ↓
+10. Finalization and Cleanup
 ```
 
 ## Phase 1: Task Identification
 
 ### With Task ID Argument
 
-**Filesystem**: `/implement-task task-001`
-**Linear**: `/implement-task --linear PROJ-123`
+**Filesystem**: `/project-management:implement-task task-001`
+**Linear**: `/project-management:implement-task --linear PROJ-123`
 
 **Workflow**:
 
@@ -39,8 +43,8 @@ The workflow comprises 8 phases:
 
 ### Without Argument (Interactive)
 
-**Filesystem**: `/implement-task`
-**Linear**: `/implement-task --linear`
+**Filesystem**: `/project-management:implement-task`
+**Linear**: `/project-management:implement-task --linear`
 
 **Workflow**:
 
@@ -66,6 +70,7 @@ The workflow comprises 8 phases:
 | Labels              | `**Labels**:`            | `issue.labels.nodes`    |
 | Status              | `**Status**:`            | `issue.state.name`      |
 | Acceptance Criteria | `## Acceptance Criteria` | Parsed from description |
+| Agent Recommendation | `## Agent Recommendation` | Parsed from description |
 
 ### Data Structure
 
@@ -80,11 +85,81 @@ task = {
         "Toggle button renders correctly",
         "State persists in localStorage"
     ],
+    "agent_recommendation": "frontend-developer",  # May be None
     "provider": "filesystem" | "linear"
 }
 ```
 
-## Phase 3: Worktree Creation
+## Phase 3: Context Analysis (Brainstorm)
+
+> **NEW**: Systematic analysis before implementation. Skippable with `--skip-brainstorm`.
+
+### Purpose
+
+Understand the codebase deeply before writing any code. This replaces ad-hoc exploration with structured analysis.
+
+### Superpowers Integration (Preferred)
+
+If the Superpowers plugin (`obra/superpowers`) is available:
+
+```bash
+/superpowers:brainstorm
+```
+
+This initiates an interactive Socratic design session that refines requirements, explores edge cases, and captures constraints.
+
+### Built-in Analysis (Fallback)
+
+If Superpowers is not available, perform 5-step analysis:
+
+1. **Technology Stack Detection**: Scan for package.json, pom.xml, build.gradle.kts, etc.
+2. **Affected Code Analysis**: Derive affected files from task description using Grep/Glob
+3. **Architecture Pattern Recognition**: Analyze project structure for conventions
+4. **Dependency Impact Assessment**: Check internal, task, and external dependencies
+5. **Implementation Strategy**: Create structured plan as TodoWrite checklist
+
+### Output
+
+A concrete implementation strategy captured in TodoWrite, informing all subsequent phases.
+
+**Details**: [context-analysis.md](./context-analysis.md)
+
+## Phase 4: Agent & Plugin Resolution
+
+> **NEW**: Automatically select optimal agents and plugins based on context analysis.
+
+### Resolution Priority
+
+1. **Explicit Agent Recommendation** from task file (highest priority)
+2. **Technology Stack Match** from context analysis
+3. **Label-Based Match** from task labels
+4. **Default**: No specific agent (generalist implementation)
+
+### Agent Mapping
+
+| Detected Context | Resolved Agent | Plugin |
+| --- | --- | --- |
+| Java / Spring Boot | `@java-developer` | `development` |
+| Python / Django / FastAPI | `@python-expert` | `code-quality` |
+| React / TypeScript | `@frontend-developer` | `code-quality` |
+| Documentation / Markdown | `@markdown-syntax-formatter` | `education` |
+| Security-Critical | `@code-reviewer` (proactive) | `code-quality` |
+
+### Plugin Dependencies
+
+Prepare integrations based on resolved context:
+
+| Plugin | When Used | Required |
+| --- | --- | --- |
+| `git-workflow` | Commits, PR creation | Always |
+| `superpowers` | Brainstorm phase | Optional |
+| `code-quality` | Review, linting, agents | Optional |
+| `development` | Java agent | Optional |
+| `education` | Markdown formatter | Optional |
+
+**Details**: [agent-routing.md](./agent-routing.md)
+
+## Phase 5: Worktree Creation
 
 > **IMPORTANT**: Git worktrees are used for parallel work on multiple tasks.
 
@@ -127,7 +202,7 @@ git worktree add -b "$BRANCH_NAME" ".worktrees/task-${TASK_ID}" origin/main
 cd ".worktrees/task-${TASK_ID}"
 ```
 
-## Phase 4: Branch Creation (including Submodules)
+## Phase 6: Branch Creation (including Submodules)
 
 ### Branch Naming
 
@@ -168,7 +243,22 @@ git submodule foreach --recursive '
 git submodule foreach --recursive 'git branch --show-current'
 ```
 
-## Phase 5: Task Status Update (CRITICAL)
+### Draft PR Preparation (MANDATORY)
+
+A draft PR is created immediately after branch creation:
+
+```bash
+# 1. Create initial commit
+git commit --allow-empty -m "wip: Start work on <task-id>"
+
+# 2. Push branch
+git push -u origin "$BRANCH_NAME"
+
+# 3. Create draft PR
+/git-workflow:create-pr --draft --target main
+```
+
+## Phase 7: Task Status Update (CRITICAL)
 
 > **IMPORTANT**: The status update must occur **BEFORE** switching to the worktree and must be committed **in the main branch**. This is essential for parallel work - other developers must be able to see that the task is already in progress.
 
@@ -180,7 +270,6 @@ git submodule foreach --recursive 'git branch --show-current'
 
 ```bash
 # DO NOT switch to the worktree
-# We are still in the main directory on main/develop
 pwd  # should be <project-root>, NOT .worktrees/...
 git branch --show-current  # should be main or develop
 ```
@@ -189,48 +278,36 @@ git branch --show-current  # should be main or develop
 
 ```markdown
 # Before
-
 - **Status**: pending
 - **Updated**: 2024-11-15
 
 # After
-
 - **Status**: in_progress
 - **Updated**: 2024-11-18
 ```
 
 #### Step 3: Update STATUS.md
 
-The STATUS.md in the plan directory must also be updated:
-
 ```markdown
 ## Progress Overview
-
 - **In Progress**: 1 (10%) ← increased from 0
 - **Pending**: 9 (90%) ← reduced from 10
 
 ## Tasks by Status
 
 ### In Progress
-
 - task-001: UI Toggle (3 SP) ← add here
 
 ### Pending
-
 <!-- remove task-001 from here -->
 ```
 
 #### Step 4: Commit and Push Changes
 
 ```bash
-# Stage changes
 git add .plans/<feature-name>/tasks/task-001-*.md
 git add .plans/<feature-name>/STATUS.md
-
-# Commit
 git commit -m "🔄 chore: Start task-001 implementation"
-
-# PUSH TO REMOTE (so others can see it)
 git push origin main  # or develop
 ```
 
@@ -241,38 +318,33 @@ cd ".worktrees/task-001"
 # Implementation may now begin
 ```
 
-#### Filesystem Checklist
-
-- Work in main branch (not worktree)
-- Task file: `pending` → `in_progress`
-- Task file: `Updated` date updated
-- STATUS.md: Task moved to "In Progress"
-- STATUS.md: Progress overview updated
-- Changes committed
-- Changes pushed to remote
-- Only then switch to worktree
-
 ### Linear
 
 Via MCP: `linear_update_issue_state()` → "In Progress"
 
-Linear stores status centrally, making it automatically visible to all team members.
+## Phase 8: Implementation (Agent-Routed)
 
-**Optional Comment**:
+> **ENHANCED**: Implementation is guided by the resolved agent and informed by the context analysis.
 
-```markdown
-Implementation started in worktree: `.worktrees/task-proj-123/`
-Branch: `feature/proj-123-...`
-```
+### Agent-Guided Methodology
 
-## Phase 6: Implementation
+If an agent was resolved in Phase 4, the implementation follows that agent's methodology:
 
-### Strategy
+| Agent | Methodology |
+| --- | --- |
+| `@java-developer` | Spring Boot patterns, Gradle Kotlin DSL, JUnit 5 |
+| `@python-expert` | PEP 8, type hints, pytest, asyncio |
+| `@frontend-developer` | Component-based, TypeScript strict, framework tests |
+| `@markdown-syntax-formatter` | CommonMark compliance, structured documentation |
+| No specific agent | Follow existing project patterns from context analysis |
 
-1. **Analyze task description** - Identify affected files
-2. **Use acceptance criteria as checklist** - Utilize TodoWrite
-3. **Implement code changes** - Based on description
-4. **Write tests** - Unit/Integration tests
+### Implementation Steps
+
+1. **Apply Context Analysis Results** - Use the implementation strategy from Phase 3
+2. **Acceptance Criteria as Checklist** - Work through step by step via TodoWrite
+3. **Perform Code Changes** - Following resolved agent's methodology
+4. **Write Tests** - Unit/integration tests for each acceptance criterion
+5. **Standardized Commits** - Use `/git-workflow:commit` for each logical change
 
 ### Label to Commit Type Mapping
 
@@ -291,45 +363,53 @@ label_to_commit = {
 
 ```bash
 # Commit 1: Feature
-git commit -m "✨ feat: Add ThemeToggle component"
+/git-workflow:commit  # → "✨ feat: Add ThemeToggle component"
 
 # Commit 2: Tests
-git commit -m "🧪 test: Add ThemeToggle tests"
+/git-workflow:commit  # → "🧪 test: Add ThemeToggle tests"
 ```
 
-## Phase 7: PR Creation
+## Phase 9: Quality Gate
 
-### PR Body Template
+> **NEW**: Automated quality assurance before PR finalization. Skippable with `--skip-quality-gate`.
 
-```markdown
-## Task: [ID] - [Title]
+### Step 1: Automated Code Review
 
-**Description**:
-<Task description>
+Invoke `@code-reviewer` on all changes (`git diff main...HEAD`):
 
-**Changes**:
+- Fundamental quality (readability, naming, duplication)
+- Security (no secrets, input validation, OWASP)
+- Robustness (error handling, resource management)
+- Maintainability (modularity, test coverage)
+- Performance (algorithm efficiency, query optimization)
 
-- <Change 1>
-- <Change 2>
+**Critical issues** must be resolved before proceeding.
 
-**Test Plan**:
+### Step 2: Language-Specific Linting
 
-- [x] <Acceptance criterion 1>
-- [x] <Acceptance criterion 2>
+| Language | Tool | Command |
+| --- | --- | --- |
+| Python | Ruff | `/code-quality:ruff-check` |
+| JS/TS | ESLint/Biome | Project-configured |
+| Java | Checkstyle/SpotBugs | Via Gradle |
 
-**Status**: In Progress → Completed/In Review
-```
+### Step 3: Acceptance Criteria Verification
 
-### Create PR
+For each criterion: Is it implemented? Tested? Passing?
 
-```bash
-# From within the worktree
-cd .worktrees/task-<task-id>
-git push -u origin <branch-name>
-gh pr create --title "[ID]: [Title]" --body "..."
-```
+### Step 4: Commit Standardization
 
-## Phase 8: Finalization and Cleanup
+Verify all commits follow Emoji Conventional Commits via `/git-workflow:commit`.
+
+**Details**: [quality-gate.md](./quality-gate.md)
+
+## Phase 10: Finalization and Cleanup
+
+### PR Finalization
+
+1. Update PR title: Remove "WIP:" prefix
+2. Update PR body: Add actual changes and test results
+3. Mark PR as ready: `gh pr ready`
 
 ### Task Status Update
 
@@ -349,7 +429,6 @@ gh pr create --title "[ID]: [Title]" --body "..."
 After successful merge, the worktree may be removed:
 
 ```bash
-# From the main repository (not from within the worktree)
 cd <project-root>
 
 # 1. Remove the worktree
@@ -365,18 +444,32 @@ git submodule foreach --recursive '
 '
 ```
 
-### Worktree Overview
+## Complete Workflow Diagram
 
-```bash
-# Display all active worktrees
-git worktree list
-
-# Clean up orphaned worktrees
-git worktree prune
+```mermaid
+graph TD
+    A[1. Task Identification] --> B[2. Task Data Retrieval]
+    B --> C{Skip Brainstorm?}
+    C -->|No| D[3. Context Analysis / Brainstorm]
+    C -->|Yes| E[4. Agent & Plugin Resolution]
+    D --> E
+    E --> F[5. Worktree Creation]
+    F --> G[6. Branch + Draft PR]
+    G --> H[7. Status Update]
+    H --> I[8. Implementation - Agent-Routed]
+    I --> J{Skip Quality Gate?}
+    J -->|No| K[9. Quality Gate]
+    J -->|Yes| L[10. PR Finalization + Cleanup]
+    K -->|Pass| L
+    K -->|Fail| M[Fix Issues]
+    M --> K
 ```
 
 ## See Also
 
+- [context-analysis.md](./context-analysis.md) - Brainstorm and context analysis guide
+- [agent-routing.md](./agent-routing.md) - Agent selection logic
+- [quality-gate.md](./quality-gate.md) - Quality gate details
 - [filesystem.md](./filesystem.md) - Filesystem-specific details
 - [linear.md](./linear.md) - Linear-specific details
 - [best-practices.md](./best-practices.md) - Best practices

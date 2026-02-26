@@ -13,19 +13,19 @@ Rufe die vollständige Bearbeitungshistorie einer Pull Request Beschreibung ab u
 Standard (interaktiv - fragt nach Parametern):
 
 ```bash
-/pr-edit-history
+/git-workflow:pr-edit-history
 ```
 
 Mit Parametern:
 
 ```bash
-/pr-edit-history owner/repo#123
+/git-workflow:pr-edit-history owner/repo#123
 ```
 
 Oder einzeln angegeben:
 
 ```bash
-/pr-edit-history --owner anthropics --repo claude-code --pr 456
+/git-workflow:pr-edit-history --owner anthropics --repo claude-code --pr 456
 ```
 
 ## Workflow
@@ -98,19 +98,19 @@ Oder einzeln angegeben:
 
 ### Beispiel 1: Interaktive Verwendung
 ```bash
-/pr-edit-history
+/git-workflow:pr-edit-history
 # Fragt nach: Owner? Repo? PR-Nummer?
 # Zeigt Tabelle an
 ```
 
 ### Beispiel 2: Mit kompakter Syntax
 ```bash
-/pr-edit-history anthropics/claude-code#789
+/git-workflow:pr-edit-history anthropics/claude-code#789
 ```
 
 ### Beispiel 3: Mit expliziten Parametern
 ```bash
-/pr-edit-history --owner anthropics --repo claude-code --pr 789
+/git-workflow:pr-edit-history --owner anthropics --repo claude-code --pr 789
 ```
 
 ## Erweiterte Optionen

@@ -351,7 +351,7 @@ PR for feature
 **Wann verwenden**:
 
 ```bash
-/create-pr --draft
+/git-workflow:create-pr --draft
 ```
 
 **Für**:

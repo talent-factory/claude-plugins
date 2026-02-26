@@ -15,7 +15,7 @@ Führe CI-Checks für das Projekt aus und behebe alle Fehler bis alle Tests best
 
 ```bash
 # CI-Checks ausführen
-/run-ci
+/core:run-ci
 ```
 
 ## Prozess

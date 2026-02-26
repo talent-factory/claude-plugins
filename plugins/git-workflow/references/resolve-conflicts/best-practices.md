@@ -108,7 +108,7 @@ Das Projekt verwendet Git Worktrees fuer parallele Task-Implementierung:
 # In jedem aktiven Worktree ausfuehren
 cd .worktrees/task-XXX
 git fetch origin
-/resolve-conflicts --target develop
+/git-workflow:resolve-conflicts --target develop
 ```
 
 ### Worktree-Erstellung nach Abhaengigkeits-Merge
@@ -132,7 +132,7 @@ git worktree add -b feature/task-009 .worktrees/task-009 origin/develop
 
 ```bash
 # ❌ Schlecht: Blind alles ueberschreiben
-/resolve-conflicts --strategy theirs
+/git-workflow:resolve-conflicts --strategy theirs
 ```
 
 **Risiko**: Features oder Bugfixes gehen verloren
@@ -141,10 +141,10 @@ git worktree add -b feature/task-009 .worktrees/task-009 origin/develop
 
 ```bash
 # ✅ Gut: Erst analysieren
-/resolve-conflicts --dry-run
+/git-workflow:resolve-conflicts --dry-run
 
 # Dann gezielt loesen
-/resolve-conflicts --strategy smart
+/git-workflow:resolve-conflicts --strategy smart
 ```
 
 ### Conflict-Marker manuell entfernen
@@ -169,11 +169,11 @@ from .campaigns import router as campaign_router
 
 ```bash
 # ❌ Schlecht: Tests ueberspringen und sofort pushen
-/resolve-conflicts --no-tests
+/git-workflow:resolve-conflicts --no-tests
 git push
 
 # ✅ Gut: Tests laufen lassen
-/resolve-conflicts
+/git-workflow:resolve-conflicts
 # Tests bestanden → sicher pushen
 ```
 

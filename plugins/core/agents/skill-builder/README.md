@@ -276,7 +276,7 @@ The Skill Builder agent system provides four specialized agents that work togeth
 
 ## Integration with Commands
 
-### Primary Command: `/skills:build-skill`
+### Primary Command: `/core:build-skill`
 
 Located at: `.claude/commands/skills/build-skill.md`
 

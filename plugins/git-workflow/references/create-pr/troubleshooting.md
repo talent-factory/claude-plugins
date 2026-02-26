@@ -31,7 +31,7 @@ git branch -r | grep feature     # Remote Feature-Branches
 
    ```bash
    git checkout feature/neue-funktion
-   /create-pr
+   /git-workflow:create-pr
    ```
 
 3. **Alten Branch löschen** (Vorsicht!):
@@ -56,15 +56,15 @@ error: Your local changes would be overwritten by checkout
 1. **Changes committen**:
 
    ```bash
-   /commit
-   /create-pr
+   /git-workflow:commit
+   /git-workflow:create-pr
    ```
 
 2. **Changes stashen**:
 
    ```bash
    git stash
-   /create-pr
+   /git-workflow:create-pr
    git stash pop
    ```
 
@@ -126,7 +126,7 @@ mvn fmt:check
 2. **Formatierung überspringen**:
 
    ```bash
-   /create-pr --no-format
+   /git-workflow:create-pr --no-format
    ```
 
 3. **Spezifische Dateien exkludieren**:
@@ -169,7 +169,7 @@ time npx biome format .
 3. **Formatierung überspringen**:
 
    ```bash
-   /create-pr --no-format
+   /git-workflow:create-pr --no-format
    ```
 
 ### Formatierungs-Konflikte
@@ -315,14 +315,14 @@ git diff --stat
 
    ```bash
    git add .
-   /create-pr
+   /git-workflow:create-pr
    ```
 
 2. **Alle Changes bereits staged**:
 
    ```bash
    git reset HEAD
-   /create-pr  # Jetzt wird /commit aufgerufen
+   /git-workflow:create-pr  # Jetzt wird /git-workflow:commit aufgerufen
    ```
 
 ### Commits in falscher Reihenfolge
@@ -359,7 +359,7 @@ git rebase -i HEAD~3
 2. **Single-Commit Option**:
 
    ```bash
-   /create-pr --single-commit
+   /git-workflow:create-pr --single-commit
    ```
 
 ## Push-Probleme
@@ -414,7 +414,7 @@ remote: error: GH006: Protected branch update failed
 
 ```bash
 git checkout -b feature/new-feature
-/create-pr
+/git-workflow:create-pr
 ```
 
 ## PR-Beschreibung-Probleme
@@ -503,7 +503,7 @@ pytest --cov --cov-report=term-missing
 ```bash
 # Neue Tests schreiben
 vim tests/test_new_feature.py
-/commit
+/git-workflow:commit
 git push
 ```
 
@@ -600,13 +600,13 @@ git push --force-with-lease
 ```bash
 # Backend PR
 git add backend/
-/commit
-/create-pr
+/git-workflow:commit
+/git-workflow:create-pr
 
 # Frontend PR
 git add frontend/
-/commit
-/create-pr
+/git-workflow:commit
+/git-workflow:create-pr
 ```
 
 ### Force Push erforderlich
@@ -616,7 +616,7 @@ git add frontend/
 **Lösung** (Vorsicht!):
 
 ```bash
-/create-pr --force-push
+/git-workflow:create-pr --force-push
 ```
 
 **Warnung**: Nur verwenden wenn:
@@ -642,7 +642,7 @@ git remote add upstream git@github.com:original/repo.git
 
 # 4. Branch erstellen und pushen
 git checkout -b feature/new
-/commit
+/git-workflow:commit
 git push origin feature/new
 
 # 5. PR erstellen (zum upstream)

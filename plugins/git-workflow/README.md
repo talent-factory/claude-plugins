@@ -4,11 +4,11 @@ Professional git workflow automation with pre-commit checks, emoji conventional 
 
 ## Version 2.2.0
 
-**Minor Update:** Added `/resolve-conflicts` command for intelligent merge conflict resolution with semantic analysis, automated test validation, and comprehensive reference documentation.
+**Minor Update:** Added `/git-workflow:resolve-conflicts` command for intelligent merge conflict resolution with semantic analysis, automated test validation, and comprehensive reference documentation.
 
 ## Commands
 
-### `/commit`
+### `/git-workflow:commit`
 
 Create professional git commits with automated pre-commit checks and emoji conventional commit format.
 
@@ -24,10 +24,10 @@ Create professional git commits with automated pre-commit checks and emoji conve
 
 **Usage:**
 ```bash
-/commit                    # Standard workflow
-/commit --no-verify        # Skip pre-commit checks
-/commit --skip-tests       # Skip test execution
-/commit --with-skills      # Use professional-commit-workflow skill
+/git-workflow:commit                    # Standard workflow
+/git-workflow:commit --no-verify        # Skip pre-commit checks
+/git-workflow:commit --skip-tests       # Skip test execution
+/git-workflow:commit --with-skills      # Use professional-commit-workflow skill
 ```
 
 **Pre-Commit Checks:**
@@ -56,7 +56,7 @@ See [commit-types.md](https://github.com/talent-factory/claude-plugins/blob/main
 - [Pre-Commit Checks](https://github.com/talent-factory/claude-plugins/blob/main/plugins/git-workflow/references/commit/pre-commit-checks.md) - Automated validation details
 - [Troubleshooting](https://github.com/talent-factory/claude-plugins/blob/main/plugins/git-workflow/references/commit/troubleshooting.md) - Common issues and solutions
 
-### `/create-pr`
+### `/git-workflow:create-pr`
 
 Create pull requests with automated branch management, commit analysis, and professional PR descriptions.
 
@@ -73,9 +73,9 @@ Create pull requests with automated branch management, commit analysis, and prof
 
 **Usage:**
 ```bash
-/create-pr                 # Standard PR creation
-/create-pr --no-format     # Skip code formatting
-/create-pr --with-skills   # Use professional-pr-workflow skill
+/git-workflow:create-pr                 # Standard PR creation
+/git-workflow:create-pr --no-format     # Skip code formatting
+/git-workflow:create-pr --with-skills   # Use professional-pr-workflow skill
 ```
 
 **PR Description Includes:**
@@ -94,7 +94,7 @@ Create pull requests with automated branch management, commit analysis, and prof
 - [PR Template](https://github.com/talent-factory/claude-plugins/blob/main/plugins/git-workflow/references/create-pr/pr-template.md) - PR description structure
 - [Troubleshooting](https://github.com/talent-factory/claude-plugins/blob/main/plugins/git-workflow/references/create-pr/troubleshooting.md) - Common PR issues
 
-### `/resolve-conflicts`
+### `/git-workflow:resolve-conflicts`
 
 Analyze and resolve merge conflicts intelligently with automated root cause analysis, semantic code merging, and test validation.
 
@@ -110,13 +110,13 @@ Analyze and resolve merge conflicts intelligently with automated root cause anal
 
 **Usage:**
 ```bash
-/resolve-conflicts                         # Merge target into current branch
-/resolve-conflicts --target develop        # Specify target branch
-/resolve-conflicts --dry-run               # Analyze only, no changes
-/resolve-conflicts --no-tests              # Skip test execution
-/resolve-conflicts --strategy smart        # Strategy: smart, ours, theirs
-/resolve-conflicts feature/task-009        # Specify branch
-/resolve-conflicts 42                      # PR number
+/git-workflow:resolve-conflicts                         # Merge target into current branch
+/git-workflow:resolve-conflicts --target develop        # Specify target branch
+/git-workflow:resolve-conflicts --dry-run               # Analyze only, no changes
+/git-workflow:resolve-conflicts --no-tests              # Skip test execution
+/git-workflow:resolve-conflicts --strategy smart        # Strategy: smart, ours, theirs
+/git-workflow:resolve-conflicts feature/task-009        # Specify branch
+/git-workflow:resolve-conflicts 42                      # PR number
 ```
 
 **Smart Strategy Capabilities:**
@@ -133,7 +133,7 @@ Analyze and resolve merge conflicts intelligently with automated root cause anal
 - [Best Practices](https://github.com/talent-factory/claude-plugins/blob/main/plugins/git-workflow/references/resolve-conflicts/best-practices.md) - Prevention and resolution guidelines
 - [Troubleshooting](https://github.com/talent-factory/claude-plugins/blob/main/plugins/git-workflow/references/resolve-conflicts/troubleshooting.md) - Common issues and solutions
 
-### `/pr-edit-history`
+### `/git-workflow:pr-edit-history`
 
 Display the edit history of a GitHub Pull Request description.
 
@@ -146,8 +146,8 @@ Display the edit history of a GitHub Pull Request description.
 
 **Usage:**
 ```bash
-/pr-edit-history           # For current branch's PR
-/pr-edit-history 123       # For PR #123
+/git-workflow:pr-edit-history           # For current branch's PR
+/git-workflow:pr-edit-history 123       # For PR #123
 ```
 
 ## Skills
@@ -259,7 +259,7 @@ git-workflow/
 
 ### Commit Workflow
 
-1. **Always use `/commit`** instead of direct `git commit`
+1. **Always use `/git-workflow:commit`** instead of direct `git commit`
 2. **Let automated checks run** - they catch issues early
 3. **Write descriptive messages** - explain the "why", not just the "what"
 4. **Keep commits atomic** - one logical change per commit
@@ -268,7 +268,7 @@ git-workflow/
 
 ### PR Workflow
 
-1. **Use `/create-pr`** for consistency across team
+1. **Use `/git-workflow:create-pr`** for consistency across team
 2. **Review PR description** before creating
 3. **Keep PRs small** - ideally < 400 lines changed
 4. **Link related issues** - use "Fixes #123" syntax
@@ -289,7 +289,7 @@ git-workflow/
 ### Creating a Feature Commit
 
 ```bash
-/commit
+/git-workflow:commit
 
 # Claude analyzes changes and generates:
 ✨ feat: Benutzer-Authentifizierung mit OAuth2 hinzugefügt
@@ -308,7 +308,7 @@ Closes #123
 ### Creating a Pull Request
 
 ```bash
-/create-pr
+/git-workflow:create-pr
 
 # Claude:
 # 1. Analyzes all commits in branch
@@ -322,7 +322,7 @@ Closes #123
 ### Checking PR Edit History
 
 ```bash
-/pr-edit-history 456
+/git-workflow:pr-edit-history 456
 
 # Claude displays:
 # - All edits to PR #456
@@ -336,7 +336,7 @@ Closes #123
 ### Commit with Skill Integration
 
 ```bash
-/commit --with-skills
+/git-workflow:commit --with-skills
 
 # Uses professional-commit-workflow skill:
 # - ~70% faster execution
@@ -348,7 +348,7 @@ Closes #123
 ### Skip Pre-Commit Checks
 
 ```bash
-/commit --no-verify
+/git-workflow:commit --no-verify
 
 # Use when:
 # - Checks are failing due to infrastructure issues
@@ -359,7 +359,7 @@ Closes #123
 ### PR with Custom Formatting
 
 ```bash
-/create-pr --no-format
+/git-workflow:create-pr --no-format
 
 # Skips automatic code formatting
 # Useful when formatters conflict with team style
@@ -384,7 +384,7 @@ Closes #123
 - **Solution:** Install with `brew install gh` or download from github.com/cli/cli
 
 **Problem:** Branch not pushed to remote
-- **Solution:** `/create-pr` will push automatically with `-u` flag
+- **Solution:** `/git-workflow:create-pr` will push automatically with `-u` flag
 
 **Problem:** PR description truncated
 - **Solution:** Large diffs may truncate; commit more frequently
@@ -394,7 +394,7 @@ See [create-pr/troubleshooting.md](https://github.com/talent-factory/claude-plug
 ## Requirements
 
 - **Git:** Version 2.23+ recommended
-- **GitHub CLI:** Optional but recommended for `/create-pr`
+- **GitHub CLI:** Optional but recommended for `/git-workflow:create-pr`
 - **Working directory:** Must be inside a git repository
 
 **Project-Specific:**
@@ -408,7 +408,7 @@ See [create-pr/troubleshooting.md](https://github.com/talent-factory/claude-plug
 
 **Minor Update:**
 
-- ✨ Added `/resolve-conflicts` command for intelligent merge conflict resolution
+- ✨ Added `/git-workflow:resolve-conflicts` command for intelligent merge conflict resolution
 - 📖 Added comprehensive reference documentation (strategies, best practices, troubleshooting)
 - 🧠 Smart merge strategy with semantic code analysis
 - 🔀 Support for `smart`, `ours`, and `theirs` strategies
@@ -429,7 +429,7 @@ See [create-pr/troubleshooting.md](https://github.com/talent-factory/claude-plug
 - ✨ Added comprehensive reference documentation
 - ✨ Integrated professional-commit-workflow skill
 - ✨ Integrated professional-pr-workflow skill
-- ✨ Added `/pr-edit-history` command
+- ✨ Added `/git-workflow:pr-edit-history` command
 - 📚 Expanded commit types with emoji support
 - 📚 Added troubleshooting guides
 - 🔧 Enhanced pre-commit checks
@@ -443,7 +443,7 @@ See [create-pr/troubleshooting.md](https://github.com/talent-factory/claude-plug
 
 ### Version 1.0.0
 
-- Initial release with `/commit` and `/create-pr`
+- Initial release with `/git-workflow:commit` and `/git-workflow:create-pr`
 
 ## Support
 

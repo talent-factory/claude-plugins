@@ -1,7 +1,7 @@
 {
   "name": "project-management",
-  "version": "2.4.0",
-  "description": "Comprehensive project management with PRD generation, project planning, task implementation, autonomous EPIC automation, Linear integration, and git worktree workflow for agile development",
+  "version": "2.5.0",
+  "description": "Comprehensive project management with PRD generation, project planning, intelligent task implementation with plugin orchestration (Superpowers brainstorm, agent routing, quality gate), autonomous EPIC automation, Linear integration, and git worktree workflow for agile development",
   "author": {
     "name": "Talent Factory GmbH",
     "email": "support@talent-factory.ch"

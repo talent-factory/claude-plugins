@@ -4,11 +4,11 @@ Comprehensive code quality tools with Python linting, code review, and expert ag
 
 ## Version 3.0.0
 
-**Breaking Change:** Java developer agent moved to `development` plugin. Now includes `/ruff-check` command and 3 expert agents for proactive code quality assistance.
+**Breaking Change:** Java developer agent moved to `development` plugin. Now includes `/code-quality:ruff-check` command and 3 expert agents for proactive code quality assistance.
 
 ## Commands
 
-### `/ruff-check`
+### `/code-quality:ruff-check`
 
 Lint and format all Python files in the project with Ruff.
 
@@ -22,8 +22,8 @@ Lint and format all Python files in the project with Ruff.
 
 **Usage:**
 ```bash
-/ruff-check              # Lint all Python files
-/ruff-check --fix        # Auto-fix issues
+/code-quality:ruff-check              # Lint all Python files
+/code-quality:ruff-check --fix        # Auto-fix issues
 ```
 
 **Checks:**
@@ -143,7 +143,7 @@ Expert for creating Next.js applications with React, shadcn/ui, and Tailwind CSS
 
 ```bash
 # Lint Python code
-/ruff-check --fix
+/code-quality:ruff-check --fix
 
 # Claude (with python-expert):
 # - Reviews code proactively
@@ -181,14 +181,14 @@ Expert for creating Next.js applications with React, shadcn/ui, and Tailwind CSS
 
 ### Version 2.0.0 (2026-01-10)
 
-- Added `/ruff-check` command for Python linting
+- Added `/code-quality:ruff-check` command for Python linting
 - Added code-reviewer agent for proactive reviews
 - Added python-expert agent for Python development
 - Added frontend-developer agent for Next.js/React development
 
 ### Version 1.0.0
 
-- Initial release with `/review` and `/refactor` commands
+- Initial release with `/code-quality:review` and `/code-quality:refactor` commands
 
 ## License
 

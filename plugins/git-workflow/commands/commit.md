@@ -18,16 +18,16 @@ Erstelle professionelle Git-Commits mit automatischen Qualitätschecks und konve
 Standard-Commit:
 
 ```bash
-/commit
+/git-workflow:commit
 ```
 
 Mit Optionen:
 
 ```bash
-/commit --no-verify     # Überspringt Pre-Commit-Checks
-/commit --force-push    # Führt force push aus (Vorsicht!)
-/commit --skip-tests    # Überspringt Testausführung
-/commit --with-skills   # Erstelle einen Commit mit professional-commit-workflow
+/git-workflow:commit --no-verify     # Überspringt Pre-Commit-Checks
+/git-workflow:commit --force-push    # Führt force push aus (Vorsicht!)
+/git-workflow:commit --skip-tests    # Überspringt Testausführung
+/git-workflow:commit --with-skills   # Erstelle einen Commit mit professional-commit-workflow
 ```
 
 ## Workflow
@@ -115,7 +115,7 @@ cd ../skills/professional-commit-workflow
 python scripts/main.py
 
 # Oder via Command mit --with-skills
-/commit --with-skills
+/git-workflow:commit --with-skills
 ```
 
 **Skill-Dokumentation**: [professional-commit-workflow/README.md](../skills/professional-commit-workflow/README.md)

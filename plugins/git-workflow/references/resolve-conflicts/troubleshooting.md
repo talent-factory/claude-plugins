@@ -26,7 +26,7 @@ git status
 git merge --abort
 ```
 
-Danach `/resolve-conflicts` erneut ausfuehren.
+Danach `/git-workflow:resolve-conflicts` erneut ausfuehren.
 
 **Option 2: Vorherigen Merge fortsetzen** (wenn Konflikte bereits geloest)
 
@@ -182,7 +182,7 @@ Falls eine Seite Dateien umstrukturiert hat, muessen Import-Pfade in allen abhae
 
 ### Problem
 
-Nach `/resolve-conflicts` sind noch Conflict-Marker in Dateien:
+Nach `/git-workflow:resolve-conflicts` sind noch Conflict-Marker in Dateien:
 
 ```
 <<<<<<< HEAD
@@ -234,7 +234,7 @@ Jemand anderes hat auf denselben Branch gepusht, oder der Branch wurde rebasesd.
 
 ```bash
 git pull origin feature/task-009
-# Falls neue Konflikte: /resolve-conflicts erneut
+# Falls neue Konflikte: /git-workflow:resolve-conflicts erneut
 ```
 
 **Option 2: Force-Push** (nur auf eigenen Feature-Branches!)

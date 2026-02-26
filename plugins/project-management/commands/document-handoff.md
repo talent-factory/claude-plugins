@@ -20,16 +20,16 @@ Create comprehensive handoff documentation before a `/compact`, enabling a new a
 
 ```bash
 # Default (task name derived from Git branch)
-/document-handoff
+/project-management:document-handoff
 
 # With explicit task name
-/document-handoff "Feature Implementation"
+/project-management:document-handoff "Feature Implementation"
 
 # With custom output directory
-/document-handoff "Task Name" --output docs/handoffs
+/project-management:document-handoff "Task Name" --output docs/handoffs
 
 # With Linear issue reference
-/document-handoff --linear-issue TF-177
+/project-management:document-handoff --linear-issue TF-177
 ```
 
 ## When to Use
@@ -155,7 +155,7 @@ The next agent requires **no prior knowledge**:
 
 ```bash
 # 1. Create handoff documentation
-/document-handoff "Feature Implementation"
+/project-management:document-handoff "Feature Implementation"
 
 # 2. Compress context
 /compact
