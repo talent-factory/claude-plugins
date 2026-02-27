@@ -84,7 +84,7 @@ The repository has no build/compile step. Validation is done via GitHub Actions:
 
 # Checks performed:
 # - JSON syntax in plugin.json files
-# - Required fields (name, version, displayName)
+# - Required fields (name, version, description)
 # - Directory structure compliance
 # - README presence
 # - Markdown link validity
@@ -149,10 +149,9 @@ Use Emoji Conventional Commits (German imperative):
    {
      "name": "your-plugin",
      "version": "1.0.0",
-     "displayName": "Your Plugin",
      "description": "Brief description",
      "keywords": ["tag1", "tag2"],
-     "author": "Name",
+     "author": { "name": "Your Name", "email": "you@example.com" },
      "license": "MIT"
    }
    ```
