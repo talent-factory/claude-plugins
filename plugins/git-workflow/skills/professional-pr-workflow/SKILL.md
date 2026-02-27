@@ -1,75 +1,75 @@
 ---
 name: professional-pr-workflow
-description: Automatisiert Pull-Request-Erstellung mit Branch-Management, Code-Formatierung und Integration mit professional-commit-workflow. Unterstützt GitHub CLI, automatische PR-Beschreibungen und projektspezifische Formatter (Biome, Black, Prettier).
+description: Automates pull request creation with branch management, code formatting, and integration with professional-commit-workflow. Supports GitHub CLI, automated PR descriptions, and project-specific formatters (Biome, Black, Prettier).
 ---
 
 # Professional PR Workflow
 
 ## Overview
 
-Automatisiert den kompletten Pull-Request-Workflow: Branch-Erstellung, Code-Formatierung, Commit-Integration und PR-Erstellung via GitHub CLI.
+Automates the complete pull request workflow: branch creation, code formatting, commit integration, and PR creation via GitHub CLI.
 
 **Features:**
-- ✅ **Intelligentes Branch-Management** - Erkennt geschützte Branches
-- ✅ **Integration mit professional-commit-workflow** - Keine Commit-Duplikation
-- ✅ **Automatische Code-Formatierung** (Biome, Black, Prettier, etc.)
-- ✅ **GitHub CLI Integration** - PR-Erstellung, Labels, Issue-Verlinkung
-- ✅ **Aussagekräftige PR-Beschreibungen** mit Test-Plan
-- ✅ **Draft-PR Support** - WIP-PRs markieren
+- Intelligent branch management - detects protected branches
+- Integration with professional-commit-workflow - no commit duplication
+- Automatic code formatting (Biome, Black, Prettier, etc.)
+- GitHub CLI integration - PR creation, labels, issue linking
+- Meaningful PR descriptions with test plan
+- Draft PR support - mark WIP PRs
 
 ## Prerequisites
 
 **Required:**
 - Git (2.0+)
 - Python 3.8+
-- GitHub CLI (`gh`) - installiert und authentifiziert
+- GitHub CLI (`gh`) - installed and authenticated
 
-**Optional (für Code-Formatierung):**
-- **JavaScript/TypeScript**: Biome oder Prettier
+**Optional (for code formatting):**
+- **JavaScript/TypeScript**: Biome or Prettier
 - **Python**: Black, isort, Ruff
 - **Java**: Google Java Format
 - **Markdown**: markdownlint
 
 ## Usage Workflow
 
-1. **Branch-Status prüfen**:
-   - Geschützter Branch (main/master/develop)? → Neuer Branch erstellen
-   - Feature-Branch? → Aktuellen Branch verwenden
+1. **Check branch status**:
+   - Protected branch (main/master/develop)? -> Create new branch
+   - Feature branch? -> Use current branch
 
-2. **Änderungen committen**:
-   - Uncommitted changes? → Rufe `professional-commit-workflow` auf
-   - Bereits committed? → Verwende bestehende Commits
+2. **Commit changes**:
+   - Uncommitted changes? -> Invoke `professional-commit-workflow`
+   - Already committed? -> Use existing commits
 
-3. **Code formatieren** (optional mit `--no-format` überspringen)
+3. **Format code** (optional, skip with `--no-format`)
 
-4. **PR erstellen**:
-   - Push Branch zu Remote
-   - Generiere PR-Titel und Beschreibung
-   - Erstelle PR via `gh pr create`
+4. **Create PR**:
+   - Push branch to remote
+   - Generate PR title and description
+   - Create PR via `gh pr create`
 
 ## Main Script Usage
 
 ```bash
-# Standard-PR-Workflow
+# Standard PR workflow
 python scripts/main.py
 
-# Draft-PR
+# Draft PR
 python scripts/main.py --draft
 
-# Ohne Formatierung
+# Without formatting
 python scripts/main.py --no-format
 
-# Single Commit (alle Änderungen in einem)
+# Single commit (all changes in one)
 python scripts/main.py --single-commit
 
-# Target Branch ändern
+# Change target branch
 python scripts/main.py --target develop
 ```
 
 ## Supported Formatters
 
 ### JavaScript/TypeScript
-- **Biome** (bevorzugt): `biome format --write .`
+- **Biome** (preferred): `biome format --write .`
 - **Prettier**: `prettier --write .`
 - **ESLint**: `eslint --fix .`
 
@@ -79,7 +79,7 @@ python scripts/main.py --target develop
 - **Ruff**: `ruff format .`
 
 ### Java
-- **Google Java Format**: Via Maven/Gradle Plugin
+- **Google Java Format**: Via Maven/Gradle plugin
 
 ### Markdown
 - **markdownlint**: `markdownlint --fix **/*.md`
@@ -92,19 +92,19 @@ python scripts/main.py --target develop
   Professional PR Workflow
 ============================================================
 
-✓ Branch-Status: main (geschützt)
-✓ Neuer Branch erstellt: feature/user-dashboard-2024-12-21
+Branch status: main (protected)
+New branch created: feature/user-dashboard-2024-12-21
 
-✓ Code-Formatierung:
-  ✓ Biome: 5 Dateien formatiert
-  ✓ ESLint: 0 Fehler
+Code formatting:
+  Biome: 5 files formatted
+  ESLint: 0 errors
 
-✓ Branch gepusht: origin/feature/user-dashboard-2024-12-21
+Branch pushed: origin/feature/user-dashboard-2024-12-21
 
-✓ PR erstellt: #42
+PR created: #42
   https://github.com/user/repo/pull/42
 
-✅ PR-Workflow erfolgreich abgeschlossen
+PR workflow completed successfully
 ```
 
 ## Configuration
@@ -126,14 +126,14 @@ python scripts/main.py --target develop
 
 ## Error Handling
 
-**Branch-Fehler**: Prüft bestehende Branches, bietet alternative Namen
-**Format-Fehler**: Zeigt Details, ermöglicht `--no-format` Fallback
-**GitHub CLI-Fehler**: Prüft Authentifizierung, zeigt gh-Setup-Anleitung
-**Push-Fehler**: Retry-Logik, manuelle Push-Kommandos
+**Branch errors**: Checks existing branches, offers alternative names
+**Format errors**: Shows details, enables `--no-format` fallback
+**GitHub CLI errors**: Checks authentication, shows gh setup instructions
+**Push errors**: Retry logic, manual push commands
 
 ## References
 
-- **[Code-Formatting](docs/code-formatting.md)**: Formatter-Details
-- **[Commit-Workflow](docs/commit-workflow.md)**: Integration mit Commit-Skill
-- **[PR-Template](docs/pr-template.md)**: PR-Best-Practices
-- **[Troubleshooting](docs/troubleshooting.md)**: Fehlerbehebung
+- **[Code Formatting](docs/code-formatting.md)**: Formatter details
+- **[Commit Workflow](docs/commit-workflow.md)**: Integration with commit skill
+- **[PR Template](docs/pr-template.md)**: PR best practices
+- **[Troubleshooting](docs/troubleshooting.md)**: Troubleshooting

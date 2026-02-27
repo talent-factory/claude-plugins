@@ -1,28 +1,28 @@
 ---
-description: Zeige die Bearbeitungshistorie einer GitHub Pull Request Beschreibung
+description: Display the edit history of a GitHub pull request description
 category: github
 allowed-tools: Bash
 ---
 
-# Pull Request Edit History anzeigen
+# Display Pull Request Edit History
 
-Rufe die vollständige Bearbeitungshistorie einer Pull Request Beschreibung ab und zeige sie in einer formatierten Tabelle an.
+Retrieve the complete edit history of a pull request description and display it in a formatted table.
 
-## Verwendung
+## Usage
 
-Standard (interaktiv - fragt nach Parametern):
+Standard (interactive - prompts for parameters):
 
 ```bash
 /git-workflow:pr-edit-history
 ```
 
-Mit Parametern:
+With parameters:
 
 ```bash
 /git-workflow:pr-edit-history owner/repo#123
 ```
 
-Oder einzeln angegeben:
+Or specified individually:
 
 ```bash
 /git-workflow:pr-edit-history --owner anthropics --repo claude-code --pr 456
@@ -30,16 +30,16 @@ Oder einzeln angegeben:
 
 ## Workflow
 
-1. **Parameter ermitteln**:
-   - Falls keine Parameter übergeben wurden, frage den Benutzer nach:
-     - Repository Owner (z.B. "anthropics")
-     - Repository Name (z.B. "claude-code")
-     - Pull Request Nummer (z.B. "123")
-   - Falls im Format `owner/repo#pr` übergeben, parse die Parameter
-   - Falls einzeln übergeben (`--owner`, `--repo`, `--pr`), verwende diese
+1. **Determine parameters**:
+   - If no parameters provided, prompt the user for:
+     - Repository owner (e.g., "anthropics")
+     - Repository name (e.g., "claude-code")
+     - Pull request number (e.g., "123")
+   - If provided in format `owner/repo#pr`, parse the parameters
+   - If provided individually (`--owner`, `--repo`, `--pr`), use those
 
-2. **GitHub GraphQL Query ausführen**:
-   - Verwende `gh api graphql` um die Edit-Historie abzurufen
+2. **Execute GitHub GraphQL query**:
+   - Use `gh api graphql` to retrieve the edit history
    - Query:
      ```graphql
      query {
@@ -58,18 +58,18 @@ Oder einzeln angegeben:
      }
      ```
 
-3. **Daten verarbeiten**:
-   - Parse die JSON-Response
-   - Extrahiere editedAt (Zeitstempel) und editor.login (Benutzername)
-   - Sortiere nach Zeitstempel (älteste zuerst)
+3. **Process data**:
+   - Parse the JSON response
+   - Extract editedAt (timestamp) and editor.login (username)
+   - Sort by timestamp (oldest first)
 
-4. **Tabelle formatieren**:
-   - Erstelle eine Markdown-Tabelle mit folgenden Spalten:
-     - `#` (fortlaufende Nummer)
-     - `Edited At (UTC)` (Zeitstempel in lesbarem Format)
-     - `Editor` (Benutzername)
-   - Formatiere Zeitstempel als: `YYYY-MM-DD HH:MM:SS`
-   - Beispiel:
+4. **Format table**:
+   - Create a Markdown table with the following columns:
+     - `#` (sequential number)
+     - `Edited At (UTC)` (timestamp in readable format)
+     - `Editor` (username)
+   - Format timestamps as: `YYYY-MM-DD HH:MM:SS`
+   - Example:
      ```
      | #  | Edited At (UTC)     | Editor    |
      |----|---------------------|-----------|
@@ -78,58 +78,58 @@ Oder einzeln angegeben:
      | 3  | 2025-12-01 16:24:33 | dsenften  |
      ```
 
-5. **Ausgabe**:
-   - Zeige die Tabelle an
-   - Füge Zusammenfassung hinzu:
-     - Gesamtanzahl der Edits
-     - Zeitspanne (erste bis letzte Bearbeitung)
-     - Liste der Editoren (eindeutig)
+5. **Output**:
+   - Display the table
+   - Add summary:
+     - Total number of edits
+     - Time span (first to last edit)
+     - List of editors (unique)
 
-## Fehlerbehandlung
+## Error Handling
 
-- **gh CLI nicht installiert**: Melde dem Benutzer, dass `gh` CLI installiert werden muss
-- **Nicht authentifiziert**: Hinweis auf `gh auth login`
-- **Repository nicht gefunden**: Überprüfe Owner und Repo-Name
-- **PR nicht gefunden**: Überprüfe PR-Nummer
-- **Keine Edit-Historie**: Melde, dass die PR-Beschreibung nie bearbeitet wurde
-- **Mehr als 100 Edits**: Hinweis, dass nur die ersten 100 angezeigt werden
+- **gh CLI not installed**: Inform user that `gh` CLI must be installed
+- **Not authenticated**: Point to `gh auth login`
+- **Repository not found**: Verify owner and repo name
+- **PR not found**: Verify PR number
+- **No edit history**: Report that the PR description was never edited
+- **More than 100 edits**: Note that only the first 100 are displayed
 
-## Beispiele
+## Examples
 
-### Beispiel 1: Interaktive Verwendung
+### Example 1: Interactive Usage
 ```bash
 /git-workflow:pr-edit-history
-# Fragt nach: Owner? Repo? PR-Nummer?
-# Zeigt Tabelle an
+# Prompts for: Owner? Repo? PR number?
+# Displays table
 ```
 
-### Beispiel 2: Mit kompakter Syntax
+### Example 2: Compact Syntax
 ```bash
 /git-workflow:pr-edit-history anthropics/claude-code#789
 ```
 
-### Beispiel 3: Mit expliziten Parametern
+### Example 3: Explicit Parameters
 ```bash
 /git-workflow:pr-edit-history --owner anthropics --repo claude-code --pr 789
 ```
 
-## Erweiterte Optionen
+## Extended Options
 
-Optional kann der Benutzer zusätzliche Optionen angeben:
+The user can optionally specify additional options:
 
-- `--limit N`: Begrenze auf die letzten N Edits (Standard: alle bis 100)
-- `--json`: Ausgabe als JSON statt Tabelle
-- `--export FILE`: Exportiere Tabelle in Datei (Markdown oder CSV)
+- `--limit N`: Limit to the last N edits (default: all up to 100)
+- `--json`: Output as JSON instead of table
+- `--export FILE`: Export table to file (Markdown or CSV)
 
-## Technische Details
+## Technical Details
 
-- **GraphQL API**: Verwendet GitHub GraphQL API v4
-- **Rate Limits**: Beachtet GitHub API Rate Limits (5000 Anfragen/Stunde für authentifizierte Anfragen)
-- **Authentifizierung**: Verwendet die Authentifizierung der `gh` CLI
-- **Zeitzone**: Alle Zeitstempel werden in UTC angezeigt
+- **GraphQL API**: Uses GitHub GraphQL API v4
+- **Rate limits**: Observes GitHub API rate limits (5000 requests/hour for authenticated requests)
+- **Authentication**: Uses the authentication of the `gh` CLI
+- **Timezone**: All timestamps are displayed in UTC
 
-## Hinweise
+## Notes
 
-- Die erste Erstellung der PR-Beschreibung zählt nicht als Edit
-- Nur manuelle Bearbeitungen werden angezeigt (keine automatischen Updates)
-- Bot-Edits (z.B. durch GitHub Actions) werden ebenfalls angezeigt
+- The initial creation of the PR description does not count as an edit
+- Only manual edits are displayed (no automatic updates)
+- Bot edits (e.g., from GitHub Actions) are also displayed

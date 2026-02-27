@@ -1,4 +1,5 @@
 {
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "talent-factory",
   "version": "1.1.0",
   "owner": {
@@ -11,6 +12,7 @@
       "name": "git-workflow",
       "description": "Professional git workflow with automated pre-commit checks, emoji conventional commits, PR management, intelligent merge conflict resolution, and comprehensive references",
       "source": "./plugins/git-workflow",
+      "category": "development",
       "version": "2.2.0",
       "tags": [
         "git",
@@ -28,6 +30,7 @@
       "name": "project-management",
       "description": "Comprehensive project management with PRD generation, project planning, single-task initialization with duplicate detection and ATOMIC validation, intelligent task implementation with plugin orchestration (Superpowers brainstorm, agent routing, quality gate), autonomous EPIC automation, Linear integration, and git worktree workflow for agile development",
       "source": "./plugins/project-management",
+      "category": "productivity",
       "version": "2.6.0",
       "tags": [
         "planning",
@@ -45,6 +48,7 @@
       "name": "code-quality",
       "description": "Comprehensive code quality with Python linting and expert agents for Python and Frontend development",
       "source": "./plugins/code-quality",
+      "category": "development",
       "version": "3.0.0",
       "tags": [
         "review",
@@ -60,6 +64,7 @@
       "name": "education",
       "description": "Teaching aids with Java Tutor agent, Markdown syntax formatter agent and skill, and code explanation for IT education",
       "source": "./plugins/education",
+      "category": "learning",
       "version": "1.3.1",
       "tags": [
         "education",
@@ -74,6 +79,7 @@
       "name": "core",
       "description": "Comprehensive development utilities with 7 commands, 2 skills, and 2 expert agents for plugin/command/agent development, validation, CI automation, text humanization, and PDF-to-Markdown conversion",
       "source": "./plugins/core",
+      "category": "development",
       "version": "3.1.0",
       "tags": [
         "utilities",
@@ -91,6 +97,7 @@
       "name": "obsidian",
       "description": "Obsidian Integration - Task management via TaskNotes Plugin API with natural language support and vault-wide scanning",
       "source": "./plugins/obsidian",
+      "category": "productivity",
       "version": "1.1.1",
       "tags": [
         "obsidian",
@@ -105,6 +112,7 @@
       "name": "development",
       "description": "Expert development agents, project initialization with Git branching, Java/Gradle, Python/uv, and documentation synchronization tools",
       "source": "./plugins/development",
+      "category": "development",
       "version": "1.3.0",
       "tags": [
         "java",
