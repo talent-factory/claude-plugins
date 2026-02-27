@@ -115,9 +115,9 @@ Add to your Claude Code settings:
 
 ### 1.2.1
 
-- **Fix**: Java-Projekte verwenden jetzt IMMER Gradle Kotlin DSL (nicht Maven)
-- **Fix**: Initialer Commit verwendet jetzt `/git-workflow:commit`
-- **Improved**: Klarere Schritt-für-Schritt-Anweisungen im Skill
+- **Fix**: Java projects now always use Gradle Kotlin DSL (not Maven)
+- **Fix**: Initial commit now uses `/git-workflow:commit`
+- **Improved**: Clearer step-by-step instructions in skill
 
 ### 1.2.0
 

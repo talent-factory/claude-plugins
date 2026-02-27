@@ -208,29 +208,29 @@ Removes signs of AI-generated text to make content more natural and human.
 - Manual: "Make this text more natural"
 
 **Features:**
-- 🔍 Erkennung von 24 KI-Schreibmustern
-- ✏️ Automatisches Umschreiben problematischer Abschnitte
-- 🎯 Erhalt von Bedeutung und Stimme
-- 💡 Hinzufügen von Persönlichkeit und Seele
+- 🔍 Detection of 24 AI writing patterns
+- ✏️ Automatic rewriting of problematic sections
+- 🎯 Preservation of meaning and voice
+- 💡 Addition of personality and authenticity
 
-**Erkannte Muster:**
-- Aufgeblasene Symbolik und Bedeutung
-- Werbesprache und übertriebene Betonung
-- Oberflächliche Partizip-Analysen
-- Vage Zuschreibungen und Wieselwörter
-- KI-Vokabular (darüber hinaus, entscheidend, etc.)
-- Gedankenstrich-Übernutzung
-- Dreierregel-Übernutzung
-- Negative Parallelismen
-- Und 16 weitere Muster...
+**Detected Patterns:**
+- Inflated symbolism and significance
+- Promotional language and excessive emphasis
+- Superficial participle analyses
+- Vague attributions and weasel words
+- AI vocabulary (furthermore, crucial, etc.)
+- Em-dash overuse
+- Rule-of-three overuse
+- Negative parallelisms
+- And 16 additional patterns...
 
-**Basiert auf:** [Wikipedia:Signs of AI writing](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing)
+**Based on:** [Wikipedia:Signs of AI writing](https://en.wikipedia.org/wiki/Wikipedia:Signs_of_AI_writing)
 
-**Verwendung:**
+**Usage:**
 ```
-"Humanisiere diesen Text"
-"Entferne KI-Schreibmuster aus diesem Dokument"
-"Mach diesen Text menschlicher"
+"Humanize this text"
+"Remove AI writing patterns from this document"
+"Make this text more human"
 ```
 
 **Location:** `skills/humanizer/SKILL.md`
@@ -240,7 +240,7 @@ Removes signs of AI-generated text to make content more natural and human.
 Converts PDF files to Markdown with dual-mode support for different document types.
 
 **Activation:**
-- Natural language: "Konvertiere document.pdf zu Markdown"
+- Natural language: "Convert document.pdf to Markdown"
 - Direct: `/pdf-to-markdown path/to/file.pdf`
 
 **Modes:**
@@ -260,9 +260,9 @@ Converts PDF files to Markdown with dual-mode support for different document typ
 
 **Usage:**
 ```
-"Konvertiere report.pdf zu Markdown"
-"Konvertiere java-buch.pdf zu Markdown, enthält viel Code"
-"Konvertiere textbook.pdf Seiten 10-30 zu Markdown"
+"Convert report.pdf to Markdown"
+"Convert java-book.pdf to Markdown, contains a lot of code"
+"Convert textbook.pdf pages 10-30 to Markdown"
 ```
 
 **Prerequisites:**
@@ -401,25 +401,25 @@ User: "I need an agent for React component optimization"
 # - Example interactions
 ```
 
-### Example 5: Text humanisieren
+### Example 5: Humanize Text
 
 ```bash
-# Humanizer Skill verwenden
+# Using the Humanizer Skill
 
-User: "Humanisiere diesen Text: Das neue Software-Update
-dient als Zeugnis für das Engagement des Unternehmens
-für Innovation. Darüber hinaus bietet es eine nahtlose,
-intuitive und leistungsstarke Benutzererfahrung."
+User: "Humanize this text: The new software update
+serves as a testament to the company's commitment
+to innovation. Furthermore, it offers a seamless,
+intuitive, and powerful user experience."
 
-# Claude mit Humanizer Skill:
-# - Identifiziert KI-Muster (aufgeblasene Symbolik,
-#   KI-Vokabular, Dreierregel)
-# - Schreibt Text natürlicher um
-# - Fügt konkrete Details hinzu
+# Claude with Humanizer Skill:
+# - Identifies AI patterns (inflated symbolism,
+#   AI vocabulary, rule-of-three)
+# - Rewrites text more naturally
+# - Adds concrete details
 
-# Ergebnis:
-# "Das Software-Update fügt Stapelverarbeitung,
-# Tastenkürzel und Offline-Modus hinzu."
+# Result:
+# "The software update adds batch processing,
+# keyboard shortcuts, and offline mode."
 ```
 
 ## Best Practices

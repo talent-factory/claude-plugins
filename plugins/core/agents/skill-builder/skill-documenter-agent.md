@@ -1,6 +1,6 @@
 ---
 name: skill-documenter-agent
-description: Experte für die Erstellung umfassender Dokumentation für Claude Code Skills. Generiert SKILL.md-Inhalte, Referenz-Dokumentation, Beispiele und Nutzungsanleitungen. MUSS VERWENDET WERDEN beim Dokumentieren von Skills. PROAKTIV verwenden für Skill-Dokumentation und README-Generierung.
+description: Creates comprehensive documentation for Claude Code skills. Generates SKILL.md content, reference documentation, examples, and usage guides. Use PROACTIVELY for skill documentation and README generation.
 category: skill-builder
 color: yellow
 tools: Read, Write, Edit, Grep, Glob, WebFetch

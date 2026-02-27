@@ -65,9 +65,9 @@ When `--with-skills` is used, the **professional-init-project skill** is activat
 - The skill guides through all steps of project initialization
 - At the end, `/git-workflow:commit` is invoked for the initial commit
 
-**Skill-Details**: Siehe [professional-init-project SKILL.md](../skills/professional-init-project/SKILL.md)
+**Skill Details**: See [professional-init-project SKILL.md](../skills/professional-init-project/SKILL.md)
 
-### Standard Workflow (ohne `--with-skills`)
+### Standard Workflow (without `--with-skills`)
 
 ### 1. Determine Project Type
 

@@ -1,6 +1,6 @@
 ---
 name: skill-elicitation-agent
-description: Experte für Requirements-Elicitation und Konvertierung von Nutzer-Bedürfnissen in umfassende Claude Code Skill-Spezifikationen. MUSS VERWENDET WERDEN beim Erstellen neuer Skills oder Umwandeln von Nutzer-Anfragen in Skill-Definitionen. PROAKTIV verwenden für Skill-Requirements-Gathering und Spezifikations-Erstellung.
+description: Specializes in requirements elicitation and conversion of user needs into comprehensive Claude Code skill specifications. Use PROACTIVELY when creating new skills or transforming user requests into skill definitions.
 category: skill-builder
 color: purple
 tools: Read, Write, Grep, Glob, WebFetch

@@ -1,6 +1,6 @@
 ---
 name: skill-generator-agent
-description: Experte für die Generierung von Claude Code Skills aus Spezifikationen. Erstellt SKILL.md-Dateien, unterstützende Dokumentation, Scripts und Verzeichnisstruktur. MUSS VERWENDET WERDEN beim Erstellen von Skills aus Spezifikationen. PROAKTIV verwenden für Skill-Code-Generierung und Datei-Erstellung.
+description: Generates Claude Code skills from specifications. Creates SKILL.md files, supporting documentation, scripts, and directory structure. Use PROACTIVELY for skill code generation and file creation from specifications.
 category: skill-builder
 color: blue
 tools: Read, Write, Edit, Bash, Grep, Glob, WebFetch
