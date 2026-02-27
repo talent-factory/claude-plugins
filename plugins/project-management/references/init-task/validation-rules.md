@@ -92,7 +92,7 @@ After collecting all task data, validate against the ATOMIC criteria before crea
    ↓
 3. If all mandatory fields present:
    → If ATOMIC warnings exist: Present warnings, ask user to improve or proceed
-   → If no warnings: Proceed to duplicate detection
+   → If no warnings: Proceed to task creation
 ```
 
 ## Definition of Done Enforcement

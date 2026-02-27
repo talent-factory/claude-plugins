@@ -2,14 +2,17 @@
 
 Comprehensive project management tools for PRD generation, project planning, task implementation with Linear integration and git worktree workflow.
 
-## Version 2.5.0
+## Version 2.6.0
 
-**New in 2.5.0:**
+**New in 2.6.0:**
+
+- 📋 `/project-management:init-task` — Single-task creation with duplicate detection, ATOMIC validation, and mandatory Definition of Done
+- 📄 Extended task template with Type, Plan, and Definition of Done fields
+
+**Previous:**
 
 - 🧠 Intelligent plugin orchestration for `/project-management:implement-task` (Superpowers brainstorm, agent routing, quality gate)
 - ⚡ Skip options: `--skip-brainstorm`, `--skip-quality-gate`
-
-**Previous:**
 
 - 🤖 `/project-management:implement-epic` - Fully autonomous EPIC implementation with parallel agents
 - 🔄 Autonomous Loop Integration - Self-sustaining development loops via Stop hooks
@@ -256,6 +259,7 @@ project-management/
 ├── commands/
 │   ├── create-prd.md
 │   ├── create-plan.md
+│   ├── init-task.md
 │   ├── implement-task.md
 │   ├── implement-epic.md
 │   └── document-handoff.md
@@ -270,6 +274,10 @@ project-management/
 │   │   ├── filesystem.md
 │   │   ├── linear-integration.md
 │   │   └── task-breakdown.md
+│   ├── init-task/
+│   │   ├── duplicate-detection.md
+│   │   ├── task-template.md
+│   │   └── validation-rules.md
 │   ├── implement-task/
 │   │   ├── best-practices.md
 │   │   ├── filesystem.md
