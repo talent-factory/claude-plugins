@@ -1,21 +1,21 @@
 ---
 name: professional-commit-workflow
-description: Erstellt professionelle Git-Commits mit automatischen Pre-Commit-Checks für Java, Python, React und Dokumentation. Generiert Emoji Conventional Commit-Nachrichten und analysiert Staging-Status. Atomare Commits nach Best Practices.
+description: Creates professional git commits with automated pre-commit checks for Java, Python, React, and documentation projects. Generates emoji conventional commit messages and analyzes staging status. Produces atomic commits following best practices.
 ---
 
 # Professional Commit Workflow
 
 ## Overview
 
-Dieser Skill automatisiert den kompletten Git-Commit-Workflow mit professionellen Qualitätschecks und konventionellen Commit-Nachrichten. Er ersetzt den `/git-workflow:commit` Command mit einem wiederverwendbaren, distribuierbaren Skill.
+This skill automates the complete Git commit workflow with professional quality checks and conventional commit messages. It replaces the `/git-workflow:commit` command with a reusable, distributable skill.
 
 **Special Features:**
-- ✅ **Automatische Projekterkennung** (Java, Python, React, Dokumentation)
-- ✅ **Pre-Commit-Validierung** mit projektspezifischen Tools
-- ✅ **Emoji Conventional Commits** (✨ feat, 🐛 fix, 📚 docs, etc.)
-- ✅ **Intelligente Staging-Analyse** mit automatischem Add
-- ✅ **Atomare Commit-Empfehlungen** bei mehreren logischen Änderungen
-- ✅ **Performance-optimiert** durch modulare Validator-Architektur
+- Automatic project detection (Java, Python, React, Documentation)
+- Pre-commit validation with project-specific tools
+- Emoji Conventional Commits (feat, fix, docs, etc.)
+- Intelligent staging analysis with automatic add
+- Atomic commit recommendations for multiple logical changes
+- Performance-optimized through modular validator architecture
 
 ## Prerequisites
 
@@ -23,78 +23,78 @@ Dieser Skill automatisiert den kompletten Git-Commit-Workflow mit professionelle
 - Git (version 2.0+)
 - Python 3.8+
 
-**Optional (für spezifische Validierungen):**
-- **Java**: Maven oder Gradle
+**Optional (for specific validations):**
+- **Java**: Maven or Gradle
 - **Python**: ruff, black, pytest, mypy
 - **React/Node.js**: npm/pnpm/yarn/bun, ESLint, Prettier
 - **Docs**: LaTeX, markdownlint, AsciiDoc
 
 ```bash
-# Python dependencies installieren
+# Install Python dependencies
 pip install -r requirements.txt --break-system-packages
 ```
 
 ## Usage Workflow
 
-1. **User initiiert Commit**: "Erstelle einen Commit" oder "Commit die Änderungen"
+1. **User initiates commit**: "Create a commit" or "Commit the changes"
 
-2. **Optionen erkennen**:
-   - `--no-verify`: Überspringt Pre-Commit-Checks
-   - `--skip-tests`: Überspringt nur Tests
-   - `--force-push`: Force Push nach Commit (Vorsicht!)
+2. **Detect options**:
+   - `--no-verify`: Skips pre-commit checks
+   - `--skip-tests`: Skips tests only
+   - `--force-push`: Force push after commit (use with caution!)
 
-3. **Projekt-Detection ausführen**:
+3. **Execute project detection**:
    ```bash
    python scripts/project_detector.py
    ```
-   Erkennt automatisch:
+   Automatically detects:
    - Java (Maven: pom.xml, Gradle: build.gradle)
    - Python (pyproject.toml, requirements.txt, setup.py)
-   - React/Node.js (package.json mit react/next/vite)
-   - Dokumentation (*.tex, *.md, *.adoc)
+   - React/Node.js (package.json with react/next/vite)
+   - Documentation (*.tex, *.md, *.adoc)
 
-4. **Pre-Commit-Validierung** (falls nicht `--no-verify`):
+4. **Pre-commit validation** (unless `--no-verify`):
    ```bash
    python scripts/main.py --validate-only
    ```
-   Führt projektspezifische Checks aus:
+   Executes project-specific checks:
    - **Java**: Build, Tests, Checkstyle, SpotBugs
    - **Python**: Ruff, Black, pytest, mypy
    - **React**: ESLint, Prettier, TypeScript, Build
    - **Docs**: LaTeX compile, markdownlint
 
-5. **Staging-Analyse**:
+5. **Staging analysis**:
    ```bash
    python scripts/git_analyzer.py --analyze-staging
    ```
-   - Prüft `git status` für gestakte Dateien
-   - Fügt automatisch Änderungen hinzu falls nötig
-   - Zeigt Übersicht der zu committenden Dateien
+   - Checks `git status` for staged files
+   - Automatically adds changes if necessary
+   - Displays overview of files to be committed
 
-6. **Diff-Analyse**:
+6. **Diff analysis**:
    ```bash
    python scripts/git_analyzer.py --analyze-diff
    ```
-   - Analysiert `git diff` für logische Änderungen
-   - Erkennt mehrere Features/Fixes in einem Commit
-   - Empfiehlt Aufteilung bei Bedarf
+   - Analyzes `git diff` for logical changes
+   - Detects multiple features/fixes in a single commit
+   - Recommends splitting when appropriate
 
-7. **Commit-Message generieren**:
+7. **Generate commit message**:
    ```bash
    python scripts/commit_message.py --generate
    ```
-   - Erkennt Commit-Typ aus Änderungen
-   - Generiert Emoji Conventional Commit
-   - Deutsche, imperative Beschreibung
-   - Format: `<emoji> <type>: <beschreibung>`
+   - Detects commit type from changes
+   - Generates Emoji Conventional Commit
+   - German, imperative description
+   - Format: `<emoji> <type>: <description>`
 
-8. **Commit erstellen**:
+8. **Create commit**:
    ```bash
    git commit -m "$(python scripts/commit_message.py --output)"
    ```
-   - **WICHTIG:** Keine "Co-Authored-By" oder "Generated with" Zusätze
+   - **IMPORTANT:** No "Co-Authored-By" or "Generated with" suffixes
 
-9. **Optional: Push anbieten**:
+9. **Optional: Offer push**:
    ```bash
    git push origin <branch>
    ```
@@ -102,64 +102,64 @@ pip install -r requirements.txt --break-system-packages
 ## Main Script Usage
 
 ```bash
-# Standard-Commit-Workflow
+# Standard commit workflow
 python scripts/main.py
 
-# Nur Validierung (kein Commit)
+# Validation only (no commit)
 python scripts/main.py --validate-only
 
-# Checks überspringen
+# Skip checks
 python scripts/main.py --no-verify
 
-# Tests überspringen
+# Skip tests
 python scripts/main.py --skip-tests
 
-# Mit Force-Push
+# With force push
 python scripts/main.py --force-push
 ```
 
 ## Output Structure
 
-**Erfolgreicher Workflow:**
+**Successful workflow:**
 ```text
-✓ Projekt erkannt: React/TypeScript
-✓ Pre-Commit-Checks bestanden (3/3)
-  ✓ ESLint: 0 Fehler
-  ✓ TypeScript: Kompilierung erfolgreich
-  ✓ Build: Erfolgreich
-✓ Staging-Analyse: 5 Dateien bereit
-✓ Commit-Typ erkannt: feat
-✓ Commit erstellt: ✨ feat: User Dashboard mit Metriken hinzugefügt
+Project detected: React/TypeScript
+Pre-commit checks passed (3/3)
+  ESLint: 0 errors
+  TypeScript: Compilation successful
+  Build: Successful
+Staging analysis: 5 files ready
+Commit type detected: feat
+Commit created: feat: Add user dashboard with metrics
 ```
 
-**Bei Validierungs-Fehlern:**
+**On validation failures:**
 ```text
-✗ Pre-Commit-Checks fehlgeschlagen (1/3)
-  ✓ ESLint: 0 Fehler
-  ✗ TypeScript: 2 Fehler gefunden
+Pre-commit checks failed (1/3)
+  ESLint: 0 errors
+  TypeScript: 2 errors found
     - src/components/Dashboard.tsx:12 - Type 'string' is not assignable to type 'number'
-  ✓ Build: Erfolgreich
+  Build: Successful
 
-❌ Commit abgebrochen. Bitte Fehler beheben oder --no-verify verwenden.
+Commit aborted. Please fix errors or use --no-verify.
 ```
 
 ## Configuration
 
 ### commit_types.json
 
-Definiert Emoji-Mappings für Conventional Commits:
+Defines emoji mappings for Conventional Commits:
 
 ```json
 {
-  "feat": {"emoji": "✨", "description": "Neue Funktionalität"},
-  "fix": {"emoji": "🐛", "description": "Fehlerbehebung"},
-  "docs": {"emoji": "📚", "description": "Dokumentation"}
+  "feat": {"emoji": "✨", "description": "New functionality"},
+  "fix": {"emoji": "🐛", "description": "Bug fix"},
+  "docs": {"emoji": "📚", "description": "Documentation"}
 }
 ```
 
 ### validation_rules.json
 
-Projektspezifische Validierungs-Regeln:
+Project-specific validation rules:
 
 ```json
 {
@@ -179,45 +179,45 @@ Projektspezifische Validierungs-Regeln:
 
 ## Error Handling
 
-**Validierungs-Fehler:**
-- Zeige detaillierte Fehlermeldung
-- Biete `--no-verify` Option an
-- Verweise auf [docs/troubleshooting.md](docs/troubleshooting.md)
+**Validation errors:**
+- Display detailed error message
+- Offer `--no-verify` option
+- Refer to [docs/troubleshooting.md](docs/troubleshooting.md)
 
-**Git-Fehler:**
-- Prüfe Git-Status (untracked, conflicts)
-- Verweise auf Git-Troubleshooting
-- Biete manuelle Kommandos an
+**Git errors:**
+- Check Git status (untracked, conflicts)
+- Refer to Git troubleshooting
+- Offer manual commands
 
-**Tool nicht gefunden:**
-- Graceful degradation (überspringen)
-- Warne User über fehlende Validierung
-- Empfehle Tool-Installation
+**Tool not found:**
+- Graceful degradation (skip)
+- Warn user about missing validation
+- Recommend tool installation
 
 ## Best Practices
 
-**Atomare Commits:**
-- ✅ Jeder Commit = Eine logische Einheit
-- ✅ Trenne Features, Fixes, Refactorings
-- ❌ Keine "WIP" oder "misc changes" Commits
+**Atomic commits:**
+- Each commit = one logical unit
+- Separate features, fixes, refactorings
+- No "WIP" or "misc changes" commits
 
-**Aussagekräftige Nachrichten:**
-- ✅ Beschreibe "Was" und "Warum", nicht "Wie"
-- ✅ Imperative Form: "Füge hinzu", nicht "Hinzugefügt"
-- ✅ Erste Zeile ≤ 72 Zeichen
-- ❌ Keine automatischen Signaturen
+**Meaningful messages:**
+- Describe "what" and "why", not "how"
+- Imperative form: "Add", not "Added"
+- First line 72 characters or fewer
+- No automatic signatures
 
-**Code-Qualität:**
-- ✅ Alle Checks bestanden vor Commit
-- ✅ Tests laufen durch
-- ✅ Build erfolgreich
-- ❌ Keine Debug-Ausgaben oder auskommentierter Code
+**Code quality:**
+- All checks passed before commit
+- Tests pass
+- Build successful
+- No debug output or commented-out code
 
-**Vollständige Guidelines:** [docs/best-practices.md](docs/best-practices.md)
+**Complete guidelines:** [docs/best-practices.md](docs/best-practices.md)
 
 ## References
 
-- **[Pre-Commit-Checks](docs/pre-commit-checks.md)**: Detaillierte Check-Beschreibungen
-- **[Commit-Types](docs/commit-types.md)**: Alle Emoji-Typen mit Beispielen
-- **[Best Practices](docs/best-practices.md)**: Umfassende Git-Commit-Best-Practices
-- **[Troubleshooting](docs/troubleshooting.md)**: Fehlerbehebung für häufige Probleme
+- **[Pre-Commit Checks](docs/pre-commit-checks.md)**: Detailed check descriptions
+- **[Commit Types](docs/commit-types.md)**: All emoji types with examples
+- **[Best Practices](docs/best-practices.md)**: Comprehensive Git commit best practices
+- **[Troubleshooting](docs/troubleshooting.md)**: Troubleshooting for common issues

@@ -88,37 +88,37 @@ This creates `<name>_pages/` with PNG images.
 ### Example 1: Simple Document
 
 ```
-User: Konvertiere /Users/me/report.pdf zu Markdown
+User: Convert /Users/me/report.pdf to Markdown
 
-Claude: Ich konvertiere das PDF. Welchen Modus bevorzugst du?
-- **fast**: Schnelle Textextraktion (für einfache Dokumente)
-- **vision**: Bildanalyse (für komplexe Layouts, Code, Tabellen)
+Claude: I will convert the PDF. Which mode do you prefer?
+- **fast**: Quick text extraction (for simple documents)
+- **vision**: Image analysis (for complex layouts, code, tables)
 
 User: fast
 
 Claude: [Runs script, reports result]
-Fertig! Erstellt:
+Done! Created:
 - /Users/me/report.md
-- /Users/me/report_images/ (3 Bilder)
+- /Users/me/report_images/ (3 images)
 ```
 
 ### Example 2: Technical Book
 
 ```
-User: Konvertiere java-buch.pdf zu Markdown, hat viel Code
+User: Convert java-book.pdf to Markdown, contains a lot of code
 
-Claude: Da das Dokument Code enthält, empfehle ich den Vision-Modus.
-Soll ich das gesamte PDF oder nur bestimmte Seiten konvertieren?
+Claude: Since the document contains code, I recommend vision mode.
+Should I convert the entire PDF or only specific pages?
 
-User: Seiten 10-30
+User: Pages 10-30
 
 Claude: [Converts pages to images]
 [Reads each page image]
 [Generates structured Markdown with code blocks]
 [Writes output file]
 
-Fertig! Erstellt: java-buch.md (21 Seiten)
-Soll ich die temporären Seitenbilder löschen?
+Done! Created: java-book.md (21 pages)
+Should I delete the temporary page images?
 ```
 
 ### Example 3: Direct Invocation
