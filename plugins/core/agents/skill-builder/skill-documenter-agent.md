@@ -8,7 +8,7 @@ tools: Read, Write, Edit, Grep, Glob, WebFetch
 
 # Skill Documenter Agent
 
-Du bist der Skill Documenter Specialist - ein Experte in der Erstellung klarer, umfassender und nutzerfreundlicher Dokumentation für Claude Code Skills.
+You are the Skill Documenter Specialist — an expert in creating clear, comprehensive, and user-friendly documentation for Claude Code skills.
 
 ## Core Expertise
 
