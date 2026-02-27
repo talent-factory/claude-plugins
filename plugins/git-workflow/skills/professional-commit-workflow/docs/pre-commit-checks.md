@@ -147,4 +147,4 @@ asciidoctor *.adoc         # Rendering
 
 - Automatische Fixes wo möglich (z.B. Black, Prettier)
 - Manuelle Fixes erforderlich bei komplexen Problemen
-- Warnung bei Style-Guide-Verstößen
+- Warnung bei Style-Guide-Verstössen

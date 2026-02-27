@@ -1,6 +1,6 @@
 # Professional Init-Project Skill
 
-Initialisiert Open-Source-Projekte mit GitHub Best Practices und professioneller Git-Branching-Strategie.
+Initializes open-source projects with GitHub best practices and a professional Git branching strategy.
 
 ## Version 1.0.0
 
@@ -8,11 +8,11 @@ Initialisiert Open-Source-Projekte mit GitHub Best Practices und professioneller
 
 ## Features
 
-- **Git-Branching**: develop → main Strategie als Standard
-- **Java/Gradle**: Kotlin DSL mit Java 21 Toolchain
-- **Python/uv**: Moderne Python-Projektverwaltung
+- **Git Branching**: develop → main strategy as default
+- **Java/Gradle**: Kotlin DSL with Java 21 toolchain
+- **Python/uv**: Modern Python project management
 - **Community Standards**: LICENSE, CONTRIBUTING, CODE_OF_CONDUCT, SECURITY
-- **GitHub Templates**: Issue-Templates, PR-Template, Workflows
+- **GitHub Templates**: Issue templates, PR template, workflows
 
 ---
 
@@ -24,74 +24,74 @@ Initialisiert Open-Source-Projekte mit GitHub Best Practices und professioneller
 /development:init-project --with-skills --java --name "my-app"
 ```
 
-### Direkte Script-Ausführung
+### Direct Script Execution
 
 ```bash
 cd plugins/development/skills/professional-init-project
 python scripts/main.py --type java --name my-app
 ```
 
-### Optionen
+### Options
 
-| Option | Beschreibung |
-|--------|--------------|
-| `--type` | Projekttyp: git, java, uv, node, go, rust |
-| `--name` | Projektname (kebab-case empfohlen) |
-| `--no-branching` | Nur main-Branch, kein develop |
-| `--license` | Lizenztyp: mit, apache2, gpl3, bsd3 |
+| Option | Description |
+|--------|-------------|
+| `--type` | Project type: git, java, uv, node, go, rust |
+| `--name` | Project name (kebab-case recommended) |
+| `--no-branching` | Main branch only, no develop |
+| `--license` | License type: mit, apache2, gpl3, bsd3 |
 
 ---
 
-## Projekttypen
+## Project Types
 
 ### Java (`--type java`)
 
 - Gradle Kotlin DSL (build.gradle.kts)
-- Java 21 Toolchain
-- JUnit 5 Test-Framework
-- Gradle Wrapper inkludiert
+- Java 21 toolchain
+- JUnit 5 test framework
+- Gradle wrapper included
 
 ### Python (`--type uv`)
 
-- uv Package Manager
-- pyproject.toml mit Ruff-Konfiguration
-- pytest Test-Framework
-- src-Layout
+- uv package manager
+- pyproject.toml with Ruff configuration
+- pytest test framework
+- src layout
 
 ### Git (`--type git`)
 
-- Minimales Setup
-- Spracherkennung aus bestehenden Dateien
-- Passende .gitignore
+- Minimal setup
+- Language detection from existing files
+- Appropriate .gitignore
 
 ---
 
-## Git-Branching-Strategie
+## Git Branching Strategy
 
 ```
-develop (default, aktive Entwicklung)
+develop (default, active development)
     │
     ├── feature/xyz
     ├── fix/abc
     │
-    └── → main (stabile Releases)
+    └── → main (stable releases)
 ```
 
-- **develop**: Standardbranch für Entwicklung
-- **main**: Nur stabile, getestete Releases
-- **feature/**: Neue Features
-- **fix/**: Bugfixes
+- **develop**: Default branch for development
+- **main**: Stable, tested releases only
+- **feature/**: New features
+- **fix/**: Bug fixes
 
 ---
 
-## Verzeichnisstruktur
+## Directory Structure
 
 ```
 professional-init-project/
-├── SKILL.md              # Skill-Definition
-├── README.md             # Diese Datei
+├── SKILL.md              # Skill definition
+├── README.md             # This file
 ├── scripts/
-│   ├── main.py           # Entry-Point
+│   ├── main.py           # Entry point
 │   ├── git_initializer.py
 │   └── generators/
 │       ├── java_gradle.py
@@ -110,7 +110,7 @@ professional-init-project/
 
 ---
 
-## Konfiguration
+## Configuration
 
 ### project_types.json
 
@@ -132,28 +132,28 @@ professional-init-project/
 
 ---
 
-## Beispiel-Output
+## Example Output
 
 ```
-✓ Git-Repository initialisiert
-✓ Branch 'develop' erstellt (aktiv)
-✓ Projektstruktur generiert (Java/Gradle)
-✓ Community Standards erstellt
-✓ GitHub Templates erstellt
-✓ Initialer Commit erstellt
-✓ Branch 'main' erstellt (synchron mit develop)
+✓ Git repository initialized
+✓ Branch 'develop' created (active)
+✓ Project structure generated (Java/Gradle)
+✓ Community standards created
+✓ GitHub templates created
+✓ Initial commit created
+✓ Branch 'main' created (in sync with develop)
 
-📁 Projekt bereit: my-app/
-   Branch: develop (aktiv)
-   Nächster Schritt: ./gradlew build
+📁 Project ready: my-app/
+   Branch: develop (active)
+   Next step: ./gradlew build
 ```
 
 ---
 
 ## Related
 
-- [/development:init-project](../../commands/init-project.md) - Command-Dokumentation
-- [java-developer Agent](../../agents/java-developer.md) - Java-Entwicklungsunterstützung
+- [/development:init-project](../../commands/init-project.md) - Command documentation
+- [java-developer Agent](../../agents/java-developer.md) - Java development support
 
 ---
 

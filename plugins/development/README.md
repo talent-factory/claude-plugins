@@ -107,6 +107,12 @@ Add to your Claude Code settings:
 
 ## Changelog
 
+### 1.3.1
+
+- **Fix**: Added `keywords` and `license` fields to plugin.json
+- **Fix**: Translated README and skill documentation to English
+- **Fix**: Improved java-developer agent description
+
 ### 1.3.0
 
 - **New**: `update-documents` skill for documentation synchronization

@@ -1,6 +1,6 @@
 ---
 name: code-reviewer
-description: Expert code reviewer. Proactively reviews code for quality, security, and maintainability. Use immediately after writing or modifying code.
+description: Expert code reviewer. Reviews code for quality, security, and maintainability. Use PROACTIVELY after writing or modifying code.
 category: quality-security
 model: sonnet
 color: blue

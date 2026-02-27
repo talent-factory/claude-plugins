@@ -381,7 +381,7 @@ git pull --rebase origin feature-branch
 git push
 ```
 
-### Push zu groß
+### Push zu gross
 
 **Problem**: Push-Limit überschritten
 
@@ -622,7 +622,7 @@ git add frontend/
 **Warnung**: Nur verwenden wenn:
 
 - Du allein am Branch arbeitest
-- Du weißt was du tust
+- Du weisst was du tust
 - Niemals bei main/master
 
 ### PR von Fork erstellen
@@ -684,4 +684,4 @@ gh pr view <number> --json statusCheckRollup
 - [ ] Branch-Name ist einzigartig
 - [ ] Working Directory ist clean
 - [ ] Tests laufen lokal durch
-- [ ] Keine großen Dateien (>100MB)
+- [ ] Keine grossen Dateien (>100MB)

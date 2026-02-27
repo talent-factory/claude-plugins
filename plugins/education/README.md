@@ -169,11 +169,21 @@ This plugin is designed to complement computer science curricula:
 
 ---
 
+## Changelog
+
+### Version 1.3.2 (2026-02-27)
+
+- Added `keywords` and `license` fields to plugin.json
+- Improved agent descriptions with when-to-use context
+- Translated documentation to English
+
+---
+
 ## Related Plugins
 
-- **[Code Quality](code-quality.md)** - Python and Frontend expert agents
-- **[Development](development.md)** - Java developer agent
-- **[Core Utilities](core.md)** - Plugin development and validation
+- **[Code Quality](../code-quality/README.md)** - Python and Frontend expert agents
+- **[Development](../development/README.md)** - Java developer agent
+- **[Core Utilities](../core/README.md)** - Plugin development and validation
 
 ---
 

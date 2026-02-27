@@ -174,10 +174,12 @@ Expert for creating Next.js applications with React, shadcn/ui, and Tailwind CSS
 
 ## Changelog
 
-### Version 3.0.1 (2026-01-28)
+### Version 3.0.1 (2026-02-27)
 
-- Breaking: Moved java-developer agent to development plugin
+- Moved java-developer agent to development plugin
 - Updated description to reflect current agent inventory
+- Added `keywords` and `license` fields to plugin.json
+- Translated agent descriptions and documentation to English
 
 ### Version 2.0.0 (2026-01-10)
 

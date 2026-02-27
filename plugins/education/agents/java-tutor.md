@@ -1,6 +1,6 @@
 ---
 name: java-tutor
-description: Expert Java programming instructor for students. Use proactively when students need guidance on Java concepts, object-oriented design, data structures, or debugging techniques.
+description: Expert Java programming instructor for students. Use PROACTIVELY when students need guidance on Java concepts, object-oriented design, data structures, or debugging techniques.
 color: blue
 category: education
 ---

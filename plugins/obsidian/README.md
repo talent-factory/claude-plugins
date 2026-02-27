@@ -128,10 +128,20 @@ obsidian/
 
 ---
 
+## Changelog
+
+### Version 1.1.2 (2026-02-27)
+
+- Added `keywords` and `license` fields to plugin.json
+- Fixed author email to support@talent-factory.ch
+- Improved tasknotes skill description
+
+---
+
 ## Related Plugins
 
-- **[Project Management](project-management.md)** - PRD and task planning
-- **[Git Workflow](git-workflow.md)** - Commit and PR automation
+- **[Project Management](../project-management/README.md)** - PRD and task planning
+- **[Git Workflow](../git-workflow/README.md)** - Commit and PR automation
 
 ---
 

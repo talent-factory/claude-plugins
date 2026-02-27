@@ -377,17 +377,17 @@ PR for feature
 gh pr ready <pr-number>
 ```
 
-## PR-Größe
+## PR-Grösse
 
-### Ideale Größe
+### Ideale Grösse
 
 **Empfehlung**:
 
 - **150-400 Zeilen**: Ideal für Review
 - **400-800 Zeilen**: Noch akzeptabel
-- **800+**: Zu groß, sollte aufgeteilt werden
+- **800+**: Zu gross, sollte aufgeteilt werden
 
-### Zu große PRs aufteilen
+### Zu grosse PRs aufteilen
 
 **Strategien**:
 

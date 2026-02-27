@@ -526,6 +526,13 @@ intuitive, and powerful user experience."
 
 ## Changelog
 
+### Version 3.1.1 (2026-02-27)
+
+**Patch Update:**
+- Added `keywords` and `license` fields to plugin.json
+- Translated documentation and agent descriptions to English
+- Improved skill-builder agent descriptions with contextual detail
+
 ### Version 3.1.0 (2026-02-06)
 
 **New Features:**

@@ -117,14 +117,14 @@ The repository has no build/compile step. Validation is done via GitHub Actions:
 
 ### Commit Format
 
-Use Emoji Conventional Commits (German imperative):
+Use Emoji Conventional Commits:
 
 ```
-🎉 feat: Füge Python Tutor Agent hinzu
-🐛 fix: Behebe Commit-Validierungsfehler
-📚 docs: Aktualisiere Installation-Guide
-♻️ refactor: Vereinfache PR-Template
-🧪 test: Ergänze Plugin-Struktur-Tests
+🎉 feat: Add Python Tutor agent
+🐛 fix: Resolve commit validation error
+📚 docs: Update installation guide
+♻️ refactor: Simplify PR template
+🧪 test: Add plugin structure tests
 ```
 
 **Important:** Do NOT add these suffixes to commits:
@@ -260,8 +260,10 @@ Auto-labels PRs based on:
 
 1. Update `version` in `plugins/PLUGIN-NAME/.claude-plugin/plugin.json`
 2. Update corresponding entry in `.claude-plugin/marketplace.json`
-3. Update `CHANGELOG.md` with changes
-4. Follow semantic versioning (MAJOR.MINOR.PATCH)
+3. Update version in `plugins/PLUGIN-NAME/README.md` header and changelog
+4. Update version in `docs/plugins/index.md`
+5. Update `CHANGELOG.md` with changes
+6. Follow semantic versioning (MAJOR.MINOR.PATCH)
 
 ### Add a New Plugin to Marketplace
 

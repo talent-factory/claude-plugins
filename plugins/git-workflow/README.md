@@ -160,7 +160,7 @@ This plugin includes three powerful skills for enhanced performance. See [Skills
 
 **Activation:**
 
-- Via command: `/commit --with-skills`
+- Via command: `/git-workflow:commit --with-skills`
 
 **Features:**
 
@@ -180,7 +180,7 @@ Automated PR creation with branch management and code formatting.
 
 **Activation:**
 
-- Via command: `/create-pr --with-skills`
+- Via command: `/git-workflow:create-pr --with-skills`
 
 **Features:**
 
@@ -404,7 +404,15 @@ See [create-pr/troubleshooting.md](https://github.com/talent-factory/claude-plug
 
 ## Changelog
 
-### Version 2.2.1 (2026-02-13)
+### Version 2.2.1 (2026-02-27)
+
+**Patch Update:**
+- Added `keywords` and `license` fields to plugin.json
+- Translated command and skill documentation to English
+- Fixed Swiss German orthography (ss instead of ß)
+- Updated command references to fully-qualified format
+
+### Version 2.2.0 (2026-02-13)
 
 **Minor Update:**
 

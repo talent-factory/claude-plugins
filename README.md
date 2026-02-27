@@ -281,12 +281,6 @@ If you're currently using [talent-factory/dotfiles](https://github.com/talent-fa
    - Team-wide consistency
    - Better discoverability
 
-## 🛡️ Version Compatibility
-
-| Plugin | Claude Code Version | Status |
-|--------|---------------------|--------|
-| All Plugins | 1.0.0+ | ✅ Supported |
-
 ## 🤝 Contributing
 
 We welcome contributions! Please see our [Contributing Guidelines](./CONTRIBUTING.md).

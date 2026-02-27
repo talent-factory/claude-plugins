@@ -2,7 +2,7 @@
   "name": "development",
   "version": "1.3.1",
   "description": "Expert development agents, project initialization with Git branching, Gradle Kotlin DSL, Python/uv support, and documentation synchronization tools",
-  "keywords": ["java", "gradle", "python", "development", "spring-boot", "open-source", "project-init", "github", "git-branching", "documentation"],
+  "keywords": ["java", "gradle", "python", "development", "spring-boot", "enterprise", "performance", "concurrency", "open-source", "project-init", "github", "git-branching", "documentation", "sync"],
   "license": "MIT",
   "author": {
     "name": "Talent Factory GmbH",
