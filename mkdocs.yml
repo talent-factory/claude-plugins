@@ -154,7 +154,7 @@ extra:
       link: https://github.com/talent-factory
       name: Talent Factory on GitHub
     - icon: fontawesome/solid/globe
-      link: https://talent-factory.ch
+      link: https://talent-factory.xyz
       name: Talent Factory Website
   analytics:
     provider: google

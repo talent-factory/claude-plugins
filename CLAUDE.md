@@ -292,14 +292,14 @@ The education plugin (Java Tutor agent) is tailored for students. It references 
 
 ### Documentation Language
 
-**Primary Language:** All new documentation must be written in **professional English at an academic level**.
+**Language Policy:** All documentation, descriptions, and content must be written in **professional English at an academic level**.
 
 - Use formal, precise terminology appropriate for technical documentation
 - Maintain consistent academic tone throughout
 - Avoid colloquialisms and informal expressions
 - Structure content with clear logical flow
 
-**Exception for German Content:** When German is required, use **Swiss orthography**:
+**Swiss German Orthography (legacy transition):** Where German text has not yet been translated, use Swiss orthography during the transition period:
 
 - **Umlaute**: Use proper umlauts (ä, ö, ü), not substitutions (ae, oe, ue)
 - **Eszett**: Never use "ß", always use "ss" (e.g., "gross" not "groß", "übermässig" not "übermäßig")
@@ -307,3 +307,5 @@ The education plugin (Java Tutor agent) is tailored for students. It references 
   - ✅ "grösste", "übermässig", "schliesslich", "Strasse"
   - ❌ "größte", "übermäßig", "schließlich", "Straße"
   - ❌ "groesste", "uebermaessig", "schliesslich"
+
+**Note:** Use `/validate-marketplace --section language` to identify remaining non-English content.
