@@ -101,6 +101,32 @@ Transform PRDs into actionable project plans with task breakdown and Linear inte
 
 Initialize a single task with duplicate detection, ATOMIC validation, and mandatory Definition of Done (Filesystem or Linear).
 
+**Features:**
+
+- 🔍 Duplicate detection across filesystem and Linear
+- ✅ ATOMIC validation (Actionable, Testable, Ownable, Measurable, Independent, Complete)
+- 📋 Mandatory Definition of Done with 4 default items
+- 🧙 Interactive wizard with 10-step guided creation
+- ⚡ Inline mode for quick task creation via arguments
+- 📂 Plan-attached or standalone (adhoc) task support
+- 🔗 Linear integration for issue creation
+
+**Usage:**
+
+```bash
+/project-management:init-task                                          # Interactive wizard
+/project-management:init-task --plan dark-mode-toggle                  # Attach to plan
+/project-management:init-task "Fix auth timeout" --type bug --priority must  # Inline
+/project-management:init-task --linear                                 # Linear provider
+/project-management:init-task "Refactor queries" --standalone          # Standalone
+```
+
+**References:**
+
+- [Task Template](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/init-task/task-template.md) - Standardized task structure
+- [Duplicate Detection](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/init-task/duplicate-detection.md) - Search and matching logic
+- [Validation Rules](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/init-task/validation-rules.md) - ATOMIC validation and DoD requirements
+
 ### `/project-management:implement-task`
 
 Implement tasks with git worktree workflow, branch creation, and PR automation.
@@ -478,6 +504,16 @@ User: "We need OAuth login with Google and GitHub"
 - **Solution:** Use different task ID or clean up old branches
 
 ## Changelog
+
+### Version 2.6.0 (2026-02-27)
+
+**Single-Task Creation:**
+
+- 📋 Added `/project-management:init-task` command for single-task creation
+- 🔍 Duplicate detection across filesystem and Linear with Jaccard similarity
+- ✅ ATOMIC validation with hard requirements and soft warnings
+- 📄 Extended task template with Type, Plan, and Definition of Done fields
+- 📚 Added 3 reference documents: task-template, duplicate-detection, validation-rules
 
 ### Version 2.5.0 (2026-02-26)
 

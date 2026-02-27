@@ -77,7 +77,7 @@ This template is fully backward-compatible with `/project-management:implement-t
 | Type | Branch Prefix | Commit Prefix |
 |------|---------------|---------------|
 | feature | `feature/` | `feat` |
-| bug | `bugfix/` | `fix` |
+| bug | `fix/` | `fix` |
 | documentation | `docs/` | `docs` |
 | refactor | `refactor/` | `refactor` |
 | testing | `test/` | `test` |

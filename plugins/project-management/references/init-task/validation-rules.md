@@ -14,7 +14,7 @@ Every task created by `init-task` must include all of the following:
 | Definition of Done | At least the 4 default items | "Definition of Done must include standard completion criteria." |
 | Priority | One of: `must`, `should`, `could` | "Priority must be one of: must, should, could." |
 | Type | One of: `feature`, `bug`, `documentation`, `refactor`, `testing` | "Type must be one of: feature, bug, documentation, refactor, testing." |
-| Estimate | One of: `1`, `2`, `3`, `5`, `8` | "Story point estimate must be a Fibonacci value: 1, 2, 3, 5, or 8." |
+| Estimate | One of: `1`, `2`, `3`, `5`, `8` | "Story point estimate must be one of the selected Fibonacci numbers: 1, 2, 3, 5, or 8." |
 
 ## ATOMIC Validation
 
