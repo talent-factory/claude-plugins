@@ -1,69 +1,68 @@
 ---
 name: professional-init-project
-description: Initialisiert Open-Source-Projekte mit GitHub Best Practices und Git-Branching-Strategie
-version: 1.0.1
+description: Initializes open-source projects with GitHub best practices and git branching strategy. Triggers when setting up new repositories with standardized configuration, Gradle Kotlin DSL, or Python/uv support.
 ---
 
 # Professional Init-Project Workflow
 
-Dieser Skill führt dich durch die Projekt-Initialisierung. **Folge diesen Anweisungen Schritt für Schritt.**
+This skill guides you through project initialization. **Follow these instructions step by step.**
 
-## WICHTIGE REGELN
+## IMPORTANT RULES
 
-1. **Java-Projekte verwenden IMMER Gradle Kotlin DSL** - NIEMALS Maven!
-2. **Initialer Commit MUSS über `/git-workflow:commit` erfolgen** - NIEMALS direkt `git commit`!
-3. **Git-Branching: develop → main** ist der Standard
+1. **Java projects ALWAYS use Gradle Kotlin DSL** - NEVER Maven!
+2. **Initial commit MUST be made via `/git-workflow:commit`** - NEVER use `git commit` directly!
+3. **Git branching: develop -> main** is the default
 
 ---
 
-## Schritt 1: Projekttyp und Parameter erkennen
+## Step 1: Detect Project Type and Parameters
 
-Analysiere die Argumente des Users:
+Analyze the user's arguments:
 
-| Argument | Projekttyp | Build-Tool |
-|----------|-----------|------------|
-| `--java` | Java | **Gradle Kotlin DSL** (NICHT Maven!) |
+| Argument | Project Type | Build Tool |
+|----------|-------------|------------|
+| `--java` | Java | **Gradle Kotlin DSL** (NOT Maven!) |
 | `--uv` | Python | uv |
 | `--git` | Standard | - |
 | `--node` | Node.js | npm/pnpm |
 
-Optionale Argumente:
-- `--name "xyz"`: Projektname
-- `--no-branching`: Nur main, kein develop
+Optional arguments:
+- `--name "xyz"`: Project name
+- `--no-branching`: Only main, no develop
 
 ---
 
-## Schritt 2: Projektverzeichnis erstellen
+## Step 2: Create Project Directory
 
 ```bash
-# Falls --name angegeben
+# If --name is specified
 mkdir -p <project-name>
 cd <project-name>
 ```
 
 ---
 
-## Schritt 3: Git-Repository initialisieren
+## Step 3: Initialize Git Repository
 
 ```bash
-# Repository initialisieren
+# Initialize repository
 git init
 
-# Auf develop Branch wechseln (Standard)
+# Switch to develop branch (default)
 git checkout -b develop
 ```
 
-Falls `--no-branching`: Stattdessen `git branch -M main`
+If `--no-branching`: Use `git branch -M main` instead
 
 ---
 
-## Schritt 4: Projektstruktur generieren
+## Step 4: Generate Project Structure
 
-### Bei `--java`: Gradle Kotlin DSL Projekt
+### For `--java`: Gradle Kotlin DSL Project
 
-**WICHTIG: IMMER Gradle verwenden, NIEMALS Maven!**
+**IMPORTANT: ALWAYS use Gradle, NEVER Maven!**
 
-Erstelle folgende Dateien:
+Create the following files:
 
 **build.gradle.kts:**
 ```kotlin
@@ -108,7 +107,7 @@ tasks.test {
 rootProject.name = "<project-name>"
 ```
 
-**Verzeichnisstruktur:**
+**Directory structure:**
 ```
 <project-name>/
 ├── build.gradle.kts
@@ -149,9 +148,9 @@ build/
 .DS_Store
 ```
 
-### Bei `--uv`: Python Projekt
+### For `--uv`: Python Project
 
-Verwende `uv init` falls verfügbar, sonst manuell:
+Use `uv init` if available, otherwise create manually:
 
 ```bash
 uv init <project-name> || mkdir -p src/<package_name> tests
@@ -159,21 +158,21 @@ uv init <project-name> || mkdir -p src/<package_name> tests
 
 ---
 
-## Schritt 5: Community Standards erstellen
+## Step 5: Create Community Standards
 
-Erstelle diese Dateien in jedem Projekt:
+Create these files in every project:
 
-- **LICENSE** (MIT als Standard)
-- **README.md** (mit Badges und Struktur)
+- **LICENSE** (MIT as default)
+- **README.md** (with badges and structure)
 - **CONTRIBUTING.md** (Contribution Guidelines)
 - **CODE_OF_CONDUCT.md** (Contributor Covenant 2.1)
 - **SECURITY.md** (Security Policy)
 
 ---
 
-## Schritt 6: GitHub Templates erstellen
+## Step 6: Create GitHub Templates
 
-Erstelle `.github/` Verzeichnis mit:
+Create `.github/` directory with:
 
 - **ISSUE_TEMPLATE/bug_report.yml**
 - **ISSUE_TEMPLATE/feature_request.yml**
@@ -182,64 +181,64 @@ Erstelle `.github/` Verzeichnis mit:
 
 ---
 
-## Schritt 7: Initialen Commit erstellen
+## Step 7: Create Initial Commit
 
-**WICHTIG: Verwende IMMER den `/git-workflow:commit` Command!**
+**IMPORTANT: ALWAYS use the `/git-workflow:commit` command!**
 
-Rufe den Skill auf:
+Invoke the skill:
 ```
 /git-workflow:commit
 ```
 
-Der Commit-Skill wird:
-1. Alle Dateien stagen
-2. Pre-Commit-Checks durchführen
-3. Einen professionellen Commit erstellen mit Emoji Conventional Commit Format
+The commit skill will:
+1. Stage all files
+2. Run pre-commit checks
+3. Create a professional commit with Emoji Conventional Commit format
 
-**NIEMALS direkt `git commit` verwenden!**
+**NEVER use `git commit` directly!**
 
 ---
 
-## Schritt 8: Main Branch erstellen
+## Step 8: Create Main Branch
 
-Nach dem initialen Commit auf develop:
+After the initial commit on develop:
 
 ```bash
-# Main Branch von develop erstellen (synchron)
+# Create main branch from develop (synchronized)
 git branch main
 ```
 
 ---
 
-## Schritt 9: Abschluss
+## Step 9: Completion
 
-Zeige dem User:
+Display to the user:
 
 ```
-✓ Git-Repository initialisiert
-✓ Branch 'develop' erstellt (aktiv)
-✓ Projektstruktur generiert (<Projekttyp>)
-✓ Community Standards erstellt
-✓ GitHub Templates erstellt
-✓ Initialer Commit erstellt (via /git-workflow:commit)
-✓ Branch 'main' erstellt (synchron mit develop)
+Git repository initialized
+Branch 'develop' created (active)
+Project structure generated (<project-type>)
+Community standards created
+GitHub templates created
+Initial commit created (via /git-workflow:commit)
+Branch 'main' created (synchronized with develop)
 
-📁 Projekt bereit: <project-name>/
-   Branch: develop (aktiv)
+Project ready: <project-name>/
+   Branch: develop (active)
 
-   Nächste Schritte:
+   Next steps:
    - Java: ./gradlew build
    - Python: uv venv && source .venv/bin/activate
 ```
 
 ---
 
-## Zusammenfassung der wichtigsten Regeln
+## Summary of Key Rules
 
-| Regel | Beschreibung |
-|-------|--------------|
-| **Gradle, nicht Maven** | Java-Projekte verwenden IMMER Gradle Kotlin DSL |
-| **Commit via Skill** | Initialer Commit IMMER über `/git-workflow:commit` |
-| **develop → main** | Standard-Branching-Strategie |
-| **Java 21** | Aktuelle LTS-Version |
-| **JUnit 5** | Standard Test-Framework |
+| Rule | Description |
+|------|-------------|
+| **Gradle, not Maven** | Java projects ALWAYS use Gradle Kotlin DSL |
+| **Commit via skill** | Initial commit ALWAYS via `/git-workflow:commit` |
+| **develop -> main** | Default branching strategy |
+| **Java 21** | Current LTS version |
+| **JUnit 5** | Standard test framework |

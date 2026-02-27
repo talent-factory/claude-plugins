@@ -84,7 +84,7 @@ The repository has no build/compile step. Validation is done via GitHub Actions:
 
 # Checks performed:
 # - JSON syntax in plugin.json files
-# - Required fields (name, version, displayName)
+# - Required fields (name, version, description)
 # - Directory structure compliance
 # - README presence
 # - Markdown link validity
@@ -117,14 +117,14 @@ The repository has no build/compile step. Validation is done via GitHub Actions:
 
 ### Commit Format
 
-Use Emoji Conventional Commits (German imperative):
+Use Emoji Conventional Commits:
 
 ```
-🎉 feat: Füge Python Tutor Agent hinzu
-🐛 fix: Behebe Commit-Validierungsfehler
-📚 docs: Aktualisiere Installation-Guide
-♻️ refactor: Vereinfache PR-Template
-🧪 test: Ergänze Plugin-Struktur-Tests
+🎉 feat: Add Python Tutor agent
+🐛 fix: Resolve commit validation error
+📚 docs: Update installation guide
+♻️ refactor: Simplify PR template
+🧪 test: Add plugin structure tests
 ```
 
 **Important:** Do NOT add these suffixes to commits:
@@ -149,10 +149,9 @@ Use Emoji Conventional Commits (German imperative):
    {
      "name": "your-plugin",
      "version": "1.0.0",
-     "displayName": "Your Plugin",
      "description": "Brief description",
      "keywords": ["tag1", "tag2"],
-     "author": "Name",
+     "author": { "name": "Your Name", "email": "you@example.com" },
      "license": "MIT"
    }
    ```
@@ -261,8 +260,10 @@ Auto-labels PRs based on:
 
 1. Update `version` in `plugins/PLUGIN-NAME/.claude-plugin/plugin.json`
 2. Update corresponding entry in `.claude-plugin/marketplace.json`
-3. Update `CHANGELOG.md` with changes
-4. Follow semantic versioning (MAJOR.MINOR.PATCH)
+3. Update version in `plugins/PLUGIN-NAME/README.md` header and changelog
+4. Update version in `docs/plugins/index.md`
+5. Update `CHANGELOG.md` with changes
+6. Follow semantic versioning (MAJOR.MINOR.PATCH)
 
 ### Add a New Plugin to Marketplace
 
@@ -292,14 +293,14 @@ The education plugin (Java Tutor agent) is tailored for students. It references 
 
 ### Documentation Language
 
-**Primary Language:** All new documentation must be written in **professional English at an academic level**.
+**Language Policy:** All documentation, descriptions, and content must be written in **professional English at an academic level**.
 
 - Use formal, precise terminology appropriate for technical documentation
 - Maintain consistent academic tone throughout
 - Avoid colloquialisms and informal expressions
 - Structure content with clear logical flow
 
-**Exception for German Content:** When German is required, use **Swiss orthography**:
+**Swiss German Orthography (legacy transition):** Where German text has not yet been translated, use Swiss orthography during the transition period:
 
 - **Umlaute**: Use proper umlauts (ä, ö, ü), not substitutions (ae, oe, ue)
 - **Eszett**: Never use "ß", always use "ss" (e.g., "gross" not "groß", "übermässig" not "übermäßig")
@@ -307,3 +308,5 @@ The education plugin (Java Tutor agent) is tailored for students. It references 
   - ✅ "grösste", "übermässig", "schliesslich", "Strasse"
   - ❌ "größte", "übermäßig", "schließlich", "Straße"
   - ❌ "groesste", "uebermaessig", "schliesslich"
+
+**Note:** Use `/validate-marketplace --section language` to identify remaining non-English content.

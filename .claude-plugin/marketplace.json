@@ -1,4 +1,5 @@
 {
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "talent-factory",
   "version": "1.1.0",
   "owner": {
@@ -9,9 +10,10 @@
   "plugins": [
     {
       "name": "git-workflow",
-      "description": "Professional git workflow with automated pre-commit checks, emoji conventional commits, PR management, intelligent merge conflict resolution, and comprehensive references",
+      "description": "Professional git commands with automated pre-commit checks, emoji conventional commits, PR creation, edit history, and intelligent merge conflict resolution. Includes comprehensive references, best practices, and professional workflow skills.",
       "source": "./plugins/git-workflow",
-      "version": "2.2.0",
+      "category": "development",
+      "version": "2.2.1",
       "tags": [
         "git",
         "workflow",
@@ -28,7 +30,8 @@
       "name": "project-management",
       "description": "Comprehensive project management with PRD generation, project planning, single-task initialization with duplicate detection and ATOMIC validation, intelligent task implementation with plugin orchestration (Superpowers brainstorm, agent routing, quality gate), autonomous EPIC automation, Linear integration, and git worktree workflow for agile development",
       "source": "./plugins/project-management",
-      "version": "2.6.0",
+      "category": "productivity",
+      "version": "2.6.1",
       "tags": [
         "planning",
         "prd",
@@ -43,9 +46,10 @@
     },
     {
       "name": "code-quality",
-      "description": "Comprehensive code quality with Python linting and expert agents for Python and Frontend development",
+      "description": "Comprehensive code quality tools with Python linting, code review, and expert agents for Python and Frontend development",
       "source": "./plugins/code-quality",
-      "version": "3.0.0",
+      "category": "development",
+      "version": "3.0.1",
       "tags": [
         "review",
         "quality",
@@ -60,7 +64,8 @@
       "name": "education",
       "description": "Teaching aids with Java Tutor agent, Markdown syntax formatter agent and skill, and code explanation for IT education",
       "source": "./plugins/education",
-      "version": "1.3.1",
+      "category": "learning",
+      "version": "1.3.2",
       "tags": [
         "education",
         "teaching",
@@ -72,9 +77,10 @@
     },
     {
       "name": "core",
-      "description": "Comprehensive development utilities with 7 commands, 2 skills, and 2 expert agents for plugin/command/agent development, validation, CI automation, text humanization, and PDF-to-Markdown conversion",
+      "description": "Comprehensive development utilities for plugin/command/agent development, validation, CI automation, text humanization, and PDF-to-Markdown conversion with expert agents",
       "source": "./plugins/core",
-      "version": "3.1.0",
+      "category": "development",
+      "version": "3.1.1",
       "tags": [
         "utilities",
         "validation",
@@ -89,9 +95,10 @@
     },
     {
       "name": "obsidian",
-      "description": "Obsidian Integration - Task management via TaskNotes Plugin API with natural language support and vault-wide scanning",
+      "description": "Integration with Obsidian via TaskNotes Plugin API - task management directly from Claude Code",
       "source": "./plugins/obsidian",
-      "version": "1.1.1",
+      "category": "productivity",
+      "version": "1.1.2",
       "tags": [
         "obsidian",
         "tasks",
@@ -103,9 +110,10 @@
     },
     {
       "name": "development",
-      "description": "Expert development agents, project initialization with Git branching, Java/Gradle, Python/uv, and documentation synchronization tools",
+      "description": "Expert development agents, project initialization with Git branching, Gradle Kotlin DSL, Python/uv support, and documentation synchronization tools",
       "source": "./plugins/development",
-      "version": "1.3.0",
+      "category": "development",
+      "version": "1.3.1",
       "tags": [
         "java",
         "gradle",

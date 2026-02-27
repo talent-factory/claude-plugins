@@ -1,81 +1,81 @@
 ---
 name: update-documents
-description: Synchronisiert Dokumentation zwischen CLAUDE.md, README.md und docs/. Verwende diesen Skill um Dokumentations-Inkonsistenzen zu beheben.
+description: Synchronizes documentation between CLAUDE.md, README.md, and docs/. Resolves documentation inconsistencies across project files with configurable sync rules and whitespace-tolerant comparison.
 ---
 
 # Update Documentation
 
-Synchronisiere die Projekt-Dokumentation automatisch zwischen den verschiedenen Dokumentationsdateien.
+Automatically synchronize project documentation between the various documentation files.
 
-## Sync-Regeln
+## Sync Rules
 
-| Source | Abschnitt | Targets |
-|--------|-----------|---------|
+| Source | Section | Targets |
+|--------|---------|---------|
 | CLAUDE.md | Tech Stack | README.md, docs/index.md |
 | CLAUDE.md | Development Commands | README.md, docs/development/local-setup.md |
 | CLAUDE.md | Project Structure | README.md |
 | README.md | Quick Start | docs/getting-started/quickstart.md |
 
-**Prinzip:** CLAUDE.md ist die technische Source of Truth, README.md das User-facing Einstiegsdokument.
+**Principle:** CLAUDE.md is the technical source of truth; README.md is the user-facing entry document.
 
 ## Workflow
 
-### 1. Analyse ausführen
+### 1. Run Analysis
 
-Prüfe zuerst den aktuellen Sync-Status:
+First check the current sync status:
 
 ```bash
 cd ${PROJECT_ROOT} && python ${SKILL_DIR}/scripts/main.py --analyze
 ```
 
-### 2. Output interpretieren
+### 2. Interpret Output
 
-Das Script zeigt:
+The script displays:
 
-- ✓ Synchron: Abschnitte sind identisch
-- ⚠ Veraltet: Target weicht von Source ab
-- ✗ Fehlend: Section existiert nicht
+- Synchronized: sections are identical
+- Outdated: target differs from source
+- Missing: section does not exist
 
-### 3. Bei Unterschieden synchronisieren
+### 3. Synchronize When Differences Are Found
 
-Wenn Unterschiede gefunden wurden:
+If differences were found:
 
 ```bash
 cd ${PROJECT_ROOT} && python ${SKILL_DIR}/scripts/main.py --sync
 ```
 
-### 4. Ergebnis prüfen
+### 4. Review Results
 
-Nach dem Sync:
+After synchronization:
 
-- Prüfe die aktualisierten Dateien auf korrekte Formatierung
-- Stelle sicher, dass keine kontextspezifischen Anpassungen verloren gingen
-- Bei Bedarf: Manuelle Nachbearbeitung für Target-spezifische Formulierungen
+- Check the updated files for correct formatting
+- Ensure no context-specific adjustments were lost
+- If needed: manual post-processing for target-specific phrasing
 
-### 5. Zusammenfassung ausgeben
+### 5. Output Summary
 
-Gib dem User eine kurze Zusammenfassung:
+Provide the user with a brief summary:
 
 ```
-✓ Dokumentation synchronisiert
+Documentation synchronized
 
-Aktualisiert:
+Updated:
   - README.md: Tech Stack, Development
   - docs/index.md: Tech Stack
 
-Unverändert:
+Unchanged:
   - docs/getting-started/quickstart.md
 ```
 
-## Konfiguration anpassen
+## Customize Configuration
 
-Die Sync-Regeln sind in `${SKILL_DIR}/config/sync_rules.json` definiert.
+The sync rules are defined in `${SKILL_DIR}/config/sync_rules.json`.
 
-Neue Regel hinzufügen:
+Add a new rule:
 
 ```json
 {
-  "id": "neue-regel",
+  "id": "new-rule",
   "source": {"file": "SOURCE.md", "section": "Section Name"},
   "targets": [
     {"file": "TARGET.md", "section": "Target Section"}
@@ -83,9 +83,9 @@ Neue Regel hinzufügen:
 }
 ```
 
-## Hinweise
+## Notes
 
-- **Keine automatischen Commits**: Der Skill ändert nur Dateien, committed nicht
-- **Whitespace-tolerant**: Kleine Formatierungsunterschiede werden ignoriert
-- **Section-Matching**: Case-insensitive Heading-Suche
-- **Backup**: Bei Bedarf manuell erstellen vor dem Sync
+- **No automatic commits**: The skill only modifies files, it does not commit
+- **Whitespace-tolerant**: Minor formatting differences are ignored
+- **Section matching**: Case-insensitive heading search
+- **Backup**: Create manually before synchronization if needed

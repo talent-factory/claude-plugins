@@ -1,7 +1,9 @@
 {
   "name": "code-quality",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Comprehensive code quality tools with Python linting, code review, and expert agents for Python and Frontend development",
+  "keywords": ["review", "quality", "refactoring", "best-practices", "python", "react", "linting"],
+  "license": "MIT",
   "author": {
     "name": "Talent Factory GmbH",
     "email": "support@talent-factory.ch"

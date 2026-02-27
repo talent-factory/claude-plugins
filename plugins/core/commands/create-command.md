@@ -1,64 +1,64 @@
 ---
-description: Erstelle einen neuen Befehl nach existierenden Mustern und Organisationsstruktur
+description: Create a new command following existing patterns and organizational structure
 category: project-task-management
 allowed-tools: Read, Write, Edit, LS, Glob
 ---
 
-# Neuen Befehl erstellen
+# Create New Command
 
-Erstelle einen neuen Befehl der den existierenden Mustern und der Organisationsstruktur in diesem Projekt folgt.
+Create a new command that follows the existing patterns and organizational structure in this project.
 
-## EXISTIERENDE BEFEHLE ANALYSIEREN
+## ANALYZE EXISTING COMMANDS
 
-1. Studiere zuerst die existierenden Befehle im `.claude/commands/` Verzeichnis um zu verstehen:
-   - Häufige Muster und Strukturen
-   - Namenskonventionen
-   - Dokumentationsstile
-   - Befehlsorganisation
+1. First study the existing commands in the `.claude/commands/` directory to understand:
+   - Common patterns and structures
+   - Naming conventions
+   - Documentation styles
+   - Command organization
 
-2. Verwende MCP-Tools um die Codebase zu erkunden und zu verstehen:
-   - Projektstruktur
-   - Existierende Funktionalität
-   - Code-Muster
-   - Abhängigkeiten
+2. Use MCP tools to explore the codebase and understand:
+   - Project structure
+   - Existing functionality
+   - Code patterns
+   - Dependencies
 
-## ANFRAGE VERSTEHEN
+## UNDERSTAND THE REQUEST
 
-1. Analysiere die Benutzeranfrage um zu bestimmen:
-   - Zweck und Funktionalität des Befehls
-   - Zu welcher Kategorie er gehört
-   - Ähnliche existierende Befehle als Referenz
-   - Erforderliche Eingaben und Ausgaben
+1. Analyze the user request to determine:
+   - Purpose and functionality of the command
+   - Which category it belongs to
+   - Similar existing commands for reference
+   - Required inputs and outputs
 
-## PASSENDE MUSTER AUSWÄHLEN
+## SELECT MATCHING PATTERNS
 
-1. Basierend auf deiner Analyse, wähle das passendste Muster:
-   - Einfache Ausführungsbefehle
-   - Dateigenerierungsbefehle
-   - Analyse- und Berichtsbefehle
-   - Mehrstufige Workflow-Befehle
+1. Based on your analysis, select the most appropriate pattern:
+   - Simple execution commands
+   - File generation commands
+   - Analysis and report commands
+   - Multi-step workflow commands
 
-## UNTERSTÜTZENDE RESSOURCEN PLANEN
+## PLAN SUPPORTING RESOURCES
 
-1. Berücksichtige welche unterstützenden Ressourcen benötigt werden könnten:
-   - Templates oder Beispieldateien
-   - Konfigurationsdateien
-   - Dokumentations-Updates
-   - Verwandte Befehle die zusammenarbeiten könnten
+1. Consider which supporting resources might be needed:
+   - Templates or example files
+   - Configuration files
+   - Documentation updates
+   - Related commands that could work together
 
-## BEFEHL ERSTELLEN
+## CREATE COMMAND
 
-1. Schreibe den Befehl nach diesen Richtlinien:
-   - Verwende klare, beschreibende Namen
-   - Füge umfassende Anweisungen hinzu
-   - Folge existierenden Formatierungsmustern
-   - Füge passende Beispiele hinzu
-   - Berücksichtige Fehlerbehandlung
+1. Write the command following these guidelines:
+   - Use clear, descriptive names
+   - Add comprehensive instructions
+   - Follow existing formatting patterns
+   - Include appropriate examples
+   - Consider error handling
 
-## MENSCHLICHE ÜBERPRÜFUNG
+## HUMAN REVIEW
 
-1. Präsentiere deine Analyse und den vorgeschlagenen Befehl dem Menschen zur Überprüfung vor der Implementierung, einschließlich:
-   - Befehlszweck und -position
-   - Schlüsselmuster denen du folgst
-   - Annahmen die du machst
-   - Fragen zu spezifischen Anforderungen
+1. Present your analysis and the proposed command to the human for review before implementation, including:
+   - Command purpose and location
+   - Key patterns you are following
+   - Assumptions you are making
+   - Questions about specific requirements

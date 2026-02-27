@@ -1,6 +1,6 @@
 ---
 name: tasknotes
-description: Use this skill when the user asks to "show my tasks", "create a task", "what should I work on", "mark as done", or wants to filter tasks by status/project.
+description: Manages tasks in Obsidian via the TaskNotes Plugin HTTP API. Provides task creation, status updates, filtering by project or status, and vault-wide scanning. Triggers when the user asks to "show my tasks", "create a task", "what should I work on", "mark as done", or wants to filter tasks by status/project.
 ---
 
 # TaskNotes Skill

@@ -202,7 +202,7 @@ git rebase -i HEAD~3
 # Markiere Commits als 'squash'
 ```
 
-### ❌ Zu große Commits
+### ❌ Zu grosse Commits
 
 **Problem**: 50+ Dateien in einem Commit
 
@@ -268,7 +268,7 @@ fix-login                   # ❌ Zu generisch
 new-stuff                   # ❌ Nicht aussagekräftig
 ```
 
-**Regelmäßig aufräumen**:
+**Regelmässig aufräumen**:
 
 ```bash
 git branch --merged | grep -v main | xargs git branch -d

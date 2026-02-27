@@ -1,5 +1,5 @@
 ---
-description: Analysiere und loese Merge-Konflikte intelligent mit automatischer Test-Validierung
+description: Analyze and resolve merge conflicts intelligently with automated test validation
 category: develop
 argument-hint: "[PR-Nr|Branch] [--target develop] [--dry-run] [--no-tests] [--strategy ours|theirs|smart]"
 allowed-tools:
@@ -11,177 +11,177 @@ allowed-tools:
   - Grep
 ---
 
-# Claude Command: Merge-Konflikte loesen
+# Claude Command: Resolve Merge Conflicts
 
-Analysiere und loese Merge-Konflikte intelligent mit automatischer Ursachenanalyse, semantischer Code-Zusammenfuehrung und Test-Validierung.
+Analyze and resolve merge conflicts intelligently with automatic root cause analysis, semantic code merging, and test validation.
 
-**Alle Ausgaben und Commit-Nachrichten werden in Deutsch verfasst.**
+**All output and commit messages are written in German.**
 
-## Verwendung
+## Usage
 
-Standard (aktuellen Branch mit Target mergen):
+Standard (merge current branch with target):
 
 ```bash
 /git-workflow:resolve-conflicts
 ```
 
-Mit Optionen:
+With options:
 
 ```bash
-/git-workflow:resolve-conflicts --target develop          # Ziel-Branch (Standard: develop)
-/git-workflow:resolve-conflicts --dry-run                 # Nur Analyse, keine Aenderungen
-/git-workflow:resolve-conflicts --no-tests                # Tests ueberspringen
-/git-workflow:resolve-conflicts --strategy smart          # Strategie: smart (Standard), ours, theirs
-/git-workflow:resolve-conflicts feature/task-009          # Spezifischen Branch angeben
-/git-workflow:resolve-conflicts 42                        # PR-Nummer angeben
+/git-workflow:resolve-conflicts --target develop          # Target branch (default: develop)
+/git-workflow:resolve-conflicts --dry-run                 # Analysis only, no changes
+/git-workflow:resolve-conflicts --no-tests                # Skip tests
+/git-workflow:resolve-conflicts --strategy smart          # Strategy: smart (default), ours, theirs
+/git-workflow:resolve-conflicts feature/task-009          # Specify branch
+/git-workflow:resolve-conflicts 42                        # Specify PR number
 ```
 
-## Parameter
+## Parameters
 
-| Parameter | Beschreibung | Standard |
-|-----------|-------------|----------|
-| `[Branch\|PR-Nr]` | Zu mergender Branch oder PR-Nummer | Aktueller Branch |
-| `--target` | Ziel-Branch von dem gemerged wird | `develop` |
-| `--dry-run` | Nur analysieren, keine Aenderungen | `false` |
-| `--no-tests` | Test-Ausfuehrung ueberspringen | `false` |
-| `--strategy` | Loesungsstrategie: `smart`, `ours`, `theirs` | `smart` |
+| Parameter | Description | Default |
+|-----------|-------------|---------|
+| `[Branch\|PR-Nr]` | Branch to merge or PR number | Current branch |
+| `--target` | Target branch to merge from | `develop` |
+| `--dry-run` | Analyze only, no changes | `false` |
+| `--no-tests` | Skip test execution | `false` |
+| `--strategy` | Resolution strategy: `smart`, `ours`, `theirs` | `smart` |
 
 ## Workflow
 
-### Schritt 1: Umgebung erkennen
+### Step 1: Detect Environment
 
-- Pruefe ob wir in einem Worktree sind: `git rev-parse --show-toplevel` und `git worktree list`
-- Pruefe auf uncommitted Changes: `git status --porcelain`
-  - Falls vorhanden: **HALT** - Benutzer muss zuerst committen oder stashen
-- Erkenne Projekttyp anhand vorhandener Dateien:
-  - `pyproject.toml` / `setup.py` → Python
-  - `package.json` → Frontend/Node
-  - `pom.xml` / `build.gradle` → Java
-- Merke erkannten Projekttyp fuer Schritte 7-8
+- Check if operating in a worktree: `git rev-parse --show-toplevel` and `git worktree list`
+- Check for uncommitted changes: `git status --porcelain`
+  - If present: **HALT** - user must commit or stash first
+- Detect project type based on existing files:
+  - `pyproject.toml` / `setup.py` -> Python
+  - `package.json` -> Frontend/Node
+  - `pom.xml` / `build.gradle` -> Java
+- Record detected project type for steps 7-8
 
-### Schritt 2: Eingabe parsen
+### Step 2: Parse Input
 
-- **Kein Argument**: Verwende aktuellen Branch, merge vom `--target` (Standard: `develop`)
-- **Branch-Name** (z.B. `feature/task-009`): Checke diesen Branch aus
-- **PR-Nummer** (z.B. `42`): Ermittle Branch via `gh pr view 42 --json headRefName -q .headRefName`
-- Parse alle Flags: `--target`, `--dry-run`, `--no-tests`, `--strategy`
+- **No argument**: Use current branch, merge from `--target` (default: `develop`)
+- **Branch name** (e.g., `feature/task-009`): Check out this branch
+- **PR number** (e.g., `42`): Determine branch via `gh pr view 42 --json headRefName -q .headRefName`
+- Parse all flags: `--target`, `--dry-run`, `--no-tests`, `--strategy`
 
-### Schritt 3: Konflikte erkennen
+### Step 3: Detect Conflicts
 
 ```bash
-# Remote aktualisieren
+# Update remote
 git fetch origin
 
-# Merge-Base bestimmen
+# Determine merge base
 git merge-base HEAD origin/<target>
 
-# Nicht-destruktiven Merge starten
+# Start non-destructive merge
 git merge --no-commit --no-ff origin/<target>
 ```
 
-- Falls **keine Konflikte**: Merge abbrechen (`git merge --abort`), Meldung ausgeben, fertig
-- Falls **Konflikte**: Konfliktdateien sammeln via `git diff --name-only --diff-filter=U`
-- Ausgabe: Tabelle mit allen Konfliktdateien und ihrer Kategorie
+- If **no conflicts**: Abort merge (`git merge --abort`), display message, done
+- If **conflicts**: Collect conflict files via `git diff --name-only --diff-filter=U`
+- Output: Table with all conflict files and their category
 
-### Schritt 4: Konflikt-Ursachen analysieren
+### Step 4: Analyze Conflict Causes
 
-Fuer jede Konfliktdatei:
+For each conflict file:
 
-1. **Merge-Base analysieren**: `git diff <merge-base>..HEAD -- <datei>` (unsere Aenderungen)
-2. **Target-Aenderungen**: `git diff <merge-base>..origin/<target> -- <datei>` (ihre Aenderungen)
-3. **Ursache identifizieren**:
-   - Gleiche Zeilen geaendert → Inhaltlicher Konflikt
-   - Benachbarte Aenderungen → Kontextkonflikt
-   - Strukturelle Aenderungen (Imports, Exports) → Additive Zusammenfuehrung moeglich
-4. **PR/Commit-Quelle identifizieren**: `git log --oneline <merge-base>..origin/<target> -- <datei>`
+1. **Analyze merge base**: `git diff <merge-base>..HEAD -- <file>` (our changes)
+2. **Target changes**: `git diff <merge-base>..origin/<target> -- <file>` (their changes)
+3. **Identify cause**:
+   - Same lines modified -> Content conflict
+   - Adjacent changes -> Context conflict
+   - Structural changes (imports, exports) -> Additive merge possible
+4. **Identify PR/commit source**: `git log --oneline <merge-base>..origin/<target> -- <file>`
 
-**Ausgabe**:
+**Output**:
 
 ```
-Datei                          | Ursache              | Quelle           | Risiko
--------------------------------|----------------------|------------------|--------
-src/api/auth/__init__.py       | Import-Erweiterung   | task-006 + 007   | Niedrig
-src/api/routes/v1/__init__.py  | Route-Registrierung  | task-006 + 007   | Niedrig
-alembic/versions/...           | Revision-Chain       | task-003         | Mittel
-src/services/email.py          | Logik-Aenderung      | task-007         | Hoch
+File                           | Cause               | Source           | Risk
+-------------------------------|---------------------|------------------|--------
+src/api/auth/__init__.py       | Import extension    | task-006 + 007   | Low
+src/api/routes/v1/__init__.py  | Route registration  | task-006 + 007   | Low
+alembic/versions/...           | Revision chain      | task-003         | Medium
+src/services/email.py          | Logic change        | task-007         | High
 ```
 
-**Bei `--dry-run`**: Nach diesem Schritt `git merge --abort` ausfuehren und Bericht anzeigen. FERTIG.
+**With `--dry-run`**: After this step, execute `git merge --abort` and display report. DONE.
 
-### Schritt 5: Konflikte loesen
+### Step 5: Resolve Conflicts
 
-Konflikte werden in folgender Reihenfolge geloest (einfach → komplex):
+Conflicts are resolved in the following order (simple -> complex):
 
-#### 5a: Lock-Files (`uv.lock`, `bun.lockb`, `package-lock.json`)
+#### 5a: Lock Files (`uv.lock`, `bun.lockb`, `package-lock.json`)
 
 ```bash
 git checkout --theirs <lock-file>
 ```
 
-Anschliessend Lock-File regenerieren:
+Then regenerate the lock file:
 - Python: `uv lock`
-- Frontend: `bun install` oder `npm install`
+- Frontend: `bun install` or `npm install`
 
-Falls Regenerierung fehlschlaegt: **HALT** und Benutzer informieren.
+If regeneration fails: **HALT** and inform user.
 
-#### 5b: Konfigurationsdateien (`pyproject.toml`, `package.json`, `tsconfig.json`)
+#### 5b: Configuration Files (`pyproject.toml`, `package.json`, `tsconfig.json`)
 
-- **Union bilden**: Beide Seiten der Dependency-Listen zusammenfuehren
-- Duplikate entfernen, hoehere Version bevorzugen
-- Datei lesen, Conflict-Marker verstehen, zusammengefuehrte Version schreiben
+- **Form union**: Merge both sides of dependency lists
+- Remove duplicates, prefer higher version
+- Read file, understand conflict markers, write merged version
 
-#### 5c: Quellcode-Dateien
+#### 5c: Source Code Files
 
-Je nach `--strategy`:
+Depending on `--strategy`:
 
-- **`smart`** (Standard): Semantische Analyse
-  - **Import-Bloecke**: Beide Import-Listen zusammenfuehren, sortieren
-  - **Additive Aenderungen** (z.B. neue Funktionen, neue Routes): Beide Seiten behalten
-  - **Gleiche Stelle geaendert**: Kontext analysieren, unsere Logik priorisieren, Target-Aenderungen integrieren
-  - **Strukturelle Konflikte**: Architektur verstehen, korrekt zusammenfuehren
-- **`ours`**: Bei Konflikten unsere Version behalten (`git checkout --ours <datei>`)
-- **`theirs`**: Bei Konflikten deren Version behalten (`git checkout --theirs <datei>`)
+- **`smart`** (default): Semantic analysis
+  - **Import blocks**: Merge both import lists, sort
+  - **Additive changes** (e.g., new functions, new routes): Keep both sides
+  - **Same location modified**: Analyze context, prioritize our logic, integrate target changes
+  - **Structural conflicts**: Understand architecture, merge correctly
+- **`ours`**: Keep our version on conflicts (`git checkout --ours <file>`)
+- **`theirs`**: Keep their version on conflicts (`git checkout --theirs <file>`)
 
-#### 5d: Spezialfall Alembic-Migrationen
+#### 5d: Special Case Alembic Migrations
 
-- `down_revision`-Chain linearisieren
-- Pruefen ob mehrere Heads entstehen: `alembic heads`
-- Falls Multiple Heads: Merge-Migration erstellen
+- Linearize `down_revision` chain
+- Check if multiple heads result: `alembic heads`
+- If multiple heads: Create merge migration
 
-#### 5e: Spezialfall Architektonische Konflikte
+#### 5e: Special Case Architectural Conflicts
 
-Wenn eine Datei **grundlegend umstrukturiert** wurde (z.B. Klasse aufgeteilt, API geaendert):
-- **HALT**: Benutzer fragen wie die Zusammenfuehrung aussehen soll
-- Optionen praesentieren mit Code-Auszuegen beider Seiten
-- Erst nach Benutzer-Entscheidung fortfahren
+When a file has been **fundamentally restructured** (e.g., class split, API changed):
+- **HALT**: Ask user how the merge should look
+- Present options with code excerpts from both sides
+- Proceed only after user decision
 
-#### 5f: Test-Dateien
+#### 5f: Test Files
 
-- Beide Test-Suites zusammenfuehren
-- Test-Importe und Fixtures aus beiden Seiten behalten
-- Doppelte Test-Funktionen erkennen und Benutzer fragen
+- Merge both test suites
+- Keep test imports and fixtures from both sides
+- Detect duplicate test functions and ask user
 
-### Schritt 6: Syntaktische Validierung
+### Step 6: Syntactic Validation
 
-Nach der Aufloesung jeder Datei:
+After resolving each file:
 
 ```bash
-# Keine Conflict-Marker uebrig?
-grep -rn "<<<<<<< \|======= \|>>>>>>> " <datei>
+# No conflict markers remaining?
+grep -rn "<<<<<<< \|======= \|>>>>>>> " <file>
 
-# Python-Syntax gueltig?
-python -c "import ast; ast.parse(open('<datei>').read())"
+# Python syntax valid?
+python -c "import ast; ast.parse(open('<file>').read())"
 
-# TypeScript/JavaScript-Syntax gueltig?
-# (nur pruefen wenn tsc/node verfuegbar)
+# TypeScript/JavaScript syntax valid?
+# (only check if tsc/node available)
 ```
 
-Falls Conflict-Marker gefunden: Datei erneut analysieren und loesen.
-Falls Syntax ungueltig: Fehler anzeigen und Datei erneut bearbeiten.
+If conflict markers found: Re-analyze and resolve the file.
+If syntax invalid: Display error and re-edit the file.
 
-### Schritt 7: Tests ausfuehren (wenn nicht `--no-tests`)
+### Step 7: Run Tests (unless `--no-tests`)
 
-Basierend auf erkanntem Projekttyp:
+Based on detected project type:
 
 ```bash
 # Python
@@ -194,12 +194,12 @@ cd apps/web && bun run test:run
 mvn test
 ```
 
-- Falls **Tests bestanden**: Weiter zu Schritt 8
-- Falls **Tests fehlgeschlagen**: Fehler analysieren und versuchen zu beheben
-  - Maximal 2 Reparaturversuche
-  - Danach: **HALT** und Benutzer informieren mit Fehlerbericht
+- If **tests pass**: Proceed to step 8
+- If **tests fail**: Analyze errors and attempt to fix
+  - Maximum 2 repair attempts
+  - After that: **HALT** and inform user with error report
 
-### Schritt 8: Linting
+### Step 8: Linting
 
 ```bash
 # Python
@@ -210,102 +210,102 @@ uv run ruff format .
 cd apps/web && bun run lint
 ```
 
-Falls Linting-Fehler: Auto-Fix anwenden, bei verbleibenden Fehlern Benutzer informieren.
+If linting errors: Apply auto-fix; for remaining errors, inform user.
 
-### Schritt 9: Bericht generieren
+### Step 9: Generate Report
 
-Zusammenfassende Tabelle ausgeben:
+Output summary table:
 
 ```
-Merge-Konflikt-Bericht
-======================
+Merge Conflict Report
+=====================
 
-Target:    origin/develop → feature/task-009
-Konflikte: 4 Dateien
-Strategie: smart
+Target:    origin/develop -> feature/task-009
+Conflicts: 4 files
+Strategy:  smart
 
-Datei                          | Strategie    | Begruendung                     | Risiko
+File                           | Strategy     | Rationale                        | Risk
 -------------------------------|--------------|----------------------------------|--------
-uv.lock                       | regeneriert  | Lock-File neu generiert          | Kein
-src/api/auth/__init__.py       | smart/union  | Imports aus beiden Tasks vereint | Niedrig
-src/api/routes/v1/__init__.py  | smart/union  | Routes additiv zusammengefuehrt  | Niedrig
-src/services/email.py          | smart/ours   | Unsere Logik priorisiert         | Mittel
+uv.lock                       | regenerated  | Lock file regenerated            | None
+src/api/auth/__init__.py       | smart/union  | Imports from both tasks merged   | Low
+src/api/routes/v1/__init__.py  | smart/union  | Routes merged additively         | Low
+src/services/email.py          | smart/ours   | Our logic prioritized            | Medium
 
-Tests:  ✅ 47 bestanden, 0 fehlgeschlagen
-Lint:   ✅ Keine Fehler
+Tests:  47 passed, 0 failed
+Lint:   No errors
 ```
 
-### Schritt 10: Commit und Push
+### Step 10: Commit and Push
 
-1. **Alle aufgeloesten Dateien stagen**: `git add <dateien>`
-2. **Merge abschliessen** mit aussagekraeftiger Nachricht:
+1. **Stage all resolved files**: `git add <files>`
+2. **Complete merge** with meaningful message:
 
 ```bash
 git commit -m "$(cat <<'EOF'
-🔀 merge: Integriere develop in feature/task-009
+🔀 merge: Integrate develop into feature/task-009
 
-Konflikte in 4 Dateien aufgeloest:
-- auth/__init__.py: Import-Union aus task-006 + task-007
-- routes/v1/__init__.py: Route-Registrierung zusammengefuehrt
-- services/email.py: Logik-Merge mit Priorisierung unserer Aenderungen
-- uv.lock: Regeneriert
+Resolved conflicts in 4 files:
+- auth/__init__.py: Import union from task-006 + task-007
+- routes/v1/__init__.py: Route registration merged
+- services/email.py: Logic merge prioritizing our changes
+- uv.lock: Regenerated
 EOF
 )"
 ```
 
-3. **Push anbieten**: Benutzer fragen ob gepusht werden soll
-   - Bei Bestaetigung: `git push origin <branch>`
+3. **Offer push**: Ask user whether to push
+   - On confirmation: `git push origin <branch>`
 
-**WICHTIG:** Commit-Nachrichten enthalten KEINE automatischen Signaturen (kein Co-Authored-By, kein Generated with Claude Code).
+**IMPORTANT:** Commit messages do NOT contain automatic signatures (no Co-Authored-By, no Generated with Claude Code).
 
-## Fehlerbehandlung
+## Error Handling
 
-### Merge bereits aktiv
-
-```
-⚠️ Ein Merge ist bereits aktiv. Optionen:
-1. Merge fortsetzen: git merge --continue
-2. Merge abbrechen: git merge --abort
-```
-
-Benutzer fragen welche Aktion gewuenscht ist.
-
-### Kein Remote-Branch
+### Merge Already Active
 
 ```
-❌ Branch 'origin/<target>' nicht gefunden.
-   Verfuegbare Remote-Branches: git branch -r
+A merge is already active. Options:
+1. Continue merge: git merge --continue
+2. Abort merge: git merge --abort
 ```
 
-### Worktree ohne Remote-Tracking
+Ask user which action is desired.
+
+### No Remote Branch
 
 ```
-⚠️ Kein Tracking-Branch gesetzt.
-   Setze Tracking: git branch --set-upstream-to=origin/<branch>
+Branch 'origin/<target>' not found.
+   Available remote branches: git branch -r
 ```
 
-### Lock-File-Regenerierung fehlgeschlagen
+### Worktree Without Remote Tracking
 
 ```
-❌ Lock-File konnte nicht regeneriert werden.
-   Bitte manuell ausfuehren: uv lock / bun install
-   Dann erneut: /git-workflow:resolve-conflicts --no-tests
+No tracking branch set.
+   Set tracking: git branch --set-upstream-to=origin/<branch>
 ```
 
-### Tests fehlgeschlagen nach Aufloesung
+### Lock File Regeneration Failed
 
 ```
-❌ Tests fehlgeschlagen nach 2 Reparaturversuchen.
-   Fehlgeschlagene Tests:
+Lock file could not be regenerated.
+   Please run manually: uv lock / bun install
+   Then retry: /git-workflow:resolve-conflicts --no-tests
+```
+
+### Tests Failed After Resolution
+
+```
+Tests failed after 2 repair attempts.
+   Failed tests:
    - test_email_send: AssertionError (expected 200, got 404)
    - test_auth_flow: ImportError (missing module)
 
-   Bitte manuell pruefen und dann committen.
-   Merge-Status: Alle Konflikte aufgeloest, nicht committed.
+   Please review manually and then commit.
+   Merge status: All conflicts resolved, not committed.
 ```
 
-## Weitere Informationen
+## Additional Information
 
-- **Loesungsstrategien**: [strategies.md](../references/resolve-conflicts/strategies.md)
+- **Resolution Strategies**: [strategies.md](../references/resolve-conflicts/strategies.md)
 - **Best Practices**: [best-practices.md](../references/resolve-conflicts/best-practices.md)
 - **Troubleshooting**: [troubleshooting.md](../references/resolve-conflicts/troubleshooting.md)

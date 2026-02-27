@@ -2,7 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Claude Code](https://img.shields.io/badge/Claude%20Code-Plugins-blue)](https://claude.ai)
-[![Plugins](https://img.shields.io/badge/Plugins-6-green)](https://github.com/talent-factory/claude-plugins)
+[![Plugins](https://img.shields.io/badge/Plugins-7-green)](https://github.com/talent-factory/claude-plugins)
 
 Professional Claude Code plugins for software development and education by Talent Factory GmbH.
 
@@ -41,12 +41,20 @@ claude
 ## 📦 Available Plugins
 
 ### 🔧 Git Workflow
-Professional git commands for commits, PRs, and branch management.
+Professional git commands with automated pre-commit checks, emoji conventional commits, PR management, and intelligent merge conflict resolution.
 
 **Commands:**
 
-- `/commit` - Conventional commits with validation
-- `/create-pr` - Professional PR creation
+- `/git-workflow:commit` - Professional commits with automated checks
+- `/git-workflow:create-pr` - Branch creation, commit splitting, and PR opening
+- `/git-workflow:pr-edit-history` - Display PR description edit history
+- `/git-workflow:resolve-conflicts` - Intelligent merge conflict resolution
+
+**Skills:**
+
+- Professional Commit Workflow - Automated commit creation with project-type detection
+- Professional PR Workflow - Branch management and PR automation
+- Post-Merge Cleanup - Worktree and branch cleanup after merge
 
 [📖 Documentation](./plugins/git-workflow/README.md)
 
@@ -54,12 +62,20 @@ Professional git commands for commits, PRs, and branch management.
 
 ### 📋 Project Management
 
-PRD generation, planning, and Linear integration.
+Comprehensive project management with PRD generation, project planning, task initialization, implementation orchestration, EPIC automation, and Linear integration.
 
 **Commands:**
 
-- `/create-prd` - Generate Product Requirements Documents
-- `/create-plan` - Create project plans with Linear integration
+- `/project-management:create-prd` - Generate Product Requirements Documents
+- `/project-management:create-plan` - Create project plans (Filesystem or Linear)
+- `/project-management:init-task` - Initialize tasks with duplicate detection and ATOMIC validation
+- `/project-management:implement-task` - Implement tasks with agent routing and quality gate
+- `/project-management:implement-epic` - Autonomous EPIC implementation with parallel agents
+- `/project-management:document-handoff` - Create handoff documentation before /compact
+
+**Agents:**
+
+- Epic Orchestrator - Parallel task implementation within EPICs
 
 [📖 Documentation](./plugins/project-management/README.md)
 
@@ -67,28 +83,38 @@ PRD generation, planning, and Linear integration.
 
 ### ✨ Code Quality
 
-Code review, refactoring, and quality checks.
+Comprehensive code quality tools with Python linting and expert agents for Python and Frontend development.
 
 **Commands:**
 
-- `/review` - Comprehensive code reviews
-- `/refactor` - Guided refactoring
+- `/code-quality:ruff-check` - Lint and format Python files with Ruff
+
+**Agents:**
+
+- Code Reviewer - Proactive code review for quality, security, and maintainability
+- Python Expert - Idiomatic Python with decorators, generators, and async/await
+- Frontend Developer - Next.js applications with React, shadcn/ui, and Tailwind CSS
 
 [📖 Documentation](./plugins/code-quality/README.md)
 
 ---
 
-### 🎓 Education Tools
+### 🎓 Education
 
-Teaching aids and student support for IT education.
+Teaching aids with Java Tutor agent, Markdown syntax formatter, and code explanation for IT education.
 
 **Commands:**
 
-- `/explain-code` - Educational code explanations
+- `/education:explain-code` - Educational code explanations
 
 **Agents:**
 
-- Java Tutor - Expert Java instructor
+- Java Tutor - Expert Java programming instructor for students
+- Markdown Syntax Formatter - Converts text to proper Markdown syntax
+
+**Skills:**
+
+- Markdown Syntax Formatter - Formatting, heading hierarchies, and Swiss German orthography
 
 [📖 Documentation](./plugins/education/README.md)
 
@@ -96,30 +122,50 @@ Teaching aids and student support for IT education.
 
 ### 🛠️ Core Utilities
 
-Development utilities for plugin/command/agent development, validation, CI automation, project initialization, and text humanization.
+Comprehensive development utilities for plugin/command/agent development, validation, CI automation, text humanization, and PDF-to-Markdown conversion.
 
 **Commands:**
 
-- `/check` - Project validation without commits
-- `/check-commands` - Validate command files
-- `/check-agents` - Validate agent configurations
-- `/build-skill` - Create Claude Code Skills
-- `/package-skill` - Package skills
-- `/create-command` - Generate new commands
-- `/init-project` - Initialize OpenSource projects
-- `/run-ci` - Run CI checks locally
+- `/core:check` - Project validation without commits
+- `/core:check-commands` - Validate command files
+- `/core:check-agents` - Validate agent configurations
+- `/core:build-skill` - Create Claude Code Skills
+- `/core:package-skill` - Package skills as distributable archives
+- `/core:create-command` - Generate new commands
+- `/core:run-ci` - Run CI checks locally
 
 **Agents:**
 
 - Agent Expert - Agent design and optimization
-- Command Expert - CLI development
-- Skill Builder - Complete skill-building system
+- Command Expert - CLI command development
 
 **Skills:**
 
-- Humanizer - Text humanization and AI writing improvement
+- Humanizer - Removes AI writing patterns from text
+- PDF to Markdown - Converts PDF files with dual-mode support (fast/vision)
 
 [📖 Documentation](./plugins/core/README.md)
+
+---
+
+### 💻 Development
+
+Expert development agents, project initialization with Git branching, Gradle Kotlin DSL, Python/uv support, and documentation synchronization.
+
+**Commands:**
+
+- `/development:init-project` - Initialize open source projects with GitHub best practices
+
+**Agents:**
+
+- Java Developer - Modern Java with Streams, Concurrency, and JVM optimization
+
+**Skills:**
+
+- Professional Init-Project - Skill-based project initialization with automation
+- Update Documents - Documentation synchronization between CLAUDE.md, README.md, and docs/
+
+[📖 Documentation](./plugins/development/README.md)
 
 ---
 
@@ -203,6 +249,7 @@ Task management via TaskNotes Plugin API with natural language support (DE/EN).
     "project-management@talent-factory": true,
     "code-quality@talent-factory": true,
     "core@talent-factory": true,
+    "development@talent-factory": true,
     "obsidian@talent-factory": true
   }
 }
@@ -233,12 +280,6 @@ If you're currently using [talent-factory/dotfiles](https://github.com/talent-fa
    - Easy updates
    - Team-wide consistency
    - Better discoverability
-
-## 🛡️ Version Compatibility
-
-| Plugin | Claude Code Version | Status |
-|--------|---------------------|--------|
-| All Plugins | 1.0.0+ | ✅ Supported |
 
 ## 🤝 Contributing
 

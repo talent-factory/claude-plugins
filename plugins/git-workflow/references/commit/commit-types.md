@@ -72,7 +72,7 @@ Emoji Conventional Commit Format für konsistente Git-Historie.
 
 ```text
 ⚡ perf: Datenbank-Queries mit Indexing optimiert
-⚡ perf: Lazy Loading für große Komponenten implementiert
+⚡ perf: Lazy Loading für grosse Komponenten implementiert
 ⚡ perf: Caching-Layer für API-Responses hinzugefügt
 ```
 

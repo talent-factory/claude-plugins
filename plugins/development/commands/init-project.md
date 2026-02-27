@@ -50,24 +50,24 @@ Creates a new open source project with complete GitHub infrastructure, community
 
 ## Workflow
 
-### Bei `--with-skills` Option
+### With `--with-skills` Option
 
-Wenn `--with-skills` verwendet wird, wird der **professional-init-project Skill** aktiviert.
+When `--with-skills` is used, the **professional-init-project skill** is activated.
 
-**WICHTIGE REGELN (bei --with-skills UND Standard-Workflow):**
+**IMPORTANT RULES (for --with-skills AND standard workflow):**
 
-1. **Java-Projekte verwenden IMMER Gradle Kotlin DSL** - NIEMALS Maven!
-2. **Initialer Commit MUSS über `/git-workflow:commit` erfolgen** - NIEMALS direkt `git commit`!
-3. **Git-Branching: develop → main** ist der Standard
+1. **Java projects ALWAYS use Gradle Kotlin DSL** - NEVER Maven!
+2. **Initial commit MUST be made via `/git-workflow:commit`** - NEVER use `git commit` directly!
+3. **Git branching: develop -> main** is the default
 
-**Skill-Ausführung:**
-- Rufe den Skill `development:professional-init-project` auf
-- Der Skill führt durch alle Schritte der Projekt-Initialisierung
-- Am Ende wird `/git-workflow:commit` für den initialen Commit aufgerufen
+**Skill execution:**
+- Invoke the `development:professional-init-project` skill
+- The skill guides through all steps of project initialization
+- At the end, `/git-workflow:commit` is invoked for the initial commit
 
-**Skill-Details**: Siehe [professional-init-project SKILL.md](../skills/professional-init-project/SKILL.md)
+**Skill Details**: See [professional-init-project SKILL.md](../skills/professional-init-project/SKILL.md)
 
-### Standard Workflow (ohne `--with-skills`)
+### Standard Workflow (without `--with-skills`)
 
 ### 1. Determine Project Type
 
@@ -108,7 +108,7 @@ git checkout -b develop
 
 # ... create project files ...
 
-# Initial commit on develop - WICHTIG: Verwende /git-workflow:commit!
+# Initial commit on develop - IMPORTANT: Use /git-workflow:commit!
 /git-workflow:commit
 
 # Create main branch from develop (synchronized)
@@ -121,7 +121,7 @@ git branch main
 ```bash
 git init
 git branch -M main
-# Verwende /git-workflow:commit für den initialen Commit!
+# Use /git-workflow:commit for the initial commit!
 /git-workflow:commit
 ```
 
@@ -361,7 +361,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md)
 
 ### 8. Create Initial Commit
 
-**WICHTIG: Verwende IMMER `/git-workflow:commit` für den initialen Commit!**
+**IMPORTANT: ALWAYS use `/git-workflow:commit` for the initial commit!**
 
 ```bash
 # Stage all files
@@ -374,10 +374,10 @@ git add .
 git branch main
 ```
 
-Der `/git-workflow:commit` Command wird:
-- Pre-Commit-Checks durchführen (falls relevant)
-- Emoji Conventional Commit Format verwenden
-- Professionelle Commit-Nachricht generieren
+The `/git-workflow:commit` command will:
+- Run pre-commit checks (if relevant)
+- Use Emoji Conventional Commit format
+- Generate a professional commit message
 
 ### 9. Create GitHub Repository (optional)
 

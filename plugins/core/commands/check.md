@@ -1,46 +1,46 @@
 ---
-description: Führe Projekt-Checks aus und behebe Fehler ohne zu committen
+description: Run project checks and fix errors without committing
 category: code-analysis-testing
 allowed-tools: Bash, Edit, Read
 ---
 
-# Projekt-Validierung durchführen
+# Run Project Validation
 
-Führe Projekt-Validierungs-Checks durch und löse alle gefundenen Fehler.
+Execute project validation checks and resolve all errors found.
 
-## Prozess
+## Process
 
-1. **Package Manager erkennen** (für JavaScript/TypeScript Projekte):
-   - npm: Suche nach package-lock.json
-   - pnpm: Suche nach pnpm-lock.yaml
-   - yarn: Suche nach yarn.lock
-   - bun: Suche nach bun.lockb
+1. **Detect package manager** (for JavaScript/TypeScript projects):
+   - npm: Look for package-lock.json
+   - pnpm: Look for pnpm-lock.yaml
+   - yarn: Look for yarn.lock
+   - bun: Look for bun.lockb
 
-2. **Verfügbare Scripts prüfen**:
-   - package.json lesen um Check/Validierungs-Scripts zu finden
-   - Häufige Script-Namen: `check`, `validate`, `verify`, `test`, `lint`
+2. **Check available scripts**:
+   - Read package.json to find check/validation scripts
+   - Common script names: `check`, `validate`, `verify`, `test`, `lint`
 
-3. **Entsprechenden Check-Befehl ausführen**:
+3. **Execute the appropriate check command**:
    - JavaScript/TypeScript:
-     - npm: `npm run check` oder `npm test`
-     - pnpm: `pnpm check` oder `pnpm test`
-     - yarn: `yarn check` oder `yarn test`
-     - bun: `bun check` oder `bun test`
+     - npm: `npm run check` or `npm test`
+     - pnpm: `pnpm check` or `pnpm test`
+     - yarn: `yarn check` or `yarn test`
+     - bun: `bun check` or `bun test`
 
-   - Andere Sprachen:
-     - Python: `pytest`, `flake8`, `mypy`, oder `make check`
-     - Go: `go test ./...` oder `golangci-lint run`
-     - Rust: `cargo check` oder `cargo test`
-     - Ruby: `rubocop` oder `rake test`
+   - Other languages:
+     - Python: `pytest`, `flake8`, `mypy`, or `make check`
+     - Go: `go test ./...` or `golangci-lint run`
+     - Rust: `cargo check` or `cargo test`
+     - Ruby: `rubocop` or `rake test`
 
-4. **Fehler beheben**:
-   - Fehler-Output analysieren
-   - Code-Probleme, Syntax-Fehler oder Test-Failures beheben
-   - Checks nach Behebung erneut ausführen
+4. **Fix errors**:
+   - Analyze error output
+   - Fix code issues, syntax errors, or test failures
+   - Re-run checks after each fix
 
-5. **Wichtige Einschränkungen**:
-   - KEINEN Code committen
-   - KEINE Versionsnummern ändern
-   - Nur Fehler beheben um Checks zum Bestehen zu bringen
+5. **Important constraints**:
+   - Do NOT commit code
+   - Do NOT change version numbers
+   - Only fix errors to make checks pass
 
-Falls kein Check-Script existiert, führe die passendste Validierung für den Projekttyp aus.
+If no check script exists, run the most appropriate validation for the project type.

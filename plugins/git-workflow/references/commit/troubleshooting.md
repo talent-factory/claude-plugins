@@ -273,7 +273,7 @@ git commit -v              # Verbose Output
    /commit --no-verify
    ```
 
-**Warnung**: `--no-verify` nur verwenden, wenn du weißt was du tust!
+**Warnung**: `--no-verify` nur verwenden, wenn du weisst was du tust!
 
 ## Staging-Probleme
 
@@ -330,7 +330,7 @@ git add -p                   # Interactive staging
    - Option: `--skip-tests`
    - Oder: Nur relevante Tests
 
-2. **Große Datei-Anzahl**
+2. **Grosse Datei-Anzahl**
    - Linter scannen zu viele Dateien
 
    **Lösung**: Nur staged Files checken
@@ -346,9 +346,9 @@ git add -p                   # Interactive staging
 3. **Dependency-Checks**
    - Langsame Netzwerk-Operationen
 
-### Repository zu groß
+### Repository zu gross
 
-**Problem**: Große Binärdateien in History
+**Problem**: Grosse Binärdateien in History
 
 **Diagnose**:
 
@@ -356,7 +356,7 @@ git add -p                   # Interactive staging
 git count-objects -vH
 ```
 
-**Lösung**: Git LFS für große Dateien
+**Lösung**: Git LFS für grosse Dateien
 
 ```bash
 git lfs install

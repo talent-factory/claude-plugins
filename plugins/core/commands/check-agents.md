@@ -1,5 +1,5 @@
 ---
-description: Validiert Agenten-Dateien, YAML-Frontmatter (inkl. color-Attribut) und Best Practices
+description: Validate agent files, YAML frontmatter (including color attribute), and best practices
 allowed-tools:
   - Read
   - Glob
@@ -9,46 +9,46 @@ allowed-tools:
 
 # Agent Validation Tool
 
-Dieser Command validiert Claude Code Agenten auf:
+This command validates Claude Code agents for:
 
-- YAML-Frontmatter Struktur (inkl. **color-Attribut**)
-- Markdown-Syntax
-- Agent-spezifische Best Practices
-- Vollständigkeit der Dokumentation
+- YAML frontmatter structure (including **color attribute**)
+- Markdown syntax
+- Agent-specific best practices
+- Documentation completeness
 
 ## Usage
 
 ```bash
-# Spezifischen Agenten prüfen
+# Validate a specific agent
 /core:check-agents agents/claude/agents/code-reviewer.md
 
-# Oder ohne Pfad für interaktive Auswahl
+# Or without path for interactive selection
 /core:check-agents
 ```
 
-## Validierungs-Checks
+## Validation Checks
 
-### 1. YAML-Frontmatter
+### 1. YAML Frontmatter
 
 **Required**:
 
-- `name` (String, lowercase mit Bindestrichen, z.B. "code-reviewer")
-- `description` (String, 1-200 Zeichen)
-- `color` (String, eine der erlaubten Farben)
+- `name` (String, lowercase with hyphens, e.g., "code-reviewer")
+- `description` (String, 1-200 characters)
+- `color` (String, one of the permitted colors)
 
 **Optional**:
 
-- `category` (String, z.B. "quality-security", "specialized-domains")
+- `category` (String, e.g., "quality-security", "specialized-domains")
 - `model` (String: "sonnet", "opus", "haiku")
-- `tools` (Array von Tool-Namen oder Komma-separierter String)
-- `allowed-tools` (Array von Tool-Namen)
+- `tools` (Array of tool names or comma-separated string)
+- `allowed-tools` (Array of tool names)
 
 **Format**:
 
 ```yaml
 ---
 name: code-reviewer
-description: Experte für Code-Reviews mit Fokus auf Qualität und Sicherheit
+description: Expert in code reviews with focus on quality and security
 category: quality-security
 model: sonnet
 color: blue
@@ -56,183 +56,183 @@ tools: Read, Write, Grep
 ---
 ```
 
-### 2. Color-Attribut Validierung
+### 2. Color Attribute Validation
 
-**Erlaubte Farben**:
+**Permitted colors**:
 
-- `blue` - Standard für Code-/Entwicklungs-Agenten
-- `green` - Für Testing-/Validierungs-Agenten
-- `red` - Für Security-/Critical-Agenten
-- `yellow` - Für Dokumentations-Agenten
-- `purple` - Für Research-/Analyse-Agenten
-- `orange` - Für Build-/Deployment-Agenten
-- `cyan` - Für Data-/Database-Agenten
-- `magenta` - Für UI/UX-Agenten
+- `blue` - Default for code/development agents
+- `green` - For testing/validation agents
+- `red` - For security/critical agents
+- `yellow` - For documentation agents
+- `purple` - For research/analysis agents
+- `orange` - For build/deployment agents
+- `cyan` - For data/database agents
+- `magenta` - For UI/UX agents
 
 **Validation**:
 
-- ✅ Color-Attribut muss vorhanden sein
-- ✅ Color muss eine der erlaubten Farben sein
-- ✅ Color sollte zur Kategorie/Funktion passen
+- Color attribute must be present
+- Color must be one of the permitted colors
+- Color should match the category/function
 
-**Empfehlungen**:
+**Recommendations**:
 
 ```yaml
-# Gut ✅
+# Good
 name: code-reviewer
 category: quality-security
 color: blue
 
-# Gut ✅
+# Good
 name: test-automator
 category: testing
 color: green
 
-# Fehlt ❌
+# Missing
 name: markdown-formatter
 category: specialized-domains
-# KEIN color-Attribut!
+# NO color attribute!
 
-# Falsche Farbe ❌
+# Wrong color
 name: security-auditor
-color: pink  # Nicht erlaubt
+color: pink  # Not permitted
 ```
 
-### 3. Markdown-Struktur
+### 3. Markdown Structure
 
-- Muss mit Frontmatter beginnen
-- Mindestens eine H1-Überschrift (`# Agent Name`)
-- Valides CommonMark-Format
-- Klare Abschnitte (Rolle, Aktivierung, Prozess, etc.)
+- Must begin with frontmatter
+- At least one H1 heading (`# Agent Name`)
+- Valid CommonMark format
+- Clear sections (Role, Activation, Process, etc.)
 
-**Empfohlene Struktur**:
+**Recommended structure**:
 
 ```markdown
 # Agent Name
 
-[Kurze Beschreibung]
+[Brief description]
 
-## Rolle / Core Expertise
+## Role / Core Expertise
 
-[Was der Agent kann]
+[What the agent can do]
 
-## Aktivierung / Vorgehen
+## Activation / Approach
 
-[Wann und wie der Agent verwendet wird]
+[When and how the agent is used]
 
-## Prozess / Workflow
+## Process / Workflow
 
-[Schritt-für-Schritt Ablauf]
+[Step-by-step procedure]
 
-## Bereitstellung / Output
+## Deliverables / Output
 
-[Was der Agent liefert]
+[What the agent produces]
 ```
 
-### 4. Agent-spezifische Best Practices
+### 4. Agent-Specific Best Practices
 
 **Name**:
 
-- ✅ Lowercase mit Bindestrichen: `code-reviewer`
-- ❌ CamelCase oder Unterstriche: `CodeReviewer`, `code_reviewer`
-- ✅ Beschreibend und prägnant
-- ✅ Stimmt mit Dateinamen überein (ohne `.md`)
+- Lowercase with hyphens: `code-reviewer`
+- No CamelCase or underscores: `CodeReviewer`, `code_reviewer`
+- Descriptive and concise
+- Matches filename (without `.md`)
 
 **Description**:
 
-- Kurz und prägnant (1-200 Zeichen)
-- Beschreibt WAS der Agent tut
-- Optional: WANN der Agent verwendet werden soll
-- Optional: Proaktiv-Hinweis ("MUST BE USED when...", "Use PROACTIVELY...")
-- **Sprache: Deutsch** (technische Begriffe auf Englisch erlaubt)
+- Short and concise (1-200 characters)
+- Describes WHAT the agent does
+- Optional: WHEN the agent should be used
+- Optional: Proactive hint ("MUST BE USED when...", "Use PROACTIVELY...")
+- **Language: English** (technical terms in English)
 
-**Dokumentation (Markdown-Body)**:
+**Documentation (Markdown body)**:
 
-- **Primär auf Deutsch** verfasst
-- Technische Begriffe (z.B. "Code-Review", "Testing") können auf Englisch bleiben
-- Fachbegriffe (z.B. "Progressive Disclosure") auf Englisch erlaubt
-- Konsistente Sprache innerhalb eines Agenten
+- **Written primarily in English**
+- Technical terms (e.g., "Code Review", "Testing") may remain in English
+- Domain-specific terms (e.g., "Progressive Disclosure") in English permitted
+- Consistent language within an agent
 
-**Category** (optional, aber empfohlen):
+**Category** (optional, but recommended):
 
-- Gruppiert verwandte Agenten
-- Beispiele: `quality-security`, `specialized-domains`, `skill-builder`, `development`, `testing`
+- Groups related agents
+- Examples: `quality-security`, `specialized-domains`, `skill-builder`, `development`, `testing`
 
 **Model** (optional):
 
-- `sonnet` - Standard (balanced)
-- `opus` - Komplexe Aufgaben
-- `haiku` - Schnelle, einfache Aufgaben
+- `sonnet` - Default (balanced)
+- `opus` - Complex tasks
+- `haiku` - Fast, simple tasks
 
-## Validierungs-Workflow
+## Validation Workflow
 
-Wenn du diesen Command ausführst, solltest du:
+When executing this command, proceed as follows:
 
-1. **Agenten-Pfad ermitteln**:
-   - Falls kein Pfad angegeben: Alle `.md`-Dateien in `claude/agents/` listen (rekursiv)
-   - User wählt Agenten aus oder du verarbeitest alle
+1. **Determine agent path**:
+   - If no path provided: List all `.md` files in `claude/agents/` (recursive)
+   - User selects agent or process all
 
-2. **Datei einlesen**:
-   - Read-Tool verwenden
-   - Prüfen ob Datei existiert
+2. **Read file**:
+   - Use Read tool
+   - Check whether file exists
 
-3. **YAML-Frontmatter parsen**:
-   - Ersten Block zwischen `---` extrahieren
-   - Required-Felder prüfen: `name`, `description`, **`color`**
-   - Optional-Felder validieren: `category`, `model`, `tools`
-   - Format-Validierung (keine Syntax-Fehler)
+3. **Parse YAML frontmatter**:
+   - Extract first block between `---`
+   - Check required fields: `name`, `description`, **`color`**
+   - Validate optional fields: `category`, `model`, `tools`
+   - Format validation (no syntax errors)
 
-4. **Color-Attribut Check**:
-   - ❌ Fehlt color-Attribut komplett?
-   - ❌ Ist color nicht in erlaubten Farben?
-   - ⚠️ Passt color zur Kategorie/Funktion?
+4. **Color attribute check**:
+   - Is color attribute missing entirely?
+   - Is color not in permitted colors?
+   - Does color match the category/function?
 
-5. **Markdown validieren**:
-   - Mindestens eine H1-Überschrift vorhanden
-   - Name in H1 stimmt mit `name` in YAML überein (empfohlen)
-   - Grundlegende CommonMark-Struktur
+5. **Validate Markdown**:
+   - At least one H1 heading present
+   - Name in H1 matches `name` in YAML (recommended)
+   - Basic CommonMark structure
 
-6. **Name validieren**:
-   - Lowercase mit Bindestrichen
-   - Stimmt mit Dateinamen überein
+6. **Validate name**:
+   - Lowercase with hyphens
+   - Matches filename
    - Format: `[a-z][a-z0-9-]*`
 
-7. **Report ausgeben**
+7. **Output report**
 
-   **Erfolgreicher Agent**:
+   **Compliant agent**:
 
    ```markdown
    ## Validation Report: code-reviewer
 
-   ✅ YAML-Frontmatter: Valid
-   ✅ Color-Attribut: blue (valid ✓)
-   ✅ Markdown-Struktur: Valid
-   ✅ Name Convention: Valid
-   ✅ Best Practices: Compliant
+   YAML Frontmatter: Valid
+   Color Attribute: blue (valid)
+   Markdown Structure: Valid
+   Name Convention: Valid
+   Best Practices: Compliant
 
    ### Details:
-   - Name: code-reviewer (matches filename ✓)
-   - Description: "Experte für Code-Reviews..." (91 chars ✓)
-   - Category: quality-security ✓
-   - Model: sonnet ✓
-   - Color: blue (appropriate for code-review ✓)
+   - Name: code-reviewer (matches filename)
+   - Description: "Expert in code reviews..." (91 chars)
+   - Category: quality-security
+   - Model: sonnet
+   - Color: blue (appropriate for code review)
 
-   ✨ Agent is fully compliant!
+   Agent is fully compliant!
    ```
 
-   **Agent mit fehlendem Color**:
+   **Agent with missing color**:
 
    ```markdown
    ## Validation Report: markdown-syntax-formatter
 
-   ✅ YAML-Frontmatter: Valid (except color)
-   ❌ Color-Attribut: MISSING
-   ✅ Markdown-Struktur: Valid
-   ✅ Name Convention: Valid
-   ⚠️  Best Practices: Partially compliant
+   YAML Frontmatter: Valid (except color)
+   Color Attribute: MISSING
+   Markdown Structure: Valid
+   Name Convention: Valid
+   Best Practices: Partially compliant
 
    ### Issues to fix:
-   1. ❌ REQUIRED: Add 'color' field to YAML frontmatter
+   1. REQUIRED: Add 'color' field to YAML frontmatter
       Recommended: color: yellow (documentation/formatting agent)
 
    ### Recommended fix:
@@ -240,7 +240,7 @@ Wenn du diesen Command ausführst, solltest du:
    ---
    name: markdown-syntax-formatter
    category: specialized-domains
-   description: Konvertiert Text mit visueller Formatierung...
+   description: Converts text with visual formatting...
    color: yellow  # ADD THIS LINE
    ---
    ```
@@ -250,47 +250,47 @@ Wenn du diesen Command ausführst, solltest du:
    - blue: Code/Development agents
    - green: Testing/Validation agents
    - red: Security/Critical agents
-   - yellow: Documentation agents ← RECOMMENDED
+   - yellow: Documentation agents <- RECOMMENDED
    - purple: Research/Analysis agents
    - orange: Build/Deployment agents
    - cyan: Data/Database agents
    - magenta: UI/UX agents
 
-   **Agent mit ungültiger Color**:
+   **Agent with invalid color**:
 
    ```markdown
    ## Validation Report: example-agent
 
-   ✅ YAML-Frontmatter: Valid (except color)
-   ❌ Color-Attribut: INVALID ("pink" not allowed)
-   ✅ Markdown-Struktur: Valid
-   ✅ Name Convention: Valid
+   YAML Frontmatter: Valid (except color)
+   Color Attribute: INVALID ("pink" not allowed)
+   Markdown Structure: Valid
+   Name Convention: Valid
 
    ### Issues to fix:
-   1. ❌ Color "pink" is not in allowed colors list
+   1. Color "pink" is not in allowed colors list
       Change to one of: blue, green, red, yellow, purple, orange, cyan, magenta
 
    ### Recommended fix:
    Choose appropriate color based on agent function:
-   - If code-related → blue
-   - If testing-related → green
-   - If security-related → red
-   - If documentation-related → yellow
-   - If research-related → purple
+   - If code-related -> blue
+   - If testing-related -> green
+   - If security-related -> red
+   - If documentation-related -> yellow
+   - If research-related -> purple
    ```
 
-8. **Bulk-Validierung** (alle Agenten):
+8. **Bulk validation** (all agents):
 
    ```markdown
    ## Bulk Validation Report: claude/agents/
 
    Found 5 agent files:
 
-   ✅ code-reviewer.md - Fully compliant
-   ❌ markdown-syntax-formatter.md - Missing color
-   ❌ skill-documenter-agent.md - Missing color
-   ❌ skill-elicitation-agent.md - Missing color
-   ❌ skill-generator-agent.md - Missing color
+   code-reviewer.md - Fully compliant
+   markdown-syntax-formatter.md - Missing color
+   skill-documenter-agent.md - Missing color
+   skill-elicitation-agent.md - Missing color
+   skill-generator-agent.md - Missing color
 
    ### Summary:
    - Total agents: 5
@@ -300,10 +300,10 @@ Wenn du diesen Command ausführst, solltest du:
    - Other issues: 0 (0%)
 
    ### Agents needing color attribute:
-   1. markdown-syntax-formatter.md → Recommended: yellow
-   2. skill-documenter-agent.md → Recommended: yellow
-   3. skill-elicitation-agent.md → Recommended: purple
-   4. skill-generator-agent.md → Recommended: blue
+   1. markdown-syntax-formatter.md -> Recommended: yellow
+   2. skill-documenter-agent.md -> Recommended: yellow
+   3. skill-elicitation-agent.md -> Recommended: purple
+   4. skill-generator-agent.md -> Recommended: blue
 
    ### Quick fix script:
    Would you like me to add the recommended colors to all agents?
@@ -311,80 +311,80 @@ Wenn du diesen Command ausführst, solltest du:
 
 ## Error Handling
 
-- **Datei nicht gefunden**: Klare Fehlermeldung mit Pfad
-- **YAML-Parse-Fehler**: Zeige Zeile und Fehler
-- **Fehlende Required-Felder**: Liste alle fehlenden Felder (inkl. color!)
-- **Ungültige Color**: Zeige erlaubte Farben + Empfehlung
+- **File not found**: Clear error message with path
+- **YAML parse error**: Show line and error
+- **Missing required fields**: List all missing fields (including color!)
+- **Invalid color**: Show permitted colors + recommendation
 
 ## Auto-Fix Option
 
-Nach der Validierung kannst du optional anbieten:
+After validation, optionally offer:
 
 ```text
-🔧 Auto-Fix verfügbar!
+Auto-fix available!
 
-Soll ich die fehlenden color-Attribute automatisch hinzufügen?
-[Ja] Füge empfohlene Farben hinzu
-[Nein] Nur Report anzeigen
-[Manuell] Zeige mir was zu tun ist
+Should I automatically add the missing color attributes?
+[Yes] Add recommended colors
+[No] Show report only
+[Manual] Show me what to do
 ```
 
-Falls "Ja":
+If "Yes":
 
-- Analysiere Agent-Funktion aus `name` und `description`
-- Wähle passende Farbe
-- Füge `color: [farbe]` zum YAML-Frontmatter hinzu
-- Zeige Diff vor dem Schreiben
+- Analyze agent function from `name` and `description`
+- Select appropriate color
+- Add `color: [color]` to YAML frontmatter
+- Show diff before writing
 
-## Integration mit anderen Commands
+## Integration with Other Commands
 
-Dieser Command ist nützlich:
+This command is useful:
 
-- **Vor dem Commit**: Agenten validieren bevor sie commited werden
-- **Nach Änderungen**: Sicherstellen dass alle Agenten compliant sind
-- **Neue Agenten**: Initiales Setup überprüfen
-- **Bulk-Check**: Alle Agenten auf einmal prüfen
+- **Before commit**: Validate agents before committing
+- **After changes**: Ensure all agents are compliant
+- **New agents**: Verify initial setup
+- **Bulk check**: Check all agents at once
 
-## Beispiele
+## Examples
 
-**Einzelner Agent mit Color**:
+**Single agent with color**:
 
 ```text
 /core:check-agents agents/claude/agents/code-reviewer.md
-→ ✅ Fully compliant (color: blue)
+-> Fully compliant (color: blue)
 ```
 
-**Einzelner Agent ohne Color**:
+**Single agent without color**:
 
 ```text
 /core:check-agents agents/claude/agents/markdown-syntax-formatter.md
-→ ❌ Missing color attribute
-→ 💡 Recommended: yellow (documentation agent)
+-> Missing color attribute
+-> Recommended: yellow (documentation agent)
 ```
 
-**Alle Agenten prüfen**:
+**Check all agents**:
 
 ```text
 /core:check-agents
-→ Found 5 agents, 4 missing color
-→ [Bulk Report anzeigen]
+-> Found 5 agents, 4 missing color
+-> [Show bulk report]
 ```
 
-**Mit Auto-Fix**:
+**With auto-fix**:
 
 ```text
 /core:check-agents --fix
-→ Fixed 4 agents, added color attributes
-→ [Show changes]
+-> Fixed 4 agents, added color attributes
+-> [Show changes]
 ```
 
-## Color-Kategorie Mapping
+## Color-Category Mapping
 
-Zur Orientierung für Auto-Fix oder manuelle Zuweisung:
+For orientation during auto-fix or manual assignment:
 
-| Agent-Typ | Empfohlene Farbe | Beispiele |
-|-----------|------------------|-----------|
-| Code-Review, Development | `blue` | code-reviewer, developer |
+| Agent Type | Recommended Color | Examples |
+|-----------|-------------------|----------|
+| Code Review, Development | `blue` | code-reviewer, developer |
 | Testing, Validation | `green` | test-automator, validator |
 | Security, Critical | `red` | security-auditor, penetration-tester |
 | Documentation, Writing | `yellow` | documenter, markdown-formatter |
@@ -393,7 +393,7 @@ Zur Orientierung für Auto-Fix oder manuelle Zuweisung:
 | Data, Database | `cyan` | data-engineer, db-optimizer |
 | UI/UX, Design | `magenta` | ui-designer, ux-specialist |
 
-**Keywords für Auto-Detection**:
+**Keywords for auto-detection**:
 
 - Blue: "code", "review", "developer", "engineer", "refactor"
 - Green: "test", "validate", "check", "verify", "qa"
@@ -406,7 +406,7 @@ Zur Orientierung für Auto-Fix oder manuelle Zuweisung:
 
 ## Notes
 
-- Dieser Command sollte selbst Best Practices folgen ✨
-- Color-Attribut ist ab sofort REQUIRED für alle Agenten
-- Auto-Fix sollte intelligent Farben vorschlagen basierend auf Agent-Funktion
-- Bei Unsicherheit: Nutzer fragen welche Farbe gewünscht ist
+- This command should itself follow best practices
+- Color attribute is now REQUIRED for all agents
+- Auto-fix should intelligently suggest colors based on agent function
+- When uncertain: Ask user which color is desired

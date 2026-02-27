@@ -1,48 +1,52 @@
 ---
-description: Lint und format alle Python-Dateien im Projekt mit Ruff
+description: Lint and format all Python files in the project using Ruff
+allowed-tools:
+  - Bash
+  - Read
+  - Edit
 ---
 
-# Python Code Linting und Formatting mit Ruff
+# Python Code Linting and Formatting with Ruff
 
-Dieser Workflow führt Ruff Linting und Formatting auf alle Python-Dateien im Projekt aus.
+This workflow runs Ruff linting and formatting on all Python files in the project.
 
-1. Installiere Ruff falls nicht vorhanden (bevorzuge uv wenn verfügbar)
+1. Install Ruff if not present (prefer uv when available)
 
 ```bash
-# Mit uv (bevorzugt)
+# With uv (preferred)
 uv add --dev ruff
 
-# Fallback mit pip
+# Fallback with pip
 pip install ruff
 ```
 
-2. Führe Linting auf alle Python-Dateien aus
+2. Run linting on all Python files
 
 ```bash
 ruff check .
 ```
 
-3. Behebe automatisch behebbare Linting-Probleme
+3. Automatically fix resolvable linting issues
 
 ```bash
 ruff check --fix .
 ```
 
-4. Formatiere Code (ersetzt black)
+4. Format code (replaces black)
 
 ```bash
 ruff format .
 ```
 
-5. Finale Überprüfung - sowohl Linting als auch Formatting
+5. Final check - both linting and formatting
 
 ```bash
 ruff check . && ruff format --check .
 ```
 
-## Zusätzliche Optionen
+## Additional Options
 
-- `ruff check --select E,W` - Nur Fehler und Warnungen
-- `ruff check --fix --unsafe-fixes` - Auch unsichere Fixes anwenden
-- `ruff format --diff` - Zeige Änderungen ohne sie anzuwenden
-- `ruff check --statistics` - Zeige Statistiken über gefundene Probleme
+- `ruff check --select E,W` - Errors and warnings only
+- `ruff check --fix --unsafe-fixes` - Apply unsafe fixes as well
+- `ruff format --diff` - Show changes without applying them
+- `ruff check --statistics` - Show statistics on issues found

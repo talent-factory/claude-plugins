@@ -58,7 +58,7 @@ class JavaValidator(BaseValidator):
                 ["mvn", "checkstyle:check", "-q"],
                 check_name="Checkstyle",
                 success_message="Code-Style konform",
-                error_message="Style-Verstöße gefunden"
+                error_message="Style-Verstösse gefunden"
             )
             self.results.append(result)
 
@@ -102,7 +102,7 @@ class JavaValidator(BaseValidator):
                 [gradle_cmd, "checkstyleMain", "--quiet"],
                 check_name="Checkstyle",
                 success_message="Code-Style konform",
-                error_message="Style-Verstöße gefunden"
+                error_message="Style-Verstösse gefunden"
             )
             self.results.append(result)
 

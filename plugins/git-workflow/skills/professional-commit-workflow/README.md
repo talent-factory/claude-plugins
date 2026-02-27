@@ -1,115 +1,115 @@
 # Professional Commit Workflow - Skill
 
-Automatisiert den kompletten Git-Commit-Workflow mit professionellen Qualitätschecks und konventionellen Commit-Nachrichten für Java, Python, React und Dokumentations-Projekte.
+Automates the complete Git commit workflow with professional quality checks and conventional commit messages for Java, Python, React, and documentation projects.
 
 ## Features
 
-- ✅ **Automatische Projekterkennung** - Erkennt Java, Python, React, Dokumentation
-- ✅ **Pre-Commit-Validierung** - Build, Tests, Linting, Type-Checking
+- ✅ **Automatic Project Detection** - Detects Java, Python, React, documentation
+- ✅ **Pre-Commit Validation** - Build, tests, linting, type checking
 - ✅ **Emoji Conventional Commits** - ✨ feat, 🐛 fix, 📚 docs, etc.
-- ✅ **Intelligente Staging-Analyse** - Automatisches Add bei Bedarf
-- ✅ **Atomare Commit-Empfehlungen** - Erkennt multiple logische Änderungen
-- ✅ **Performance-optimiert** - Modulare Validator-Architektur
-- ✅ **Wiederverwendbar** - Funktioniert in jedem Projekt
-- ✅ **Zero Dependencies** - Nutzt nur Python Standard Library
+- ✅ **Intelligent Staging Analysis** - Automatic add when needed
+- ✅ **Atomic Commit Recommendations** - Detects multiple logical changes
+- ✅ **Performance Optimized** - Modular validator architecture
+- ✅ **Reusable** - Works in any project
+- ✅ **Zero Dependencies** - Uses only Python standard library
 
 ## Installation
 
-### 1. Skill installieren
+### 1. Install Skill
 
 ```bash
 # In Claude Code dotfiles
 cd ~/.dotfiles/agents/claude/skills
-git clone <dieses-repo> professional-commit-workflow
+git clone <this-repo> professional-commit-workflow
 
-# Oder: ZIP-Download und entpacken
+# Or: ZIP download and extract
 unzip professional-commit-workflow.zip -d ~/.dotfiles/agents/claude/skills/
 ```
 
-### 2. Python-Abhängigkeiten (optional)
+### 2. Python Dependencies (optional)
 
 ```bash
 cd professional-commit-workflow
 pip install -r requirements.txt --break-system-packages
 ```
 
-**Hinweis**: Das Skill funktioniert ohne zusätzliche Python-Pakete. `requirements.txt` enthält nur optionale Tools für erweiterte Validierung.
+**Note**: The skill works without additional Python packages. `requirements.txt` contains only optional tools for extended validation.
 
-### 3. Skill-Scripts ausführbar machen
+### 3. Make Skill Scripts Executable
 
 ```bash
 chmod +x scripts/*.py
 ```
 
-### 4. In Claude Code verwenden
+### 4. Use in Claude Code
 
-Das Skill wird automatisch von Claude erkannt und kann wie folgt verwendet werden:
-
-```
-Erstelle einen professionellen Commit für die aktuellen Änderungen
-```
-
-oder
+The skill is automatically detected by Claude and can be used as follows:
 
 ```
-Führe Pre-Commit-Checks aus und erstelle einen Commit mit Emoji Conventional Commit-Format
+Create a professional commit for the current changes
 ```
 
-## Verwendung
+or
 
-### Standard-Workflow
+```
+Run pre-commit checks and create a commit with emoji conventional commit format
+```
+
+## Usage
+
+### Standard Workflow
 
 ```bash
-# Via Python direkt
+# Via Python directly
 python scripts/main.py
 
-# Via Claude Code (empfohlen)
-# Claude: "Erstelle einen Commit mit dem professional-commit-workflow Skill"
+# Via Claude Code (recommended)
+# Claude: "Create a commit with the professional-commit-workflow skill"
 ```
 
-### Mit Optionen
+### With Options
 
 ```bash
-# Checks überspringen
+# Skip checks
 python scripts/main.py --no-verify
 
-# Nur Tests überspringen
+# Skip tests only
 python scripts/main.py --skip-tests
 
-# Nur Validierung, kein Commit
+# Validation only, no commit
 python scripts/main.py --validate-only
 
-# Mit Force-Push (Vorsicht!)
+# With force push (use with caution!)
 python scripts/main.py --force-push
 ```
 
-### Workflow-Schritte
+### Workflow Steps
 
-1. **Projekt-Detection**: Automatisch Java/Python/React/Docs erkennen
-2. **Git-Status**: Staging-Status analysieren, Auto-Add anbieten
-3. **Pre-Commit-Validierung**: Projektspezifische Checks
-   - Java: Maven/Gradle Build, Tests, Checkstyle, SpotBugs
+1. **Project Detection**: Automatically detect Java/Python/React/Docs
+2. **Git Status**: Analyze staging status, offer auto-add
+3. **Pre-Commit Validation**: Project-specific checks
+   - Java: Maven/Gradle build, tests, Checkstyle, SpotBugs
    - Python: Ruff, Black, isort, mypy, pytest
-   - React: ESLint, Prettier, TypeScript, Jest/Vitest, Build
+   - React: ESLint, Prettier, TypeScript, Jest/Vitest, build
    - Docs: LaTeX compile, markdownlint, AsciiDoc
-4. **Diff-Analyse**: Mehrere Änderungen? → Atomare Commits empfehlen
-5. **Commit-Message**: Emoji Conventional Commit generieren
-6. **Commit erstellen**: Git commit ausführen
-7. **Push anbieten**: Optional zu Remote pushen
+4. **Diff Analysis**: Multiple changes? → Recommend atomic commits
+5. **Commit Message**: Generate emoji conventional commit
+6. **Create Commit**: Execute git commit
+7. **Offer Push**: Optionally push to remote
 
-## Projektspezifische Validierung
+## Project-Specific Validation
 
-### Java-Projekte
+### Java Projects
 
-**Erkannt durch**: `pom.xml`, `build.gradle`, `build.gradle.kts`
+**Detected by**: `pom.xml`, `build.gradle`, `build.gradle.kts`
 
 **Checks**:
-- ✅ Maven/Gradle Compile
-- ✅ Unit Tests
-- ✅ Checkstyle (falls konfiguriert)
-- ✅ SpotBugs (falls konfiguriert)
+- ✅ Maven/Gradle compile
+- ✅ Unit tests
+- ✅ Checkstyle (if configured)
+- ✅ SpotBugs (if configured)
 
-**Beispiel**:
+**Example**:
 ```bash
 # Maven
 mvn compile
@@ -121,18 +121,18 @@ mvn checkstyle:check
 ./gradlew test
 ```
 
-### Python-Projekte
+### Python Projects
 
-**Erkannt durch**: `pyproject.toml`, `requirements.txt`, `setup.py`
+**Detected by**: `pyproject.toml`, `requirements.txt`, `setup.py`
 
 **Checks**:
-- ✅ Ruff Linting
-- ✅ Black Formatting
-- ✅ isort Import Sorting
-- ✅ mypy Type Checking (falls konfiguriert)
-- ✅ pytest Tests
+- ✅ Ruff linting
+- ✅ Black formatting
+- ✅ isort import sorting
+- ✅ mypy type checking (if configured)
+- ✅ pytest tests
 
-**Beispiel**:
+**Example**:
 ```bash
 ruff check .
 black --check .
@@ -141,18 +141,18 @@ mypy .
 pytest
 ```
 
-### React/Node.js-Projekte
+### React/Node.js Projects
 
-**Erkannt durch**: `package.json` mit react/next/vue/svelte
+**Detected by**: `package.json` with react/next/vue/svelte
 
 **Checks**:
 - ✅ ESLint
-- ✅ Prettier Formatting
-- ✅ TypeScript Compiler (falls tsconfig.json)
+- ✅ Prettier formatting
+- ✅ TypeScript compiler (if tsconfig.json exists)
 - ✅ Tests (Jest/Vitest)
-- ✅ Production Build
+- ✅ Production build
 
-**Beispiel**:
+**Example**:
 ```bash
 npm run lint
 npx prettier --check .
@@ -161,46 +161,46 @@ npm test
 npm run build
 ```
 
-### Dokumentations-Projekte
+### Documentation Projects
 
-**Erkannt durch**: `*.tex`, `*.md` (>2 Dateien), `*.adoc`
+**Detected by**: `*.tex`, `*.md` (>2 files), `*.adoc`
 
 **Checks**:
-- ✅ LaTeX Compilation (pdflatex/xelatex)
-- ✅ Markdown Linting (markdownlint)
-- ✅ AsciiDoc Rendering (asciidoctor)
+- ✅ LaTeX compilation (pdflatex/xelatex)
+- ✅ Markdown linting (markdownlint)
+- ✅ AsciiDoc rendering (asciidoctor)
 
-**Beispiel**:
+**Example**:
 ```bash
 pdflatex main.tex
 markdownlint **/*.md
 asciidoctor *.adoc
 ```
 
-## Konfiguration
+## Configuration
 
 ### commit_types.json
 
-Definiert Emoji-Mappings für Conventional Commits:
+Defines emoji mappings for conventional commits:
 
 ```json
 {
   "feat": {
     "emoji": "✨",
-    "description": "Neue Funktionalität"
+    "description": "New functionality"
   },
   "fix": {
     "emoji": "🐛",
-    "description": "Fehlerbehebung"
+    "description": "Bug fix"
   }
 }
 ```
 
-**Vollständige Liste**: Siehe [config/commit_types.json](config/commit_types.json)
+**Full list**: See [config/commit_types.json](config/commit_types.json)
 
 ### validation_rules.json
 
-Projektspezifische Validierungsregeln:
+Project-specific validation rules:
 
 ```json
 {
@@ -213,43 +213,43 @@ Projektspezifische Validierungsregeln:
 }
 ```
 
-**Vollständige Konfiguration**: Siehe [config/validation_rules.json](config/validation_rules.json)
+**Full configuration**: See [config/validation_rules.json](config/validation_rules.json)
 
-## Architektur
+## Architecture
 
 ```text
 professional-commit-workflow/
-├── SKILL.md                      # Skill-Definition für Claude Code
-├── README.md                     # Diese Datei
-├── requirements.txt              # Python-Dependencies (optional)
+├── SKILL.md                      # Skill definition for Claude Code
+├── README.md                     # This file
+├── requirements.txt              # Python dependencies (optional)
 │
-├── scripts/                      # Executable Scripts
-│   ├── main.py                   # Haupt-Orchestrator
-│   ├── commit_message.py         # Commit-Message-Generator
-│   ├── project_detector.py       # Projekt-Typ-Erkennung
-│   ├── git_analyzer.py           # Git-Status-Analyse
-│   ├── utils.py                  # Hilfsfunktionen
-│   └── validators/               # Projekt-Validatoren
-│       ├── base_validator.py     # Base-Klasse
+├── scripts/                      # Executable scripts
+│   ├── main.py                   # Main orchestrator
+│   ├── commit_message.py         # Commit message generator
+│   ├── project_detector.py       # Project type detection
+│   ├── git_analyzer.py           # Git status analysis
+│   ├── utils.py                  # Utility functions
+│   └── validators/               # Project validators
+│       ├── base_validator.py     # Base class
 │       ├── java_validator.py     # Java (Maven, Gradle)
 │       ├── python_validator.py   # Python (Ruff, Black, pytest)
 │       ├── react_validator.py    # React/Node.js (ESLint, TS)
-│       └── docs_validator.py     # Dokumentation (LaTeX, MD)
+│       └── docs_validator.py     # Documentation (LaTeX, MD)
 │
-├── config/                       # Konfigurationsdateien
-│   ├── commit_types.json         # Emoji Conventional Commits
-│   └── validation_rules.json     # Validierungs-Regeln
+├── config/                       # Configuration files
+│   ├── commit_types.json         # Emoji conventional commits
+│   └── validation_rules.json     # Validation rules
 │
-└── docs/                         # Migrated Documentation
-    ├── best-practices.md         # Git Commit Best Practices
-    ├── commit-types.md           # Alle Commit-Typen
-    ├── pre-commit-checks.md      # Check-Beschreibungen
-    └── troubleshooting.md        # Fehlerbehebung
+└── docs/                         # Migrated documentation
+    ├── best-practices.md         # Git commit best practices
+    ├── commit-types.md           # All commit types
+    ├── pre-commit-checks.md      # Check descriptions
+    └── troubleshooting.md        # Troubleshooting
 ```
 
-## Beispiele
+## Examples
 
-### Erfolgreicher Python-Commit
+### Successful Python Commit
 
 ```text
 $ python scripts/main.py
@@ -258,115 +258,115 @@ $ python scripts/main.py
   Professional Commit Workflow
 ============================================================
 
-✓ Projekt-Typen erkannt: python
-✓ 3 Dateien bereit zum Commit
+✓ Project types detected: python
+✓ 3 files ready for commit
   - src/api/routes.py
   - tests/test_routes.py
   - README.md
 
 ============================================================
-  Pre-Commit-Validierung
+  Pre-Commit Validation
 ============================================================
 
-✓ Ruff Linting: Keine Linting-Fehler
-✓ Black Formatting: Code korrekt formatiert
-✓ pytest: Alle Tests bestanden
+✓ Ruff Linting: No linting errors
+✓ Black Formatting: Code correctly formatted
+✓ pytest: All tests passed
 
-Validierungs-Ergebnis: 3/3 Checks bestanden
-
-============================================================
-  Diff-Analyse
-============================================================
-
-ℹ️  Dateien geändert: 3
-ℹ️  Einfügungen: +47
-ℹ️  Löschungen: -12
+Validation result: 3/3 checks passed
 
 ============================================================
-  Commit-Nachricht
+  Diff Analysis
 ============================================================
 
-ℹ️  Generiert: ✨ feat: API Routes für User-Verwaltung hinzufügen
-Commit-Nachricht verwenden? [Y/n] y
+ℹ️  Files changed: 3
+ℹ️  Insertions: +47
+ℹ️  Deletions: -12
 
 ============================================================
-  Commit erstellen
+  Commit Message
 ============================================================
 
-✓ Commit erstellt: ✨ feat: API Routes für User-Verwaltung hinzufügen
+ℹ️  Generated: ✨ feat: Add API routes for user management
+Use commit message? [Y/n] y
 
 ============================================================
-  Push zum Remote
+  Create Commit
 ============================================================
 
-Push zu 'main'? [Y/n] y
-✓ Push zu 'main' erfolgreich
+✓ Commit created: ✨ feat: Add API routes for user management
 
-✅ Commit-Workflow erfolgreich abgeschlossen
+============================================================
+  Push to Remote
+============================================================
+
+Push to 'main'? [Y/n] y
+✓ Push to 'main' successful
+
+✅ Commit workflow completed successfully
 ```
 
-### Bei Validierungs-Fehlern
+### On Validation Errors
 
 ```text
 ============================================================
-  Pre-Commit-Validierung
+  Pre-Commit Validation
 ============================================================
 
-✓ Ruff Linting: Keine Linting-Fehler
-✗ Black Formatting: Formatierungs-Fehler gefunden
+✓ Ruff Linting: No linting errors
+✗ Black Formatting: Formatting errors found
     src/api/routes.py would be reformatted
-✓ pytest: Alle Tests bestanden
+✓ pytest: All tests passed
 
-Validierungs-Ergebnis: 2/3 Checks bestanden
+Validation result: 2/3 checks passed
 
-❌ Pre-Commit-Checks fehlgeschlagen
-ℹ️  Behebe die Fehler oder verwende --no-verify zum Überspringen
+❌ Pre-commit checks failed
+ℹ️  Fix the errors or use --no-verify to skip
 ```
 
 ## Troubleshooting
 
-### Tool nicht gefunden
+### Tool Not Found
 
 **Problem**: "Command 'ruff' not found"
 
-**Lösung**: Tool installieren oder Check überspringen
+**Solution**: Install the tool or skip the check
 
 ```bash
-# Tool installieren
+# Install tool
 pip install ruff
 
-# Oder: Check überspringen
+# Or: Skip check
 python scripts/main.py --no-verify
 ```
 
-### Tests schlagen fehl
+### Tests Failing
 
-**Problem**: Tests laufen nicht durch
+**Problem**: Tests are not passing
 
-**Lösungen**:
+**Solutions**:
 
-1. **Tests fixen** (empfohlen)
-2. **Tests überspringen**: `--skip-tests`
-3. **Alle Checks überspringen**: `--no-verify`
+1. **Fix tests** (recommended)
+2. **Skip tests**: `--skip-tests`
+3. **Skip all checks**: `--no-verify`
 
 ```bash
 python scripts/main.py --skip-tests
 ```
 
-### Build-Fehler
+### Build Errors
 
-**Problem**: Maven/Gradle/npm Build schlägt fehl
+**Problem**: Maven/Gradle/npm build fails
 
-**Lösung**: Siehe [docs/troubleshooting.md](docs/troubleshooting.md)
+**Solution**: See [docs/troubleshooting.md](docs/troubleshooting.md)
 
-### Mehrere logische Änderungen
+### Multiple Logical Changes
 
-**Problem**: Skill warnt vor mehreren Änderungen in einem Commit
+**Problem**: Skill warns about multiple changes in one commit
 
-**Lösung**: Atomare Commits erstellen
+**Solution**: Create atomic commits
 
 ```bash
-# Änderungen aufteilen
+# Split changes
 git reset
 git add src/feature-a/
 git commit -m "✨ feat: Feature A"
@@ -377,77 +377,77 @@ git commit -m "✨ feat: Feature B"
 
 ## Best Practices
 
-### Atomare Commits
+### Atomic Commits
 
-✅ **Gut**: Ein Commit = Eine logische Änderung
+✅ **Good**: One commit = one logical change
 ```
-✨ feat: User-Authentifizierung hinzufügen
-🧪 test: Tests für Authentifizierung hinzufügen
-📚 docs: Auth-API dokumentieren
-```
-
-❌ **Schlecht**: Alles in einem Commit
-```
-✨ feat: Auth, Tests, Docs, Bugfixes und Refactoring
+✨ feat: Add user authentication
+🧪 test: Add tests for authentication
+📚 docs: Document auth API
 ```
 
-### Commit-Nachrichten
-
-✅ **Gut**: Imperativ, beschreibend, <72 Zeichen
+❌ **Bad**: Everything in one commit
 ```
-✨ feat: Füge Dark Mode Toggle hinzu
-🐛 fix: Behebe Speicherleck in WebSocket-Verbindungen
+✨ feat: Auth, tests, docs, bugfixes and refactoring
 ```
 
-❌ **Schlecht**: Vergangenheit, vage
+### Commit Messages
+
+✅ **Good**: Imperative, descriptive, <72 characters
 ```
-feat: Stuff hinzugefügt
+✨ feat: Add dark mode toggle
+🐛 fix: Resolve memory leak in WebSocket connections
+```
+
+❌ **Bad**: Past tense, vague
+```
+feat: Added stuff
 fix: bug
 ```
 
-### Code-Qualität
+### Code Quality
 
-✅ **Vor jedem Commit**:
-- [ ] Linting bestanden
-- [ ] Tests erfolgreich
-- [ ] Build erfolgreich
-- [ ] Keine Debug-Ausgaben
-- [ ] Keine Secrets
+✅ **Before every commit**:
+- [ ] Linting passed
+- [ ] Tests successful
+- [ ] Build successful
+- [ ] No debug output
+- [ ] No secrets
 
-**Vollständige Best Practices**: [docs/best-practices.md](docs/best-practices.md)
+**Full best practices**: [docs/best-practices.md](docs/best-practices.md)
 
 ## Documentation
 
-- **[Pre-Commit-Checks](docs/pre-commit-checks.md)** - Detaillierte Check-Beschreibungen
-- **[Commit-Types](docs/commit-types.md)** - Alle Emoji-Typen mit Beispielen
-- **[Best Practices](docs/best-practices.md)** - Git-Commit-Best-Practices
-- **[Troubleshooting](docs/troubleshooting.md)** - Fehlerbehebung
+- **[Pre-Commit Checks](docs/pre-commit-checks.md)** - Detailed check descriptions
+- **[Commit Types](docs/commit-types.md)** - All emoji types with examples
+- **[Best Practices](docs/best-practices.md)** - Git commit best practices
+- **[Troubleshooting](docs/troubleshooting.md)** - Troubleshooting guide
 
-## Migration vom /git-workflow:commit Command
+## Migration from /git-workflow:commit Command
 
-Wenn du bisher den `/git-workflow:commit` Command verwendet hast:
+If you have been using the `/git-workflow:commit` command:
 
-1. **Skill installieren** (siehe oben)
-2. **Claude verwenden**: "Erstelle Commit mit professional-commit-workflow"
-3. **Optional**: `/git-workflow:commit` Command deaktivieren oder für Legacy-Projekte behalten
+1. **Install skill** (see above)
+2. **Use Claude**: "Create a commit with the professional-commit-workflow skill"
+3. **Optional**: Disable `/git-workflow:commit` command or keep it for legacy projects
 
-**Vorteile**:
-- ✅ Wiederverwendbar über Projekte hinweg
-- ✅ Keine Duplikation von Command-Dateien
-- ✅ Einfache Updates (nur Skill updaten)
-- ✅ Distributable an andere Nutzer
+**Advantages**:
+- ✅ Reusable across projects
+- ✅ No duplication of command files
+- ✅ Easy updates (only update skill)
+- ✅ Distributable to other users
 
 ## License
 
-MIT License - Siehe [LICENSE](LICENSE) für Details.
+MIT License - See [LICENSE](LICENSE) for details.
 
 ## Contributing
 
-Contributions welcome! Siehe [CONTRIBUTING.md](CONTRIBUTING.md).
+Contributions welcome! See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Version
 
 **Version**: 1.0.0
 **Author**: talent-factory
-**Refactored from**: `/git-workflow:commit` Command
+**Refactored from**: `/git-workflow:commit` command
 **Date**: 2024-12-21

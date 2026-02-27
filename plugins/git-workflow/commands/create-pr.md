@@ -1,5 +1,5 @@
 ---
-description: Erstelle einen neuen Branch, committe Änderungen und erstelle einen Pull Request mit automatischer Commit-Aufteilung
+description: Create a new branch, commit changes, and open a pull request with automated commit splitting
 category: develop
 allowed-tools:
   - "Bash(git *)"
@@ -9,167 +9,167 @@ allowed-tools:
   - Glob
 ---
 
-# Claude Command: Pull Request erstellen
+# Claude Command: Create Pull Request
 
-Erstelle automatisch einen neuen Branch, analysiere Änderungen und erstelle einen professionellen Pull Request.
+Automatically create a new branch, analyze changes, and create a professional pull request.
 
-**Alle Commit-Nachrichten und PR-Beschreibungen werden in Deutsch verfasst.**
+**All commit messages and PR descriptions are written in German.**
 
-## Verwendung
+## Usage
 
-Standard-Pull-Request:
+Standard pull request:
 
 ```bash
 /git-workflow:create-pr
 ```
 
-Mit Optionen:
+With options:
 
 ```bash
-/git-workflow:create-pr --draft          # Erstellt Draft-PR
-/git-workflow:create-pr --no-format      # Überspringt Code-Formatierung
-/git-workflow:create-pr --single-commit  # Alle Änderungen in einem Commit
-/git-workflow:create-pr --target main    # Ziel-Branch angeben (Standard: main)
-/git-workflow:create-pr --with-skills    # Erstelle einen Pull Request mit professional-pr-workflow
+/git-workflow:create-pr --draft          # Create draft PR
+/git-workflow:create-pr --no-format      # Skip code formatting
+/git-workflow:create-pr --single-commit  # All changes in one commit
+/git-workflow:create-pr --target main    # Specify target branch (default: main)
+/git-workflow:create-pr --with-skills    # Create a pull request using professional-pr-workflow
 ```
 
 ## Workflow
 
-### Bei `--with-skills` Option
+### With `--with-skills` Option
 
-Wenn `--with-skills` verwendet wird, wird der **professional-pr-workflow Skill** aktiviert und der restliche Command-Workflow wird ignoriert:
+When `--with-skills` is used, the **professional-pr-workflow skill** is activated and the remaining command workflow is bypassed:
 
-1. **Skill-Ausführung**: Nutze den professional-pr-workflow Skill
+1. **Skill execution**: Use the professional-pr-workflow skill
    - Location: `../skills/professional-pr-workflow/`
-   - Features: Intelligentes Branch-Management, Code-Formatierung, GitHub CLI Integration
-   - Integration mit professional-commit-workflow für Commits
+   - Features: Intelligent branch management, code formatting, GitHub CLI integration
+   - Integration with professional-commit-workflow for commits
 
-2. **Skill-Details**: Siehe [professional-pr-workflow README](../skills/professional-pr-workflow/README.md)
+2. **Skill details**: See [professional-pr-workflow README](../skills/professional-pr-workflow/README.md)
 
-### Standard Workflow (ohne `--with-skills`)
+### Standard Workflow (without `--with-skills`)
 
-1. **Branch-Status prüfen** ⚠️ WICHTIG
-   - Prüfe aktuellen Branch: `git branch --show-current`
-   - **Geschützte Branches** (`main`, `master`, `develop`):
-     - ➡️ Neuer Branch MUSS erstellt werden
-     - Keine Commits direkt auf geschützten Branches
-   - **Feature-Branch** (z.B. `feature/xyz`, `bugfix/abc`):
-     - ➡️ Kein neuer Branch nötig, verwende aktuellen Branch
+1. **Check branch status** -- IMPORTANT
+   - Check current branch: `git branch --show-current`
+   - **Protected branches** (`main`, `master`, `develop`):
+     - A new branch MUST be created
+     - No commits directly on protected branches
+   - **Feature branch** (e.g., `feature/xyz`, `bugfix/abc`):
+     - No new branch needed, use current branch
    - Details: [commit-workflow.md](../references/create-pr/commit-workflow.md)
 
-2. **Änderungen prüfen**
-   - Erkenne uncommitted oder bereits committete Änderungen
-   - Falls uncommitted Changes → Rufe `/git-workflow:commit` auf
-   - Falls Commits vorhanden → Verwende diese
+2. **Check changes**
+   - Detect uncommitted or already committed changes
+   - If uncommitted changes -> invoke `/git-workflow:commit`
+   - If commits present -> use them
    - Details: [commit-workflow.md](../references/create-pr/commit-workflow.md)
 
-3. **Branch erstellen** (nur wenn auf geschütztem Branch)
-   - Generiere aussagekräftigen Branch-Namen: `<type>/<description>-<date>`
-   - Prüfe auf bestehende Branches
-   - Erstelle Branch vom aktuellen HEAD
-   - Beispiel: `feature/user-dashboard-2024-10-30`
-   - **Überspringe** wenn bereits auf Feature-Branch
+3. **Create branch** (only when on protected branch)
+   - Generate meaningful branch name: `<type>/<description>-<date>`
+   - Check for existing branches
+   - Create branch from current HEAD
+   - Example: `feature/user-dashboard-2024-10-30`
+   - **Skip** if already on feature branch
 
-4. **Code-Formatierung** (optional mit `--no-format` überspringen)
+4. **Code formatting** (skip with `--no-format`)
    - **JavaScript/TypeScript**: Biome
    - **Python**: Black, isort, Ruff
    - **Java**: Google Java Format
    - **Markdown**: markdownlint
    - Details: [code-formatting.md](../references/create-pr/code-formatting.md)
 
-5. **Pull Request erstellen**
-   - Push Branch zum Remote
-   - Generiere aussagekräftigen PR-Titel
-   - Erstelle detaillierte PR-Beschreibung mit Test-Plan
-   - Verlinke relevante Issues
-   - Setze passende Labels
+5. **Create pull request**
+   - Push branch to remote
+   - Generate meaningful PR title
+   - Create detailed PR description with test plan
+   - Link relevant issues
+   - Set appropriate labels
    - Template: [pr-template.md](../references/create-pr/pr-template.md)
 
-## Integration mit /commit
+## Integration with /commit
 
-**Wichtig**: Dieser Command erstellt KEINE eigenen Commits!
+**Important**: This command does NOT create its own commits!
 
-- **Uncommitted Changes**: Ruft `/git-workflow:commit` auf
-- **Bestehende Commits**: Verwendet diese für PR
-- **Keine Commit-Duplikation**: Commit-Logik nur in `/git-workflow:commit`
+- **Uncommitted changes**: Invokes `/git-workflow:commit`
+- **Existing commits**: Uses them for the PR
+- **No commit duplication**: Commit logic only in `/git-workflow:commit`
 
-**Workflow-Details**: [commit-workflow.md](../references/create-pr/commit-workflow.md)
+**Workflow details**: [commit-workflow.md](../references/create-pr/commit-workflow.md)
 
-## PR-Template
+## PR Template
 
 ```markdown
-## Beschreibung
+## Description
 
-[Kurze Beschreibung der Änderungen]
+[Brief description of changes]
 
-## Änderungen
+## Changes
 
-- Änderung 1
-- Änderung 2
+- Change 1
+- Change 2
 
-## Test-Plan
+## Test Plan
 
-- [ ] Manuelle Tests durchgeführt
-- [ ] Automatische Tests laufen durch
-- [ ] Code-Review bereit
+- [ ] Manual tests performed
+- [ ] Automated tests pass
+- [ ] Code review ready
 
 ## Breaking Changes
 
-[Falls vorhanden]
+[If applicable]
 ```
 
-**Vollständiges Template**: [pr-template.md](../references/create-pr/pr-template.md)
+**Complete template**: [pr-template.md](../references/create-pr/pr-template.md)
 
 ## Best Practices
 
-- **Aussagekräftige Titel**: Beschreibe das "Was" in 50 Zeichen
-- **Detaillierte Beschreibung**: Erkläre das "Warum" und "Wie"
-- **Self-Review**: Prüfe eigene Änderungen vor Submission
-- **Kleine PRs**: Halte PRs fokussiert und reviewbar (150-400 Zeilen)
-- **Klare Commits**: Jeder Commit sollte eigenständig verständlich sein
+- **Meaningful titles**: Describe the "what" in 50 characters
+- **Detailed description**: Explain the "why" and "how"
+- **Self-review**: Review your own changes before submission
+- **Small PRs**: Keep PRs focused and reviewable (150-400 lines)
+- **Clear commits**: Each commit should be independently comprehensible
 
-**Weitere Best Practices**: [pr-template.md](../references/create-pr/pr-template.md)
+**More best practices**: [pr-template.md](../references/create-pr/pr-template.md)
 
 ## Professional PR Workflow Skill
 
-Die `--with-skills` Option nutzt den **professional-pr-workflow Skill** für verbesserte Performance und erweiterte Features.
+The `--with-skills` option uses the **professional-pr-workflow skill** for improved performance and extended features.
 
-### Vorteile vs. Standard Command
+### Advantages vs. Standard Command
 
 | Feature | Standard Command | Skill (`--with-skills`) |
 |---------|------------------|------------------------|
-| Performance | Standard | ✅ Optimiert |
-| Branch-Management | Manuell | ✅ Intelligent |
-| Code-Formatierung | Optional | ✅ Integriert |
-| GitHub CLI | Manuell | ✅ Automatisiert |
-| Draft-PR Support | Basic | ✅ Erweitert |
-| Dependencies | Python | ✅ Zero Dependencies |
+| Performance | Standard | Optimized |
+| Branch management | Manual | Intelligent |
+| Code formatting | Optional | Integrated |
+| GitHub CLI | Manual | Automated |
+| Draft PR support | Basic | Extended |
+| Dependencies | Python | Zero dependencies |
 
 ### Skill Features
 
-- **Intelligentes Branch-Management**: Automatische Branch-Erstellung mit aussagekräftigen Namen
-- **Integration mit professional-commit-workflow**: Nahtlose Commit-Integration
-- **Code-Formatierung**: Biome, Black, Prettier, Google Java Format
-- **GitHub CLI Integration**: Automatische PR-Erstellung mit Labels und Templates
-- **Draft-PR Support**: Erweiterte Draft-PR Funktionalität
-- **Zero Python Dependencies**: Nur Python Standard Library
+- **Intelligent branch management**: Automatic branch creation with meaningful names
+- **Integration with professional-commit-workflow**: Seamless commit integration
+- **Code formatting**: Biome, Black, Prettier, Google Java Format
+- **GitHub CLI integration**: Automatic PR creation with labels and templates
+- **Draft PR support**: Extended draft PR functionality
+- **Zero Python dependencies**: Only Python standard library
 
-### Skill Verwendung
+### Skill Usage
 
 ```bash
-# Direkte Skill-Ausführung (Alternative)
+# Direct skill execution (alternative)
 cd ../skills/professional-pr-workflow
 python scripts/main.py
 
-# Oder via Command mit --with-skills
+# Or via command with --with-skills
 /git-workflow:create-pr --with-skills
 ```
 
-**Skill-Dokumentation**: [professional-pr-workflow/README.md](../skills/professional-pr-workflow/README.md)
+**Skill documentation**: [professional-pr-workflow/README.md](../skills/professional-pr-workflow/README.md)
 
-## Weitere Informationen
+## Additional Information
 
-- **Code-Formatierung**: [code-formatting.md](../references/create-pr/code-formatting.md)
-- **Commit-Workflow**: [commit-workflow.md](../references/create-pr/commit-workflow.md)
-- **PR-Template & Best Practices**: [pr-template.md](../references/create-pr/pr-template.md)
+- **Code Formatting**: [code-formatting.md](../references/create-pr/code-formatting.md)
+- **Commit Workflow**: [commit-workflow.md](../references/create-pr/commit-workflow.md)
+- **PR Template & Best Practices**: [pr-template.md](../references/create-pr/pr-template.md)
 - **Troubleshooting**: [troubleshooting.md](../references/create-pr/troubleshooting.md)

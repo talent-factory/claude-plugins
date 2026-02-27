@@ -1,5 +1,5 @@
 ---
-description: Validiert Command-Dateien, Dokumentation und Best Practices
+description: Validate command files, documentation, and best practices
 allowed-tools:
   - Read
   - Glob
@@ -9,41 +9,41 @@ allowed-tools:
 
 # Command Validation Tool
 
-Dieser Command validiert Claude Code Commands auf:
+This command validates Claude Code commands for:
 
-- YAML-Frontmatter Struktur
-- Markdown-Syntax
-- Dokumentation
-- Best Practices (Progressive Disclosure, Naming Conventions)
+- YAML frontmatter structure
+- Markdown syntax
+- Documentation
+- Best practices (Progressive Disclosure, naming conventions)
 
 ## Usage
 
 ```bash
-# Spezifischen Command prüfen
+# Validate a specific command
 /core:check-commands agents/_shared/commands/commit.md
 
-# Oder ohne Pfad für interaktive Auswahl
+# Or without path for interactive selection
 /core:check-commands
 ```
 
-## Validierungs-Checks
+## Validation Checks
 
-### 1. YAML-Frontmatter
+### 1. YAML Frontmatter
 
 **Required**:
 
-- `description` (String, 1-100 Zeichen)
-- `category` (String, muss existierendem Ordner entsprechen)
+- `description` (String, 1-100 characters)
+- `category` (String, must correspond to an existing folder)
 
 **Optional**:
 
-- `allowed-tools` (Array von Tool-Namen)
+- `allowed-tools` (Array of tool names)
 
 **Format**:
 
 ```yaml
 ---
-description: Kurze Beschreibung des Commands
+description: Brief description of the command
 category: develop
 allowed-tools:
   - Read
@@ -51,28 +51,28 @@ allowed-tools:
 ---
 ```
 
-### 2. Markdown-Struktur
+### 2. Markdown Structure
 
-- Muss mit Frontmatter beginnen
-- Mindestens eine H1-Überschrift (`# Titel`)
-- Valides CommonMark-Format
-- Keine kaputten Links zu Detail-Dateien
+- Must begin with frontmatter
+- At least one H1 heading (`# Title`)
+- Valid CommonMark format
+- No broken links to detail files
 
-### 3. Dokumentation
+### 3. Documentation
 
-**Für umfangreiche Commands (Progressive Disclosure)**:
+**For extensive commands (Progressive Disclosure)**:
 
-- Detail-Dateien in `references/<command-name>/`
-- Referenzen im Haupt-Command auf Detail-Dateien via `../references/`
+- Detail files in `references/<command-name>/`
+- References in the main command to detail files via `../references/`
 
-**Beispiel-Struktur**:
+**Example structure**:
 
 ```text
 _shared/
 ├── commands/
-│   └── commit.md                    # Haupt-Command
+│   └── commit.md                    # Main command
 └── references/
-    └── commit/                      # Detail-Ordner
+    └── commit/                      # Detail folder
         ├── pre-commit-checks.md
         ├── commit-types.md
         ├── best-practices.md
@@ -81,91 +81,91 @@ _shared/
 
 ### 4. Best Practices
 
-**Naming Conventions**:
+**Naming conventions**:
 
-- ✅ Lowercase mit Bindestrichen: `check-commands.md`
-- ❌ CamelCase oder Unterstriche: `checkCommands.md`, `check_commands.md`
+- Lowercase with hyphens: `check-commands.md`
+- No CamelCase or underscores: `checkCommands.md`, `check_commands.md`
 
 **Progressive Disclosure**:
 
-- Haupt-Command: 50-250 Zeilen (Übersicht + Workflow)
-- Details: In separaten Dateien ausgelagert
-- Referenzen: Links zu Detail-Dateien am Ende
+- Main command: 50-250 lines (overview + workflow)
+- Details: Extracted into separate files
+- References: Links to detail files at the end
 
 **Description**:
 
-- Kurz und prägnant (1-100 Zeichen)
-- Beschreibt WAS der Command tut
-- Imperativ-Form: "Erstellt..." nicht "Erstelle..."
-- **Sprache: Deutsch** (technische Begriffe auf Englisch erlaubt)
+- Short and concise (1-100 characters)
+- Describes WHAT the command does
+- Imperative form: "Creates..." not "Create..."
+- **Language: English** (technical terms in English)
 
-**Dokumentation (Markdown-Body)**:
+**Documentation (Markdown body)**:
 
-- **Primär auf Deutsch** verfasst
-- Technische Begriffe können auf Englisch bleiben
-- Fachbegriffe auf Englisch erlaubt
-- Konsistente Sprache innerhalb eines Commands
+- **Written primarily in English**
+- Technical terms remain in English
+- Domain-specific terms in English permitted
+- Consistent language within a command
 
-## Validierungs-Workflow
+## Validation Workflow
 
-Wenn du diesen Command ausführst, solltest du:
+When executing this command, proceed as follows:
 
-1. **Command-Pfad ermitteln**:
-   - Falls kein Pfad angegeben: Alle `.md`-Dateien in `agents/_shared/commands/` listen
-   - User wählt Command aus
+1. **Determine command path**:
+   - If no path provided: List all `.md` files in `agents/_shared/commands/`
+   - User selects command
 
-2. **Datei einlesen**:
-   - Read-Tool verwenden
-   - Prüfen ob Datei existiert
+2. **Read file**:
+   - Use Read tool
+   - Check whether file exists
 
-3. **YAML-Frontmatter parsen**:
-   - Ersten Block zwischen `---` extrahieren
-   - Required-Felder prüfen: `description`
-   - Optional-Felder validieren: `allowed-tools`
-   - Format-Validierung (keine Syntax-Fehler)
+3. **Parse YAML frontmatter**:
+   - Extract first block between `---`
+   - Check required fields: `description`
+   - Validate optional fields: `allowed-tools`
+   - Format validation (no syntax errors)
 
-4. **Markdown validieren**:
-   - Mindestens eine H1-Überschrift vorhanden
-   - Keine kaputten internen Links
-   - Grundlegende CommonMark-Struktur
+4. **Validate Markdown**:
+   - At least one H1 heading present
+   - No broken internal links
+   - Basic CommonMark structure
 
-5. **Dokumentations-Check**:
-   - Falls Command > 250 Zeilen: Warnung für Progressive Disclosure
-   - Falls References existieren: Prüfe `../references/<command>/`
-   - Falls Referenzen vorhanden: Existenz der Dateien prüfen
+5. **Documentation check**:
+   - If command > 250 lines: Warning for Progressive Disclosure
+   - If references exist: Check `../references/<command>/`
+   - If references present: Verify file existence
 
-6. **Best Practices Check**:
-   - Dateiname: Lowercase mit Bindestrichen
-   - Description: 1-100 Zeichen
+6. **Best practices check**:
+   - Filename: Lowercase with hyphens
+   - Description: 1-100 characters
 
-7. **Report ausgeben**:
+7. **Output report**:
 
    ```markdown
    ## Validation Report: /commit
 
-   ✅ YAML-Frontmatter: Valid
-   ✅ Markdown-Struktur: Valid
-   ✅ Dokumentation: Complete
-   ✅ Best Practices: Compliant
-   ✅ Progressive Disclosure: Implemented (85 lines main, 1246 lines details)
+   YAML Frontmatter: Valid
+   Markdown Structure: Valid
+   Documentation: Complete
+   Best Practices: Compliant
+   Progressive Disclosure: Implemented (85 lines main, 1246 lines details)
 
    ### Details:
-   - Description: "Erstellt professionelle Git-Commits..." (Valid length)
-   - Detail files: 4 found in references/commit/ (all referenced ✓)
-   - Naming: commit.md (compliant ✓)
+   - Description: "Creates professional Git commits..." (Valid length)
+   - Detail files: 4 found in references/commit/ (all referenced)
+   - Naming: commit.md (compliant)
 
-   ✨ Command is fully compliant!
+   Command is fully compliant!
    ```
 
-   Bei Problemen:
+   When issues are found:
 
    ```markdown
    ## Validation Report: /example
 
-   ❌ YAML-Frontmatter: Missing 'description' field
-   ⚠️  Markdown-Struktur: No H1 heading found
-   ✅ Best Practices: Compliant
-   ⚠️  File size: 312 lines - consider Progressive Disclosure
+   YAML Frontmatter: Missing 'description' field
+   Markdown Structure: No H1 heading found
+   Best Practices: Compliant
+   File size: 312 lines - consider Progressive Disclosure
 
    ### Issues to fix:
    1. Add 'description' field to YAML frontmatter
@@ -180,45 +180,45 @@ Wenn du diesen Command ausführst, solltest du:
 
 ## Error Handling
 
-- **Datei nicht gefunden**: Klare Fehlermeldung mit Pfad
-- **YAML-Parse-Fehler**: Zeige Zeile und Fehler
-- **Fehlende Required-Felder**: Liste alle fehlenden Felder
+- **File not found**: Clear error message with path
+- **YAML parse error**: Show line and error
+- **Missing required fields**: List all missing fields
 
-## Integration mit anderen Commands
+## Integration with Other Commands
 
-Dieser Command ist nützlich:
+This command is useful:
 
-- **Vor dem Commit**: Commands validieren bevor sie commited werden
-- **Nach Änderungen**: Sicherstellen dass alles noch funktioniert
-- **Neue Commands**: Initiales Setup überprüfen
+- **Before commit**: Validate commands before committing
+- **After changes**: Ensure everything still works
+- **New commands**: Verify initial setup
 
-## Beispiele
+## Examples
 
-**Erfolgreiche Validierung**:
+**Successful validation**:
 
 ```text
 /core:check-commands agents/_shared/commands/commit.md
-→ ✅ Alle Checks bestanden
+-> All checks passed
 ```
 
-**Fehlerhafte Validierung**:
+**Failed validation**:
 
 ```text
 /core:check-commands agents/_shared/commands/broken.md
-→ ❌ 3 Issues gefunden (siehe Report)
+-> 3 issues found (see report)
 ```
 
-**Interaktive Auswahl**:
+**Interactive selection**:
 
 ```text
 /core:check-commands
-→ Zeigt Liste aller Commands
-→ User wählt aus
-→ Validierung läuft
+-> Shows list of all commands
+-> User selects
+-> Validation runs
 ```
 
 ## Notes
 
-- Dieser Command sollte selbst Best Practices folgen ✨
-- Kann als Template für andere Validierungs-Commands dienen
-- Erweiterbar für zusätzliche Checks (z.B. Security, Performance)
+- This command should itself follow best practices
+- Can serve as a template for other validation commands
+- Extensible for additional checks (e.g., security, performance)
