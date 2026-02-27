@@ -1,6 +1,6 @@
 {
   "name": "core",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "description": "Comprehensive development utilities for plugin/command/agent development, validation, CI automation, text humanization, and PDF-to-Markdown conversion with expert agents",
   "keywords": ["utilities", "validation", "tools", "development", "ci-automation", "plugin-development", "skill-building", "humanizer", "ai-writing"],
   "license": "MIT",

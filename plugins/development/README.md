@@ -2,7 +2,7 @@
 
 Expert development agents and project initialization for modern programming languages and frameworks.
 
-## Version 1.3.0
+## Version 1.3.1
 
 ---
 

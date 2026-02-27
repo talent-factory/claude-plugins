@@ -2,7 +2,7 @@
 
 Comprehensive project management tools for PRD generation, project planning, task implementation with Linear integration and git worktree workflow.
 
-## Version 2.6.0
+## Version 2.6.1
 
 **New in 2.6.0:**
 
@@ -505,7 +505,7 @@ User: "We need OAuth login with Google and GitHub"
 
 ## Changelog
 
-### Version 2.6.0 (2026-02-27)
+### Version 2.6.1 (2026-02-27)
 
 **Single-Task Creation:**
 

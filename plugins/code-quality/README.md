@@ -2,7 +2,7 @@
 
 Comprehensive code quality tools with Python linting, code review, and expert agents for Python and Frontend development.
 
-## Version 3.0.0
+## Version 3.0.1
 
 **Breaking Change:** Java developer agent moved to `development` plugin. Now includes `/code-quality:ruff-check` command and 3 expert agents for proactive code quality assistance.
 
@@ -174,7 +174,7 @@ Expert for creating Next.js applications with React, shadcn/ui, and Tailwind CSS
 
 ## Changelog
 
-### Version 3.0.0 (2026-01-28)
+### Version 3.0.1 (2026-01-28)
 
 - Breaking: Moved java-developer agent to development plugin
 - Updated description to reflect current agent inventory
