@@ -94,6 +94,10 @@ Transform PRDs into actionable project plans with task breakdown and Linear inte
 - [Linear Integration](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/create-plan/linear-integration.md) - Linear API usage
 - [Task Breakdown](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/create-plan/task-breakdown.md) - Task decomposition strategies
 
+### `/project-management:init-task`
+
+Initialize a single task with duplicate detection, ATOMIC validation, and mandatory Definition of Done (Filesystem or Linear).
+
 ### `/project-management:implement-task`
 
 Implement tasks with git worktree workflow, branch creation, and PR automation.
