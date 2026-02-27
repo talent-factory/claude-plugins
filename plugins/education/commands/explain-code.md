@@ -1,3 +1,11 @@
+---
+description: Explain code structure, logic, and design decisions for educational purposes
+allowed-tools:
+  - Read
+  - Glob
+  - Grep
+---
+
 # Explain Code Command
 
 Provide clear, educational explanations of code for students learning programming.

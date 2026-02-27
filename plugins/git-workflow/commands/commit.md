@@ -1,5 +1,5 @@
 ---
-description: Erstelle professionelle Git-Commits mit automatischen Checks für Java, Python und React Projekte
+description: Create professional git commits with automated checks for Java, Python, and React projects
 category: develop
 allowed-tools:
   - Bash
@@ -9,128 +9,128 @@ allowed-tools:
 
 # Claude Command: Commit
 
-Erstelle professionelle Git-Commits mit automatischen Qualitätschecks und konventionellen Commit-Nachrichten.
+Create professional Git commits with automated quality checks and conventional commit messages.
 
-**Alle Commits und Nachrichten werden in Deutsch verfasst.**
+**All commits and messages are written in German.**
 
-## Verwendung
+## Usage
 
-Standard-Commit:
+Standard commit:
 
 ```bash
 /git-workflow:commit
 ```
 
-Mit Optionen:
+With options:
 
 ```bash
-/git-workflow:commit --no-verify     # Überspringt Pre-Commit-Checks
-/git-workflow:commit --force-push    # Führt force push aus (Vorsicht!)
-/git-workflow:commit --skip-tests    # Überspringt Testausführung
-/git-workflow:commit --with-skills   # Erstelle einen Commit mit professional-commit-workflow
+/git-workflow:commit --no-verify     # Skip pre-commit checks
+/git-workflow:commit --force-push    # Execute force push (use with caution!)
+/git-workflow:commit --skip-tests    # Skip test execution
+/git-workflow:commit --with-skills   # Create a commit using professional-commit-workflow
 ```
 
 ## Workflow
 
-### Bei `--with-skills` Option
+### With `--with-skills` Option
 
-Wenn `--with-skills` verwendet wird, wird der **professional-commit-workflow Skill** aktiviert und der restliche Command-Workflow wird ignoriert:
+When `--with-skills` is used, the **professional-commit-workflow skill** is activated and the remaining command workflow is bypassed:
 
-1. **Skill-Ausführung**: Nutze den professional-commit-workflow Skill
+1. **Skill execution**: Use the professional-commit-workflow skill
    - Location: `../skills/professional-commit-workflow/`
-   - Performance: ~70% schneller als der Command
-   - Features: Automatische Projekterkennung, Pre-Commit-Validierung, Emoji Conventional Commits
+   - Performance: ~70% faster than the command
+   - Features: Automatic project detection, pre-commit validation, Emoji Conventional Commits
 
-2. **Skill-Details**: Siehe [professional-commit-workflow README](../skills/professional-commit-workflow/README.md)
+2. **Skill details**: See [professional-commit-workflow README](../skills/professional-commit-workflow/README.md)
 
-### Standard Workflow (ohne `--with-skills`)
+### Standard Workflow (without `--with-skills`)
 
-1. **Pre-Commit-Checks** (optional mit `--no-verify` überspringen)
-   - Automatische Projekterkennung (Java, Python, React, Docs)
-   - Relevante Checks ausführen (Build, Tests, Linting)
-   - Details siehe: [pre-commit-checks.md](../references/commit/pre-commit-checks.md)
+1. **Pre-commit checks** (skip with `--no-verify`)
+   - Automatic project detection (Java, Python, React, Docs)
+   - Execute relevant checks (Build, Tests, Linting)
+   - Details: [pre-commit-checks.md](../references/commit/pre-commit-checks.md)
 
-2. **Staging-Analyse**
-   - Prüfe gestakte Dateien mit `git status`
-   - Füge automatisch Änderungen hinzu falls nötig
-   - Zeige Übersicht der zu committenden Dateien
+2. **Staging analysis**
+   - Check staged files with `git status`
+   - Automatically add changes if necessary
+   - Display overview of files to be committed
 
-3. **Diff-Analyse**
-   - Analysiere `git diff` für Änderungsumfang
-   - Erkenne mehrere logische Änderungen
-   - Schlage Commit-Aufteilung vor bei Bedarf
+3. **Diff analysis**
+   - Analyze `git diff` for scope of changes
+   - Detect multiple logical changes
+   - Suggest commit splitting when appropriate
 
-4. **Commit-Nachricht**
-   - Verwende Emoji Conventional Commit Format
-   - Automatische Typerkennung basierend auf Änderungen
-   - Deutsche, imperative Beschreibung
-   - Referenz: [commit-types.md](../references/commit/commit-types.md)
+4. **Commit message**
+   - Use Emoji Conventional Commit format
+   - Automatic type detection based on changes
+   - German, imperative description
+   - Reference: [commit-types.md](../references/commit/commit-types.md)
 
-5. **Commit erstellen**
-   - Erstelle Commit mit aussagekräftiger Nachricht
-   - **WICHTIG:** KEINE "Co-Authored-By" oder "Generated with Claude Code" Zusätze hinzufügen
-   - Optional: Push zum Remote-Repository anbieten
+5. **Create commit**
+   - Create commit with meaningful message
+   - **IMPORTANT:** Do NOT add "Co-Authored-By" or "Generated with Claude Code" suffixes
+   - Optional: Offer push to remote repository
 
-## Commit-Typen (Auswahl)
+## Commit Types (Selection)
 
-- ✨ `feat`: Neue Funktionalität
-- 🐛 `fix`: Fehlerbehebung
-- 📚 `docs`: Dokumentationsänderungen
-- 💎 `style`: Code-Formatierung
-- ♻️ `refactor`: Code-Umstrukturierung
-- ⚡ `perf`: Performance-Verbesserungen
-- 🧪 `test`: Tests hinzufügen/korrigieren
-- 🔧 `chore`: Build, Tools, Konfiguration
+- ✨ `feat`: New functionality
+- 🐛 `fix`: Bug fix
+- 📚 `docs`: Documentation changes
+- 💎 `style`: Code formatting
+- ♻️ `refactor`: Code restructuring
+- ⚡ `perf`: Performance improvements
+- 🧪 `test`: Add/fix tests
+- 🔧 `chore`: Build, tools, configuration
 
-**Vollständige Liste**: [commit-types.md](../references/commit/commit-types.md)
+**Complete list**: [commit-types.md](../references/commit/commit-types.md)
 
-## Unterstützte Projekttypen
+## Supported Project Types
 
 - **Java**: Maven, Gradle, Spring Boot
 - **Python**: Ruff, Black, pytest, mypy
 - **React/Node.js**: ESLint, Prettier, TypeScript, Jest/Vitest
-- **Dokumentation**: LaTeX, Markdown, AsciiDoc
+- **Documentation**: LaTeX, Markdown, AsciiDoc
 
-**Details zu Checks**: [pre-commit-checks.md](../references/commit/pre-commit-checks.md)
+**Check details**: [pre-commit-checks.md](../references/commit/pre-commit-checks.md)
 
 ## Professional Commit Workflow Skill
 
-Die `--with-skills` Option nutzt den **professional-commit-workflow Skill** für verbesserte Performance und Wiederverwendbarkeit.
+The `--with-skills` option uses the **professional-commit-workflow skill** for improved performance and reusability.
 
-### Vorteile vs. Standard Command
+### Advantages vs. Standard Command
 
 | Feature | Standard Command | Skill (`--with-skills`) |
 |---------|------------------|------------------------|
-| Performance | Langsam | ✅ ~70% schneller |
-| Token-Verbrauch | ~1.4k Zeilen | ✅ ~300 Zeilen |
-| Wiederverwendbarkeit | Pro Projekt | ✅ Global installiert |
-| Konfigurierbarkeit | Prompts | ✅ JSON-Config |
-| Erweiterbarkeit | Begrenzt | ✅ Python-Module |
+| Performance | Slow | ~70% faster |
+| Token consumption | ~1.4k lines | ~300 lines |
+| Reusability | Per project | Globally installed |
+| Configurability | Prompts | JSON config |
+| Extensibility | Limited | Python modules |
 
-### Skill Verwendung
+### Skill Usage
 
 ```bash
-# Direkte Skill-Ausführung (Alternative)
+# Direct skill execution (alternative)
 cd ../skills/professional-commit-workflow
 python scripts/main.py
 
-# Oder via Command mit --with-skills
+# Or via command with --with-skills
 /git-workflow:commit --with-skills
 ```
 
-**Skill-Dokumentation**: [professional-commit-workflow/README.md](../skills/professional-commit-workflow/README.md)
+**Skill documentation**: [professional-commit-workflow/README.md](../skills/professional-commit-workflow/README.md)
 
-## Commit-Nachricht Format
+## Commit Message Format
 
-**WICHTIG:** Commit-Nachrichten dürfen KEINE der folgenden Zusätze enthalten:
+**IMPORTANT:** Commit messages must NOT contain any of the following suffixes:
 
-- ❌ `🤖 Generated with [Claude Code](https://claude.com/claude-code)`
-- ❌ `Co-Authored-By: Claude <noreply@anthropic.com>`
-- ❌ Ähnliche automatische Signaturen
+- `Generated with [Claude Code](https://claude.com/claude-code)`
+- `Co-Authored-By: Claude <noreply@anthropic.com>`
+- Similar automatic signatures
 
-Die Commit-Nachricht soll nur den eigentlichen Commit-Inhalt beschreiben.
+The commit message should describe only the actual commit content.
 
-## Weitere Informationen
+## Additional Information
 
 - **Best Practices**: [best-practices.md](../references/commit/best-practices.md)
 - **Troubleshooting**: [troubleshooting.md](../references/commit/troubleshooting.md)
