@@ -2,6 +2,8 @@
   "name": "project-management",
   "version": "2.6.0",
   "description": "Comprehensive project management with PRD generation, project planning, single-task initialization with duplicate detection and ATOMIC validation, intelligent task implementation with plugin orchestration (Superpowers brainstorm, agent routing, quality gate), autonomous EPIC automation, Linear integration, and git worktree workflow for agile development",
+  "keywords": ["planning", "prd", "linear", "project-management", "agile", "worktree", "task-management", "epic", "automation"],
+  "license": "MIT",
   "author": {
     "name": "Talent Factory GmbH",
     "email": "support@talent-factory.ch"
