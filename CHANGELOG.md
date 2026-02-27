@@ -202,6 +202,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Markdown link check configuration
 - Funding configuration (prepared for future use)
 
+## [2.6.0] - 2026-02-27
+
+### Added
+- **project-management**: New `/project-management:init-task` command for single-task creation with duplicate detection, ATOMIC validation, and mandatory Definition of Done
+- **project-management**: Task template reference with extended metadata fields (Type, Plan, Definition of Done)
+- **project-management**: Duplicate detection reference with cross-provider search (filesystem + Linear)
+- **project-management**: Validation rules reference with ATOMIC criteria enforcement
+
 ## Version Format
 
 Versions follow semantic versioning (MAJOR.MINOR.PATCH):

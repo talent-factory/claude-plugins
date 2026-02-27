@@ -2,14 +2,17 @@
 
 Comprehensive project management tools for PRD generation, project planning, task implementation with Linear integration and git worktree workflow.
 
-## Version 2.5.0
+## Version 2.6.0
 
-**New in 2.5.0:**
+**New in 2.6.0:**
+
+- 📋 `/project-management:init-task` — Single-task creation with duplicate detection, ATOMIC validation, and mandatory Definition of Done
+- 📄 Extended task template with Type, Plan, and Definition of Done fields
+
+**Previous:**
 
 - 🧠 Intelligent plugin orchestration for `/project-management:implement-task` (Superpowers brainstorm, agent routing, quality gate)
 - ⚡ Skip options: `--skip-brainstorm`, `--skip-quality-gate`
-
-**Previous:**
 
 - 🤖 `/project-management:implement-epic` - Fully autonomous EPIC implementation with parallel agents
 - 🔄 Autonomous Loop Integration - Self-sustaining development loops via Stop hooks
@@ -93,6 +96,36 @@ Transform PRDs into actionable project plans with task breakdown and Linear inte
 - [Filesystem](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/create-plan/filesystem.md) - File-based plan storage
 - [Linear Integration](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/create-plan/linear-integration.md) - Linear API usage
 - [Task Breakdown](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/create-plan/task-breakdown.md) - Task decomposition strategies
+
+### `/project-management:init-task`
+
+Initialize a single task with duplicate detection, ATOMIC validation, and mandatory Definition of Done (Filesystem or Linear).
+
+**Features:**
+
+- 🔍 Duplicate detection across filesystem and Linear
+- ✅ ATOMIC validation (Actionable, Testable, Ownable, Measurable, Independent, Complete)
+- 📋 Mandatory Definition of Done with 4 default items
+- 🧙 Interactive wizard with 10-step guided creation
+- ⚡ Inline mode for quick task creation via arguments
+- 📂 Plan-attached or standalone (adhoc) task support
+- 🔗 Linear integration for issue creation
+
+**Usage:**
+
+```bash
+/project-management:init-task                                          # Interactive wizard
+/project-management:init-task --plan dark-mode-toggle                  # Attach to plan
+/project-management:init-task "Fix auth timeout" --type bug --priority must  # Inline
+/project-management:init-task --linear                                 # Linear provider
+/project-management:init-task "Refactor queries" --standalone          # Standalone
+```
+
+**References:**
+
+- [Task Template](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/init-task/task-template.md) - Standardized task structure
+- [Duplicate Detection](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/init-task/duplicate-detection.md) - Search and matching logic
+- [Validation Rules](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/init-task/validation-rules.md) - ATOMIC validation and DoD requirements
 
 ### `/project-management:implement-task`
 
@@ -252,6 +285,7 @@ project-management/
 ├── commands/
 │   ├── create-prd.md
 │   ├── create-plan.md
+│   ├── init-task.md
 │   ├── implement-task.md
 │   ├── implement-epic.md
 │   └── document-handoff.md
@@ -266,6 +300,10 @@ project-management/
 │   │   ├── filesystem.md
 │   │   ├── linear-integration.md
 │   │   └── task-breakdown.md
+│   ├── init-task/
+│   │   ├── duplicate-detection.md
+│   │   ├── task-template.md
+│   │   └── validation-rules.md
 │   ├── implement-task/
 │   │   ├── best-practices.md
 │   │   ├── filesystem.md
@@ -466,6 +504,16 @@ User: "We need OAuth login with Google and GitHub"
 - **Solution:** Use different task ID or clean up old branches
 
 ## Changelog
+
+### Version 2.6.0 (2026-02-27)
+
+**Single-Task Creation:**
+
+- 📋 Added `/project-management:init-task` command for single-task creation
+- 🔍 Duplicate detection across filesystem and Linear with Jaccard similarity
+- ✅ ATOMIC validation with hard requirements and soft warnings
+- 📄 Extended task template with Type, Plan, and Definition of Done fields
+- 📚 Added 3 reference documents: task-template, duplicate-detection, validation-rules
 
 ### Version 2.5.0 (2026-02-26)
 

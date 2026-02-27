@@ -1,9 +1,12 @@
 {
   "name": "project-management",
-  "version": "2.5.0",
-  "description": "Comprehensive project management with PRD generation, project planning, intelligent task implementation with plugin orchestration (Superpowers brainstorm, agent routing, quality gate), autonomous EPIC automation, Linear integration, and git worktree workflow for agile development",
+  "version": "2.6.0",
+  "displayName": "Project Management",
+  "description": "Comprehensive project management with PRD generation, project planning, single-task initialization with duplicate detection and ATOMIC validation, intelligent task implementation with plugin orchestration (Superpowers brainstorm, agent routing, quality gate), autonomous EPIC automation, Linear integration, and git worktree workflow for agile development",
+  "keywords": ["project-management", "task-management", "prd", "linear", "agile", "worktree"],
   "author": {
     "name": "Talent Factory GmbH",
     "email": "support@talent-factory.ch"
-  }
+  },
+  "license": "MIT"
 }

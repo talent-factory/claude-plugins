@@ -9,7 +9,7 @@ Browse all available plugins in the Talent Factory marketplace. Each plugin prov
 | Plugin                                      | Version | Commands | Agents | Skills | Tags                                |
 | ------------------------------------------- | ------- | -------- | ------ | ------ | ----------------------------------- |
 | [Git Workflow](git-workflow.md)             | 2.2.0   | 4        | 0      | 3      | git, workflow, commits, PRs, merge  |
-| [Project Management](project-management.md) | 2.5.0   | 5        | 1      | 0      | planning, PRD, Linear, EPIC, agile  |
+| [Project Management](project-management.md) | 2.6.0   | 6        | 1      | 0      | planning, PRD, Linear, EPIC, agile  |
 | [Code Quality](code-quality.md)             | 3.0.0   | 1        | 3      | 0      | review, quality, Python, React      |
 | [Education](education.md)                   | 1.3.1   | 1        | 2      | 1      | teaching, learning, markdown        |
 | [Core Utilities](core.md)                   | 3.1.0   | 7        | 2      | 2      | validation, CI, PDF, development    |
@@ -39,9 +39,9 @@ Browse all available plugins in the Talent Factory marketplace. Each plugin prov
 
   ***
 
-  Comprehensive project planning with PRD generation, EPIC automation, Linear integration, and git worktree workflows.
+  Comprehensive project planning with PRD generation, single-task initialization, EPIC automation, Linear integration, and git worktree workflows.
 
-  **Commands:** `/project-management:create-prd`, `/project-management:create-plan`, `/project-management:implement-task`, `/project-management:implement-epic`, `/project-management:document-handoff`
+  **Commands:** `/project-management:create-prd`, `/project-management:create-plan`, `/project-management:init-task`, `/project-management:implement-task`, `/project-management:implement-epic`, `/project-management:document-handoff`
   **Agents:** `epic-orchestrator`
 
   [:octicons-arrow-right-24: Details](project-management.md)
