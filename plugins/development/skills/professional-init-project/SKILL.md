@@ -1,6 +1,6 @@
 ---
 name: professional-init-project
-description: Initializes open-source projects with GitHub best practices and git branching strategy. Use when setting up new repositories with standardized configuration.
+description: Initializes open-source projects with GitHub best practices and git branching strategy. Triggers when setting up new repositories with standardized configuration, Gradle Kotlin DSL, or Python/uv support.
 ---
 
 # Professional Init-Project Workflow

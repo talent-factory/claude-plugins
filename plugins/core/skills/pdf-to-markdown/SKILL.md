@@ -1,6 +1,6 @@
 ---
 name: pdf-to-markdown
-description: Converts PDF files to Markdown. Use when user wants to convert a PDF document, extract PDF content, or transform PDF to Markdown format. Supports simple text extraction (fast) and complex layouts with code/tables (vision). Invoke with the PDF file path.
+description: Converts PDF files to structured Markdown with automatic mode selection. Supports simple text extraction (fast) and complex layouts with code/tables (vision). Triggers when the user wants to convert a PDF document, extract PDF content, or transform PDF to Markdown format.
 ---
 
 # PDF to Markdown Converter

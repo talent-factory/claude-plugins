@@ -1,6 +1,6 @@
 ---
 name: update-documents
-description: Synchronizes documentation between CLAUDE.md, README.md, and docs/. Use this skill to resolve documentation inconsistencies across project files.
+description: Synchronizes documentation between CLAUDE.md, README.md, and docs/. Resolves documentation inconsistencies across project files with configurable sync rules and whitespace-tolerant comparison.
 ---
 
 # Update Documentation

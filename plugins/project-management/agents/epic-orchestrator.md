@@ -1,6 +1,6 @@
 ---
 name: epic-orchestrator
-description: Orchestrates parallel implementation of all tasks within an EPIC using native Claude Code autonomous loop patterns. Manages worktrees, initiates task agents, coordinates reviews, and maintains status updates.
+description: Orchestrates parallel implementation of all tasks within an EPIC using native Claude Code autonomous loop patterns. Manages worktrees, initiates task agents, coordinates reviews, and maintains status updates. Use when implementing a complete EPIC with multiple parallel tasks.
 category: automation
 model: sonnet
 color: purple
