@@ -100,3 +100,30 @@ jobs:
           while IFS= read -r tag; do
             git push origin "refs/tags/$tag"
           done < "$RUNNER_TEMP/new-tags.txt"
+
+      - name: Create GitHub Releases
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+
+          if [ ! -f "$RUNNER_TEMP/new-tags.txt" ]; then
+            echo "No new tags, no releases to create"
+            exit 0
+          fi
+
+          while IFS= read -r tag; do
+            if [[ "$tag" == v* ]]; then
+              TITLE="Marketplace ${tag}"
+            else
+              PLUGIN="${tag%%/*}"
+              VERSION="${tag#*/}"
+              TITLE="${PLUGIN} ${VERSION}"
+            fi
+
+            echo "Creating release for $tag ($TITLE)"
+            gh release create "$tag" \
+              --title "$TITLE" \
+              --generate-notes \
+              --latest="$( [[ "$tag" == v* ]] && echo true || echo false )"
+          done < "$RUNNER_TEMP/new-tags.txt"
