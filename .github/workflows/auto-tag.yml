@@ -1,0 +1,53 @@
+name: Auto Tag Releases
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.claude-plugin/marketplace.json'
+      - 'plugins/**/.claude-plugin/plugin.json'
+
+permissions:
+  contents: write
+
+jobs:
+  create-tags:
+    name: Create Version Tags
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Create marketplace tag
+        run: |
+          MARKETPLACE_VERSION=$(jq -r '.version' .claude-plugin/marketplace.json)
+          TAG="v${MARKETPLACE_VERSION}"
+
+          if git rev-parse "$TAG" >/dev/null 2>&1; then
+            echo "Tag $TAG already exists, skipping"
+          else
+            git tag -a "$TAG" -m "Release Marketplace v${MARKETPLACE_VERSION}"
+            echo "Created tag: $TAG"
+          fi
+
+      - name: Create plugin tags
+        run: |
+          for plugin_json in plugins/*/.claude-plugin/plugin.json; do
+            PLUGIN_NAME=$(jq -r '.name' "$plugin_json")
+            PLUGIN_VERSION=$(jq -r '.version' "$plugin_json")
+            TAG="${PLUGIN_NAME}/v${PLUGIN_VERSION}"
+
+            if git rev-parse "$TAG" >/dev/null 2>&1; then
+              echo "Tag $TAG already exists, skipping"
+            else
+              git tag -a "$TAG" -m "Release ${PLUGIN_NAME} v${PLUGIN_VERSION}"
+              echo "Created tag: $TAG"
+            fi
+          done
+
+      - name: Push tags
+        run: git push origin --tags
