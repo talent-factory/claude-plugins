@@ -191,6 +191,7 @@ nav:
     - Core Utilities: plugins/core.md
     - Obsidian Integration: plugins/obsidian.md
     - Development: plugins/development.md
+    - Gemini Bridge: plugins/gemini-bridge.md
 
   - Guides:
     - guides/index.md

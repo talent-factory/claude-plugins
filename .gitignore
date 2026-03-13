@@ -31,6 +31,9 @@ __pycache__/
 *$py.class
 .Python
 *.pyc
+.venv/
+.pytest_cache/
+uv.lock
 
 # Logs
 *.log

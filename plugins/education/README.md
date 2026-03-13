@@ -181,9 +181,9 @@ This plugin is designed to complement computer science curricula:
 
 ## Related Plugins
 
-- **[Code Quality](../code-quality/README.md)** - Python and Frontend expert agents
-- **[Development](../development/README.md)** - Java developer agent
-- **[Core Utilities](../core/README.md)** - Plugin development and validation
+- **[Code Quality](code-quality.md)** - Python and Frontend expert agents
+- **[Development](development.md)** - Java developer agent
+- **[Core Utilities](core.md)** - Plugin development and validation
 
 ---
 

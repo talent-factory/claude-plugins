@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository Overview
 
-This is a **Claude Code plugin marketplace** maintained by Talent Factory GmbH. It hosts 7 professional plugins distributed via GitHub for software development, education, and project management. The repository serves as both a marketplace configuration and a development workspace for plugin contributors.
+This is a **Claude Code plugin marketplace** maintained by Talent Factory GmbH. It hosts 8 professional plugins distributed via GitHub for software development, education, and project management. The repository serves as both a marketplace configuration and a development workspace for plugin contributors.
 
 **Target Users:** Students, software developers, educators, and development teams.
 
@@ -34,6 +34,7 @@ The repository uses a two-level architecture:
 - **education**: Teaching aids with Java Tutor and Markdown formatter agents
 - **core**: Plugin development utilities (`/core:check`, `/core:check-commands`, `/core:check-agents`, `/core:build-skill`, `/core:package-skill`, `/core:create-command`, `/core:run-ci`)
 - **obsidian**: Obsidian integration via TaskNotes Plugin API (task management with natural language)
+- **gemini-bridge**: MCP bridge to Google Gemini 2.5 Pro for long-context analysis, multimodal vision, and model-agnostic validation (`/gemini-bridge:analyze`, `/gemini-bridge:compare`, `/gemini-bridge:vision`)
 
 ### How Plugins Work
 
