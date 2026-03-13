@@ -1,5 +1,7 @@
 ---
 description: Initialize a new open source project with GitHub best practices
+category: development
+argument-hint: "[--git|--java|--uv] [--name <name>] [--with-skills] [--no-branching] [--interactive]"
 allowed-tools:
   - Bash
   - Write

@@ -1,46 +1,46 @@
-# Loesungsstrategien fuer Merge-Konflikte
+# Resolution Strategies for Merge Conflicts
 
-## Strategie-Uebersicht
+## Strategy Overview
 
-Der `/git-workflow:resolve-conflicts` Command unterstuetzt drei Strategien:
+The `/git-workflow:resolve-conflicts` command supports three strategies:
 
-| Strategie | Beschreibung | Anwendungsfall |
-|-----------|-------------|----------------|
-| `smart` | Semantische Analyse und intelligente Zusammenfuehrung | Standard, beste Ergebnisse |
-| `ours` | Bei Konflikten unsere Version behalten | Feature-Branch hat Vorrang |
-| `theirs` | Bei Konflikten deren Version behalten | Target-Branch hat Vorrang |
+| Strategy | Description | Use Case |
+|----------|-------------|----------|
+| `smart` | Semantic analysis and intelligent merging | Default, best results |
+| `ours` | Retain our version on conflicts | Feature branch takes precedence |
+| `theirs` | Retain their version on conflicts | Target branch takes precedence |
 
-## Smart-Strategie: Entscheidungsbaum
+## Smart Strategy: Decision Tree
 
-Die Smart-Strategie analysiert jeden Konflikt individuell und waehlt die beste Aufloesung. Der Entscheidungsbaum hat 5 Stufen:
+The smart strategy analyzes each conflict individually and selects the optimal resolution. The decision tree comprises 5 levels:
 
-### Stufe 1: Generierte Dateien
+### Level 1: Generated Files
 
-**Erkennung**: Lock-Files, Build-Artefakte, generierte Typen
+**Detection**: Lock files, build artifacts, generated types
 
 ```
 uv.lock, bun.lockb, package-lock.json, yarn.lock
 *.generated.ts, *.generated.py
 ```
 
-**Strategie**: `checkout --theirs` + Regenerierung
+**Strategy**: `checkout --theirs` + regeneration
 
-**Begruendung**: Generierte Dateien werden aus Quelldateien abgeleitet. Nach der Aufloesung aller Quellkonflikte werden sie neu generiert, wodurch beide Seiten korrekt abgebildet werden.
+**Rationale**: Generated files are derived from source files. After resolving all source conflicts, they are regenerated, thereby correctly reflecting both sides.
 
-### Stufe 2: Additive Aenderungen
+### Level 2: Additive Changes
 
-**Erkennung**: Beide Seiten fuegen neue Elemente hinzu, ohne bestehende zu aendern
+**Detection**: Both sides add new elements without modifying existing ones
 
-Typische Faelle:
-- **Import-Bloecke**: Neue Imports auf beiden Seiten
-- **Route-Registrierungen**: Neue API-Endpunkte
-- **Konfigurationslisten**: Neue Dependencies, neue Plugins
-- **Export-Listen**: Neue Module exportiert
+Typical cases:
+- **Import blocks**: New imports on both sides
+- **Route registrations**: New API endpoints
+- **Configuration lists**: New dependencies, new plugins
+- **Export lists**: New modules exported
 
-**Strategie**: Union (beide Seiten zusammenfuehren)
+**Strategy**: Union (merge both sides)
 
 ```python
-# Konflikt in __init__.py
+# Conflict in __init__.py
 <<<<<<< HEAD
 from .auth import router as auth_router
 from .email import router as email_router
@@ -49,203 +49,203 @@ from .auth import router as auth_router
 from .campaigns import router as campaign_router
 >>>>>>> origin/develop
 
-# Aufloesung: Union
+# Resolution: Union
 from .auth import router as auth_router
 from .campaigns import router as campaign_router
 from .email import router as email_router
 ```
 
-**Sortierung**: Imports und Listen alphabetisch sortieren fuer Konsistenz.
+**Sorting**: Sort imports and lists alphabetically for consistency.
 
-### Stufe 3: Gleiche Stelle geaendert
+### Level 3: Same Location Modified
 
-**Erkennung**: Beide Seiten aendern denselben Code-Block
+**Detection**: Both sides modify the same code block
 
-**Strategie**: Kontextanalyse
+**Strategy**: Context analysis
 
-1. **Funktionssignatur geaendert**: Beide Signaturen vergleichen, kompatible Version waehlen
-2. **Funktionskoerper geaendert**: Logik beider Seiten verstehen, zusammenfuehren wenn moeglich
-3. **Konfligierende Logik**: Unsere Version priorisieren (`ours`), da der Feature-Branch die aktive Arbeit darstellt
+1. **Function signature changed**: Compare both signatures, choose compatible version
+2. **Function body changed**: Understand logic from both sides, merge if possible
+3. **Conflicting logic**: Prioritize our version (`ours`), as the feature branch represents active work
 
 ```python
-# Konflikt: Beide aendern dieselbe Funktion
+# Conflict: Both modify the same function
 <<<<<<< HEAD
 def send_email(to: str, subject: str, template: str) -> SendResult:
-    """Mit Template-Support."""
+    """With template support."""
     rendered = render_template(template)
     return provider.send(to, subject, rendered)
 =======
 def send_email(to: str, subject: str, body: str, priority: int = 0) -> SendResult:
-    """Mit Priority-Support."""
+    """With priority support."""
     return provider.send(to, subject, body, priority=priority)
 >>>>>>> origin/develop
 
-# Aufloesung: Features zusammenfuehren
+# Resolution: Merge features
 def send_email(
     to: str,
     subject: str,
     template: str,
     priority: int = 0,
 ) -> SendResult:
-    """Mit Template- und Priority-Support."""
+    """With template and priority support."""
     rendered = render_template(template)
     return provider.send(to, subject, rendered, priority=priority)
 ```
 
-### Stufe 4: Strukturelle Aenderungen
+### Level 4: Structural Changes
 
-**Erkennung**: Eine Seite hat die Dateistruktur geaendert (Klasse aufgeteilt, Modul umbenannt, API refactored)
+**Detection**: One side has altered the file structure (split class, renamed module, refactored API)
 
-**Strategie**: Manuelle Intervention empfohlen
+**Strategy**: Manual intervention recommended
 
-- Beide Versionen dem Benutzer zeigen
-- Erklaeren welche strukturellen Aenderungen vorgenommen wurden
-- Optionen praesentieren:
-  1. Unsere Struktur behalten, deren Funktionalitaet integrieren
-  2. Deren Struktur uebernehmen, unsere Funktionalitaet integrieren
-  3. Benutzer entscheidet manuell
+- Present both versions to the user
+- Explain what structural changes were made
+- Present options:
+  1. Retain our structure, integrate their functionality
+  2. Adopt their structure, integrate our functionality
+  3. User decides manually
 
-### Stufe 5: Architektonische Konflikte
+### Level 5: Architectural Conflicts
 
-**Erkennung**: Grundlegende Designentscheidungen divergieren
+**Detection**: Fundamental design decisions diverge
 
-Beispiele:
-- Synchroner vs. asynchroner Code
-- Unterschiedliche Datenmodelle
-- Verschiedene Dependency-Injection-Patterns
+Examples:
+- Synchronous vs. asynchronous code
+- Different data models
+- Different dependency injection patterns
 
-**Strategie**: **HALT** - Immer den Benutzer fragen
+**Strategy**: **HALT** - Always consult the user
 
-Diese Konflikte koennen nicht automatisch geloest werden, da sie architektonische Entscheidungen erfordern.
+These conflicts cannot be resolved automatically, as they require architectural decisions.
 
-## Dateityp-spezifische Strategien
+## File Type-Specific Strategies
 
-### Python-Dateien (`.py`)
+### Python Files (`.py`)
 
-| Konflikttyp | Strategie | Details |
-|-------------|-----------|---------|
-| Import-Block | Union + isort | Alphabetisch, gruppiert nach stdlib/third-party/local |
-| `__init__.py` Exports | Union | Alle Exports behalten |
-| `__all__` Liste | Union + sortieren | Eintraege zusammenfuehren |
-| Funktionssignaturen | Smart-Merge | Parameter aus beiden Seiten |
-| Type Hints | Neuere/vollstaendigere behalten | Union-Types wenn noetig |
-| Dekoratoren | Beide behalten | Reihenfolge pruefen |
+| Conflict Type | Strategy | Details |
+|---------------|----------|---------|
+| Import block | Union + isort | Alphabetical, grouped by stdlib/third-party/local |
+| `__init__.py` exports | Union | Retain all exports |
+| `__all__` list | Union + sort | Merge entries |
+| Function signatures | Smart merge | Parameters from both sides |
+| Type hints | Retain newer/more complete | Union types if necessary |
+| Decorators | Retain both | Verify ordering |
 
-### TypeScript/JavaScript-Dateien (`.ts`, `.tsx`, `.js`, `.jsx`)
+### TypeScript/JavaScript Files (`.ts`, `.tsx`, `.js`, `.jsx`)
 
-| Konflikttyp | Strategie | Details |
-|-------------|-----------|---------|
-| Import-Block | Union + sortieren | Named Imports zusammenfuehren |
-| Interface-Erweiterung | Union | Properties aus beiden Seiten |
-| Type-Definitionen | Union-Type | `TypeA \| TypeB` wenn noetig |
-| JSX-Komponenten | Kontextanalyse | Props und Children mergen |
-| Barrel-Exports (`index.ts`) | Union | Alle Re-Exports behalten |
+| Conflict Type | Strategy | Details |
+|---------------|----------|---------|
+| Import block | Union + sort | Merge named imports |
+| Interface extension | Union | Properties from both sides |
+| Type definitions | Union type | `TypeA \| TypeB` if necessary |
+| JSX components | Context analysis | Merge props and children |
+| Barrel exports (`index.ts`) | Union | Retain all re-exports |
 
-### JSON/YAML-Dateien
+### JSON/YAML Files
 
-| Konflikttyp | Strategie | Details |
-|-------------|-----------|---------|
-| `dependencies` | Union, hoehere Version | Beide Dependencies behalten |
-| `devDependencies` | Union, hoehere Version | Beide DevDeps behalten |
-| `scripts` | Union | Beide Scripts behalten |
-| Konfigurationswerte | Target-Version | Konfiguration des Ziel-Branches |
-| Array-Werte | Union + deduplizieren | Einzigartige Werte behalten |
+| Conflict Type | Strategy | Details |
+|---------------|----------|---------|
+| `dependencies` | Union, higher version | Retain both dependencies |
+| `devDependencies` | Union, higher version | Retain both devDeps |
+| `scripts` | Union | Retain both scripts |
+| Configuration values | Target version | Target branch configuration |
+| Array values | Union + deduplicate | Retain unique values |
 
-### Alembic-Migrationen
+### Alembic Migrations
 
-| Konflikttyp | Strategie | Details |
-|-------------|-----------|---------|
-| `down_revision` | Chain linearisieren | Revisionen korrekt verketten |
-| Multiple Heads | Merge-Migration | `alembic merge heads` |
-| Gleiche Tabelle geaendert | Reihenfolge pruefen | Abhaengigkeiten beachten |
+| Conflict Type | Strategy | Details |
+|---------------|----------|---------|
+| `down_revision` | Linearize chain | Correctly link revisions |
+| Multiple heads | Merge migration | `alembic merge heads` |
+| Same table modified | Verify ordering | Consider dependencies |
 
-**Alembic-Spezialbehandlung**:
+**Alembic special handling**:
 
 ```bash
-# Multiple Heads erkennen
+# Detect multiple heads
 alembic heads
 
-# Falls multiple Heads: Merge-Migration erstellen
+# If multiple heads: Create merge migration
 alembic merge heads -m "merge_migrations"
 
-# Chain validieren
+# Validate chain
 alembic history --verbose
 ```
 
-### Lock-Files
+### Lock Files
 
-| Datei | Strategie | Regenerierung |
-|-------|-----------|---------------|
-| `uv.lock` | `--theirs` + regenerieren | `uv lock` |
-| `bun.lockb` | `--theirs` + regenerieren | `bun install` |
-| `package-lock.json` | `--theirs` + regenerieren | `npm install` |
-| `yarn.lock` | `--theirs` + regenerieren | `yarn install` |
-| `Gemfile.lock` | `--theirs` + regenerieren | `bundle install` |
+| File | Strategy | Regeneration |
+|------|----------|--------------|
+| `uv.lock` | `--theirs` + regenerate | `uv lock` |
+| `bun.lockb` | `--theirs` + regenerate | `bun install` |
+| `package-lock.json` | `--theirs` + regenerate | `npm install` |
+| `yarn.lock` | `--theirs` + regenerate | `yarn install` |
+| `Gemfile.lock` | `--theirs` + regenerate | `bundle install` |
 
-## Ours-Strategie
+## Ours Strategy
 
-**Verwendung**: `--strategy ours`
+**Usage**: `--strategy ours`
 
-Bei jedem Konflikt wird unsere Version (HEAD) behalten:
-
-```bash
-git checkout --ours <datei>
-git add <datei>
-```
-
-**Anwendungsfaelle**:
-- Feature-Branch hat Vorrang und Target-Aenderungen sind irrelevant
-- Bewusste Entscheidung, Target-Aenderungen zu ignorieren
-- Schnelle Aufloesung wenn Konflikte nur kosmetisch sind
-
-**Risiken**:
-- Target-Aenderungen gehen verloren
-- Neue Features/Fixes aus dem Target werden nicht integriert
-- Kann zu Regressionen fuehren
-
-## Theirs-Strategie
-
-**Verwendung**: `--strategy theirs`
-
-Bei jedem Konflikt wird die Target-Version behalten:
+For each conflict, our version (HEAD) is retained:
 
 ```bash
-git checkout --theirs <datei>
-git add <datei>
+git checkout --ours <file>
+git add <file>
 ```
 
-**Anwendungsfaelle**:
-- Target-Branch (z.B. develop) hat Vorrang
-- Eigene Aenderungen sollen ueberschrieben werden
-- Rebase-aehnliches Verhalten gewuenscht
+**Use cases**:
+- Feature branch takes precedence and target changes are irrelevant
+- Deliberate decision to disregard target changes
+- Rapid resolution when conflicts are purely cosmetic
 
-**Risiken**:
-- Eigene Aenderungen gehen verloren
-- Feature-Arbeit muss moeglicherweise wiederholt werden
+**Risks**:
+- Target changes are lost
+- New features/fixes from the target are not integrated
+- May lead to regressions
 
-## Strategie-Auswahl: Empfehlung
+## Theirs Strategy
 
-```
-Merge-Konflikt erkannt
-    │
-    ├── Lock-File?
-    │   └── JA → theirs + regenerieren
-    │
-    ├── Generierte Datei?
-    │   └── JA → theirs + regenerieren
-    │
-    ├── Nur additive Aenderungen?
-    │   └── JA → Union (beide behalten)
-    │
-    ├── Gleiche Stelle geaendert?
-    │   ├── Kompatible Aenderungen? → Smart-Merge
-    │   └── Inkompatibel? → Ours (Feature priorisieren)
-    │
-    ├── Strukturelle Aenderung?
-    │   └── JA → Benutzer fragen
-    │
-    └── Architektonischer Konflikt?
-        └── JA → HALT, Benutzer entscheidet
+**Usage**: `--strategy theirs`
+
+For each conflict, the target version is retained:
+
+```bash
+git checkout --theirs <file>
+git add <file>
 ```
 
-**Faustregel**: Im Zweifel `smart` verwenden. Nur `ours`/`theirs` waehlen wenn klar ist, dass eine Seite komplett Vorrang hat.
+**Use cases**:
+- Target branch (e.g., develop) takes precedence
+- Own changes should be overwritten
+- Rebase-like behavior desired
+
+**Risks**:
+- Own changes are lost
+- Feature work may need to be repeated
+
+## Strategy Selection: Recommendation
+
+```
+Merge conflict detected
+    │
+    ├── Lock file?
+    │   └── YES → theirs + regenerate
+    │
+    ├── Generated file?
+    │   └── YES → theirs + regenerate
+    │
+    ├── Only additive changes?
+    │   └── YES → Union (retain both)
+    │
+    ├── Same location modified?
+    │   ├── Compatible changes? → Smart merge
+    │   └── Incompatible? → Ours (prioritize feature)
+    │
+    ├── Structural change?
+    │   └── YES → Consult user
+    │
+    └── Architectural conflict?
+        └── YES → HALT, user decides
+```
+
+**Rule of thumb**: When in doubt, use `smart`. Only select `ours`/`theirs` when it is clear that one side should take complete precedence.

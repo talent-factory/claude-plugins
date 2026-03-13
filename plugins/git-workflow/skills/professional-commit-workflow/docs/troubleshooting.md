@@ -1,126 +1,126 @@
-# Troubleshooting: Commit-Probleme
+# Troubleshooting: Commit Issues
 
-## Build-Fehler
+## Build Errors
 
-### Java Build schlägt fehl
+### Java Build Fails
 
-**Problem**: Maven/Gradle Build-Fehler
+**Problem**: Maven/Gradle build errors
 
-**Diagnose**:
+**Diagnosis**:
 
 ```bash
 mvn clean compile          # Maven
 ./gradlew clean build      # Gradle
 ```
 
-**Häufige Ursachen**:
+**Common causes**:
 
-1. **Kompilierfehler im Code**
-   - Syntax-Fehler
-   - Fehlende Imports
-   - Type Mismatches
+1. **Compilation errors in code**
+   - Syntax errors
+   - Missing imports
+   - Type mismatches
 
-   **Lösung**: Fehler aus Compiler-Output beheben
+   **Solution**: Fix errors from compiler output
 
-2. **Fehlende Dependencies**
+2. **Missing dependencies**
 
    ```bash
    mvn dependency:resolve    # Maven
    ./gradlew dependencies    # Gradle
    ```
 
-3. **Veraltete Build-Artefakte**
+3. **Stale build artifacts**
 
    ```bash
    mvn clean                 # Maven
    ./gradlew clean          # Gradle
    ```
 
-### Python Build-Fehler
+### Python Build Errors
 
-**Problem**: Linting oder Test-Fehler
+**Problem**: Linting or test errors
 
-**Diagnose**:
+**Diagnosis**:
 
 ```bash
 ruff check .              # Linting
-pytest -v                # Tests mit Details
+pytest -v                # Tests with details
 ```
 
-**Häufige Ursachen**:
+**Common causes**:
 
-1. **Ruff/Flake8 Violations**
+1. **Ruff/Flake8 violations**
 
    ```bash
-   ruff check --fix .     # Auto-Fix
-   black .               # Formatierung
+   ruff check --fix .     # Auto-fix
+   black .               # Formatting
    ```
 
-2. **Import-Fehler**
+2. **Import errors**
 
    ```bash
-   pip install -e .      # Editable Install
+   pip install -e .      # Editable install
    pip install -r requirements.txt
    ```
 
-3. **Test-Abhängigkeiten fehlen**
+3. **Missing test dependencies**
 
    ```bash
    pip install -e ".[test]"
    ```
 
-### React/Node Build-Fehler
+### React/Node Build Errors
 
-**Problem**: TypeScript oder ESLint-Fehler
+**Problem**: TypeScript or ESLint errors
 
-**Diagnose**:
+**Diagnosis**:
 
 ```bash
 npm run lint             # ESLint
-tsc --noEmit            # TypeScript Check
-npm run build           # Full Build
+tsc --noEmit            # TypeScript check
+npm run build           # Full build
 ```
 
-**Häufige Ursachen**:
+**Common causes**:
 
-1. **ESLint-Fehler**
+1. **ESLint errors**
 
    ```bash
-   npm run lint -- --fix  # Auto-Fix
+   npm run lint -- --fix  # Auto-fix
    ```
 
-2. **TypeScript-Fehler**
-   - Fehlende Type-Definitionen
-   - Type Mismatches
+2. **TypeScript errors**
+   - Missing type definitions
+   - Type mismatches
 
-   **Lösung**:
+   **Solution**:
 
    ```bash
    npm install --save-dev @types/[package]
    ```
 
-3. **Node Modules veraltet**
+3. **Outdated node modules**
 
    ```bash
    rm -rf node_modules package-lock.json
    npm install
    ```
 
-## Test-Fehler
+## Test Errors
 
-### Tests schlagen fehl
+### Tests Fail
 
-**Problem**: Unit Tests oder Integration Tests fehlgeschlagen
+**Problem**: Unit tests or integration tests failed
 
-**Optionen**:
+**Options**:
 
-1. **Tests überspringen** (nur für Debugging):
+1. **Skip tests** (for debugging only):
 
    ```bash
    /git-workflow:commit --skip-tests
    ```
 
-2. **Einzelne Tests debuggen**:
+2. **Debug individual tests**:
 
    ```bash
    # Java
@@ -133,75 +133,75 @@ npm run build           # Full Build
    npm test -- --testNamePattern="test name"
    ```
 
-3. **Test-Output analysieren**:
-   - Stack Traces
-   - Assertion-Fehler
-   - Setup/Teardown-Probleme
+3. **Analyze test output**:
+   - Stack traces
+   - Assertion errors
+   - Setup/teardown issues
 
 ### Flaky Tests
 
-**Problem**: Tests schlagen manchmal fehl
+**Problem**: Tests fail intermittently
 
-**Diagnose**:
+**Diagnosis**:
 
 ```bash
-# Mehrfach ausführen
+# Run multiple times
 for i in {1..10}; do npm test; done
 ```
 
-**Häufige Ursachen**:
+**Common causes**:
 
-- Race Conditions
-- Nicht isolierte Tests
-- Externe Abhängigkeiten (Zeit, Netzwerk)
-- Shared State zwischen Tests
+- Race conditions
+- Non-isolated tests
+- External dependencies (time, network)
+- Shared state between tests
 
-**Lösungen**:
+**Solutions**:
 
-- Mocking verwenden
-- Test-Isolation sicherstellen
-- Deterministische Seeds für Zufallswerte
+- Use mocking
+- Ensure test isolation
+- Deterministic seeds for random values
 
-## Linting-Probleme
+## Linting Issues
 
-### Automatische Fixes funktionieren nicht
+### Automatic Fixes Do Not Work
 
-**Problem**: Linter meldet Fehler, die nicht auto-fixbar sind
+**Problem**: Linter reports errors that are not auto-fixable
 
-**Strategien**:
+**Strategies**:
 
-1. **Schrittweise fixen**:
+1. **Fix incrementally**:
 
    ```bash
    # Python
-   black .              # Formatierung zuerst
-   isort .             # Dann Imports
-   ruff check --fix .  # Dann Linting
+   black .              # Formatting first
+   isort .             # Then imports
+   ruff check --fix .  # Then linting
 
    # JavaScript
-   prettier --write .  # Formatierung zuerst
-   eslint --fix .     # Dann Linting
+   prettier --write .  # Formatting first
+   eslint --fix .     # Then linting
    ```
 
-2. **Einzelne Regeln temporär deaktivieren**:
+2. **Temporarily disable individual rules**:
 
    ```python
-   # noqa: E501  (nur wenn wirklich nötig)
+   # noqa: E501  (only when truly necessary)
    ```
 
    ```javascript
    // eslint-disable-next-line rule-name
    ```
 
-3. **Konfiguration überprüfen**:
+3. **Review configuration**:
    - `.eslintrc`, `pyproject.toml`, etc.
-   - Konflikte zwischen Tools
+   - Conflicts between tools
 
-### Formatierung überschreibt Code
+### Formatting Overwrites Code
 
-**Problem**: Auto-Formatter zerstört gewollte Formatierung
+**Problem**: Auto-formatter destroys intentional formatting
 
-**Lösung**:
+**Solution**:
 
 ```python
 # fmt: off
@@ -221,119 +221,119 @@ const matrix = [
 ];
 ```
 
-## Merge-Konflikte
+## Merge Conflicts
 
-### Konflikte vor Commit
+### Conflicts Before Committing
 
-**Problem**: Merge-Konflikte erkannt
+**Problem**: Merge conflicts detected
 
-**Lösung**:
+**Solution**:
 
-1. **Aktuellen Stand committen**:
+1. **Save current state**:
 
    ```bash
-   git stash                    # Changes sichern
-   git pull --rebase origin main # Aktualisieren
-   git stash pop               # Changes zurückholen
+   git stash                    # Stash changes
+   git pull --rebase origin main # Update
+   git stash pop               # Restore changes
    ```
 
-2. **Konflikte auflösen**:
+2. **Resolve conflicts**:
 
    ```bash
-   git status                   # Konflikt-Dateien sehen
-   # Dateien manuell bearbeiten
+   git status                   # View conflicted files
+   # Edit files manually
    git add <resolved-files>
-   git rebase --continue       # Oder git merge --continue
+   git rebase --continue       # Or git merge --continue
    ```
 
-3. **Merge-Tool verwenden**:
+3. **Use merge tool**:
 
    ```bash
    git mergetool
    ```
 
-### Pre-Commit Hook blockiert
+### Pre-Commit Hook Blocks
 
-**Problem**: Pre-Commit Hook verhindert Commit
+**Problem**: Pre-commit hook prevents commit
 
-**Diagnose**:
+**Diagnosis**:
 
 ```bash
-git commit -v              # Verbose Output
+git commit -v              # Verbose output
 ```
 
-**Optionen**:
+**Options**:
 
-1. **Hook-Fehler beheben** (empfohlen)
-2. **Hook temporär überspringen**:
+1. **Fix hook errors** (recommended)
+2. **Temporarily skip hook**:
 
    ```bash
    git commit --no-verify
-   # Oder
+   # Or
    /git-workflow:commit --no-verify
    ```
 
-**Warnung**: `--no-verify` nur verwenden, wenn du weisst was du tust!
+**Warning**: Only use `--no-verify` when you know what you are doing!
 
-## Staging-Probleme
+## Staging Issues
 
-### Falsche Dateien staged
+### Wrong Files Staged
 
-**Problem**: Ungewollte Dateien in Staging Area
+**Problem**: Unwanted files in staging area
 
-**Lösung**:
-
-```bash
-git reset HEAD <file>          # Einzelne Datei unstagen
-git reset HEAD                # Alles unstagen
-```
-
-### Dateien ignoriert werden
-
-**Problem**: `.gitignore` blockiert gewollte Dateien
-
-**Diagnose**:
+**Solution**:
 
 ```bash
-git check-ignore -v <file>    # Welche Regel blockiert?
+git reset HEAD <file>          # Unstage individual file
+git reset HEAD                # Unstage everything
 ```
 
-**Lösung**:
+### Files Being Ignored
+
+**Problem**: `.gitignore` blocks desired files
+
+**Diagnosis**:
+
+```bash
+git check-ignore -v <file>    # Which rule is blocking?
+```
+
+**Solution**:
 
 ```bash
 git add -f <file>             # Force add
-# Oder .gitignore anpassen
+# Or adjust .gitignore
 ```
 
-### Zu viele untracked Files
+### Too Many Untracked Files
 
-**Problem**: Hunderte von Dateien, schwer zu überblicken
+**Problem**: Hundreds of files, difficult to overview
 
-**Lösung**:
+**Solution**:
 
 ```bash
-# Nur relevante Dateien adden
-git add src/                  # Nur src Verzeichnis
-git add *.py                 # Nur Python-Dateien
+# Add only relevant files
+git add src/                  # Only src directory
+git add *.py                 # Only Python files
 git add -p                   # Interactive staging
 ```
 
-## Performance-Probleme
+## Performance Issues
 
-### Commit dauert sehr lange
+### Commit Takes Too Long
 
-**Problem**: Pre-Commit-Checks sind langsam
+**Problem**: Pre-commit checks are slow
 
-**Ursachen**:
+**Causes**:
 
-1. **Zu viele Tests**
+1. **Too many tests**
    - Option: `--skip-tests`
-   - Oder: Nur relevante Tests
+   - Or: Only relevant tests
 
-2. **Grosse Datei-Anzahl**
-   - Linter scannen zu viele Dateien
+2. **Large number of files**
+   - Linters scan too many files
 
-   **Lösung**: Nur staged Files checken
+   **Solution**: Check only staged files
 
    ```bash
    # Python
@@ -343,20 +343,20 @@ git add -p                   # Interactive staging
    eslint $(git diff --staged --name-only | grep .js$)
    ```
 
-3. **Dependency-Checks**
-   - Langsame Netzwerk-Operationen
+3. **Dependency checks**
+   - Slow network operations
 
-### Repository zu gross
+### Repository Too Large
 
-**Problem**: Grosse Binärdateien in History
+**Problem**: Large binary files in history
 
-**Diagnose**:
+**Diagnosis**:
 
 ```bash
 git count-objects -vH
 ```
 
-**Lösung**: Git LFS für grosse Dateien
+**Solution**: Use Git LFS for large files
 
 ```bash
 git lfs install
@@ -364,32 +364,32 @@ git lfs track "*.pdf"
 git lfs track "*.zip"
 ```
 
-## Commit-Message-Probleme
+## Commit Message Issues
 
-### Editor öffnet nicht
+### Editor Does Not Open
 
-**Problem**: Git öffnet falschen Editor
+**Problem**: Git opens the wrong editor
 
-**Lösung**:
+**Solution**:
 
 ```bash
-# Systemweit
+# System-wide
 export EDITOR=vim
 export VISUAL=vim
 
-# Git-spezifisch
+# Git-specific
 git config --global core.editor "code --wait"  # VS Code
 git config --global core.editor "nano"        # Nano
 git config --global core.editor "vim"         # Vim
 ```
 
-### Commit-Message-Validierung schlägt fehl
+### Commit Message Validation Fails
 
-**Problem**: commitlint oder ähnliche Tools blockieren
+**Problem**: commitlint or similar tools block the commit
 
-**Diagnose**: Validierungsregeln überprüfen
+**Diagnosis**: Review validation rules
 
-**Lösung**: Format anpassen oder Rules ändern
+**Solution**: Adjust format or modify rules
 
 ```bash
 # .commitlintrc.json
@@ -401,86 +401,86 @@ git config --global core.editor "vim"         # Vim
 }
 ```
 
-## Authentifizierung-Probleme
+## Authentication Issues
 
-### Push nach Commit schlägt fehl
+### Push After Commit Fails
 
 **Problem**: Authentication failed
 
-**Lösungen**:
+**Solutions**:
 
-1. **SSH-Key verwenden**:
+1. **Use SSH key**:
 
    ```bash
    ssh-add ~/.ssh/id_rsa
-   ssh -T git@github.com      # Test Connection
+   ssh -T git@github.com      # Test connection
    ```
 
-2. **Token-Authentication**:
+2. **Token authentication**:
 
    ```bash
    git config credential.helper store
-   # Beim nächsten Push Token eingeben
+   # Enter token on next push
    ```
 
-3. **SSH statt HTTPS**:
+3. **SSH instead of HTTPS**:
 
    ```bash
    git remote set-url origin git@github.com:user/repo.git
    ```
 
-## Spezial-Fälle
+## Special Cases
 
-### Commit rückgängig machen
+### Undo a Commit
 
-**Nach Commit, vor Push**:
-
-```bash
-git reset HEAD~1              # Soft reset (behält Changes)
-git reset --hard HEAD~1       # Hard reset (löscht Changes)
-```
-
-**Nach Push**:
+**After commit, before push**:
 
 ```bash
-git revert HEAD               # Erstellt neuen Revert-Commit
+git reset HEAD~1              # Soft reset (preserves changes)
+git reset --hard HEAD~1       # Hard reset (discards changes)
 ```
 
-### Commit-Message ändern
+**After push**:
 
-**Letzter Commit**:
+```bash
+git revert HEAD               # Creates a new revert commit
+```
+
+### Modify Commit Message
+
+**Last commit**:
 
 ```bash
 git commit --amend
 ```
 
-**Älterer Commit**:
+**Older commit**:
 
 ```bash
 git rebase -i HEAD~5
-# Markiere Commit mit 'reword'
+# Mark commit with 'reword'
 ```
 
-### Mehrere Commits zusammenfassen
+### Squash Multiple Commits
 
 ```bash
 git rebase -i HEAD~5
-# Markiere Commits mit 'squash'
+# Mark commits with 'squash'
 ```
 
-## Hilfe holen
+## Getting Help
 
-Wenn nichts funktioniert:
+When nothing works:
 
 ```bash
-git status                    # Aktueller Zustand
-git log --oneline -10        # Letzte Commits
-git reflog                   # Alle Operationen
+git status                    # Current state
+git log --oneline -10        # Recent commits
+git reflog                   # All operations
 ```
 
-**Logs analysieren**:
+**Analyze logs**:
 
-- Build-Logs
-- Test-Output
-- Linter-Reports
-- Git-Output
+- Build logs
+- Test output
+- Linter reports
+- Git output

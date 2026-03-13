@@ -1,5 +1,6 @@
 ---
 description: Explain code structure, logic, and design decisions for educational purposes
+category: education
 allowed-tools:
   - Read
   - Glob

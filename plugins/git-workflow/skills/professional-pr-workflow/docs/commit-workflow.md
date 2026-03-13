@@ -1,122 +1,122 @@
-# Commit-Workflow Integration
+# Commit Workflow Integration
 
-Der `/git-workflow:create-pr` Command integriert sich mit dem `/git-workflow:commit` Command für professionelle Commits.
+The `/git-workflow:create-pr` command integrates with the `/git-workflow:commit` command for professional commits.
 
-## Workflow-Übersicht
+## Workflow Overview
 
 ```text
-Aktueller Branch prüfen
+Check current branch
         │
-        ├─ Geschützt (main/master/develop)?
+        ├─ Protected (main/master/develop)?
         │       │
-        │       └─ JA → Neuer Branch MUSS erstellt werden
+        │       └─ YES → New branch MUST be created
         │
-        └─ Feature-Branch?
+        └─ Feature branch?
                 │
-                └─ NEIN → Verwende aktuellen Branch
+                └─ NO → Use current branch
                           │
-Uncommitted Changes?      │
+Uncommitted changes?      │
         │                 │
-        ├─ JA  → Rufe /git-workflow:commit auf
+        ├─ YES → Invoke /git-workflow:commit
         │           │
-        │           ├─ Pre-Commit Checks
+        │           ├─ Pre-commit checks
         │           ├─ Staging
-        │           ├─ Commit-Nachricht
-        │           └─ Commit erstellt
+        │           ├─ Commit message
+        │           └─ Commit created
         │
-        └─ NEIN → Verwende bestehende Commits
+        └─ NO  → Use existing commits
                       │
-                      └─ Branch erstellen (falls nötig)
+                      └─ Create branch (if necessary)
                          Push to remote
-                         PR erstellen
+                         Create PR
 ```
 
-## Branch-Status Prüfung ⚠️ WICHTIG
+## Branch Status Check ⚠️ IMPORTANT
 
-**ERSTER SCHRITT** vor jeder PR-Erstellung!
+**FIRST STEP** before any PR creation!
 
-### Geschützte Branches erkennen
+### Detecting Protected Branches
 
 ```bash
-# Aktuellen Branch ermitteln
+# Determine current branch
 current_branch=$(git branch --show-current)
 
-# Geschützte Branches definieren
+# Define protected branches
 protected_branches=("main" "master" "develop")
 
-# Prüfen ob aktueller Branch geschützt ist
+# Check if current branch is protected
 if [[ " ${protected_branches[*]} " =~ " ${current_branch} " ]]; then
-  echo "⚠️ Auf geschütztem Branch: $current_branch"
-  echo "➡️ Neuer Feature-Branch wird erstellt"
+  echo "⚠️ On protected branch: $current_branch"
+  echo "➡️ New feature branch will be created"
 else
-  echo "✅ Auf Feature-Branch: $current_branch"
-  echo "➡️ Verwende aktuellen Branch"
+  echo "✅ On feature branch: $current_branch"
+  echo "➡️ Using current branch"
 fi
 ```
 
-### Warum diese Prüfung?
+### Why This Check?
 
-**Geschützte Branches** (`main`, `master`, `develop`):
+**Protected branches** (`main`, `master`, `develop`):
 
-- ❌ Direkte Commits sind verboten
-- ❌ PRs auf sich selbst sind nicht möglich
-- ✅ Neuer Branch MUSS erstellt werden
-- ✅ PR wird gegen geschützten Branch erstellt
+- ❌ Direct commits are prohibited
+- ❌ PRs targeting themselves are not possible
+- ✅ A new branch MUST be created
+- ✅ PR is created against the protected branch
 
-**Feature-Branches** (z.B. `feature/xyz`, `bugfix/abc`):
+**Feature branches** (e.g., `feature/xyz`, `bugfix/abc`):
 
-- ✅ Bereits auf einem separaten Branch
-- ✅ Kein neuer Branch nötig
-- ✅ PR kann direkt erstellt werden
+- ✅ Already on a separate branch
+- ✅ No new branch necessary
+- ✅ PR can be created directly
 
-### Beispiel-Szenarien
+### Example Scenarios
 
-**Auf `main` Branch:**
+**On `main` branch:**
 
 ```bash
 $ git branch --show-current
 main
 
-# /git-workflow:create-pr erkennt: geschützter Branch!
-# → Erstellt: feature/neue-funktion-2024-12-12
-# → PR: feature/neue-funktion → main
+# /git-workflow:create-pr detects: protected branch!
+# → Creates: feature/new-feature-2024-12-12
+# → PR: feature/new-feature → main
 ```
 
-**Auf `feature/login` Branch:**
+**On `feature/login` branch:**
 
 ```bash
 $ git branch --show-current
 feature/login
 
-# /git-workflow:create-pr erkennt: Feature-Branch!
-# → Kein neuer Branch nötig
+# /git-workflow:create-pr detects: feature branch!
+# → No new branch necessary
 # → PR: feature/login → main
 ```
 
-## Integration mit /git-workflow:commit
+## Integration with /git-workflow:commit
 
-### Voraussetzungen
+### Prerequisites
 
-Der `/git-workflow:create-pr` Command:
+The `/git-workflow:create-pr` command:
 
-- **Prüft auf uncommitted Changes**
-- **Ruft `/git-workflow:commit` auf** falls nötig
-- **Verwendet bestehende Commits** für PR
-- **Erstellt KEINE eigenen Commits**
+- **Checks for uncommitted changes**
+- **Invokes `/git-workflow:commit`** if necessary
+- **Uses existing commits** for PR
+- **Does NOT create its own commits**
 
-### Warum diese Integration?
+### Why This Integration?
 
-**Konsistenz**: Ein Command für Commits = konsistente Qualität
+**Consistency**: One command for commits = consistent quality
 
-**Keine Duplikation**: Commit-Logik nur in `/git-workflow:commit`
+**No duplication**: Commit logic only in `/git-workflow:commit`
 
-**Flexibilität**: Du kannst Commits manuell erstellen oder automatisch
+**Flexibility**: You can create commits manually or automatically
 
-## Workflow-Szenarien
+## Workflow Scenarios
 
-### Szenario 1: Keine Commits vorhanden
+### Scenario 1: No Commits Present
 
-**Situation**: Du hast Änderungen, aber noch keinen Commit
+**Situation**: You have changes but no commit yet
 
 ```bash
 $ git status
@@ -130,24 +130,24 @@ modified: tests/test_app.py
 /git-workflow:create-pr
 ```
 
-1. **Erkennt uncommitted Changes**
-2. **Ruft `/git-workflow:commit` auf**
-   - Pre-Commit-Checks
+1. **Detects uncommitted changes**
+2. **Invokes `/git-workflow:commit`**
+   - Pre-commit checks
    - Staging
-   - Commit-Erstellung
-3. **Erstellt Branch**: `feature/neue-funktion-2024-10-30`
-4. **Pushed Branch**
-5. **Erstellt PR**
+   - Commit creation
+3. **Creates branch**: `feature/new-feature-2024-10-30`
+4. **Pushes branch**
+5. **Creates PR**
 
-### Szenario 2: Commits bereits vorhanden
+### Scenario 2: Commits Already Present
 
-**Situation**: Du hast bereits Commits erstellt
+**Situation**: You have already created commits
 
 ```bash
 $ git log --oneline -3
-abc1234 (HEAD -> main) ✨ feat: Neue Funktion hinzugefügt
-def5678 🧪 test: Tests für neue Funktion
-ghi9012 📚 docs: Dokumentation aktualisiert
+abc1234 (HEAD -> main) ✨ feat: Add new feature
+def5678 🧪 test: Add tests for new feature
+ghi9012 📚 docs: Update documentation
 ```
 
 **Workflow**:
@@ -156,22 +156,22 @@ ghi9012 📚 docs: Dokumentation aktualisiert
 /git-workflow:create-pr
 ```
 
-1. **Erkennt bestehende Commits**
-2. **Überspringt Commit-Erstellung**
-3. **Erstellt Branch**: `feature/neue-funktion-2024-10-30`
-4. **Pushed Branch mit allen Commits**
-5. **Erstellt PR** basierend auf Commit-Historie
+1. **Detects existing commits**
+2. **Skips commit creation**
+3. **Creates branch**: `feature/new-feature-2024-10-30`
+4. **Pushes branch with all commits**
+5. **Creates PR** based on commit history
 
-### Szenario 3: Gemischte Situation
+### Scenario 3: Mixed Situation
 
-**Situation**: Commits vorhanden + neue Änderungen
+**Situation**: Commits present + new changes
 
 ```bash
 $ git log --oneline -1
-abc1234 (HEAD -> main) ✨ feat: Neue Funktion hinzugefügt
+abc1234 (HEAD -> main) ✨ feat: Add new feature
 
 $ git status
-modified: src/app.py  # Weitere Änderungen
+modified: src/app.py  # Additional changes
 ```
 
 **Workflow**:
@@ -180,25 +180,25 @@ modified: src/app.py  # Weitere Änderungen
 /git-workflow:create-pr
 ```
 
-1. **Erkennt uncommitted Changes**
-2. **Ruft `/git-workflow:commit` auf** für neue Änderungen
-3. **Erstellt Branch** mit allen Commits
-4. **Pushed und erstellt PR**
+1. **Detects uncommitted changes**
+2. **Invokes `/git-workflow:commit`** for new changes
+3. **Creates branch** with all commits
+4. **Pushes and creates PR**
 
-## Commit-Aufteilung
+## Commit Splitting
 
-Der `/git-workflow:commit` Command kann Änderungen automatisch in logische Commits aufteilen.
+The `/git-workflow:commit` command can automatically split changes into logical commits.
 
-### Automatische Erkennung
+### Automatic Detection
 
-**Beispiel**: Mehrere unabhängige Änderungen
+**Example**: Multiple independent changes
 
 ```bash
 $ git status
-modified: src/auth/login.py       # Auth-Feature
-modified: src/dashboard/ui.py     # UI-Update
-modified: tests/test_auth.py      # Auth-Tests
-modified: tests/test_dashboard.py # UI-Tests
+modified: src/auth/login.py       # Auth feature
+modified: src/dashboard/ui.py     # UI update
+modified: tests/test_auth.py      # Auth tests
+modified: tests/test_dashboard.py # UI tests
 modified: README.md               # Docs
 ```
 
@@ -208,45 +208,45 @@ modified: README.md               # Docs
 /git-workflow:commit
 ```
 
-Kann in separate Commits aufteilen:
+Can split into separate commits:
 
 ```text
-✨ feat: Login-Funktionalität verbessert
+✨ feat: Improve login functionality
 ├─ src/auth/login.py
 └─ tests/test_auth.py
 
-💎 style: Dashboard UI aktualisiert
+💎 style: Update dashboard UI
 ├─ src/dashboard/ui.py
 └─ tests/test_dashboard.py
 
-📚 docs: README mit neuen Features aktualisiert
+📚 docs: Update README with new features
 └─ README.md
 ```
 
-### Warum Commit-Aufteilung?
+### Why Commit Splitting?
 
-**Vorteile**:
+**Advantages**:
 
-- **Atomare Commits**: Jeder Commit ist unabhängig
-- **Besseres Review**: Reviewer sehen klare Struktur
-- **Einfaches Debugging**: git bisect funktioniert besser
-- **Cherry-Picking**: Einzelne Features können isoliert werden
+- **Atomic commits**: Each commit is independent
+- **Better review**: Reviewers see clear structure
+- **Easier debugging**: git bisect works better
+- **Cherry-picking**: Individual features can be isolated
 
 ### Single-Commit Option
 
-**Wenn du alles in einem Commit möchtest**:
+**If you want everything in one commit**:
 
 ```bash
 /git-workflow:create-pr --single-commit
 ```
 
-## Branch-Erstellung
+## Branch Creation
 
-### Automatische Branch-Namen
+### Automatic Branch Names
 
 **Format**: `<type>/<description>-<date>`
 
-**Beispiele**:
+**Examples**:
 
 ```text
 feature/user-authentication-2024-10-30
@@ -254,155 +254,155 @@ bugfix/memory-leak-fix-2024-10-30
 refactor/api-restructure-2024-10-30
 ```
 
-### Branch-Naming basierend auf Commits
+### Branch Naming Based on Commits
 
-Der Branch-Name wird aus den Commit-Nachrichten abgeleitet:
+The branch name is derived from the commit messages:
 
 **Commits**:
 
 ```text
-✨ feat: Benutzer-Dashboard hinzugefügt
-🧪 test: Dashboard Tests implementiert
+✨ feat: Add user dashboard
+🧪 test: Implement dashboard tests
 ```
 
-**Branch**: `feature/benutzer-dashboard-2024-10-30`
+**Branch**: `feature/user-dashboard-2024-10-30`
 
-### Kollisionen vermeiden
+### Avoiding Collisions
 
-**Problem**: Branch existiert bereits
+**Problem**: Branch already exists
 
-**Lösung**: Automatisches Suffix
+**Solution**: Automatic suffix
 
 ```text
-feature/neue-funktion-2024-10-30
-feature/neue-funktion-2024-10-30-v2
-feature/neue-funktion-2024-10-30-v3
+feature/new-feature-2024-10-30
+feature/new-feature-2024-10-30-v2
+feature/new-feature-2024-10-30-v3
 ```
 
-## Push-Strategie
+## Push Strategy
 
 ### First-Time Push
 
-**Erster Push eines neuen Branches**:
+**First push of a new branch**:
 
 ```bash
-git push -u origin feature/neue-funktion
+git push -u origin feature/new-feature
 ```
 
-**Das `-u` Flag**:
+**The `-u` flag**:
 
-- Setzt upstream Branch
-- Erlaubt einfaches `git push` später
-- Tracked Remote Branch
+- Sets upstream branch
+- Allows simple `git push` later
+- Tracks remote branch
 
-### Commit-Historie präsentieren
+### Presenting Commit History
 
-**Alle Commits werden gepushed**:
-
-```bash
-git log --oneline origin/main..HEAD
-```
-
-### Force Push vermeiden
-
-**Prinzip**: Niemals `--force` ohne Notwendigkeit
-
-**Ausnahme**: Nur bei expliziter Anfrage
-
-```bash
-/git-workflow:create-pr --force-push  # ⚠️ Vorsicht!
-```
-
-## PR-Erstellung basierend auf Commits
-
-### Commit-Analyse
-
-Der Command analysiert alle Commits:
+**All commits are pushed**:
 
 ```bash
 git log --oneline origin/main..HEAD
 ```
 
-### PR-Titel Generierung
+### Avoiding Force Push
 
-**Single Commit**: Commit-Nachricht als Titel
+**Principle**: Never use `--force` without necessity
 
-```text
-✨ feat: Benutzer-Dashboard hinzugefügt
+**Exception**: Only upon explicit request
+
+```bash
+/git-workflow:create-pr --force-push  # ⚠️ Use with caution!
 ```
 
-→ PR-Titel: **"Benutzer-Dashboard hinzugefügt"**
+## PR Creation Based on Commits
 
-**Multiple Commits**: Zusammenfassung erstellen
+### Commit Analysis
 
-```text
-✨ feat: Login-System implementiert
-🧪 test: Login-Tests hinzugefügt
-📚 docs: Login-Dokumentation erstellt
+The command analyzes all commits:
+
+```bash
+git log --oneline origin/main..HEAD
 ```
 
-→ PR-Titel: **"Login-System mit Tests und Dokumentation"**
+### PR Title Generation
 
-### PR-Beschreibung Generierung
+**Single commit**: Commit message as title
 
-**Basierend auf Commits**:
+```text
+✨ feat: Add user dashboard
+```
+
+→ PR title: **"Add user dashboard"**
+
+**Multiple commits**: Create summary
+
+```text
+✨ feat: Implement login system
+🧪 test: Add login tests
+📚 docs: Create login documentation
+```
+
+→ PR title: **"Login system with tests and documentation"**
+
+### PR Description Generation
+
+**Based on commits**:
 
 ```markdown
-## Beschreibung
+## Description
 
-Diese PR implementiert ein neues Login-System mit OAuth2-Support.
+This PR implements a new login system with OAuth2 support.
 
-## Änderungen
+## Changes
 
-- ✨ Login-System implementiert
-- 🧪 Login-Tests hinzugefügt
-- 📚 Login-Dokumentation erstellt
+- ✨ Implement login system
+- 🧪 Add login tests
+- 📚 Create login documentation
 
-## Test-Plan
+## Test Plan
 
-- [ ] Manuelle Tests durchgeführt
-- [ ] Unit Tests laufen durch (18 neue Tests)
-- [ ] Integration Tests erfolgreich
+- [ ] Manual tests performed
+- [ ] Unit tests pass (18 new tests)
+- [ ] Integration tests successful
 
 ## Breaking Changes
 
-Keine
+None
 ```
 
 ## Best Practices
 
-### Commit-Hygiene vor PR
+### Commit Hygiene Before PR
 
-**Checkliste**:
+**Checklist**:
 
-- [ ] Alle Commits haben aussagekräftige Nachrichten
-- [ ] Commits sind logisch aufgeteilt
-- [ ] Keine "WIP" oder "fix" Commits
-- [ ] Commit-Historie ist sauber
+- [ ] All commits have descriptive messages
+- [ ] Commits are logically divided
+- [ ] No "WIP" or "fix" commits
+- [ ] Commit history is clean
 
-**Falls nötig**: Commits aufräumen vor `/git-workflow:create-pr`
+**If necessary**: Clean up commits before `/git-workflow:create-pr`
 
 ```bash
 git rebase -i HEAD~5
-# Commits squashen, reword, etc.
+# Squash, reword, etc.
 ```
 
-### Commit-Nachrichten als Dokumentation
+### Commit Messages as Documentation
 
-**Commits dokumentieren das "Warum"**:
+**Commits document the "why"**:
 
 ```text
-✨ feat: Rate Limiting für API-Endpoints
+✨ feat: Rate limiting for API endpoints
 
-Implementiert Token-Bucket-Algorithmus für API-Rate-Limiting.
-Limit: 100 Requests pro Minute pro User.
+Implement token bucket algorithm for API rate limiting.
+Limit: 100 requests per minute per user.
 
-Grund: Schutz vor API-Missbrauch und DoS-Angriffen.
+Reason: Protection against API abuse and DoS attacks.
 ```
 
-### Atomare Feature-Branches
+### Atomic Feature Branches
 
-**Ein Branch = Ein Feature**
+**One branch = one feature**
 
 ```text
 ✅ feature/user-authentication
@@ -412,86 +412,86 @@ Grund: Schutz vor API-Missbrauch und DoS-Angriffen.
 
 ## Troubleshooting
 
-### /git-workflow:commit wird nicht aufgerufen
+### /git-workflow:commit Is Not Invoked
 
-**Problem**: Änderungen werden erkannt, aber `/git-workflow:commit` nicht aufgerufen
+**Problem**: Changes are detected but `/git-workflow:commit` is not called
 
-**Diagnose**:
+**Diagnosis**:
 
 ```bash
 git status
 git diff
 ```
 
-**Mögliche Ursachen**:
+**Possible causes**:
 
-- Alle Änderungen bereits committed
-- Working Directory ist clean
-- Nur untracked Files
+- All changes already committed
+- Working directory is clean
+- Only untracked files
 
-### Commits sind in falscher Reihenfolge
+### Commits Are in Wrong Order
 
-**Problem**: Commit-Historie ist durcheinander
+**Problem**: Commit history is disordered
 
-**Lösung**: Rebase vor PR
+**Solution**: Rebase before PR
 
 ```bash
 git rebase -i origin/main
-# Commits neu anordnen
+# Reorder commits
 ```
 
-### Branch-Name passt nicht
+### Branch Name Does Not Fit
 
-**Problem**: Automatischer Branch-Name ist unpassend
+**Problem**: Automatic branch name is inappropriate
 
-**Lösung**: Branch manuell erstellen
+**Solution**: Create branch manually
 
 ```bash
-git checkout -b feature/besserer-name
+git checkout -b feature/better-name
 /git-workflow:create-pr
-# Verwendet bestehenden Branch-Namen
+# Uses existing branch name
 ```
 
-### Zu viele Commits
+### Too Many Commits
 
-**Problem**: PR hat 20+ Commits, schwer zu reviewen
+**Problem**: PR has 20+ commits, difficult to review
 
-**Lösung**: Commits squashen
+**Solution**: Squash commits
 
 ```bash
 git rebase -i origin/main
-# Markiere Commits als 'squash'
+# Mark commits as 'squash'
 ```
 
-Oder verwenden:
+Or use:
 
 ```bash
 /git-workflow:create-pr --single-commit
 ```
 
-## Integration mit Git Hooks
+## Integration with Git Hooks
 
 ### Pre-Push Hook
 
-**Automatische Validierung vor Push**:
+**Automatic validation before push**:
 
 ```bash
 #!/bin/bash
 # .git/hooks/pre-push
 
-# Alle Commits prüfen
+# Check all commits
 for commit in $(git rev-list origin/main..HEAD); do
   msg=$(git log -1 --format=%s $commit)
   if ! echo "$msg" | grep -E "^(feat|fix|docs|style|refactor|test|chore):"; then
-    echo "❌ Commit $commit hat keine Convention-Nachricht"
+    echo "❌ Commit $commit does not have a conventional message"
     exit 1
   fi
 done
 ```
 
-### Commit-Message Hook
+### Commit Message Hook
 
-**Validierung beim Committen**:
+**Validation during committing**:
 
 ```bash
 #!/bin/bash
@@ -499,42 +499,42 @@ done
 
 msg=$(cat "$1")
 if ! echo "$msg" | grep -E "^(✨|🐛|📚|💎|♻️|⚡|🧪|🔧)"; then
-  echo "❌ Commit-Nachricht benötigt Emoji"
+  echo "❌ Commit message requires emoji prefix"
   exit 1
 fi
 ```
 
-## Workflow-Beispiele
+## Workflow Examples
 
-### Einfacher Feature-Workflow
+### Simple Feature Workflow
 
 ```bash
-# 1. Änderungen machen
+# 1. Make changes
 vim src/feature.py
 
-# 2. PR erstellen (inkl. Commit)
+# 2. Create PR (including commit)
 /git-workflow:create-pr
 
-# Fertig! Branch, Commits, und PR erstellt
+# Done! Branch, commits, and PR created
 ```
 
-### Komplexer Multi-Commit-Workflow
+### Complex Multi-Commit Workflow
 
 ```bash
-# 1. Feature implementieren
+# 1. Implement feature
 vim src/auth.py
 /git-workflow:commit
 
-# 2. Tests hinzufügen
+# 2. Add tests
 vim tests/test_auth.py
 /git-workflow:commit
 
-# 3. Docs aktualisieren
+# 3. Update docs
 vim README.md
 /git-workflow:commit
 
-# 4. PR erstellen
+# 4. Create PR
 /git-workflow:create-pr
 
-# Branch mit 3 sauberen Commits + PR
+# Branch with 3 clean commits + PR
 ```

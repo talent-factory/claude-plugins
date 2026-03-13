@@ -1,6 +1,6 @@
 ---
 description: Create professional git commits with automated checks for Java, Python, and React projects
-category: develop
+category: development
 allowed-tools:
   - Bash
   - Read

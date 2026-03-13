@@ -1,5 +1,7 @@
 ---
 description: Use Gemini as an independent reviewer to compare two technical approaches
+category: ai-engineering
+argument-hint: "<comparison-question>"
 allowed-tools:
   - Read
   - Glob

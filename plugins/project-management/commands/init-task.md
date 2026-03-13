@@ -1,5 +1,6 @@
 ---
 description: Initialize a single task with duplicate detection, ATOMIC validation, and mandatory Definition of Done (Filesystem or Linear)
+category: project
 argument-hint: "[title] [--plan <name>] [--linear] [--standalone] [--type <type>] [--priority <p>] [--estimate <sp>]"
 allowed-tools:
   - Read

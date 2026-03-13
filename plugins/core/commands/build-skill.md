@@ -1,5 +1,6 @@
 ---
 description: Build comprehensive Claude Code skills through elicitation-driven development
+category: development
 allowed-tools:
   - Task
   - Read

@@ -1,5 +1,6 @@
 ---
 description: Validate and package a Claude Code skill as a distributable ZIP archive
+category: development
 allowed-tools:
   - Bash
   - Read

@@ -2,7 +2,7 @@
 
 Model-agnostic bridge to Google Gemini 2.5 Pro for Claude Code. Enables long-context codebase analysis (1M tokens), multimodal vision, and independent model validation within your existing Claude Code workflow.
 
-## Version 1.0.0
+## Version 1.0.1
 
 Gemini runs as an **MCP tool** — Claude calls it exactly like any other tool. No second terminal, no context switch, no workflow disruption.
 

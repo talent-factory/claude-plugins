@@ -2,7 +2,7 @@
 
 Comprehensive development utilities for plugin/command/agent development, validation, CI automation, text humanization, and PDF-to-Markdown conversion.
 
-## Version 3.1.1
+## Version 3.1.3
 
 **New:** Added `pdf-to-markdown` skill for converting PDF documents to Markdown with dual-mode support (fast text extraction or Claude Code vision analysis). Now includes 7 commands, 2 skills, and 2 expert agents.
 
@@ -526,7 +526,7 @@ intuitive, and powerful user experience."
 
 ## Changelog
 
-### Version 3.1.1 (2026-02-27)
+### Version 3.1.3 (2026-02-27)
 
 **Patch Update:**
 - Added `keywords` and `license` fields to plugin.json

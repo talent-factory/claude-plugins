@@ -2,7 +2,7 @@
 
 Professional git workflow automation with pre-commit checks, emoji conventional commits, PR management, and comprehensive references.
 
-## Version 2.2.1
+## Version 2.2.2
 
 **Minor Update:** Added `/git-workflow:resolve-conflicts` command for intelligent merge conflict resolution with semantic analysis, automated test validation, and comprehensive reference documentation.
 
@@ -404,7 +404,7 @@ See [create-pr/troubleshooting.md](https://github.com/talent-factory/claude-plug
 
 ## Changelog
 
-### Version 2.2.1 (2026-02-27)
+### Version 2.2.2 (2026-02-27)
 
 **Patch Update:**
 - Added `keywords` and `license` fields to plugin.json

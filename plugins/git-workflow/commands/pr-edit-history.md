@@ -1,7 +1,8 @@
 ---
 description: Display the edit history of a GitHub pull request description
-category: github
-allowed-tools: Bash
+category: development
+allowed-tools:
+  - Bash
 ---
 
 # Display Pull Request Edit History

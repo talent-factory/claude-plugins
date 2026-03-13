@@ -1,5 +1,6 @@
 ---
 description: Implement a complete EPIC automatically with parallel agents using native Claude Code autonomous loops
+category: project
 argument-hint: "[epic-id | plan-name] [--linear] [--max-parallel 3] [--max-iterations 30]"
 allowed-tools:
   - Read

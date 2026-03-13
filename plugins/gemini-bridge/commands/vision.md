@@ -1,5 +1,7 @@
 ---
 description: Convert screenshots, diagrams, or mockups to code/docs using Gemini's vision
+category: ai-engineering
+argument-hint: "<image-path> <task-description>"
 allowed-tools:
   - Read
   - Bash

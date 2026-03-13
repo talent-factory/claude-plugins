@@ -1,7 +1,8 @@
 ---
 name: agent-expert
-category: specialized-domains
 description: Creates and optimizes specialized Claude Code agents. Expertise in agent design, prompt engineering, domain modeling, and best practices for the claude-code-templates system. Use PROACTIVELY when designing new agents or improving existing ones.
+category: specialized-domains
+model: sonnet
 color: purple
 ---
 

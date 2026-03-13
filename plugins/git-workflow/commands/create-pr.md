@@ -1,6 +1,6 @@
 ---
 description: Create a new branch, commit changes, and open a pull request with automated commit splitting
-category: develop
+category: development
 allowed-tools:
   - "Bash(git *)"
   - "Bash(gh *)"

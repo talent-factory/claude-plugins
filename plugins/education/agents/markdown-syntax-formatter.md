@@ -1,7 +1,8 @@
 ---
 name: markdown-syntax-formatter
-category: specialized-domains
 description: Converts text with visual formatting into proper Markdown syntax, resolves formatting issues, and ensures consistent document structure. Handles lists, headings, code blocks, and emphasis markers. Use when formatting or reviewing Markdown files, fixing heading hierarchies, or applying Swiss German orthography.
+category: specialized-domains
+model: sonnet
 color: yellow
 ---
 

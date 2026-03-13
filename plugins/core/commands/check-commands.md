@@ -1,5 +1,7 @@
 ---
 description: Validate command files, documentation, and best practices
+category: validation
+argument-hint: "[command-path]"
 allowed-tools:
   - Read
   - Glob

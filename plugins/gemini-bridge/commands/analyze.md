@@ -1,5 +1,7 @@
 ---
 description: Delegate codebase or text analysis to Gemini 2.5 Pro (1M token context)
+category: ai-engineering
+argument-hint: "<analysis-task> [--vision <image-path>]"
 allowed-tools:
   - Read
   - Glob

@@ -1,217 +1,217 @@
-# Pull Request Template und Best Practices
+# Pull Request Template and Best Practices
 
-## Standard PR-Template
+## Standard PR Template
 
-### Grundstruktur
+### Basic Structure
 
 ```markdown
-## Beschreibung
+## Description
 
-[Kurze Zusammenfassung der Änderungen in 2-3 Sätzen]
+[Brief summary of changes in 2-3 sentences]
 
-## Änderungen
+## Changes
 
-- Hauptänderung 1
-- Hauptänderung 2
-- Hauptänderung 3
+- Primary change 1
+- Primary change 2
+- Primary change 3
 
-## Test-Plan
+## Test Plan
 
-- [ ] Manuelle Tests durchgeführt
-- [ ] Unit Tests laufen durch
-- [ ] Integration Tests erfolgreich
-- [ ] E2E Tests durchgeführt (falls relevant)
+- [ ] Manual tests performed
+- [ ] Unit tests pass
+- [ ] Integration tests successful
+- [ ] E2E tests performed (if applicable)
 
 ## Breaking Changes
 
-[Falls vorhanden, Breaking Changes auflisten]
-[Oder: "Keine"]
+[If applicable, list breaking changes]
+[Or: "None"]
 
-## Zusätzliche Informationen
+## Additional Information
 
-[Screenshots, Links, weitere Kontext-Informationen]
+[Screenshots, links, further contextual information]
 ```
 
-## Beschreibungs-Abschnitt
+## Description Section
 
-### Was gehört in die Beschreibung?
+### What Belongs in the Description?
 
-**Gute Beschreibung**:
+**Good description**:
 
-- **Was**: Welche Änderungen wurden gemacht?
-- **Warum**: Warum waren diese Änderungen nötig?
-- **Wie**: Wie wurde das Problem gelöst?
+- **What**: What changes were made?
+- **Why**: Why were these changes necessary?
+- **How**: How was the problem solved?
 
-**Beispiel**:
+**Example**:
 
 ```markdown
-## Beschreibung
+## Description
 
-Diese PR implementiert Rate Limiting für alle API-Endpoints, um DoS-Angriffe
-zu verhindern. Der Token-Bucket-Algorithmus limitiert Requests auf 100 pro
-Minute pro User. Bei Überschreitung wird HTTP 429 zurückgegeben.
+This PR implements rate limiting for all API endpoints to prevent DoS attacks.
+The token bucket algorithm limits requests to 100 per minute per user.
+Upon exceeding the limit, HTTP 429 is returned.
 ```
 
-### Kontext bieten
+### Providing Context
 
-**Hilfreich für Reviewer**:
+**Helpful for reviewers**:
 
-- Ticket/Issue-Links
-- Design-Dokumente
-- Vorherige PRs
-- Diskussionen
+- Ticket/issue links
+- Design documents
+- Previous PRs
+- Discussions
 
-**Beispiel**:
+**Example**:
 
 ```markdown
-## Kontext
+## Context
 
-Diese Änderung adressiert #123 und implementiert das Design aus
-docs/rate-limiting-spec.md. Siehe auch #456 für verwandte Diskussion.
+This change addresses #123 and implements the design from
+docs/rate-limiting-spec.md. See also #456 for related discussion.
 ```
 
-## Änderungs-Liste
+## Change List
 
-### Strukturierte Übersicht
+### Structured Overview
 
-**Nach Kategorien gruppieren**:
+**Group by categories**:
 
 ```markdown
-## Änderungen
+## Changes
 
 ### Backend
 
-- ✨ Rate Limiting Middleware implementiert
-- ♻️ API-Error-Handling verbessert
-- 🧪 Integration Tests für Rate Limiting
+- ✨ Implement rate limiting middleware
+- ♻️ Improve API error handling
+- 🧪 Add integration tests for rate limiting
 
 ### Frontend
 
-- 💎 Error-Anzeige für 429 Responses
-- 📚 Benutzer-Dokumentation aktualisiert
+- 💎 Add error display for 429 responses
+- 📚 Update user documentation
 
 ### Infrastructure
 
-- 🔧 Redis für Rate-Limit-Speicherung konfiguriert
+- 🔧 Configure Redis for rate limit storage
 ```
 
-### Quantifizierung
+### Quantification
 
-**Messbare Änderungen erwähnen**:
+**Mention measurable changes**:
 
 ```markdown
-## Änderungen
+## Changes
 
-- ✨ 3 neue API-Endpoints hinzugefügt
-- 🧪 Test-Coverage von 75% auf 92% erhöht
-- ⚡ API-Response-Zeit um 40% verbessert
-- 🐛 5 kritische Bugs behoben
+- ✨ Add 3 new API endpoints
+- 🧪 Increase test coverage from 75% to 92%
+- ⚡ Improve API response time by 40%
+- 🐛 Fix 5 critical bugs
 ```
 
-## Test-Plan
+## Test Plan
 
-### Umfassende Test-Checkliste
+### Comprehensive Test Checklist
 
 ```markdown
-## Test-Plan
+## Test Plan
 
 ### Unit Tests
 
-- [x] Alle bestehenden Tests laufen durch
-- [x] 15 neue Tests für Rate Limiting hinzugefügt
-- [x] Test-Coverage > 90%
+- [x] All existing tests pass
+- [x] 15 new tests for rate limiting added
+- [x] Test coverage > 90%
 
 ### Integration Tests
 
-- [x] Rate Limiting bei normalem Traffic
-- [x] 429 Response bei Limit-Überschreitung
-- [x] Redis-Failover-Szenario getestet
+- [x] Rate limiting under normal traffic
+- [x] 429 response upon limit exceedance
+- [x] Redis failover scenario tested
 
-### Manuelle Tests
+### Manual Tests
 
-- [x] API-Calls mit verschiedenen Users
-- [x] Grenzwert-Tests (99, 100, 101 Requests)
-- [x] Performance unter Last
+- [x] API calls with various users
+- [x] Boundary tests (99, 100, 101 requests)
+- [x] Performance under load
 
 ### E2E Tests
 
-- [x] Frontend zeigt 429-Error korrekt an
-- [x] Retry-Logic funktioniert
-- [x] User wird über Limit informiert
+- [x] Frontend displays 429 error correctly
+- [x] Retry logic functions properly
+- [x] User is informed about limit
 
 ### Performance Tests
 
-- [x] Load-Test mit 1000 concurrent Users
-- [x] Latenz < 10ms für Rate-Limit-Check
-- [x] Redis-Memory-Usage akzeptabel
+- [x] Load test with 1000 concurrent users
+- [x] Latency < 10ms for rate limit check
+- [x] Redis memory usage acceptable
 ```
 
-### Test-Ergebnisse
+### Test Results
 
-**Konkrete Zahlen hinzufügen**:
+**Include concrete figures**:
 
 ```markdown
-## Test-Ergebnisse
+## Test Results
 
 - ✅ 127/127 Unit Tests passed
 - ✅ 45/45 Integration Tests passed
-- ✅ Load Test: 10,000 req/s ohne Fehler
+- ✅ Load Test: 10,000 req/s without errors
 - ✅ Memory: 150MB Redis (acceptable)
 ```
 
 ## Breaking Changes
 
-### Klare Kommunikation
+### Clear Communication
 
-**Falls Breaking Changes vorhanden**:
+**If breaking changes are present**:
 
 ```markdown
 ## Breaking Changes
 
-### API Endpoint Änderungen
+### API Endpoint Changes
 
-❌ **Entfernt**: `GET /api/v1/users/list`
+❌ **Removed**: `GET /api/v1/users/list`
 
-✅ **Neu**: `GET /api/v2/users` (mit Pagination)
+✅ **New**: `GET /api/v2/users` (with pagination)
 
 ### Migration
 
-Für Migration von v1 zu v2:
+For migration from v1 to v2:
 
-1. Update API-Base-URL zu `/api/v2`
-2. Implementiere Pagination-Handling
-3. Siehe Migration Guide: docs/migration-v1-v2.md
+1. Update API base URL to `/api/v2`
+2. Implement pagination handling
+3. See migration guide: docs/migration-v1-v2.md
 
 ### Deprecation Timeline
 
-- **2024-11-01**: v1 als deprecated markiert
-- **2024-12-01**: v1 wird entfernt
+- **2024-11-01**: v1 marked as deprecated
+- **2024-12-01**: v1 will be removed
 ```
 
-### Keine Breaking Changes
+### No Breaking Changes
 
-**Explizit kommunizieren**:
+**Communicate explicitly**:
 
 ```markdown
 ## Breaking Changes
 
-Keine. Diese PR ist vollständig abwärtskompatibel.
+None. This PR is fully backward compatible.
 ```
 
-## Zusätzliche Informationen
+## Additional Information
 
 ### Screenshots
 
-**UI-Änderungen visualisieren**:
+**Visualize UI changes**:
 
 ```markdown
 ## Screenshots
 
-### Vorher
+### Before
 
 ![Before](https://example.com/before.png)
 
-### Nachher
+### After
 
 ![After](https://example.com/after.png)
 
@@ -220,44 +220,44 @@ Keine. Diese PR ist vollständig abwärtskompatibel.
 ![Mobile](https://example.com/mobile.png)
 ```
 
-### Performance-Metriken
+### Performance Metrics
 
 ```markdown
-## Performance-Vergleich
+## Performance Comparison
 
-| Metrik | Vorher | Nachher | Verbesserung |
-|--------|--------|---------|--------------|
-| API Latenz | 150ms | 90ms | 40% |
+| Metric | Before | After | Improvement |
+|--------|--------|-------|-------------|
+| API Latency | 150ms | 90ms | 40% |
 | DB Queries | 15 | 3 | 80% |
 | Memory | 500MB | 350MB | 30% |
 ```
 
-### Code-Beispiele
+### Code Examples
 
 ```markdown
-## Verwendung
+## Usage
 
 ```python
-# Vorher
+# Before
 user = User.query.get(id)
 
-# Nachher
-user = UserService.get_by_id(id)  # Mit Caching
+# After
+user = UserService.get_by_id(id)  # With caching
 ```
 
-## PR-Titel Best Practices
+## PR Title Best Practices
 
-### Klare, prägnante Titel
+### Clear, Concise Titles
 
-✅ **Gut**:
+✅ **Good**:
 
 ```text
-✨ feat: Rate Limiting für API-Endpoints implementiert
-🐛 fix: Memory Leak in WebSocket-Connections behoben
-♻️ refactor: User Service in Microservices aufgeteilt
+✨ feat: Implement rate limiting for API endpoints
+🐛 fix: Resolve memory leak in WebSocket connections
+♻️ refactor: Split User Service into microservices
 ```
 
-❌ **Schlecht**:
+❌ **Poor**:
 
 ```text
 updates
@@ -266,19 +266,19 @@ changes
 PR for feature
 ```
 
-### Titel-Format
+### Title Format
 
 **Format**: `<emoji> <type>: <description>`
 
-- **Länge**: 50-70 Zeichen
-- **Sprache**: Konsistent (Deutsch oder Englisch)
-- **Imperativ**: "Implementiert" nicht "Implementieren"
+- **Length**: 50-70 characters
+- **Language**: Consistent (English)
+- **Imperative**: "Implement" not "Implementing"
 
-## Labels und Tags
+## Labels and Tags
 
-### Automatische Labels
+### Automatic Labels
 
-**Basierend auf Commit-Typen**:
+**Based on commit types**:
 
 - `feat` → `enhancement`, `feature`
 - `fix` → `bug`, `bugfix`
@@ -287,25 +287,25 @@ PR for feature
 - `perf` → `performance`
 - `test` → `testing`
 
-### Zusätzliche Labels
+### Additional Labels
 
-**Manuell hinzufügen**:
+**Add manually**:
 
-- `needs-review` - Wartet auf Review
-- `work-in-progress` - Noch nicht fertig
-- `breaking-change` - Breaking Changes
-- `high-priority` - Dringend
-- `dependencies` - Dependency-Updates
+- `needs-review` - Awaiting review
+- `work-in-progress` - Not yet complete
+- `breaking-change` - Breaking changes
+- `high-priority` - Urgent
+- `dependencies` - Dependency updates
 
-## Reviewer-Zuweisung
+## Reviewer Assignment
 
-### Wen zuweisen?
+### Whom to Assign?
 
-**Code-Ownership**:
+**Code ownership**:
 
-- Experten für betroffene Module
-- Team-Mitglieder mit Kontext
-- Mindestens 1-2 Reviewer
+- Experts for affected modules
+- Team members with context
+- At least 1-2 reviewers
 
 **CODEOWNERS** (`.github/CODEOWNERS`):
 
@@ -320,56 +320,56 @@ PR for feature
 /docs/**          @tech-writers
 ```
 
-## Review-Prozess
+## Review Process
 
-### Als PR-Ersteller
+### As PR Author
 
-**Checkliste vor Review-Anfrage**:
+**Checklist before requesting review**:
 
-- [ ] Self-Review durchgeführt
-- [ ] Alle Checks (CI/CD) sind grün
-- [ ] Tests laufen durch
-- [ ] Dokumentation aktualisiert
-- [ ] Screenshots hinzugefügt (bei UI-Änderungen)
-- [ ] Breaking Changes dokumentiert
+- [ ] Self-review performed
+- [ ] All checks (CI/CD) are green
+- [ ] Tests pass
+- [ ] Documentation updated
+- [ ] Screenshots added (for UI changes)
+- [ ] Breaking changes documented
 
-### Review-Kommentare adressieren
+### Addressing Review Comments
 
 **Workflow**:
 
-1. **Kommentare lesen** und verstehen
-2. **Fragen klären** wenn unklar
-3. **Änderungen umsetzen**
-4. **Commit und Push**
-5. **Kommentare als "Resolved" markieren**
-6. **Reviewer re-reviewen lassen**
+1. **Read comments** and understand them
+2. **Clarify questions** if unclear
+3. **Implement changes**
+4. **Commit and push**
+5. **Mark comments as "Resolved"**
+6. **Allow reviewer to re-review**
 
 ## Draft vs. Ready PRs
 
 ### Draft PR
 
-**Wann verwenden**:
+**When to use**:
 
 ```bash
 /git-workflow:create-pr --draft
 ```
 
-**Für**:
+**For**:
 
-- Work in Progress
-- Feedback zu Ansatz einholen
-- CI/CD testen
-- Frühes Review
+- Work in progress
+- Soliciting feedback on approach
+- Testing CI/CD
+- Early review
 
-**Label**: Automatisch als "Draft" markiert
+**Label**: Automatically marked as "Draft"
 
 ### Ready PR
 
-**Wann verwenden**:
+**When to use**:
 
-- Code ist fertig
-- Tests laufen durch
-- Bereit für Review und Merge
+- Code is complete
+- Tests pass
+- Ready for review and merge
 
 **Conversion**:
 
@@ -377,135 +377,135 @@ PR for feature
 gh pr ready <pr-number>
 ```
 
-## PR-Grösse
+## PR Size
 
-### Ideale Grösse
+### Ideal Size
 
-**Empfehlung**:
+**Recommendation**:
 
-- **150-400 Zeilen**: Ideal für Review
-- **400-800 Zeilen**: Noch akzeptabel
-- **800+**: Zu gross, sollte aufgeteilt werden
+- **150-400 lines**: Ideal for review
+- **400-800 lines**: Still acceptable
+- **800+**: Too large, should be split
 
-### Zu grosse PRs aufteilen
+### Splitting Overly Large PRs
 
-**Strategien**:
+**Strategies**:
 
-1. **Nach Features**: Jedes Feature eigene PR
-2. **Nach Schichten**: Backend, Frontend, Tests
-3. **Nach Refactoring**: Refactoring → Feature
+1. **By features**: Each feature in its own PR
+2. **By layers**: Backend, frontend, tests
+3. **By refactoring**: Refactoring → Feature
 4. **Stacked PRs**: PR1 → PR2 → PR3
 
-**Beispiel für Stacked PRs**:
+**Example for stacked PRs**:
 
 ```text
-PR #1: ♻️ refactor: User Service Refactoring
-PR #2: ✨ feat: Rate Limiting (base on #1)
-PR #3: 🧪 test: Integration Tests (base on #2)
+PR #1: ♻️ refactor: User Service refactoring
+PR #2: ✨ feat: Rate limiting (based on #1)
+PR #3: 🧪 test: Integration tests (based on #2)
 ```
 
-## Merge-Strategien
+## Merge Strategies
 
 ### Squash and Merge
 
-**Wann**: Feature-Branches mit vielen kleinen Commits
+**When**: Feature branches with many small commits
 
-**Resultat**: Ein sauberer Commit in main
+**Result**: One clean commit in main
 
 ```
-Squash and Merge: ✨ feat: Rate Limiting implementiert
+Squash and Merge: ✨ feat: Implement rate limiting
 ```
 
 ### Rebase and Merge
 
-**Wann**: Branches mit sauberer Commit-Historie
+**When**: Branches with a clean commit history
 
-**Resultat**: Alle Commits werden in main übernommen
+**Result**: All commits are transferred to main
 
 ```text
 ✨ feat: Rate Limiting Middleware
 🧪 test: Rate Limiting Tests
-📚 docs: Rate Limiting Dokumentation
+📚 docs: Rate Limiting Documentation
 ```
 
 ### Merge Commit
 
-**Wann**: Feature-Branches die als Einheit erhalten bleiben sollen
+**When**: Feature branches that should be preserved as a unit
 
-**Resultat**: Merge-Commit mit kompletter Historie
+**Result**: Merge commit with complete history
 
 ```
 Merge pull request #123 from feature/rate-limiting
 ```
 
-## PR-Beschreibung Templates
+## PR Description Templates
 
-### Projektspezifische Templates
+### Project-Specific Templates
 
 **GitHub Template** (`.github/pull_request_template.md`):
 
 ```markdown
-## Beschreibung
+## Description
 
-<!-- Kurze Zusammenfassung -->
+<!-- Brief summary -->
 
-## Typ der Änderung
+## Type of Change
 
 - [ ] 🐛 Bug Fix
-- [ ] ✨ Neues Feature
+- [ ] ✨ New Feature
 - [ ] ♻️ Refactoring
-- [ ] 📚 Dokumentation
+- [ ] 📚 Documentation
 - [ ] 🧪 Tests
 
-## Test-Plan
+## Test Plan
 
-<!-- Beschreibe wie du getestet hast -->
+<!-- Describe how you tested -->
 
-## Checkliste
+## Checklist
 
-- [ ] Code folgt Projekt-Style-Guide
-- [ ] Self-Review durchgeführt
-- [ ] Tests hinzugefügt/aktualisiert
-- [ ] Dokumentation aktualisiert
-- [ ] Keine Merge-Konflikte
+- [ ] Code follows project style guide
+- [ ] Self-review performed
+- [ ] Tests added/updated
+- [ ] Documentation updated
+- [ ] No merge conflicts
 
 ## Screenshots
 
-<!-- Falls UI-Änderungen -->
+<!-- If UI changes -->
 
-## Verwandte Issues
+## Related Issues
 
 Fixes #
 Relates to #
 ```
 
-## Best Practices Zusammenfassung
+## Best Practices Summary
 
 ### DO ✅
 
-- Aussagekräftige Titel und Beschreibungen
-- Umfassender Test-Plan
-- Screenshots bei UI-Änderungen
-- Breaking Changes klar dokumentieren
-- Self-Review vor Submission
-- Kleine, fokussierte PRs
-- Links zu Issues/Tickets
+- Descriptive titles and descriptions
+- Comprehensive test plan
+- Screenshots for UI changes
+- Clearly document breaking changes
+- Self-review before submission
+- Small, focused PRs
+- Links to issues/tickets
 
 ### DON'T ❌
 
-- Vage Titel wie "Updates" oder "Fixes"
-- PRs ohne Beschreibung
-- Riesige PRs (1000+ Zeilen)
-- Ungetesteter Code
-- "WIP" ohne Draft-Status
-- Fehlende Dokumentation
-- Merge-Konflikte ignorieren
+- Vague titles like "Updates" or "Fixes"
+- PRs without description
+- Enormous PRs (1000+ lines)
+- Untested code
+- "WIP" without draft status
+- Missing documentation
+- Ignoring merge conflicts
 
-## Automatisierung
+## Automation
 
 ### GitHub Actions
 
-**Automatische Labels**:
+**Automatic labels**:
 
 ```yaml
 name: PR Labeler
@@ -517,12 +517,12 @@ jobs:
       - uses: actions/labeler@v4
 ```
 
-### PR-Checks
+### PR Checks
 
-**Pflicht-Checks vor Merge**:
+**Required checks before merge**:
 
-- ✅ CI/CD Pipeline erfolgreich
-- ✅ Code-Coverage > 80%
-- ✅ Keine Linting-Fehler
-- ✅ Mindestens 1 Approval
-- ✅ Keine offenen Kommentare
+- ✅ CI/CD pipeline successful
+- ✅ Code coverage > 80%
+- ✅ No linting errors
+- ✅ At least 1 approval
+- ✅ No open comments
