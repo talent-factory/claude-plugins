@@ -4,8 +4,10 @@
 [![Claude Code](https://img.shields.io/badge/Claude%20Code-Plugin-blue)](https://claude.ai)
 [![Gemini 2.5 Pro](https://img.shields.io/badge/Gemini-2.5%20Pro-orange)](https://ai.google.dev)
 
-**Model-agnostic bridge to Google Gemini 2.5 Pro for Claude Code.**  
-Enables long-context codebase analysis (1M tokens), multimodal vision, and 
+## Version 1.0.1
+
+**Model-agnostic bridge to Google Gemini 2.5 Pro for Claude Code.**
+Enables long-context codebase analysis (1M tokens), multimodal vision, and
 independent model validation — seamlessly within your existing Claude Code workflow.
 
 ---
