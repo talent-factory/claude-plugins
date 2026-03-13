@@ -143,8 +143,8 @@ Add to your Claude Code settings:
 
 ## Related Plugins
 
-- **[Git Workflow](../git-workflow/README.md)** - Professional commit and PR automation
-- **[Code Quality](../code-quality/README.md)** - Python and Frontend expert agents
+- **[Git Workflow](git-workflow.md)** - Professional commit and PR automation
+- **[Code Quality](code-quality.md)** - Python and Frontend expert agents
 
 ---
 
