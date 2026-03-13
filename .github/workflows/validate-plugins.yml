@@ -24,7 +24,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
 
       - name: Validate plugin.json files
         run: |
@@ -115,7 +115,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
 
       - name: Check plugin README files
         run: |
@@ -138,7 +138,7 @@ jobs:
           done
 
       - name: Check for broken links in markdown
-        uses: gaurav-nelson/github-action-markdown-link-check@v1
+        uses: gaurav-nelson/github-action-markdown-link-check@5c5dfc0ac2e225883c0e5f03a85311ec2830d368 # v1
         with:
           use-quiet-mode: 'yes'
           use-verbose-mode: 'no'
@@ -151,30 +151,22 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        with:
+          fetch-depth: 0
 
       - name: Run Trivy security scanner
-        uses: aquasecurity/trivy-action@master
+        uses: aquasecurity/trivy-action@57a97c7e7821a5776cebc9bb87c984fa69cba8f1 # v0.35.0
         with:
           scan-type: 'fs'
           scan-ref: '.'
           severity: 'HIGH,CRITICAL'
-          exit-code: '0'
+          exit-code: '1'
 
-      - name: Check for secrets in files
-        run: |
-          echo "Scanning for potential secrets..."
-          # Check for common secret patterns
-          if grep -r -i "api[_-]key\s*=\s*['\"][^'\"]\+['\"]" plugins/ 2>/dev/null; then
-            echo "⚠️  Potential API key found"
-          fi
-          if grep -r -i "password\s*=\s*['\"][^'\"]\+['\"]" plugins/ 2>/dev/null; then
-            echo "⚠️  Potential password found"
-          fi
-          if grep -r -i "secret\s*=\s*['\"][^'\"]\+['\"]" plugins/ 2>/dev/null; then
-            echo "⚠️  Potential secret found"
-          fi
-          echo "✅ Secret scan complete"
+      - name: Scan for secrets with Gitleaks
+        uses: gitleaks/gitleaks-action@ff98106e4c7b2bc287b24eaf42907196329070c7 # v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   test-plugins:
     name: Test Plugin Loading
@@ -182,7 +174,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
 
       - name: Simulate plugin directory structure check
         run: |
