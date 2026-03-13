@@ -287,7 +287,8 @@ def gemini_status() -> str:
             contents="Reply with: GEMINI_BRIDGE_OK",
             config=types.GenerateContentConfig(
                 temperature=0.2,
-                max_output_tokens=64,
+                max_output_tokens=256,
+                thinking_config=types.ThinkingConfig(thinking_budget=0),
             ),
         )
         if response.text and "GEMINI_BRIDGE_OK" in response.text:
