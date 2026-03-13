@@ -1,49 +1,49 @@
-# Troubleshooting: PR-Erstellung
+# Troubleshooting: PR Creation
 
-## Branch-Probleme
+## Branch Issues
 
-### Branch existiert bereits
+### Branch Already Exists
 
-**Problem**: Branch-Name kollidiert mit bestehendem Branch
+**Problem**: Branch name collides with an existing branch
 
 **Symptom**:
 
 ```bash
-fatal: A branch named 'feature/neue-funktion' already exists.
+fatal: A branch named 'feature/new-feature' already exists.
 ```
 
-**Diagnose**:
+**Diagnosis**:
 
 ```bash
-git branch -a                    # Alle Branches anzeigen
-git branch -r | grep feature     # Remote Feature-Branches
+git branch -a                    # Show all branches
+git branch -r | grep feature     # Remote feature branches
 ```
 
-**Lösungen**:
+**Solutions**:
 
-1. **Automatisches Suffix** (Command macht das automatisch):
+1. **Automatic suffix** (command does this automatically):
 
    ```
-   feature/neue-funktion    → feature/neue-funktion-v2
+   feature/new-feature    → feature/new-feature-v2
    ```
 
-2. **Bestehenden Branch verwenden**:
+2. **Use existing branch**:
 
    ```bash
-   git checkout feature/neue-funktion
+   git checkout feature/new-feature
    /git-workflow:create-pr
    ```
 
-3. **Alten Branch löschen** (Vorsicht!):
+3. **Delete old branch** (use with caution!):
 
    ```bash
-   git branch -D feature/alte-funktion
-   git push origin --delete feature/alte-funktion
+   git branch -D feature/old-feature
+   git push origin --delete feature/old-feature
    ```
 
-### Branch kann nicht erstellt werden
+### Branch Cannot Be Created
 
-**Problem**: Uncommitted Changes blockieren Branch-Wechsel
+**Problem**: Uncommitted changes block branch switching
 
 **Symptom**:
 
@@ -51,16 +51,16 @@ git branch -r | grep feature     # Remote Feature-Branches
 error: Your local changes would be overwritten by checkout
 ```
 
-**Lösungen**:
+**Solutions**:
 
-1. **Changes committen**:
+1. **Commit changes**:
 
    ```bash
    /git-workflow:commit
    /git-workflow:create-pr
    ```
 
-2. **Changes stashen**:
+2. **Stash changes**:
 
    ```bash
    git stash
@@ -68,29 +68,29 @@ error: Your local changes would be overwritten by checkout
    git stash pop
    ```
 
-### Falscher Base-Branch
+### Wrong Base Branch
 
-**Problem**: Branch wurde von falschem Branch abgezweigt
+**Problem**: Branch was forked from the wrong branch
 
-**Symptom**: PR enthält ungewollte Commits
+**Symptom**: PR contains unwanted commits
 
-**Diagnose**:
+**Diagnosis**:
 
 ```bash
 git log --oneline --graph
 ```
 
-**Lösung**: Branch rebasen
+**Solution**: Rebase the branch
 
 ```bash
 git rebase --onto main old-base feature-branch
 ```
 
-## Formatierungs-Probleme
+## Formatting Issues
 
-### Formatierung schlägt fehl
+### Formatting Fails
 
-**Problem**: Code-Formatter findet Fehler
+**Problem**: Code formatter finds errors
 
 **Symptom**:
 
@@ -99,7 +99,7 @@ Error: Biome formatting failed
 Error: Black formatting failed
 ```
 
-**Diagnose**:
+**Diagnosis**:
 
 ```bash
 # JavaScript
@@ -112,24 +112,24 @@ black --check .
 mvn fmt:check
 ```
 
-**Lösungen**:
+**Solutions**:
 
-1. **Fehler beheben**:
+1. **Fix errors**:
 
    ```bash
-   # Auto-Fix
+   # Auto-fix
    npx biome format --write .
    black .
    mvn fmt:format
    ```
 
-2. **Formatierung überspringen**:
+2. **Skip formatting**:
 
    ```bash
    /git-workflow:create-pr --no-format
    ```
 
-3. **Spezifische Dateien exkludieren**:
+3. **Exclude specific files**:
 
    ```toml
    # pyproject.toml
@@ -141,44 +141,44 @@ mvn fmt:check
    '''
    ```
 
-### Formatierung zu langsam
+### Formatting Too Slow
 
-**Problem**: Formatierung dauert sehr lange
+**Problem**: Formatting takes very long
 
-**Diagnose**:
+**Diagnosis**:
 
 ```bash
 time black .
 time npx biome format .
 ```
 
-**Lösungen**:
+**Solutions**:
 
-1. **Nur geänderte Dateien**:
+1. **Only changed files**:
 
    ```bash
    black $(git diff --name-only --diff-filter=ACM "*.py")
    ```
 
-2. **Parallel-Verarbeitung**:
+2. **Parallel processing**:
 
    ```bash
    black --fast .
    ```
 
-3. **Formatierung überspringen**:
+3. **Skip formatting**:
 
    ```bash
    /git-workflow:create-pr --no-format
    ```
 
-### Formatierungs-Konflikte
+### Formatting Conflicts
 
-**Problem**: Verschiedene Formatter widersprechen sich
+**Problem**: Different formatters contradict each other
 
-**Symptom**: File wird mehrfach unterschiedlich formatiert
+**Symptom**: File is formatted differently multiple times
 
-**Lösung**: Tool-Priorität festlegen
+**Solution**: Establish tool priority
 
 ```ini
 # .editorconfig
@@ -194,21 +194,21 @@ indent_style = space
 indent_size = 2
 ```
 
-## GitHub CLI (gh) Probleme
+## GitHub CLI (gh) Issues
 
-### GitHub CLI nicht konfiguriert
+### GitHub CLI Not Configured
 
-**Problem**: `gh` Befehle funktionieren nicht
+**Problem**: `gh` commands do not work
 
 **Symptom**:
 
 ```bash
 gh: command not found
-# Oder
+# Or
 error: gh: To get started with GitHub CLI, please run: gh auth login
 ```
 
-**Lösung**:
+**Solution**:
 
 ```bash
 # Installation (macOS)
@@ -217,20 +217,20 @@ brew install gh
 # Installation (Linux)
 sudo apt install gh
 
-# Authentifizierung
+# Authentication
 gh auth login
 ```
 
-**Setup überprüfen**:
+**Verify setup**:
 
 ```bash
 gh auth status
 gh repo view
 ```
 
-### Keine Berechtigung für Repository
+### No Permission for Repository
 
-**Problem**: Fehlende Push-Berechtigung
+**Problem**: Missing push permission
 
 **Symptom**:
 
@@ -238,34 +238,34 @@ gh repo view
 remote: Permission to user/repo.git denied
 ```
 
-**Diagnose**:
+**Diagnosis**:
 
 ```bash
 gh auth status
 git remote -v
 ```
 
-**Lösungen**:
+**Solutions**:
 
-1. **Token-Berechtigungen prüfen**:
+1. **Check token permissions**:
 
    ```bash
    gh auth refresh -s repo
    ```
 
-2. **SSH statt HTTPS**:
+2. **SSH instead of HTTPS**:
 
    ```bash
    git remote set-url origin git@github.com:user/repo.git
    ```
 
-3. **Repository-Zugriff prüfen**:
-   - Fork erstellen wenn nötig
-   - Team-Mitgliedschaft überprüfen
+3. **Verify repository access**:
+   - Create fork if necessary
+   - Check team membership
 
-### PR kann nicht erstellt werden
+### PR Cannot Be Created
 
-**Problem**: `gh pr create` schlägt fehl
+**Problem**: `gh pr create` fails
 
 **Symptom**:
 
@@ -273,100 +273,100 @@ git remote -v
 error: could not create pull request
 ```
 
-**Häufige Ursachen**:
+**Common causes**:
 
-1. **Branch nicht gepusht**:
+1. **Branch not pushed**:
 
    ```bash
    git push -u origin branch-name
    gh pr create
    ```
 
-2. **Keine Änderungen**:
+2. **No changes**:
 
    ```bash
    git diff origin/main...HEAD
-   # Falls leer: Keine Änderungen vorhanden
+   # If empty: No changes present
    ```
 
-3. **PR existiert bereits**:
+3. **PR already exists**:
 
    ```bash
    gh pr list
    gh pr view <number>
    ```
 
-## Commit-Integration-Probleme
+## Commit Integration Issues
 
-### /git-workflow:commit wird nicht aufgerufen
+### /git-workflow:commit Is Not Invoked
 
-**Problem**: Uncommitted Changes, aber kein Commit erstellt
+**Problem**: Uncommitted changes but no commit created
 
-**Diagnose**:
+**Diagnosis**:
 
 ```bash
 git status
 git diff --stat
 ```
 
-**Mögliche Ursachen**:
+**Possible causes**:
 
-1. **Nur untracked Files**:
+1. **Only untracked files**:
 
    ```bash
    git add .
    /git-workflow:create-pr
    ```
 
-2. **Alle Changes bereits staged**:
+2. **All changes already staged**:
 
    ```bash
    git reset HEAD
-   /git-workflow:create-pr  # Jetzt wird /git-workflow:commit aufgerufen
+   /git-workflow:create-pr  # Now /git-workflow:commit will be invoked
    ```
 
-### Commits in falscher Reihenfolge
+### Commits in Wrong Order
 
-**Problem**: Commit-Historie ist unlogisch
+**Problem**: Commit history is illogical
 
-**Lösung**: Interactive Rebase
+**Solution**: Interactive rebase
 
 ```bash
 git rebase -i HEAD~5
-# Commits neu anordnen
+# Reorder commits
 ```
 
-**Oder**: Commits squashen
+**Or**: Squash commits
 
 ```bash
 git rebase -i HEAD~3
-# Markiere mit 'squash'
+# Mark with 'squash'
 ```
 
-### Zu viele Commits
+### Too Many Commits
 
-**Problem**: PR hat 30+ Commits, schwer zu reviewen
+**Problem**: PR has 30+ commits, difficult to review
 
-**Lösungen**:
+**Solutions**:
 
-1. **Commits squashen**:
+1. **Squash commits**:
 
    ```bash
    git rebase -i origin/main
-   # Markiere Commits als 'squash'
+   # Mark commits as 'squash'
    ```
 
-2. **Single-Commit Option**:
+2. **Single-commit option**:
 
    ```bash
    /git-workflow:create-pr --single-commit
    ```
 
-## Push-Probleme
+## Push Issues
 
-### Push rejected
+### Push Rejected
 
-**Problem**: Remote hat neuere Commits
+**Problem**: Remote has newer commits
 
 **Symptom**:
 
@@ -374,16 +374,16 @@ git rebase -i HEAD~3
 ! [rejected] feature-branch -> feature-branch (non-fast-forward)
 ```
 
-**Lösung**:
+**Solution**:
 
 ```bash
 git pull --rebase origin feature-branch
 git push
 ```
 
-### Push zu gross
+### Push Too Large
 
-**Problem**: Push-Limit überschritten
+**Problem**: Push limit exceeded
 
 **Symptom**:
 
@@ -391,7 +391,7 @@ git push
 remote: error: GH001: Large files detected
 ```
 
-**Lösung**: Git LFS verwenden
+**Solution**: Use Git LFS
 
 ```bash
 git lfs install
@@ -402,7 +402,7 @@ git commit -m "Add Git LFS"
 
 ### Protected Branch
 
-**Problem**: Kann nicht direkt nach main/master pushen
+**Problem**: Cannot push directly to main/master
 
 **Symptom**:
 
@@ -410,34 +410,34 @@ git commit -m "Add Git LFS"
 remote: error: GH006: Protected branch update failed
 ```
 
-**Lösung**: Das ist gewollt! Immer über Feature-Branches:
+**Solution**: This is intentional! Always use feature branches:
 
 ```bash
 git checkout -b feature/new-feature
 /git-workflow:create-pr
 ```
 
-## PR-Beschreibung-Probleme
+## PR Description Issues
 
-### PR-Beschreibung ist leer
+### PR Description Is Empty
 
-**Problem**: Keine aussagekräftige Beschreibung generiert
+**Problem**: No meaningful description generated
 
-**Ursache**: Keine sinnvollen Commit-Nachrichten
+**Cause**: No meaningful commit messages
 
-**Lösung**: Commit-Messages verbessern
+**Solution**: Improve commit messages
 
 ```bash
-# Commits reword
+# Reword commits
 git rebase -i HEAD~3
-# Markiere mit 'reword'
+# Mark with 'reword'
 ```
 
-### Breaking Changes nicht erkannt
+### Breaking Changes Not Detected
 
-**Problem**: Breaking Changes nicht in PR dokumentiert
+**Problem**: Breaking changes not documented in PR
 
-**Lösung**: Manuell ergänzen
+**Solution**: Add manually
 
 ```bash
 gh pr edit <number> --body "$(cat <<EOF
@@ -451,35 +451,35 @@ EOF
 )"
 ```
 
-## Test-Probleme
+## Test Issues
 
-### Tests schlagen in CI fehl
+### Tests Fail in CI
 
-**Problem**: Tests lokal OK, in CI fehlgeschlagen
+**Problem**: Tests pass locally but fail in CI
 
-**Diagnose**:
+**Diagnosis**:
 
 ```bash
 gh pr checks <number>
 gh run view <run-id>
 ```
 
-**Häufige Ursachen**:
+**Common causes**:
 
-1. **Umgebungs-Unterschiede**:
-   - Verschiedene Node/Python-Versionen
-   - Fehlende Dependencies
-   - Umgebungsvariablen
+1. **Environment differences**:
+   - Different Node/Python versions
+   - Missing dependencies
+   - Environment variables
 
-2. **Timing-Issues**:
-   - Flaky Tests
-   - Race Conditions
+2. **Timing issues**:
+   - Flaky tests
+   - Race conditions
 
-3. **Resource-Limits**:
-   - Memory-Limits
-   - Timeout-Settings
+3. **Resource limits**:
+   - Memory limits
+   - Timeout settings
 
-**Lösungen**:
+**Solutions**:
 
 ```yaml
 # .github/workflows/test.yml
@@ -488,52 +488,52 @@ gh run view <run-id>
   timeout-minutes: 10
 ```
 
-### Coverage zu niedrig
+### Coverage Too Low
 
-**Problem**: Code-Coverage unter Mindest-Schwelle
+**Problem**: Code coverage below minimum threshold
 
-**Diagnose**:
+**Diagnosis**:
 
 ```bash
 pytest --cov --cov-report=term-missing
 ```
 
-**Lösung**: Tests hinzufügen
+**Solution**: Add tests
 
 ```bash
-# Neue Tests schreiben
+# Write new tests
 vim tests/test_new_feature.py
 /git-workflow:commit
 git push
 ```
 
-## Network-Probleme
+## Network Issues
 
-### Timeout beim Push
+### Timeout During Push
 
-**Problem**: Push-Operation timeout
+**Problem**: Push operation timeout
 
-**Lösung**:
+**Solution**:
 
 ```bash
-# Timeout erhöhen
+# Increase timeout
 git config --global http.postBuffer 524288000
 
-# Oder: SSH verwenden
+# Or: Use SSH
 git remote set-url origin git@github.com:user/repo.git
 ```
 
-### SSL-Fehler
+### SSL Errors
 
-**Problem**: SSL-Zertifikat-Fehler
+**Problem**: SSL certificate errors
 
-**Temporäre Lösung** (nicht empfohlen für Production):
+**Temporary solution** (not recommended for production):
 
 ```bash
 git config --global http.sslVerify false
 ```
 
-**Richtige Lösung**: CA-Zertifikate aktualisieren
+**Proper solution**: Update CA certificates
 
 ```bash
 # macOS
@@ -545,57 +545,57 @@ sudo update-ca-certificates
 
 ## Draft vs. Ready
 
-### PR als Draft erstellt, sollte Ready sein
+### PR Created as Draft, Should Be Ready
 
-**Problem**: PR ist noch als Draft markiert
+**Problem**: PR is still marked as draft
 
-**Lösung**:
+**Solution**:
 
 ```bash
 gh pr ready <number>
 ```
 
-### PR als Ready erstellt, sollte Draft sein
+### PR Created as Ready, Should Be Draft
 
-**Problem**: PR ist bereit, aber noch Work in Progress
+**Problem**: PR is ready but still work in progress
 
-**Lösung**:
+**Solution**:
 
 ```bash
 gh pr ready <number> --undo
 ```
 
-## Merge-Konflikte in PR
+## Merge Conflicts in PR
 
-### Merge-Konflikte nach PR-Erstellung
+### Merge Conflicts After PR Creation
 
-**Problem**: Base-Branch hat sich geändert
+**Problem**: Base branch has changed
 
-**Diagnose**:
+**Diagnosis**:
 
 ```bash
 gh pr view <number>
-# Zeigt "Merge conflicts" warning
+# Shows "Merge conflicts" warning
 ```
 
-**Lösung**:
+**Solution**:
 
 ```bash
 git checkout feature-branch
 git pull origin main --rebase
-# Konflikte lösen
+# Resolve conflicts
 git add .
 git rebase --continue
 git push --force-with-lease
 ```
 
-## Spezial-Fälle
+## Special Cases
 
-### Monorepo mit mehreren Projekten
+### Monorepo with Multiple Projects
 
-**Problem**: PR enthält Änderungen an mehreren Projekten
+**Problem**: PR contains changes to multiple projects
 
-**Lösung**: PRs pro Projekt erstellen
+**Solution**: Create PRs per project
 
 ```bash
 # Backend PR
@@ -609,43 +609,43 @@ git add frontend/
 /git-workflow:create-pr
 ```
 
-### Force Push erforderlich
+### Force Push Required
 
-**Problem**: Historie wurde umgeschrieben
+**Problem**: History was rewritten
 
-**Lösung** (Vorsicht!):
+**Solution** (use with caution!):
 
 ```bash
 /git-workflow:create-pr --force-push
 ```
 
-**Warnung**: Nur verwenden wenn:
+**Warning**: Only use when:
 
-- Du allein am Branch arbeitest
-- Du weisst was du tust
-- Niemals bei main/master
+- You are the only one working on the branch
+- You know what you are doing
+- Never on main/master
 
-### PR von Fork erstellen
+### Creating PR from Fork
 
-**Problem**: Keine Push-Berechtigung zum Original-Repo
+**Problem**: No push permission to original repository
 
 **Workflow**:
 
 ```bash
-# 1. Fork erstellen (via GitHub UI)
+# 1. Create fork (via GitHub UI)
 
-# 2. Fork clonen
+# 2. Clone fork
 git clone git@github.com:youruser/repo.git
 
-# 3. Upstream hinzufügen
+# 3. Add upstream
 git remote add upstream git@github.com:original/repo.git
 
-# 4. Branch erstellen und pushen
+# 4. Create branch and push
 git checkout -b feature/new
 /git-workflow:commit
 git push origin feature/new
 
-# 5. PR erstellen (zum upstream)
+# 5. Create PR (to upstream)
 gh pr create --repo original/repo
 ```
 
@@ -653,35 +653,35 @@ gh pr create --repo original/repo
 
 ### Verbose Output
 
-**Mehr Details anzeigen**:
+**Show more details**:
 
 ```bash
 GIT_TRACE=1 git push
 GH_DEBUG=1 gh pr create
 ```
 
-### Logs analysieren
+### Analyzing Logs
 
 ```bash
-# Git Logs
+# Git logs
 git log --oneline --graph --all
 
-# GitHub Actions Logs
+# GitHub Actions logs
 gh run list
 gh run view <run-id> --log
 
-# PR-Status
+# PR status
 gh pr view <number> --json statusCheckRollup
 ```
 
-### Häufige Fehlerquellen
+### Common Sources of Error
 
-**Checkliste**:
+**Checklist**:
 
-- [ ] Git/GitHub CLI korrekt installiert und konfiguriert
-- [ ] Authentifizierung funktioniert
-- [ ] Repository-Berechtigungen korrekt
-- [ ] Branch-Name ist einzigartig
-- [ ] Working Directory ist clean
-- [ ] Tests laufen lokal durch
-- [ ] Keine grossen Dateien (>100MB)
+- [ ] Git/GitHub CLI correctly installed and configured
+- [ ] Authentication works
+- [ ] Repository permissions correct
+- [ ] Branch name is unique
+- [ ] Working directory is clean
+- [ ] Tests pass locally
+- [ ] No large files (>100MB)

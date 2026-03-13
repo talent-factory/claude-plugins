@@ -1,15 +1,15 @@
-# Pre-Commit-Checks
+# Pre-Commit Checks
 
-Automatische Qualitätschecks basierend auf erkanntem Projekttyp.
+Automatic quality checks based on detected project type.
 
-## Java-Projekte
+## Java Projects
 
 ### Maven
 
 ```bash
-mvn compile          # Kompilierung
-mvn test            # Unit Tests
-mvn checkstyle:check # Code-Style Prüfung
+mvn compile          # Compilation
+mvn test            # Unit tests
+mvn checkstyle:check # Code style verification
 ```
 
 ### Gradle
@@ -22,51 +22,51 @@ mvn checkstyle:check # Code-Style Prüfung
 
 ### Spring Boot
 
-- Automatische Erkennung von Spring Boot Projekten
-- Zusätzliche Validierung von Application Properties
-- Bean-Dependency Checks
+- Automatic detection of Spring Boot projects
+- Additional validation of application properties
+- Bean dependency checks
 
-## Python-Projekte
+## Python Projects
 
 ### Linting
 
 ```bash
-ruff check .        # Schnelles Linting
-flake8 .           # Alternative Linting
-pylint .           # Umfassendes Linting
+ruff check .        # Fast linting
+flake8 .           # Alternative linting
+pylint .           # Comprehensive linting
 ```
 
-### Formatierung
+### Formatting
 
 ```bash
-black .            # Code-Formatierung
-isort .            # Import-Sortierung
+black .            # Code formatting
+isort .            # Import sorting
 ```
 
 ### Type Checking
 
 ```bash
-mypy .             # Statische Type-Prüfung
+mypy .             # Static type checking
 ```
 
 ### Tests
 
 ```bash
-pytest             # Test-Ausführung
-pytest --cov       # Mit Coverage
+pytest             # Test execution
+pytest --cov       # With coverage
 ```
 
 ### Dependencies
 
 - **Poetry**: `poetry check`
 - **pip-tools**: `pip-compile --dry-run`
-- **requirements.txt**: Dependency-Validierung
+- **requirements.txt**: Dependency validation
 
-## React/Node.js-Projekte
+## React/Node.js Projects
 
 ### Package Manager Detection
 
-Automatische Erkennung von: npm, pnpm, yarn, bun
+Automatic detection of: npm, pnpm, yarn, bun
 
 ### Linting
 
@@ -75,16 +75,16 @@ npm run lint       # ESLint
 npx tslint         # TSLint (legacy)
 ```
 
-### Formatierung
+### Formatting
 
 ```bash
-npx prettier --check .   # Prettier Check
+npx prettier --check .   # Prettier check
 ```
 
 ### Type Checking
 
 ```bash
-tsc --noEmit       # TypeScript Compiler
+tsc --noEmit       # TypeScript compiler
 ```
 
 ### Tests
@@ -97,23 +97,23 @@ npm run test:e2e   # Cypress/Playwright
 ### Build
 
 ```bash
-npm run build      # Vite/Webpack/Next.js Build
+npm run build      # Vite/Webpack/Next.js build
 ```
 
-## Dokumentationsprojekte
+## Documentation Projects
 
 ### LaTeX
 
 ```bash
-pdflatex main.tex  # Kompilierung
-xelatex main.tex   # Alternative Engine
+pdflatex main.tex  # Compilation
+xelatex main.tex   # Alternative engine
 ```
 
 ### Markdown
 
 ```bash
 markdownlint **/*.md       # Linting
-markdown-link-check *.md   # Link-Validierung
+markdown-link-check *.md   # Link validation
 ```
 
 ### AsciiDoc
@@ -122,29 +122,29 @@ markdown-link-check *.md   # Link-Validierung
 asciidoctor *.adoc         # Rendering
 ```
 
-## Check-Ausführung
+## Check Execution
 
-1. **Automatische Projekterkennung**: Identifiziert Projekttyp anhand von Dateien
-2. **Relevante Checks**: Führt nur passende Checks aus
-3. **Fehlerbehandlung**: Bei Fehlern wird Commit abgebrochen
-4. **Skip-Option**: Mit `--no-verify` können Checks übersprungen werden
+1. **Automatic project detection**: Identifies project type based on files
+2. **Relevant checks**: Executes only applicable checks
+3. **Error handling**: Commit is aborted on errors
+4. **Skip option**: Checks can be skipped with `--no-verify`
 
-## Fehlerbehandlung
+## Error Handling
 
-### Build-Fehler
+### Build Errors
 
-- Commit wird abgebrochen
-- Fehler werden vollständig angezeigt
-- Hinweis auf Fehlerursache
+- Commit is aborted
+- Errors are displayed in full
+- Hint regarding the root cause
 
-### Test-Fehler
+### Test Errors
 
-- Option zum Überspringen mit `--skip-tests`
-- Detaillierte Test-Ausgabe
-- Nur bei kritischen Fehlern abbrechen
+- Option to skip with `--skip-tests`
+- Detailed test output
+- Abort only on critical errors
 
-### Linting-Probleme
+### Linting Issues
 
-- Automatische Fixes wo möglich (z.B. Black, Prettier)
-- Manuelle Fixes erforderlich bei komplexen Problemen
-- Warnung bei Style-Guide-Verstössen
+- Automatic fixes where possible (e.g., Black, Prettier)
+- Manual fixes required for complex issues
+- Warning on style guide violations

@@ -1,154 +1,154 @@
-# Best Practices für Git Commits
+# Best Practices for Git Commits
 
-## Commit-Qualität
+## Commit Quality
 
-### Atomare Commits
+### Atomic Commits
 
-**Prinzip**: Jeder Commit sollte eine logische, unabhängige Einheit darstellen
+**Principle**: Each commit should represent a logical, independent unit
 
-✅ **Gute atomare Commits**:
-
-```text
-✨ feat: Benutzer-Authentifizierung hinzugefügt
-🧪 test: Tests für Authentifizierung hinzugefügt
-📚 docs: Auth-API Dokumentation erstellt
-```
-
-❌ **Schlechter monolithischer Commit**:
+✅ **Good atomic commits**:
 
 ```text
-✨ feat: Auth, Tests, Docs, Bugfixes und Refactoring
+✨ feat: Add user authentication
+🧪 test: Add tests for authentication
+📚 docs: Create auth API documentation
 ```
 
-**Vorteile**:
-
-- Einfacheres Code-Review
-- Besseres Debugging (git bisect)
-- Selektives Cherry-Picking möglich
-- Klare Git-Historie
-
-### Aussagekräftige Nachrichten
-
-**Was macht eine gute Commit-Nachricht aus?**
-
-1. **Beschreibe das "Was" und "Warum"**, nicht das "Wie"
-2. **Kontext bieten** für zukünftige Entwickler
-3. **Technische Details** wenn relevant
-
-✅ **Gut**:
+❌ **Poor monolithic commit**:
 
 ```text
-🐛 fix: Speicherleck in WebSocket-Verbindungen behoben
-
-WebSocket-Connections wurden nicht korrekt geschlossen,
-wenn Clients die Verbindung abrupt beendeten. Dies führte
-zu Memory-Leaks bei hoher Last.
-
-Lösung: Explicit cleanup in finally-Block implementiert.
+✨ feat: Auth, tests, docs, bugfixes, and refactoring
 ```
 
-❌ **Schlecht**:
+**Advantages**:
+
+- Simplified code review
+- Improved debugging (git bisect)
+- Selective cherry-picking possible
+- Clear Git history
+
+### Descriptive Messages
+
+**What constitutes a good commit message?**
+
+1. **Describe the "what" and "why"**, not the "how"
+2. **Provide context** for future developers
+3. **Include technical details** when relevant
+
+✅ **Good**:
+
+```text
+🐛 fix: Resolve memory leak in WebSocket connections
+
+WebSocket connections were not properly closed when clients
+terminated the connection abruptly. This led to memory leaks
+under high load.
+
+Solution: Implement explicit cleanup in finally block.
+```
+
+❌ **Poor**:
 
 ```text
 fix: bug
 ```
 
-### Imperative Form
+### Imperative Mood
 
-**Regel**: Schreibe als würdest du dem Code befehlen, was er tun soll
+**Rule**: Write as though you are commanding the code to perform an action
 
-✅ **Richtig (Imperativ)**:
+✅ **Correct (imperative)**:
 
-- Füge Feature hinzu
-- Behebe Bug
-- Aktualisiere Dokumentation
-- Entferne deprecated Code
+- Add feature
+- Fix bug
+- Update documentation
+- Remove deprecated code
 
-❌ **Falsch (Vergangenheit)**:
+❌ **Incorrect (past tense)**:
 
-- Feature hinzugefügt
-- Bug behoben
-- Dokumentation aktualisiert
-- Deprecated Code entfernt
+- Added feature
+- Fixed bug
+- Updated documentation
+- Removed deprecated code
 
-**Warum?** Git selbst verwendet Imperativ (z.B. "Merge branch", "Revert commit")
+**Rationale**: Git itself uses the imperative mood (e.g., "Merge branch", "Revert commit")
 
-### Erste Zeile ≤ 72 Zeichen
+### First Line ≤ 72 Characters
 
-**Grund**: Bessere Lesbarkeit in Git-Tools
+**Reason**: Improved readability in Git tools
 
 ```text
-✨ feat: User Dashboard mit Metriken                    # ✅ 48 Zeichen
-✨ feat: Implementierung eines umfassenden...           # ❌ zu lang
+✨ feat: User dashboard with metrics                    # ✅ 48 characters
+✨ feat: Implementation of a comprehensive...           # ❌ too long
 ```
 
-**Tools zur Überprüfung**:
+**Tools for verification**:
 
 ```bash
-git log --oneline          # Zeigt nur erste Zeile
+git log --oneline          # Shows only the first line
 git log --format="%s"      # Subject lines
 ```
 
-### Keine automatischen Signaturen
+### No Automatic Signatures
 
-**WICHTIG**: Commit-Nachrichten sollen KEINE automatischen Zusätze enthalten:
+**IMPORTANT**: Commit messages must NOT contain automatic additions:
 
-❌ **Nicht erlaubt**:
+❌ **Not permitted**:
 ```text
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
 Co-Authored-By: Claude <noreply@anthropic.com>
 ```
 
-✅ **Richtig**: Nur der eigentliche Commit-Inhalt ohne Tool-Signaturen
+✅ **Correct**: Only the actual commit content without tool signatures
 
-## Code-Qualität vor Commit
+## Code Quality Before Committing
 
-### Checkliste
+### Checklist
 
-Bevor du commitest:
+Before committing:
 
-- [ ] **Linting bestanden**: Code folgt Projektstandards
-- [ ] **Tests erfolgreich**: Alle Tests laufen durch
-- [ ] **Build erfolgreich**: Projekt kompiliert ohne Fehler
-- [ ] **Dokumentation aktuell**: README, Kommentare, Docs sind aktuell
-- [ ] **Keine Debug-Ausgaben**: console.log, print() entfernt
-- [ ] **Keine auskommentierten Code-Blöcke**
-- [ ] **Secrets entfernt**: API-Keys, Passwörter nicht committed
+- [ ] **Linting passed**: Code adheres to project standards
+- [ ] **Tests successful**: All tests pass
+- [ ] **Build successful**: Project compiles without errors
+- [ ] **Documentation current**: README, comments, docs are up to date
+- [ ] **No debug output**: console.log, print() removed
+- [ ] **No commented-out code blocks**
+- [ ] **Secrets removed**: API keys, passwords not committed
 
-### Automatische Checks
+### Automatic Checks
 
-**Pre-Commit Hooks einrichten**:
+**Setting up pre-commit hooks**:
 
 ```bash
-# Für alle Projekte
+# For all projects
 git config --global core.hooksPath ~/.git-hooks
 
-# Projekt-spezifisch
+# Project-specific
 # .git/hooks/pre-commit
 ```
 
-### Code-Review vor Commit
+### Code Review Before Committing
 
-**Self-Review durchführen**:
+**Perform self-review**:
 
 ```bash
-git diff --staged          # Überprüfe staged changes
-git diff HEAD             # Alle Änderungen
+git diff --staged          # Review staged changes
+git diff HEAD             # All changes
 git add -p               # Interactive staging
 ```
 
-## Projektspezifische Standards
+## Project-Specific Standards
 
 ### Java
 
 **Standards**:
 
-- ✅ Keine Compiler-Warnungen
-- ✅ Checkstyle-Konformität
-- ✅ JavaDoc für public APIs
-- ✅ Unit Tests für neue Methoden
+- ✅ No compiler warnings
+- ✅ Checkstyle conformity
+- ✅ JavaDoc for public APIs
+- ✅ Unit tests for new methods
 
-**Prüfung**:
+**Verification**:
 
 ```bash
 mvn clean compile -Werror
@@ -159,12 +159,12 @@ mvn checkstyle:check
 
 **Standards**:
 
-- ✅ PEP 8 Compliance
-- ✅ Type Hints wo möglich
-- ✅ Docstrings für Funktionen
-- ✅ Max. Zeilen-Länge: 88 (Black) oder 79 (PEP 8)
+- ✅ PEP 8 compliance
+- ✅ Type hints where possible
+- ✅ Docstrings for functions
+- ✅ Maximum line length: 88 (Black) or 79 (PEP 8)
 
-**Prüfung**:
+**Verification**:
 
 ```bash
 black --check .
@@ -176,12 +176,12 @@ mypy .
 
 **Standards**:
 
-- ✅ Keine ESLint-Fehler
+- ✅ No ESLint errors
 - ✅ TypeScript strict mode
-- ✅ Komponenten-Tests vorhanden
-- ✅ Props mit TypeScript-Interfaces
+- ✅ Component tests present
+- ✅ Props with TypeScript interfaces
 
-**Prüfung**:
+**Verification**:
 
 ```bash
 npm run lint
@@ -189,105 +189,105 @@ tsc --noEmit
 npm test
 ```
 
-## Häufige Fehler vermeiden
+## Avoiding Common Mistakes
 
 ### ❌ "WIP" Commits
 
-**Problem**: "Work in Progress" Commits in History
+**Problem**: "Work in Progress" commits in history
 
-**Lösung**: Squash vor dem Push
+**Solution**: Squash before pushing
 
 ```bash
 git rebase -i HEAD~3
-# Markiere Commits als 'squash'
+# Mark commits as 'squash'
 ```
 
-### ❌ Zu grosse Commits
+### ❌ Overly Large Commits
 
-**Problem**: 50+ Dateien in einem Commit
+**Problem**: 50+ files in a single commit
 
-**Lösung**: Logisch aufteilen
+**Solution**: Divide logically
 
 ```bash
 git add -p                    # Interactive staging
-git add path/to/feature/      # Nur Feature-Dateien
+git add path/to/feature/      # Only feature files
 ```
 
-### ❌ Merge-Commit-Durcheinander
+### ❌ Merge Commit Clutter
 
-**Problem**: Unnötige Merge-Commits in Feature-Branch
+**Problem**: Unnecessary merge commits in feature branch
 
-**Lösung**: Rebase verwenden
+**Solution**: Use rebase
 
 ```bash
 git pull --rebase origin main
-# statt
+# instead of
 git pull origin main
 ```
 
-### ❌ Fehlende Kontext-Informationen
+### ❌ Missing Context Information
 
 **Problem**: "fix typo", "update file"
 
-**Lösung**: Kontext hinzufügen
+**Solution**: Add context
 
 ```text
-📚 docs: Typo in API-Dokumentation korrigiert
+📚 docs: Correct typo in API documentation
 
-Der Endpoint-Name war falsch dokumentiert (/api/user statt /api/users),
-was zu Verwirrung bei externen API-Nutzern führte.
+The endpoint name was incorrectly documented (/api/user instead of /api/users),
+which caused confusion among external API consumers.
 ```
 
-## Git-Historie sauber halten
+## Maintaining a Clean Git History
 
-### Vor dem Push
+### Before Pushing
 
-**Review der Commits**:
+**Review commits**:
 
 ```bash
-git log --oneline -10         # Letzte 10 Commits
-git log --graph --oneline     # Mit Branch-Visualisierung
+git log --oneline -10         # Last 10 commits
+git log --graph --oneline     # With branch visualization
 ```
 
-**Commits aufräumen**:
+**Clean up commits**:
 
 ```bash
-git rebase -i HEAD~5          # Interaktives Rebase
-# Optionen: pick, squash, reword, edit, drop
+git rebase -i HEAD~5          # Interactive rebase
+# Options: pick, squash, reword, edit, drop
 ```
 
-### Branch-Hygiene
+### Branch Hygiene
 
-**Feature-Branches**:
+**Feature branches**:
 
 ```text
-feature/user-authentication # ✅ Beschreibend
-feat/auth                   # ✅ Kürzer, aber klar
-user-auth-123               # ✅ Mit Ticket-Nummer
-fix-login                   # ❌ Zu generisch
-new-stuff                   # ❌ Nicht aussagekräftig
+feature/user-authentication # ✅ Descriptive
+feat/auth                   # ✅ Shorter, but clear
+user-auth-123               # ✅ With ticket number
+fix-login                   # ❌ Too generic
+new-stuff                   # ❌ Not descriptive
 ```
 
-**Regelmässig aufräumen**:
+**Clean up regularly**:
 
 ```bash
 git branch --merged | grep -v main | xargs git branch -d
 ```
 
-## Team-Kollaboration
+## Team Collaboration
 
-### Konsistente Conventions
+### Consistent Conventions
 
-**Team-Agreement etablieren**:
+**Establish team agreement**:
 
-- Commit-Message-Format
-- Branch-Naming-Schema
-- PR-Anforderungen
-- Review-Prozess
+- Commit message format
+- Branch naming schema
+- PR requirements
+- Review process
 
-### Commit-Message-Templates
+### Commit Message Templates
 
-**Erstellen**:
+**Create**:
 
 ```bash
 git config commit.template ~/.gitmessage
@@ -302,13 +302,13 @@ git config commit.template ~/.gitmessage
 
 # [optional footer]
 
-# Typen: feat, fix, docs, style, refactor, perf, test, chore
+# Types: feat, fix, docs, style, refactor, perf, test, chore
 # Emojis: ✨ 🐛 📚 💎 ♻️ ⚡ 🧪 🔧
 ```
 
-## Tools und Automation
+## Tools and Automation
 
-### Commit-Message-Linting
+### Commit Message Linting
 
 ```bash
 npm install -g @commitlint/cli @commitlint/config-conventional
@@ -324,7 +324,7 @@ pre-commit install
 ### Git Aliases
 
 ```bash
-# Nützliche Shortcuts
+# Useful shortcuts
 git config --global alias.co checkout
 git config --global alias.br branch
 git config --global alias.ci commit

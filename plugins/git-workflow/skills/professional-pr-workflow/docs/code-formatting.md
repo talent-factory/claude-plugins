@@ -1,10 +1,10 @@
-# Code-Formatierung vor PR
+# Code Formatting Before PR
 
-Automatische Code-Formatierung basierend auf Projekttyp (optional mit `--no-format` überspringen).
+Automatic code formatting based on project type (optionally skip with `--no-format`).
 
 ## JavaScript/TypeScript - Biome
 
-**Biome** ist ein schneller Linter und Formatter für JavaScript/TypeScript.
+**Biome** is a fast linter and formatter for JavaScript/TypeScript.
 
 ### Installation Check
 
@@ -12,14 +12,14 @@ Automatische Code-Formatierung basierend auf Projekttyp (optional mit `--no-form
 npx biome --version
 ```
 
-### Formatierung
+### Formatting
 
 ```bash
 npx biome format --write .
 npx biome check --apply .
 ```
 
-### Konfiguration
+### Configuration
 
 ```json
 // biome.json
@@ -41,17 +41,17 @@ npx biome check --apply .
 
 ## Python - Black + isort + Ruff
 
-### Black Formatierung
+### Black Formatting
 
-**Standard-Formatter für Python**
+**Standard formatter for Python**
 
 ```bash
 black .
-black --check .              # Nur prüfen
-black --diff .              # Änderungen anzeigen
+black --check .              # Check only
+black --diff .              # Show changes
 ```
 
-**Konfiguration** (`pyproject.toml`):
+**Configuration** (`pyproject.toml`):
 
 ```toml
 [tool.black]
@@ -68,7 +68,7 @@ extend-exclude = '''
 '''
 ```
 
-### isort - Import Sortierung
+### isort - Import Sorting
 
 ```bash
 isort .
@@ -76,7 +76,7 @@ isort --check-only .
 isort --diff .
 ```
 
-**Konfiguration** (`pyproject.toml`):
+**Configuration** (`pyproject.toml`):
 
 ```toml
 [tool.isort]
@@ -86,14 +86,14 @@ multi_line_output = 3
 include_trailing_comma = true
 ```
 
-### Ruff - Schnelles Linting
+### Ruff - Fast Linting
 
 ```bash
 ruff check .
 ruff check --fix .
 ```
 
-**Konfiguration** (`pyproject.toml`):
+**Configuration** (`pyproject.toml`):
 
 ```toml
 [tool.ruff]
@@ -121,7 +121,7 @@ plugins {
 }
 ```
 
-### Formatierung
+### Formatting
 
 ```bash
 # Maven
@@ -134,7 +134,7 @@ mvn fmt:format
 java -jar google-java-format.jar --replace $(find . -name "*.java")
 ```
 
-### Konfiguration
+### Configuration
 
 **Checkstyle** (`checkstyle.xml`):
 
@@ -157,7 +157,7 @@ java -jar google-java-format.jar --replace $(find . -name "*.java")
 markdownlint '**/*.md' --fix
 ```
 
-**Konfiguration** (`.markdownlint.json`):
+**Configuration** (`.markdownlint.json`):
 
 ```json
 {
@@ -178,7 +178,7 @@ markdownlint '**/*.md' --fix
 mdformat .
 ```
 
-**Konfiguration** (`pyproject.toml`):
+**Configuration** (`pyproject.toml`):
 
 ```toml
 [tool.mdformat]
@@ -186,29 +186,29 @@ wrap = 80
 number = false
 ```
 
-## Formatierung im Workflow
+## Formatting in the Workflow
 
-### Automatischer Workflow
+### Automatic Workflow
 
-1. **Projekttyp erkennen**
+1. **Detect project type**
    - package.json → JavaScript/TypeScript
    - pyproject.toml → Python
    - pom.xml/build.gradle → Java
-   - *.md Dateien → Markdown
+   - *.md files → Markdown
 
-2. **Formatter ausführen**
-   - Mit passenden Optionen
-   - Error-Handling
+2. **Execute formatter**
+   - With appropriate options
+   - Error handling
 
-3. **Änderungen staged**
-   - Nur formatierte Dateien
-   - Automatisches Add
+3. **Stage changes**
+   - Only formatted files
+   - Automatic add
 
-4. **Commit erstellt**
-   - Via `/git-workflow:commit` Command
-   - Mit Formatierungs-Hinweis
+4. **Create commit**
+   - Via `/git-workflow:commit` command
+   - With formatting note
 
-### Manuelle Ausführung
+### Manual Execution
 
 ```bash
 # JavaScript/TypeScript
@@ -224,11 +224,11 @@ mvn fmt:format
 markdownlint '**/*.md' --fix
 ```
 
-## Format-Konflikte vermeiden
+## Avoiding Format Conflicts
 
-### EditorConfig verwenden
+### Using EditorConfig
 
-**Datei** (`.editorconfig`):
+**File** (`.editorconfig`):
 
 ```ini
 root = true
@@ -252,13 +252,13 @@ indent_style = space
 indent_size = 2
 ```
 
-### Tool-Priorität
+### Tool Priority
 
-Bei Konflikten zwischen Tools:
+When conflicts arise between tools:
 
-1. **Prettier/Biome** über ESLint (JavaScript)
-2. **Black** über Ruff/Flake8 (Python)
-3. **google-java-format** über Checkstyle (Java)
+1. **Prettier/Biome** over ESLint (JavaScript)
+2. **Black** over Ruff/Flake8 (Python)
+3. **google-java-format** over Checkstyle (Java)
 
 ### Pre-Commit Hooks
 
@@ -286,9 +286,9 @@ repos:
 
 ## Troubleshooting
 
-### Formatierung überschreibt gewollte Änderungen
+### Formatting Overwrites Intended Changes
 
-**Lösung**: Formatter-Ausnahmen definieren
+**Solution**: Define formatter exceptions
 
 ```python
 # fmt: off
@@ -301,9 +301,9 @@ special_code = [...]
 const matrix = [...];
 ```
 
-### Tool nicht gefunden
+### Tool Not Found
 
-**Diagnose**:
+**Diagnosis**:
 
 ```bash
 which black
@@ -311,7 +311,7 @@ which biome
 which markdownlint
 ```
 
-**Lösung**: Installieren
+**Solution**: Install the tool
 
 ```bash
 # Python
@@ -324,31 +324,31 @@ npm install -g @biomejs/biome
 npm install -g markdownlint-cli
 ```
 
-### Formatierung schlägt fehl
+### Formatting Fails
 
-**Option**: Formatierung überspringen
+**Option**: Skip formatting
 
 ```bash
 /git-workflow:create-pr --no-format
 ```
 
-### Zu lange Ausführungszeit
+### Excessive Execution Time
 
-**Problem**: Formatter scannen zu viele Dateien
+**Problem**: Formatters scan too many files
 
-**Lösung**: Nur geänderte Dateien formatieren
+**Solution**: Format only changed files
 
 ```bash
-# Git-basiert
+# Git-based
 black $(git diff --name-only --diff-filter=ACM "*.py")
 prettier --write $(git diff --name-only --diff-filter=ACM "*.{js,ts,jsx,tsx}")
 ```
 
 ## Best Practices
 
-### Formatierung in CI/CD
+### Formatting in CI/CD
 
-**GitHub Actions Beispiel**:
+**GitHub Actions example**:
 
 ```yaml
 - name: Check formatting
@@ -357,27 +357,27 @@ prettier --write $(git diff --name-only --diff-filter=ACM "*.{js,ts,jsx,tsx}")
     isort --check-only .
 ```
 
-### Team-Standards
+### Team Standards
 
-- **Formatter-Konfiguration** ins Repository committen
-- **EditorConfig** für Editor-Integration
-- **Pre-Commit Hooks** für automatische Checks
-- **CI/CD Integration** für PR-Validierung
+- **Commit formatter configuration** to the repository
+- **EditorConfig** for editor integration
+- **Pre-commit hooks** for automatic checks
+- **CI/CD integration** for PR validation
 
-### Graduelle Einführung
+### Gradual Adoption
 
-Wenn Projekt noch nicht formatiert:
+When a project is not yet formatted:
 
 ```bash
-# Nur neue/geänderte Dateien
+# Only new/changed files
 black $(git diff --name-only main...)
 ```
 
-Oder: Separater Formatierungs-Commit
+Or: Separate formatting commit
 
 ```text
-💎 style: Projekt-weite Code-Formatierung mit Black
+💎 style: Apply project-wide code formatting with Black
 
-Alle Python-Dateien mit Black 23.9.1 formatiert.
-Keine funktionalen Änderungen.
+All Python files formatted with Black 23.9.1.
+No functional changes.
 ```

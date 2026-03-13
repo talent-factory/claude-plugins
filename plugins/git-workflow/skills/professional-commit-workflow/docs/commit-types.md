@@ -1,205 +1,205 @@
-# Commit-Typen mit Emojis
+# Commit Types with Emojis
 
-Emoji Conventional Commit Format für konsistente Git-Historie.
+Emoji Conventional Commit format for a consistent Git history.
 
-## Standard-Typen
+## Standard Types
 
-### ✨ feat: Neue Funktionalität
+### ✨ feat: New Functionality
 
-**Verwendung**: Komplett neue Features oder Funktionalität
+**Usage**: Entirely new features or functionality
 
-**Beispiele**:
+**Examples**:
 
 ```text
-✨ feat: Benutzer-Dashboard mit Metriken hinzugefügt
-✨ feat: OAuth2 Authentifizierung implementiert
-✨ feat: Dark Mode Toggle zu Einstellungen hinzugefügt
+✨ feat: Add user dashboard with metrics
+✨ feat: Implement OAuth2 authentication
+✨ feat: Add dark mode toggle to settings
 ```
 
-### 🐛 fix: Fehlerbehebung
+### 🐛 fix: Bug Fix
 
-**Verwendung**: Bug-Fixes und Korrekturen
+**Usage**: Bug fixes and corrections
 
-**Beispiele**:
+**Examples**:
 
 ```text
-🐛 fix: Speicherleck in Datenbank-Connection behoben
-🐛 fix: Falscher Response-Code bei 404-Errors korrigiert
-🐛 fix: Race Condition in async Handler gelöst
+🐛 fix: Resolve memory leak in database connection
+🐛 fix: Correct erroneous response code for 404 errors
+🐛 fix: Resolve race condition in async handler
 ```
 
-### 📚 docs: Dokumentation
+### 📚 docs: Documentation
 
-**Verwendung**: Nur Dokumentationsänderungen
+**Usage**: Documentation changes only
 
-**Beispiele**:
+**Examples**:
 
 ```text
-📚 docs: API-Dokumentation für v2 Endpoints aktualisiert
-📚 docs: README mit Installationsanleitung ergänzt
-📚 docs: JSDoc Kommentare für Core-Module hinzugefügt
+📚 docs: Update API documentation for v2 endpoints
+📚 docs: Supplement README with installation guide
+📚 docs: Add JSDoc comments for core modules
 ```
 
-### 💎 style: Code-Formatierung
+### 💎 style: Code Formatting
 
-**Verwendung**: Formatierung ohne Logikänderung (Whitespace, Einrückung)
+**Usage**: Formatting without logic changes (whitespace, indentation)
 
-**Beispiele**:
+**Examples**:
 
 ```text
-💎 style: Prettier Formatierung auf gesamtes Projekt angewendet
-💎 style: Einrückung in Config-Dateien korrigiert
-💎 style: Trailing Whitespace entfernt
+💎 style: Apply Prettier formatting to entire project
+💎 style: Correct indentation in config files
+💎 style: Remove trailing whitespace
 ```
 
-### ♻️ refactor: Code-Umstrukturierung
+### ♻️ refactor: Code Restructuring
 
-**Verwendung**: Code-Änderungen ohne neue Features oder Fixes
+**Usage**: Code changes without new features or fixes
 
-**Beispiele**:
+**Examples**:
 
 ```text
-♻️ refactor: User Service in kleinere Module aufgeteilt
-♻️ refactor: Dependency Injection für bessere Testbarkeit
-♻️ refactor: Deprecated API durch moderne Alternative ersetzt
+♻️ refactor: Split User Service into smaller modules
+♻️ refactor: Introduce dependency injection for improved testability
+♻️ refactor: Replace deprecated API with modern alternative
 ```
 
 ### ⚡ perf: Performance
 
-**Verwendung**: Performance-Verbesserungen
+**Usage**: Performance improvements
 
-**Beispiele**:
+**Examples**:
 
 ```text
-⚡ perf: Datenbank-Queries mit Indexing optimiert
-⚡ perf: Lazy Loading für grosse Komponenten implementiert
-⚡ perf: Caching-Layer für API-Responses hinzugefügt
+⚡ perf: Optimize database queries with indexing
+⚡ perf: Implement lazy loading for large components
+⚡ perf: Add caching layer for API responses
 ```
 
 ### 🧪 test: Tests
 
-**Verwendung**: Tests hinzufügen oder korrigieren
+**Usage**: Adding or correcting tests
 
-**Beispiele**:
-
-```text
-🧪 test: Unit Tests für Authentication Service hinzugefügt
-🧪 test: E2E Tests für Checkout-Flow erweitert
-🧪 test: Flaky Test in CI/CD Pipeline stabilisiert
-```
-
-### 🔧 chore: Wartung
-
-**Verwendung**: Build, Tools, Konfiguration
-
-**Beispiele**:
+**Examples**:
 
 ```text
-🔧 chore: Dependencies auf neueste Versionen aktualisiert
-🔧 chore: ESLint Konfiguration verschärft
-🔧 chore: Build-Script für Production optimiert
+🧪 test: Add unit tests for Authentication Service
+🧪 test: Extend E2E tests for checkout flow
+🧪 test: Stabilize flaky test in CI/CD pipeline
 ```
 
-## Spezial-Typen
+### 🔧 chore: Maintenance
+
+**Usage**: Build, tools, configuration
+
+**Examples**:
+
+```text
+🔧 chore: Update dependencies to latest versions
+🔧 chore: Tighten ESLint configuration
+🔧 chore: Optimize build script for production
+```
+
+## Special Types
 
 ### 🚀 ci: Continuous Integration
 
-**Verwendung**: CI/CD Pipeline-Änderungen
+**Usage**: CI/CD pipeline changes
 
-**Beispiele**:
+**Examples**:
 
 ```text
-🚀 ci: GitHub Actions Workflow für automatisches Deployment
-🚀 ci: Test-Coverage Report zu Pipeline hinzugefügt
-🚀 ci: Docker Build-Stage optimiert
+🚀 ci: Add GitHub Actions workflow for automatic deployment
+🚀 ci: Add test coverage report to pipeline
+🚀 ci: Optimize Docker build stage
 ```
 
-### 🔒 security: Sicherheit
+### 🔒 security: Security
 
-**Verwendung**: Sicherheitsverbesserungen und -fixes
+**Usage**: Security improvements and fixes
 
-**Beispiele**:
+**Examples**:
 
 ```text
-🔒 security: SQL Injection Schwachstelle behoben
-🔒 security: CSRF-Protection für Forms implementiert
-🔒 security: Abhängigkeiten mit bekannten CVEs aktualisiert
+🔒 security: Resolve SQL injection vulnerability
+🔒 security: Implement CSRF protection for forms
+🔒 security: Update dependencies with known CVEs
 ```
 
-### 🌐 i18n: Internationalisierung
+### 🌐 i18n: Internationalization
 
-**Verwendung**: Übersetzungen und Lokalisierung
+**Usage**: Translations and localization
 
-**Beispiele**:
+**Examples**:
 
 ```text
-🌐 i18n: Deutsche Übersetzung für UI-Komponenten hinzugefügt
-🌐 i18n: Datumsformatierung für verschiedene Locales
-🌐 i18n: Sprachauswahl-Dropdown implementiert
+🌐 i18n: Add German translation for UI components
+🌐 i18n: Implement date formatting for various locales
+🌐 i18n: Implement language selection dropdown
 ```
 
-### ♿ a11y: Barrierefreiheit
+### ♿ a11y: Accessibility
 
-**Verwendung**: Accessibility-Verbesserungen
+**Usage**: Accessibility improvements
 
-**Beispiele**:
+**Examples**:
 
 ```text
-♿ a11y: ARIA-Labels für Screen Reader hinzugefügt
-♿ a11y: Keyboard-Navigation für Dropdown-Menüs
-♿ a11y: Farbkontraste nach WCAG 2.1 AA angepasst
+♿ a11y: Add ARIA labels for screen readers
+♿ a11y: Implement keyboard navigation for dropdown menus
+♿ a11y: Adjust color contrasts to WCAG 2.1 AA compliance
 ```
 
 ### 📦 deps: Dependencies
 
-**Verwendung**: Dependency-Updates (als Alternative zu chore)
+**Usage**: Dependency updates (as an alternative to chore)
 
-**Beispiele**:
+**Examples**:
 
 ```text
-📦 deps: React von 18.2 auf 18.3 aktualisiert
-📦 deps: Sicherheitsupdate für lodash durchgeführt
-📦 deps: Entwicklungs-Dependencies aktualisiert
+📦 deps: Update React from 18.2 to 18.3
+📦 deps: Apply security update for lodash
+📦 deps: Update development dependencies
 ```
 
 ## Best Practices
 
-### Commit-Nachricht Format
+### Commit Message Format
 
 ```text
-<emoji> <type>: <kurze Beschreibung>
+<emoji> <type>: <brief description>
 
-[optionaler Body mit Details]
+[optional body with details]
 
-[optionale Footer: Breaking Changes, Issues]
+[optional footer: breaking changes, issues]
 ```
 
-### Imperativ-Form verwenden
+### Use Imperative Mood
 
-✅ **Richtig**:
+✅ **Correct**:
 
 ```text
-✨ feat: Füge Benutzer-Dashboard hinzu
-🐛 fix: Behebe Speicherleck in API
+✨ feat: Add user dashboard
+🐛 fix: Resolve memory leak in API
 ```
 
-❌ **Falsch**:
+❌ **Incorrect**:
 
 ```text
-✨ feat: Dashboard hinzugefügt
-🐛 fix: Speicherleck behoben
+✨ feat: Added dashboard
+🐛 fix: Fixed memory leak
 ```
 
-### Länge beachten
+### Observe Length Constraints
 
-- **Subject Line**: ≤ 72 Zeichen
-- **Body**: Zeilen mit max. 72 Zeichen umbrechen
+- **Subject Line**: ≤ 72 characters
+- **Body**: Wrap lines at a maximum of 72 characters
 
-### Breaking Changes kennzeichnen
+### Mark Breaking Changes
 
 ```text
-♻️ refactor: API v2 Endpoints eingeführt
+♻️ refactor: Introduce API v2 endpoints
 
-BREAKING CHANGE: Alte v1 Endpoints sind deprecated.
-Migration Guide siehe docs/migration.md
+BREAKING CHANGE: Legacy v1 endpoints are deprecated.
+See docs/migration.md for the migration guide.
 ```
