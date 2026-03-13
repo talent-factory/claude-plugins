@@ -161,18 +161,35 @@ Use Emoji Conventional Commits:
    Add entry to `.claude-plugin/marketplace.json` plugins array
 
 4. **Command files** (Markdown):
-   - Title with clear name
-   - Usage section with examples
-   - Purpose and when to use
-   - Step-by-step instructions
-   - Best practices and warnings
+   YAML frontmatter fields:
+   ```yaml
+   ---
+   description: Brief one-line description          # REQUIRED
+   allowed-tools:                                    # REQUIRED
+     - Read
+     - Bash
+   category: develop                                 # Optional
+   argument-hint: "<issue_number>"                   # Optional
+   ---
+   ```
+   **Invalid fields:** `name`, `usage` — these will break command registration.
+   Body: Title, usage examples, step-by-step instructions, best practices.
 
 5. **Agent files** (Markdown, optional):
-   - Metadata section (name, description, version, tags)
-   - Expertise areas
-   - Approach/methodology
-   - Example interactions
-   - Response format guidelines
+   YAML frontmatter fields:
+   ```yaml
+   ---
+   name: agent-name                                  # REQUIRED
+   description: >                                    # REQUIRED
+     What this agent does and when to use it.
+   category: development                             # REQUIRED
+   model: sonnet                                     # REQUIRED (enum: sonnet, opus, haiku)
+   color: blue                                       # REQUIRED (e.g. blue, cyan, green, purple)
+   tools: ["Read", "Write", "Bash"]                  # Optional (restricts available tools)
+   ---
+   ```
+   **Invalid model values:** Do NOT use full model IDs like `claude-opus-4` or `claude-sonnet-4-5`. Use the short enum: `sonnet`, `opus`, `haiku`.
+   Body: Expertise areas, methodology, examples, response format.
 
 ### Testing Your Plugin
 
@@ -184,10 +201,16 @@ claude --plugin-dir ./plugins/your-plugin
 # In Claude Code session:
 /your-command
 
-# Validate structure
-/core:check-commands
-/core:check-agents
+# Validate structure (MANDATORY before PR)
+/core:check-commands   # Validates command frontmatter fields
+/core:check-agents     # Validates agent frontmatter (incl. color, model enum)
 ```
+
+**Pre-PR Validation Checklist:**
+- [ ] Run `/core:check-commands` — all commands must pass
+- [ ] Run `/core:check-agents` — all agents must pass
+- [ ] Verify commands appear in `/help` after `claude --plugin-dir ./plugins/your-plugin`
+- [ ] Compare frontmatter fields against an existing, working plugin of the same type
 
 ### Submitting Changes
 
