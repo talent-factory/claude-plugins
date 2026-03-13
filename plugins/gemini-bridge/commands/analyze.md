@@ -40,4 +40,4 @@ Delegate analysis tasks to Google Gemini 2.5 Pro when:
 
 - Always attribute results: "Gemini 2.5 Pro analysis:"
 - Gemini's output feeds back to Claude as context for further action
-- Model-agnostic by design: swap model in `.mcp.json` without changing workflow
+- Model-agnostic by design: swap model via `GEMINI_MODEL` env var without changing workflow

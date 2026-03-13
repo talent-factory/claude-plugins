@@ -19,7 +19,7 @@ Transform visual inputs into code, documentation, or structured data using Gemin
 
 ## Supported Formats
 
-- PNG, JPG, WEBP — UI screenshots, diagrams, photos
+- PNG, JPG, WEBP, GIF — UI screenshots, diagrams, photos
 - PDF — Architecture documents, specifications
 
 ## Workflow

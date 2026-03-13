@@ -292,7 +292,7 @@ def gemini_status() -> str:
             return (
                 f"Gemini Bridge operational\n"
                 f"Model: {GEMINI_MODEL}\n"
-                f"Context window: 1,000,000 tokens\n"
+                f"Context window: 1,000,000 tokens (gemini-2.5-pro; varies by model)\n"
                 f"Capabilities: text, code, vision (images/PDFs)\n"
                 f"Tools: gemini_analyze_text, gemini_analyze_codebase, "
                 f"gemini_analyze_image, gemini_compare_approaches"

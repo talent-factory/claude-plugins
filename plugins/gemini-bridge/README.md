@@ -92,7 +92,7 @@ Claude will call `gemini_status` and confirm connectivity.
 
 | Agent | Model | Role |
 |---|---|---|
-| `gemini-analyst` | Claude Sonnet 4 | Sub-agent for Gemini delegation |
+| `gemini-analyst` | Claude Sonnet 4.5 | Sub-agent for Gemini delegation |
 | `model-router` | Claude Opus 4 | Orchestrator with routing logic |
 
 ### MCP Tools (available to all Claude agents)
