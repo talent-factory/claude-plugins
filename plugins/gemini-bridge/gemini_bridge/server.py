@@ -13,19 +13,18 @@ Usage:
     and call these tools automatically via the .mcp.json configuration.
 """
 
-import os
-import base64
 import mimetypes
+import os
 from pathlib import Path
-from typing import Optional
 
 try:
-    import google.generativeai as genai
+    from google import genai
+    from google.genai import types
     from mcp.server.fastmcp import FastMCP
 except ImportError as e:
     raise ImportError(
         f"Missing dependency: {e}\n"
-        "Run: pip install google-generativeai fastmcp"
+        "Run: pip install google-genai fastmcp"
     ) from e
 
 GEMINI_MODEL = os.environ.get("GEMINI_MODEL", "gemini-2.5-pro")
@@ -44,38 +43,39 @@ mcp = FastMCP(
     """,
 )
 
-_configured = False
+_client: genai.Client | None = None
 
 
-def _get_client(temperature: float = 0.2) -> genai.GenerativeModel:
-    """Create a configured GenerativeModel using the API key from GEMINI_API_KEY."""
-    global _configured
+def _get_client() -> genai.Client:
+    """Return a cached Gemini Client, creating it on first call."""
+    global _client
+    if _client is not None:
+        return _client
     api_key = os.environ.get("GEMINI_API_KEY")
     if not api_key:
         raise ValueError(
             "GEMINI_API_KEY environment variable not set.\n"
             "Get your key at: https://aistudio.google.com/app/apikey"
         )
-    if not _configured:
-        genai.configure(api_key=api_key)
-        _configured = True
-    return genai.GenerativeModel(
-        model_name=GEMINI_MODEL,
-        generation_config=genai.GenerationConfig(
-            temperature=temperature,
-            max_output_tokens=8192,
-        ),
-    )
+    _client = genai.Client(api_key=api_key)
+    return _client
 
 
-def _generate(prompt, *, temperature: float = 0.2) -> str:
+def _generate(contents, *, temperature: float = 0.2) -> str:
     """Send a prompt to Gemini and return the response text.
 
     Exceptions propagate to FastMCP, which converts them into proper
     MCP error responses with isError: true.
     """
-    model = _get_client(temperature=temperature)
-    response = model.generate_content(prompt)
+    client = _get_client()
+    response = client.models.generate_content(
+        model=GEMINI_MODEL,
+        contents=contents,
+        config=types.GenerateContentConfig(
+            temperature=temperature,
+            max_output_tokens=8192,
+        ),
+    )
     return response.text
 
 
@@ -87,7 +87,7 @@ def _generate(prompt, *, temperature: float = 0.2) -> str:
 )
 def gemini_analyze_text(
     prompt: str,
-    context: Optional[str] = None,
+    context: str | None = None,
     temperature: float = 0.2,
 ) -> str:
     """
@@ -119,7 +119,7 @@ def gemini_analyze_text(
 def gemini_analyze_codebase(
     code_content: str,
     task: str,
-    language: Optional[str] = None,
+    language: str | None = None,
 ) -> str:
     """
     Analyze a large codebase or file content with Gemini's extended context window.
@@ -200,19 +200,14 @@ def gemini_analyze_image(
         )
 
     with open(path, "rb") as f:
-        image_data = base64.standard_b64encode(f.read()).decode("utf-8")
+        image_bytes = f.read()
 
-    prompt_parts = [
+    contents = [
+        types.Part.from_bytes(data=image_bytes, mime_type=mime_type),
         question,
-        {
-            "inline_data": {
-                "mime_type": mime_type,
-                "data": image_data,
-            }
-        },
     ]
 
-    return _generate(prompt_parts)
+    return _generate(contents)
 
 
 @mcp.tool(
@@ -225,7 +220,7 @@ def gemini_compare_approaches(
     problem: str,
     approach_a: str,
     approach_b: str,
-    criteria: Optional[str] = None,
+    criteria: str | None = None,
 ) -> str:
     """
     Use Gemini to compare two technical approaches or implementations objectively.
@@ -286,8 +281,15 @@ def gemini_status() -> str:
         return "GEMINI_API_KEY not set. Bridge is not operational."
 
     try:
-        model = _get_client()
-        response = model.generate_content("Reply with: GEMINI_BRIDGE_OK")
+        client = _get_client()
+        response = client.models.generate_content(
+            model=GEMINI_MODEL,
+            contents="Reply with: GEMINI_BRIDGE_OK",
+            config=types.GenerateContentConfig(
+                temperature=0.2,
+                max_output_tokens=64,
+            ),
+        )
         if "GEMINI_BRIDGE_OK" in response.text:
             return (
                 f"Gemini Bridge operational\n"

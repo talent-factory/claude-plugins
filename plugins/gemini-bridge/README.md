@@ -52,9 +52,9 @@ Then in Claude Code:
 ### 2. Install Python Dependencies
 
 ```bash
-pip install google-generativeai fastmcp
+pip install google-genai fastmcp
 # or with uv (recommended):
-uv add google-generativeai fastmcp
+uv add google-genai fastmcp
 ```
 
 ### 3. Set API Key

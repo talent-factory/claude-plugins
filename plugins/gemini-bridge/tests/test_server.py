@@ -4,18 +4,19 @@ Run with: pytest tests/ -v
 """
 
 import os
+from unittest.mock import MagicMock, patch
+
 import pytest
-from unittest.mock import patch, MagicMock
 
 import gemini_bridge.server as server_module
 
 
 @pytest.fixture(autouse=True)
-def reset_configured():
-    """Reset the global _configured flag between tests to prevent state leakage."""
-    server_module._configured = False
+def reset_client():
+    """Reset the cached client between tests to prevent state leakage."""
+    server_module._client = None
     yield
-    server_module._configured = False
+    server_module._client = None
 
 
 # -- Unit Tests (no API key required) ----------------------------------------
@@ -32,10 +33,11 @@ class TestGeminiStatus:
         """Should return OK status with valid mock response."""
         mock_response = MagicMock()
         mock_response.text = "GEMINI_BRIDGE_OK"
+        mock_client = MagicMock()
+        mock_client.models.generate_content.return_value = mock_response
 
         with patch.dict(os.environ, {"GEMINI_API_KEY": "test-key"}):
-            with patch("google.generativeai.GenerativeModel.generate_content",
-                       return_value=mock_response):
+            with patch("google.genai.Client", return_value=mock_client):
                 result = server_module.gemini_status()
         assert "operational" in result.lower()
 
@@ -43,18 +45,21 @@ class TestGeminiStatus:
         """Should return warning when Gemini responds without expected token."""
         mock_response = MagicMock()
         mock_response.text = "Hello, how can I help?"
+        mock_client = MagicMock()
+        mock_client.models.generate_content.return_value = mock_response
 
         with patch.dict(os.environ, {"GEMINI_API_KEY": "test-key"}):
-            with patch("google.generativeai.GenerativeModel.generate_content",
-                       return_value=mock_response):
+            with patch("google.genai.Client", return_value=mock_client):
                 result = server_module.gemini_status()
         assert "Unexpected response" in result
 
     def test_status_connection_failure(self):
         """Should return error when API call fails."""
+        mock_client = MagicMock()
+        mock_client.models.generate_content.side_effect = ConnectionError("Network unreachable")
+
         with patch.dict(os.environ, {"GEMINI_API_KEY": "test-key"}):
-            with patch("google.generativeai.GenerativeModel.generate_content",
-                       side_effect=ConnectionError("Network unreachable")):
+            with patch("google.genai.Client", return_value=mock_client):
                 result = server_module.gemini_status()
         assert "Connection failed" in result
 
@@ -62,10 +67,11 @@ class TestGeminiStatus:
         """Tool names in status output must use the full gemini_ prefix."""
         mock_response = MagicMock()
         mock_response.text = "GEMINI_BRIDGE_OK"
+        mock_client = MagicMock()
+        mock_client.models.generate_content.return_value = mock_response
 
         with patch.dict(os.environ, {"GEMINI_API_KEY": "test-key"}):
-            with patch("google.generativeai.GenerativeModel.generate_content",
-                       return_value=mock_response):
+            with patch("google.genai.Client", return_value=mock_client):
                 result = server_module.gemini_status()
         assert "gemini_analyze_text" in result
         assert "gemini_analyze_codebase" in result
@@ -110,46 +116,48 @@ class TestGetClient:
             with pytest.raises(ValueError, match="GEMINI_API_KEY"):
                 server_module._get_client()
 
-    def test_configure_called_once(self):
-        """genai.configure should be called only once across multiple invocations."""
+    def test_client_cached(self):
+        """Client should be created once and reused on subsequent calls."""
         with patch.dict(os.environ, {"GEMINI_API_KEY": "test-key"}):
-            with patch("google.generativeai.configure") as mock_configure:
-                with patch("google.generativeai.GenerativeModel"):
-                    server_module._get_client()
-                    server_module._get_client()
-                    assert mock_configure.call_count == 1
+            with patch("google.genai.Client") as mock_cls:
+                server_module._get_client()
+                server_module._get_client()
+                assert mock_cls.call_count == 1
 
 
 class TestAnalyzeText:
+    def _mock_client(self, response_text="Analysis result"):
+        mock_response = MagicMock()
+        mock_response.text = response_text
+        mock_client = MagicMock()
+        mock_client.models.generate_content.return_value = mock_response
+        return mock_client
+
     def test_returns_response_text(self):
         """Should return Gemini's response text on success."""
-        mock_response = MagicMock()
-        mock_response.text = "Analysis result"
-
+        mock_client = self._mock_client()
         with patch.dict(os.environ, {"GEMINI_API_KEY": "test-key"}):
-            with patch("google.generativeai.GenerativeModel.generate_content",
-                       return_value=mock_response):
+            with patch("google.genai.Client", return_value=mock_client):
                 result = server_module.gemini_analyze_text("Analyze this")
         assert result == "Analysis result"
 
     def test_prepends_context(self):
         """Should prepend context to prompt when provided."""
-        mock_response = MagicMock()
-        mock_response.text = "ok"
-
+        mock_client = self._mock_client("ok")
         with patch.dict(os.environ, {"GEMINI_API_KEY": "test-key"}):
-            with patch("google.generativeai.GenerativeModel.generate_content",
-                       return_value=mock_response) as mock_gen:
+            with patch("google.genai.Client", return_value=mock_client):
                 server_module.gemini_analyze_text("question", context="background")
-                call_args = mock_gen.call_args[0][0]
-                assert "background" in call_args
-                assert "question" in call_args
+                call_args = mock_client.models.generate_content.call_args
+                contents = call_args.kwargs.get("contents", call_args[1].get("contents", ""))
+                assert "background" in contents
+                assert "question" in contents
 
     def test_api_error_propagates(self):
         """API errors should propagate as exceptions, not be swallowed."""
+        mock_client = MagicMock()
+        mock_client.models.generate_content.side_effect = RuntimeError("Quota exceeded")
         with patch.dict(os.environ, {"GEMINI_API_KEY": "test-key"}):
-            with patch("google.generativeai.GenerativeModel.generate_content",
-                       side_effect=RuntimeError("Quota exceeded")):
+            with patch("google.genai.Client", return_value=mock_client):
                 with pytest.raises(RuntimeError, match="Quota exceeded"):
                     server_module.gemini_analyze_text("test")
 
@@ -165,10 +173,11 @@ class TestAnalyzeCodebase:
         """Should return Gemini's analysis on success."""
         mock_response = MagicMock()
         mock_response.text = "Codebase analysis result"
+        mock_client = MagicMock()
+        mock_client.models.generate_content.return_value = mock_response
 
         with patch.dict(os.environ, {"GEMINI_API_KEY": "test-key"}):
-            with patch("google.generativeai.GenerativeModel.generate_content",
-                       return_value=mock_response):
+            with patch("google.genai.Client", return_value=mock_client):
                 result = server_module.gemini_analyze_codebase("code", "review")
         assert result == "Codebase analysis result"
 
@@ -176,19 +185,22 @@ class TestAnalyzeCodebase:
         """Should include language hint in prompt when provided."""
         mock_response = MagicMock()
         mock_response.text = "ok"
+        mock_client = MagicMock()
+        mock_client.models.generate_content.return_value = mock_response
 
         with patch.dict(os.environ, {"GEMINI_API_KEY": "test-key"}):
-            with patch("google.generativeai.GenerativeModel.generate_content",
-                       return_value=mock_response) as mock_gen:
+            with patch("google.genai.Client", return_value=mock_client):
                 server_module.gemini_analyze_codebase("code", "review", language="Python")
-                call_args = mock_gen.call_args[0][0]
-                assert "Language: Python" in call_args
+                call_args = mock_client.models.generate_content.call_args
+                contents = call_args.kwargs.get("contents", call_args[1].get("contents", ""))
+                assert "Language: Python" in contents
 
     def test_api_error_propagates(self):
         """API errors should propagate."""
+        mock_client = MagicMock()
+        mock_client.models.generate_content.side_effect = RuntimeError("Server error")
         with patch.dict(os.environ, {"GEMINI_API_KEY": "test-key"}):
-            with patch("google.generativeai.GenerativeModel.generate_content",
-                       side_effect=RuntimeError("Server error")):
+            with patch("google.genai.Client", return_value=mock_client):
                 with pytest.raises(RuntimeError):
                     server_module.gemini_analyze_codebase("code", "review")
 
@@ -231,14 +243,15 @@ class TestImageAnalysis:
         import tempfile
         mock_response = MagicMock()
         mock_response.text = "Image shows a dashboard"
+        mock_client = MagicMock()
+        mock_client.models.generate_content.return_value = mock_response
 
         with tempfile.NamedTemporaryFile(suffix=".png", delete=False) as f:
             f.write(b"\x89PNG\r\n\x1a\n" + b"\x00" * 100)
             tmp_path = f.name
         try:
             with patch.dict(os.environ, {"GEMINI_API_KEY": "test-key"}):
-                with patch("google.generativeai.GenerativeModel.generate_content",
-                           return_value=mock_response):
+                with patch("google.genai.Client", return_value=mock_client):
                     result = server_module.gemini_analyze_image(tmp_path, "Describe")
             assert result == "Image shows a dashboard"
         finally:
@@ -250,10 +263,11 @@ class TestCompareApproaches:
         """Should return Gemini's comparison on success."""
         mock_response = MagicMock()
         mock_response.text = "Approach A is better"
+        mock_client = MagicMock()
+        mock_client.models.generate_content.return_value = mock_response
 
         with patch.dict(os.environ, {"GEMINI_API_KEY": "test-key"}):
-            with patch("google.generativeai.GenerativeModel.generate_content",
-                       return_value=mock_response):
+            with patch("google.genai.Client", return_value=mock_client):
                 result = server_module.gemini_compare_approaches(
                     "scaling", "Redis", "PostgreSQL"
                 )
@@ -263,21 +277,24 @@ class TestCompareApproaches:
         """Should include criteria in prompt when provided."""
         mock_response = MagicMock()
         mock_response.text = "ok"
+        mock_client = MagicMock()
+        mock_client.models.generate_content.return_value = mock_response
 
         with patch.dict(os.environ, {"GEMINI_API_KEY": "test-key"}):
-            with patch("google.generativeai.GenerativeModel.generate_content",
-                       return_value=mock_response) as mock_gen:
+            with patch("google.genai.Client", return_value=mock_client):
                 server_module.gemini_compare_approaches(
                     "scaling", "A", "B", criteria="performance, cost"
                 )
-                call_args = mock_gen.call_args[0][0]
-                assert "performance, cost" in call_args
+                call_args = mock_client.models.generate_content.call_args
+                contents = call_args.kwargs.get("contents", call_args[1].get("contents", ""))
+                assert "performance, cost" in contents
 
     def test_api_error_propagates(self):
         """API errors should propagate."""
+        mock_client = MagicMock()
+        mock_client.models.generate_content.side_effect = RuntimeError("Rate limited")
         with patch.dict(os.environ, {"GEMINI_API_KEY": "test-key"}):
-            with patch("google.generativeai.GenerativeModel.generate_content",
-                       side_effect=RuntimeError("Rate limited")):
+            with patch("google.genai.Client", return_value=mock_client):
                 with pytest.raises(RuntimeError):
                     server_module.gemini_compare_approaches("p", "a", "b")
 
