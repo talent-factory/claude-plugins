@@ -1,0 +1,32 @@
+{
+  "name": "gemini-bridge",
+  "version": "1.0.0",
+  "description": "Model-agnostic bridge to Google Gemini 2.5 Pro — long-context codebase analysis, multimodal vision, and parallel reasoning alongside Claude",
+  "author": {
+    "name": "Talent Factory GmbH",
+    "email": "info@talent-factory.ch"
+  },
+  "keywords": [
+    "gemini",
+    "mcp",
+    "multi-model",
+    "long-context",
+    "vision",
+    "multimodal",
+    "bridge",
+    "ai-engineering"
+  ],
+  "license": "MIT",
+  "commands": [
+    "commands/analyze.md",
+    "commands/compare.md",
+    "commands/vision.md"
+  ],
+  "agents": [
+    "agents/gemini-analyst.md",
+    "agents/model-router.md"
+  ],
+  "skills": [
+    "skills/gemini-analyst/SKILL.md"
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "gemini-bridge": {
+      "command": "python",
+      "args": ["-m", "gemini_bridge.server"],
+      "env": {
+        "GEMINI_API_KEY": "${GEMINI_API_KEY}"
+      },
+      "description": "Google Gemini 2.5 Pro bridge for long-context analysis and multimodal tasks"
+    }
+  }
+}

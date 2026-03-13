@@ -1,0 +1,37 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "gemini-bridge"
+version = "1.0.0"
+description = "Model-agnostic Gemini 2.5 Pro MCP bridge for Claude Code"
+readme = "README.md"
+license = { text = "MIT" }
+authors = [{ name = "Talent Factory GmbH", email = "info@talent-factory.ch" }]
+requires-python = ">=3.11"
+dependencies = [
+    "google-generativeai>=0.8.0",
+    "fastmcp>=0.5.0",
+    "mcp>=1.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "pytest-asyncio>=0.23",
+    "ruff>=0.4.0",
+]
+
+[project.scripts]
+gemini-bridge = "gemini_bridge.server:mcp.run"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
