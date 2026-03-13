@@ -1,7 +1,10 @@
 ---
-name: analyze
 description: Delegate codebase or text analysis to Gemini 2.5 Pro (1M token context)
-usage: /gemini-bridge:analyze [--vision <image_path>] <task_description>
+allowed-tools:
+  - Read
+  - Glob
+  - Grep
+  - Bash
 ---
 
 # Gemini Bridge: Analyze

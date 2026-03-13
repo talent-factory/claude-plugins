@@ -4,7 +4,9 @@ description: >
   Orchestrator agent implementing the model-agnostic routing pattern.
   Analyzes incoming tasks and routes them to Claude (direct) or Gemini (via bridge)
   based on task characteristics. Ideal for teaching AI-Assisted Software Engineering.
-model: claude-opus-4
+category: ai-engineering
+model: opus
+color: cyan
 tools:
   - mcp:gemini-bridge:gemini_status
   - mcp:gemini-bridge:gemini_analyze_text

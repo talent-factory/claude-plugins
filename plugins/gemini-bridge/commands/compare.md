@@ -1,7 +1,9 @@
 ---
-name: compare
 description: Use Gemini as an independent reviewer to compare two technical approaches
-usage: /gemini-bridge:compare <problem_description>
+allowed-tools:
+  - Read
+  - Glob
+  - Grep
 ---
 
 # Gemini Bridge: Compare
