@@ -1,7 +1,10 @@
 ---
 description: Run project checks and fix errors without committing
 category: code-analysis-testing
-allowed-tools: Bash, Edit, Read
+allowed-tools:
+  - Bash
+  - Edit
+  - Read
 ---
 
 # Run Project Validation

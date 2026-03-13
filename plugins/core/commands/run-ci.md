@@ -1,5 +1,6 @@
 ---
 description: Run CI checks and fix all errors until all tests pass
+category: code-analysis-testing
 allowed-tools:
   - Bash
   - Edit

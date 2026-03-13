@@ -1,5 +1,6 @@
 ---
 description: Implement task with context analysis, agent routing, worktree workflow, quality gate, and PR (Filesystem or Linear)
+category: project
 argument-hint: "[task-ID] [--linear] [--skip-brainstorm] [--skip-quality-gate]"
 allowed-tools:
   - Read

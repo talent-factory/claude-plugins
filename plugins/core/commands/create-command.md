@@ -1,7 +1,12 @@
 ---
 description: Create a new command following existing patterns and organizational structure
 category: project-task-management
-allowed-tools: Read, Write, Edit, LS, Glob
+allowed-tools:
+  - Read
+  - Write
+  - Edit
+  - LS
+  - Glob
 ---
 
 # Create New Command

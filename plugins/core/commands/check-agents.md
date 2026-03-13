@@ -1,5 +1,7 @@
 ---
 description: Validate agent files, YAML frontmatter (including color attribute), and best practices
+category: validation
+argument-hint: "[agent-path] [--fix]"
 allowed-tools:
   - Read
   - Glob

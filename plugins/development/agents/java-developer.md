@@ -30,6 +30,7 @@ description: |
   </commentary>
   </example>
 
+category: development
 model: sonnet
 color: blue
 tools: ["Read", "Write", "Edit", "Grep", "Glob", "Bash"]

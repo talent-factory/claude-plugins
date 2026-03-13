@@ -1,5 +1,6 @@
 ---
 description: Lint and format all Python files in the project using Ruff
+category: code-analysis-testing
 allowed-tools:
   - Bash
   - Read
