@@ -18,6 +18,10 @@ import mimetypes
 import os
 from pathlib import Path
 
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
+)
 logger = logging.getLogger(__name__)
 
 try:
@@ -201,8 +205,11 @@ def gemini_analyze_image(
         Gemini's description/analysis of the image content
     """
     path = Path(image_path).resolve()
-    if ".." in Path(image_path).parts:
-        raise PermissionError("Directory traversal is not allowed in image paths.")
+    cwd = Path.cwd().resolve()
+    if not path.is_relative_to(cwd):
+        raise PermissionError(
+            f"Access denied: image path must be within the working directory ({cwd})."
+        )
     if not path.exists():
         raise FileNotFoundError(f"Image not found: {image_path}")
 
@@ -327,6 +334,7 @@ def gemini_status() -> str:
                 f"Tools: gemini_analyze_text, gemini_analyze_codebase, "
                 f"gemini_analyze_image, gemini_compare_approaches"
             )
+        logger.warning("Gemini status check returned unexpected response: %s", response.text)
         return "Unexpected response from Gemini. Check server logs for details."
     except Exception as e:
         logger.error("Gemini connection failed: %s", e, exc_info=True)
