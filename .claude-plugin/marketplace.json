@@ -130,6 +130,23 @@
         "documentation",
         "sync"
       ]
+    },
+    {
+      "name": "gemini-bridge",
+      "description": "Model-agnostic bridge to Google Gemini 2.5 Pro — long-context codebase analysis, multimodal vision, and parallel reasoning alongside Claude",
+      "source": "./plugins/gemini-bridge",
+      "category": "development",
+      "version": "1.0.0",
+      "tags": [
+        "gemini",
+        "mcp",
+        "multi-model",
+        "long-context",
+        "vision",
+        "multimodal",
+        "bridge",
+        "ai-engineering"
+      ]
     }
   ]
 }
