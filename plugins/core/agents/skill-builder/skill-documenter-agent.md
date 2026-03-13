@@ -4,7 +4,7 @@ description: Creates comprehensive documentation for Claude Code skills. Generat
 category: skill-builder
 model: sonnet
 color: yellow
-tools: Read, Write, Edit, Grep, Glob, WebFetch
+tools: ["Read", "Write", "Edit", "Grep", "Glob", "WebFetch"]
 ---
 
 # Skill Documenter Agent

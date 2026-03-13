@@ -4,7 +4,7 @@ description: Specializes in requirements elicitation and conversion of user need
 category: skill-builder
 model: sonnet
 color: purple
-tools: Read, Write, Grep, Glob, WebFetch
+tools: ["Read", "Write", "Grep", "Glob", "WebFetch"]
 ---
 
 # Skill Elicitation Agent

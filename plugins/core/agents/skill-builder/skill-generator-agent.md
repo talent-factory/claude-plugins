@@ -4,7 +4,7 @@ description: Generates Claude Code skills from specifications. Creates SKILL.md 
 category: skill-builder
 model: sonnet
 color: blue
-tools: Read, Write, Edit, Bash, Grep, Glob, WebFetch
+tools: ["Read", "Write", "Edit", "Bash", "Grep", "Glob", "WebFetch"]
 ---
 
 # Skill Generator Agent

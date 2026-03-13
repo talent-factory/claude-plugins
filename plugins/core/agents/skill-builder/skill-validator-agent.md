@@ -4,7 +4,7 @@ description: Validates and tests Claude Code skills. Checks YAML syntax, validat
 category: skill-builder
 model: sonnet
 color: green
-tools: Read, Bash, Grep, Glob, WebFetch
+tools: ["Read", "Bash", "Grep", "Glob", "WebFetch"]
 ---
 
 # Skill Validator Agent
