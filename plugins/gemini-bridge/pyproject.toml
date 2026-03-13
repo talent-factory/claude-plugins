@@ -11,8 +11,8 @@ license = { text = "MIT" }
 authors = [{ name = "Talent Factory GmbH", email = "info@talent-factory.ch" }]
 requires-python = ">=3.11"
 dependencies = [
-    "google-genai>=1.0.0",
-    "fastmcp>=0.5.0",
+    "google-genai>=1.0.0,<2.0.0",
+    "fastmcp>=0.5.0,<1.0.0",
 ]
 
 [project.optional-dependencies]
