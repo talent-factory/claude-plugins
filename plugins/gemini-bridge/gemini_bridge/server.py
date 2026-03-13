@@ -290,7 +290,7 @@ def gemini_status() -> str:
                 max_output_tokens=64,
             ),
         )
-        if "GEMINI_BRIDGE_OK" in response.text:
+        if response.text and "GEMINI_BRIDGE_OK" in response.text:
             return (
                 f"Gemini Bridge operational\n"
                 f"Model: {GEMINI_MODEL}\n"

@@ -53,6 +53,18 @@ class TestGeminiStatus:
                 result = server_module.gemini_status()
         assert "Unexpected response" in result
 
+    def test_status_none_response_text(self):
+        """Should handle None response.text gracefully."""
+        mock_response = MagicMock()
+        mock_response.text = None
+        mock_client = MagicMock()
+        mock_client.models.generate_content.return_value = mock_response
+
+        with patch.dict(os.environ, {"GEMINI_API_KEY": "test-key"}):
+            with patch("google.genai.Client", return_value=mock_client):
+                result = server_module.gemini_status()
+        assert "Unexpected response" in result
+
     def test_status_connection_failure(self):
         """Should return error when API call fails."""
         mock_client = MagicMock()
