@@ -4,7 +4,9 @@ description: >
   Specialized sub-agent that routes large-context and multimodal analysis tasks
   to Google Gemini 2.5 Pro via the MCP bridge. Use when codebase analysis
   exceeds 150K tokens, or when image/PDF input is required.
-model: claude-sonnet-4-5
+category: ai-engineering
+model: sonnet
+color: cyan
 tools:
   - mcp:gemini-bridge:gemini_analyze_text
   - mcp:gemini-bridge:gemini_analyze_codebase

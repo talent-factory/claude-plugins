@@ -1,7 +1,8 @@
 ---
-name: vision
 description: Convert screenshots, diagrams, or mockups to code/docs using Gemini's vision
-usage: /gemini-bridge:vision <image_path> <task>
+allowed-tools:
+  - Read
+  - Bash
 ---
 
 # Gemini Bridge: Vision
