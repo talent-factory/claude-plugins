@@ -52,9 +52,9 @@ Then in Claude Code:
 ### 2. Install Python Dependencies
 
 ```bash
-pip install google-generativeai fastmcp mcp
+pip install google-generativeai fastmcp
 # or with uv (recommended):
-uv add google-generativeai fastmcp mcp
+uv add google-generativeai fastmcp
 ```
 
 ### 3. Set API Key
@@ -92,7 +92,7 @@ Claude will call `gemini_status` and confirm connectivity.
 
 | Agent | Model | Role |
 |---|---|---|
-| `gemini-analyst` | Claude Sonnet 4.5 | Sub-agent for Gemini delegation |
+| `gemini-analyst` | Claude Sonnet 4 | Sub-agent for Gemini delegation |
 | `model-router` | Claude Opus 4 | Orchestrator with routing logic |
 
 ### MCP Tools (available to all Claude agents)
@@ -189,7 +189,7 @@ Demonstrates that no single model is authoritative.
 
 Ask students to:
 1. Add a new routing rule to `agents/model-router.md`
-2. Swap Gemini for a different model by editing `server.py` only
+2. Swap Gemini for a different model by setting `GEMINI_MODEL` env var only
 3. Observe that agents/commands are unchanged → **model-agnostic confirmed**
 
 ---
@@ -198,16 +198,16 @@ Ask students to:
 
 ### Custom Model Version
 
-Edit `gemini_bridge/server.py`:
-```python
-# Change this line to use a different Gemini model:
-model_name="gemini-2.5-pro-preview-06-05",
+Set the `GEMINI_MODEL` environment variable:
+```bash
+export GEMINI_MODEL="gemini-2.5-flash-preview-04-17"  # Use Flash for cost savings
+export GEMINI_MODEL="gemini-2.5-pro"    # Default (Pro)
 ```
 
 ### Temperature Tuning
 
 ```python
-# In gemini_analyze_text(), pass temperature:
+# In gemini_analyze_text(), pass temperature (0.0-2.0):
 gemini_analyze_text(prompt="...", temperature=0.7)  # More creative
 gemini_analyze_text(prompt="...", temperature=0.0)  # Deterministic
 ```

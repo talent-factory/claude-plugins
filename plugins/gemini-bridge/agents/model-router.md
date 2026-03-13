@@ -56,7 +56,7 @@ Synthesis: [combined recommendation]
 
 ## Teaching Mode
 
-When `TEACHING_MODE=true` is set (or user asks to explain routing decisions):
+When the user asks to explain routing decisions:
 - Explain WHY each routing decision was made
 - Show the token count estimate that triggered Gemini routing
 - Discuss trade-offs of each model's architecture for the task

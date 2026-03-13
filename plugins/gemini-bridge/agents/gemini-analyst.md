@@ -40,7 +40,7 @@ Always structure your response as:
 ```
 **Gemini 2.5 Pro Analysis**
 Task: [what was analyzed]
-Model: gemini-2.5-pro-preview-06-05
+Model: gemini-2.5-pro
 
 [Gemini's response]
 
