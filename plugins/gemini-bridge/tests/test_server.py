@@ -137,6 +137,32 @@ class TestGetClient:
                 assert mock_cls.call_count == 1
 
 
+class TestGenerate:
+    def test_none_response_raises_runtime_error(self):
+        """_generate must raise RuntimeError when Gemini returns no text."""
+        mock_response = MagicMock()
+        mock_response.text = None
+        mock_client = MagicMock()
+        mock_client.models.generate_content.return_value = mock_response
+
+        with patch.dict(os.environ, {"GEMINI_API_KEY": "test-key"}):
+            with patch("google.genai.Client", return_value=mock_client):
+                with pytest.raises(RuntimeError, match="returned no text"):
+                    server_module._generate("test prompt")
+
+    def test_returns_text_on_success(self):
+        """_generate should return response text when available."""
+        mock_response = MagicMock()
+        mock_response.text = "Hello"
+        mock_client = MagicMock()
+        mock_client.models.generate_content.return_value = mock_response
+
+        with patch.dict(os.environ, {"GEMINI_API_KEY": "test-key"}):
+            with patch("google.genai.Client", return_value=mock_client):
+                result = server_module._generate("test prompt")
+        assert result == "Hello"
+
+
 class TestAnalyzeText:
     def _mock_client(self, response_text="Analysis result"):
         mock_response = MagicMock()

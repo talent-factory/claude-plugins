@@ -76,6 +76,11 @@ def _generate(contents, *, temperature: float = 0.2) -> str:
             max_output_tokens=8192,
         ),
     )
+    if response.text is None:
+        raise RuntimeError(
+            "Gemini returned no text output. This may indicate content filtering, "
+            "a safety refusal, or thinking mode consuming all output tokens."
+        )
     return response.text
 
 
@@ -295,7 +300,7 @@ def gemini_status() -> str:
             return (
                 f"Gemini Bridge operational\n"
                 f"Model: {GEMINI_MODEL}\n"
-                f"Context window: 1,000,000 tokens (gemini-2.5-pro; varies by model)\n"
+                f"Context window: varies by model (1M tokens for gemini-2.5-pro)\n"
                 f"Capabilities: text, code, vision (images/PDFs)\n"
                 f"Tools: gemini_analyze_text, gemini_analyze_codebase, "
                 f"gemini_analyze_image, gemini_compare_approaches"
