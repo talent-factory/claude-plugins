@@ -2,6 +2,7 @@
 name: skill-generator-agent
 description: Generates Claude Code skills from specifications. Creates SKILL.md files, supporting documentation, scripts, and directory structure. Use PROACTIVELY for skill code generation and file creation from specifications.
 category: skill-builder
+model: sonnet
 color: blue
 tools: Read, Write, Edit, Bash, Grep, Glob, WebFetch
 ---

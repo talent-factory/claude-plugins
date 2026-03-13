@@ -2,6 +2,7 @@
 name: skill-validator-agent
 description: Validates and tests Claude Code skills. Checks YAML syntax, validates structure, tests code execution, and verifies skill triggering. Use PROACTIVELY for skill quality assurance and testing of new or modified skills.
 category: skill-builder
+model: sonnet
 color: green
 tools: Read, Bash, Grep, Glob, WebFetch
 ---

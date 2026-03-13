@@ -1,6 +1,6 @@
 ---
 description: Create a new command following existing patterns and organizational structure
-category: project-task-management
+category: project
 allowed-tools:
   - Read
   - Write

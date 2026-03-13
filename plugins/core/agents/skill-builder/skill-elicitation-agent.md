@@ -2,6 +2,7 @@
 name: skill-elicitation-agent
 description: Specializes in requirements elicitation and conversion of user needs into comprehensive Claude Code skill specifications. Use PROACTIVELY when creating new skills or transforming user requests into skill definitions.
 category: skill-builder
+model: sonnet
 color: purple
 tools: Read, Write, Grep, Glob, WebFetch
 ---

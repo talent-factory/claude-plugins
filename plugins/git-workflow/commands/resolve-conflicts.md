@@ -1,6 +1,6 @@
 ---
 description: Analyze and resolve merge conflicts intelligently with automated test validation
-category: develop
+category: development
 argument-hint: "[PR-Nr|Branch] [--target develop] [--dry-run] [--no-tests] [--strategy ours|theirs|smart]"
 allowed-tools:
   - Bash
