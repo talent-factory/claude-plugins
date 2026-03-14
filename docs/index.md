@@ -14,7 +14,7 @@
 
     ---
 
-    Explore 6 professional plugins for git, project management, code quality, and education.
+    Explore 8 professional plugins for git, project management, code quality, development, education, and more.
 
     [:octicons-arrow-right-24: Plugin Catalog](plugins/index.md)
 
@@ -54,8 +54,8 @@
 
 Professional git automation with emoji conventional commits, pre-commit checks, and PR management.
 
-**Commands:** `/commit`, `/create-pr`, `/pr-edit-history`
-**Skills:** `professional-commit-workflow`, `professional-pr-workflow`
+**Commands:** `/git-workflow:commit`, `/git-workflow:create-pr`, `/git-workflow:pr-edit-history`, `/git-workflow:resolve-conflicts`
+**Skills:** `professional-commit-workflow`, `professional-pr-workflow`, `post-merge-cleanup`
 
 [:octicons-arrow-right-24: Learn more](plugins/git-workflow.md){ .md-button }
 
@@ -65,8 +65,8 @@ Professional git automation with emoji conventional commits, pre-commit checks, 
 
 Comprehensive project planning with PRD generation, Linear integration, and git worktree workflows.
 
-**Commands:** `/create-prd`, `/create-plan`, `/implement-task`, `/sync-linear`
-**Skills:** `prd-workflow`, `linear-workflow`
+**Commands:** `/project-management:create-prd`, `/project-management:create-plan`, `/project-management:init-task`, `/project-management:implement-task`, `/project-management:implement-epic`, `/project-management:document-handoff`
+**Agents:** `epic-orchestrator`
 
 [:octicons-arrow-right-24: Learn more](plugins/project-management.md){ .md-button }
 
@@ -76,8 +76,8 @@ Comprehensive project planning with PRD generation, Linear integration, and git 
 
 Expert code review and refactoring with specialized agents for Python, Java, and React.
 
-**Commands:** `/review`, `/refactor`, `/lint-python`
-**Agents:** `python-expert`, `java-expert`, `frontend-expert`
+**Commands:** `/code-quality:ruff-check`
+**Agents:** `code-reviewer`, `python-expert`, `frontend-developer`
 
 [:octicons-arrow-right-24: Learn more](plugins/code-quality.md){ .md-button }
 
@@ -87,8 +87,9 @@ Expert code review and refactoring with specialized agents for Python, Java, and
 
 Teaching aids and student support for IT education with Java Tutor agent.
 
-**Commands:** `/explain-code`, `/format-markdown`
-**Agents:** `java-tutor`
+**Commands:** `/education:explain-code`
+**Agents:** `java-tutor`, `markdown-syntax-formatter`
+**Skills:** `markdown-syntax-formatter`
 
 [:octicons-arrow-right-24: Learn more](plugins/education.md){ .md-button }
 
@@ -98,8 +99,9 @@ Teaching aids and student support for IT education with Java Tutor agent.
 
 Development utilities for plugin validation, CI automation, and project initialization.
 
-**Commands:** `/check`, `/check-commands`, `/check-agents`, `/build-skill`, `/create-command`, `/init-project`, `/run-ci`, `/humanize`
-**Agents:** `plugin-developer`, `command-developer`, `agent-developer`
+**Commands:** `/core:check`, `/core:check-commands`, `/core:check-agents`, `/core:build-skill`, `/core:package-skill`, `/core:create-command`, `/core:run-ci`
+**Agents:** `agent-expert`, `command-expert`
+**Skills:** `humanizer`, `pdf-to-markdown`
 
 [:octicons-arrow-right-24: Learn more](plugins/core.md){ .md-button }
 
@@ -109,9 +111,33 @@ Development utilities for plugin validation, CI automation, and project initiali
 
 Task management via Obsidian TaskNotes Plugin API with natural language support (DE/EN).
 
-**Commands:** `/task`, `/tasks`, `/task-complete`, `/task-delete`
+**Skills:** `tasknotes`
 
 [:octicons-arrow-right-24: Learn more](plugins/obsidian.md){ .md-button }
+
+---
+
+### :material-laptop: Development
+
+Expert development agents, project initialization with Git branching, Gradle Kotlin DSL, Python/uv support, and documentation synchronization.
+
+**Commands:** `/development:init-project`
+**Agents:** `java-developer`
+**Skills:** `professional-init-project`, `update-documents`
+
+[:octicons-arrow-right-24: Learn more](plugins/development.md){ .md-button }
+
+---
+
+### :material-bridge: Gemini Bridge
+
+Model-agnostic bridge to Google Gemini 2.5 Pro for long-context codebase analysis (1M tokens), multimodal vision, and independent model validation.
+
+**Commands:** `/gemini-bridge:analyze`, `/gemini-bridge:compare`, `/gemini-bridge:vision`
+**Agents:** `gemini-analyst`, `model-router`
+**Skills:** `gemini-analyst`
+
+[:octicons-arrow-right-24: Learn more](plugins/gemini-bridge.md){ .md-button }
 
 ---
 
