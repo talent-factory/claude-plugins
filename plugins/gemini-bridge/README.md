@@ -293,6 +293,6 @@ MIT License — see [LICENSE](../../LICENSE) for details.
 
 ---
 
-**Talent Factory GmbH** · [talent-factory.ch](https://talent-factory.ch) · [@talent-factory](https://github.com/talent-factory)
+**Talent Factory GmbH** · [talent-factory.xyz](https://talent-factory.xyz) · [@talent-factory](https://github.com/talent-factory)
 
 *Part of the [claude-plugins](https://github.com/talent-factory/claude-plugins) collection*

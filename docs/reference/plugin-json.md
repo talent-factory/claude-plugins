@@ -48,7 +48,7 @@ plugins/your-plugin/.claude-plugin/plugin.json
   "author": {
     "name": "Talent Factory GmbH",
     "email": "support@talent-factory.ch",
-    "url": "https://talent-factory.ch"
+    "url": "https://talent-factory.xyz"
   }
 }
 ```
@@ -80,7 +80,7 @@ plugins/your-plugin/.claude-plugin/plugin.json
   "author": {
     "name": "Talent Factory GmbH",
     "email": "support@talent-factory.ch",
-    "url": "https://talent-factory.ch"
+    "url": "https://talent-factory.xyz"
   },
   "license": "MIT",
   "homepage": "https://github.com/talent-factory/claude-plugins",
