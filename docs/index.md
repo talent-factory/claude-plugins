@@ -229,4 +229,4 @@ Model-agnostic bridge to Google Gemini 2.5 Pro for long-context codebase analysi
 
 **Talent Factory GmbH** is a Swiss company specializing in software development education and professional tooling. We create high-quality educational resources and development tools for students, educators, and professional developers.
 
-[:material-web: talent-factory.ch](https://talent-factory.ch){ .md-button .md-button--primary }
+[:material-web: talent-factory.xyz](https://talent-factory.xyz){ .md-button .md-button--primary }

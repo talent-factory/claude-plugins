@@ -141,7 +141,7 @@ Claude Code plugins execute with the same permissions as the Claude Code process
 Security advisories for this project are published at:
 
 - [GitHub Security Advisories](https://github.com/talent-factory/claude-plugins/security/advisories)
-- [Talent Factory Security Page](https://talent-factory.ch/security)
+- [Talent Factory Security Page](https://talent-factory.xyz/security)
 
 Subscribe to these channels to stay informed about security updates.
 
@@ -167,7 +167,7 @@ Currently, we do not have a formal bug bounty program. However, we greatly appre
 
 - **Security Issues:** security@talent-factory.ch
 - **General Support:** support@talent-factory.ch
-- **Website:** https://talent-factory.ch
+- **Website:** https://talent-factory.xyz
 
 ## Additional Resources
 

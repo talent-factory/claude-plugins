@@ -113,14 +113,14 @@ See the full list of contributors on [GitHub](https://github.com/talent-factory/
 
 ### Sponsors
 
-This project is maintained by [Talent Factory GmbH](https://talent-factory.ch).
+This project is maintained by [Talent Factory GmbH](https://talent-factory.xyz).
 
 ---
 
 ## Stay Connected
 
 - **GitHub**: [@talent-factory](https://github.com/talent-factory)
-- **Website**: [talent-factory.ch](https://talent-factory.ch)
+- **Website**: [talent-factory.xyz](https://talent-factory.xyz)
 - **Email**: support@talent-factory.ch
 
 ---

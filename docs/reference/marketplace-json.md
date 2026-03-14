@@ -39,7 +39,7 @@ The `marketplace.json` file is the catalog for a Claude Code plugin marketplace.
   "owner": {
     "name": "Talent Factory GmbH",
     "email": "support@talent-factory.ch",
-    "url": "https://talent-factory.ch"
+    "url": "https://talent-factory.xyz"
   }
 }
 ```
@@ -83,7 +83,7 @@ Each plugin in the `plugins` array:
   "owner": {
     "name": "Talent Factory GmbH",
     "email": "support@talent-factory.ch",
-    "url": "https://talent-factory.ch"
+    "url": "https://talent-factory.xyz"
   },
   "description": "Professional Claude Code plugins for software development and education",
   "plugins": [
