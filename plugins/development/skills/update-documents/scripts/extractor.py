@@ -3,6 +3,29 @@
 import re
 from pathlib import Path
 
+# Regex to strip emoji characters (including modifiers and ZWJ sequences)
+_EMOJI_RE = re.compile(
+    "["
+    "\U0001F600-\U0001F64F"  # emoticons
+    "\U0001F300-\U0001F5FF"  # symbols & pictographs
+    "\U0001F680-\U0001F6FF"  # transport & map
+    "\U0001F1E0-\U0001F1FF"  # flags
+    "\U00002702-\U000027B0"  # dingbats
+    "\U0001F900-\U0001F9FF"  # supplemental symbols
+    "\U0001FA00-\U0001FA6F"  # chess symbols
+    "\U0001FA70-\U0001FAFF"  # symbols extended-A
+    "\U00002600-\U000026FF"  # misc symbols
+    "\U0000FE0F"             # variation selector
+    "\U0000200D"             # ZWJ
+    "]+",
+    flags=re.UNICODE,
+)
+
+
+def _normalize_title(title: str) -> str:
+    """Strip emojis and extra whitespace for comparison."""
+    return _EMOJI_RE.sub("", title).strip().lower()
+
 
 def extract_section(file_path: Path, section_name: str) -> str | None:
     """
@@ -39,8 +62,8 @@ def extract_section(file_path: Path, section_name: str) -> str | None:
                 level = len(heading_match.group(1))
                 title = heading_match.group(2).strip()
 
-                # Gefundenes Section-Heading
-                if section_start is None and title.lower() == section_name.lower():
+                # Gefundenes Section-Heading (emoji-tolerant)
+                if section_start is None and _normalize_title(title) == _normalize_title(section_name):
                     section_start = i
                     section_level = level
                     continue

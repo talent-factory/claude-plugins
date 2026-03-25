@@ -3,6 +3,8 @@
 import re
 from pathlib import Path
 
+from extractor import _normalize_title
+
 
 def update_section(
     file_path: Path,
@@ -39,7 +41,7 @@ def update_section(
             level = len(heading_match.group(1))
             title = heading_match.group(2).strip()
 
-            if section_start is None and title.lower() == section_name.lower():
+            if section_start is None and _normalize_title(title) == _normalize_title(section_name):
                 section_start = i
                 section_level = level
                 continue

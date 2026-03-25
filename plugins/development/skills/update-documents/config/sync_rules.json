@@ -4,30 +4,30 @@
       "id": "tech-stack",
       "source": {
         "file": "CLAUDE.md",
-        "section": "Tech Stack"
+        "section": "Implementierte Technologien"
       },
       "targets": [
-        {"file": "README.md", "section": "Tech Stack"}
+        {"file": "README.md", "section": "Technologie-Stack"}
       ]
     },
     {
       "id": "dev-commands",
       "source": {
         "file": "CLAUDE.md",
-        "section": "Development Commands (Make)"
+        "section": "Produktive Befehle"
       },
       "targets": [
-        {"file": "README.md", "section": "Make-Befehle"}
+        {"file": "README.md", "section": "Nützliche Befehle"}
       ]
     },
     {
       "id": "project-structure",
       "source": {
         "file": "CLAUDE.md",
-        "section": "Project Structure"
+        "section": "Aktuelle Projektstruktur"
       },
       "targets": [
-        {"file": "README.md", "section": "Project Structure"}
+        {"file": "README.md", "section": "Architektur"}
       ]
     }
   ]
