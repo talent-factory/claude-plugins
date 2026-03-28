@@ -198,7 +198,7 @@ Press `S` to open speaker notes:
 
 ### Template
 
-The FFHS template is located at `.claude/skills/ffhs-lecture-slides/assets/ffhs-template.pptx`.
+The FFHS template is located at `assets/ffhs-template.pptx` (relative to this skill directory). When installed as a plugin, the resolved path is `${CLAUDE_PLUGIN_ROOT}/skills/ffhs-lecture-slides/assets/ffhs-template.pptx`.
 
 ### Available Layouts
 
@@ -216,12 +216,11 @@ The FFHS template is located at `.claude/skills/ffhs-lecture-slides/assets/ffhs-
 ### Python Script for PPTX Generation
 
 ```python
+from pathlib import Path
 from pptx import Presentation
-from pptx.util import Inches, Pt
-import os
 
-# Load template
-template_path = '.claude/skills/ffhs-lecture-slides/assets/ffhs-template.pptx'
+# Load template (adjust path to your project layout)
+template_path = 'assets/ffhs-template.pptx'
 prs = Presentation(template_path)
 
 # Remove example slides
@@ -248,7 +247,7 @@ for shape in slide.shapes:
         break
 
 # Save
-os.makedirs('docs/slides', exist_ok=True)
+Path('docs/slides').mkdir(parents=True, exist_ok=True)
 prs.save('docs/slides/pva-01-grundlagen.pptx')
 ```
 

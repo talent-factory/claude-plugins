@@ -12,31 +12,30 @@ _EMOJI_RE = re.compile(
     "\U0001F1E0-\U0001F1FF"  # flags
     "\U00002702-\U000027B0"  # dingbats
     "\U0001F900-\U0001F9FF"  # supplemental symbols
-    "\U0001FA00-\U0001FA6F"  # chess symbols
+    "\U0001FA00-\U0001FA6F"  # chess symbols & extended pictographs
     "\U0001FA70-\U0001FAFF"  # symbols extended-A
     "\U00002600-\U000026FF"  # misc symbols
     "\U0000FE0F"             # variation selector
     "\U0000200D"             # ZWJ
     "]+",
-    flags=re.UNICODE,
 )
 
 
 def _normalize_title(title: str) -> str:
-    """Strip emojis and extra whitespace for comparison."""
-    return _EMOJI_RE.sub("", title).strip().lower()
+    """Strip emojis, collapse whitespace, and lowercase for comparison."""
+    return " ".join(_EMOJI_RE.sub("", title).split()).lower()
 
 
 def extract_section(file_path: Path, section_name: str) -> str | None:
     """
-    Extrahiert den Inhalt eines Abschnitts aus einer Markdown-Datei.
+    Extract the content of a section from a Markdown file.
 
     Args:
-        file_path: Pfad zur Markdown-Datei
-        section_name: Name des Headings (ohne #)
+        file_path: Path to the Markdown file
+        section_name: Name of the heading (without #)
 
     Returns:
-        Inhalt des Abschnitts oder None wenn nicht gefunden
+        Section content or None if not found
     """
     if not file_path.exists():
         return None
@@ -62,24 +61,24 @@ def extract_section(file_path: Path, section_name: str) -> str | None:
                 level = len(heading_match.group(1))
                 title = heading_match.group(2).strip()
 
-                # Gefundenes Section-Heading (emoji-tolerant)
+                # Match section heading (emoji-tolerant comparison)
                 if section_start is None and _normalize_title(title) == _normalize_title(section_name):
                     section_start = i
                     section_level = level
                     continue
 
-                # Ende der Section (gleiches oder höheres Level)
+                # End of section (same or higher heading level)
                 if section_start is not None and level <= section_level:
                     break
 
-        # Sammle Zeilen innerhalb der Section
+        # Collect lines within the section
         if section_start is not None:
             result_lines.append(line)
 
     if section_start is None:
         return None
 
-    # Entferne führende/trailing Leerzeilen
+    # Remove leading/trailing blank lines
     while result_lines and not result_lines[0].strip():
         result_lines.pop(0)
     while result_lines and not result_lines[-1].strip():
@@ -90,10 +89,10 @@ def extract_section(file_path: Path, section_name: str) -> str | None:
 
 def list_sections(file_path: Path) -> list[dict]:
     """
-    Listet alle Sections einer Markdown-Datei auf.
+    List all sections of a Markdown file.
 
     Returns:
-        Liste von {level, title, line_number}
+        List of {level, title, line_number}
     """
     if not file_path.exists():
         return []
