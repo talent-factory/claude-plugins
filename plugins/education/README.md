@@ -2,9 +2,9 @@
 
 Teaching aids, code explanations, and student support for IT education.
 
-## Version 1.3.3
+## Version 1.4.0
 
-This plugin provides educational tools for students and instructors, including code explanations, a Java Tutor agent, and Markdown formatting skills.
+This plugin provides educational tools for students and instructors, including code explanations, a Java Tutor agent, Markdown formatting skills, and FFHS lecture slide generation.
 
 ---
 
@@ -66,6 +66,20 @@ Expert Markdown formatting specialist with comprehensive knowledge of CommonMark
 - **Manual:** Use Task tool with `subagent_type: "education:markdown-syntax-formatter"`
 
 ## Skills
+
+### FFHS Lecture Slides
+
+Create lecture presentations for FFHS (Fernfachhochschule Schweiz) in reveal.js or PowerPoint format.
+
+**Capabilities:**
+
+- Web-based reveal.js presentations with Mermaid and code highlighting support
+- Traditional PPTX output with FFHS branding
+- Tailored for PVA sessions and Java Fundamentals (JaF) course materials
+
+**Activation:**
+
+The skill activates when requesting presentations, lecture slides, or PVA materials.
 
 ### Markdown Syntax Formatter
 
@@ -170,6 +184,11 @@ This plugin is designed to complement computer science curricula:
 ---
 
 ## Changelog
+
+### Version 1.4.0 (2026-03-28)
+
+- Added FFHS Lecture Slides skill for reveal.js and PowerPoint presentation generation
+- Added FFHS, presentations, and slides keywords
 
 ### Version 1.3.3 (2026-02-27)
 
