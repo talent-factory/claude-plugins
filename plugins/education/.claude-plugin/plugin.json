@@ -1,8 +1,8 @@
 {
   "name": "education",
-  "version": "1.3.3",
-  "description": "Teaching aids with Java Tutor agent, Markdown syntax formatter agent and skill, and code explanation for IT education",
-  "keywords": ["education", "teaching", "learning", "students", "markdown", "formatting"],
+  "version": "1.4.0",
+  "description": "Teaching aids with Java Tutor agent, Markdown syntax formatter agent and skill, FFHS lecture slide generation, and code explanation for IT education",
+  "keywords": ["education", "teaching", "learning", "students", "markdown", "formatting", "ffhs", "presentations", "slides"],
   "license": "MIT",
   "author": {
     "name": "Talent Factory GmbH",
