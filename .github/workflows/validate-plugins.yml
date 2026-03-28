@@ -163,10 +163,10 @@ jobs:
           severity: 'HIGH,CRITICAL'
           exit-code: '1'
 
-      - name: Scan for secrets with Gitleaks
-        uses: gitleaks/gitleaks-action@ff98106e4c7b2bc287b24eaf42907196329070c7 # v2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Scan for secrets with TruffleHog
+        uses: trufflesecurity/trufflehog@6171fa9f6676edf21e15bba41f049b18399d7372 # main
+        with:
+          extra_args: --only-verified --results=verified
 
   test-plugins:
     name: Test Plugin Loading
