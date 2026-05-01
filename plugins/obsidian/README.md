@@ -1,21 +1,33 @@
 # Obsidian Integration Plugin
 
-Integration with Obsidian via the TaskNotes Plugin API - task management directly from Claude Code.
+Integration with Obsidian: task management via the TaskNotes Plugin API, plus a curated LLM-Wiki workflow (ingest, lint, migrate, query) — directly from Claude Code.
 
-## Version 1.1.2
+## Version 1.2.0
 
-This plugin enables seamless task management between Claude Code and Obsidian using the TaskNotes Plugin API.
+This plugin combines two complementary workflows for Obsidian users:
+
+1. **Task management** — through the TaskNotes Plugin HTTP API
+2. **LLM-Wiki maintenance** — an opinionated workflow for curating a personal knowledge base from web clippings, AI chats, transcripts, and own notes
 
 ---
 
 ## Features
 
-- **List tasks** - "show my tasks"
-- **Create tasks** - "create a task for X"
-- **Update tasks** - Change status, add details
-- **Delete tasks** - Remove tasks
-- **Work recommendations** - "what should I work on?"
-- **Vault-wide scanning** - Find all tasks in your entire vault with `--scan`
+### Task Management
+
+- **List tasks** — "show my tasks"
+- **Create tasks** — "create a task for X"
+- **Update tasks** — change status, add details
+- **Delete tasks** — remove tasks
+- **Work recommendations** — "what should I work on?"
+- **Vault-wide scanning** — find all tasks in your entire vault with `--scan`
+
+### LLM-Wiki Workflow
+
+- **Ingest sources** — file web clippings, AI chats, transcripts, or raw notes under `_raw/` and distill them into curated `_wiki/` pages with bidirectional cross-references
+- **Lint the wiki** — weekly health check for frontmatter integrity, asymmetric links, stale claims, tag discipline, migration backlog, and missing hub pages
+- **Migrate legacy notes** — split hybrid legacy files into raw + wiki content with template-compliant frontmatter; cluster mode for thematic batches
+- **Query the wiki** — index-first search with citations and optional filing-back of the synthesis as a new wiki page
 
 ## Prerequisites
 
@@ -107,10 +119,38 @@ Main skill for task management. Automatically activated for:
 
 **Key Features:**
 
-- `--scan` flag: Scans the entire vault filesystem to find ALL tasks with the #task tag
-- `--all` flag: Includes completed and cancelled tasks in listings
+- `--scan` flag: scans the entire vault filesystem to find ALL tasks with the `#task` tag
+- `--all` flag: includes completed and cancelled tasks in listings
 - Automatic vault detection via `.obsidian` folder
-- Smart sorting by scheduled/due dates
+- Smart sorting by scheduled and due dates
+
+### wiki-ingest
+
+Files a new source (web clipping, AI chat export, raw note, transcript) under `_raw/`, distills it into one or more `_wiki/` pages, updates the index and log, and pulls bidirectional cross-references. Activates on phrases such as "ingest this source" or "digest this clipping into the wiki".
+
+### wiki-lint
+
+Weekly structural and content health check across `_wiki/` and `_raw/`. Detects frontmatter issues, broken or asymmetric cross-references, stale claims, tag discipline violations, missing hub pages, and orphan content. Produces a structured lint report.
+
+### wiki-migrate-file
+
+Migrates legacy files from outside `_wiki/` and `_raw/` into the LLM-Wiki schema. Analyzes a file, proposes a split into raw + wiki content with proper frontmatter, pulls cross-references, updates index and log, and deletes the original. Cluster mode handles thematic groups in a single confirmation.
+
+### wiki-query
+
+Answers a question against the curated `_wiki/` via index-first search and full-text fallback. Returns a synthesized answer with citations and optionally files the synthesis back as a new wiki page.
+
+## LLM-Wiki Configuration
+
+The wiki skills expect the following vault layout (default paths shown):
+
+- `<wiki-root>/_raw/` — raw source files, organized by type subfolder
+- `<wiki-root>/_wiki/` — distilled wiki pages
+- `<wiki-root>/_wiki/index.md` — section-based index of all wiki pages
+- `<wiki-root>/_wiki/log.md` — append-only operation log
+- `<wiki-root>/_wiki/templates/` — frontmatter templates per source/wiki type
+
+Default `<wiki-root>` is `Wiki/`. Override via `wiki_root: <path>` in the vault's `CLAUDE.md`. The migration backlog soft cap (default: 50 files) is configurable via `wiki_migration_cap: <n>`.
 
 ## Project Structure
 
@@ -119,16 +159,29 @@ obsidian/
 ├── .claude-plugin/
 │   └── plugin.json
 ├── skills/
-│   └── tasknotes/
-│       ├── SKILL.md
-│       └── scripts/
-│           └── tasks.py
+│   ├── tasknotes/
+│   │   ├── SKILL.md
+│   │   └── scripts/
+│   │       └── tasks.py
+│   ├── wiki-ingest/
+│   │   └── SKILL.md
+│   ├── wiki-lint/
+│   │   └── SKILL.md
+│   ├── wiki-migrate-file/
+│   │   └── SKILL.md
+│   └── wiki-query/
+│       └── SKILL.md
 └── README.md
 ```
 
 ---
 
 ## Changelog
+
+### Version 1.2.0 (2026-05-01)
+
+- Added LLM-Wiki workflow with four skills: `wiki-ingest`, `wiki-lint`, `wiki-migrate-file`, `wiki-query`
+- Updated plugin description and keywords to cover both task management and wiki workflows
 
 ### Version 1.1.2 (2026-02-27)
 

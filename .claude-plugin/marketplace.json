@@ -1,7 +1,7 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "talent-factory",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "owner": {
     "name": "Talent Factory GmbH",
     "email": "support@talent-factory.ch"
@@ -98,17 +98,20 @@
     },
     {
       "name": "obsidian",
-      "description": "Integration with Obsidian via TaskNotes Plugin API - task management directly from Claude Code",
+      "description": "Integration with Obsidian: TaskNotes Plugin API for task management, plus an LLM-Wiki workflow (ingest, lint, migrate, query) for curated knowledge bases — directly from Claude Code",
       "source": "./plugins/obsidian",
       "category": "productivity",
-      "version": "1.1.2",
+      "version": "1.2.0",
       "tags": [
         "obsidian",
         "tasks",
         "tasknotes",
         "productivity",
         "task-management",
-        "integration"
+        "integration",
+        "wiki",
+        "knowledge-base",
+        "llm-wiki"
       ]
     },
     {
