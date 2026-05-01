@@ -5,6 +5,35 @@ All notable changes to the Talent Factory Claude Plugins project will be documen
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.0] - 2026-05-01
+
+### Added
+
+- **obsidian**: LLM-Wiki workflow with four new skills — `wiki-ingest`, `wiki-lint`, `wiki-migrate-file`, `wiki-query`
+- **obsidian**: Configurable `<wiki-root>` placeholder (default `Wiki/`) with vault-level `CLAUDE.md` overrides for `wiki_root` and `wiki_migration_cap`
+- **obsidian**: Keywords `wiki`, `knowledge-base`, `llm-wiki`
+
+### Fixed
+
+- **core**: `pdf-to-markdown` skill — `convert_vision_api` referenced an undefined `end_page` in the header f-string, raising `NameError` after every Vision API run; fixed by computing `end_page` from `start_page + pages_converted - 1`
+- **core**: `pdf-to-markdown` skill — `total_pages` was reused for both the converted slice and the full PDF length; now derived separately via `pdfinfo_from_path` so the header reads "Pages: 5-10 of 247" instead of "5-10 of 6"
+- **core**: `pdf-to-markdown` skill — default Vision API model updated from the retired `claude-sonnet-4-20250514` to `claude-opus-4-7` for high-resolution image handling
+
+### Plugin Versions
+
+| Plugin | Version |
+|--------|---------|
+| git-workflow | 2.2.2 |
+| project-management | 2.6.2 |
+| code-quality | 3.0.2 |
+| education | 1.4.0 |
+| core | 3.1.3 |
+| obsidian | 1.2.0 |
+| development | 1.3.2 |
+| gemini-bridge | 1.0.1 |
+
+---
+
 ## [1.4.0] - 2026-03-28
 
 ### Added

@@ -1,8 +1,8 @@
 {
   "name": "obsidian",
-  "version": "1.1.2",
-  "description": "Integration with Obsidian via TaskNotes Plugin API - task management directly from Claude Code",
-  "keywords": ["obsidian", "tasks", "tasknotes", "productivity", "task-management", "integration"],
+  "version": "1.2.0",
+  "description": "Integration with Obsidian: TaskNotes Plugin API for task management, plus an LLM-Wiki workflow (ingest, lint, migrate, query) for curated knowledge bases — directly from Claude Code",
+  "keywords": ["obsidian", "tasks", "tasknotes", "productivity", "task-management", "integration", "wiki", "knowledge-base", "llm-wiki"],
   "license": "MIT",
   "author": {
     "name": "Talent Factory GmbH",
