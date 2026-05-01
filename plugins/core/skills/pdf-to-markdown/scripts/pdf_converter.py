@@ -247,7 +247,7 @@ Gib NUR das Markdown aus, ohne zusätzliche Erklärungen oder Einleitungen."""
 def convert_vision_api(
     pdf_path: Path,
     output_path: Path,
-    model: str = "claude-sonnet-4-20250514",
+    model: str = "claude-opus-4-7",
     dpi: int = 200,
     page_range: Optional[tuple[int, int]] = None,
     prompt: str = DEFAULT_VISION_PROMPT,
@@ -261,7 +261,7 @@ def convert_vision_api(
     """
     try:
         import anthropic
-        from pdf2image import convert_from_path
+        from pdf2image import convert_from_path, pdfinfo_from_path
         from PIL import Image
         from tqdm import tqdm
     except ImportError as e:
@@ -312,13 +312,19 @@ def convert_vision_api(
     images = convert_from_path(
         str(pdf_path), dpi=dpi, first_page=first_page, last_page=last_page
     )
-    total_pages = len(images)
+    pages_converted = len(images)
+
+    try:
+        total_pages = pdfinfo_from_path(str(pdf_path))["Pages"]
+    except Exception:
+        total_pages = pages_converted
 
     if not page_range:
         print(f"   Found {total_pages} pages")
 
-    # Calculate starting page number
+    # Calculate page range actually processed
     start_page = first_page if first_page else 1
+    end_page = start_page + pages_converted - 1
 
     # Convert each page
     markdown_parts = []
@@ -487,8 +493,8 @@ Examples:
     api_group = parser.add_argument_group("Direct API options (--use-api)")
     api_group.add_argument(
         "--model",
-        default="claude-sonnet-4-20250514",
-        help="Claude model (default: claude-sonnet-4-20250514)",
+        default="claude-opus-4-7",
+        help="Claude model (default: claude-opus-4-7)",
     )
     api_group.add_argument(
         "--api-key",
