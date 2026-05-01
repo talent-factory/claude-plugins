@@ -153,6 +153,10 @@ brew install poppler  # macOS
 | `--pages START-END` | Process specific pages | All |
 | `--dpi N` | Image resolution | 150 |
 | `--no-images` | Skip image extraction (fast) | - |
+| `--use-api` | Direct Anthropic API (vision mode) | Off |
+| `--model NAME` | Claude model for `--use-api` calls | `claude-opus-4-7` |
+
+> **Note on `--model`:** The default is `claude-opus-4-7` for high-resolution image handling. Set `--model claude-sonnet-4-6` for lower-cost runs on simpler documents. Direct API usage (`--use-api`) bills the user's `ANTHROPIC_API_KEY` per page.
 
 ## Special Features
 
