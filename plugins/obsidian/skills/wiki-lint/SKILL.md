@@ -41,7 +41,7 @@ Read all files in `<wiki-root>/_wiki/` and `<wiki-root>/_raw/`. Run the followin
 
 ### Migration Backlog
 
-11. **Soft cap check:** count `.md` files in `<wiki-root>/` outside `_raw/`, `_wiki/`, and templates. If the count exceeds the soft cap (default 50): emit a WARNING.
+11. **Soft cap check:** count `.md` files in `<wiki-root>/` that live outside `_raw/` and `_wiki/` (templates are inside `_wiki/templates/` and therefore already excluded). If the count exceeds the soft cap (default 50): emit a WARNING.
 
 ### Hub Suggestions
 

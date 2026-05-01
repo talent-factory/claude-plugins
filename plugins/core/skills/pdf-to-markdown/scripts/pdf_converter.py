@@ -262,6 +262,10 @@ def convert_vision_api(
     try:
         import anthropic
         from pdf2image import convert_from_path, pdfinfo_from_path
+        from pdf2image.exceptions import (
+            PDFInfoNotInstalledError,
+            PDFPageCountError,
+        )
         from PIL import Image
         from tqdm import tqdm
     except ImportError as e:
@@ -316,7 +320,13 @@ def convert_vision_api(
 
     try:
         total_pages = pdfinfo_from_path(str(pdf_path))["Pages"]
-    except Exception:
+    except (PDFInfoNotInstalledError, PDFPageCountError, KeyError) as e:
+        print(
+            f"⚠️  Could not read PDF page count via pdfinfo "
+            f"({e.__class__.__name__}: {e}). "
+            f"Falling back to converted page count ({pages_converted}). "
+            f"The 'Seiten: X-Y von N' header may be inaccurate."
+        )
         total_pages = pages_converted
 
     if not page_range:
