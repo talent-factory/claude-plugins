@@ -5,6 +5,12 @@ All notable changes to the Talent Factory Claude Plugins project will be documen
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+
+- **git-workflow 2.3.0**: `hunk-review` skill for interactive terminal diff review sessions via the Hunk CLI — session discovery, hunk navigation, and batch inline commenting (adapted from [modem-dev/hunk](https://github.com/modem-dev/hunk), MIT)
+
 ## [1.5.0] - 2026-05-01
 
 ### Added

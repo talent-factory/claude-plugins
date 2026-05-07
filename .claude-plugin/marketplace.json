@@ -13,7 +13,7 @@
       "description": "Professional git commands with automated pre-commit checks, emoji conventional commits, PR creation, edit history, and intelligent merge conflict resolution. Includes comprehensive references, best practices, and professional workflow skills.",
       "source": "./plugins/git-workflow",
       "category": "development",
-      "version": "2.2.2",
+      "version": "2.3.0",
       "tags": [
         "git",
         "workflow",
