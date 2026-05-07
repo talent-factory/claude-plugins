@@ -49,7 +49,7 @@ Same vault layout as `wiki-ingest`. Operates on files under `<wiki-root>/` that 
 
 6. **Delete the legacy file** with `git rm`. Rationale: git history preserves the file, and the `supersedes:` field points to the old path.
 
-7. **Run the markdown-syntax-formatter agent** on every touched file.
+7. **Run the markdown-syntax-formatter agent** (from the education plugin) on every touched file. If the education plugin is not installed, skip this step.
 
 ## Workflow for Cluster Mode
 

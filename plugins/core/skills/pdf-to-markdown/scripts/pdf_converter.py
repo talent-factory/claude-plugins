@@ -226,6 +226,7 @@ def _extract_page_with_pymupdf(pdf_path: Path, page_num: int) -> str:
     except ImportError:
         return f"[Page {page_num} skipped: pymupdf4llm not installed for fallback]"
     except Exception as e:
+        print(f"⚠️  pymupdf4llm fallback failed on page {page_num}: {e}", file=sys.stderr)
         return f"[Page {page_num} skipped: Fallback failed - {e}]"
 
 
@@ -320,12 +321,14 @@ def convert_vision_api(
 
     try:
         total_pages = pdfinfo_from_path(str(pdf_path))["Pages"]
-    except (PDFInfoNotInstalledError, PDFPageCountError, KeyError) as e:
+    except (PDFInfoNotInstalledError, PDFPageCountError, KeyError, OSError, TypeError) as e:
         print(
             f"⚠️  Could not read PDF page count via pdfinfo "
             f"({e.__class__.__name__}: {e}). "
-            f"Falling back to converted page count ({pages_converted}). "
-            f"The 'Seiten: X-Y von N' header may be inaccurate."
+            f"Falling back to converted page count ({pages_converted})"
+            + (" — this reflects only the requested page range, not the full PDF" if page_range else "")
+            + ". The 'Seiten: X-Y von N' header may be inaccurate.",
+            file=sys.stderr,
         )
         total_pages = pages_converted
 
@@ -336,100 +339,117 @@ def convert_vision_api(
     start_page = first_page if first_page else 1
     end_page = start_page + pages_converted - 1
 
-    # Convert each page
+    # Convert each page; always write partial output on abort via finally
     markdown_parts = []
     iterator = list(enumerate(images, start=start_page))
     iterator = tqdm(iterator, desc="🔄 Converting", unit="page", ncols=80)
 
-    for page_num, image in iterator:
-        try:
-            base64_image, media_type = image_to_base64(image)
+    try:
+        for page_num, image in iterator:
+            try:
+                base64_image, media_type = image_to_base64(image)
 
-            message = client.messages.create(
-                model=model,
-                max_tokens=4096,
-                messages=[
-                    {
-                        "role": "user",
-                        "content": [
-                            {
-                                "type": "image",
-                                "source": {
-                                    "type": "base64",
-                                    "media_type": media_type,
-                                    "data": base64_image,
+                message = client.messages.create(
+                    model=model,
+                    max_tokens=4096,
+                    messages=[
+                        {
+                            "role": "user",
+                            "content": [
+                                {
+                                    "type": "image",
+                                    "source": {
+                                        "type": "base64",
+                                        "media_type": media_type,
+                                        "data": base64_image,
+                                    },
                                 },
-                            },
-                            {"type": "text", "text": prompt},
-                        ],
-                    }
-                ],
-            )
-
-            markdown = message.content[0].text
-            markdown_parts.append(f"<!-- Page {page_num} -->\n\n{markdown}")
-            time.sleep(0.5)  # Rate limiting
-
-        except anthropic.RateLimitError:
-            print(f"\n⚠️  Rate limit at page {page_num}. Waiting 60s...")
-            time.sleep(60)
-            # Retry
-            base64_image, media_type = image_to_base64(image)
-            message = client.messages.create(
-                model=model,
-                max_tokens=4096,
-                messages=[
-                    {
-                        "role": "user",
-                        "content": [
-                            {
-                                "type": "image",
-                                "source": {
-                                    "type": "base64",
-                                    "media_type": media_type,
-                                    "data": base64_image,
-                                },
-                            },
-                            {"type": "text", "text": prompt},
-                        ],
-                    }
-                ],
-            )
-            markdown_parts.append(
-                f"<!-- Page {page_num} -->\n\n{message.content[0].text}"
-            )
-
-        except anthropic.BadRequestError as e:
-            if "content filtering" in str(e).lower():
-                print(
-                    f"\n⚠️  Content-Filter at page {page_num} - Fallback to pymupdf4llm..."
+                                {"type": "text", "text": prompt},
+                            ],
+                        }
+                    ],
                 )
-                fallback_md = _extract_page_with_pymupdf(pdf_path, page_num)
-                markdown_parts.append(f"<!-- Page {page_num} -->\n\n{fallback_md}")
-            else:
-                print(f"\n❌ API error on page {page_num}: {e}")
+
+                markdown = message.content[0].text
+                markdown_parts.append(f"<!-- Page {page_num} -->\n\n{markdown}")
+                time.sleep(0.5)  # Rate limiting
+
+            except anthropic.RateLimitError:
+                print(f"\n⚠️  Rate limit at page {page_num}. Waiting 60s...", file=sys.stderr)
+                time.sleep(60)
+                try:
+                    base64_image, media_type = image_to_base64(image)
+                    message = client.messages.create(
+                        model=model,
+                        max_tokens=4096,
+                        messages=[
+                            {
+                                "role": "user",
+                                "content": [
+                                    {
+                                        "type": "image",
+                                        "source": {
+                                            "type": "base64",
+                                            "media_type": media_type,
+                                            "data": base64_image,
+                                        },
+                                    },
+                                    {"type": "text", "text": prompt},
+                                ],
+                            }
+                        ],
+                    )
+                    markdown_parts.append(
+                        f"<!-- Page {page_num} -->\n\n{message.content[0].text}"
+                    )
+                except Exception as retry_e:
+                    print(f"\n❌ Retry failed for page {page_num}: {retry_e}", file=sys.stderr)
+                    markdown_parts.append(
+                        f"<!-- Page {page_num} -->\n\n[Fehler bei der Konvertierung (retry): {retry_e}]"
+                    )
+
+            except anthropic.BadRequestError as e:
+                if "content filtering" in str(e).lower():
+                    print(
+                        f"\n⚠️  Content-Filter at page {page_num} - Fallback to pymupdf4llm...",
+                        file=sys.stderr,
+                    )
+                    fallback_md = _extract_page_with_pymupdf(pdf_path, page_num)
+                    markdown_parts.append(f"<!-- Page {page_num} -->\n\n{fallback_md}")
+                else:
+                    print(f"\n❌ API error on page {page_num}: {e}", file=sys.stderr)
+                    markdown_parts.append(
+                        f"<!-- Page {page_num} -->\n\n[Fehler bei der Konvertierung: {e}]"
+                    )
+
+            except (anthropic.AuthenticationError, anthropic.PermissionDeniedError):
+                print(f"\n❌ Authentication failed at page {page_num}. Aborting.", file=sys.stderr)
+                raise
+
+            except (anthropic.APIConnectionError, anthropic.APIStatusError) as e:
+                print(f"\n⚠️  Transient API error on page {page_num}: {e}", file=sys.stderr)
                 markdown_parts.append(
                     f"<!-- Page {page_num} -->\n\n[Fehler bei der Konvertierung: {e}]"
                 )
 
-        except Exception as e:
-            print(f"\n❌ Error on page {page_num}: {e}")
-            markdown_parts.append(
-                f"<!-- Page {page_num} -->\n\n[Fehler bei der Konvertierung: {e}]"
-            )
-
-    # Build final markdown
-    header = f"""# {pdf_path.stem}
+            except Exception as e:
+                print(f"\n❌ Unexpected error on page {page_num}: {e}", file=sys.stderr)
+                markdown_parts.append(
+                    f"<!-- Page {page_num} -->\n\n[Fehler bei der Konvertierung: {e}]"
+                )
+    finally:
+        if markdown_parts:
+            header = f"""# {pdf_path.stem}
 
 > Automatisch konvertiert aus PDF mit Claude Vision API
 > Seiten: {start_page}-{end_page} von {total_pages}
 
 """
-    full_markdown = header + "\n\n---\n\n".join(markdown_parts)
-
-    # Write output
-    output_path.write_text(full_markdown, encoding="utf-8")
-    print(f"\n✅ Created: {output_path}")
+            full_markdown = header + "\n\n---\n\n".join(markdown_parts)
+            output_path.write_text(full_markdown, encoding="utf-8")
+            print(
+                f"\n✅ Created: {output_path} ({len(markdown_parts)} of {pages_converted} pages)"
+            )
 
     return str(output_path)
 
@@ -561,10 +581,16 @@ Examples:
                     api_key=args.api_key,
                 )
             except Exception as e:
-                if "AuthenticationError" in str(type(e)):
-                    print("❌ Invalid API key. Set ANTHROPIC_API_KEY or use --api-key")
-                else:
-                    print(f"❌ Error: {e}")
+                try:
+                    import anthropic as _anthropic
+                    if isinstance(e, _anthropic.AuthenticationError):
+                        print("❌ Invalid API key. Set ANTHROPIC_API_KEY or use --api-key", file=sys.stderr)
+                    elif isinstance(e, _anthropic.RateLimitError):
+                        print(f"❌ Rate limit exceeded: {e}", file=sys.stderr)
+                    else:
+                        print(f"❌ Error: {e}", file=sys.stderr)
+                except ImportError:
+                    print(f"❌ Error: {e}", file=sys.stderr)
                 sys.exit(1)
         else:
             # Claude Code mode - just prepare images

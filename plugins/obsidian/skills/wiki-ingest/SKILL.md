@@ -73,7 +73,7 @@ One of:
     - cross-refs added: N
     ```
 
-8. **Run the markdown-syntax-formatter agent** (from the education plugin) on every newly created or modified file.
+8. **Run the markdown-syntax-formatter agent** (from the education plugin) on every newly created or modified file. If the education plugin is not installed, skip this step.
 
 ## Edge Cases
 

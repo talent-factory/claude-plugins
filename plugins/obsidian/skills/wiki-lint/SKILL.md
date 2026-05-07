@@ -20,8 +20,8 @@ Read all files in `<wiki-root>/_wiki/` and `<wiki-root>/_raw/`. Run the followin
 ### Structural Checks
 
 1. **Frontmatter completeness:** `kind`, `type`, `title`, `domain`, `status`, `tags`, `created`, `updated` for all files. Source-specific: `source_url`, `ingested`, `distilled_into`. Wiki-specific: `sources`, `related`, `last_synthesized`.
-2. **`kind`/`type` consistency:** `kind: wiki` may only have `type: concept|tool|compare|hub`. `kind: source` may only have `type: clipping|chat|note|transcript`.
-3. **Template compliance:** `wiki-tool` must have a `## Setup` heading, `wiki-compare` must have an `## Options` table, `wiki-hub` must have all five sections.
+2. **`kind`/`type` consistency:** `kind: wiki` may only have `type: concept|tool|compare|hub|note`. `kind: source` may only have `type: clipping|chat|note|transcript`.
+3. **Template compliance:** `wiki-tool` must have a `## Setup` heading, `wiki-compare` must have an `## Options` table, `wiki-hub` must have all five sections (`## Overview`, `## Concepts`, `## Tools`, `## Compare Pages`, `## Related Hubs`).
 
 ### Linking Checks
 
@@ -31,7 +31,7 @@ Read all files in `<wiki-root>/_wiki/` and `<wiki-root>/_raw/`. Run the followin
 
 ### Content Checks
 
-7. **Stale claims:** wiki pages with `updated:` older than six months AND new sources added since (i.e., `sources:` count exceeds the value at `last_synthesized`).
+7. **Stale claims:** wiki pages with `updated:` older than six months AND any entry in `sources:` has an `ingested:` date newer than `last_synthesized:`.
 8. **Contradiction detection (heuristic):** pages that share an entity in `related:` but make conflicting claims → flag for review.
 
 ### Tag Discipline
@@ -103,4 +103,4 @@ Append a log entry:
 - migration backlog: Z files (cap: 50)
 ```
 
-Run the `markdown-syntax-formatter` agent on the report.
+Run the `markdown-syntax-formatter` agent (from the education plugin) on the report. If the education plugin is not installed, skip this step.

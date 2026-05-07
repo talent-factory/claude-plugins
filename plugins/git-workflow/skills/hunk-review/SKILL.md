@@ -69,7 +69,7 @@ hunk session review --json --include-patch
 
 ### 3. Navigate to a Location
 
-**Absolute navigation** requires `--file` plus exactly one position target:
+**Absolute navigation** requires `--file` plus exactly one position target. Hunk indices are zero-based — the first hunk in a file is `--hunk 0`.
 
 ```bash
 # Jump to a specific hunk index
@@ -99,6 +99,8 @@ Swap the diff content of a running session:
 ```bash
 hunk session reload --repo . -- <command>
 ```
+
+**Note:** Reloading replaces the session's diff content. Any comments attached to the previous diff are not preserved — re-apply them after reload using `hunk comment apply`.
 
 Always include `--` before the nested command so its flags are not parsed by Hunk:
 
