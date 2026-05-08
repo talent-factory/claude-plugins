@@ -13,7 +13,7 @@
       "description": "Professional git commands with automated pre-commit checks, emoji conventional commits, PR creation, edit history, and intelligent merge conflict resolution. Includes comprehensive references, best practices, and professional workflow skills.",
       "source": "./plugins/git-workflow",
       "category": "development",
-      "version": "2.3.0",
+      "version": "2.4.0",
       "tags": [
         "git",
         "workflow",
@@ -31,7 +31,7 @@
       "description": "Comprehensive project management with PRD generation, project planning, single-task initialization with duplicate detection and ATOMIC validation, intelligent task implementation with plugin orchestration (Superpowers brainstorm, agent routing, quality gate), autonomous EPIC automation, Linear integration, and git worktree workflow for agile development",
       "source": "./plugins/project-management",
       "category": "productivity",
-      "version": "2.6.2",
+      "version": "2.7.0",
       "tags": [
         "planning",
         "prd",
@@ -49,7 +49,7 @@
       "description": "Comprehensive code quality tools with Python linting, code review, and expert agents for Python and Frontend development",
       "source": "./plugins/code-quality",
       "category": "development",
-      "version": "3.0.2",
+      "version": "3.1.0",
       "tags": [
         "review",
         "quality",
@@ -65,7 +65,7 @@
       "description": "Teaching aids with Java Tutor agent, Markdown syntax formatter agent and skill, FFHS lecture slide generation, and code explanation for IT education",
       "source": "./plugins/education",
       "category": "learning",
-      "version": "1.4.0",
+      "version": "1.5.0",
       "tags": [
         "education",
         "teaching",
@@ -146,7 +146,7 @@
       "description": "Model-agnostic bridge to Google Gemini 2.5 Pro — long-context codebase analysis, multimodal vision, and parallel reasoning alongside Claude",
       "source": "./plugins/gemini-bridge",
       "category": "development",
-      "version": "1.0.1",
+      "version": "1.1.0",
       "tags": [
         "gemini",
         "mcp",

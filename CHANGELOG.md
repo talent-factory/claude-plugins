@@ -16,6 +16,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **obsidian 1.3.0**: `ideas` skill — opportunity mining across wiki, GitHub portfolio, stakeholder notes, and market trends; writes a structured ideas document to the vault
 - **obsidian 1.3.0**: `update_daily_note.py` script — configurable note create/update utility with `--vault`, `--daily-dir`, `--template`, `--section-heading`, and `--anchor` CLI flags; resolves config from CLAUDE.md keys and environment variables with auto-detection fallback
 - **obsidian 1.3.0**: all four new skills use a unified CLAUDE.md configuration system (`obsidian_vault`, `obsidian_daily_dir`, `github_org`, etc.) with environment variable overrides and vault auto-detection
+- **education 1.5.0**: `explain-code` skill — patient programming instructor that explains code structure and design decisions, adapts to student level (Beginner / Intermediate / Advanced), and generates exercises
+- **gemini-bridge 1.1.0**: `analyze` skill — delegates large-context or multimodal analysis to Gemini 2.5 Pro with automatic Claude-vs-Gemini routing guidance
+- **gemini-bridge 1.1.0**: `compare` skill — independent two-approach comparison via Gemini implementing the "propose with Claude, validate with Gemini" pattern
+- **gemini-bridge 1.1.0**: `vision` skill — transforms screenshots, mockups, diagrams, and PDFs into code or documentation using Gemini's multimodal capabilities
+- **code-quality 3.1.0**: `ruff-check` skill — lints and formats Python files via Ruff; activates on natural-language requests such as "lint my Python"
+- **git-workflow 2.4.0**: `resolve-conflicts` skill — semantic merge conflict resolution with 10-step workflow, test validation, and structured report; activates on "I have merge conflicts"
+- **project-management 2.7.0**: `document-handoff` skill — creates comprehensive pre-compact handoff documentation; activates on "prepare a handoff" or "context is getting too large"
 
 ## [1.5.0] - 2026-05-01
 
