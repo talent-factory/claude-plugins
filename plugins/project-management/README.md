@@ -2,9 +2,9 @@
 
 Comprehensive project management tools for PRD generation, project planning, task implementation with Linear integration and git worktree workflow.
 
-## Version 2.6.2
+## Version 2.7.0
 
-**New in 2.6.0:**
+**New in 2.7.0:** Added `document-handoff` skill for natural-language pre-compact handoff documentation.
 
 - 📋 `/project-management:init-task` — Single-task creation with duplicate detection, ATOMIC validation, and mandatory Definition of Done
 - 📄 Extended task template with Type, Plan, and Definition of Done fields
@@ -245,6 +245,24 @@ Create handoff documentation before `/compact` for seamless context continuation
 - [Best Practices](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/document-handoff/best-practices.md) - Handoff quality guidelines
 - [Examples](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/document-handoff/examples.md) - Example handoff documents
 - [Templates](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/document-handoff/templates.md) - Ready-to-use templates
+
+## Skills
+
+### document-handoff
+
+Creates comprehensive handoff documentation before a `/compact` operation, enabling a fresh agent to continue without any prior context.
+
+**Activation:**
+- Automatic: "prepare a handoff", "document before compact", "context is getting too large", "end of session notes"
+- Via command: `/project-management:document-handoff`
+
+**Features:**
+- Gathers git status, last 5 commits, modified files, and TODO/FIXME markers automatically
+- Structures output into 7 sections: original task, completed work, failed attempts, current state, next steps, references, executive summary
+- Saves to `.claude/handoffs/YYYY-MM-DD_<task-slug>.md`
+- Optional Linear issue integration via `--linear-issue`
+
+---
 
 ## Agents
 
@@ -504,6 +522,12 @@ User: "We need OAuth login with Google and GitHub"
 - **Solution:** Use different task ID or clean up old branches
 
 ## Changelog
+
+### Version 2.7.0 (2026-05-08)
+
+**Minor Update:**
+
+- ✨ Added `document-handoff` skill for natural-language pre-compact handoff documentation activation
 
 ### Version 2.6.2 (2026-02-27)
 

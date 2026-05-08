@@ -2,9 +2,9 @@
 
 Professional git workflow automation with pre-commit checks, emoji conventional commits, PR management, and comprehensive references.
 
-## Version 2.3.0
+## Version 2.4.0
 
-**Minor Update:** Added `hunk-review` skill for interactive terminal diff review sessions via the Hunk CLI (adapted from [modem-dev/hunk](https://github.com/modem-dev/hunk), MIT).
+**Minor Update:** Added `resolve-conflicts` skill enabling natural-language activation of merge conflict resolution ("I have merge conflicts").
 
 ## Commands
 
@@ -227,6 +227,23 @@ Interactive terminal diff review via the [Hunk CLI](https://github.com/modem-dev
 
 **Location:** `./skills/hunk-review/`
 
+### resolve-conflicts
+
+Semantic merge conflict resolution with root-cause analysis, automatic test validation, and a structured report. Supports `--dry-run`, `--no-tests`, and `--strategy smart|ours|theirs`.
+
+**Activation:**
+
+- Automatic: "I have merge conflicts", "help me resolve conflicts", "git merge failed"
+- Via command: `/git-workflow:resolve-conflicts`
+
+**Features:**
+
+- 10-step workflow: detect → analyse → resolve (lock files, config, source, Alembic) → validate → test → lint → report → commit
+- Smart strategy merges import blocks as union, keeps additive changes from both sides
+- Halts on architectural conflicts and requests user decision
+
+**Location:** `./skills/resolve-conflicts/`
+
 ## Installation
 
 This plugin is part of the Talent Factory marketplace.
@@ -436,6 +453,13 @@ See [create-pr/troubleshooting.md](https://github.com/talent-factory/claude-plug
 - **React/Node.js:** ESLint, Prettier, TypeScript (optional)
 
 ## Changelog
+
+### Version 2.4.0 (2026-05-08)
+
+**Minor Update:**
+
+- ✨ Added `resolve-conflicts` skill for natural-language merge conflict resolution activation
+- Now includes 4 commands and 5 professional workflow skills
 
 ### Version 2.3.0 (2026-05-07)
 
