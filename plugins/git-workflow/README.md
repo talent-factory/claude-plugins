@@ -2,9 +2,9 @@
 
 Professional git workflow automation with pre-commit checks, emoji conventional commits, PR management, and comprehensive references.
 
-## Version 2.2.2
+## Version 2.4.0
 
-**Minor Update:** Added `/git-workflow:resolve-conflicts` command for intelligent merge conflict resolution with semantic analysis, automated test validation, and comprehensive reference documentation.
+**Minor Update:** Added `resolve-conflicts` skill enabling natural-language activation of merge conflict resolution ("I have merge conflicts").
 
 ## Commands
 
@@ -152,7 +152,7 @@ Display the edit history of a GitHub Pull Request description.
 
 ## Skills
 
-This plugin includes three powerful skills for enhanced performance. See [Skills & Agents Activation Guide](../reference/skills-agents-activation.md) for details.
+This plugin includes four powerful skills for enhanced performance. See [Skills & Agents Activation Guide](../reference/skills-agents-activation.md) for details.
 
 ### professional-commit-workflow
 
@@ -193,6 +193,56 @@ Automated PR creation with branch management and code formatting.
 **Location:** `./skills/professional-pr-workflow/`
 
 **Documentation:** [professional-pr-workflow/README.md](https://github.com/talent-factory/claude-plugins/blob/main/plugins/git-workflow/skills/professional-pr-workflow/README.md)
+
+### post-merge-cleanup
+
+Automated branch and worktree cleanup after a PR has been merged.
+
+**Activation:**
+
+- Via skill invocation when post-merge cleanup is needed
+
+**Features:**
+
+- Delete merged local and remote branches
+- Remove associated git worktrees
+- Update task status after merge
+
+**Location:** `./skills/post-merge-cleanup/`
+
+### hunk-review
+
+Interactive terminal diff review via the [Hunk CLI](https://github.com/modem-dev/hunk) (MIT). Controls live review sessions through the daemon — inspect file/hunk structure, navigate diffs, and add inline comments in batch.
+
+**Activation:**
+
+- Triggered automatically when user asks to "review with hunk", "annotate a diff", or "use hunk for code review"
+
+**Features:**
+
+- Session discovery and structure inspection
+- Absolute and relative hunk navigation
+- Single and batch comment operations via `comment add` / `comment apply`
+- Session reload for live diff updates
+
+**Location:** `./skills/hunk-review/`
+
+### resolve-conflicts
+
+Semantic merge conflict resolution with root-cause analysis, automatic test validation, and a structured report. Supports `--dry-run`, `--no-tests`, and `--strategy smart|ours|theirs`.
+
+**Activation:**
+
+- Automatic: "I have merge conflicts", "help me resolve conflicts", "git merge failed"
+- Via command: `/git-workflow:resolve-conflicts`
+
+**Features:**
+
+- 10-step workflow: detect → analyse → resolve (lock files, config, source, Alembic) → validate → test → lint → report → commit
+- Smart strategy merges import blocks as union, keeps additive changes from both sides
+- Halts on architectural conflicts and requests user decision
+
+**Location:** `./skills/resolve-conflicts/`
 
 ## Installation
 
@@ -403,6 +453,21 @@ See [create-pr/troubleshooting.md](https://github.com/talent-factory/claude-plug
 - **React/Node.js:** ESLint, Prettier, TypeScript (optional)
 
 ## Changelog
+
+### Version 2.4.0 (2026-05-08)
+
+**Minor Update:**
+
+- ✨ Added `resolve-conflicts` skill for natural-language merge conflict resolution activation
+- Now includes 4 commands and 5 professional workflow skills
+
+### Version 2.3.0 (2026-05-07)
+
+**Minor Update:**
+
+- ✨ Added `hunk-review` skill for interactive terminal diff review sessions via Hunk CLI
+- Adapted from [modem-dev/hunk](https://github.com/modem-dev/hunk) (MIT License)
+- Now includes 4 commands and 4 professional workflow skills
 
 ### Version 2.2.2 (2026-02-27)
 

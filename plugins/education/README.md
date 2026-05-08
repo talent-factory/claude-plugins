@@ -2,7 +2,7 @@
 
 Teaching aids, code explanations, and student support for IT education.
 
-## Version 1.4.0
+## Version 1.5.0
 
 This plugin provides educational tools for students and instructors, including code explanations, a Java Tutor agent, Markdown formatting skills, and FFHS lecture slide generation.
 
@@ -66,6 +66,19 @@ Expert Markdown formatting specialist with comprehensive knowledge of CommonMark
 - **Manual:** Use Task tool with `subagent_type: "education:markdown-syntax-formatter"`
 
 ## Skills
+
+### explain-code
+
+Provides clear, educational code explanations adapted to the student's level (Beginner / Intermediate / Advanced). Acts as a patient programming instructor.
+
+**Activation:**
+- Automatic: "explain this function", "what does this code do", "I don't understand this", "walk me through this"
+- Via command: `/education:explain-code`
+
+**Features:**
+- Adapts depth and terminology to student level
+- Structured explanation: overview → line-by-line → key concepts → flow → pitfalls → exercises
+- Language-specific focus (Java OOP, Python idioms, JavaScript async)
 
 ### FFHS Lecture Slides
 
@@ -184,6 +197,10 @@ This plugin is designed to complement computer science curricula:
 ---
 
 ## Changelog
+
+### Version 1.5.0 (2026-05-08)
+
+- Added `explain-code` skill for natural-language code explanation activation
 
 ### Version 1.4.0 (2026-03-28)
 

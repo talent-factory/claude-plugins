@@ -4,7 +4,7 @@
 [![Claude Code](https://img.shields.io/badge/Claude%20Code-Plugin-blue)](https://claude.ai)
 [![Gemini 2.5 Pro](https://img.shields.io/badge/Gemini-2.5%20Pro-orange)](https://ai.google.dev)
 
-## Version 1.0.1
+## Version 1.1.0
 
 **Model-agnostic bridge to Google Gemini 2.5 Pro for Claude Code.**
 Enables long-context codebase analysis (1M tokens), multimodal vision, and
@@ -96,6 +96,15 @@ Claude will call `gemini_status` and confirm connectivity.
 |---|---|---|
 | `gemini-analyst` | Claude Sonnet 4.5 | Sub-agent for Gemini delegation |
 | `model-router` | Claude Opus 4 | Orchestrator with routing logic |
+
+### Skills
+
+| Skill | Natural-language trigger |
+|---|---|
+| `analyze` | "analyze this codebase", "this is too large for Claude", "analyze with Gemini" |
+| `compare` | "compare these two approaches", "get a second opinion", "validate this decision" |
+| `vision` | image path + task description, "convert this mockup", "what is in this diagram" |
+| `gemini-analyst` | Background knowledge for agents (not user-invocable) |
 
 ### MCP Tools (available to all Claude agents)
 
@@ -266,8 +275,14 @@ gemini-bridge/
 │   ├── gemini-analyst.md    # Sub-agent for delegation
 │   └── model-router.md      # Orchestrator with routing logic
 ├── skills/
+│   ├── analyze/
+│   │   └── SKILL.md         # Large-context / text analysis trigger
+│   ├── compare/
+│   │   └── SKILL.md         # Two-approach comparison trigger
+│   ├── vision/
+│   │   └── SKILL.md         # Multimodal image-to-code trigger
 │   └── gemini-analyst/
-│       └── SKILL.md         # Background knowledge for Claude
+│       └── SKILL.md         # Background knowledge for agents
 ├── gemini_bridge/
 │   ├── __init__.py
 │   └── server.py            # FastMCP server (5 tools)
@@ -296,3 +311,17 @@ MIT License — see [LICENSE](../../LICENSE) for details.
 **Talent Factory GmbH** · [talent-factory.xyz](https://talent-factory.xyz) · [@talent-factory](https://github.com/talent-factory)
 
 *Part of the [claude-plugins](https://github.com/talent-factory/claude-plugins) collection*
+
+---
+
+## Changelog
+
+### Version 1.1.0 (2026-05-08)
+
+- Added `analyze`, `compare`, and `vision` skills for natural-language activation of the three commands
+- Skills enable automatic triggering without explicit command invocation
+
+### Version 1.0.1 (2026-02-27)
+
+- Added `keywords` and `license` fields to plugin.json
+- Improved agent descriptions

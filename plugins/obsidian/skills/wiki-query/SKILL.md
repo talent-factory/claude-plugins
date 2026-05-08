@@ -15,7 +15,7 @@ Same vault layout as `wiki-ingest`.
 
 ## Inputs
 
-A natural-language question (German or English).
+A natural-language question.
 
 ## Workflow
 
