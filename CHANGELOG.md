@@ -10,6 +10,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - **git-workflow 2.3.0**: `hunk-review` skill for interactive terminal diff review sessions via the Hunk CLI — session discovery, hunk navigation, and batch inline commenting (adapted from [modem-dev/hunk](https://github.com/modem-dev/hunk), MIT)
+- **obsidian 1.3.0**: `today` skill — prioritised daily briefing from TaskNotes, Google Calendar, Gmail, Linear, and GitHub; writes to today's Obsidian daily note
+- **obsidian 1.3.0**: `weekly-review` skill — structured weekly retrospective with completed tasks, shipped code, meetings, wiki learnings, and Linear progress; preserves user-written Reflection section on re-runs
+- **obsidian 1.3.0**: `project-pulse` skill — GitHub repository status snapshot categorised as Active / Dormant / Stalled; terminal output only
+- **obsidian 1.3.0**: `ideas` skill — opportunity mining across wiki, GitHub portfolio, stakeholder notes, and market trends; writes a structured ideas document to the vault
+- **obsidian 1.3.0**: `update_daily_note.py` script — configurable note create/update utility with `--vault`, `--daily-dir`, `--template`, `--section-heading`, and `--anchor` CLI flags; resolves config from CLAUDE.md keys and environment variables with auto-detection fallback
+- **obsidian 1.3.0**: all four new skills use a unified CLAUDE.md configuration system (`obsidian_vault`, `obsidian_daily_dir`, `github_org`, etc.) with environment variable overrides and vault auto-detection
 
 ## [1.5.0] - 2026-05-01
 
