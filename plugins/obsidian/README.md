@@ -4,7 +4,7 @@ Obsidian integration for Claude Code: task management via the TaskNotes Plugin A
 LLM-Wiki curation, and productivity intelligence — daily briefings, weekly retrospectives,
 project-pulse dashboards, and opportunity mining — all from within Claude Code.
 
-## Version 1.3.0
+## Version 1.3.1
 
 This plugin combines four complementary workflows for Obsidian users:
 
@@ -302,6 +302,12 @@ obsidian/
 ---
 
 ## Changelog
+
+### Version 1.3.1 (2026-06-18)
+
+- `wiki-lint`: exempt the append-only `_wiki/log.md` from the frontmatter-completeness check
+- `wiki-lint`: accept `## Direktvergleich` **or** `## Options` as the comparison-table heading for `wiki-compare` pages; treat a missing `## Setup` on hosted/hardware tools as informational rather than critical
+- `wiki-lint`: resolve dead links against `_raw/` sources and vault media too, normalize aliased/escaped/full-path links, and skip links inside code spans and generated `lint-report-*.md`/`log.md` bodies — eliminates the prior false positives
 
 ### Version 1.3.0 (2026-05-08)
 

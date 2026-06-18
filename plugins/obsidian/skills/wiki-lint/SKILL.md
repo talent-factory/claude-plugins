@@ -19,14 +19,14 @@ Read all files in `<wiki-root>/_wiki/` and `<wiki-root>/_raw/`. Run the followin
 
 ### Structural Checks
 
-1. **Frontmatter completeness:** `kind`, `type`, `title`, `domain`, `status`, `tags`, `created`, `updated` for all files. Source-specific: `source_url`, `ingested`, `distilled_into`. Wiki-specific: `sources`, `related`, `last_synthesized`.
+1. **Frontmatter completeness:** `kind`, `type`, `title`, `domain`, `status`, `tags`, `created`, `updated` for all files. Source-specific: `source_url`, `ingested`, `distilled_into`. Wiki-specific: `sources`, `related`, `last_synthesized`. **Exempt `_wiki/log.md`** from this check — it is an append-only run log and is intentionally frontmatter-free. Note: `updated` is optional for `kind: source` pages (after ingest they are immutable, so `ingested:` carries the timestamp); do not flag its absence on sources.
 2. **`kind`/`type` consistency:** `kind: wiki` may only have `type: concept|tool|compare|hub|note`. `kind: source` may only have `type: clipping|chat|note|transcript`.
-3. **Template compliance:** `wiki-tool` must have a `## Setup` heading, `wiki-compare` must have an `## Options` table, `wiki-hub` must have all five sections (`## Overview`, `## Concepts`, `## Tools`, `## Compare Pages`, `## Related Hubs`).
+3. **Template compliance:** `wiki-tool` must have a `## Setup` heading, `wiki-compare` must have a comparison table under either an `## Options` **or** an `## Direktvergleich` heading (the German-language convention adopted in this vault — accept both), `wiki-hub` must have all five sections (`## Overview`, `## Concepts`, `## Tools`, `## Compare Pages`, `## Related Hubs`). Tools that are hosted platforms or hardware with no local install legitimately have no `## Setup` — treat a missing `## Setup` as minor/informational, not critical.
 
 ### Linking Checks
 
 4. **Orphans:** wiki pages that no other wiki page links to (and that are not present in `index.md`).
-5. **Dead links:** wikilinks `[[X]]` whose target file does not exist.
+5. **Dead links:** wikilinks `[[X]]` whose target file does not exist. Resolve targets against **both `_wiki/` and `_raw/`** basenames **and** vault media files (`.png`, `.jpg`, `.jpeg`, `.webp`, `.gif`, `.pdf`, etc.) — wiki pages legitimately link to `_raw/` sources and embed media, so a `_wiki`-only index produces false positives. Before flagging, normalize each link: strip the alias on `[[Target|alias]]` (and handle a table-escaped pipe `[[Target\|alias]]`), and resolve full-path links like `[[_wiki/tools/X]]` by basename. **Skip** links that occur inside inline code spans or fenced code blocks (e.g. `[[vm]]` in a TOML snippet is not a wikilink), and **skip** `_wiki/log.md` and generated `lint-report-*.md` files entirely — their bodies quote issue text (`[[X]]` placeholders, person names) that are not real cross-references.
 6. **Asymmetric `related:` fields:** if `A.related` contains `B`, then `B.related` must contain `A`.
 
 ### Content Checks
