@@ -88,6 +88,7 @@ One of:
     - source: _raw/<type>/<date>-<slug>.md
     - wiki touched: _wiki/<...>.md (new), _wiki/<...>.md (update)
     - cross-refs added: N
+    - reconcile: <none | "<old> → <new>" | contradiction-flagged>
     ```
 
 8. **Run the markdown-syntax-formatter agent** (from the education plugin) on every newly created or modified file. If the education plugin is not installed, skip this step.
@@ -95,7 +96,20 @@ One of:
 ## Edge Cases
 
 - **Source already exists in `_raw/`** (path match): ask the user — skip / re-distill (re-validate existing wiki refs) / supersede (mark old as `status: deprecated`).
-- **Wiki page on this topic already exists:** update instead of creating new. On factual conflict between source and existing page, do not silently overwrite — flag both versions with a source backref in the lint report.
+- **Wiki page on this topic already exists:** update instead of creating. When the
+  new source contradicts an existing claim on the page (semantic rule 6 in
+  `${CLAUDE_PLUGIN_ROOT}/skills/_shared/validation-rules.md`), run
+  **Contradiction-Reconcile** before writing:
+    1. Present both sides explicitly:
+       `OLD: "<claim>" (sources: …)` vs. `NEW: "<claim>" (source: <new source>)`.
+    2. Propose a concrete resolved wording, noting whether the old claim is
+       superseded (and add a timeline note if the page tracks one).
+    3. Ask the user to confirm.
+       - **Confirm** → revise the page with the resolved wording; log
+         `reconcile | <old> → <new>`.
+       - **Reject** → do not overwrite; add a contradiction callout to the page
+         (`> [!warning] Contradiction: …`) and log `contradiction-flagged`.
+    Never silently overwrite a curated claim.
 - **Source covers ≥3 distinct topics:** split into multiple wiki pages; all share the same source in `sources:`.
 - **URL input:** fetch via `WebFetch` first, then handle as a markdown clipping.
 
