@@ -36,6 +36,8 @@ def parse_frontmatter(text):
     parts = text.split("---", 2)
     if len(parts) < 3:
         return None, text
+    if yaml is None:
+        return None, parts[2]
     try:
         fm = yaml.safe_load(parts[1])
     except yaml.YAMLError:

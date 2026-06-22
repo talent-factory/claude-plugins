@@ -54,6 +54,13 @@ def test_build_index_collects_stems_and_related(tmp_path):
     assert index["related"]["A"] == {"B"}
 
 
+def test_parse_frontmatter_returns_none_when_yaml_missing(monkeypatch):
+    monkeypatch.setattr(v, "yaml", None)
+    fm, body = v.parse_frontmatter("---\nkind: wiki\n---\nbody")
+    assert fm is None
+    assert "body" in body
+
+
 def test_run_returns_empty_when_no_rules_registered_match(tmp_path):
     (tmp_path / "_wiki").mkdir()
     assert v.run(tmp_path, rules=["nonexistent"], target=None) == []
