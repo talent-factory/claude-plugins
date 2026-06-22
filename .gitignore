@@ -97,3 +97,5 @@ trivy-results.json
 site/
 _site/
 .grepai/
+.headroom/
+.serena/
