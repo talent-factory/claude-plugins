@@ -130,6 +130,43 @@ def run(vault_root, rules, target):
     return findings
 
 
+REQUIRED = ["kind", "type", "title", "domain", "status", "tags", "created"]
+AUTOFIXABLE_FIELDS = {"created", "domain"}
+
+
+@register("frontmatter")
+def check_frontmatter(records, index):
+    findings = []
+    for rec in records:
+        if rec["path"].name == "log.md":
+            continue
+        fm = rec["fm"]
+        if fm is None or fm == "INVALID":
+            findings.append({
+                "file": rec["path"],
+                "severity": "critical",
+                "rule": "frontmatter",
+                "message": "missing or invalid YAML frontmatter",
+                "autofixable": False,
+            })
+            continue
+        required = list(REQUIRED)
+        if fm.get("kind") == "wiki":
+            required.append("updated")
+        elif fm.get("kind") == "source":
+            required.append("ingested")
+        for field in required:
+            if field not in fm or fm[field] in (None, ""):
+                findings.append({
+                    "file": rec["path"],
+                    "severity": "critical",
+                    "rule": "frontmatter",
+                    "message": f"missing required field: {field}",
+                    "autofixable": field in AUTOFIXABLE_FIELDS,
+                })
+    return findings
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description="Validate LLM-Wiki files.")
     parser.add_argument("--vault-root", required=True)

@@ -64,3 +64,62 @@ def test_parse_frontmatter_returns_none_when_yaml_missing(monkeypatch):
 def test_run_returns_empty_when_no_rules_registered_match(tmp_path):
     (tmp_path / "_wiki").mkdir()
     assert v.run(tmp_path, rules=["nonexistent"], target=None) == []
+
+
+def _rec(tmp_path, name, fm_text, body="x"):
+    sub = tmp_path / "_wiki"
+    sub.mkdir(exist_ok=True)
+    p = sub / name
+    p.write_text(f"---\n{fm_text}\n---\n{body}", encoding="utf-8")
+    return v.load_record(p)
+
+
+def test_frontmatter_flags_missing_required(tmp_path):
+    rec = _rec(tmp_path, "A.md", "kind: wiki\ntype: concept\ntitle: A")
+    findings = v.CHECKS["frontmatter"]([rec], {"names": set(), "related": {}})
+    missing = {f["message"] for f in findings}
+    assert any("domain" in m for m in missing)
+    assert all(f["severity"] == "critical" for f in findings)
+
+
+def test_frontmatter_wiki_requires_updated(tmp_path):
+    fm = "kind: wiki\ntype: concept\ntitle: A\ndomain: d\nstatus: active\ntags: [x]\ncreated: 2026-01-01"
+    rec = _rec(tmp_path, "A.md", fm)
+    findings = v.CHECKS["frontmatter"]([rec], {"names": set(), "related": {}})
+    assert any("updated" in f["message"] for f in findings)
+
+
+def test_frontmatter_source_requires_ingested_not_updated(tmp_path):
+    fm = "kind: source\ntype: clipping\ntitle: A\ndomain: d\nstatus: active\ntags: [x]\ncreated: 2026-01-01"
+    rec = _rec(tmp_path, "A.md", fm)
+    findings = v.CHECKS["frontmatter"]([rec], {"names": set(), "related": {}})
+    msgs = {f["message"] for f in findings}
+    assert any("ingested" in m for m in msgs)
+    assert not any("updated" in m for m in msgs)
+
+
+def test_frontmatter_complete_wiki_is_clean(tmp_path):
+    fm = ("kind: wiki\ntype: concept\ntitle: A\ndomain: d\nstatus: active\n"
+          "tags: [x]\ncreated: 2026-01-01\nupdated: 2026-01-02")
+    rec = _rec(tmp_path, "A.md", fm)
+    findings = v.CHECKS["frontmatter"]([rec], {"names": set(), "related": {}})
+    assert findings == []
+
+
+def test_frontmatter_log_md_is_exempt(tmp_path):
+    sub = tmp_path / "_wiki"
+    sub.mkdir(exist_ok=True)
+    p = sub / "log.md"
+    p.write_text("## [2026-01-01] ingest\n- x", encoding="utf-8")
+    rec = v.load_record(p)
+    assert v.CHECKS["frontmatter"]([rec], {"names": set(), "related": {}}) == []
+
+
+def test_frontmatter_missing_block_is_critical(tmp_path):
+    sub = tmp_path / "_wiki"
+    sub.mkdir(exist_ok=True)
+    p = sub / "A.md"
+    p.write_text("no frontmatter", encoding="utf-8")
+    rec = v.load_record(p)
+    findings = v.CHECKS["frontmatter"]([rec], {"names": set(), "related": {}})
+    assert findings and findings[0]["severity"] == "critical"
