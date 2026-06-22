@@ -123,3 +123,29 @@ def test_frontmatter_missing_block_is_critical(tmp_path):
     rec = v.load_record(p)
     findings = v.CHECKS["frontmatter"]([rec], {"names": set(), "related": {}})
     assert findings and findings[0]["severity"] == "critical"
+
+
+def test_kindtype_accepts_thinking(tmp_path):
+    rec = _rec(tmp_path, "A.md", "kind: wiki\ntype: thinking\ntitle: A")
+    assert v.CHECKS["kindtype"]([rec], {"names": set(), "related": {}}) == []
+
+
+def test_kindtype_rejects_bad_wiki_type(tmp_path):
+    rec = _rec(tmp_path, "A.md", "kind: wiki\ntype: clipping\ntitle: A")
+    findings = v.CHECKS["kindtype"]([rec], {"names": set(), "related": {}})
+    assert findings and findings[0]["severity"] == "critical"
+
+
+def test_kindtype_rejects_unknown_kind(tmp_path):
+    rec = _rec(tmp_path, "A.md", "kind: banana\ntype: concept\ntitle: A")
+    findings = v.CHECKS["kindtype"]([rec], {"names": set(), "related": {}})
+    assert findings and "kind" in findings[0]["message"]
+
+
+def test_kindtype_skips_missing_frontmatter(tmp_path):
+    sub = tmp_path / "_wiki"
+    sub.mkdir(exist_ok=True)
+    p = sub / "A.md"
+    p.write_text("no fm", encoding="utf-8")
+    rec = v.load_record(p)
+    assert v.CHECKS["kindtype"]([rec], {"names": set(), "related": {}}) == []

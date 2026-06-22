@@ -167,6 +167,41 @@ def check_frontmatter(records, index):
     return findings
 
 
+@register("kindtype")
+def check_kindtype(records, index):
+    findings = []
+    for rec in records:
+        if rec["path"].name == "log.md":
+            continue
+        fm = rec["fm"]
+        if not isinstance(fm, dict):
+            continue
+        kind = fm.get("kind")
+        typ = fm.get("type")
+        if kind == "wiki":
+            allowed = WIKI_TYPES
+        elif kind == "source":
+            allowed = SOURCE_TYPES
+        else:
+            findings.append({
+                "file": rec["path"],
+                "severity": "critical",
+                "rule": "kindtype",
+                "message": f"invalid kind: {kind!r} (expected wiki or source)",
+                "autofixable": False,
+            })
+            continue
+        if typ not in allowed:
+            findings.append({
+                "file": rec["path"],
+                "severity": "critical",
+                "rule": "kindtype",
+                "message": f"invalid type {typ!r} for kind {kind} (allowed: {sorted(allowed)})",
+                "autofixable": False,
+            })
+    return findings
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description="Validate LLM-Wiki files.")
     parser.add_argument("--vault-root", required=True)
