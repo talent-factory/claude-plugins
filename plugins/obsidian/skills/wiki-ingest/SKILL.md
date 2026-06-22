@@ -53,6 +53,23 @@ One of:
     - Append the new raw file path to the wiki page's `sources:` field.
     - Append the touched wiki page paths to the raw file's `distilled_into:` field.
 
+4a. **Validate before finalizing (write-time gate).** After writing each touched
+    wiki/raw file, run the shared validator on it:
+
+    ```bash
+    python3 "${CLAUDE_PLUGIN_ROOT}/skills/_shared/scripts/validate.py" \
+      --vault-root "<wiki-root>/.." --target "<touched-file>" \
+      --rules frontmatter,kindtype,deadlinks,asymmetric
+    ```
+
+    - **critical** findings: fix them (auto-fixable ones — `created`, `domain`,
+      asymmetric back-refs — apply directly; others surface to the user with the
+      finding text), then re-validate. Do NOT report the page as ingested while a
+      critical finding remains.
+    - **minor** findings: include them in the final summary; do not block.
+    - Validator exit code 2 (PyYAML missing): fall back to the deterministic rules
+      in `${CLAUDE_PLUGIN_ROOT}/skills/_shared/validation-rules.md` and continue.
+
 5. **Pull cross-references:**
     - Grep the index for related topics: `grep -i "<topic>" <wiki-root>/_wiki/index.md`.
     - For each match, add the page bidirectionally to the `related:` field on both sides (asymmetric links are a lint error).
@@ -90,3 +107,4 @@ The user receives:
 - Number of cross-references added
 - Log entry preview
 - Hint to run `/wiki:lint` if a cross-reference cluster (≥5 pages) lacks a hub page
+- Validation summary: critical findings resolved, minor findings listed
