@@ -215,3 +215,41 @@ def test_asymmetric_ignores_non_wiki_refs(tmp_path):
     index = v.build_index(tmp_path)
     rec = v.load_record(sub / "A.md")
     assert v.CHECKS["asymmetric"]([rec], index) == []
+
+
+import json as _json
+
+
+def _make_vault(tmp_path):
+    wiki = tmp_path / "_wiki"
+    wiki.mkdir()
+    (wiki / "Good.md").write_text(
+        "---\nkind: wiki\ntype: concept\ntitle: Good\ndomain: d\nstatus: active\n"
+        "tags: [x]\ncreated: 2026-01-01\nupdated: 2026-01-02\n---\nbody", encoding="utf-8")
+    (wiki / "Bad.md").write_text(
+        "---\nkind: wiki\ntype: concept\ntitle: Bad\n---\nsee [[Ghost]]", encoding="utf-8")
+    return tmp_path
+
+
+def test_run_all_rules_finds_bad_file(tmp_path):
+    vault = _make_vault(tmp_path)
+    findings = v.run(vault, rules=list(v.CHECKS.keys()), target=None)
+    files = {f["file"].name for f in findings}
+    assert "Bad.md" in files
+    assert "Good.md" not in files
+
+
+def test_run_target_limits_scope(tmp_path):
+    vault = _make_vault(tmp_path)
+    findings = v.run(vault, rules=list(v.CHECKS.keys()), target=vault / "_wiki" / "Good.md")
+    assert findings == []
+
+
+def test_main_emits_json_and_exit_code(tmp_path, capsys):
+    vault = _make_vault(tmp_path)
+    code = v.main(["--vault-root", str(vault), "--rules", "frontmatter"])
+    out = capsys.readouterr().out
+    data = _json.loads(out)
+    assert isinstance(data, list)
+    assert all("file" in d and isinstance(d["file"], str) for d in data)
+    assert code == 1  # Bad.md has critical frontmatter findings
