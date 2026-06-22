@@ -149,3 +149,33 @@ def test_kindtype_skips_missing_frontmatter(tmp_path):
     p.write_text("no fm", encoding="utf-8")
     rec = v.load_record(p)
     assert v.CHECKS["kindtype"]([rec], {"names": set(), "related": {}}) == []
+
+
+def test_deadlinks_flags_missing_target(tmp_path):
+    rec = _rec(tmp_path, "A.md", "kind: wiki\ntype: concept\ntitle: A", body="see [[Ghost]]")
+    findings = v.CHECKS["deadlinks"]([rec], {"names": {"A"}, "related": {}})
+    assert findings and findings[0]["severity"] == "minor"
+    assert "Ghost" in findings[0]["message"]
+
+
+def test_deadlinks_resolves_alias_and_path(tmp_path):
+    rec = _rec(tmp_path, "A.md", "kind: wiki\ntype: concept\ntitle: A",
+               body="[[_wiki/tools/Docling|Docling]] and [[RAG#intro]]")
+    findings = v.CHECKS["deadlinks"]([rec], {"names": {"A", "Docling", "RAG"}, "related": {}})
+    assert findings == []
+
+
+def test_deadlinks_skips_code_spans(tmp_path):
+    rec = _rec(tmp_path, "A.md", "kind: wiki\ntype: concept\ntitle: A",
+               body="inline `[[vm]]` and\n```\n[[fenced]]\n```")
+    assert v.CHECKS["deadlinks"]([rec], {"names": {"A"}, "related": {}}) == []
+
+
+def test_deadlinks_exempts_reports_and_log(tmp_path):
+    sub = tmp_path / "_wiki"
+    sub.mkdir(exist_ok=True)
+    for name in ("log.md", "lint-report-2026-01-01.md", "maintain-report-2026-01-01.md"):
+        p = sub / name
+        p.write_text("see [[Ghost]]", encoding="utf-8")
+        rec = v.load_record(p)
+        assert v.CHECKS["deadlinks"]([rec], {"names": set(), "related": {}}) == []

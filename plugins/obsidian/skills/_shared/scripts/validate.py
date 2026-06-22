@@ -202,6 +202,34 @@ def check_kindtype(records, index):
     return findings
 
 
+def _is_report_or_log(name):
+    return (name == "log.md"
+            or name.startswith("lint-report-")
+            or name.startswith("maintain-report-"))
+
+
+@register("deadlinks")
+def check_deadlinks(records, index):
+    findings = []
+    for rec in records:
+        if _is_report_or_log(rec["path"].name):
+            continue
+        body = strip_code(rec["body"] or "")
+        for inner in re.findall(r"\[\[([^\]]+)\]\]", body):
+            target = normalize_link(inner)
+            if not target:
+                continue
+            if target not in index["names"]:
+                findings.append({
+                    "file": rec["path"],
+                    "severity": "minor",
+                    "rule": "deadlinks",
+                    "message": f"dead wikilink: [[{target}]]",
+                    "autofixable": False,
+                })
+    return findings
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description="Validate LLM-Wiki files.")
     parser.add_argument("--vault-root", required=True)
