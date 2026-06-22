@@ -230,6 +230,26 @@ def check_deadlinks(records, index):
     return findings
 
 
+@register("asymmetric")
+def check_asymmetric(records, index):
+    findings = []
+    related = index["related"]
+    for rec in records:
+        if not isinstance(rec["fm"], dict):
+            continue
+        stem = rec["path"].stem
+        for ref in related.get(stem, set()):
+            if ref in related and stem not in related[ref]:
+                findings.append({
+                    "file": rec["path"],
+                    "severity": "minor",
+                    "rule": "asymmetric",
+                    "message": f"asymmetric related: [[{ref}]] does not link back to [[{stem}]]",
+                    "autofixable": True,
+                })
+    return findings
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description="Validate LLM-Wiki files.")
     parser.add_argument("--vault-root", required=True)

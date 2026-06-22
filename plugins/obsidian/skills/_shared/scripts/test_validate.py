@@ -179,3 +179,39 @@ def test_deadlinks_exempts_reports_and_log(tmp_path):
         p.write_text("see [[Ghost]]", encoding="utf-8")
         rec = v.load_record(p)
         assert v.CHECKS["deadlinks"]([rec], {"names": set(), "related": {}}) == []
+
+
+def test_asymmetric_flags_one_way_link(tmp_path):
+    sub = tmp_path / "_wiki"
+    sub.mkdir(exist_ok=True)
+    (sub / "A.md").write_text(
+        "---\nkind: wiki\ntype: concept\nrelated:\n  - \"[[B]]\"\n---\nx", encoding="utf-8")
+    (sub / "B.md").write_text("---\nkind: wiki\ntype: concept\n---\nx", encoding="utf-8")
+    index = v.build_index(tmp_path)
+    rec = v.load_record(sub / "A.md")
+    findings = v.CHECKS["asymmetric"]([rec], index)
+    assert findings and findings[0]["severity"] == "minor"
+    assert findings[0]["autofixable"] is True
+
+
+def test_asymmetric_clean_when_bidirectional(tmp_path):
+    sub = tmp_path / "_wiki"
+    sub.mkdir(exist_ok=True)
+    (sub / "A.md").write_text(
+        "---\nkind: wiki\ntype: concept\nrelated:\n  - \"[[B]]\"\n---\nx", encoding="utf-8")
+    (sub / "B.md").write_text(
+        "---\nkind: wiki\ntype: concept\nrelated:\n  - \"[[A]]\"\n---\nx", encoding="utf-8")
+    index = v.build_index(tmp_path)
+    rec = v.load_record(sub / "A.md")
+    assert v.CHECKS["asymmetric"]([rec], index) == []
+
+
+def test_asymmetric_ignores_non_wiki_refs(tmp_path):
+    sub = tmp_path / "_wiki"
+    sub.mkdir(exist_ok=True)
+    (sub / "A.md").write_text(
+        "---\nkind: wiki\ntype: concept\nrelated:\n  - \"[[some-raw-source]]\"\n---\nx",
+        encoding="utf-8")
+    index = v.build_index(tmp_path)
+    rec = v.load_record(sub / "A.md")
+    assert v.CHECKS["asymmetric"]([rec], index) == []
