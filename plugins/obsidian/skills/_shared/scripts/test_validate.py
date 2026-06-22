@@ -125,6 +125,18 @@ def test_frontmatter_missing_block_is_critical(tmp_path):
     assert findings and findings[0]["severity"] == "critical"
 
 
+def test_frontmatter_exempts_report_files(tmp_path):
+    sub = tmp_path / "_wiki"
+    sub.mkdir(exist_ok=True)
+    for name in ("lint-report-2026-01-01.md", "maintain-report-2026-01-01.md"):
+        p = sub / name
+        p.write_text("---\nkind: wiki\ntype: note\n---\n# report\n- findings: 0",
+                     encoding="utf-8")
+        rec = v.load_record(p)
+        assert v.CHECKS["frontmatter"]([rec], {"names": set(), "related": {}}) == []
+        assert v.CHECKS["kindtype"]([rec], {"names": set(), "related": {}}) == []
+
+
 def test_kindtype_accepts_thinking(tmp_path):
     rec = _rec(tmp_path, "A.md", "kind: wiki\ntype: thinking\ntitle: A")
     assert v.CHECKS["kindtype"]([rec], {"names": set(), "related": {}}) == []
@@ -169,6 +181,17 @@ def test_deadlinks_skips_code_spans(tmp_path):
     rec = _rec(tmp_path, "A.md", "kind: wiki\ntype: concept\ntitle: A",
                body="inline `[[vm]]` and\n```\n[[fenced]]\n```")
     assert v.CHECKS["deadlinks"]([rec], {"names": {"A"}, "related": {}}) == []
+
+
+def test_deadlinks_resolves_media_embed_with_extension(tmp_path):
+    sub = tmp_path / "_wiki"
+    sub.mkdir(exist_ok=True)
+    (tmp_path / "_raw").mkdir(exist_ok=True)
+    (tmp_path / "_raw" / "diagram.png").write_bytes(b"\x89PNG")
+    rec = _rec(tmp_path, "A.md", "kind: wiki\ntype: concept\ntitle: A",
+               body="embed ![[diagram.png]] and bare [[diagram]]")
+    index = v.build_index(tmp_path)
+    assert v.CHECKS["deadlinks"]([rec], index) == []
 
 
 def test_deadlinks_exempts_reports_and_log(tmp_path):

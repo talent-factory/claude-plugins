@@ -99,6 +99,7 @@ def build_index(vault_root):
     for p in vault_root.rglob("*"):
         if p.is_file() and p.suffix.lower() in MEDIA_EXTS:
             names.add(p.stem)
+            names.add(p.name)  # resolve both [[diagram]] and [[diagram.png]] embeds
     if wiki.exists():
         for p in wiki.rglob("*.md"):
             rec = load_record(p)
@@ -130,6 +131,12 @@ def run(vault_root, rules, target):
     return findings
 
 
+def _is_report_or_log(name):
+    return (name == "log.md"
+            or name.startswith("lint-report-")
+            or name.startswith("maintain-report-"))
+
+
 REQUIRED = ["kind", "type", "title", "domain", "status", "tags", "created"]
 AUTOFIXABLE_FIELDS = {"created", "domain"}
 
@@ -138,7 +145,7 @@ AUTOFIXABLE_FIELDS = {"created", "domain"}
 def check_frontmatter(records, index):
     findings = []
     for rec in records:
-        if rec["path"].name == "log.md":
+        if _is_report_or_log(rec["path"].name):
             continue
         fm = rec["fm"]
         if fm is None or fm == "INVALID":
@@ -171,7 +178,7 @@ def check_frontmatter(records, index):
 def check_kindtype(records, index):
     findings = []
     for rec in records:
-        if rec["path"].name == "log.md":
+        if _is_report_or_log(rec["path"].name):
             continue
         fm = rec["fm"]
         if not isinstance(fm, dict):
@@ -200,12 +207,6 @@ def check_kindtype(records, index):
                 "autofixable": False,
             })
     return findings
-
-
-def _is_report_or_log(name):
-    return (name == "log.md"
-            or name.startswith("lint-report-")
-            or name.startswith("maintain-report-"))
 
 
 @register("deadlinks")
