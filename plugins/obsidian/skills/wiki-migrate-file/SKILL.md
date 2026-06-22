@@ -73,7 +73,7 @@ Same vault layout as `wiki-ingest`. Operates on files under `<wiki-root>/` that 
 
 1. **Identify the cluster:** find files thematically related to `<name>` via filename match, tag match, or an explicit user list.
 2. **Show the cluster plan:** all detected files plus proposed migration targets, presented in a table. The user confirms or edits.
-3. **Per file:** apply the single-file workflow steps 1, 2, 4, 5, 6, and 7 — that is, read the file, analyze, then write/update/cross-ref/log/format. Step 3 (the per-file confirmation prompt) is **skipped** because the cluster confirmation in step 2 above already covers it. Only **one** user confirmation up front; the skill then processes the cluster sequentially.
+3. **Per file:** apply the single-file workflow steps 1, 2, 4, 5, 6, 7, and 8 — that is, read the file, analyze, then write/validate/update/cross-ref/log/format. Step 3 (the per-file confirmation prompt) is **skipped** because the cluster confirmation in step 2 above already covers it. Only **one** user confirmation up front; the skill then processes the cluster sequentially.
 4. **Create a hub page** if the cluster contains five or more pages: `<wiki-root>/_wiki/concepts/<name>.md` with `type: hub`, listing all migrated pages in their respective hub sections.
 5. **One commit at the end** with a suggested message.
 
