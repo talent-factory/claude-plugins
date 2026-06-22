@@ -23,7 +23,7 @@ Run the shared validator over the whole wiki and parse its JSON findings:
 
 ```bash
 python3 "${CLAUDE_PLUGIN_ROOT}/skills/_shared/scripts/validate.py" \
-  --vault-root "<wiki-root>/.." --rules frontmatter,kindtype,deadlinks,asymmetric
+  --vault-root "<wiki-root>" --rules frontmatter,kindtype,deadlinks,asymmetric
 ```
 
 If the validator exits with code 2 (PyYAML missing), fall back to applying the

@@ -13,7 +13,7 @@ Browse all available plugins in the Talent Factory marketplace. Each plugin prov
 | [Code Quality](code-quality.md)             | 3.1.0   | 1        | 3      | 1      | review, quality, Python, React      |
 | [Education](education.md)                   | 1.5.0   | 1        | 2      | 3      | teaching, learning, markdown, FFHS  |
 | [Core Utilities](core.md)                   | 3.1.3   | 7        | 2      | 2      | validation, CI, PDF, development    |
-| [Obsidian Integration](obsidian.md)         | 1.4.0   | 0        | 0      | 9      | tasks, Obsidian, wiki, briefing, ideas |
+| [Obsidian Integration](obsidian.md)         | 1.4.0   | 0        | 0      | 11     | tasks, Obsidian, wiki, briefing, ideas |
 | [Development](development.md)               | 1.3.2   | 1        | 1      | 2      | java, gradle, python, documentation |
 | [Gemini Bridge](gemini-bridge.md)           | 1.1.0   | 3        | 2      | 4      | gemini, mcp, multi-model, vision    |
 
@@ -128,7 +128,7 @@ Browse all available plugins in the Talent Factory marketplace. Each plugin prov
 
   Task management via TaskNotes API, LLM-Wiki curation, and productivity intelligence — daily briefings, weekly retrospectives, project-pulse dashboards, and opportunity mining.
 
-  **Skills:** `tasknotes`, `today`, `weekly-review`, `project-pulse`, `ideas`, `wiki-ingest`, `wiki-lint`, `wiki-migrate-file`, `wiki-query`
+  **Skills:** `tasknotes`, `today`, `weekly-review`, `project-pulse`, `ideas`, `wiki-ingest`, `wiki-lint`, `wiki-migrate-file`, `wiki-query`, `wiki-think`, `wiki-maintain`
 
   [:octicons-arrow-right-24: Details](obsidian.md)
 

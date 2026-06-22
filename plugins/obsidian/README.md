@@ -361,7 +361,7 @@ obsidian/
 - Added contradiction detect-and-confirm workflow to `wiki-ingest`: conflicting claims are surfaced for user review before the ingested page is committed
 - Added `wiki-think` skill: deep structured reasoning against the knowledge base in challenge / connect / socratic mode; optional `type: thinking` page output
 - Added `wiki-maintain` skill: non-interactive lint + deterministic auto-fix pass with a written report, designed for unattended cron/launchd scheduling; recipes provided in `skills/wiki-maintain/references/cron-recipes.md`
-- Refactored `wiki-lint` to delegate all deterministic checks to the shared validation module (behaviour unchanged; prose fallback retained for environments without PyYAML)
+- Refactored `wiki-lint` to delegate all deterministic checks to the shared validation module (behavior unchanged; prose fallback retained for environments without PyYAML)
 - Plugin now ships 11 skills (tasknotes, today, weekly-review, project-pulse, ideas, wiki-ingest, wiki-query, wiki-lint, wiki-migrate-file, wiki-think, wiki-maintain)
 
 ### Version 1.3.1 (2026-06-18)

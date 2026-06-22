@@ -14,7 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **obsidian 1.4.0**: contradiction propose-and-confirm workflow in `wiki-ingest` — conflicting claims are surfaced for user resolution before the page is committed
 - **obsidian 1.4.0**: `wiki-think` skill — structured deep reasoning against the knowledge base in challenge / connect / socratic mode; optional `type: thinking` page output
 - **obsidian 1.4.0**: `wiki-maintain` skill — non-interactive lint + deterministic auto-fix pass with written report; cron/launchd scheduling recipes provided
-- **obsidian 1.4.0**: `wiki-lint` refactored to delegate all deterministic checks to the shared validation module (behaviour unchanged)
+- **obsidian 1.4.0**: `wiki-lint` refactored to delegate all deterministic checks to the shared validation module (behavior unchanged)
 - **git-workflow 2.3.0**: `hunk-review` skill for interactive terminal diff review sessions via the Hunk CLI — session discovery, hunk navigation, and batch inline commenting (adapted from [modem-dev/hunk](https://github.com/modem-dev/hunk), MIT)
 - **obsidian 1.3.0**: `today` skill — prioritised daily briefing from TaskNotes, Google Calendar, Gmail, Linear, and GitHub; writes to today's Obsidian daily note
 - **obsidian 1.3.0**: `weekly-review` skill — structured weekly retrospective with completed tasks, shipped code, meetings, wiki learnings, and Linear progress; preserves user-written Reflection section on re-runs

@@ -58,7 +58,7 @@ One of:
 
     ```bash
     python3 "${CLAUDE_PLUGIN_ROOT}/skills/_shared/scripts/validate.py" \
-      --vault-root "<wiki-root>/.." --target "<touched-file>" \
+      --vault-root "<wiki-root>" --target "<touched-file>" \
       --rules frontmatter,kindtype,deadlinks,asymmetric
     ```
 

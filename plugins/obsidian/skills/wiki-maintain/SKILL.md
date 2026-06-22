@@ -30,7 +30,7 @@ Same vault layout as `wiki-ingest`/`wiki-lint`. Rules live in
 
     ```bash
     python3 "${CLAUDE_PLUGIN_ROOT}/skills/_shared/scripts/validate.py" \
-      --vault-root "<wiki-root>/.." --rules frontmatter,kindtype,deadlinks,asymmetric
+      --vault-root "<wiki-root>" --rules frontmatter,kindtype,deadlinks,asymmetric
     ```
 
     On validator exit code 2 (PyYAML missing), fall back to the deterministic

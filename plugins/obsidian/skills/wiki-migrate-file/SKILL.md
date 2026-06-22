@@ -50,7 +50,7 @@ Same vault layout as `wiki-ingest`. Operates on files under `<wiki-root>/` that 
 
    ```bash
    python3 "${CLAUDE_PLUGIN_ROOT}/skills/_shared/scripts/validate.py" \
-     --vault-root "<wiki-root>/.." --target "<written-file>" \
+     --vault-root "<wiki-root>" --target "<written-file>" \
      --rules frontmatter,kindtype,deadlinks,asymmetric
    ```
 

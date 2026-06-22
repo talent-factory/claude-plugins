@@ -33,7 +33,7 @@ Modes are combinable: `--mode challenge,connect`.
 
     ```bash
     python3 "${CLAUDE_PLUGIN_ROOT}/skills/_shared/scripts/validate.py" \
-      --vault-root "<wiki-root>/.." --target "<thinking-file>" \
+      --vault-root "<wiki-root>" --target "<thinking-file>" \
       --rules frontmatter,kindtype,deadlinks,asymmetric
     ```
 
