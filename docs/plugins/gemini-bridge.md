@@ -2,7 +2,7 @@
 
 Model-agnostic bridge to Google Gemini 2.5 Pro for Claude Code. Enables long-context codebase analysis (1M tokens), multimodal vision, and independent model validation within your existing Claude Code workflow.
 
-## Version 1.0.1
+## Version 1.1.0
 
 Gemini runs as an **MCP tool** — Claude calls it exactly like any other tool. No second terminal, no context switch, no workflow disruption.
 
@@ -201,6 +201,16 @@ This plugin demonstrates the **model-agnostic pattern** in AI-Assisted Software 
 3. **Multi-Model Validation** — Claude proposes, Gemini validates, Claude synthesizes
 
 ## Changelog
+
+### Version 1.1.0 (2026-05-08)
+
+- Added `analyze`, `compare`, and `vision` skills for natural-language activation of the three commands
+- Skills enable automatic triggering without explicit command invocation
+
+### Version 1.0.1 (2026-03-13)
+
+- Added `keywords` and `license` fields to plugin.json
+- Improved agent descriptions
 
 ### Version 1.0.0 (2026-03-13)
 

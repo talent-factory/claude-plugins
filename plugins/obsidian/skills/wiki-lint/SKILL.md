@@ -17,22 +17,32 @@ Same vault layout as `wiki-ingest`. The migration backlog soft cap (default: 50 
 
 Read all files in `<wiki-root>/_wiki/` and `<wiki-root>/_raw/`. Run the following checks and collect issues.
 
-### Structural Checks
+### Deterministic Checks (shared validator)
 
-1. **Frontmatter completeness:** `kind`, `type`, `title`, `domain`, `status`, `tags`, `created`, `updated` for all files. Source-specific: `source_url`, `ingested`, `distilled_into`. Wiki-specific: `sources`, `related`, `last_synthesized`.
-2. **`kind`/`type` consistency:** `kind: wiki` may only have `type: concept|tool|compare|hub|note`. `kind: source` may only have `type: clipping|chat|note|transcript`.
-3. **Template compliance:** `wiki-tool` must have a `## Setup` heading, `wiki-compare` must have an `## Options` table, `wiki-hub` must have all five sections (`## Overview`, `## Concepts`, `## Tools`, `## Compare Pages`, `## Related Hubs`).
+Run the shared validator over the whole wiki and parse its JSON findings:
 
-### Linking Checks
+```bash
+python3 "${CLAUDE_PLUGIN_ROOT}/skills/_shared/scripts/validate.py" \
+  --vault-root "<wiki-root>" --rules frontmatter,kindtype,deadlinks,asymmetric
+```
 
-4. **Orphans:** wiki pages that no other wiki page links to (and that are not present in `index.md`).
-5. **Dead links:** wikilinks `[[X]]` whose target file does not exist.
-6. **Asymmetric `related:` fields:** if `A.related` contains `B`, then `B.related` must contain `A`.
+If the validator exits with code 2 (PyYAML missing), fall back to applying the
+deterministic rules manually from `${CLAUDE_PLUGIN_ROOT}/skills/_shared/validation-rules.md`.
 
-### Content Checks
+Map findings into the report: `critical` findings go under **Critical Issues**
+(Structural for `frontmatter`/`kindtype`, Linking for `deadlinks`/`asymmetric`);
+`minor` findings go under **Minor Issues**. All rule definitions live in
+`_shared/validation-rules.md` — do not restate them here.
 
-7. **Stale claims:** wiki pages with `updated:` older than six months AND any entry in `sources:` has an `ingested:` date newer than `last_synthesized:`.
-8. **Contradiction detection (heuristic):** pages that share an entity in `related:` but make conflicting claims → flag for review.
+(Note: if `${CLAUDE_PLUGIN_ROOT}` is unavailable in the runtime, resolve the path relative to this skill: `../_shared/scripts/validate.py`.)
+
+### Semantic Checks (LLM judgement)
+
+Apply semantic rules 5–8 and template-compliance from
+`${CLAUDE_PLUGIN_ROOT}/skills/_shared/validation-rules.md` (stale claims,
+contradiction detection, hub gaps, source gaps — `type: thinking` exempt from
+source gaps). Keep the Tag Discipline checks (singleton tags, status-as-tag) and
+the Migration Backlog soft-cap check as they are today.
 
 ### Tag Discipline
 
@@ -42,14 +52,6 @@ Read all files in `<wiki-root>/_wiki/` and `<wiki-root>/_raw/`. Run the followin
 ### Migration Backlog
 
 11. **Soft cap check:** count `.md` files in `<wiki-root>/` that live outside `_raw/` and `_wiki/` (templates are inside `_wiki/templates/` and therefore already excluded). If the count exceeds the soft cap (default 50): emit a WARNING.
-
-### Hub Suggestions
-
-12. **Hub gaps:** if 5+ pages share an overlapping tag/theme without a `kind: wiki, type: hub` page → suggest one.
-
-### Source Gaps
-
-13. **`sources:` backref:** wiki pages with an empty `sources:` field but content that asserts factual claims → flag.
 
 ## Auto-Fix Mode
 
