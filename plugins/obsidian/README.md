@@ -4,7 +4,7 @@ Obsidian integration for Claude Code: task management via the TaskNotes Plugin A
 LLM-Wiki curation, and productivity intelligence — daily briefings, weekly retrospectives,
 project-pulse dashboards, and opportunity mining — all from within Claude Code.
 
-## Version 1.3.1
+## Version 1.4.0
 
 This plugin combines four complementary workflows for Obsidian users:
 
@@ -67,10 +67,12 @@ explicitly to avoid ambiguity when multiple vaults are present.
 
 ### LLM-Wiki Workflow
 
-- **Ingest sources** — file web clippings, AI chats, transcripts, or raw notes under `_raw/` and distil them into curated `_wiki/` pages with bidirectional cross-references
-- **Lint the wiki** — weekly health check for frontmatter integrity, asymmetric links, stale claims, tag discipline, and missing hub pages
-- **Migrate legacy notes** — split hybrid legacy files into raw + wiki content with template-compliant frontmatter
+- **Ingest sources** — file web clippings, AI chats, transcripts, or raw notes under `_raw/` and distil them into curated `_wiki/` pages with bidirectional cross-references; write-time validation gate blocks malformed frontmatter before it reaches the vault; contradiction detect-and-confirm workflow flags conflicting claims for user resolution
+- **Lint the wiki** — weekly health check for frontmatter integrity, asymmetric links, stale claims, tag discipline, and missing hub pages; deterministic checks delegated to the shared validation module
+- **Migrate legacy notes** — split hybrid legacy files into raw + wiki content with template-compliant frontmatter; write-time validation gate ensures all migrated pages meet the schema
 - **Query the wiki** — index-first search with citations and optional filing-back of the synthesis
+- **Think about the wiki** — structured deep reasoning with challenge, connect, or socratic modes; optionally writes a thinking-page to the vault
+- **Maintain the wiki** — non-interactive lint + auto-fix pass with a written report; designed for unattended scheduling via cron or launchd
 
 ### Daily Briefing
 
@@ -122,6 +124,19 @@ The `today`, `weekly-review`, and `ideas` skills can use the following MCP
 connections when available: Google Calendar, Gmail, Linear. Each integration
 degrades gracefully when not configured — only that data source is skipped.
 
+### 4. PyYAML (for wiki validation)
+
+The shared validation module (`skills/_shared/scripts/validate.py`) requires
+**PyYAML** to perform deterministic frontmatter checks at write time:
+
+```bash
+pip install pyyaml
+```
+
+Without PyYAML the wiki-ingest and wiki-migrate-file skills fall back to the
+prose validation rules in `skills/_shared/validation-rules.md` and continue to
+operate, but structural checks are less strict.
+
 ---
 
 ## Installation
@@ -171,6 +186,8 @@ what could I build next?
 /obsidian:wiki-query
 /obsidian:wiki-lint
 /obsidian:wiki-migrate-file
+/obsidian:wiki-think
+/obsidian:wiki-maintain
 ```
 
 ---
@@ -243,6 +260,30 @@ Answers a question against the curated `_wiki/` via index-first search and
 full-text fallback. Returns a synthesised answer with citations and optionally
 files the synthesis back as a new wiki page.
 
+### wiki-think
+
+Engages in deep, structured reasoning against the curated `_wiki/`. Supports
+three thinking modes:
+
+- **challenge** — stress-tests a claim by surfacing contradicting evidence and
+  underexplored assumptions from the knowledge base
+- **connect** — maps lateral connections between ideas across disparate wiki pages
+- **socratic** — guides iterative inquiry by generating and answering follow-up
+  questions until a synthesis emerges
+
+Pass `type: thinking` to write the result as a new thinking-page in the vault.
+Activates on "think about", "challenge this idea", "connect ideas", or "explore".
+
+### wiki-maintain
+
+Non-interactive maintenance pass that runs lint checks, applies deterministic
+auto-fixes, and writes a structured report — designed for scheduled execution via
+cron or launchd. Unlike `wiki-lint`, it does not pause for user confirmation;
+all fixable issues are resolved automatically and the remainder are logged.
+
+Scheduling recipes (cron/launchd) are provided in
+`skills/wiki-maintain/references/cron-recipes.md`.
+
 ---
 
 ## LLM-Wiki Vault Layout
@@ -268,6 +309,10 @@ obsidian/
 ├── .claude-plugin/
 │   └── plugin.json
 ├── skills/
+│   ├── _shared/
+│   │   ├── scripts/
+│   │   │   └── validate.py          # shared deterministic validation (requires PyYAML)
+│   │   └── validation-rules.md      # prose fallback rules
 │   ├── tasknotes/
 │   │   ├── SKILL.md
 │   │   └── scripts/
@@ -292,9 +337,15 @@ obsidian/
 │   │   └── SKILL.md
 │   ├── wiki-lint/
 │   │   └── SKILL.md
+│   ├── wiki-maintain/
+│   │   ├── SKILL.md
+│   │   └── references/
+│   │       └── cron-recipes.md      # cron and launchd scheduling examples
 │   ├── wiki-migrate-file/
 │   │   └── SKILL.md
-│   └── wiki-query/
+│   ├── wiki-query/
+│   │   └── SKILL.md
+│   └── wiki-think/
 │       └── SKILL.md
 └── README.md
 ```
@@ -302,6 +353,16 @@ obsidian/
 ---
 
 ## Changelog
+
+### Version 1.4.0 (2026-06-22)
+
+- Added shared validation module (`skills/_shared/scripts/validate.py` + `validation-rules.md`) providing a deterministic, reusable frontmatter and link-integrity checker
+- Added write-time validation gate to `wiki-ingest` and `wiki-migrate-file`: malformed pages are blocked with a clear error before any vault write occurs
+- Added contradiction detect-and-confirm workflow to `wiki-ingest`: conflicting claims are surfaced for user review before the ingested page is committed
+- Added `wiki-think` skill: deep structured reasoning against the knowledge base in challenge / connect / socratic mode; optional `type: thinking` page output
+- Added `wiki-maintain` skill: non-interactive lint + deterministic auto-fix pass with a written report, designed for unattended cron/launchd scheduling; recipes provided in `skills/wiki-maintain/references/cron-recipes.md`
+- Refactored `wiki-lint` to delegate all deterministic checks to the shared validation module (behaviour unchanged; prose fallback retained for environments without PyYAML)
+- Plugin now ships 11 skills (tasknotes, today, weekly-review, project-pulse, ideas, wiki-ingest, wiki-query, wiki-lint, wiki-migrate-file, wiki-think, wiki-maintain)
 
 ### Version 1.3.1 (2026-06-18)
 
