@@ -45,11 +45,25 @@ Same vault layout as `wiki-ingest`. Operates on files under `<wiki-root>/` that 
     - Write the wiki portion with `kind: wiki` frontmatter, template-compliant, `sources: [<raw-page>]`, `supersedes: ["<legacy-path>"]`, `last_synthesized: <today>`.
     - Maintain bidirectional cross-references to other wiki pages.
 
-5. **Update index and log** (see `wiki-ingest` skill, steps 6–7).
+5. **Validate before finalizing (write-time gate).** Run the shared validator on each
+   written target file:
 
-6. **Delete the legacy file** with `git rm`. Rationale: git history preserves the file, and the `supersedes:` field points to the old path.
+   ```bash
+   python3 "${CLAUDE_PLUGIN_ROOT}/skills/_shared/scripts/validate.py" \
+     --vault-root "<wiki-root>" --target "<written-file>" \
+     --rules frontmatter,kindtype,deadlinks,asymmetric
+   ```
 
-7. **Run the markdown-syntax-formatter agent** (from the education plugin) on every touched file. If the education plugin is not installed, skip this step.
+   Resolve all **critical** findings before deleting the original legacy file; list
+   **minor** findings in the summary. On validator exit code 2, fall back to the
+   deterministic rules in `${CLAUDE_PLUGIN_ROOT}/skills/_shared/validation-rules.md`.
+   Never delete the original until the migrated file is free of critical findings.
+
+6. **Update index and log** (see `wiki-ingest` skill, steps 6–7).
+
+7. **Delete the legacy file** with `git rm`. Rationale: git history preserves the file, and the `supersedes:` field points to the old path.
+
+8. **Run the markdown-syntax-formatter agent** (from the education plugin) on every touched file. If the education plugin is not installed, skip this step.
 
 ## Workflow for Cluster Mode
 
@@ -59,7 +73,7 @@ Same vault layout as `wiki-ingest`. Operates on files under `<wiki-root>/` that 
 
 1. **Identify the cluster:** find files thematically related to `<name>` via filename match, tag match, or an explicit user list.
 2. **Show the cluster plan:** all detected files plus proposed migration targets, presented in a table. The user confirms or edits.
-3. **Per file:** apply the single-file workflow steps 1, 2, 4, 5, 6, and 7 — that is, read the file, analyze, then write/update/cross-ref/log/format. Step 3 (the per-file confirmation prompt) is **skipped** because the cluster confirmation in step 2 above already covers it. Only **one** user confirmation up front; the skill then processes the cluster sequentially.
+3. **Per file:** apply the single-file workflow steps 1, 2, 4, 5, 6, 7, and 8 — that is, read the file, analyze, then write/validate/update/cross-ref/log/format. Step 3 (the per-file confirmation prompt) is **skipped** because the cluster confirmation in step 2 above already covers it. Only **one** user confirmation up front; the skill then processes the cluster sequentially.
 4. **Create a hub page** if the cluster contains five or more pages: `<wiki-root>/_wiki/concepts/<name>.md` with `type: hub`, listing all migrated pages in their respective hub sections.
 5. **One commit at the end** with a suggested message.
 

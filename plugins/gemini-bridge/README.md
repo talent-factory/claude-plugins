@@ -321,7 +321,7 @@ MIT License — see [LICENSE](../../LICENSE) for details.
 - Added `analyze`, `compare`, and `vision` skills for natural-language activation of the three commands
 - Skills enable automatic triggering without explicit command invocation
 
-### Version 1.0.1 (2026-02-27)
+### Version 1.0.1 (2026-03-13)
 
 - Added `keywords` and `license` fields to plugin.json
 - Improved agent descriptions
