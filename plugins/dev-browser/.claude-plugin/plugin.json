@@ -1,0 +1,22 @@
+{
+  "name": "dev-browser",
+  "version": "1.0.0",
+  "description": "Browser automation via the Playwright Python API. Navigate websites, fill forms, take screenshots, extract web data, test web apps, and automate browser workflows with short, incremental scripts and a persistent session profile.",
+  "keywords": [
+    "browser",
+    "automation",
+    "playwright",
+    "python",
+    "scraping",
+    "testing",
+    "screenshots",
+    "web",
+    "forms",
+    "accessibility"
+  ],
+  "license": "MIT",
+  "author": {
+    "name": "Talent Factory GmbH",
+    "email": "support@talent-factory.ch"
+  }
+}

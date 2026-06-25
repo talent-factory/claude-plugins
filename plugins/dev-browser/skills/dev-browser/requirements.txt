@@ -1,0 +1,4 @@
+# Dev Browser skill runtime dependency.
+# Chromium itself is pre-installed in Claude Code web/sandbox; on a local
+# machine run `playwright install chromium` once after installing this.
+playwright>=1.40

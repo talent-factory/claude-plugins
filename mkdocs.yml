@@ -192,6 +192,7 @@ nav:
     - Obsidian Integration: plugins/obsidian.md
     - Development: plugins/development.md
     - Gemini Bridge: plugins/gemini-bridge.md
+    - Dev Browser: plugins/dev-browser.md
 
   - Guides:
     - guides/index.md

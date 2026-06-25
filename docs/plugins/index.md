@@ -16,6 +16,7 @@ Browse all available plugins in the Talent Factory marketplace. Each plugin prov
 | [Obsidian Integration](obsidian.md)         | 1.4.0   | 0        | 0      | 11     | tasks, Obsidian, wiki, briefing, ideas |
 | [Development](development.md)               | 1.3.2   | 1        | 1      | 2      | java, gradle, python, documentation |
 | [Gemini Bridge](gemini-bridge.md)           | 1.1.0   | 3        | 2      | 4      | gemini, mcp, multi-model, vision    |
+| [Dev Browser](dev-browser.md)               | 1.0.0   | 0        | 0      | 1      | browser, playwright, scraping, testing |
 
 ---
 
@@ -102,6 +103,16 @@ Browse all available plugins in the Talent Factory marketplace. Each plugin prov
 
   [:octicons-arrow-right-24: Details](core.md)
 
+- **Dev Browser**
+
+  ***
+
+  Browser automation on the Playwright Python API — navigate, fill forms, take screenshots, test web apps, and scrape data with short, incremental scripts and a persistent session profile.
+
+  **Skills:** `dev-browser`
+
+  [:octicons-arrow-right-24: Details](dev-browser.md)
+
 </div>
 
 ---
@@ -181,24 +192,26 @@ To install plugins from this marketplace:
 
 ### Feature Matrix
 
-| Feature            | Git Workflow | Project Mgmt | Code Quality | Development | Education | Core | Obsidian | Gemini Bridge |
-| ------------------ | :----------: | :----------: | :----------: | :---------: | :-------: | :--: | :------: | :-----------: |
-| Git Integration    |     Yes      |     Yes      |      No      |     Yes     |    No     |  No  |    No    |      No       |
-| Merge Conflicts    |     Yes      |      No      |      No      |     No      |    No     |  No  |    No    |      No       |
-| Pre-commit Checks  |     Yes      |      No      |     Yes      |     No      |    No     | Yes  |    No    |      No       |
-| Linear Integration |      No      |     Yes      |      No      |     No      |    No     |  No  |    No    |      No       |
-| Code Review        |      No      |      No      |     Yes      |     No      |    No     |  No  |    No    |      No       |
-| Expert Agents      |      No      |     Yes      |     Yes      |     Yes     |    Yes    | Yes  |    No    |     Yes       |
-| Task Management    |      No      |     Yes      |      No      |     No      |    No     |  No  |   Yes    |      No       |
-| Daily Briefing     |      No      |      No      |      No      |     No      |    No     |  No  |   Yes    |      No       |
-| GitHub Pulse       |      No      |      No      |      No      |     No      |    No     |  No  |   Yes    |      No       |
-| Idea Mining        |      No      |      No      |      No      |     No      |    No     |  No  |   Yes    |      No       |
-| CI Automation      |      No      |      No      |      No      |     No      |    No     | Yes  |    No    |      No       |
-| Project Init       |      No      |      No      |      No      |     Yes     |    No     |  No  |    No    |      No       |
-| EPIC Automation    |      No      |     Yes      |      No      |     No      |    No     |  No  |    No    |      No       |
-| Long-Context (1M)  |      No      |      No      |      No      |     No      |    No     |  No  |    No    |     Yes       |
-| Multimodal Vision  |      No      |      No      |      No      |     No      |    No     |  No  |    No    |     Yes       |
-| MCP Tools          |      No      |      No      |      No      |     No      |    No     |  No  |    No    |     Yes       |
+| Feature            | Git Workflow | Project Mgmt | Code Quality | Development | Education | Core | Obsidian | Gemini Bridge | Dev Browser |
+| ------------------ | :----------: | :----------: | :----------: | :---------: | :-------: | :--: | :------: | :-----------: | :---------: |
+| Git Integration    |     Yes      |     Yes      |      No      |     Yes     |    No     |  No  |    No    |      No       |     No      |
+| Merge Conflicts    |     Yes      |      No      |      No      |     No      |    No     |  No  |    No    |      No       |     No      |
+| Pre-commit Checks  |     Yes      |      No      |     Yes      |     No      |    No     | Yes  |    No    |      No       |     No      |
+| Linear Integration |      No      |     Yes      |      No      |     No      |    No     |  No  |    No    |      No       |     No      |
+| Code Review        |      No      |      No      |     Yes      |     No      |    No     |  No  |    No    |      No       |     No      |
+| Expert Agents      |      No      |     Yes      |     Yes      |     Yes     |    Yes    | Yes  |    No    |     Yes       |     No      |
+| Task Management    |      No      |     Yes      |      No      |     No      |    No     |  No  |   Yes    |      No       |     No      |
+| Daily Briefing     |      No      |      No      |      No      |     No      |    No     |  No  |   Yes    |      No       |     No      |
+| GitHub Pulse       |      No      |      No      |      No      |     No      |    No     |  No  |   Yes    |      No       |     No      |
+| Idea Mining        |      No      |      No      |      No      |     No      |    No     |  No  |   Yes    |      No       |     No      |
+| CI Automation      |      No      |      No      |      No      |     No      |    No     | Yes  |    No    |      No       |     No      |
+| Project Init       |      No      |      No      |      No      |     Yes     |    No     |  No  |    No    |      No       |     No      |
+| EPIC Automation    |      No      |     Yes      |      No      |     No      |    No     |  No  |    No    |      No       |     No      |
+| Long-Context (1M)  |      No      |      No      |      No      |     No      |    No     |  No  |    No    |     Yes       |     No      |
+| Multimodal Vision  |      No      |      No      |      No      |     No      |    No     |  No  |    No    |     Yes       |     No      |
+| MCP Tools          |      No      |      No      |      No      |     No      |    No     |  No  |    No    |     Yes       |     No      |
+| Browser Automation |      No      |      No      |      No      |     No      |    No     |  No  |    No    |      No       |     Yes     |
+| Web Scraping       |      No      |      No      |      No      |     No      |    No     |  No  |    No    |      No       |     Yes     |
 
 ---
 
