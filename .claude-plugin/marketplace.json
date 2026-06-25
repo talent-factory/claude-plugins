@@ -162,6 +162,25 @@
         "bridge",
         "ai-engineering"
       ]
+    },
+    {
+      "name": "dev-browser",
+      "description": "Browser automation via the Playwright Python API — navigate websites, fill forms, take screenshots, extract web data, test web apps, and automate browser workflows with short, incremental scripts and a persistent session profile",
+      "source": "./plugins/dev-browser",
+      "category": "development",
+      "version": "1.0.0",
+      "tags": [
+        "browser",
+        "automation",
+        "playwright",
+        "python",
+        "scraping",
+        "testing",
+        "screenshots",
+        "web",
+        "forms",
+        "accessibility"
+      ]
     }
   ]
 }
