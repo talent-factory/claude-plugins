@@ -1,8 +1,8 @@
 {
   "name": "core",
-  "version": "3.1.3",
-  "description": "Comprehensive development utilities for plugin/command/agent development, validation, CI automation, text humanization, and PDF-to-Markdown conversion with expert agents",
-  "keywords": ["utilities", "validation", "tools", "development", "ci-automation", "plugin-development", "skill-building", "humanizer", "ai-writing"],
+  "version": "3.2.0",
+  "description": "Comprehensive development utilities for plugin/command/agent development, validation, CI automation, text humanization, PDF-to-Markdown conversion, and the Ponytail minimalism suite (lazy-coding discipline, over-engineering review/audit, debt ledger) with expert agents",
+  "keywords": ["utilities", "validation", "tools", "development", "ci-automation", "plugin-development", "skill-building", "humanizer", "ai-writing", "ponytail", "yagni", "minimalism", "over-engineering", "code-review"],
   "license": "MIT",
   "author": {
     "name": "Talent Factory GmbH",

@@ -2,9 +2,11 @@
 
 Comprehensive development utilities for plugin/command/agent development, validation, CI automation, text humanization, and PDF-to-Markdown conversion.
 
-## Version 3.1.3
+## Version 3.2.0
 
-**New:** Added `pdf-to-markdown` skill for converting PDF documents to Markdown with dual-mode support (fast text extraction or Claude Code vision analysis). Now includes 7 commands, 2 skills, and 2 expert agents.
+**New:** Added the **Ponytail** minimalism suite — four skills enforcing the "laziest solution that actually works" discipline: `ponytail` (always-on YAGNI/stdlib-first coding behaviour), `ponytail-review` (diff review for over-engineering), `ponytail-audit` (repo-wide bloat audit), and `ponytail-debt` (collects deliberate shortcut comments into a debt ledger). Now includes 7 commands, 6 skills, and 2 expert agents.
+
+**Previous (3.1.3):** Added `pdf-to-markdown` skill for converting PDF documents to Markdown with dual-mode support (fast text extraction or Claude Code vision analysis).
 
 ## Commands
 
@@ -279,6 +281,41 @@ brew install poppler  # macOS
 
 [:octicons-arrow-right-24: PDF to Markdown Guide](../guides/pdf-to-markdown.md)
 
+### Ponytail (Minimalism Suite)
+
+A four-skill suite enforcing the "best code is the code never written" discipline. Language-agnostic (Python, Rust, Swift, Java, React, …).
+
+**`ponytail` — lazy-coding behaviour**
+
+Always-on discipline that forces the simplest solution that works, via a seven-rung decision ladder (YAGNI → reuse → stdlib → native platform → installed dependency → one line → minimum code).
+
+- Activation: "ponytail", "be lazy", "lazy mode", "simplest solution", "yagni", or complaints about over-engineering/bloat
+- Intensity levels: `lite`, `full` (default), `ultra` — switch via `/core:ponytail lite|full|ultra`
+- Marks deliberate shortcuts with `ponytail:` comments naming the ceiling and upgrade path
+- Never simplifies away input validation, error handling, security, or accessibility
+
+**`ponytail-review` — over-engineering review (diff)**
+
+Reviews the working diff for removable complexity only. One line per finding with tags `delete:` / `stdlib:` / `native:` / `yagni:` / `shrink:`, ending with `net: -N lines possible.`
+
+- Activation: "review for over-engineering", "what can we delete", `/core:ponytail-review`
+
+**`ponytail-audit` — over-engineering audit (whole repo)**
+
+Same lens as `ponytail-review`, but scans the entire tree and ranks findings biggest-cut-first.
+
+- Activation: "audit this codebase", "find bloat", `/core:ponytail-audit`
+
+**`ponytail-debt` — shortcut debt ledger**
+
+Harvests every `ponytail:` comment into a tracked ledger so deferrals do not silently rot into "later means never". Flags comments with no upgrade trigger.
+
+- Activation: "ponytail debt", "list the shortcuts", `/core:ponytail-debt`
+
+**Based on:** [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail) (MIT License)
+
+**Location:** `skills/ponytail/`, `skills/ponytail-review/`, `skills/ponytail-audit/`, `skills/ponytail-debt/`
+
 ## Installation
 
 This plugin is part of the Talent Factory marketplace.
@@ -312,10 +349,18 @@ core/
 ├── skills/
 │   ├── humanizer/
 │   │   └── SKILL.md
-│   └── pdf-to-markdown/
-│       ├── SKILL.md
-│       └── scripts/
-│           └── pdf_converter.py
+│   ├── pdf-to-markdown/
+│   │   ├── SKILL.md
+│   │   └── scripts/
+│   │       └── pdf_converter.py
+│   ├── ponytail/
+│   │   └── SKILL.md
+│   ├── ponytail-review/
+│   │   └── SKILL.md
+│   ├── ponytail-audit/
+│   │   └── SKILL.md
+│   └── ponytail-debt/
+│       └── SKILL.md
 └── README.md
 ```
 
@@ -525,6 +570,16 @@ intuitive, and powerful user experience."
 - **Solution:** Review error logs carefully
 
 ## Changelog
+
+### Version 3.2.0 (2026-06-25)
+
+**New Features:**
+- Added the **Ponytail** minimalism suite (four skills, adapted from [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail), MIT):
+  - `ponytail` — always-on lazy-coding discipline with the seven-rung decision ladder and `lite`/`full`/`ultra` intensity levels
+  - `ponytail-review` — diff review focused exclusively on over-engineering
+  - `ponytail-audit` — repo-wide over-engineering audit with ranked findings
+  - `ponytail-debt` — collects `ponytail:` shortcut comments into a tracked debt ledger
+- Namespaced all invocation hints to the marketplace (`/core:ponytail*`), repointed the prose-style cross-reference to the `humanizer` skill, and added repo-standard frontmatter (`version`, `allowed-tools`, `license`)
 
 ### Version 3.1.3 (2026-02-27)
 
