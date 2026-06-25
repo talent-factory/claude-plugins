@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **core 3.2.0**: Ponytail minimalism suite — four skills adapted from [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail) (MIT): `ponytail` (always-on lazy-coding discipline with a seven-rung YAGNI/stdlib-first ladder and `lite`/`full`/`ultra` intensity), `ponytail-review` (diff review for over-engineering), `ponytail-audit` (repo-wide bloat audit), and `ponytail-debt` (`ponytail:` shortcut-comment debt ledger); invocation hints namespaced to `/core:ponytail*`, prose cross-reference repointed to the `humanizer` skill, repo-standard frontmatter added
 - **obsidian 1.4.0**: shared validation module (`skills/_shared/scripts/validate.py` + `validation-rules.md`) — deterministic frontmatter, kind/type, dead-link, and asymmetric-link checks used by all wiki skills
 - **obsidian 1.4.0**: write-time validation gate in `wiki-ingest` and `wiki-migrate-file` — malformed pages are blocked with a structured error before any vault write
 - **obsidian 1.4.0**: contradiction propose-and-confirm workflow in `wiki-ingest` — conflicting claims are surfaced for user resolution before the page is committed
