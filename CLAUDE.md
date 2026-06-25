@@ -80,7 +80,7 @@ The repository has no build/compile step. Validation is done via GitHub Actions:
 
 ```bash
 # Validation happens automatically on:
-# - Push to main/develop
+# - Push to main
 # - Pull requests
 # - Manual workflow dispatch
 
@@ -97,21 +97,17 @@ The repository has no build/compile step. Validation is done via GitHub Actions:
 
 ### Branch Workflow
 
+This repository follows **trunk-based development**: `main` is the single long-lived branch and the marketplace's live source. Short-lived branches are merged into `main` via Pull Request. (The former `develop` integration branch was retired in June 2026 — see `CHANGELOG.md`. A dedicated `develop` only pays off with batched, staged releases against a consuming environment, which this marketplace does not have.)
+
 **Important Branch Protection Rules:**
 
-- **main**: Production releases only
-  - Requires 1 approval
-  - All CI checks must pass
+- **main**: Single source of truth (the live marketplace source)
+  - All changes land via Pull Request from a short-lived branch — no direct pushes (enforced by the `branch-protection` workflow)
+  - All CI status checks must pass: `Validate Plugin Structure`, `Validate Documentation`, `Security Scan`, `Test Plugin Loading`, `Validate Pull Request`
   - Linear history enforced
-  - No direct pushes (even for admins)
+  - Solo-maintainer setup (`enforce_admins: false`): the maintainer (dsenften) may approve and merge their own PRs; review is recommended for external contributions
 
-- **develop**: Integration branch
-  - Maintainer (dsenften) can push directly
-  - All other contributors must use PRs
-  - Requires 1 approval for PRs
-  - All CI checks must pass
-
-- **Feature branches**: Use naming convention
+- **Feature branches**: Branch from `main`, merge back to `main`, using the naming convention
   - `feature/description` - New features
   - `fix/description` - Bug fixes
   - `docs/description` - Documentation
@@ -242,7 +238,7 @@ claude --plugin-dir ./plugins/your-plugin
 ## GitHub Actions Workflows
 
 ### validate-plugins.yml
-Runs on: PR/push to main/develop
+Runs on: PR/push to main
 
 Jobs:
 - **validate-structure**: JSON validity, required fields, directory compliance
@@ -252,7 +248,7 @@ Jobs:
 - **summary**: Aggregates results, fails if any validation fails
 
 ### branch-protection.yml
-Runs on: PR to main/develop
+Runs on: PR to main
 
 Validates:
 - Branch naming (must use feature/, fix/, docs/, refactor/)
@@ -302,7 +298,7 @@ Auto-labels PRs based on:
 ## Special Considerations
 
 ### Branch Protection Bypass
-Only the maintainer (dsenften) can push directly to `develop`. This is enforced via GitHub branch protection with `enforce_admins: false` for develop only.
+This is a solo-maintainer setup: `main` uses `enforce_admins: false`, so the maintainer (dsenften) can approve and merge their own PRs (e.g. release PRs). Direct pushes to `main` remain blocked by the `branch-protection` workflow, so every change still flows through a short-lived branch and a PR.
 
 ### Conventional Commits with Emoji
 This project uses emoji prefixes on commit types. The `/git-workflow:commit` command generates these automatically. If committing manually, follow the format in CONTRIBUTING.md.

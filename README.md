@@ -312,10 +312,10 @@ We welcome contributions! Please see our [Contributing Guidelines](./CONTRIBUTIN
 ### Quick Contribution Guide
 
 1. Fork the repository
-2. Create a feature branch
+2. Create a feature branch from `main`
 3. Add/modify plugins
 4. Test locally with `claude --plugin-dir ./plugins/[name]`
-5. Submit a Pull Request
+5. Submit a Pull Request to `main`
 
 ## 📋 Roadmap
 
