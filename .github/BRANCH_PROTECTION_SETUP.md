@@ -13,7 +13,7 @@ The Talent Factory Claude Plugins repository uses branch protection to:
 ### Solo-Maintainer vs. Team Setup
 
 **Solo-Maintainer (Repository Owner only):**
-- ✅ Disable "Do not allow bypassing the above settings" on main/develop
+- ✅ Disable "Do not allow bypassing the above settings" on main
 - ✅ Allows owner to approve and merge own PRs (e.g., release PRs)
 - ✅ Maintains protection against accidental direct pushes
 - ✅ Full flexibility for trusted repository owner
@@ -26,22 +26,17 @@ The Talent Factory Claude Plugins repository uses branch protection to:
 
 ## Branch Strategy
 
+This repository uses **trunk-based development**: `main` is the single long-lived branch. There is no `develop` branch (retired June 2026 — see `CHANGELOG.md`).
+
 ### Main Branch
-- **Purpose:** Stable, production-ready code
-- **Updates:** Only via approved Pull Requests
+- **Purpose:** Stable, production-ready code and the live marketplace source
+- **Updates:** Only via approved Pull Requests from short-lived branches
 - **Releases:** Tagged from this branch
 
-### Develop Branch
-- **Purpose:** Integration branch for ongoing development
-- **Updates:**
-  - Direct commits: Maintainer (Daniel Senften) only
-  - Pull Requests: All other contributors
-- **Merges to Main:** Via Pull Request when ready for release
-
 ### Feature Branches
-- **Naming:** `feature/description`, `fix/description`, etc.
-- **Base:** Always created from `develop`
-- **Merge Target:** Always merge back to `develop`
+- **Naming:** `feature/description`, `fix/description`, `docs/description`, `refactor/description`
+- **Base:** Always created from `main`
+- **Merge Target:** Always merge back to `main`
 
 ## GitHub Branch Protection Settings
 
@@ -101,67 +96,6 @@ main
 **Restrict who can push to matching branches**
 - ✅ Enable
 - Allowed actors: (leave empty - no direct pushes)
-
-**Allow force pushes**
-- ⬜ Disable
-
-**Allow deletions**
-- ⬜ Disable
-
----
-
-### For Develop Branch
-
-Navigate to: **Settings → Branches → Add rule** (or edit existing rule for `develop`)
-
-#### Branch name pattern
-```
-develop
-```
-
-#### Protect matching branches
-
-**Require a pull request before merging**
-- ✅ Enable
-- Required approvals: `1`
-- ✅ Dismiss stale pull request approvals when new commits are pushed
-- ⬜ Require review from Code Owners
-- ⬜ Restrict who can dismiss pull request reviews
-- ⬜ Allow specified actors to bypass required pull requests
-
-**Require status checks to pass before merging**
-- ✅ Enable
-- ✅ Require branches to be up to date before merging
-- Required status checks:
-  - ✅ `Validate Plugin Structure`
-  - ✅ `Validate Documentation`
-  - ✅ `Security Scan`
-  - ✅ `Test Plugin Loading`
-  - ✅ `Validate Pull Request`
-
-**Require conversation resolution before merging**
-- ✅ Enable
-
-**Require signed commits** (optional)
-- ⬜ Enable (based on team preference)
-
-**Require linear history** (optional)
-- ⬜ Enable or Disable (based on preference)
-
-**Lock branch**
-- ⬜ Disable
-
-**Do not allow bypassing the above settings**
-- ⬜ Disable (to allow maintainer direct commits)
-- OR
-- ✅ Enable with exceptions:
-  - Allowed actors: `Daniel Senften` (maintainer username)
-
-**Restrict who can push to matching branches**
-- ✅ Enable
-- Allowed actors:
-  - `@talent-factory/maintainers` (if team exists)
-  - OR individual: `Daniel Senften` (GitHub username)
 
 **Allow force pushes**
 - ⬜ Disable
@@ -298,25 +232,14 @@ Create the following labels for better organization:
 
 After setting up branch protection:
 
-1. **Test as maintainer:**
-   ```bash
-   git checkout develop
-   git commit --allow-empty -m "test: direct commit to develop"
-   git push origin develop
-   ```
-   This should succeed for the maintainer.
+1. **Test direct-push protection:**
+   - Try to push directly to `main` (should fail — blocked by branch protection and the `branch-protection` workflow)
 
 2. **Test PR workflow:**
    - Create a feature branch: `git checkout -b feature/test-branch`
    - Make a change and push
-   - Create a PR to develop
-   - Verify required checks run
-   - Verify approval is required
-
-3. **Test main branch protection:**
-   - Try to push directly to main (should fail)
-   - Create a PR from develop to main
-   - Verify all checks are required
+   - Create a PR to `main`
+   - Verify required checks run before merge is allowed
 
 ## Troubleshooting
 
@@ -325,10 +248,9 @@ After setting up branch protection:
 - Check workflow file syntax
 - Verify workflow triggers include the protected branches
 
-### Can't push to develop as maintainer
-- Check "Restrict who can push" settings
-- Verify your GitHub username is listed in allowed actors
-- Ensure "Do not allow bypassing" has appropriate exceptions
+### Can't merge own PR as solo maintainer
+- Ensure "Do not allow bypassing the above settings" is **disabled** on `main`
+- With `enforce_admins: false`, the repository owner can approve and merge their own PRs
 
 ### PRs blocked incorrectly
 - Check which status check is failing

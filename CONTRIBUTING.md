@@ -179,29 +179,24 @@ Before submitting a PR:
 
 ## 🔒 Branch Protection
 
-**Important:** The `main` and `develop` branches are protected to ensure code quality and maintain a clean history.
+**Important:** This repository uses **trunk-based development** — `main` is the single long-lived branch, protected to ensure code quality and a clean history. All work happens on short-lived branches that merge back into `main` via Pull Request.
 
 ### Branch Access Rules
 
 #### Main Branch
-- **Purpose:** Production-ready code, stable releases
+- **Purpose:** The single source of truth and live marketplace source
 - **Access:** Pull Requests only (no direct commits)
 - **Requirements:**
-  - At least 1 approval from a maintainer
   - All CI/CD checks must pass
-  - Must be up-to-date with base branch
+  - Must be up-to-date with `main`
   - No merge conflicts
-
-#### Develop Branch
-- **Purpose:** Integration branch for ongoing development
-- **Access:**
-  - **Maintainer (Daniel Senften) only:** Direct commits allowed
-  - **All other contributors:** Pull Requests required
-- **Requirements for PRs:**
-  - At least 1 approval from a maintainer
-  - All CI/CD checks must pass
-  - Must be up-to-date with base branch
   - Branch naming convention must be followed
+  - Review recommended; the solo maintainer (Daniel Senften) may self-approve and merge own PRs
+
+#### Feature Branches
+- **Purpose:** All new work — features, fixes, documentation, refactors
+- **Base & target:** Created from `main`, merged back into `main`
+- **Naming:** `feature/`, `fix/`, `docs/`, `refactor/` (see naming convention above)
 
 ### Why These Rules?
 

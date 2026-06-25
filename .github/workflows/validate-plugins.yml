@@ -4,14 +4,12 @@ on:
   pull_request:
     branches:
       - main
-      - develop
     paths:
       - 'plugins/**'
       - '.github/workflows/validate-plugins.yml'
   push:
     branches:
       - main
-      - develop
     paths:
       - 'plugins/**'
       - '.github/workflows/validate-plugins.yml'

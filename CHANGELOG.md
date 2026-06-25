@@ -32,6 +32,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **git-workflow 2.4.0**: `resolve-conflicts` skill — semantic merge conflict resolution with 10-step workflow, test validation, and structured report; activates on "I have merge conflicts"
 - **project-management 2.7.0**: `document-handoff` skill — creates comprehensive pre-compact handoff documentation; activates on "prepare a handoff" or "context is getting too large"
 
+### Changed
+
+- **Repository workflow**: switched to **trunk-based development**. Retired the `develop` integration branch — `main` is now the single long-lived branch and the live marketplace source; all work lands via short-lived branches and Pull Requests to `main`. Updated branch protection, CI triggers (`validate-plugins.yml`, `branch-protection.yml`), `CLAUDE.md`, `CONTRIBUTING.md`, and `.github/BRANCH_PROTECTION_SETUP.md`. Rationale: a dedicated `develop` only pays off with batched, staged releases against a consuming environment, which this marketplace does not have.
+
 ## [1.5.0] - 2026-05-01
 
 ### Added

@@ -4,7 +4,6 @@ on:
   pull_request:
     branches:
       - main
-      - develop
 
 permissions:
   contents: read
@@ -33,8 +32,8 @@ jobs:
 
             console.log(`PR from ${headBranch} to ${baseBranch}`);
 
-            // Validate branch naming for PRs to develop
-            if (baseBranch === 'develop') {
+            // Validate branch naming for PRs to main
+            if (baseBranch === 'main') {
               const validPrefixes = ['feature/', 'fix/', 'docs/', 'refactor/', 'test/', 'chore/'];
               const hasValidPrefix = validPrefixes.some(prefix => headBranch.startsWith(prefix));
 
@@ -58,11 +57,8 @@ jobs:
               }
             }
 
-            // Check for direct commits to protected branches
-            // Exception: Allow develop -> main (release PRs)
-            const isReleasePR = (headBranch === 'develop' && baseBranch === 'main');
-
-            if ((headBranch === 'main' || headBranch === 'develop') && !isReleasePR) {
+            // Block PRs whose head is the protected branch (must use a feature branch)
+            if (headBranch === 'main') {
               core.setFailed(`❌ Direct commits to ${headBranch} are not allowed. Please create a feature branch.`);
             }
 
@@ -197,7 +193,7 @@ jobs:
   require-approval:
     name: Check Approval Requirements
     runs-on: ubuntu-latest
-    if: github.event.pull_request.base.ref == 'main' || github.event.pull_request.base.ref == 'develop'
+    if: github.event.pull_request.base.ref == 'main'
 
     steps:
       - name: Check required approvals
@@ -216,7 +212,7 @@ jobs:
             });
 
             const approvals = reviews.data.filter(review => review.state === 'APPROVED').length;
-            const requiredApprovals = baseBranch === 'main' ? 1 : 1;
+            const requiredApprovals = 1;
 
             if (approvals < requiredApprovals) {
               core.info(`PR requires ${requiredApprovals} approval(s). Currently has ${approvals}.`);
@@ -227,11 +223,11 @@ jobs:
   block-direct-push:
     name: Block Direct Pushes
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop')
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
 
     steps:
       - name: Block direct push
         run: |
-          echo "❌ Direct pushes to main or develop branches are not allowed!"
+          echo "❌ Direct pushes to the main branch are not allowed!"
           echo "Please create a Pull Request instead."
           exit 1
