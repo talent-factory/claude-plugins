@@ -523,16 +523,55 @@ def _tag_list(fm):
     return [str(t) for t in tags] if isinstance(tags, list) else []
 
 
+class _Unsafe(Exception):
+    """This frontmatter cannot be edited surgically without guessing."""
+
+
 def _key_span(lines, key):
-    """[start, end) of `key:` plus its indented continuation lines."""
+    """[start, end) of `key:` plus its indented continuation lines.
+
+    Fails closed rather than guesses on two shapes a line-anchored scan
+    cannot edit safely: a duplicate key (YAML resolves duplicates
+    last-wins, but editing the first match would silently destroy the
+    value that actually takes effect) and a multi-line flow collection
+    whose closing bracket sits at column 0 (`company: [\n  a,\n  b\n]` —
+    the "indented continuation" scan below stops one line short of it,
+    which would leave a dangling `]` in the output). The bracket count is
+    deliberately crude: a false positive refuses a file and reports it,
+    which is the safe direction.
+    """
     pat = re.compile(rf"^{re.escape(key)}\s*:")
-    for i, line in enumerate(lines):
-        if pat.match(line):
-            j = i + 1
-            while j < len(lines) and lines[j][:1] in (" ", "\t"):
-                j += 1
-            return i, j
-    return None
+    hits = [i for i, line in enumerate(lines) if pat.match(line)]
+    if not hits:
+        return None
+    if len(hits) > 1:
+        raise _Unsafe(f"Schluessel {key!r} kommt {len(hits)}x vor")
+    i = hits[0]
+    j = i + 1
+    while j < len(lines) and lines[j][:1] in (" ", "\t"):
+        j += 1
+    block = "\n".join(lines[i:j])
+    if block.count("[") != block.count("]") or block.count("{") != block.count("}"):
+        raise _Unsafe(f"Schluessel {key!r} hat eine unabgeschlossene Flow-Collection")
+    return i, j
+
+
+def _scalar(value):
+    """Render one value so YAML reads it back unchanged.
+
+    An f-string interpolation (`f"  - {s}"`) is not safe: a value like
+    `Firma: Abteilung` or `[[Foo AG]] (ehemals)` breaks the parser, `yes`
+    or `null` silently become booleans/None, and `#tag` becomes a comment
+    (8 real vault files carry `#`-prefixed tags). Let PyYAML do the quoting
+    instead. Whole wikilinks are the one deliberate exception — they stay
+    Obsidian's own double-quote style rather than PyYAML's default single
+    quotes.
+    """
+    s = str(value)
+    if _WHOLE_WIKILINK_RE.match(s.strip()):
+        return f'"{s}"'
+    d = yaml.safe_dump(s, default_flow_style=True, allow_unicode=True, width=10 ** 9)
+    return d.removesuffix("\n").removesuffix("...").strip()
 
 
 def _render_key(key, value):
@@ -540,13 +579,8 @@ def _render_key(key, value):
     if value is None or value == [] or value == "":
         return [f"{key}:"]
     if isinstance(value, list):
-        out = [f"{key}:"]
-        for v in value:
-            s = str(v)
-            out.append(f'  - "{s}"' if _WHOLE_WIKILINK_RE.match(s.strip())
-                       else f"  - {s}")
-        return out
-    return [f"{key}: {value}"]
+        return [f"{key}:"] + [f"  - {_scalar(v)}" for v in value]
+    return [f"{key}: {_scalar(value)}"]
 
 
 def _set_key(lines, key, value):
@@ -557,17 +591,42 @@ def _set_key(lines, key, value):
     return lines[:span[0]] + rendered + lines[span[1]:]
 
 
-def migrate_person(text, alias_map):
+_TOUCHED_KEYS = ("company", "kind", "tags", "company_legacy")
+
+
+def skip_reason(text):
+    """Why this file cannot be migrated, or None when it can.
+
+    Single classifier shared by `migrate_person` (bails when this returns
+    non-None) and `migrate_persons` (records the reason in `skipped`
+    instead of silently dropping the file from every bucket). Also the
+    only place that pre-validates the keys `migrate_person` is about to
+    touch — a file with a duplicate `company:` or a dangling multi-line
+    flow collection must never reach `_set_key`.
+    """
     parts = _fm_parts(text)
     if parts is None:
-        return text, []          # missing or ambiguous delimiters — never write
-    open_, fm_text, close, body = parts
+        return "kein oder mehrdeutig abgegrenztes Frontmatter"
     try:
-        fm = yaml.safe_load(fm_text)
-    except yaml.YAMLError:
-        return text, []          # INVALID — never write
+        fm = yaml.safe_load(parts[1])
+    except yaml.YAMLError as e:
+        return f"YAML nicht lesbar: {type(e).__name__}"
     if not isinstance(fm, dict):
-        return text, []
+        return "Frontmatter ist kein Mapping"
+    lines = parts[1].split("\n")
+    for k in _TOUCHED_KEYS:
+        try:
+            _key_span(lines, k)
+        except _Unsafe as e:
+            return str(e)
+    return None
+
+
+def migrate_person(text, alias_map):
+    if skip_reason(text) is not None:
+        return text, []          # unsafe to edit surgically — never write
+    open_, fm_text, close, body = _fm_parts(text)
+    fm = yaml.safe_load(fm_text)
     changes = []
     raw = company_values(fm)
     resolved, legacy = [], []
@@ -631,10 +690,12 @@ def migrate_persons(vault_root, alias_map, dry_run=True):
         # operator without a manifest of what was already written.
         try:
             text = p.read_text(encoding="utf-8")
+            reason = skip_reason(text)
+            if reason is not None:
+                skipped.append({"file": str(p), "reason": reason})
+                continue
             new, changes = migrate_person(text, alias_map)
             if not changes:
-                if _fm_parts(text) is None:
-                    skipped.append(str(p))
                 continue
             touched.append({"file": str(p), "changes": changes})
             if not dry_run:

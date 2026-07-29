@@ -2,6 +2,8 @@ import json
 import sys
 from pathlib import Path
 
+import yaml
+
 sys.path.insert(0, str(Path(__file__).parent))
 import contacts as c
 
@@ -442,3 +444,57 @@ def test_load_alias_map_rejects_choose_marker(tmp_path):
         assert "schneeberger" in str(e)
     else:
         raise AssertionError("expected ValueError")
+
+
+def test_render_key_quotes_yaml_significant_values():
+    # An f-string interpolation is not safe here: each of these breaks the
+    # parser, silently becomes a different type, or (the `#`-prefixed one)
+    # turns into a YAML comment — see contacts.py's _scalar docstring.
+    hostile = [
+        "Firma: Abteilung",
+        "[[Foo AG]] (ehemals)",
+        "#inf-p-se017",
+        "yes",
+        "null",
+        "*star",
+        "- dash",
+        "{a}",
+    ]
+    for v in hostile:
+        rendered = c._render_key("company_legacy", [v])[1].removeprefix("  - ")
+        assert yaml.safe_load(rendered) == v, f"{v!r} round-tripped to something else"
+
+
+def test_key_span_refuses_duplicate_key():
+    # YAML resolves duplicate keys last-wins; editing the first match would
+    # silently destroy the value that actually takes effect.
+    lines = ["company: slug-a", "other: x", "company: slug-b"]
+    try:
+        c._key_span(lines, "company")
+    except c._Unsafe as e:
+        assert "company" in str(e)
+    else:
+        raise AssertionError("expected _Unsafe")
+
+
+def test_key_span_refuses_dangling_flow_collection():
+    # The column-0 closing `]` of a multi-line flow collection is not an
+    # indented continuation line, so the span scan stops one line short —
+    # editing this would leave a dangling `]` behind and break the YAML.
+    lines = ["company: [", "  a,", "  b", "]"]
+    try:
+        c._key_span(lines, "company")
+    except c._Unsafe as e:
+        assert "company" in str(e)
+    else:
+        raise AssertionError("expected _Unsafe")
+
+
+def test_skip_reason_reports_broken_yaml_not_silence():
+    # Round 1's classifier (parse_frontmatter in (None, "INVALID")) caught
+    # this; the surgical rewrite's migrate_persons must not let a file with
+    # valid delimiters but broken YAML fall through touched and skipped both.
+    text = "---\nkind: : :\n bad\n---\nx"
+    reason = c.skip_reason(text)
+    assert reason is not None
+    assert "YAML" in reason
