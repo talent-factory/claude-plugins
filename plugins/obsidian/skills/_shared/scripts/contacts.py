@@ -109,3 +109,91 @@ def build_index(vault_root):
         "persons": persons,
         "company_records": company_records,
     }
+
+
+def _topic_values(fm):
+    if not isinstance(fm, dict):
+        return []
+    raw = fm.get("topics")
+    if raw is None:
+        return []
+    items = raw if isinstance(raw, list) else [raw]
+    return [str(x).strip() for x in items if str(x).strip()]
+
+
+@register("frontmatter")
+def check_frontmatter(index):
+    findings = []
+    for rec in index["persons"]:
+        fm = rec["fm"]
+        if fm is None or fm == "INVALID":
+            findings.append({
+                "file": rec["path"], "severity": "critical", "rule": "frontmatter",
+                "message": "fehlendes oder defektes YAML-Frontmatter",
+                "autofixable": False,
+            })
+            continue
+        tags = fm.get("tags") or []
+        if isinstance(tags, str):
+            tags = [tags]
+        if "person" not in tags:
+            findings.append({
+                "file": rec["path"], "severity": "minor", "rule": "frontmatter",
+                "message": "tags enthaelt kein 'person'", "autofixable": True,
+            })
+        kind = fm.get("kind")
+        if kind not in KINDS:
+            findings.append({
+                "file": rec["path"], "severity": "minor", "rule": "frontmatter",
+                "message": f"kind fehlt oder ungueltig: {kind!r} (erlaubt: {sorted(KINDS)})",
+                "autofixable": True,
+            })
+        if "company" in fm and fm["company"] is not None \
+                and not isinstance(fm["company"], list):
+            findings.append({
+                "file": rec["path"], "severity": "minor", "rule": "frontmatter",
+                "message": "company muss eine Liste sein", "autofixable": True,
+            })
+    return findings
+
+
+@register("slug-drift")
+def check_slug_drift(index):
+    findings = []
+    for rec in index["persons"]:
+        for v in company_values(rec["fm"]):
+            if not is_wikilink(v):
+                findings.append({
+                    "file": rec["path"], "severity": "minor", "rule": "slug-drift",
+                    "message": f"company als Freitext statt Wikilink: {v!r}",
+                    "autofixable": True,
+                })
+    return findings
+
+
+@register("deadlinks")
+def check_deadlinks(index):
+    findings = []
+    known_companies = set(index["companies"])
+    for rec in index["persons"]:
+        for v in company_values(rec["fm"]):
+            if not is_wikilink(v):
+                continue
+            target = normalize_ref(v)
+            if target not in known_companies:
+                findings.append({
+                    "file": rec["path"], "severity": "critical", "rule": "deadlinks",
+                    "message": f"company zeigt ins Leere: [[{target}]]",
+                    "autofixable": False,
+                })
+        for v in _topic_values(rec["fm"]):
+            if not is_wikilink(v):
+                continue
+            target = normalize_ref(v)
+            if target not in index["wiki"]:
+                findings.append({
+                    "file": rec["path"], "severity": "critical", "rule": "deadlinks",
+                    "message": f"topics zeigt ins Leere: [[{target}]]",
+                    "autofixable": False,
+                })
+    return findings
