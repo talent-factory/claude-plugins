@@ -379,6 +379,10 @@ def main(argv=None):
     parser.add_argument("--vault-root", required=True)
     parser.add_argument("--rules", default=",".join(CHECKS.keys()))
     parser.add_argument("--propose-aliases", action="store_true")
+    parser.add_argument("--migrate", action="store_true")
+    parser.add_argument("--alias-map", default=None)
+    parser.add_argument("--apply", action="store_true",
+                        help="write changes; without it the migration is a dry run")
     parser.add_argument("--format", default="json", choices=["json"])
     args = parser.parse_args(argv)
     if yaml is None:
@@ -395,10 +399,141 @@ def main(argv=None):
         proposal = propose_aliases(root)
         print(yaml.safe_dump(proposal, allow_unicode=True, sort_keys=True))
         return 0
+    if args.migrate:
+        if not args.alias_map:
+            print(json.dumps({"error": "--migrate requires --alias-map"}))
+            return 2
+        try:
+            amap = load_alias_map(Path(args.alias_map))
+        except ValueError as e:
+            print(json.dumps({"error": str(e)}))
+            return 2
+        result = migrate_persons(Path(args.vault_root), amap,
+                                 dry_run=not args.apply)
+        print(json.dumps(result, indent=2, ensure_ascii=False))
+        return 0
     rules = [r.strip() for r in args.rules.split(",") if r.strip()]
     findings = run(Path(args.vault_root), rules)
     print(json.dumps([{**f, "file": str(f["file"])} for f in findings], indent=2))
     return 1 if any(f["severity"] == "critical" for f in findings) else 0
+
+
+def load_alias_map(path):
+    data = yaml.safe_load(Path(path).read_text(encoding="utf-8")) or {}
+    out = {}
+    for slug, entry in data.items():
+        target = entry.get("target") if isinstance(entry, dict) else entry
+        if target is None:
+            continue
+        if str(target).startswith("CHOOSE:"):
+            raise ValueError(
+                f"unaufgeloester CHOOSE-Marker fuer Slug {slug!r} — "
+                "bitte in der Alias-Map entscheiden")
+        out[slug] = str(target)
+    return out
+
+
+def infer_kind(fm):
+    has_company = bool(company_values(fm))
+    has_school = any(fm.get(k) for k in ("school", "module", "class"))
+    if has_company and has_school:
+        return "alumni"
+    if has_company:
+        return "contact"
+    if has_school:
+        return "student"
+    return "contact"
+
+
+class _ObsidianDumper(yaml.SafeDumper):
+    """Obsidian indents list items by two spaces; PyYAML flushes them left.
+
+    Without this, migrating rewrites the frontmatter formatting of 1111 of
+    1257 person files, burying the 400 real changes in whitespace churn.
+    """
+    def increase_indent(self, flow=False, indentless=False):
+        return super().increase_indent(flow, False)
+
+
+def _empty_none(dumper, _value):
+    # `company:` reads as empty in Obsidian's property editor.
+    # `company: null` shows the user the literal word "null".
+    return dumper.represent_scalar("tag:yaml.org,2002:null", "")
+
+
+_ObsidianDumper.add_representer(type(None), _empty_none)
+
+
+def _represent_str(dumper, value):
+    # PyYAML's default style for strings needing quotes (e.g. "[[Foo]]",
+    # which starts with a flow-sequence indicator) is single quotes.
+    # Obsidian's own writer always double-quotes wikilinks, so a plain
+    # `yaml.safe_dump` migration would reformat every quoted value on the
+    # very first pass — a spurious diff on top of the real change. Forcing
+    # double quotes for wikilink-shaped values keeps that quiet.
+    style = '"' if is_wikilink(value) else None
+    return dumper.represent_scalar("tag:yaml.org,2002:str", value, style=style)
+
+
+_ObsidianDumper.add_representer(str, _represent_str)
+
+
+def _render_fm(fm):
+    return yaml.dump(fm, Dumper=_ObsidianDumper, allow_unicode=True,
+                     sort_keys=False, default_flow_style=False).rstrip("\n")
+
+
+def migrate_person(text, alias_map):
+    fm, body = parse_frontmatter(text)
+    if not isinstance(fm, dict):
+        return text, []          # missing or INVALID — never write
+    changes = []
+    raw = company_values(fm)
+    resolved, legacy = [], []
+    for v in raw:
+        if is_wikilink(v):
+            resolved.append(v)
+            continue
+        target = alias_map.get(v)
+        if target:
+            resolved.append(f"[[{target}]]")
+            changes.append(f"company {v!r} -> [[{target}]]")
+        else:
+            legacy.append(v)
+            changes.append(f"company {v!r} unaufloesbar -> company_legacy")
+    if raw or "company" in fm:
+        fm["company"] = resolved
+    if legacy:
+        fm["company_legacy"] = ", ".join(legacy)
+    if fm.get("kind") not in KINDS:
+        fm["kind"] = infer_kind(fm)   # after company is set — order matters
+        changes.append(f"kind -> {fm['kind']}")
+    tags = fm.get("tags") or []
+    if isinstance(tags, str):
+        tags = [tags]
+    if "person" not in tags:
+        tags = list(tags) + ["person"]
+        fm["tags"] = tags
+        changes.append("tags += person")
+    if not changes:
+        return text, []
+    return f"---\n{_render_fm(fm)}\n---{body}", changes
+
+
+def migrate_persons(vault_root, alias_map, dry_run=True):
+    vault_root = Path(vault_root)
+    touched, skipped = [], []
+    for p in sorted((vault_root / PERSONS_DIR).glob("*.md")):
+        text = p.read_text(encoding="utf-8")
+        new, changes = migrate_person(text, alias_map)
+        if not changes:
+            if parse_frontmatter(text)[0] in (None, "INVALID"):
+                skipped.append(str(p))
+            continue
+        touched.append({"file": str(p), "changes": changes})
+        if not dry_run:
+            p.write_text(new, encoding="utf-8")
+    return {"touched": touched, "skipped": skipped, "dry_run": dry_run}
 
 
 if __name__ == "__main__":

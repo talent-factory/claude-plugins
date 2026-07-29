@@ -283,3 +283,83 @@ def test_propose_aliases_marks_match_kind():
     p = c.propose_aliases(FIXTURE)
     assert p["bedag"]["match"] == "exact"          # BEDAG declares slug: bedag
     assert p["gibtesnicht"]["match"] == "none"
+
+
+PERSON_OLD = (
+    "---\ntags:\n  - person\ncompany: bedag\nrole: Berater\n---\n\nText.\n"
+)
+ALIAS = {"bedag": "BEDAG Informatik AG"}
+
+
+def test_migrate_person_converts_slug_to_wikilink_list():
+    out, changes = c.migrate_person(PERSON_OLD, ALIAS)
+    assert 'company:\n  - "[[BEDAG Informatik AG]]"' in out
+    assert changes
+
+
+def test_migrate_person_sets_kind_contact_when_company_present():
+    out, _ = c.migrate_person(PERSON_OLD, ALIAS)
+    assert "kind: contact" in out
+
+
+def test_migrate_person_is_idempotent():
+    once, _ = c.migrate_person(PERSON_OLD, ALIAS)
+    twice, changes = c.migrate_person(once, ALIAS)
+    assert once == twice
+    assert changes == []
+
+
+def test_migrate_person_preserves_body_and_other_fields():
+    out, _ = c.migrate_person(PERSON_OLD, ALIAS)
+    assert out.rstrip().endswith("Text.")
+    assert "role: Berater" in out
+
+
+def test_render_fm_keeps_obsidian_list_indent():
+    assert c._render_fm({"tags": ["person", "x"]}) == "tags:\n  - person\n  - x"
+
+
+def test_render_fm_writes_empty_not_null():
+    # Obsidian's property editor shows the literal word "null" otherwise.
+    assert c._render_fm({"company": None}) == "company:"
+
+
+def test_migrate_person_keeps_unresolved_slug_as_legacy():
+    text = "---\ntags:\n  - person\ncompany: gibtesnicht\n---\n\nX.\n"
+    out, _ = c.migrate_person(text, ALIAS)
+    assert "company_legacy: gibtesnicht" in out
+    assert "company: []" in out
+
+
+def test_migrate_person_skips_invalid_yaml():
+    text = "---\nkind: : :\n bad\n---\nx"
+    out, changes = c.migrate_person(text, ALIAS)
+    assert out == text
+    assert changes == []
+
+
+def test_migrate_person_skips_missing_frontmatter():
+    text = "Kein Frontmatter hier.\n"
+    out, changes = c.migrate_person(text, ALIAS)
+    assert out == text
+    assert changes == []
+
+
+def test_infer_kind_student_from_module():
+    assert c.infer_kind({"module": ["hf-2024a-os"]}) == "student"
+
+
+def test_infer_kind_alumni_when_both():
+    fm = {"module": ["hf-2024a-os"], "company": ["[[BEDAG Informatik AG]]"]}
+    assert c.infer_kind(fm) == "alumni"
+
+
+def test_load_alias_map_rejects_choose_marker(tmp_path):
+    p = tmp_path / "a.yaml"
+    p.write_text("schneeberger:\n  count: 3\n  target: 'CHOOSE: A | B'\n")
+    try:
+        c.load_alias_map(p)
+    except ValueError as e:
+        assert "schneeberger" in str(e)
+    else:
+        raise AssertionError("expected ValueError")
