@@ -200,3 +200,122 @@ def check_deadlinks(index):
                     "autofixable": False,
                 })
     return findings
+
+
+COMPANY_PREDICATE_RE = re.compile(
+    r'contains\(\s*company\s*,\s*"[^"]*"\s*\)|company\s*=\s*"[^"]*"'
+)
+CANONICAL_PREDICATE = "contains(company, this.file.link)"
+_BLOCK_RE = re.compile(r"```([a-zA-Z0-9_-]*)\n(.*?)```", re.DOTALL)
+
+
+def code_blocks(text):
+    return [(m.group(1), m.group(2), m.start(), m.end())
+            for m in _BLOCK_RE.finditer(text or "")]
+
+
+@register("query-drift")
+def check_query_drift(index):
+    findings = []
+    for rec in index["company_records"]:
+        for lang, body, _s, _e in code_blocks(rec["text"]):
+            if lang not in ("dataview", "base"):
+                continue
+            if COMPANY_PREDICATE_RE.search(body):
+                if CANONICAL_PREDICATE in body:
+                    continue
+                findings.append({
+                    "file": rec["path"], "severity": "minor", "rule": "query-drift",
+                    "message": "Query nutzt hartkodierten Slug statt this.file.link",
+                    "autofixable": lang == "dataview",
+                })
+            elif "this.file.link" not in body and "company" not in body:
+                findings.append({
+                    "file": rec["path"], "severity": "minor", "rule": "query-drift",
+                    "message": "Query filtert nicht ueber company — manuelle Pruefung noetig",
+                    "autofixable": False,
+                })
+    return findings
+
+
+@register("orphan-company")
+def check_orphan_company(index):
+    linked = set()
+    for rec in index["persons"]:
+        for v in company_values(rec["fm"]):
+            if is_wikilink(v):
+                linked.add(normalize_slug(normalize_ref(v)))
+    findings = []
+    for stem, path in index["companies"].items():
+        # a person may link the canonical name or any registered alias —
+        # same rule as check_deadlinks
+        keys = {normalize_slug(stem)}
+        keys |= {k for k, stems in index["company_norm"].items() if stem in stems}
+        if not (keys & linked):
+            findings.append({
+                "file": path, "severity": "minor", "rule": "orphan-company",
+                "message": "keine Person verweist auf diese Firma",
+                "autofixable": False,
+            })
+    return findings
+
+
+@register("dupes")
+def check_dupes(index):
+    by_email = {}
+    by_name = {}
+    for rec in index["persons"]:
+        fm = rec["fm"]
+        if isinstance(fm, dict) and fm.get("email"):
+            by_email.setdefault(str(fm["email"]).strip().lower(), []).append(rec["path"])
+        base = re.sub(r"\s*\(\d+\)$", "", rec["path"].stem)
+        by_name.setdefault(normalize_slug(base), []).append(rec["path"])
+    findings = []
+    for email, paths in sorted(by_email.items()):
+        if len(paths) > 1:
+            others = ", ".join(sorted(p.stem for p in paths))
+            for p in paths:
+                findings.append({
+                    "file": p, "severity": "minor", "rule": "dupes",
+                    "message": f"gleiche E-Mail {email} auf: {others}",
+                    "autofixable": False,
+                })
+    for _norm, paths in sorted(by_name.items()):
+        if len(paths) > 1:
+            others = ", ".join(sorted(p.stem for p in paths))
+            for p in paths:
+                findings.append({
+                    "file": p, "severity": "minor", "rule": "dupes",
+                    "message": f"Namensdublette: {others}", "autofixable": False,
+                })
+    return findings
+
+
+def run(vault_root, rules):
+    index = build_index(vault_root)
+    findings = []
+    for name in rules:
+        fn = CHECKS.get(name)
+        if fn:
+            findings.extend(fn(index))
+    return findings
+
+
+def main(argv=None):
+    parser = argparse.ArgumentParser(
+        description="Validate and migrate Obsidian contact/company links.")
+    parser.add_argument("--vault-root", required=True)
+    parser.add_argument("--rules", default=",".join(CHECKS.keys()))
+    parser.add_argument("--format", default="json", choices=["json"])
+    args = parser.parse_args(argv)
+    if yaml is None:
+        print(json.dumps({"error": "PyYAML not installed", "fallback": "prose"}))
+        return 2
+    rules = [r.strip() for r in args.rules.split(",") if r.strip()]
+    findings = run(Path(args.vault_root), rules)
+    print(json.dumps([{**f, "file": str(f["file"])} for f in findings], indent=2))
+    return 1 if any(f["severity"] == "critical" for f in findings) else 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
