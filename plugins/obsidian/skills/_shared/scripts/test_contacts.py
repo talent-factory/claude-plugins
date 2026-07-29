@@ -225,9 +225,12 @@ def test_main_exits_1_on_critical(capsys):
 
 
 def test_propose_aliases_resolves_exact_slug():
+    # Bruno Altfall and Frieda Doppelslug both carry "bedag" — without a
+    # second person the count assertion below survives the mutant
+    # `counts[v] = 1`.
     p = c.propose_aliases(FIXTURE)
     assert p["bedag"]["target"] == "BEDAG Informatik AG"
-    assert p["bedag"]["count"] == 1
+    assert p["bedag"]["count"] == 2
 
 
 def test_propose_aliases_marks_ambiguous_with_choose():
@@ -243,12 +246,40 @@ def test_propose_aliases_leaves_unresolved_empty():
 
 
 def test_propose_aliases_never_substring_matches():
-    # "bsi" darf nicht auf "AI21 Labs Inc." abbilden (labsinc enthaelt bsi)
+    # The one hard rule. Inject into BOTH structures, so the first-word path
+    # is exercised too — 78 of 91 real resolutions come through it, and a
+    # test that only touches company_norm leaves that path unguarded.
     idx = c.build_index(FIXTURE)
+    idx["companies"]["AI21 Labs Inc."] = None
     idx["company_norm"].setdefault("ai21labsinc", []).append("AI21 Labs Inc.")
-    assert c._resolve_slug("bsi", idx) == []
+    assert c._resolve_slug("bsi", idx) == []      # substring of the norm key
+    assert c._resolve_slug("labs", idx) == []     # substring of stem, not first word
+    assert c._resolve_slug("ai2", idx) == []       # prefix of the first word
+    assert c._resolve_slug("ai21", idx) == ["AI21 Labs Inc."]   # first word, exact
 
 
 def test_propose_aliases_skips_already_migrated():
+    # A wholly-migrated value must not surface under its bracketed key. The
+    # mixed value from Finding 4 ("Bedag [[Foo]]") is the sole exception —
+    # it is not wholly a wikilink and must still be reported.
     p = c.propose_aliases(FIXTURE)
-    assert "BEDAG Informatik AG" not in p
+    assert [k for k in p if "[[" in k] == ["Bedag [[Foo]]"]
+
+
+def test_propose_aliases_keeps_mixed_value_with_wikilink():
+    # "Bedag [[Foo]]" is not a migrated value; it must not vanish silently.
+    p = c.propose_aliases(FIXTURE)
+    assert "Bedag [[Foo]]" in p
+
+
+def test_first_token_keeps_hyphenated_names_whole():
+    idx = c.build_index(FIXTURE)
+    idx["companies"]["T-Systems Schweiz AG"] = None
+    assert c._resolve_slug("t-systems", idx) == ["T-Systems Schweiz AG"]
+    assert c._resolve_slug("t", idx) == []
+
+
+def test_propose_aliases_marks_match_kind():
+    p = c.propose_aliases(FIXTURE)
+    assert p["bedag"]["match"] == "exact"          # BEDAG declares slug: bedag
+    assert p["gibtesnicht"]["match"] == "none"

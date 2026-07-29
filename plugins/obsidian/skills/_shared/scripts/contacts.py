@@ -307,7 +307,9 @@ def check_dupes(index):
 
 
 def _first_token(stem):
-    parts = [p for p in re.split(r"[\s,&\-]+", stem) if p]
+    # Hyphens stay inside the first word: splitting on them would make
+    # "T-Systems Schweiz AG" reachable only by the slug "t".
+    parts = [p for p in re.split(r"[\s,&]+", stem) if p]
     return normalize_slug(parts[0]) if parts else ""
 
 
@@ -326,24 +328,38 @@ def _resolve_slug(slug, index):
     return sorted({stem for stem in index["companies"] if _first_token(stem) == ns})
 
 
+_WHOLE_WIKILINK_RE = re.compile(r"^\[\[[^\]]+\]\]$")
+
+
 def propose_aliases(vault_root):
     index = build_index(vault_root)
     counts = {}
     for rec in index["persons"]:
         for v in company_values(rec["fm"]):
-            if is_wikilink(v):
+            if _WHOLE_WIKILINK_RE.match(v.strip()):
                 continue
             counts[v] = counts.get(v, 0) + 1
     out = {}
     for slug, n in sorted(counts.items()):
         cands = _resolve_slug(slug, index)
+        exact = bool(index["company_norm"].get(normalize_slug(slug)))
         if len(cands) == 1:
             target = cands[0]
         elif len(cands) > 1:
             target = "CHOOSE: " + " | ".join(cands)
         else:
             target = None
-        out[slug] = {"count": n, "target": target, "candidates": cands}
+        # "match" lets the human triage: an "exact" hit is a declared
+        # identifier (stem/slug/alias), while "first-word" is a heuristic —
+        # e.g. the slug "inetum" resolves to "Inetum Polska sp. z o.o." for
+        # ten Swiss contacts, which is plausible but not verified identity.
+        # candidates, not target, stays authoritative for the human review.
+        out[slug] = {
+            "count": n,
+            "target": target,
+            "candidates": cands,
+            "match": "exact" if exact else ("first-word" if cands else "none"),
+        }
     return out
 
 
@@ -369,7 +385,14 @@ def main(argv=None):
         print(json.dumps({"error": "PyYAML not installed", "fallback": "prose"}))
         return 2
     if args.propose_aliases:
-        proposal = propose_aliases(Path(args.vault_root))
+        root = Path(args.vault_root)
+        # A mistyped --vault-root would otherwise yield an empty proposal and
+        # exit 0 — a silent green light for a 550-file migration.
+        missing = [d for d in (PERSONS_DIR, COMPANIES_DIR) if not (root / d).is_dir()]
+        if missing:
+            print(json.dumps({"error": f"vault-root fehlt: {', '.join(missing)}"}))
+            return 2
+        proposal = propose_aliases(root)
         print(yaml.safe_dump(proposal, allow_unicode=True, sort_keys=True))
         return 0
     rules = [r.strip() for r in args.rules.split(",") if r.strip()]
