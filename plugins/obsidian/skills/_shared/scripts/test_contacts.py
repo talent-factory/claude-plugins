@@ -150,6 +150,34 @@ def test_query_drift_flags_tag_only_query_as_manual():
     assert hits[0]["autofixable"] is False
 
 
+def _index_with_company_body(body):
+    # Minimal synthetic index — check_query_drift only reads
+    # company_records[i]["path"] and ["text"], never touches disk.
+    text = f"```dataview\ntable role\n\twhere {body}\n```\n"
+    return {"company_records": [{"path": Path("Synthetic AG.md"), "text": text}]}
+
+
+def test_query_drift_negated_predicate_is_not_autofixable():
+    idx = _index_with_company_body('!contains(company, "waisen")')
+    out = c.check_query_drift(idx)
+    assert len(out) == 1
+    assert out[0]["autofixable"] is False
+    assert "nicht umschreibbarer Form" in out[0]["message"]
+
+
+def test_query_drift_comparison_operator_is_reported_not_dropped():
+    idx = _index_with_company_body('company != "waisen"')
+    out = c.check_query_drift(idx)
+    assert len(out) == 1
+    assert out[0]["autofixable"] is False
+
+
+def test_query_drift_canonical_predicate_is_clean():
+    idx = _index_with_company_body(c.CANONICAL_PREDICATE)
+    out = c.check_query_drift(idx)
+    assert out == []
+
+
 def test_orphan_company_flags_company_without_person():
     idx = c.build_index(FIXTURE)
     out = c.CHECKS["orphan-company"](idx)

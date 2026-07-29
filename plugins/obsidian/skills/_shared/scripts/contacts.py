@@ -202,8 +202,10 @@ def check_deadlinks(index):
     return findings
 
 
+# The negative lookbehind keeps `!contains(company, "x")` out: rewriting a
+# negated predicate to the canonical form would invert the query's meaning.
 COMPANY_PREDICATE_RE = re.compile(
-    r'contains\(\s*company\s*,\s*"[^"]*"\s*\)|company\s*=\s*"[^"]*"'
+    r'(?<!!)contains\(\s*company\s*,\s*"[^"]*"\s*\)|company\s*=\s*"[^"]*"'
 )
 CANONICAL_PREDICATE = "contains(company, this.file.link)"
 _BLOCK_RE = re.compile(r"```([a-zA-Z0-9_-]*)\n(.*?)```", re.DOTALL)
@@ -221,15 +223,24 @@ def check_query_drift(index):
         for lang, body, _s, _e in code_blocks(rec["text"]):
             if lang not in ("dataview", "base"):
                 continue
+            if CANONICAL_PREDICATE in body:
+                continue                      # already migrated
             if COMPANY_PREDICATE_RE.search(body):
-                if CANONICAL_PREDICATE in body:
-                    continue
                 findings.append({
                     "file": rec["path"], "severity": "minor", "rule": "query-drift",
                     "message": "Query nutzt hartkodierten Slug statt this.file.link",
                     "autofixable": lang == "dataview",
                 })
-            elif "this.file.link" not in body and "company" not in body:
+            elif "company" in body:
+                # mentions company in a form we will not rewrite (negated,
+                # !=, startsWith). Report it — never drop it silently.
+                findings.append({
+                    "file": rec["path"], "severity": "minor", "rule": "query-drift",
+                    "message": "company-Praedikat in nicht umschreibbarer Form — "
+                               "manuelle Pruefung noetig",
+                    "autofixable": False,
+                })
+            else:
                 findings.append({
                     "file": rec["path"], "severity": "minor", "rule": "query-drift",
                     "message": "Query filtert nicht ueber company — manuelle Pruefung noetig",
