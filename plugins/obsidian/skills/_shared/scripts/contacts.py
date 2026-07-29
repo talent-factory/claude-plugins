@@ -180,7 +180,10 @@ def check_deadlinks(index):
             if not is_wikilink(v):
                 continue
             target = normalize_ref(v)
-            if target not in known_companies:
+            # Obsidian resolves [[Bedag]] through the company's `aliases:`
+            # front matter, so an alias link is valid, not dead.
+            if (target not in known_companies
+                    and normalize_slug(target) not in index["company_norm"]):
                 findings.append({
                     "file": rec["path"], "severity": "critical", "rule": "deadlinks",
                     "message": f"company zeigt ins Leere: [[{target}]]",

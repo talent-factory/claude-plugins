@@ -51,7 +51,8 @@ def test_build_index_finds_companies_persons_and_wiki():
     idx = c.build_index(FIXTURE)
     assert "BEDAG Informatik AG" in idx["companies"]
     assert "Coding-Agents" in idx["wiki"]
-    assert len(idx["persons"]) == 3
+    # membership, not an exact count — later tasks add more person fixtures
+    assert {r["path"].stem for r in idx["persons"]} >= {"Anna Beispiel"}
 
 
 def test_build_index_maps_slug_and_alias_to_company():
@@ -110,3 +111,10 @@ def test_deadlinks_clean_for_valid_person():
     idx = c.build_index(FIXTURE)
     out = c.CHECKS["deadlinks"](idx)
     assert not [f for f in out if f["file"].stem == "Anna Beispiel"]
+
+
+def test_deadlinks_accepts_alias_link():
+    # Obsidian resolves [[Bedag]] via the company's `aliases:` front matter.
+    idx = c.build_index(FIXTURE)
+    out = c.CHECKS["deadlinks"](idx)
+    assert not [f for f in out if f["file"].stem == "Dora Aliaslink"]
