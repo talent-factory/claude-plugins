@@ -8,6 +8,7 @@ a JSON error so the calling skill can fall back to prose rules.
 """
 import argparse
 import json
+import os
 import re
 import sys
 from pathlib import Path
@@ -16,7 +17,6 @@ sys.path.insert(0, str(Path(__file__).parent))
 from validate import (  # noqa: E402  reuse — do not duplicate
     load_record,
     normalize_ref,
-    parse_frontmatter,
     strip_code,
 )
 
@@ -403,10 +403,17 @@ def main(argv=None):
         if not args.alias_map:
             print(json.dumps({"error": "--migrate requires --alias-map"}))
             return 2
+        root = Path(args.vault_root)
+        # Same guard as --propose-aliases. It matters more here: this is the
+        # branch that writes.
+        missing = [d for d in (PERSONS_DIR, COMPANIES_DIR) if not (root / d).is_dir()]
+        if missing:
+            print(json.dumps({"error": f"vault-root fehlt: {', '.join(missing)}"}))
+            return 2
         try:
             amap = load_alias_map(Path(args.alias_map))
-        except ValueError as e:
-            print(json.dumps({"error": str(e)}))
+        except (ValueError, OSError, yaml.YAMLError, AttributeError) as e:
+            print(json.dumps({"error": f"{type(e).__name__}: {e}"}))
             return 2
         result = migrate_persons(Path(args.vault_root), amap,
                                  dry_run=not args.apply)
@@ -420,21 +427,42 @@ def main(argv=None):
 
 def load_alias_map(path):
     data = yaml.safe_load(Path(path).read_text(encoding="utf-8")) or {}
+    if not isinstance(data, dict):
+        raise ValueError("Alias-Map muss ein Mapping sein")
     out = {}
     for slug, entry in data.items():
         target = entry.get("target") if isinstance(entry, dict) else entry
         if target is None:
             continue
-        if str(target).startswith("CHOOSE:"):
+        if not isinstance(target, str) or not target.strip():
+            raise ValueError(f"target fuer Slug {slug!r} ist kein Text: {target!r}")
+        t = target.strip()
+        # Tolerant on purpose: a human deleting only the "CHOOSE: " prefix but
+        # leaving both candidates would otherwise create the dead link
+        # [[A AG | B AG]] on every affected person.
+        if t.upper().startswith("CHOOSE"):
             raise ValueError(
                 f"unaufgeloester CHOOSE-Marker fuer Slug {slug!r} — "
                 "bitte in der Alias-Map entscheiden")
-        out[slug] = str(target)
+        if "|" in t:
+            raise ValueError(
+                f"target fuer Slug {slug!r} enthaelt '|': {t!r} — "
+                "sieht nach zwei nicht entschiedenen Kandidaten aus")
+        out[str(slug)] = t
     return out
 
 
-def infer_kind(fm):
-    has_company = bool(company_values(fm))
+def infer_kind(fm, has_company=None):
+    """`has_company` must reflect the state BEFORE migration.
+
+    Deriving it from `fm` after the company field was emptied misclassifies
+    everyone whose slug the alias map could not resolve: they lose their
+    company, so they look like a pure student. And the mistake is sticky —
+    `kind` is then valid, so a later run with a better alias map never
+    revisits it.
+    """
+    if has_company is None:
+        has_company = bool(company_values(fm))
     has_school = any(fm.get(k) for k in ("school", "module", "class"))
     if has_company and has_school:
         return "alumni"
@@ -445,53 +473,106 @@ def infer_kind(fm):
     return "contact"
 
 
-class _ObsidianDumper(yaml.SafeDumper):
-    """Obsidian indents list items by two spaces; PyYAML flushes them left.
+# Surgical frontmatter editing.
+#
+# Re-rendering the whole frontmatter through PyYAML was measured against the
+# 1257 real person files and rewrites data it has no business touching:
+# 13 exam timestamps lose their `T` separator (2026-06-19T15:00 ->
+# 2026-06-19 15:00), a `|-` block scalar is reflowed, long values wrap at
+# column 80, and 600 files change quote style or list indent. A migration
+# that converts company links must leave every other line byte-identical.
+#
+# So: parse to decide, then replace only the touched keys in the original
+# text. No YAML dumper is involved, which also keeps the module importable
+# when PyYAML is absent.
 
-    Without this, migrating rewrites the frontmatter formatting of 1111 of
-    1257 person files, burying the 400 real changes in whitespace churn.
+_FM_RE = re.compile(r"\A(---[ \t]*\r?\n)(.*?)(\r?\n---[ \t]*(?:\r?\n|\Z))", re.S)
+
+
+def _fm_parts(text):
+    """Line-anchored frontmatter split: (open, fm_text, close, body) or None.
+
+    `validate.parse_frontmatter` splits on the literal `---`, which is not
+    line-anchored — a `---` inside a value would evict every later key into
+    the body. `_FM_RE` fixes the common case by requiring the closing `---`
+    to sit at column 0, immediately after a newline, so a body-level
+    horizontal rule after the real close never confuses it.
+
+    But a `---` line indented as part of a block scalar's *value* (e.g.
+    `notiz: |\n  Erstkontakt\n  ---\n  Nachfass`) would silently pass the
+    column-0 check on the wrong line only by luck of indentation depth — we
+    would be trusting indentation to prove intent, which is not something a
+    regex can verify. So once the closing `---` is found, the captured
+    frontmatter text is re-scanned for any *other* line that strips down to
+    exactly `---`, at any indentation. Finding one means the boundary is
+    genuinely ambiguous — the file is refused, never guessed at.
     """
-    def increase_indent(self, flow=False, indentless=False):
-        return super().increase_indent(flow, False)
+    m = _FM_RE.match(text)
+    if not m:
+        return None
+    open_, fm_text, close = m.group(1), m.group(2), m.group(3)
+    if any(line.strip() == "---" for line in fm_text.split("\n")):
+        return None
+    return open_, fm_text, close, text[m.end():]
 
 
-def _empty_none(dumper, _value):
-    # `company:` reads as empty in Obsidian's property editor.
-    # `company: null` shows the user the literal word "null".
-    return dumper.represent_scalar("tag:yaml.org,2002:null", "")
+def _tag_list(fm):
+    tags = fm.get("tags") or []
+    if isinstance(tags, str):
+        tags = [tags]
+    return [str(t) for t in tags] if isinstance(tags, list) else []
 
 
-_ObsidianDumper.add_representer(type(None), _empty_none)
+def _key_span(lines, key):
+    """[start, end) of `key:` plus its indented continuation lines."""
+    pat = re.compile(rf"^{re.escape(key)}\s*:")
+    for i, line in enumerate(lines):
+        if pat.match(line):
+            j = i + 1
+            while j < len(lines) and lines[j][:1] in (" ", "\t"):
+                j += 1
+            return i, j
+    return None
 
 
-def _represent_str(dumper, value):
-    # PyYAML's default style for strings needing quotes (e.g. "[[Foo]]",
-    # which starts with a flow-sequence indicator) is single quotes.
-    # Obsidian's own writer always double-quotes wikilinks, so a plain
-    # `yaml.safe_dump` migration would reformat every quoted value on the
-    # very first pass — a spurious diff on top of the real change. Forcing
-    # double quotes for wikilink-shaped values keeps that quiet.
-    style = '"' if is_wikilink(value) else None
-    return dumper.represent_scalar("tag:yaml.org,2002:str", value, style=style)
+def _render_key(key, value):
+    """Render one key as a list of lines, in Obsidian's own style."""
+    if value is None or value == [] or value == "":
+        return [f"{key}:"]
+    if isinstance(value, list):
+        out = [f"{key}:"]
+        for v in value:
+            s = str(v)
+            out.append(f'  - "{s}"' if _WHOLE_WIKILINK_RE.match(s.strip())
+                       else f"  - {s}")
+        return out
+    return [f"{key}: {value}"]
 
 
-_ObsidianDumper.add_representer(str, _represent_str)
-
-
-def _render_fm(fm):
-    return yaml.dump(fm, Dumper=_ObsidianDumper, allow_unicode=True,
-                     sort_keys=False, default_flow_style=False).rstrip("\n")
+def _set_key(lines, key, value):
+    rendered = _render_key(key, value)
+    span = _key_span(lines, key)
+    if span is None:
+        return lines + rendered
+    return lines[:span[0]] + rendered + lines[span[1]:]
 
 
 def migrate_person(text, alias_map):
-    fm, body = parse_frontmatter(text)
+    parts = _fm_parts(text)
+    if parts is None:
+        return text, []          # missing or ambiguous delimiters — never write
+    open_, fm_text, close, body = parts
+    try:
+        fm = yaml.safe_load(fm_text)
+    except yaml.YAMLError:
+        return text, []          # INVALID — never write
     if not isinstance(fm, dict):
-        return text, []          # missing or INVALID — never write
+        return text, []
     changes = []
     raw = company_values(fm)
     resolved, legacy = [], []
     for v in raw:
-        if is_wikilink(v):
+        if _WHOLE_WIKILINK_RE.match(v.strip()):
             resolved.append(v)
             continue
         target = alias_map.get(v)
@@ -501,39 +582,67 @@ def migrate_person(text, alias_map):
         else:
             legacy.append(v)
             changes.append(f"company {v!r} unaufloesbar -> company_legacy")
-    if raw or "company" in fm:
-        fm["company"] = resolved
+    lines = fm_text.split("\n")
+    if changes:
+        lines = _set_key(lines, "company", resolved)
     if legacy:
-        fm["company_legacy"] = ", ".join(legacy)
-    if fm.get("kind") not in KINDS:
-        fm["kind"] = infer_kind(fm)   # after company is set — order matters
-        changes.append(f"kind -> {fm['kind']}")
-    tags = fm.get("tags") or []
-    if isinstance(tags, str):
-        tags = [tags]
+        # Merge, never overwrite: a partially migrated and hand-corrected
+        # file already carries values here, and losing them is unrecoverable.
+        prev = fm.get("company_legacy") or []
+        if isinstance(prev, str):
+            prev = [prev]
+        merged = list(prev) + [v for v in legacy if v not in prev]
+        # A single legacy value renders as a plain scalar (`company_legacy:
+        # foo`); only once there is more than one does it become a list —
+        # matches _render_key's list branch, which always uses block style.
+        lines = _set_key(lines, "company_legacy",
+                         merged[0] if len(merged) == 1 else merged)
+    kind = fm.get("kind")
+    if not isinstance(kind, str) or kind not in KINDS:
+        # `raw`, not the emptied field — see infer_kind's docstring.
+        new_kind = infer_kind(fm, has_company=bool(raw) or bool(fm.get("company_legacy")))
+        lines = _set_key(lines, "kind", new_kind)
+        changes.append(f"kind -> {new_kind}")
+    tags = _tag_list(fm)
     if "person" not in tags:
-        tags = list(tags) + ["person"]
-        fm["tags"] = tags
+        lines = _set_key(lines, "tags", tags + ["person"])
         changes.append("tags += person")
     if not changes:
         return text, []
-    return f"---\n{_render_fm(fm)}\n---{body}", changes
+    return open_ + "\n".join(lines) + close + body, changes
+
+
+def _atomic_write(path, text):
+    """Write via a temp file in the same directory, then rename.
+
+    `Path.write_text` truncates first; an interruption mid-write loses the
+    file. Over 1257 files that risk is not hypothetical.
+    """
+    tmp = path.with_suffix(path.suffix + ".tmp")
+    tmp.write_text(text, encoding="utf-8")
+    os.replace(tmp, path)
 
 
 def migrate_persons(vault_root, alias_map, dry_run=True):
     vault_root = Path(vault_root)
-    touched, skipped = [], []
+    touched, skipped, failed = [], [], []
     for p in sorted((vault_root / PERSONS_DIR).glob("*.md")):
-        text = p.read_text(encoding="utf-8")
-        new, changes = migrate_person(text, alias_map)
-        if not changes:
-            if parse_frontmatter(text)[0] in (None, "INVALID"):
-                skipped.append(str(p))
-            continue
-        touched.append({"file": str(p), "changes": changes})
-        if not dry_run:
-            p.write_text(new, encoding="utf-8")
-    return {"touched": touched, "skipped": skipped, "dry_run": dry_run}
+        # One unreadable file must not abort a 1257-file run and leave the
+        # operator without a manifest of what was already written.
+        try:
+            text = p.read_text(encoding="utf-8")
+            new, changes = migrate_person(text, alias_map)
+            if not changes:
+                if _fm_parts(text) is None:
+                    skipped.append(str(p))
+                continue
+            touched.append({"file": str(p), "changes": changes})
+            if not dry_run:
+                _atomic_write(p, new)
+        except Exception as e:                       # noqa: BLE001 — reported
+            failed.append({"file": str(p), "error": f"{type(e).__name__}: {e}"})
+    return {"touched": touched, "skipped": skipped, "failed": failed,
+            "dry_run": dry_run}
 
 
 if __name__ == "__main__":

@@ -309,26 +309,105 @@ def test_migrate_person_is_idempotent():
     assert changes == []
 
 
+def test_migrate_person_returns_original_bytes_when_nothing_changes():
+    # Feed it formatting the renderer would never produce. Without the
+    # early exit this comes back reformatted, and the test above cannot
+    # tell the difference because it feeds back the renderer's own output.
+    t = ("---\ntags:\n    - person\nkind: contact\n"
+         "company:\n    - '[[BEDAG Informatik AG]]'\n---\n\nB\n")
+    out, changes = c.migrate_person(t, {})
+    assert out == t
+    assert changes == []
+
+
 def test_migrate_person_preserves_body_and_other_fields():
     out, _ = c.migrate_person(PERSON_OLD, ALIAS)
     assert out.rstrip().endswith("Text.")
     assert "role: Berater" in out
 
 
-def test_render_fm_keeps_obsidian_list_indent():
-    assert c._render_fm({"tags": ["person", "x"]}) == "tags:\n  - person\n  - x"
+def test_render_key_uses_obsidian_list_indent():
+    assert c._render_key("tags", ["person", "x"]) == ["tags:", "  - person", "  - x"]
 
 
-def test_render_fm_writes_empty_not_null():
+def test_render_key_writes_empty_not_null():
     # Obsidian's property editor shows the literal word "null" otherwise.
-    assert c._render_fm({"company": None}) == "company:"
+    assert c._render_key("company", []) == ["company:"]
+
+
+def test_render_key_double_quotes_wikilinks():
+    assert c._render_key("company", ["[[BEDAG Informatik AG]]"]) == [
+        "company:", '  - "[[BEDAG Informatik AG]]"']
+
+
+def test_migrate_person_leaves_untouched_fields_byte_identical():
+    # The whole point of surgical editing: a timestamp, a block scalar and a
+    # long prose value must survive unchanged.
+    text = (
+        "---\n"
+        "tags:\n  - person\n"
+        "company: bedag\n"
+        "termin: 2026-06-19T15:00:00\n"
+        "telefon: 0313456\n"
+        "notiz: |-\n  Zeile eins\n  Zeile zwei\n"
+        "rolle: " + "x" * 120 + "\n"
+        "---\n\nText.\n"
+    )
+    out, changes = c.migrate_person(text, ALIAS)
+    assert changes
+    assert "termin: 2026-06-19T15:00:00" in out
+    assert "telefon: 0313456" in out
+    assert "notiz: |-\n  Zeile eins\n  Zeile zwei" in out
+    assert "rolle: " + "x" * 120 in out
+
+
+def test_migrate_person_refuses_ambiguous_delimiters():
+    # A "---" inside a value: validate.parse_frontmatter would split there and
+    # evict every later key into the body.
+    text = ("---\ntags:\n  - person\n"
+            "notiz: |\n  Erstkontakt\n  ---\n  Nachfass\n"
+            "company: bedag\n---\n\nText.\n")
+    out, changes = c.migrate_person(text, ALIAS)
+    assert out == text
+    assert changes == []
+
+
+def test_migrate_person_merges_existing_company_legacy():
+    text = ("---\ntags:\n  - person\ncompany: unbekannt2\n"
+            "company_legacy:\n  - alte-firma-ag\n---\n\nX.\n")
+    out, _ = c.migrate_person(text, ALIAS)
+    assert "alte-firma-ag" in out
+    assert "unbekannt2" in out
+
+
+def test_infer_kind_uses_pre_migration_company():
+    # Someone with a module AND an unresolvable company is alumni, not
+    # student — the company field is empty only because we just emptied it.
+    fm = {"module": ["hf-2024a-os"], "company": []}
+    assert c.infer_kind(fm, has_company=True) == "alumni"
+
+
+def test_load_alias_map_rejects_pipe_in_target(tmp_path):
+    p = tmp_path / "a.yaml"
+    p.write_text("s:\n  target: A AG | B AG\n")
+    try:
+        c.load_alias_map(p)
+    except ValueError as e:
+        assert "|" in str(e)
+    else:
+        raise AssertionError("expected ValueError")
 
 
 def test_migrate_person_keeps_unresolved_slug_as_legacy():
     text = "---\ntags:\n  - person\ncompany: gibtesnicht\n---\n\nX.\n"
     out, _ = c.migrate_person(text, ALIAS)
     assert "company_legacy: gibtesnicht" in out
-    assert "company: []" in out
+    # Empty company renders as a bare "company:", not "company: []" — see
+    # test_render_key_writes_empty_not_null, which is authoritative for
+    # _render_key's empty-value behaviour (carried over from the brief that
+    # predates surgical editing; PyYAML's `yaml.safe_dump([])` used to
+    # produce "[]" here, `_render_key` deliberately does not).
+    assert "company:\n" in out
 
 
 def test_migrate_person_skips_invalid_yaml():
