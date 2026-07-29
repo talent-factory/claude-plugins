@@ -163,10 +163,14 @@ def check_slug_drift(index):
     for rec in index["persons"]:
         for v in company_values(rec["fm"]):
             if not is_wikilink(v):
+                # autofixable only when the slug resolves to exactly one
+                # company. Everything else needs the reviewed alias map —
+                # an `autofixable: True` we cannot honour would invite a guess.
+                cands = index["company_norm"].get(normalize_slug(v), [])
                 findings.append({
                     "file": rec["path"], "severity": "minor", "rule": "slug-drift",
                     "message": f"company als Freitext statt Wikilink: {v!r}",
-                    "autofixable": True,
+                    "autofixable": len(cands) == 1,
                 })
     return findings
 

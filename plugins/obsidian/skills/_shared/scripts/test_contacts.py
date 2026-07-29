@@ -94,6 +94,16 @@ def test_slug_drift_flags_plain_slug_and_is_autofixable():
     assert hit[0]["autofixable"] is True
 
 
+def test_slug_drift_unresolvable_slug_is_not_autofixable():
+    # No company page carries this slug, so the tool must not claim it can
+    # fix it — that would be a guess.
+    idx = c.build_index(FIXTURE)
+    out = c.CHECKS["slug-drift"](idx)
+    hit = [f for f in out if f["file"].stem == "Erwin Unbekannt"]
+    assert len(hit) == 1
+    assert hit[0]["autofixable"] is False
+
+
 def test_slug_drift_ignores_wikilink():
     idx = c.build_index(FIXTURE)
     out = c.CHECKS["slug-drift"](idx)
