@@ -306,6 +306,47 @@ def check_dupes(index):
     return findings
 
 
+def _first_token(stem):
+    parts = [p for p in re.split(r"[\s,&\-]+", stem) if p]
+    return normalize_slug(parts[0]) if parts else ""
+
+
+def _resolve_slug(slug, index):
+    """Strict resolution. Exact normalised match, else first-word match.
+
+    Substring matching is deliberately absent: it would map "bsi" onto
+    "AI21 Labs Inc." via "labsinc".
+    """
+    ns = normalize_slug(slug)
+    if not ns:
+        return []
+    exact = sorted(set(index["company_norm"].get(ns, [])))
+    if exact:
+        return exact
+    return sorted({stem for stem in index["companies"] if _first_token(stem) == ns})
+
+
+def propose_aliases(vault_root):
+    index = build_index(vault_root)
+    counts = {}
+    for rec in index["persons"]:
+        for v in company_values(rec["fm"]):
+            if is_wikilink(v):
+                continue
+            counts[v] = counts.get(v, 0) + 1
+    out = {}
+    for slug, n in sorted(counts.items()):
+        cands = _resolve_slug(slug, index)
+        if len(cands) == 1:
+            target = cands[0]
+        elif len(cands) > 1:
+            target = "CHOOSE: " + " | ".join(cands)
+        else:
+            target = None
+        out[slug] = {"count": n, "target": target, "candidates": cands}
+    return out
+
+
 def run(vault_root, rules):
     index = build_index(vault_root)
     findings = []
@@ -321,11 +362,16 @@ def main(argv=None):
         description="Validate and migrate Obsidian contact/company links.")
     parser.add_argument("--vault-root", required=True)
     parser.add_argument("--rules", default=",".join(CHECKS.keys()))
+    parser.add_argument("--propose-aliases", action="store_true")
     parser.add_argument("--format", default="json", choices=["json"])
     args = parser.parse_args(argv)
     if yaml is None:
         print(json.dumps({"error": "PyYAML not installed", "fallback": "prose"}))
         return 2
+    if args.propose_aliases:
+        proposal = propose_aliases(Path(args.vault_root))
+        print(yaml.safe_dump(proposal, allow_unicode=True, sort_keys=True))
+        return 0
     rules = [r.strip() for r in args.rules.split(",") if r.strip()]
     findings = run(Path(args.vault_root), rules)
     print(json.dumps([{**f, "file": str(f["file"])} for f in findings], indent=2))

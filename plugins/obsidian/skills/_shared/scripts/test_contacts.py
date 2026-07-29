@@ -222,3 +222,33 @@ def test_main_exits_1_on_critical(capsys):
     payload = json.loads(capsys.readouterr().out)
     assert rc == 1
     assert any(f["rule"] == "deadlinks" for f in payload)
+
+
+def test_propose_aliases_resolves_exact_slug():
+    p = c.propose_aliases(FIXTURE)
+    assert p["bedag"]["target"] == "BEDAG Informatik AG"
+    assert p["bedag"]["count"] == 1
+
+
+def test_propose_aliases_marks_ambiguous_with_choose():
+    p = c.propose_aliases(FIXTURE)
+    assert p["schneeberger"]["target"].startswith("CHOOSE:")
+    assert len(p["schneeberger"]["candidates"]) == 2
+
+
+def test_propose_aliases_leaves_unresolved_empty():
+    p = c.propose_aliases(FIXTURE)
+    assert p["gibtesnicht"]["target"] is None
+    assert p["gibtesnicht"]["candidates"] == []
+
+
+def test_propose_aliases_never_substring_matches():
+    # "bsi" darf nicht auf "AI21 Labs Inc." abbilden (labsinc enthaelt bsi)
+    idx = c.build_index(FIXTURE)
+    idx["company_norm"].setdefault("ai21labsinc", []).append("AI21 Labs Inc.")
+    assert c._resolve_slug("bsi", idx) == []
+
+
+def test_propose_aliases_skips_already_migrated():
+    p = c.propose_aliases(FIXTURE)
+    assert "BEDAG Informatik AG" not in p
