@@ -483,8 +483,8 @@ def infer_kind(fm, has_company=None):
 # that converts company links must leave every other line byte-identical.
 #
 # So: parse to decide, then replace only the touched keys in the original
-# text. No YAML dumper is involved, which also keeps the module importable
-# when PyYAML is absent.
+# text. Only the individual values a change touches go through PyYAML, for
+# quoting — never the whole block.
 
 _FM_RE = re.compile(r"\A(---[ \t]*\r?\n)(.*?)(\r?\n---[ \t]*(?:\r?\n|\Z))", re.S)
 
@@ -551,7 +551,13 @@ def _key_span(lines, key):
     while j < len(lines) and lines[j][:1] in (" ", "\t"):
         j += 1
     block = "\n".join(lines[i:j])
-    if block.count("[") != block.count("]") or block.count("{") != block.count("}"):
+    # Two guards, both fail-closed. Counting brackets alone misses a `]`
+    # inside a quoted scalar, so also refuse any value line that ends in a
+    # bare opening bracket — that is what starts a multi-line flow
+    # collection whose close sits outside this span.
+    if (re.search(r"[\[{]\s*$", lines[i])
+            or block.count("[") != block.count("]")
+            or block.count("{") != block.count("}")):
         raise _Unsafe(f"Schluessel {key!r} hat eine unabgeschlossene Flow-Collection")
     return i, j
 
@@ -569,7 +575,15 @@ def _scalar(value):
     """
     s = str(value)
     if _WHOLE_WIKILINK_RE.match(s.strip()):
-        return f'"{s}"'
+        # `[[...]]` may itself contain a quote or backslash — the pattern
+        # allows anything but `]`. Only keep Obsidian's double quotes when
+        # they actually survive a round trip.
+        q = f'"{s}"'
+        try:
+            if yaml.safe_load(q) == s:
+                return q
+        except yaml.YAMLError:
+            pass
     d = yaml.safe_dump(s, default_flow_style=True, allow_unicode=True, width=10 ** 9)
     return d.removesuffix("\n").removesuffix("...").strip()
 

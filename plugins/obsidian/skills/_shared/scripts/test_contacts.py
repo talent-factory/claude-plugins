@@ -498,3 +498,54 @@ def test_skip_reason_reports_broken_yaml_not_silence():
     reason = c.skip_reason(text)
     assert reason is not None
     assert "YAML" in reason
+
+
+def test_scalar_survives_quotes_inside_a_wikilink():
+    # _WHOLE_WIKILINK_RE permits anything but `]` inside the target, so a
+    # naive `f'"{s}"'` fast path breaks on a quote or backslash. _scalar
+    # must fall through to PyYAML quoting when the double-quoted form
+    # would not round-trip.
+    for v in ['[[Foo "Bar" AG]]', "[[Back\\slash AG]]"]:
+        rendered = c._scalar(v)
+        assert yaml.safe_load(rendered) == v, f"{v!r} round-tripped to something else"
+
+
+def test_key_span_refuses_bracket_inside_quoted_item():
+    # Counting brackets alone misses a `]` inside a quoted scalar (here
+    # balancing at 1/1) — the closing `]` of the flow collection still
+    # sits outside the indented-continuation span and would be dropped.
+    lines = ["company: [", '  "a]",', "  b", "]"]
+    try:
+        c._key_span(lines, "company")
+    except c._Unsafe as e:
+        assert "company" in str(e)
+    else:
+        raise AssertionError("expected _Unsafe")
+
+
+def test_key_span_allows_single_line_flow_collections():
+    assert c._key_span(["company: [a, b]"], "company") == (0, 1)
+    assert c._key_span(["company: {a: 1}"], "company") == (0, 1)
+
+
+def test_migrate_persons_buckets_refused_files_with_reasons(tmp_path):
+    # N6 regression coverage: migrate_persons's bucketing could be deleted
+    # and the suite would stay green without this — everything else tests
+    # skip_reason/migrate_person in isolation, nothing asserted that the
+    # batch runner actually routes a refused file into `skipped` with a
+    # non-empty reason.
+    persons = tmp_path / c.PERSONS_DIR
+    persons.mkdir(parents=True)
+    (persons / "clean.md").write_text("---\ntags:\n  - x\n---\n\nBody.\n", encoding="utf-8")
+    (persons / "duplicate.md").write_text(
+        "---\ncompany: slug-a\ntags:\n  - person\ncompany: slug-b\n---\n\nBody.\n",
+        encoding="utf-8",
+    )
+    (persons / "broken.md").write_text("---\nkind: : :\n bad\n---\n\nBody.\n", encoding="utf-8")
+
+    result = c.migrate_persons(tmp_path, {}, dry_run=True)
+
+    assert len(result["touched"]) == 1
+    assert len(result["skipped"]) == 2
+    assert all(s["reason"] for s in result["skipped"])
+    assert result["failed"] == []
