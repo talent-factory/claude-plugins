@@ -549,3 +549,75 @@ def test_migrate_persons_buckets_refused_files_with_reasons(tmp_path):
     assert len(result["skipped"]) == 2
     assert all(s["reason"] for s in result["skipped"])
     assert result["failed"] == []
+
+
+COMPANY_OLD = (
+    "---\ntags:\n  - company\n---\n\n### Mitarbeiter\n\n"
+    "```dataview\ntable role as Funktion\n"
+    '\twhere contains(tags, "person") and contains(company, "bedag")\n'
+    "\tsort file.name asc\n```\n"
+)
+
+
+def test_migrate_company_queries_replaces_predicate_only():
+    out, changes = c.migrate_company_queries(COMPANY_OLD)
+    assert "contains(company, this.file.link)" in out
+    assert '"bedag"' not in out
+    assert 'contains(tags, "person")' in out      # rest of query untouched
+    assert "sort file.name asc" in out
+    assert changes
+
+
+def test_migrate_company_queries_handles_equals_form():
+    text = '```dataview\nwhere tags = "person" and company = "bedag"\n```\n'
+    out, _ = c.migrate_company_queries(text)
+    assert "contains(company, this.file.link)" in out
+
+
+def test_migrate_company_queries_leaves_tag_only_query_alone():
+    text = ('```dataview\nwhere contains(tags, "person") '
+            'and contains(tags, "bedag")\n```\n')
+    out, changes = c.migrate_company_queries(text)
+    assert out == text
+    assert changes == []
+
+
+def test_migrate_company_queries_leaves_base_blocks_alone():
+    text = '```base\nfilters:\n  - company.contains("bedag")\n```\n'
+    out, changes = c.migrate_company_queries(text)
+    assert out == text
+    assert changes == []
+
+
+def test_migrate_company_queries_is_idempotent():
+    once, _ = c.migrate_company_queries(COMPANY_OLD)
+    twice, changes = c.migrate_company_queries(once)
+    assert once == twice
+    assert changes == []
+
+
+def test_migrate_company_frontmatter_adds_slug():
+    out, changes = c.migrate_company_frontmatter(COMPANY_OLD, ["bedag"])
+    assert "slug: bedag" in out
+    assert changes
+
+
+def test_migrate_company_frontmatter_puts_extra_slugs_into_aliases():
+    out, _ = c.migrate_company_frontmatter(
+        COMPANY_OLD, ["bedag", "bedag-informatik", "bedag.ch"])
+    assert "slug: bedag" in out
+    assert "bedag-informatik" in out
+    assert "bedag.ch" in out
+
+
+def test_migrate_company_frontmatter_idempotent():
+    once, _ = c.migrate_company_frontmatter(COMPANY_OLD, ["bedag", "bedag.ch"])
+    twice, changes = c.migrate_company_frontmatter(once, ["bedag", "bedag.ch"])
+    assert once == twice
+    assert changes == []
+
+
+def test_migrate_company_frontmatter_noop_without_slugs():
+    out, changes = c.migrate_company_frontmatter(COMPANY_OLD, [])
+    assert out == COMPANY_OLD
+    assert changes == []

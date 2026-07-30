@@ -17,6 +17,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 from validate import (  # noqa: E402  reuse — do not duplicate
     load_record,
     normalize_ref,
+    parse_frontmatter,
     strip_code,
 )
 
@@ -415,8 +416,12 @@ def main(argv=None):
         except (ValueError, OSError, yaml.YAMLError, AttributeError) as e:
             print(json.dumps({"error": f"{type(e).__name__}: {e}"}))
             return 2
-        result = migrate_persons(Path(args.vault_root), amap,
-                                 dry_run=not args.apply)
+        result = {
+            "persons": migrate_persons(Path(args.vault_root), amap,
+                                        dry_run=not args.apply),
+            "companies": migrate_companies(Path(args.vault_root), amap,
+                                            dry_run=not args.apply),
+        }
         print(json.dumps(result, indent=2, ensure_ascii=False))
         return 0
     rules = [r.strip() for r in args.rules.split(",") if r.strip()]
@@ -715,6 +720,104 @@ def migrate_persons(vault_root, alias_map, dry_run=True):
             if not dry_run:
                 _atomic_write(p, new)
         except Exception as e:                       # noqa: BLE001 — reported
+            failed.append({"file": str(p), "error": f"{type(e).__name__}: {e}"})
+    return {"touched": touched, "skipped": skipped, "failed": failed,
+            "dry_run": dry_run}
+
+
+def migrate_company_queries(text):
+    """Rewrite `company == "slug"` predicates to `this.file.link`.
+
+    Only the `dataview` code block's `company` predicate is touched — the
+    `tags` condition, `sort`, column list, and any `base` block stay
+    byte-identical. A block with no matching predicate is not rewritten at
+    all, which is why tag-only queries and Bases blocks pass through
+    unchanged (Bases has no verified self-reference equivalent, so
+    `query-drift` reports those for manual handling instead).
+    """
+    changes = []
+    out = []
+    last = 0
+    for lang, body, start, end in code_blocks(text):
+        if lang != "dataview":
+            continue
+        if not COMPANY_PREDICATE_RE.search(body):
+            continue
+        new_body, n = COMPANY_PREDICATE_RE.subn(CANONICAL_PREDICATE, body)
+        if n == 0 or new_body == body:
+            continue
+        out.append(text[last:start])
+        out.append(f"```{lang}\n{new_body}```")
+        last = end
+        changes.append(f"{n} company-Praedikat(e) -> this.file.link")
+    if not changes:
+        return text, []
+    out.append(text[last:])
+    return "".join(out), changes
+
+
+def migrate_company_frontmatter(text, slugs):
+    """Freeze the reviewed slug mapping: first slug becomes `slug`, rest `aliases`.
+
+    Surgical, like `migrate_person`: only the two keys are rewritten, every
+    other line of the company page's frontmatter stays byte-identical. A
+    duplicate `slug:`/`aliases:` key or an unclosed flow collection makes
+    `_key_span` raise `_Unsafe`; that propagates out of here uncaught, and
+    `migrate_companies` below catches it per-file so one unsafe page cannot
+    abort the whole run.
+    """
+    parts = _fm_parts(text)
+    if parts is None or not slugs:
+        return text, []
+    open_, fm_text, close, body = parts
+    try:
+        fm = yaml.safe_load(fm_text)
+    except yaml.YAMLError:
+        return text, []
+    if not isinstance(fm, dict):
+        return text, []
+    primary, extra = slugs[0], sorted(slugs[1:])
+    existing = fm.get("aliases") or []
+    if isinstance(existing, str):
+        existing = [existing]
+    merged = sorted(set(existing) | set(extra))
+    changes = []
+    lines = fm_text.split("\n")
+    if fm.get("slug") != primary:
+        lines = _set_key(lines, "slug", primary)
+        changes.append(f"slug -> {primary}")
+    if merged and list(existing) != merged:
+        lines = _set_key(lines, "aliases", merged)
+        changes.append(f"aliases -> {merged}")
+    if not changes:
+        return text, []
+    return open_ + "\n".join(lines) + close + body, changes
+
+
+def migrate_companies(vault_root, alias_map, dry_run=True):
+    vault_root = Path(vault_root)
+    reverse = {}
+    for slug, target in sorted(alias_map.items()):
+        reverse.setdefault(target, []).append(slug)
+    touched, skipped, failed = [], [], []
+    for p in sorted((vault_root / COMPANIES_DIR).glob("*.md")):
+        # Mirrors migrate_persons: one unsafe or unreadable file must not
+        # abort the run and must still show up in the manifest.
+        try:
+            text = p.read_text(encoding="utf-8")
+            if parse_frontmatter(text)[0] in (None, "INVALID"):
+                skipped.append({"file": str(p),
+                                 "reason": "kein oder ungueltiges Frontmatter"})
+                continue
+            new, changes = migrate_company_queries(text)
+            new2, ch2 = migrate_company_frontmatter(new, reverse.get(p.stem, []))
+            changes = changes + ch2
+            if not changes:
+                continue
+            touched.append({"file": str(p), "changes": changes})
+            if not dry_run:
+                _atomic_write(p, new2)
+        except Exception as e:                        # noqa: BLE001 — reported
             failed.append({"file": str(p), "error": f"{type(e).__name__}: {e}"})
     return {"touched": touched, "skipped": skipped, "failed": failed,
             "dry_run": dry_run}
