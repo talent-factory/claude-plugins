@@ -492,11 +492,13 @@ _MODULE_FIELD_KEY_RE = re.compile(
 # "wi-p-in008-ol-fs24". Plain word tags like "talent-factory" or "guild42"
 # have no hyphen+digit combination and are correctly left alone.
 _TAG_MODULE_CODE_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)+$")
-# Student mail domains start their first label with "stud" —
-# "students.ffhs.ch", "stud.gibb.ch", "student.education.ch" all attested in
-# the vault. Anchored right after "@" so a domain merely containing "stud"
-# later (unattested here) does not match.
-_STUDENT_EMAIL_RE = re.compile(r"@stud[a-z]*\.", re.IGNORECASE)
+# Student mail domains have a first label that is exactly "stud", "student",
+# or "students" — the three shapes attested in the vault ("stud.gibb.ch",
+# "student.education.ch", "students.ffhs.ch"). The label must end right
+# there (literal "." follows immediately), so a domain that merely starts
+# with "stud" but continues differently — "studio.com", "studieren.de",
+# "studentx.io", "studmail.example.com" — does not match.
+_STUDENT_EMAIL_RE = re.compile(r"@stud(?:ents?)?\.", re.IGNORECASE)
 
 
 def _has_module_field_key(fm):

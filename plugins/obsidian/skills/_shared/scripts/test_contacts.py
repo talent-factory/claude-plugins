@@ -425,6 +425,31 @@ def test_infer_kind_student_email_domain_signal():
     assert c.infer_kind(fm) == "student"
 
 
+def test_infer_kind_student_email_domain_precision():
+    # Table-driven: the first domain label must be exactly "stud",
+    # "student", or "students" — not merely start with "stud". Guards
+    # against the over-broad `@stud[a-z]*\.` shape (fixed in
+    # task-8-report.md, Fix round 2) that misclassified real domains like
+    # "studio.com" as student/alumni evidence.
+    cases = [
+        # (email, expect_student, label)
+        ("person@students.ffhs.ch", True, "attested: students.ffhs.ch"),
+        ("person@stud.gibb.ch", True, "attested: stud.gibb.ch"),
+        ("person@student.education.ch", True, "attested: student.education.ch"),
+        ("person@studio.com", False, "false positive: studio.com"),
+        ("person@studieren.de", False, "false positive: studieren.de"),
+        ("person@studentx.io", False, "false positive: studentx.io"),
+        ("person@studmail.example.com", False, "false positive: studmail.example.com"),
+    ]
+    for email, expect_student, label in cases:
+        fm = {"tags": ["person"], "email": email}
+        kind = c.infer_kind(fm)
+        if expect_student:
+            assert kind == "student", f"{label}: expected student, got {kind!r}"
+        else:
+            assert kind != "student", f"{label}: expected not student, got {kind!r}"
+
+
 def test_infer_kind_student_email_domain_in_list():
     # `email` may be a list (a private + a student address) — the domain
     # check must scan every item, not just fm["email"] as a scalar.
