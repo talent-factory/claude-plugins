@@ -49,8 +49,33 @@ def normalize_slug(s):
     return re.sub(r"[^a-z0-9]", "", s)
 
 
+# One predicate for "this value is a wikilink", shared by every read and
+# write path.
+#
+# Lint used to ask `re.search` ("contains a wikilink") while the migration
+# asked an anchored match ("is a wikilink"). The split was load-bearing and
+# silent: `company: "[[BEDAG Informatik AG]] (bis 2024)"` linted perfectly
+# clean under every rule, and `--migrate --apply` then emptied `company:` and
+# demoted the working link into `company_legacy` — manufacturing the exact
+# dangling-link bug this module exists to eliminate, invisible to the checks
+# that were supposed to catch it.
+#
+# The anchored meaning wins because it is the one the write path can honour:
+# a value with a trailing qualifier cannot be rewritten without guessing
+# which part names the company. So lint speaks it too, and the shape that
+# falls between the two gets its own finding (see `check_slug_drift`).
+_WHOLE_WIKILINK_RE = re.compile(r"^\[\[[^\]]+\]\]$")
+# Deliberately a second, narrower regex rather than a second predicate: it
+# feeds exactly one finding and never gates a write.
+_CONTAINS_WIKILINK_RE = re.compile(r"\[\[[^\]]+\]\]")
+
+
 def is_wikilink(s):
-    return bool(re.search(r"\[\[[^\]]+\]\]", str(s)))
+    return bool(_WHOLE_WIKILINK_RE.match(str(s).strip()))
+
+
+def contains_wikilink(s):
+    return bool(_CONTAINS_WIKILINK_RE.search(str(s)))
 
 
 def company_values(fm):
@@ -162,16 +187,30 @@ def check_slug_drift(index):
     findings = []
     for rec in index["persons"]:
         for v in company_values(rec["fm"]):
-            if not is_wikilink(v):
-                # autofixable only when the slug resolves to exactly one
-                # company. Everything else needs the reviewed alias map —
-                # an `autofixable: True` we cannot honour would invite a guess.
-                cands = index["company_norm"].get(normalize_slug(v), [])
+            if is_wikilink(v):
+                continue
+            if contains_wikilink(v):
+                # "[[BEDAG Informatik AG]] (bis 2024)": a link that resolves
+                # today, wrapped in prose. Neither a clean link nor a plain
+                # slug, and the migration cannot rewrite it without deciding
+                # which half names the company — so it is reported and left
+                # alone. Never autofixable: the qualifier carries meaning the
+                # tool has no way to preserve.
                 findings.append({
                     "file": rec["path"], "severity": "minor", "rule": "slug-drift",
-                    "message": f"company als Freitext statt Wikilink: {v!r}",
-                    "autofixable": len(cands) == 1,
+                    "message": f"company enthaelt einen Wikilink, ist aber keiner: {v!r}",
+                    "autofixable": False,
                 })
+                continue
+            # autofixable only when the slug resolves to exactly one
+            # company. Everything else needs the reviewed alias map —
+            # an `autofixable: True` we cannot honour would invite a guess.
+            cands = index["company_norm"].get(normalize_slug(v), [])
+            findings.append({
+                "file": rec["path"], "severity": "minor", "rule": "slug-drift",
+                "message": f"company als Freitext statt Wikilink: {v!r}",
+                "autofixable": len(cands) == 1,
+            })
     return findings
 
 
@@ -212,7 +251,15 @@ COMPANY_PREDICATE_RE = re.compile(
     r'(?<!!)\bcontains\(\s*company\s*,\s*"[^"]*"\s*\)|\bcompany\s*=\s*"[^"]*"'
 )
 CANONICAL_PREDICATE = "contains(company, this.file.link)"
-_BLOCK_RE = re.compile(r"```([a-zA-Z0-9_-]*)\n(.*?)```", re.DOTALL)
+# The lang group must tolerate padding around it and a CRLF after it. The
+# old pattern (`\`\`\`([a-zA-Z0-9_-]*)\n`) could match neither, so a fence
+# written "```base " — with the trailing space the old `Company.md` template
+# emitted — made `code_blocks()` return [] for the *whole file*, not just
+# that block. Measured on the real vault: 10 company pages carried a
+# `company.contains(...)` query, only 5 were visible to `check_query_drift`,
+# and the 5 invisible ones stranded 17 people in empty employee tables while
+# lint reported a clean bill of health.
+_BLOCK_RE = re.compile(r"```[ \t]*([a-zA-Z0-9_-]*)[ \t]*\r?\n(.*?)```", re.DOTALL)
 
 
 def code_blocks(text):
@@ -328,15 +375,12 @@ def _resolve_slug(slug, index):
     return sorted({stem for stem in index["companies"] if _first_token(stem) == ns})
 
 
-_WHOLE_WIKILINK_RE = re.compile(r"^\[\[[^\]]+\]\]$")
-
-
 def propose_aliases(vault_root):
     index = build_index(vault_root)
     counts = {}
     for rec in index["persons"]:
         for v in company_values(rec["fm"]):
-            if _WHOLE_WIKILINK_RE.match(v.strip()):
+            if is_wikilink(v):
                 continue
             counts[v] = counts.get(v, 0) + 1
     out = {}
@@ -667,7 +711,7 @@ def _scalar(value):
     quotes.
     """
     s = str(value)
-    if _WHOLE_WIKILINK_RE.match(s.strip()):
+    if is_wikilink(s):
         # `[[...]]` may itself contain a quote or backslash — the pattern
         # allows anything but `]`. Only keep Obsidian's double quotes when
         # they actually survive a round trip.
@@ -738,7 +782,7 @@ def migrate_person(text, alias_map):
     raw = company_values(fm)
     resolved, legacy = [], []
     for v in raw:
-        if _WHOLE_WIKILINK_RE.match(v.strip()):
+        if is_wikilink(v):
             resolved.append(v)
             continue
         target = alias_map.get(v)

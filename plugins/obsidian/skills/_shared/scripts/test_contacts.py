@@ -2,6 +2,7 @@ import json
 import sys
 from pathlib import Path
 
+import pytest
 import yaml
 
 sys.path.insert(0, str(Path(__file__).parent))
@@ -26,6 +27,82 @@ def test_is_wikilink():
     assert c.is_wikilink("[[BEDAG Informatik AG]]") is True
     assert c.is_wikilink("bedag") is False
     assert c.is_wikilink("") is False
+
+
+# One predicate, anchored. `is_wikilink` used to be a `re.search`, so lint
+# read "[[X]] (bis 2024)" as a clean link while the migration read it as an
+# unresolvable slug and demoted it into company_legacy.
+def test_is_wikilink_is_anchored_not_a_substring_search():
+    assert c.is_wikilink("[[BEDAG Informatik AG]] (bis 2024)") is False
+    assert c.is_wikilink("Bedag [[Foo]]") is False
+    assert c.is_wikilink("  [[BEDAG Informatik AG]]  ") is True
+
+
+def test_contains_wikilink_is_the_separate_narrower_question():
+    assert c.contains_wikilink("[[BEDAG Informatik AG]] (bis 2024)") is True
+    assert c.contains_wikilink("[[BEDAG Informatik AG]]") is True
+    assert c.contains_wikilink("bedag") is False
+
+
+def _index_with_person_company(value, company_norm=None):
+    # check_slug_drift only reads persons[i]["fm"]/["path"] and company_norm.
+    return {
+        "persons": [{"path": Path("Testperson.md"), "fm": {"company": [value]}}],
+        "company_norm": company_norm or {},
+    }
+
+
+def test_slug_drift_reports_wikilink_with_trailing_qualifier():
+    # The shape that used to lint clean and then lose its working link: the
+    # target exists, so nothing here is a dead reference — it is the value's
+    # *form* that the write path cannot honour.
+    idx = _index_with_person_company(
+        "[[BEDAG Informatik AG]] (bis 2024)",
+        {"bedaginformatikag": ["BEDAG Informatik AG"]},
+    )
+    out = c.check_slug_drift(idx)
+    assert len(out) == 1
+    assert out[0]["message"] == (
+        "company enthaelt einen Wikilink, ist aber keiner: "
+        "'[[BEDAG Informatik AG]] (bis 2024)'"
+    )
+    # Never autofixable: no rule can decide which half names the company.
+    assert out[0]["autofixable"] is False
+
+
+def test_slug_drift_clean_wikilink_stays_silent():
+    idx = _index_with_person_company(
+        "[[BEDAG Informatik AG]]", {"bedaginformatikag": ["BEDAG Informatik AG"]})
+    assert c.check_slug_drift(idx) == []
+
+
+def test_slug_drift_plain_slug_keeps_its_own_message():
+    idx = _index_with_person_company("bedag", {"bedag": ["BEDAG Informatik AG"]})
+    out = c.check_slug_drift(idx)
+    assert len(out) == 1
+    assert "als Freitext statt Wikilink" in out[0]["message"]
+    assert out[0]["autofixable"] is True
+
+
+def test_slug_drift_reports_half_migrated_fixture():
+    idx = c.build_index(FIXTURE)
+    hits = [f for f in c.check_slug_drift(idx)
+            if f["file"].stem == "Frida Mischwert"]
+    assert len(hits) == 1
+    assert "enthaelt einen Wikilink, ist aber keiner" in hits[0]["message"]
+    assert hits[0]["autofixable"] is False
+
+
+def test_orphan_company_ignores_qualified_wikilink():
+    # Same predicate on the read side: a value the migration will not treat
+    # as a link must not silently count as one here either.
+    idx = {
+        "persons": [{"path": Path("P.md"),
+                     "fm": {"company": ["[[BEDAG Informatik AG]] (bis 2024)"]}}],
+        "companies": {"BEDAG Informatik AG": Path("BEDAG Informatik AG.md")},
+        "company_norm": {},
+    }
+    assert len(c.check_orphan_company(idx)) == 1
 
 
 def test_company_values_from_list():
@@ -138,6 +215,49 @@ def test_code_blocks_extracts_lang_and_body():
     blocks = c.code_blocks(text)
     assert [b[0] for b in blocks] == ["dataview", "base"]
     assert blocks[0][1].strip() == "abc"
+
+
+# A fence written "```base " (trailing space) is what the old Company.md
+# template emitted. The old pattern matched none of these three variants, and
+# because `finditer` then resynchronised on the *next* triple-backtick, one
+# padded fence made `code_blocks()` return [] for the entire file — 5 real
+# company pages went unchecked while lint reported them clean.
+@pytest.mark.parametrize("opener", [
+    "```base",        # plain, the already-working form
+    "```base ",       # trailing space
+    "```base\t",      # trailing tab
+    "``` base ",      # padding on both sides
+])
+def test_code_blocks_tolerates_padded_fence(opener):
+    text = f"vor\n{opener}\nfilters:\n  - company.contains(\"x\")\n```\nnach\n"
+    blocks = c.code_blocks(text)
+    assert [b[0] for b in blocks] == ["base"]
+    assert blocks[0][1] == 'filters:\n  - company.contains("x")\n'
+
+
+def test_code_blocks_tolerates_crlf_fence():
+    text = "vor\r\n```base\r\nfilters:\r\n```\r\nnach\r\n"
+    blocks = c.code_blocks(text)
+    assert [b[0] for b in blocks] == ["base"]
+    assert "filters:" in blocks[0][1]
+
+
+def test_code_blocks_padded_fence_does_not_hide_later_blocks():
+    # The regression that stranded 17 people: the unmatched padded fence used
+    # to swallow the rest of the file, so a following, perfectly ordinary
+    # dataview block disappeared too.
+    text = "```base \nalt\n```\n\n```dataview\nneu\n```\n"
+    assert [b[0] for b in c.code_blocks(text)] == ["base", "dataview"]
+
+
+def test_query_drift_sees_padded_base_fence():
+    idx = {"company_records": [{
+        "path": Path("Gepolstert AG.md"),
+        "text": '```base \nfilters:\n  - company.contains("gepolstert")\n```\n',
+    }]}
+    out = c.check_query_drift(idx)
+    assert len(out) == 1
+    assert out[0]["autofixable"] is False
 
 
 def test_company_predicate_matches_both_forms():
