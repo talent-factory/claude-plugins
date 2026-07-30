@@ -692,3 +692,84 @@ def test_migrate_companies_reports_unknown_targets(tmp_path):
         tmp_path, {"tippfehler": "Bedag Informatk AG"}, dry_run=True)
 
     assert result["unknown_targets"] == ["Bedag Informatk AG"]
+
+
+# Round 2: a curated `slug:`/`aliases:` can be structurally well-delimited
+# (passes `_key_span` cleanly) and still be the wrong *type* — `slug: 2024`,
+# `slug: off` (YAML-1.1 bool-like), `aliases: {a: b}` (flow mapping), or
+# `aliases: bedag-alt` (plain scalar). `company_skip_reason` did not check
+# value types before this fix, so these passed the gate and were then either
+# silently overwritten (`slug`) or silently dropped (`aliases`) inside
+# `migrate_company_frontmatter` — never reported, never refused.
+
+def test_company_skip_reason_refuses_non_string_slug_numeric():
+    text = "---\ntags:\n  - company\nslug: 2024\n---\n\nBody.\n"
+    assert c.company_skip_reason(text) is not None
+
+
+def test_company_skip_reason_refuses_non_string_slug_boollike():
+    text = "---\ntags:\n  - company\nslug: off\n---\n\nBody.\n"
+    assert c.company_skip_reason(text) is not None
+
+
+def test_company_skip_reason_refuses_flow_mapping_aliases():
+    text = "---\ntags:\n  - company\naliases: {a: b}\n---\n\nBody.\n"
+    assert c.company_skip_reason(text) is not None
+
+
+def test_company_skip_reason_refuses_scalar_string_aliases():
+    text = "---\ntags:\n  - company\naliases: bedag-alt\n---\n\nBody.\n"
+    assert c.company_skip_reason(text) is not None
+
+
+def test_migrate_company_frontmatter_refuses_non_string_slug_numeric():
+    text = "---\ntags:\n  - company\nslug: 2024\n---\n\nBody.\n"
+    out, changes = c.migrate_company_frontmatter(text, ["bedag"])
+    assert out == text
+    assert changes == []
+
+
+def test_migrate_company_frontmatter_refuses_non_string_slug_boollike():
+    text = "---\ntags:\n  - company\nslug: off\n---\n\nBody.\n"
+    out, changes = c.migrate_company_frontmatter(text, ["bedag"])
+    assert out == text
+    assert changes == []
+
+
+def test_migrate_company_frontmatter_refuses_flow_mapping_aliases():
+    text = "---\ntags:\n  - company\naliases: {a: b}\n---\n\nBody.\n"
+    out, changes = c.migrate_company_frontmatter(text, ["bedag"])
+    assert out == text
+    assert changes == []
+
+
+def test_migrate_company_frontmatter_refuses_scalar_string_aliases():
+    text = "---\ntags:\n  - company\naliases: bedag-alt\n---\n\nBody.\n"
+    out, changes = c.migrate_company_frontmatter(text, ["bedag"])
+    assert out == text
+    assert changes == []
+
+
+def test_migrate_companies_buckets_bad_slug_and_aliases_types_as_skipped(tmp_path):
+    # With an empty alias map both files would get no slugs assigned and the
+    # invisibility bug (finding B) would not be exercised (empty-slugs is
+    # already a legitimate no-op, not a defect). Route real slugs at both
+    # stems via the alias map so `migrate_company_frontmatter` actually has
+    # to read the bad `slug:`/`aliases:` values.
+    companies = tmp_path / c.COMPANIES_DIR
+    companies.mkdir(parents=True)
+    (companies / "badslug.md").write_text(
+        "---\ntags:\n  - company\nslug: 2024\n---\n\nBody.\n", encoding="utf-8")
+    (companies / "badaliases.md").write_text(
+        "---\ntags:\n  - company\naliases: {a: b}\n---\n\nBody.\n",
+        encoding="utf-8")
+
+    alias_map = {"badslug-alt": "badslug", "badaliases-alt": "badaliases"}
+    result = c.migrate_companies(tmp_path, alias_map, dry_run=True)
+
+    assert result["touched"] == []
+    assert len(result["skipped"]) == 2
+    assert all(s["reason"] for s in result["skipped"])
+    assert result["failed"] == []
+    badslug_text = (companies / "badslug.md").read_text(encoding="utf-8")
+    assert "slug: 2024" in badslug_text

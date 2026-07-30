@@ -776,6 +776,19 @@ def company_skip_reason(text):
     two keys `migrate_company_frontmatter` is about to touch so a duplicate
     `slug:`/`aliases:` or a dangling flow collection is reported, not
     dropped from the manifest.
+
+    Structural safety (`_key_span`) is not enough on its own: a single-line
+    value can be perfectly well-delimited and still be the wrong *type* —
+    `slug: 2024`, `slug: off` (YAML-1.1 bool-like), or `aliases: {a: b}`
+    (a flow mapping) all pass `_key_span` cleanly. Left unchecked here,
+    `migrate_company_frontmatter` would either silently overwrite a curated
+    `slug:` it cannot compare as text, or silently no-op on an `aliases:`
+    it cannot flatten — both indistinguishable from "nothing to do" for the
+    caller. So the value types are checked too: `slug` must be a string (or
+    absent), `aliases` must be a list (or absent/null) — a scalar string is
+    *not* accepted here even though it is unambiguous in isolation, so that
+    this gate and `migrate_company_frontmatter`'s guards can never disagree
+    about what counts as safe.
     """
     parts = _fm_parts(text)
     if parts is None:
@@ -792,6 +805,12 @@ def company_skip_reason(text):
             _key_span(lines, k)
         except _Unsafe as e:
             return str(e)
+    slug = fm.get("slug")
+    if slug is not None and not isinstance(slug, str):
+        return f"slug ist kein Text (Typ {type(slug).__name__})"
+    aliases = fm.get("aliases")
+    if aliases is not None and not isinstance(aliases, list):
+        return f"aliases ist keine Liste (Typ {type(aliases).__name__})"
     return None
 
 
@@ -807,7 +826,11 @@ def migrate_company_frontmatter(text, slugs):
     whoever still links the old slug. `migrate_companies` pre-validates the
     `slug`/`aliases` keys via `company_skip_reason` before ever calling this,
     but the guards below stay in place so this function is also safe to call
-    directly, as the tests do.
+    directly, as the tests do — and so the gate and the write path can never
+    disagree about what counts as safe: every early return below for a
+    *structural* reason mirrors a check `company_skip_reason` already makes,
+    so a gated caller never actually reaches these `return text, []` lines
+    for those reasons; they exist for direct callers only.
     """
     parts = _fm_parts(text)
     if parts is None or not slugs:
@@ -823,12 +846,20 @@ def migrate_company_frontmatter(text, slugs):
     existing = fm.get("aliases")
     if existing is None:
         existing = []
-    elif isinstance(existing, str):
-        existing = [existing]
     elif not isinstance(existing, list):
-        return text, []          # e.g. a mapping — never guess, never flatten
+        # e.g. a flow mapping (`{a: b}`) or a plain scalar string — never
+        # guess how to flatten it into a list, refuse instead. A gated
+        # caller never reaches this: `company_skip_reason` already refuses
+        # any non-list, non-null `aliases`.
+        return text, []
     prev_slug = fm.get("slug")
-    if prev_slug != primary and isinstance(prev_slug, str) and prev_slug.strip():
+    if prev_slug is not None and not isinstance(prev_slug, str):
+        # e.g. `slug: 2024` or `slug: off` (YAML-1.1 bool-like) — never
+        # guess, and never overwrite it either. A gated caller never
+        # reaches this: `company_skip_reason` already refuses any
+        # non-string, non-null `slug`.
+        return text, []
+    if prev_slug and prev_slug != primary and prev_slug.strip():
         extra = sorted(set(extra) | {prev_slug.strip()})
     merged = sorted(set(str(x) for x in existing) | set(extra))
     changes = []
