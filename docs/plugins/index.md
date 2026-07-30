@@ -13,7 +13,7 @@ Browse all available plugins in the Talent Factory marketplace. Each plugin prov
 | [Code Quality](code-quality.md)             | 3.1.0   | 1        | 3      | 1      | review, quality, Python, React      |
 | [Education](education.md)                   | 1.5.0   | 1        | 2      | 3      | teaching, learning, markdown, FFHS  |
 | [Core Utilities](core.md)                   | 3.2.0   | 7        | 2      | 6      | validation, CI, PDF, ponytail, dev  |
-| [Obsidian Integration](obsidian.md)         | 1.4.0   | 0        | 0      | 11     | tasks, Obsidian, wiki, briefing, ideas |
+| [Obsidian Integration](obsidian.md)         | 1.5.0   | 0        | 0      | 14     | tasks, Obsidian, wiki, contacts, briefing |
 | [Development](development.md)               | 1.3.2   | 1        | 1      | 2      | java, gradle, python, documentation |
 | [Gemini Bridge](gemini-bridge.md)           | 1.1.0   | 3        | 2      | 4      | gemini, mcp, multi-model, vision    |
 | [Dev Browser](dev-browser.md)               | 1.0.0   | 0        | 0      | 1      | browser, playwright, scraping, testing |

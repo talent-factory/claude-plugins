@@ -1,17 +1,19 @@
 # Obsidian Integration Plugin
 
 Obsidian integration for Claude Code: task management via the TaskNotes Plugin API,
-LLM-Wiki curation, and productivity intelligence — daily briefings, weekly retrospectives,
-project-pulse dashboards, and opportunity mining — all from within Claude Code.
+LLM-Wiki curation, contact graph curation, and productivity intelligence — daily
+briefings, weekly retrospectives, project-pulse dashboards, and opportunity mining —
+all from within Claude Code.
 
-## Version 1.4.0
+## Version 1.5.0
 
-This plugin combines four complementary workflows for Obsidian users:
+This plugin combines five complementary workflows for Obsidian users:
 
 1. **Task management** — through the TaskNotes Plugin HTTP API
 2. **LLM-Wiki maintenance** — curate a personal knowledge base from web clippings, AI chats, transcripts, and notes
-3. **Daily & weekly intelligence** — aggregate tasks, calendar, email, Linear, and GitHub into structured briefings
-4. **Opportunity mining** — surface product and project ideas from your knowledge base and repositories
+3. **Contact graph curation** — validate and maintain the person/company link graph, derive edges from daily notes, and brief before a meeting
+4. **Daily & weekly intelligence** — aggregate tasks, calendar, email, Linear, and GitHub into structured briefings
+5. **Opportunity mining** — surface product and project ideas from your knowledge base and repositories
 
 ---
 
@@ -188,6 +190,9 @@ what could I build next?
 /obsidian:wiki-migrate-file
 /obsidian:wiki-think
 /obsidian:wiki-maintain
+/obsidian:contacts-lint
+/obsidian:contacts-sync
+/obsidian:contacts-brief
 ```
 
 ---
@@ -284,6 +289,33 @@ all fixable issues are resolved automatically and the remainder are logged.
 Scheduling recipes (cron/launchd) are provided in
 `skills/wiki-maintain/references/cron-recipes.md`.
 
+### contacts-lint
+
+Deterministic health check of the person/company link graph in `30 Persons` and
+`35 Companies`. Six rules: `frontmatter`, `slug-drift`, `deadlinks`,
+`query-drift`, `orphan-company`, `dupes`. Exit code 1 signals at least one
+`critical` finding; exit code 2 means the run never happened (missing PyYAML,
+bad vault root, unknown rule name) and is never a clean result.
+
+Reporting only. `contacts.py` is the sole writer to those folders, via the
+reviewed alias map (`--migrate --alias-map <file> --apply`); frontmatter is
+never hand-edited, because re-rendering it through a YAML dumper rewrites
+values the migration was never asked to touch.
+
+### contacts-sync
+
+Derives contact graph edges from the daily notes: converts plain-text person
+mentions into wikilinks, and proposes topic and company edges. Mentions already
+inside a `[[Wikilink]]`, an alias link `[[Page|Name]]`, or a markdown
+`[Name](url)` are reported but never proposed for linkifying; frontmatter is not
+scanned. Every change is presented as a confirmable diff.
+
+### contacts-brief
+
+Assembles a briefing for a person before a meeting — frontmatter, page body,
+linked company pages, topic edges, and every dated mention across the daily
+notes. Read-only: the briefing goes to the chat, never to a file.
+
 ---
 
 ## LLM-Wiki Vault Layout
@@ -311,8 +343,10 @@ obsidian/
 ├── skills/
 │   ├── _shared/
 │   │   ├── scripts/
-│   │   │   └── validate.py          # shared deterministic validation (requires PyYAML)
-│   │   └── validation-rules.md      # prose fallback rules
+│   │   │   ├── validate.py          # shared deterministic validation (requires PyYAML)
+│   │   │   └── contacts.py          # contact graph rules + surgical migration
+│   │   ├── validation-rules.md      # prose fallback rules (wiki)
+│   │   └── contact-rules.md         # prose fallback rules (contacts)
 │   ├── tasknotes/
 │   │   ├── SKILL.md
 │   │   └── scripts/
@@ -332,6 +366,12 @@ obsidian/
 │   │   └── references/
 │   │       └── idea-signals.md
 │   ├── project-pulse/
+│   │   └── SKILL.md
+│   ├── contacts-lint/
+│   │   └── SKILL.md
+│   ├── contacts-sync/
+│   │   └── SKILL.md
+│   ├── contacts-brief/
 │   │   └── SKILL.md
 │   ├── wiki-ingest/
 │   │   └── SKILL.md
@@ -353,6 +393,15 @@ obsidian/
 ---
 
 ## Changelog
+
+### Version 1.5.0 (2026-07-30)
+
+- Added `contacts-lint` skill: deterministic health check of the person/company link graph in `30 Persons` and `35 Companies` — `frontmatter`, `slug-drift`, `deadlinks`, `query-drift`, `orphan-company`, and `dupes` rules over a shared `skills/_shared/scripts/contacts.py`, with `skills/_shared/contact-rules.md` as the prose fallback for environments without PyYAML
+- Added `contacts-sync` skill: derives contact graph edges from daily notes — plain-text mentions to wikilinks, plus proposed topic and company edges, all presented as a confirmable diff
+- Added `contacts-brief` skill: read-only briefing dossier for a person (frontmatter, page body, linked company pages, topic edges, and every dated daily-note mention)
+- `contacts.py` edits frontmatter surgically — only the touched keys are replaced and every other line stays byte-identical. Measured against 1260 real person pages, re-rendering the frontmatter through a YAML dumper instead rewrites 600 files it was never asked to touch (timestamps lose their `T` separator, block scalars reflow, quote style and list indentation change)
+- Migration writes only through a human-reviewed alias map (`--migrate --alias-map <file> --apply`); an unresolved slug is preserved in `company_legacy` rather than guessed at, and an alias-map target with no matching company page aborts the run before anything is written
+- Plugin now ships 14 skills (tasknotes, today, weekly-review, project-pulse, ideas, contacts-lint, contacts-sync, contacts-brief, wiki-ingest, wiki-query, wiki-lint, wiki-migrate-file, wiki-think, wiki-maintain)
 
 ### Version 1.4.0 (2026-06-22)
 
