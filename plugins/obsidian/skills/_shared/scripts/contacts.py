@@ -17,7 +17,6 @@ sys.path.insert(0, str(Path(__file__).parent))
 from validate import (  # noqa: E402  reuse — do not duplicate
     load_record,
     normalize_ref,
-    parse_frontmatter,
     strip_code,
 )
 
@@ -210,7 +209,7 @@ def check_deadlinks(index):
 # The negative lookbehind keeps `!contains(company, "x")` out: rewriting a
 # negated predicate to the canonical form would invert the query's meaning.
 COMPANY_PREDICATE_RE = re.compile(
-    r'(?<!!)contains\(\s*company\s*,\s*"[^"]*"\s*\)|company\s*=\s*"[^"]*"'
+    r'(?<!!)\bcontains\(\s*company\s*,\s*"[^"]*"\s*\)|\bcompany\s*=\s*"[^"]*"'
 )
 CANONICAL_PREDICATE = "contains(company, this.file.link)"
 _BLOCK_RE = re.compile(r"```([a-zA-Z0-9_-]*)\n(.*?)```", re.DOTALL)
@@ -228,7 +227,7 @@ def check_query_drift(index):
         for lang, body, _s, _e in code_blocks(rec["text"]):
             if lang not in ("dataview", "base"):
                 continue
-            if CANONICAL_PREDICATE in body:
+            if CANONICAL_PREDICATE in body and not COMPANY_PREDICATE_RE.search(body):
                 continue                      # already migrated
             if COMPANY_PREDICATE_RE.search(body):
                 findings.append({
@@ -416,14 +415,26 @@ def main(argv=None):
         except (ValueError, OSError, yaml.YAMLError, AttributeError) as e:
             print(json.dumps({"error": f"{type(e).__name__}: {e}"}))
             return 2
+        # Companies first, dry-run, to see unknown_targets before anything is
+        # written: an alias-map target with no matching company page would
+        # make migrate_persons write a wikilink that never resolves, and the
+        # person silently vanishes from that company's table — the exact bug
+        # this project exists to fix, freshly created.
+        comp = migrate_companies(root, amap, dry_run=True)
+        if comp["unknown_targets"] and args.apply:
+            print(json.dumps({
+                "error": "Alias-Map verweist auf Firmenseiten, die es nicht gibt",
+                "unknown_targets": comp["unknown_targets"],
+            }, indent=2, ensure_ascii=False))
+            return 2
         result = {
-            "persons": migrate_persons(Path(args.vault_root), amap,
-                                        dry_run=not args.apply),
-            "companies": migrate_companies(Path(args.vault_root), amap,
-                                            dry_run=not args.apply),
+            "persons": migrate_persons(root, amap, dry_run=not args.apply),
+            "companies": (comp if not args.apply
+                          else migrate_companies(root, amap, dry_run=False)),
         }
         print(json.dumps(result, indent=2, ensure_ascii=False))
-        return 0
+        failed = result["persons"]["failed"] or result["companies"]["failed"]
+        return 1 if failed else 0
     rules = [r.strip() for r in args.rules.split(",") if r.strip()]
     findings = run(Path(args.vault_root), rules)
     print(json.dumps([{**f, "file": str(f["file"])} for f in findings], indent=2))
@@ -726,7 +737,7 @@ def migrate_persons(vault_root, alias_map, dry_run=True):
 
 
 def migrate_company_queries(text):
-    """Rewrite `company == "slug"` predicates to `this.file.link`.
+    """Rewrite `company = "slug"` predicates to `this.file.link`.
 
     Only the `dataview` code block's `company` predicate is touched — the
     `tags` condition, `sort`, column list, and any `base` block stay
@@ -744,8 +755,6 @@ def migrate_company_queries(text):
         if not COMPANY_PREDICATE_RE.search(body):
             continue
         new_body, n = COMPANY_PREDICATE_RE.subn(CANONICAL_PREDICATE, body)
-        if n == 0 or new_body == body:
-            continue
         out.append(text[last:start])
         out.append(f"```{lang}\n{new_body}```")
         last = end
@@ -756,15 +765,49 @@ def migrate_company_queries(text):
     return "".join(out), changes
 
 
+def company_skip_reason(text):
+    """Why a company page cannot be migrated, or None when it can.
+
+    `migrate_companies` gates on this instead of `validate.parse_frontmatter`,
+    which is not line-anchored: a page could pass that looser gate and then
+    be silently refused inside `migrate_company_frontmatter` (which returns
+    `(text, [])` — indistinguishable from "no slugs for this page" for the
+    caller). Mirrors `skip_reason` on the person side, pre-validating the
+    two keys `migrate_company_frontmatter` is about to touch so a duplicate
+    `slug:`/`aliases:` or a dangling flow collection is reported, not
+    dropped from the manifest.
+    """
+    parts = _fm_parts(text)
+    if parts is None:
+        return "kein oder mehrdeutig abgegrenztes Frontmatter"
+    try:
+        fm = yaml.safe_load(parts[1])
+    except yaml.YAMLError as e:
+        return f"YAML nicht lesbar: {type(e).__name__}"
+    if not isinstance(fm, dict):
+        return "Frontmatter ist kein Mapping"
+    lines = parts[1].split("\n")
+    for k in ("slug", "aliases"):
+        try:
+            _key_span(lines, k)
+        except _Unsafe as e:
+            return str(e)
+    return None
+
+
 def migrate_company_frontmatter(text, slugs):
     """Freeze the reviewed slug mapping: first slug becomes `slug`, rest `aliases`.
 
     Surgical, like `migrate_person`: only the two keys are rewritten, every
     other line of the company page's frontmatter stays byte-identical. A
-    duplicate `slug:`/`aliases:` key or an unclosed flow collection makes
-    `_key_span` raise `_Unsafe`; that propagates out of here uncaught, and
-    `migrate_companies` below catches it per-file so one unsafe page cannot
-    abort the whole run.
+    curated `slug:` that disagrees with the new primary is never discarded —
+    it merges into `aliases` instead, mirroring the merge-never-overwrite
+    rule this module already applies to `company_legacy`; overwriting it
+    outright would silently break `_resolve_slug`/`check_deadlinks` for
+    whoever still links the old slug. `migrate_companies` pre-validates the
+    `slug`/`aliases` keys via `company_skip_reason` before ever calling this,
+    but the guards below stay in place so this function is also safe to call
+    directly, as the tests do.
     """
     parts = _fm_parts(text)
     if parts is None or not slugs:
@@ -777,10 +820,17 @@ def migrate_company_frontmatter(text, slugs):
     if not isinstance(fm, dict):
         return text, []
     primary, extra = slugs[0], sorted(slugs[1:])
-    existing = fm.get("aliases") or []
-    if isinstance(existing, str):
+    existing = fm.get("aliases")
+    if existing is None:
+        existing = []
+    elif isinstance(existing, str):
         existing = [existing]
-    merged = sorted(set(existing) | set(extra))
+    elif not isinstance(existing, list):
+        return text, []          # e.g. a mapping — never guess, never flatten
+    prev_slug = fm.get("slug")
+    if prev_slug != primary and isinstance(prev_slug, str) and prev_slug.strip():
+        extra = sorted(set(extra) | {prev_slug.strip()})
+    merged = sorted(set(str(x) for x in existing) | set(extra))
     changes = []
     lines = fm_text.split("\n")
     if fm.get("slug") != primary:
@@ -799,15 +849,23 @@ def migrate_companies(vault_root, alias_map, dry_run=True):
     reverse = {}
     for slug, target in sorted(alias_map.items()):
         reverse.setdefault(target, []).append(slug)
+    stems = {p.stem for p in (vault_root / COMPANIES_DIR).glob("*.md")}
+    # An alias-map target with no matching company page is the bug this
+    # whole project exists to fix, freshly created: migrate_persons would
+    # write a wikilink to a page that renders `this.file.link` against a
+    # target that never resolves, and the person silently vanishes from the
+    # table. Only this function enumerates COMPANIES_DIR, so only here can
+    # it be caught before any write happens.
+    unknown_targets = sorted({t for t in alias_map.values() if t not in stems})
     touched, skipped, failed = [], [], []
     for p in sorted((vault_root / COMPANIES_DIR).glob("*.md")):
         # Mirrors migrate_persons: one unsafe or unreadable file must not
         # abort the run and must still show up in the manifest.
         try:
             text = p.read_text(encoding="utf-8")
-            if parse_frontmatter(text)[0] in (None, "INVALID"):
-                skipped.append({"file": str(p),
-                                 "reason": "kein oder ungueltiges Frontmatter"})
+            reason = company_skip_reason(text)
+            if reason is not None:
+                skipped.append({"file": str(p), "reason": reason})
                 continue
             new, changes = migrate_company_queries(text)
             new2, ch2 = migrate_company_frontmatter(new, reverse.get(p.stem, []))
@@ -820,7 +878,7 @@ def migrate_companies(vault_root, alias_map, dry_run=True):
         except Exception as e:                        # noqa: BLE001 — reported
             failed.append({"file": str(p), "error": f"{type(e).__name__}: {e}"})
     return {"touched": touched, "skipped": skipped, "failed": failed,
-            "dry_run": dry_run}
+            "unknown_targets": unknown_targets, "dry_run": dry_run}
 
 
 if __name__ == "__main__":

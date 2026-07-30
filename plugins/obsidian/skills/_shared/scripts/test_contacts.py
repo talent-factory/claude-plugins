@@ -583,7 +583,11 @@ def test_migrate_company_queries_leaves_tag_only_query_alone():
 
 
 def test_migrate_company_queries_leaves_base_blocks_alone():
-    text = '```base\nfilters:\n  - company.contains("bedag")\n```\n'
+    # `company.contains("bedag")` (the round-1 body) is not matched by
+    # COMPANY_PREDICATE_RE at all, so this used to pass whether or not
+    # `lang != "dataview"` was even checked. Use a body the regex *would*
+    # match, so the guard is the only thing keeping it untouched.
+    text = '```base\nfilters:\n  - where: company = "bedag"\n```\n'
     out, changes = c.migrate_company_queries(text)
     assert out == text
     assert changes == []
@@ -603,11 +607,29 @@ def test_migrate_company_frontmatter_adds_slug():
 
 
 def test_migrate_company_frontmatter_puts_extra_slugs_into_aliases():
+    # `"bedag-informatik" in out` alone would pass if the value landed under
+    # `slug:` or leaked into the body — assert on the parsed structure.
     out, _ = c.migrate_company_frontmatter(
         COMPANY_OLD, ["bedag", "bedag-informatik", "bedag.ch"])
-    assert "slug: bedag" in out
-    assert "bedag-informatik" in out
-    assert "bedag.ch" in out
+    fm = yaml.safe_load(c._fm_parts(out)[1])
+    assert fm["slug"] == "bedag"
+    assert set(fm["aliases"]) == {"bedag-informatik", "bedag.ch"}
+
+
+def test_migrate_company_frontmatter_merges_existing_aliases():
+    # Covers a requirement round 1 had zero coverage for: pre-existing
+    # aliases must survive (a mutant reducing the union to just the new
+    # extras passed the full suite), and a curated `slug:` that disagrees
+    # with the new primary must be preserved as an alias, not discarded —
+    # the same merge-never-overwrite rule this module already applies to
+    # `company_legacy`.
+    text = ("---\ntags:\n  - company\nslug: bedag-informatik\n"
+            "aliases:\n  - bedag-alt\n---\n\nBody.\n")
+    out, changes = c.migrate_company_frontmatter(text, ["bedag", "bedag.ch"])
+    fm = yaml.safe_load(c._fm_parts(out)[1])
+    assert fm["slug"] == "bedag"
+    assert set(fm["aliases"]) == {"bedag-alt", "bedag-informatik", "bedag.ch"}
+    assert changes
 
 
 def test_migrate_company_frontmatter_idempotent():
@@ -621,3 +643,52 @@ def test_migrate_company_frontmatter_noop_without_slugs():
     out, changes = c.migrate_company_frontmatter(COMPANY_OLD, [])
     assert out == COMPANY_OLD
     assert changes == []
+
+
+def test_migrate_company_frontmatter_refuses_ambiguous_delimiters():
+    # A "---" inside a block-scalar value: the naive `validate.parse_frontmatter`
+    # split would evict every later key into the body; `_fm_parts` must
+    # refuse instead of guessing, and this function must leave the file
+    # byte-identical when it does.
+    text = ("---\ntags:\n  - company\n"
+            "notiz: |\n  Erstkontakt\n  ---\n  Nachfass\n"
+            "---\n\nText.\n")
+    out, changes = c.migrate_company_frontmatter(text, ["bedag"])
+    assert out == text
+    assert changes == []
+
+
+def test_migrate_companies_buckets_refused_files_with_reasons(tmp_path):
+    companies = tmp_path / c.COMPANIES_DIR
+    companies.mkdir(parents=True)
+    (companies / "clean.md").write_text(
+        "---\ntags:\n  - company\n---\n\nBody.\n", encoding="utf-8")
+    (companies / "duplicate.md").write_text(
+        "---\nslug: a\ntags:\n  - company\nslug: b\n---\n\nBody.\n",
+        encoding="utf-8",
+    )
+    (companies / "broken.md").write_text(
+        "---\nkind: : :\n bad\n---\n\nBody.\n", encoding="utf-8")
+
+    result = c.migrate_companies(tmp_path, {"x": "clean"}, dry_run=True)
+
+    assert len(result["touched"]) == 1
+    assert len(result["skipped"]) == 2
+    assert all(s["reason"] for s in result["skipped"])
+    assert result["failed"] == []
+
+
+def test_migrate_companies_reports_unknown_targets(tmp_path):
+    # `migrate_companies` is the only function that enumerates COMPANIES_DIR,
+    # so it is the only place that can catch an alias-map target with no
+    # matching company page before migrate_persons writes a wikilink to it —
+    # a link that would then never resolve against `this.file.link`.
+    companies = tmp_path / c.COMPANIES_DIR
+    companies.mkdir(parents=True)
+    (companies / "Bedag Informatik AG.md").write_text(
+        "---\ntags:\n  - company\n---\n\nBody.\n", encoding="utf-8")
+
+    result = c.migrate_companies(
+        tmp_path, {"tippfehler": "Bedag Informatk AG"}, dry_run=True)
+
+    assert result["unknown_targets"] == ["Bedag Informatk AG"]
