@@ -389,6 +389,61 @@ def test_infer_kind_uses_pre_migration_company():
     assert c.infer_kind(fm, has_company=True) == "alumni"
 
 
+# Fix round 1, item 1: infer_kind's has_school widening. The real-world
+# trigger is "30 Persons/Aaron Venetz.md" — tags carry the module code,
+# frontmatter carries the module's per-field grade tracking, no `school:`/
+# `module:`/`class:` key anywhere. Each test's mutation check: temporarily
+# comment out the corresponding `or _has_...(fm)` clause in infer_kind and
+# confirm the test goes red before restoring it (see task-8-report.md, Fix
+# round 1, item 1a for the recorded before/after run).
+
+def test_infer_kind_module_field_key_signal():
+    # Isolates the frontmatter-key signal: tag is plain "person" (does not
+    # itself match the module-code tag pattern), so only the per-module
+    # frontmatter fields (modulnote/gitlab/group/aufgabe — Aaron Venetz's
+    # actual field set) can trigger the classification.
+    fm = {
+        "tags": ["person"],
+        "inf-p-se003-modulnote": "5.7",
+        "inf-p-se003-gitlab": "https://git.ffhs.ch/aaron.venetz/dua-aufgaben",
+        "inf-p-se003-group": 9,
+        "inf-p-se003-aufgabe": False,
+    }
+    assert c.infer_kind(fm) == "student"
+
+
+def test_infer_kind_module_tag_signal():
+    # Module-code tag alone (no matching frontmatter field, no company) —
+    # covers the "#inf-p-se017-ol-fs24" shape (leading "#" must be stripped).
+    fm = {"tags": ["person", "#inf-p-se017-ol-fs24"]}
+    assert c.infer_kind(fm) == "student"
+
+
+def test_infer_kind_student_email_domain_signal():
+    # Student mail domain alone (no tag, no frontmatter field, no company).
+    fm = {"tags": ["person"], "email": "aaron.venetz@students.ffhs.ch"}
+    assert c.infer_kind(fm) == "student"
+
+
+def test_infer_kind_student_email_domain_in_list():
+    # `email` may be a list (a private + a student address) — the domain
+    # check must scan every item, not just fm["email"] as a scalar.
+    fm = {"tags": ["person"], "email": ["alita@gmail.com", "alita.seehawat@students.ffhs.ch"]}
+    assert c.infer_kind(fm) == "student"
+
+
+def test_infer_kind_plain_contact_stays_contact():
+    # Negative: a real contact with an ordinary word tag, a plain business
+    # domain, and no module-shaped frontmatter keys must not be reclassified.
+    fm = {
+        "tags": ["person", "talent-factory"],
+        "email": "info@acme.ch",
+        "role": "CTO",
+        "company": ["[[Acme AG]]"],
+    }
+    assert c.infer_kind(fm) == "contact"
+
+
 def test_load_alias_map_rejects_pipe_in_target(tmp_path):
     p = tmp_path / "a.yaml"
     p.write_text("s:\n  target: A AG | B AG\n")

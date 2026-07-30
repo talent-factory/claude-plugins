@@ -468,6 +468,61 @@ def load_alias_map(path):
     return out
 
 
+# School evidence beyond the explicit `school`/`module`/`class` keys.
+#
+# FFHS module tracking on a person page rarely uses those three keys — it
+# shows up as a per-module frontmatter key (`inf-p-se003-modulnote`,
+# `inf-p-se003-group`, `dv_ffhs-da-gitlab`, ...), a module-code tag
+# (`inf-p-se003`, `#inf-p-se017-ol-fs24`), or a `@students.<school>.ch`-style
+# email. Suffix set derived from grepping every non-standard frontmatter key
+# across the real `30 Persons/*.md` corpus (see task-8-report.md, Fix round
+# 1, item 1) — a pattern, not a hardcoded list of module codes or names.
+_MODULE_FIELD_SUFFIXES = (
+    "modulnote", "group", "gitlab", "aufgabe",  # brief's own examples
+    "git", "grade", "np", "lang", "mp", "ass", "pf", "va", "kt",
+    "erfahrungsnote", "sol", "title", "praesi", "vorschlag", "arbeit",
+    "fokusthema", "oral", "termin", "exam", "idea", "mop", "nap",
+)
+_MODULE_FIELD_KEY_RE = re.compile(
+    r"^(?:dv_)?[a-z][a-z0-9]*(?:-[a-z0-9]+)+-(?:"
+    + "|".join(_MODULE_FIELD_SUFFIXES) + r")\d*$"
+)
+# A module-code tag is hyphen-separated and carries a digit somewhere (the
+# course/semester code) — "inf-p-se003", "#inf-p-se017-ol-fs24",
+# "wi-p-in008-ol-fs24". Plain word tags like "talent-factory" or "guild42"
+# have no hyphen+digit combination and are correctly left alone.
+_TAG_MODULE_CODE_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)+$")
+# Student mail domains start their first label with "stud" —
+# "students.ffhs.ch", "stud.gibb.ch", "student.education.ch" all attested in
+# the vault. Anchored right after "@" so a domain merely containing "stud"
+# later (unattested here) does not match.
+_STUDENT_EMAIL_RE = re.compile(r"@stud[a-z]*\.", re.IGNORECASE)
+
+
+def _has_module_field_key(fm):
+    if not isinstance(fm, dict):
+        return False
+    return any(_MODULE_FIELD_KEY_RE.match(str(k).lower()) for k in fm.keys())
+
+
+def _has_module_tag(fm):
+    for t in _tag_list(fm):
+        t = t.lstrip("#").lower()
+        if _TAG_MODULE_CODE_RE.match(t) and any(ch.isdigit() for ch in t):
+            return True
+    return False
+
+
+def _has_student_email(fm):
+    if not isinstance(fm, dict):
+        return False
+    email = fm.get("email")
+    if email is None:
+        return False
+    items = email if isinstance(email, list) else [email]
+    return any(_STUDENT_EMAIL_RE.search(str(e)) for e in items)
+
+
 def infer_kind(fm, has_company=None):
     """`has_company` must reflect the state BEFORE migration.
 
@@ -479,7 +534,12 @@ def infer_kind(fm, has_company=None):
     """
     if has_company is None:
         has_company = bool(company_values(fm))
-    has_school = any(fm.get(k) for k in ("school", "module", "class"))
+    has_school = (
+        any(fm.get(k) for k in ("school", "module", "class"))
+        or _has_module_field_key(fm)
+        or _has_module_tag(fm)
+        or _has_student_email(fm)
+    )
     if has_company and has_school:
         return "alumni"
     if has_company:

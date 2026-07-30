@@ -8,6 +8,8 @@ Fallback, wenn `contacts.py` mangels PyYAML mit Exit-Code 2 abbricht.
 - `tags` enthält `person` — minor, autofixable
 - `kind` ∈ `{contact, student, alumni}` — minor, autofixable
 - `company` ist eine Liste (nicht Skalar) — minor, autofixable
+  (eine leere/fehlende `company` wird als `company:` (null) geschrieben, nicht
+  als `company: []` — das zaehlt als leere Liste)
 - Fehlendes oder defektes YAML — critical, nicht autofixable
 
 ## slug-drift
