@@ -921,3 +921,24 @@ def test_mention_match_returns_linked_true_for_wikilink_only():
     pos, linked = c._mention_match(text, "Bruno Altfall")
     assert linked is True
     assert text[pos - 2:pos] == "[["
+
+
+def test_dossier_collects_company_topics_and_mentions():
+    d = c.dossier(FIXTURE, "Anna Beispiel")
+    assert d["person"] == "Anna Beispiel"
+    assert d["companies"] == ["BEDAG Informatik AG"]
+    assert any(m["daily"] == "2026-07-01" for m in d["mentions"])
+
+
+def test_dossier_includes_company_body():
+    d = c.dossier(FIXTURE, "Anna Beispiel")
+    assert "Mitarbeiter" in d["company_bodies"]["BEDAG Informatik AG"]
+
+
+def test_dossier_raises_on_unknown_person():
+    try:
+        c.dossier(FIXTURE, "Gibt Es Nicht")
+    except KeyError as e:
+        assert "Gibt Es Nicht" in str(e)
+    else:
+        raise AssertionError("expected KeyError")

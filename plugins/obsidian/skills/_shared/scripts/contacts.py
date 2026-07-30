@@ -385,6 +385,7 @@ def main(argv=None):
                         help="write changes; without it the migration is a dry run")
     parser.add_argument("--mentions", action="store_true")
     parser.add_argument("--since", default=None)
+    parser.add_argument("--dossier", default=None, metavar="NAME")
     parser.add_argument("--format", default="json", choices=["json"])
     args = parser.parse_args(argv)
     if yaml is None:
@@ -440,6 +441,14 @@ def main(argv=None):
     if args.mentions:
         print(json.dumps(person_mentions(Path(args.vault_root), args.since),
                          indent=2, ensure_ascii=False))
+        return 0
+    if args.dossier:
+        try:
+            print(json.dumps(dossier(Path(args.vault_root), args.dossier),
+                             indent=2, ensure_ascii=False))
+        except KeyError as e:
+            print(json.dumps({"error": str(e)}))
+            return 2
         return 0
     rules = [r.strip() for r in args.rules.split(",") if r.strip()]
     findings = run(Path(args.vault_root), rules)
@@ -1038,6 +1047,33 @@ def person_mentions(vault_root, since=None, only=None):
                 "linked": linked,
             })
     return out
+
+
+def dossier(vault_root, name):
+    vault_root = Path(vault_root)
+    index = build_index(vault_root)
+    rec = next((r for r in index["persons"] if r["path"].stem == name), None)
+    if rec is None:
+        raise KeyError(f"Person nicht gefunden: {name}")
+    fm = rec["fm"] if isinstance(rec["fm"], dict) else {}
+    companies = [normalize_ref(v) for v in company_values(fm) if is_wikilink(v)]
+    topics = [normalize_ref(v) for v in _topic_values(fm) if is_wikilink(v)]
+    bodies = {}
+    for stem in companies:
+        p = index["companies"].get(stem)
+        if p is not None:
+            bodies[stem] = load_record(p)["body"]
+    mentions = person_mentions(vault_root, None, only=[name])
+    return {
+        "person": name,
+        "path": str(rec["path"]),
+        "fm": fm,
+        "body": rec["body"],
+        "companies": companies,
+        "topics": topics,
+        "company_bodies": bodies,
+        "mentions": mentions,
+    }
 
 
 if __name__ == "__main__":
