@@ -853,3 +853,42 @@ def test_migrate_companies_buckets_bad_slug_and_aliases_types_as_skipped(tmp_pat
     assert result["failed"] == []
     badslug_text = (companies / "badslug.md").read_text(encoding="utf-8")
     assert "slug: 2024" in badslug_text
+
+
+def test_person_mentions_finds_wikilinked_person():
+    m = c.person_mentions(FIXTURE, None)
+    hit = [x for x in m if x["person"] == "Anna Beispiel"]
+    assert len(hit) == 1
+    assert hit[0]["linked"] is True
+    assert "Coding-Agents" in hit[0]["context"]
+
+
+def test_person_mentions_finds_plaintext_person():
+    m = c.person_mentions(FIXTURE, None)
+    hit = [x for x in m if x["person"] == "Bruno Altfall"]
+    assert len(hit) == 1
+    assert hit[0]["linked"] is False
+
+
+def test_person_mentions_respects_since():
+    assert c.person_mentions(FIXTURE, "2026-08-01") == []
+    assert c.person_mentions(FIXTURE, "2026-06-01")
+
+
+def test_person_mentions_ignores_code_blocks():
+    m = [x for x in c.person_mentions(FIXTURE, "2026-07-02")
+         if x["daily"] == "2026-07-02"]
+    assert m == []
+
+
+def test_person_mentions_only_filter_restricts_names():
+    m = c.person_mentions(FIXTURE, None, only=["Anna Beispiel"])
+    assert {x["person"] for x in m} == {"Anna Beispiel"}
+
+
+def test_person_mentions_respects_name_boundaries():
+    # "Patrick Lang" must not be reported for a daily that names
+    # "Patrick Langloh" — both exist in the real vault.
+    m = [x for x in c.person_mentions(FIXTURE, "2026-07-03")
+         if x["daily"] == "2026-07-03"]
+    assert {x["person"] for x in m} == {"Patrick Langloh"}

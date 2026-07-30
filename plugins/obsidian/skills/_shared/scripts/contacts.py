@@ -383,6 +383,8 @@ def main(argv=None):
     parser.add_argument("--alias-map", default=None)
     parser.add_argument("--apply", action="store_true",
                         help="write changes; without it the migration is a dry run")
+    parser.add_argument("--mentions", action="store_true")
+    parser.add_argument("--since", default=None)
     parser.add_argument("--format", default="json", choices=["json"])
     args = parser.parse_args(argv)
     if yaml is None:
@@ -435,6 +437,10 @@ def main(argv=None):
         print(json.dumps(result, indent=2, ensure_ascii=False))
         failed = result["persons"]["failed"] or result["companies"]["failed"]
         return 1 if failed else 0
+    if args.mentions:
+        print(json.dumps(person_mentions(Path(args.vault_root), args.since),
+                         indent=2, ensure_ascii=False))
+        return 0
     rules = [r.strip() for r in args.rules.split(",") if r.strip()]
     findings = run(Path(args.vault_root), rules)
     print(json.dumps([{**f, "file": str(f["file"])} for f in findings], indent=2))
@@ -972,6 +978,56 @@ def migrate_companies(vault_root, alias_map, dry_run=True):
             failed.append({"file": str(p), "error": f"{type(e).__name__}: {e}"})
     return {"touched": touched, "skipped": skipped, "failed": failed,
             "unknown_targets": unknown_targets, "dry_run": dry_run}
+
+
+DAILY_DIR = "10 Daily"
+_CONTEXT_CHARS = 400
+
+
+def _mention_match(text, name):
+    """Locate a mention of `name`, respecting word boundaries.
+
+    A plain `str.find` would report "Patrick Lang" inside "Patrick Langloh" —
+    both are real people in this vault. Returns (position, linked) with
+    position -1 when the name does not occur.
+    """
+    esc = re.escape(name)
+    m = re.search(r"\[\[" + esc + r"(?=[\]|#])", text)
+    if m:
+        return m.start(), True
+    m = re.search(r"(?<!\w)" + esc + r"(?!\w)", text)
+    if m:
+        return m.start(), False
+    return -1, False
+
+
+def person_mentions(vault_root, since=None, only=None):
+    vault_root = Path(vault_root)
+    index = build_index(vault_root)
+    names = {rec["path"].stem for rec in index["persons"]}
+    if only is not None:
+        names &= set(only)
+    out = []
+    ddir = vault_root / DAILY_DIR
+    if not ddir.exists():
+        return out
+    for p in sorted(ddir.glob("*.md")):
+        if since and p.stem < since:
+            continue
+        text = strip_code(p.read_text(encoding="utf-8"))
+        for name in sorted(names):
+            pos, linked = _mention_match(text, name)
+            if pos < 0:
+                continue
+            lo = max(0, pos - _CONTEXT_CHARS // 2)
+            out.append({
+                "person": name,
+                "daily": p.stem,
+                "date": p.stem,
+                "context": text[lo:pos + _CONTEXT_CHARS // 2],
+                "linked": linked,
+            })
+    return out
 
 
 if __name__ == "__main__":
