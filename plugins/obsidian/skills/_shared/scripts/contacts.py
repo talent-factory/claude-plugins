@@ -988,16 +988,26 @@ def _mention_match(text, name):
     """Locate a mention of `name`, respecting word boundaries.
 
     A plain `str.find` would report "Patrick Lang" inside "Patrick Langloh" —
-    both are real people in this vault. Returns (position, linked) with
-    position -1 when the name does not occur.
+    both are real people in this vault. When `name` occurs both as plain
+    text and as a `[[Wikilink]]` in the same text, the plain-text occurrence
+    wins: it is the actionable one — the mention that still wants linking —
+    so it must not be shadowed by an already-linked occurrence found first.
+    Returns (position, linked) with position -1 when the name does not
+    occur.
     """
     esc = re.escape(name)
-    m = re.search(r"\[\[" + esc + r"(?=[\]|#])", text)
-    if m:
-        return m.start(), True
-    m = re.search(r"(?<!\w)" + esc + r"(?!\w)", text)
-    if m:
-        return m.start(), False
+    wiki_hit = None
+    for m in re.finditer(r"(?<!\w)" + esc + r"(?!\w)", text):
+        pos, end = m.start(), m.end()
+        linked = (text[max(0, pos - 2):pos] == "[["
+                  and text[end:end + 1] in ("]", "|", "#"))
+        if linked:
+            if wiki_hit is None:
+                wiki_hit = pos
+            continue
+        return pos, False
+    if wiki_hit is not None:
+        return wiki_hit, True
     return -1, False
 
 

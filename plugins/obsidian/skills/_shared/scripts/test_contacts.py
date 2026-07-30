@@ -892,3 +892,32 @@ def test_person_mentions_respects_name_boundaries():
     m = [x for x in c.person_mentions(FIXTURE, "2026-07-03")
          if x["daily"] == "2026-07-03"]
     assert {x["person"] for x in m} == {"Patrick Langloh"}
+
+
+def test_mention_match_prefers_plaintext_when_wikilink_follows():
+    # Plain text first, wikilink later — the still-actionable plain-text
+    # occurrence at position 0 must win, not the already-linked one at 54.
+    text = ("Bruno Altfall hat geschrieben. Später erwähnte auch "
+            "[[Bruno Altfall]] das Projekt.")
+    pos, linked = c._mention_match(text, "Bruno Altfall")
+    assert (pos, linked) == (0, False)
+
+
+def test_mention_match_prefers_plaintext_when_wikilink_precedes():
+    # Same pair, reversed order — the plain-text occurrence still wins,
+    # regardless of where in the text it sits relative to the wikilink.
+    text = ("Zuerst erwähnt als [[Bruno Altfall]]. Später schrieb "
+            "Bruno Altfall selbst dazu.")
+    pos, linked = c._mention_match(text, "Bruno Altfall")
+    assert linked is False
+    assert text[pos:pos + len("Bruno Altfall")] == "Bruno Altfall"
+    assert text[pos - 2:pos] != "[["
+
+
+def test_mention_match_returns_linked_true_for_wikilink_only():
+    # No plain-text occurrence anywhere — must still report linked=True,
+    # so the precedence fix does not silently make everything unlinked.
+    text = "Notiz zu [[Bruno Altfall]] und dem naechsten Termin."
+    pos, linked = c._mention_match(text, "Bruno Altfall")
+    assert linked is True
+    assert text[pos - 2:pos] == "[["
