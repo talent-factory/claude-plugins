@@ -1099,3 +1099,185 @@ def test_person_mentions_uses_prebuilt_index_when_supplied():
     # find her, so the assertion above is not vacuously true.
     m_full = c.person_mentions(FIXTURE, None)
     assert any(x["person"] == "Anna Beispiel" for x in m_full)
+
+
+# --- T3: no read-only branch may fail silently green -----------------------
+#
+# Every one of these used to print `[]` and exit 0. `--rules` and `--mentions`
+# are what the shipped skills call, so a mistyped argument reported a clean
+# vault rather than an error.
+
+@pytest.mark.parametrize("argv", [
+    ["--rules", "frontmatter,slug-drift"],
+    ["--mentions"],
+    ["--propose-aliases"],
+    ["--dossier", "Anna Beispiel"],
+])
+def test_main_rejects_missing_vault_root_on_every_branch(argv, capsys, tmp_path):
+    rc = c.main(["--vault-root", str(tmp_path / "nicht-da")] + argv)
+    payload = json.loads(capsys.readouterr().out)
+    assert rc == 2
+    assert "vault-root fehlt" in payload["error"]
+
+
+def test_main_rejects_unknown_rule_and_lists_the_valid_ones(capsys):
+    rc = c.main(["--vault-root", str(FIXTURE), "--rules", "deadlnks"])
+    payload = json.loads(capsys.readouterr().out)
+    assert rc == 2
+    assert "deadlnks" in payload["error"]
+    # The message has to be actionable, not just non-zero.
+    assert "deadlinks" in payload["gueltige_regeln"]
+    assert set(payload["gueltige_regeln"]) == set(c.CHECKS)
+
+
+def test_main_accepts_a_valid_rule_subset(capsys):
+    rc = c.main(["--vault-root", str(FIXTURE), "--rules", "dupes"])
+    assert rc == 0
+    assert all(f["rule"] == "dupes" for f in json.loads(capsys.readouterr().out))
+
+
+@pytest.mark.parametrize("since", ["gestern", "2026-7-2", "2026-07", "yesterday"])
+def test_main_rejects_non_date_since(since, capsys):
+    # `--since` is compared with `<` against a YYYY-MM-DD stem, so "gestern"
+    # sorts above every daily and silently skipped all 886 of them.
+    rc = c.main(["--vault-root", str(FIXTURE), "--mentions", "--since", since])
+    payload = json.loads(capsys.readouterr().out)
+    assert rc == 2
+    assert "YYYY-MM-DD" in payload["error"]
+
+
+def test_main_accepts_a_real_date_for_since(capsys):
+    rc = c.main(["--vault-root", str(FIXTURE), "--mentions", "--since", "2026-07-01"])
+    assert rc == 0
+    assert isinstance(json.loads(capsys.readouterr().out), list)
+
+
+def test_run_raises_on_unknown_rule_rather_than_skipping_it():
+    with pytest.raises(KeyError):
+        c.run(FIXTURE, ["deadlnks"])
+
+
+def test_main_has_no_format_flag():
+    # The flag accepted only "json" and --propose-aliases printed YAML anyway.
+    with pytest.raises(SystemExit):
+        c.main(["--vault-root", str(FIXTURE), "--format", "json"])
+
+
+# --- T4: a linkify proposal must never corrupt an existing link ------------
+#
+# Measured over 886 dailies x 1260 names: of 110 `linked: false` hits, 20 sat
+# inside `[Name](url)`, 4 inside `[[Page|Name]]`, and 2 in YAML frontmatter.
+
+def test_mention_match_markdown_link_is_not_actionable():
+    pos, linked = c._mention_match("Siehe [Anna Beispiel](https://x.ch) dort.",
+                                   "Anna Beispiel")
+    assert pos >= 0 and linked is True
+
+
+def test_mention_match_markdown_link_with_name_inside_longer_label():
+    pos, linked = c._mention_match("Siehe [Profil von Anna Beispiel](https://x.ch).",
+                                   "Anna Beispiel")
+    assert pos >= 0 and linked is True
+
+
+def test_mention_match_markdown_link_url_containing_the_name():
+    pos, linked = c._mention_match("[Profil](https://x.ch/Anna Beispiel)",
+                                   "Anna Beispiel")
+    assert pos >= 0 and linked is True
+
+
+def test_mention_match_alias_wikilink_is_not_actionable():
+    pos, linked = c._mention_match("Gespraech mit [[Person/Anna|Anna Beispiel]].",
+                                   "Anna Beispiel")
+    assert pos >= 0 and linked is True
+
+
+def test_mention_match_plaintext_still_wins_over_a_markdown_link():
+    # The precedence rule must survive the widened "already linked" set: a
+    # genuinely actionable mention elsewhere in the note still reports False.
+    text = "Siehe [Anna Beispiel](https://x.ch). Spaeter traf ich Anna Beispiel."
+    pos, linked = c._mention_match(text, "Anna Beispiel")
+    assert linked is False
+    assert text[pos:pos + len("Anna Beispiel")] == "Anna Beispiel"
+    assert pos > text.index("](")          # the second, unlinked occurrence
+
+
+def test_strip_frontmatter_removes_only_the_leading_block():
+    text = "---\ntitle: Anna Beispiel\n---\n\nText ueber Anna Beispiel.\n"
+    out = c._strip_frontmatter(text)
+    assert "title:" not in out
+    assert "Text ueber Anna Beispiel." in out
+
+
+def test_strip_frontmatter_leaves_a_note_without_frontmatter_alone():
+    text = "Nur Text ueber Anna Beispiel.\n"
+    assert c._strip_frontmatter(text) == text
+
+
+def test_person_mentions_ignores_frontmatter_hits(tmp_path):
+    # A TaskNotes `title:` naming a person is a structured field, not prose.
+    (tmp_path / "30 Persons").mkdir()
+    (tmp_path / "35 Companies").mkdir()
+    (tmp_path / "10 Daily").mkdir()
+    (tmp_path / "30 Persons" / "Anna Beispiel.md").write_text(
+        "---\ntags:\n  - person\n---\n", encoding="utf-8")
+    (tmp_path / "10 Daily" / "2026-07-30.md").write_text(
+        "---\ntitle: Call mit Anna Beispiel\n---\n\nNichts weiter.\n",
+        encoding="utf-8")
+    assert c.person_mentions(tmp_path) == []
+
+
+# --- T5: a list-valued email must still collide with a scalar one ----------
+
+def test_email_values_flattens_list_and_scalar():
+    assert c._email_values({"email": "A@X.ch"}) == ["a@x.ch"]
+    assert c._email_values({"email": ["A@X.ch", " b@y.ch "]}) == ["a@x.ch", "b@y.ch"]
+    assert c._email_values({}) == []
+    assert c._email_values({"email": None}) == []
+
+
+def test_dupes_matches_list_valued_email_against_a_scalar_one():
+    idx = {"persons": [
+        {"path": Path("Anna Scalar.md"), "fm": {"email": "geteilt@example.ch"}},
+        {"path": Path("Anna Liste.md"),
+         "fm": {"email": ["privat@example.ch", "geteilt@example.ch"]}},
+    ]}
+    hits = [f for f in c.check_dupes(idx) if "geteilt@example.ch" in f["message"]]
+    # Both files must be reported, not just the scalar one.
+    assert {f["file"].stem for f in hits} == {"Anna Scalar", "Anna Liste"}
+
+
+def test_dupes_does_not_report_a_page_against_itself():
+    # The same address listed twice on one page is not a duplicate person.
+    idx = {"persons": [
+        {"path": Path("Anna Doppelt.md"),
+         "fm": {"email": ["a@x.ch", "a@x.ch"]}},
+    ]}
+    assert [f for f in c.check_dupes(idx) if f["rule"] == "dupes"
+            and "a@x.ch" in f["message"]] == []
+
+
+# --- T8: the temp file must never survive inside the watched vault ---------
+
+def test_atomic_write_replaces_content_and_leaves_no_tmp(tmp_path):
+    p = tmp_path / "Anna Beispiel.md"
+    p.write_text("alt\n", encoding="utf-8")
+    c._atomic_write(p, "neu\n")
+    assert p.read_text(encoding="utf-8") == "neu\n"
+    assert list(tmp_path.iterdir()) == [p]
+
+
+def test_atomic_write_cleans_up_its_tmp_file_on_failure(tmp_path, monkeypatch):
+    # A stray `Foo.md.tmp` sibling shows up in Obsidian as a near-duplicate
+    # note and pollutes search and the Smart Connections index.
+    p = tmp_path / "Anna Beispiel.md"
+    p.write_text("alt\n", encoding="utf-8")
+
+    def boom(*_a, **_k):
+        raise OSError("disk full")
+
+    monkeypatch.setattr(c.os, "replace", boom)
+    with pytest.raises(OSError):
+        c._atomic_write(p, "neu\n")
+    assert p.read_text(encoding="utf-8") == "alt\n"       # original intact
+    assert list(tmp_path.iterdir()) == [p]                # no .md.tmp sibling

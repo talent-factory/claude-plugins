@@ -322,14 +322,35 @@ def check_orphan_company(index):
     return findings
 
 
+def _email_values(index_or_fm):
+    """Every address on a person page, list-valued or scalar.
+
+    102 of the 308 real person pages with an email store it as a list.
+    `str(fm["email"])` turned those into a Python repr — "['a@x', 'b@y']" —
+    which cannot collide with a scalar, so `check_dupes` was blind to a
+    third of the corpus. `_has_student_email` already flattened the same
+    field correctly; the two disagreed about one key. One accessor now.
+    """
+    fm = index_or_fm
+    if not isinstance(fm, dict):
+        return []
+    raw = fm.get("email")
+    if raw is None:
+        return []
+    items = raw if isinstance(raw, list) else [raw]
+    return [s for s in (str(e).strip().lower() for e in items) if s]
+
+
 @register("dupes")
 def check_dupes(index):
     by_email = {}
     by_name = {}
     for rec in index["persons"]:
         fm = rec["fm"]
-        if isinstance(fm, dict) and fm.get("email"):
-            by_email.setdefault(str(fm["email"]).strip().lower(), []).append(rec["path"])
+        for addr in _email_values(fm):
+            paths = by_email.setdefault(addr, [])
+            if rec["path"] not in paths:      # same address listed twice
+                paths.append(rec["path"])
         base = re.sub(r"\s*\(\d+\)$", "", rec["path"].stem)
         by_name.setdefault(normalize_slug(base), []).append(rec["path"])
     findings = []
@@ -411,10 +432,23 @@ def run(vault_root, rules):
     index = build_index(vault_root)
     findings = []
     for name in rules:
-        fn = CHECKS.get(name)
-        if fn:
-            findings.extend(fn(index))
+        # Direct indexing on purpose. `CHECKS.get(name)` skipped an unknown
+        # rule wordlessly, so `--rules deadlnks` (typo) printed `[]` and
+        # exited 0 — a clean bill of health for a check nobody ran.
+        findings.extend(CHECKS[name](index))
     return findings
+
+
+# Every branch needs the same two guards, not just the writing ones: the
+# shipped skills call the read-only branches, and a mistyped --vault-root or
+# a non-date --since made all of them exit 0 with an empty result.
+_DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
+
+
+def _vault_error(root):
+    missing = [d for d in (PERSONS_DIR, COMPANIES_DIR)
+               if not (Path(root) / d).is_dir()]
+    return f"vault-root fehlt: {', '.join(missing)}" if missing else None
 
 
 def main(argv=None):
@@ -430,32 +464,44 @@ def main(argv=None):
     parser.add_argument("--mentions", action="store_true")
     parser.add_argument("--since", default=None)
     parser.add_argument("--dossier", default=None, metavar="NAME")
-    parser.add_argument("--format", default="json", choices=["json"])
+    # No --format flag: it only ever accepted "json", and --propose-aliases
+    # printed YAML regardless. A knob with one value that the one branch it
+    # looks relevant to ignores is worse than no knob.
     args = parser.parse_args(argv)
     if yaml is None:
         print(json.dumps({"error": "PyYAML not installed", "fallback": "prose"}))
         return 2
+    root = Path(args.vault_root)
+    # A mistyped --vault-root would otherwise yield an empty result and exit 0
+    # — a silent green light, whether for a 550-file migration or for a lint
+    # run whose "no findings" the caller is entitled to trust.
+    err = _vault_error(root)
+    if err:
+        print(json.dumps({"error": err}))
+        return 2
+    rules = [r.strip() for r in args.rules.split(",") if r.strip()]
+    unknown = [r for r in rules if r not in CHECKS]
+    if unknown:
+        print(json.dumps({
+            "error": f"unbekannte Regel(n): {', '.join(unknown)}",
+            "gueltige_regeln": sorted(CHECKS),
+        }, ensure_ascii=False))
+        return 2
+    # `--since` is compared against a `YYYY-MM-DD` file stem with `<`. A
+    # non-date like "gestern" sorts above every stem, so every daily was
+    # skipped and the run reported no mentions at all.
+    if args.since is not None and not _DATE_RE.match(args.since):
+        print(json.dumps(
+            {"error": f"--since muss YYYY-MM-DD sein: {args.since!r}"},
+            ensure_ascii=False))
+        return 2
     if args.propose_aliases:
-        root = Path(args.vault_root)
-        # A mistyped --vault-root would otherwise yield an empty proposal and
-        # exit 0 — a silent green light for a 550-file migration.
-        missing = [d for d in (PERSONS_DIR, COMPANIES_DIR) if not (root / d).is_dir()]
-        if missing:
-            print(json.dumps({"error": f"vault-root fehlt: {', '.join(missing)}"}))
-            return 2
         proposal = propose_aliases(root)
         print(yaml.safe_dump(proposal, allow_unicode=True, sort_keys=True))
         return 0
     if args.migrate:
         if not args.alias_map:
             print(json.dumps({"error": "--migrate requires --alias-map"}))
-            return 2
-        root = Path(args.vault_root)
-        # Same guard as --propose-aliases. It matters more here: this is the
-        # branch that writes.
-        missing = [d for d in (PERSONS_DIR, COMPANIES_DIR) if not (root / d).is_dir()]
-        if missing:
-            print(json.dumps({"error": f"vault-root fehlt: {', '.join(missing)}"}))
             return 2
         try:
             amap = load_alias_map(Path(args.alias_map))
@@ -483,19 +529,18 @@ def main(argv=None):
         failed = result["persons"]["failed"] or result["companies"]["failed"]
         return 1 if failed else 0
     if args.mentions:
-        print(json.dumps(person_mentions(Path(args.vault_root), args.since),
+        print(json.dumps(person_mentions(root, args.since),
                          indent=2, ensure_ascii=False))
         return 0
     if args.dossier:
         try:
-            print(json.dumps(dossier(Path(args.vault_root), args.dossier),
+            print(json.dumps(dossier(root, args.dossier),
                              indent=2, ensure_ascii=False))
         except KeyError as e:
             print(json.dumps({"error": e.args[0] if e.args else str(e)}))
             return 2
         return 0
-    rules = [r.strip() for r in args.rules.split(",") if r.strip()]
-    findings = run(Path(args.vault_root), rules)
+    findings = run(root, rules)
     print(json.dumps([{**f, "file": str(f["file"])} for f in findings], indent=2))
     return 1 if any(f["severity"] == "critical" for f in findings) else 0
 
@@ -575,13 +620,9 @@ def _has_module_tag(fm):
 
 
 def _has_student_email(fm):
-    if not isinstance(fm, dict):
-        return False
-    email = fm.get("email")
-    if email is None:
-        return False
-    items = email if isinstance(email, list) else [email]
-    return any(_STUDENT_EMAIL_RE.search(str(e)) for e in items)
+    # Shares `_email_values` with check_dupes on purpose: the two used to
+    # flatten `email:` differently and so disagreed about the same field.
+    return any(_STUDENT_EMAIL_RE.search(e) for e in _email_values(fm))
 
 
 def infer_kind(fm, has_company=None):
@@ -651,6 +692,22 @@ def _fm_parts(text):
     if any(line.strip() == "---" for line in fm_text.split("\n")):
         return None
     return open_, fm_text, close, text[m.end():]
+
+
+def _strip_frontmatter(text):
+    """Drop a leading frontmatter block before scanning prose for mentions.
+
+    Frontmatter is structured metadata, not writing. Two real hits sit in a
+    daily note's frontmatter — one of them a TaskNotes `title:` — and
+    proposing a wikilink there would rewrite a machine-read field as if it
+    were a sentence.
+
+    Best-effort on purpose, unlike `_fm_parts`: that one fails closed
+    because it gates a *write*. Here the worst case of a miss is one
+    unfiltered scan, so a plain line-anchored match is the right trade.
+    """
+    m = _FM_RE.match(text or "")
+    return text[m.end():] if m else text
 
 
 def _tag_list(fm):
@@ -827,10 +884,26 @@ def _atomic_write(path, text):
 
     `Path.write_text` truncates first; an interruption mid-write loses the
     file. Over 1257 files that risk is not hypothetical.
+
+    `os.replace` orders the rename, not the data behind it, so a crash
+    between the two can leave a file that exists and is empty — atomic in
+    name only. fsync the temp file first.
+
+    The temp file is a sibling inside `30 Persons`/`35 Companies`, which
+    Obsidian watches: a leftover `Foo.md.tmp` surfaces in the vault as a
+    stray note and, being a near-copy, pollutes search and the Smart
+    Connections index. Remove it on any failure path.
     """
     tmp = path.with_suffix(path.suffix + ".tmp")
-    tmp.write_text(text, encoding="utf-8")
-    os.replace(tmp, path)
+    try:
+        with open(tmp, "w", encoding="utf-8") as fh:
+            fh.write(text)
+            fh.flush()
+            os.fsync(fh.fileno())
+        os.replace(tmp, path)
+    finally:
+        if tmp.exists():                    # only ever true when we failed
+            tmp.unlink()
 
 
 def migrate_persons(vault_root, alias_map, dry_run=True):
@@ -1037,30 +1110,52 @@ DAILY_DIR = "10 Daily"
 _CONTEXT_CHARS = 400
 
 
+# A markdown inline link. `/contacts:sync` proposes turning a `linked: false`
+# hit into a wikilink; doing that inside a link's label or its URL produces
+# `[[[Name]](url)` or a broken target. Measured over all 886 dailies x 1260
+# names: of 110 `linked: false` hits, 20 sat inside `[Name](url)` and 4
+# inside `[[Page|Name]]` — 24 of 110 proposals were corrupting.
+_MD_LINK_RE = re.compile(r"\[[^\]]*\]\([^)]*\)")
+
+
 def _mention_match(text, name):
-    """Locate a mention of `name`, respecting word boundaries.
+    """Locate an *actionable* mention of `name`, respecting word boundaries.
 
     A plain `str.find` would report "Patrick Lang" inside "Patrick Langloh" —
     both are real people in this vault. When `name` occurs both as plain
-    text and as a `[[Wikilink]]` in the same text, the plain-text occurrence
-    wins: it is the actionable one — the mention that still wants linking —
-    so it must not be shadowed by an already-linked occurrence found first.
+    text and in an already-linked position in the same text, the plain-text
+    occurrence wins: it is the actionable one — the mention that still wants
+    linking — so it must not be shadowed by a linked occurrence found first.
+
+    "Already linked" is three shapes, not one: a `[[Wikilink]]`, an alias
+    link `[[Page|Name]]` (the name is preceded by `|`), and a markdown
+    inline link `[Name](url)`. All three are reported with `linked: True`
+    rather than dropped — the mention is real and belongs in a dossier; it
+    just must never become a linkify proposal.
+
     Returns (position, linked) with position -1 when the name does not
     occur.
     """
     esc = re.escape(name)
-    wiki_hit = None
+    spans = [(m.start(), m.end()) for m in _MD_LINK_RE.finditer(text)]
+    linked_hit = None
     for m in re.finditer(r"(?<!\w)" + esc + r"(?!\w)", text):
         pos, end = m.start(), m.end()
-        linked = (text[max(0, pos - 2):pos] == "[["
-                  and text[end:end + 1] in ("]", "|", "#"))
+        linked = (
+            (text[max(0, pos - 2):pos] == "[["
+             and text[end:end + 1] in ("]", "|", "#"))
+            # `[[Page|Name]]` and `[Name](url)`: the character in front of
+            # the name already opens a link around it.
+            or text[pos - 1:pos] in ("|", "[")
+            or any(a <= pos < b for a, b in spans)
+        )
         if linked:
-            if wiki_hit is None:
-                wiki_hit = pos
+            if linked_hit is None:
+                linked_hit = pos
             continue
         return pos, False
-    if wiki_hit is not None:
-        return wiki_hit, True
+    if linked_hit is not None:
+        return linked_hit, True
     return -1, False
 
 
@@ -1078,7 +1173,7 @@ def person_mentions(vault_root, since=None, only=None, index=None):
     for p in sorted(ddir.glob("*.md")):
         if since and p.stem < since:
             continue
-        text = strip_code(p.read_text(encoding="utf-8"))
+        text = strip_code(_strip_frontmatter(p.read_text(encoding="utf-8")))
         for name in sorted(names):
             pos, linked = _mention_match(text, name)
             if pos < 0:
