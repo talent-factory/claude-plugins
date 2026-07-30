@@ -447,7 +447,7 @@ def main(argv=None):
             print(json.dumps(dossier(Path(args.vault_root), args.dossier),
                              indent=2, ensure_ascii=False))
         except KeyError as e:
-            print(json.dumps({"error": str(e)}))
+            print(json.dumps({"error": e.args[0] if e.args else str(e)}))
             return 2
         return 0
     rules = [r.strip() for r in args.rules.split(",") if r.strip()]
@@ -1020,9 +1020,10 @@ def _mention_match(text, name):
     return -1, False
 
 
-def person_mentions(vault_root, since=None, only=None):
+def person_mentions(vault_root, since=None, only=None, index=None):
     vault_root = Path(vault_root)
-    index = build_index(vault_root)
+    if index is None:
+        index = build_index(vault_root)
     names = {rec["path"].stem for rec in index["persons"]}
     if only is not None:
         names &= set(only)
@@ -1063,7 +1064,7 @@ def dossier(vault_root, name):
         p = index["companies"].get(stem)
         if p is not None:
             bodies[stem] = load_record(p)["body"]
-    mentions = person_mentions(vault_root, None, only=[name])
+    mentions = person_mentions(vault_root, None, only=[name], index=index)
     return {
         "person": name,
         "path": str(rec["path"]),

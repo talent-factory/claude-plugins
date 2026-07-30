@@ -927,7 +927,16 @@ def test_dossier_collects_company_topics_and_mentions():
     d = c.dossier(FIXTURE, "Anna Beispiel")
     assert d["person"] == "Anna Beispiel"
     assert d["companies"] == ["BEDAG Informatik AG"]
+    assert d["topics"] == ["Coding-Agents"]
     assert any(m["daily"] == "2026-07-01" for m in d["mentions"])
+
+
+def test_dossier_topics_filters_non_wikilink_values():
+    # Anna Beispiel's fixture also carries "Freitext-Thema", a non-wikilink
+    # topics entry — dossier must drop it, not guess a target for it.
+    d = c.dossier(FIXTURE, "Anna Beispiel")
+    assert "Freitext-Thema" not in d["topics"]
+    assert d["topics"] == ["Coding-Agents"]
 
 
 def test_dossier_includes_company_body():
@@ -942,3 +951,31 @@ def test_dossier_raises_on_unknown_person():
         assert "Gibt Es Nicht" in str(e)
     else:
         raise AssertionError("expected KeyError")
+
+
+def test_dossier_cli_unknown_person_error_has_no_stray_quotes(capsys):
+    # KeyError.__str__() returns repr(args[0]) for a single-arg KeyError,
+    # which would wrap the message in a stray leading/trailing apostrophe if
+    # the CLI branch used str(e) directly. The `error` value must read
+    # exactly the message text, nothing more.
+    rc = c.main(["--vault-root", str(FIXTURE), "--dossier", "Zzz Nichtvorhanden"])
+    payload = json.loads(capsys.readouterr().out)
+    assert rc == 2
+    assert payload["error"] == "Person nicht gefunden: Zzz Nichtvorhanden"
+    assert not payload["error"].startswith("'")
+    assert not payload["error"].endswith("'")
+
+
+def test_person_mentions_uses_prebuilt_index_when_supplied():
+    # A prebuilt index with a narrowed `persons` list must be honoured
+    # instead of person_mentions silently rebuilding its own full-scan index.
+    full_index = c.build_index(FIXTURE)
+    narrowed = dict(full_index)
+    narrowed["persons"] = [r for r in full_index["persons"]
+                            if r["path"].stem != "Anna Beispiel"]
+    m = c.person_mentions(FIXTURE, None, index=narrowed)
+    assert not [x for x in m if x["person"] == "Anna Beispiel"]
+    # Sanity check: the same query against the real (unnarrowed) index does
+    # find her, so the assertion above is not vacuously true.
+    m_full = c.person_mentions(FIXTURE, None)
+    assert any(x["person"] == "Anna Beispiel" for x in m_full)
