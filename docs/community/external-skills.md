@@ -12,13 +12,13 @@ These three collections were independently confirmed to exist and match their de
 |------------|-------------|------------|
 | Superpowers | Process-layer skills — TDD, systematic debugging, brainstorming, code review, and worktree-based collaboration patterns that a coding agent is instructed to invoke before acting. | [obra/superpowers](https://github.com/obra/superpowers) |
 | mattpocock/skills | Workflow-enforcement skills (planning, TDD, debugging, domain modeling, merge-conflict resolution) rather than raw capability extension. Ships its own script for linking selected skills instead of the whole repository. | [mattpocock/skills](https://github.com/mattpocock/skills) |
-| gstack | Garry Tan's opinionated multi-skill setup — CEO, design, eng-manager, QA, and security review personas exposed as slash commands. | [garrytan/gstack](https://github.com/garrytan/gstack) |
+| gstack | An opinionated multi-skill setup published under the `garrytan` GitHub account — CEO, design, eng-manager, QA, and security review personas exposed as slash commands. | [garrytan/gstack](https://github.com/garrytan/gstack) |
 
 ---
 
 ## Further Curated Lists
 
-Beyond individual collections, third parties periodically publish broader roundups. One such list, reproduced below with its original categories, is [Charlie Hills' "22 Claude Skills for Power Users"](https://charliehills.substack.com/) (MarTech AI Newsletter, July 2026).
+Beyond individual collections, third parties periodically publish broader roundups. One such list, reproduced below with its original categories, is Charlie Hills' ["22 Claude Skills for Power Users"](https://substack.com/@charliehills/note/c-302629554) (MarTech AI Newsletter, July 2026).
 
 !!! warning "Unverified third-party content"
     Only the three entries above have been independently confirmed. The table below is reproduced from the source as-is, with popularity metrics removed because they could not be verified and looked implausible for single-purpose skill repositories. **Confirm that a repository exists, is actively maintained, and matches its description before installing anything from it.**
@@ -30,9 +30,9 @@ Beyond individual collections, third parties periodically publish broader roundu
     | superpowers | Plans and debugs before it writes | [obra/superpowers](https://github.com/obra/superpowers) |
     | gstack | 23 skills in one setup | [garrytan/gstack](https://github.com/garrytan/gstack) |
     | caveman | No-fluff answers, no padding | [JuliusBrussee/caveman](https://github.com/JuliusBrussee/caveman) |
-    | ponytail | Says nothing, writes one line | [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail) |
+    | ponytail | Says nothing, writes one line (unrelated to this marketplace's own `core:ponytail` skill) | [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail) |
     | codex | Runs Codex inside Claude Code | [openai/codex-plugin-cc](https://github.com/openai/codex-plugin-cc) |
-    | i-have-adhd | Stops it burying the answer | *no public repository at time of writing* |
+    | i-have-adhd | Stops it burying the answer | *no repository given in the source* |
 
 === "Design"
 
@@ -73,7 +73,7 @@ Every installed skill's name and one-line description is loaded into the model's
 
 - **Prefer project scope over user scope.** Put skills in a repository's `.claude/skills/` rather than the global `~/.claude/skills/` whenever they are only relevant to that project. The token cost then only applies to sessions that actually work in that repository.
 - **Cherry-pick, don't bulk-install.** From a 20+ skill pack, symlink or copy only the two or three skills you actually invoke regularly, rather than pulling in the entire collection. Several collections (including `mattpocock/skills`) ship a helper script for exactly this purpose — check the repository's `scripts/` or `README.md` before resorting to a manual copy.
-- **Trial in isolation first.** Test a new skill with `claude --plugin-dir <path>` or in a disposable worktree before adding it to your global configuration, so a broken or overly broad trigger description does not affect every other session.
+- **Trial in isolation first.** Symlink a new skill into a scratch project's `.claude/skills/` inside a disposable worktree before adding it to your global (`~/.claude/skills/`) configuration, so a broken or overly broad trigger description does not affect every other session. (`claude --plugin-dir <path>` is a different mechanism — it loads a full plugin scaffold with `.claude-plugin/plugin.json`, not a bare skill folder.)
 - **Write (or edit) trigger descriptions narrowly.** A skill's `description` frontmatter is what the model matches against; an overly broad description causes false triggers, which then pull the skill's full body into context unnecessarily.
 - **Audit periodically.** Revisit `.claude/skills/` and `~/.claude/skills/` every so often and remove anything you have not invoked in months. There is no built-in expiry — unused skills persist and keep costing tokens until removed.
 
