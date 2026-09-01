@@ -103,6 +103,7 @@ Know of a great plugin resource we're missing?
 
 ## See Also
 
+- [External Skill Collections](external-skills.md) - Individual skills to adopt à la carte, outside the marketplace mechanism
 - [Plugin Catalog](../plugins/index.md) - Browse Talent Factory plugins
 - [Plugin Development](../development/plugin-development.md) - Create your own plugins
 - [Marketplace Setup](../getting-started/marketplace-setup.md) - Host your own marketplace
