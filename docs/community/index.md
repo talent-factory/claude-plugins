@@ -69,6 +69,8 @@ We welcome contributions from everyone! See our [Contributing Guide](../developm
 
 - **[Getting Started](../getting-started/index.md)** - Installation and setup
 - **[Plugin Catalog](../plugins/index.md)** - Browse available plugins
+- **[External Resources](external-resources.md)** - Marketplaces and MCP servers beyond this ecosystem
+- **[External Skill Collections](external-skills.md)** - Individual skills to adopt à la carte
 - **[Development Guide](../development/index.md)** - Create plugins
 - **[Reference](../reference/index.md)** - Technical documentation
 
