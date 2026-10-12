@@ -2,9 +2,9 @@
 
 Teaching aids, code explanations, and student support for IT education.
 
-## Version 1.5.0
+## Version 1.6.0
 
-This plugin provides educational tools for students and instructors, including code explanations, a Java Tutor agent, Markdown formatting skills, and FFHS lecture slide generation.
+This plugin provides educational tools for students and instructors, including code explanations, a Java Tutor agent, Markdown formatting skills, FFHS lecture slide generation, and Markdown-to-PDF conversion.
 
 ---
 
@@ -93,6 +93,30 @@ Create lecture presentations for FFHS (Fernfachhochschule Schweiz) in reveal.js 
 **Activation:**
 
 The skill activates when requesting presentations, lecture slides, or PVA materials.
+
+### md-to-pdf
+
+Erzeugt aus Markdown ein PDF oder eine ConTeXt-Quelle (`.tex`) mit frei konfigurierbarer Kopf- und Fusszeile.
+
+**Capabilities:**
+
+- Engine ConTeXt (default) or XeLaTeX
+- Configurable header and footer, font, margins, and page size via CLI or a `md-to-pdf.toml` in the repository
+- Automatic rendering of Mermaid diagrams (requires `npx` and `@mermaid-js/mermaid-cli`)
+
+**Requirements:** `pandoc`, Python 3.11+, and the chosen engine (`context` or `xelatex`) on the `PATH`
+
+**Activation:**
+
+- Automatic: "als PDF", "PDF erstellen", "md to pdf", "ConTeXt"
+- Manual: `/education:md-to-pdf`
+
+**Direct invocation:**
+
+```bash
+python3 ${CLAUDE_PLUGIN_ROOT}/skills/md-to-pdf/scripts/md_to_pdf.py QUELLE.md ZIEL.pdf \
+  --kopf-links "DuA_P · Block 05 · Aufgabenblatt" --kopf-rechts "Binäre Suchbäume"
+```
 
 ### Markdown Syntax Formatter
 
@@ -197,6 +221,10 @@ This plugin is designed to complement computer science curricula:
 ---
 
 ## Changelog
+
+### Version 1.6.0 (2026-10-12)
+
+- Added `md-to-pdf` skill for Markdown-to-PDF and ConTeXt conversion with configurable header/footer and Mermaid rendering
 
 ### Version 1.5.0 (2026-05-08)
 
