@@ -146,5 +146,28 @@ class EndToEndTest(unittest.TestCase):
             self.assertTrue(ziel.exists())
 
 
+@unittest.skipUnless(shutil.which("pandoc"), "pandoc nötig")
+class CodeblockFrameTest(unittest.TestCase):
+    def test_codeblock_rahmen_nach_pandoc_definetyping(self):
+        md = "# Titel\n\n```python\ndef f(x):\n    return x + 1\n```\n"
+        for profil_toml in ('', 'profil = "ffhs-thesis"\n[these]\ntitel = "T"\nautor = "A"\nreferent = ["R"]\n'
+                            'eingereicht_bei = ["E"]\nwohnort = "W"\n'):
+            with self.subTest(profil=bool(profil_toml)), tempfile.TemporaryDirectory() as t:
+                quelle = Path(t) / "q.md"
+                quelle.write_text(md, encoding="utf-8")
+                (Path(t) / "md-to-pdf.toml").write_text(profil_toml, encoding="utf-8")
+                ziel = Path(t) / "q.tex"
+                res = subprocess.run(
+                    [sys.executable, str(SCRIPT), str(quelle), str(ziel), "--format", "tex"],
+                    capture_output=True, text=True,
+                )
+                self.assertEqual(res.returncode, 0, res.stdout + res.stderr)
+                tex = ziel.read_text(encoding="utf-8")
+                definition = tex.index("\\definetyping [highlighting]")
+                einstellung = tex.index("\\setuptyping[highlighting][before=")
+                self.assertGreater(einstellung, definition)
+                self.assertLess(einstellung, tex.index("\\starttext"), "Einstellung muss vor dem Körper stehen")
+
+
 if __name__ == "__main__":
     unittest.main()
