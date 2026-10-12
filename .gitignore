@@ -65,6 +65,7 @@ Pipfile.lock
 
 # Claude Code specific
 .claude/settings.local.json
+.claude/.headroom_wrap_*
 .claude-plugin/cache/
 
 # Archives and compressed files
