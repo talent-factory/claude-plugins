@@ -165,6 +165,30 @@ class CodeblockBeschriftungTest(unittest.TestCase):
         self.assertEqual(out.count("\\mdListing"), 2)
 
 
+class TabellenBeschriftungTest(unittest.TestCase):
+    TABELLE = "| a | b |\n|---|---|\n| 1 | 2 |\n\n"
+
+    def test_beide_schreibweisen_werden_gleich(self):
+        self.assertIn(": Titel\n", m.tabellen_beschriftung(self.TABELLE + ": Titel\n"))
+        self.assertIn(": Titel\n", m.tabellen_beschriftung(self.TABELLE + ": Table: Titel\n"))
+
+    def test_groschreibung_und_leerzeichen(self):
+        self.assertIn(": Titel\n", m.tabellen_beschriftung(self.TABELLE + ":   Table:   Titel\n"))
+
+    def test_definitionsliste_ohne_tabelle_bleibt(self):
+        md = "Definition:\n\n: Table: Titel\n"
+        self.assertEqual(m.tabellen_beschriftung(md), md)
+
+    @unittest.skipUnless(shutil.which("pandoc"), "pandoc nötig")
+    def test_pandoc_erzeugt_caption_float(self):
+        for schreibweise in (": Titel", ": Table: Titel"):
+            with self.subTest(schreibweise=schreibweise):
+                md = m.tabellen_beschriftung(self.TABELLE + schreibweise + "\n")
+                res = subprocess.run(["pandoc", "--from", "markdown", "--to", "context"],
+                                     input=md, capture_output=True, text=True)
+                self.assertIn("\\startplacetable[title={Titel}]", res.stdout)
+
+
 @unittest.skipUnless(shutil.which("pandoc"), "pandoc nötig")
 class CodeblockFrameTest(unittest.TestCase):
     def test_codeblock_rahmen_nach_pandoc_definetyping(self):

@@ -123,6 +123,10 @@ Codeblöcke werden in der ConTeXt-Ausgabe als Framed-Tabelle mit grauem Hintergr
 
 Jeder Codeblock bekommt ein Listing mit Nummer: `Listing 1: Titel`. Der Titel steht im Info-String, also ```` ```python Titel ````. Ohne Titel erscheint nur `Listing 2`. Mermaid-Blöcke bleiben ohne Listing. Die Beschriftung braucht `engine = "context"`; `codeblock_beschriftung()` in `scripts/md_to_pdf.py` setzt sie als Rohblock `\mdListing{...}`.
 
+### Tabellen-Captions
+
+Die Caption einer Pipe-Tabelle steht als eigene Zeile direkt darunter, mit Leerzeile davor: `: Titel` oder `: Table: Titel`. Beide Schreibweisen sind gleichwertig; `tabellen_beschriftung()` normalisiert sie auf `: Titel`. In GitHub und Obsidian erscheint die Zeile als Text, die Tabelle bleibt unverändert.
+
 ## Known pitfalls
 
 - **Inhaltsverzeichnis leer oder Nummerierung verschoben:** Nicht unnummerierte Abschnitte mit `\startsectionlevel` vor den Hauptteil setzen. ConTeXt zählt sie mit und lässt sich nicht zurücksetzen. Das Profil `ffhs-thesis` macht das über `\ffhsVorspann`. Das Inhaltsverzeichnis braucht `criterium=all`, und ConTeXt läuft im Profil dreimal.

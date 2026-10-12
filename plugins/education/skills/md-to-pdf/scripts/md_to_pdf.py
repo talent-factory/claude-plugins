@@ -83,6 +83,7 @@ CTX_VERBATIM_RE = re.compile(r"\\startframedtable.*?\\stopframedtable|\\type\{[^
 CODEBLOCK_RE = re.compile(r"\\starthighlighting\n(.*?)\n\\stophighlighting", re.S)
 EINZUG_RE = re.compile(r"\s*\\NormalTok\{((?:\s*\{ \})+)")
 FENCE_RE = re.compile(r"^(\s*)(`{3,})\s*(.*?)\s*$")
+TABELLEN_TITEL_RE = re.compile(r"^:\s+(?:Table:\s+)?(\S.*?)\s*$")
 
 
 def latex_escape(text):
@@ -297,6 +298,25 @@ def thesis_body(body):
     return "".join(ausgabe)
 
 
+def tabellen_beschriftung(md):
+    """Lässt beide Caption-Schreibweisen unter einer Pipe-Tabelle zu: `: Titel` und `: Table: Titel`.
+
+    Die Zeile wird auf `: Titel` normalisiert, pandoc setzt dann denselben Caption-Float. Eine Zeile
+    `: …` ohne Tabelle direkt davor (Leerzeile erlaubt) bleibt unverändert, z. B. eine Definitionsliste.
+    """
+    zeilen = md.split("\n")
+    for i, zeile in enumerate(zeilen):
+        m = TABELLEN_TITEL_RE.match(zeile)
+        if not m or i < 1:
+            continue
+        davor = zeilen[i - 1].strip()
+        if not davor and i >= 2:
+            davor = zeilen[i - 2].strip()
+        if davor.startswith("|"):
+            zeilen[i] = f": {m.group(1)}"
+    return "\n".join(zeilen)
+
+
 def codeblock_beschriftung(md):
     """Setzt vor jeden Codeblock ein Listing mit Nummer und optionalem Titel.
 
@@ -507,6 +527,7 @@ def main():
         md = source.read_text(encoding="utf-8")
         if cfg["mermaid"]:
             md = render_mermaid(md, tmp, cfg["mermaid_breite"])
+        md = tabellen_beschriftung(md)
         if cfg["profil"] == "ffhs-thesis":
             md = thesis_markdown(md)
         if cfg["engine"] == "context":
