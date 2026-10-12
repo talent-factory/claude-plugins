@@ -96,7 +96,7 @@ The skill activates when requesting presentations, lecture slides, or PVA materi
 
 ### md-to-pdf
 
-Erzeugt aus Markdown ein PDF oder eine ConTeXt-Quelle (`.tex`) mit frei konfigurierbarer Kopf- und Fusszeile.
+Converts Markdown into a PDF or a ConTeXt source (`.tex`) with a freely configurable header and footer.
 
 **Capabilities:**
 
