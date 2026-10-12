@@ -163,10 +163,12 @@ class CodeblockFrameTest(unittest.TestCase):
                 )
                 self.assertEqual(res.returncode, 0, res.stdout + res.stderr)
                 tex = ziel.read_text(encoding="utf-8")
-                definition = tex.index("\\definetyping [highlighting]")
-                einstellung = tex.index("\\setuptyping[highlighting][before=")
-                self.assertGreater(einstellung, definition)
-                self.assertLess(einstellung, tex.index("\\starttext"), "Einstellung muss vor dem Körper stehen")
+                self.assertNotIn("\\starthighlighting", tex.split("\\starttext", 1)[1])
+                self.assertLess(tex.index("\\setupframedtablecolumn"), tex.index("\\starttext"),
+                                "Tabelleneinstellung muss vor dem Körper stehen")
+                tabelle = tex[tex.index("\\startframedtable"):tex.index("\\stopframedtable")]
+                self.assertIn("\\hskip2em", tabelle, "Einzug der Zeile mit vier Leerzeichen")
+                self.assertIn("\\KeywordTok{def}", tabelle)
 
 
 if __name__ == "__main__":

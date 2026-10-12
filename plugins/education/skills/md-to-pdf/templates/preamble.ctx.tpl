@@ -3,8 +3,11 @@
 \setuplayout[width=middle,height=middle,topspace=2.2cm,bottomspace=2.2cm,backspace={{RAND_CM}}cm,header=0.8cm,footer=0.8cm]
 \definefontfamily[main][rm][{{SCHRIFT}}]
 \setupbodyfont[main,{{GROESSE}}]
-% Codeblöcke (pandoc: \starthighlighting) ohne Kasten: \startshaded bricht nicht über Seiten.
-\setuptyping[highlighting][before={},after={}]
+% Codeblöcke als umbrechbare Tabelle mit grauem Hintergrund (md_to_pdf.py, codeblock_tabelle).
+\definecolor[codegrau][s=0.85]
+\setupframedtable[frame=off]
+\setupframedtablerow[frame=off]
+\setupframedtablecolumn[1][width=\hsize,frame=off,background=color,backgroundcolor=codegrau,align=normal]
 \setupinteraction[state=stop]
 \setuppagenumbering[location={footer,right}]
 \setupheader[state=start]

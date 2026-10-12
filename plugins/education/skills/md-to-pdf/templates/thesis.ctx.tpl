@@ -9,8 +9,11 @@
 % 1,5-facher Zeilenabstand (Vorlage: onehalfspacing), aus der Schriftgrösse berechnet. Relative Angaben wirken in ConTeXt nicht zuverlässig.
 \setupinterlinespace[line={{ZEILENABSTAND}}]
 \setupwhitespace[medium]
-% Codeblöcke (pandoc: \starthighlighting) ohne Kasten: \startshaded bricht nicht über Seiten.
-\setuptyping[highlighting][before={},after={}]
+% Codeblöcke als umbrechbare Tabelle mit grauem Hintergrund (md_to_pdf.py, codeblock_tabelle).
+\definecolor[codegrau][s=0.85]
+\setupframedtable[frame=off]
+\setupframedtablerow[frame=off]
+\setupframedtablecolumn[1][width=\hsize,frame=off,background=color,backgroundcolor=codegrau,align=normal]
 \setuphead[section,subsection][number=yes]
 \setuphead[section][page=yes]
 \setupinteraction[state=stop]
