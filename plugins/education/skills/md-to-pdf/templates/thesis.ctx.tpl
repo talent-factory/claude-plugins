@@ -9,8 +9,8 @@
 % 1,5-facher Zeilenabstand (Vorlage: onehalfspacing), aus der Schriftgrösse berechnet. Relative Angaben wirken in ConTeXt nicht zuverlässig.
 \setupinterlinespace[line={{ZEILENABSTAND}}]
 \setupwhitespace[medium]
-% Codeblöcke (pandoc: \starthighlighting) mit Rahmen und Hintergrund, analog zu minted. Muss nach pandocs \definetyping stehen.
-\setuptyping[highlighting][before={\startframed[frame=on,framecolor=darkgray,rulethickness=0.5pt,offset=0.8ex,background=color,backgroundcolor=lightgray,align=normal]},after={\stopframed}]
+% Codeblöcke (pandoc: \starthighlighting) ohne Kasten: \startshaded bricht nicht über Seiten.
+\setuptyping[highlighting][before={},after={}]
 \setuphead[section,subsection][number=yes]
 \setuphead[section][page=yes]
 \setupinteraction[state=stop]

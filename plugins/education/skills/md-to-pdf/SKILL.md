@@ -117,7 +117,7 @@ The text font Charter has no arrows and no superscript or subscript glyphs. The 
 
 ## Codeblöcke
 
-Codeblöcke sind mit Rahmen und grauem Hintergrund formatiert (minted-Stil). Pandoc setzt sie als `\starthighlighting`, die Vorlagen stylen sie über `\setuptyping[highlighting]` mit `before`/`after` (`\startframed`). Die Einstellung steht in `templates/preamble.ctx.tpl` und `templates/thesis.ctx.tpl`. Zeilennummern sind nicht eingerichtet (ungetestet). Die Einstellung wirkt nur mit `engine = "context"`; der Test `CodeblockFrameTest` prüft die Reihenfolge im erzeugten `.tex`.
+Codeblöcke werden als Typing gesetzt (pandoc: `\starthighlighting`) und brechen über Seitenwechsel um. Die Vorlagen setzen `\setuptyping[highlighting][before={},after={}]`, damit pandocs `\startshaded` entfällt. `\startshaded` und `\startframed` brechen nicht um und schieben die Fusszeile aus der Seite. Rahmen und Hintergrund über die Typing-Optionen `frame`/`background` werden in dieser ConTeXt-Version nicht gerendert (getestet). Zeilennummern sind nicht eingerichtet. Die Einstellung wirkt nur mit `engine = "context"`; der Test `CodeblockFrameTest` prüft die Reihenfolge im erzeugten `.tex`.
 
 ## Known pitfalls
 
