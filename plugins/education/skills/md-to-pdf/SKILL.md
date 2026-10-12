@@ -125,7 +125,7 @@ Jeder Codeblock bekommt ein Listing mit Nummer: `Listing 1: Titel`. Der Titel st
 
 ### Tabellen-Captions
 
-Die Caption einer Pipe-Tabelle steht als eigene Zeile direkt darunter, mit Leerzeile davor: `: Titel` oder `: Table: Titel`. Beide Schreibweisen sind gleichwertig; `tabellen_beschriftung()` normalisiert sie auf `: Titel`. In GitHub und Obsidian erscheint die Zeile als Text, die Tabelle bleibt unverändert.
+Die Caption einer Pipe-Tabelle steht als eigene Zeile direkt darunter, mit Leerzeile davor: `: Titel` oder `: Table: Titel`. Beide Schreibweisen sind gleichwertig; `tabellen_beschriftung()` normalisiert sie auf `: Titel`. In GitHub und Obsidian erscheint die Zeile als Text, die Tabelle bleibt unverändert. Im PDF steht die Caption linksbündig am Textrand als `Tabelle N: Titel` (Nummerierung über `\setupfloat[table]` in den Vorlagen).
 
 ## Known pitfalls
 

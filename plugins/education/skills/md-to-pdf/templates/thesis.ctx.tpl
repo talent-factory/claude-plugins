@@ -25,6 +25,11 @@
 \setuppagenumbering[location={footer,middle}]
 \setupuserpagenumber[numberconversion=romannumerals]
 \mainlanguage[de]
+% Tabellen-Captions "Tabelle N: Titel", linksbündig am Textrand (pandoc: \startplacetable).
+% pandoc setzt nonumber für Tabellen; die Nummerierung wird wieder eingeschaltet.
+\setupfloat[table][default={here}]
+\setuplabeltext[de][table=Tabelle\space]
+\setupcaption[table][location=bottom,align=flushleft,width=\hsize,headstyle=\bf,headseparator={:}]
 
 % Unnummerierte Überschrift des Vorspanns. Bewusst ohne Gliederungseintrag, siehe thesis_body in md_to_pdf.py.
 \unexpanded\def\ffhsVorspann#1{%

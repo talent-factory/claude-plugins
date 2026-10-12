@@ -13,6 +13,12 @@
 % Listing-Nummer und Titel vor jedem Codeblock (md_to_pdf.py, codeblock_beschriftung), Abstände vor und nach dem Block.
 \newcount\mdCodeNr
 \def\mdListing#1{\blank[big]\advance\mdCodeNr by 1\par\noindent{\bf Listing \the\mdCodeNr\ifx\relax#1\relax\else: #1\fi}\par\blank[big]}
+\mainlanguage[de]
+% Tabellen-Captions "Tabelle N: Titel", linksbündig am Textrand (pandoc: \startplacetable).
+% pandoc setzt nonumber für Tabellen; die Nummerierung wird wieder eingeschaltet.
+\setupfloat[table][default={here}]
+\setuplabeltext[de][table=Tabelle\space]
+\setupcaption[table][location=bottom,align=flushleft,width=\hsize,headstyle=\bf,headseparator={:}]
 \setupinteraction[state=stop]
 \setuppagenumbering[location={footer,right}]
 \setupheader[state=start]
