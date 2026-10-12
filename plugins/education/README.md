@@ -2,7 +2,7 @@
 
 Teaching aids, code explanations, and student support for IT education.
 
-## Version 1.6.0
+## Version 1.7.0
 
 This plugin provides educational tools for students and instructors, including code explanations, a Java Tutor agent, Markdown formatting skills, FFHS lecture slide generation, and Markdown-to-PDF conversion.
 
@@ -221,6 +221,12 @@ This plugin is designed to complement computer science curricula:
 ---
 
 ## Changelog
+
+### Version 1.7.0 (2026-10-12)
+
+- Added `ffhs-thesis` profile to `md-to-pdf` (ConTeXt): FFHS thesis layout, title page from `[these]` in `md-to-pdf.toml`, roman front matter and arabic main text, table of contents and optional list of figures and tables
+- `md-to-pdf` validates `[these]` (types, required fields, image names) and derives line spacing from `groesse`
+- Unit and end-to-end tests in `scripts/test_md_to_pdf.py`
 
 ### Version 1.6.0 (2026-10-12)
 

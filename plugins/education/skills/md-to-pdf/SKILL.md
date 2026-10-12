@@ -55,7 +55,49 @@ The header (`kopf_links`, `kopf_rechts`) usually belongs to the document and is 
 | `--schrift`, `--groesse`, `--rand` | Typography |
 | `--fallback-zeichen` | Characters for the XeLaTeX fallback |
 | `--mermaid on\|off`, `--mermaid-breite` | Mermaid processing |
+| `--profil` | Vorgabe-Profil, derzeit `ffhs-thesis` |
 | `--config`, `--no-config` | Choose or disable the configuration file |
+
+## Profil `ffhs-thesis`
+
+Für Thesen an der FFHS. Das Layout folgt der Vorlage `ffhsthesis.cls`: A4, 11 pt, Helvetica-Nachbau (`TeX Gyre Heros`, mit TeX Live verfügbar), 1.5-facher Zeilenabstand, Seitenränder 3 cm links und rechts, Seitenzahl unten zentriert. Nur für `engine = "context"`.
+
+Aufruf per CLI (`--profil ffhs-thesis`) oder in `md-to-pdf.toml` (`profil = "ffhs-thesis"`). Die Angaben zur Titelseite stehen im Abschnitt `[these]`:
+
+```toml
+profil = "ffhs-thesis"
+
+[these]
+titel = "Titel der Thesis"                 # Pflicht
+untertitel = "Optionaler Untertitel"
+dokumenttyp = "Bachelor-Thesis"            # Standard: Thesis
+studiengang = "INF/WI"
+autor = "Max Muster"                       # Pflicht
+referent_rolle = "Referentin"              # Standard: Referent(in)
+referent = ["Name", "Titel", "Fach"]       # Pflicht, eine Zeile je Eintrag
+eingereicht_bei = ["Prof. Dr. X", "Departement Informatik"]   # Pflicht
+wohnort = "Zürich"                         # Pflicht
+datum = "1. Dezember 2026"                 # Standard: heutiges Datum
+widmung = ["Diese Thesis widme ich", "meiner Familie."]       # optional, eigene Seite
+logo = "ffhslogo.pdf"                      # Logo oben links, relativ zum Quellordner
+titelbild = "bild.png"                     # optional, mittig auf der Titelseite
+```
+
+Fehlende Pflichtangaben und unbekannte Schlüssel in `[these]` brechen den Lauf ab. Die Schrift lässt sich mit `schrift` überschreiben.
+
+**Aufbau der Markdown-Quelle:**
+
+- `# Zusammenfassung`, `# Abstract` und `# Abkürzungen` sind unnummerierte Vorspannabschnitte. Sie stehen in dieser Reihenfolge vor dem Hauptteil.
+- Das Inhaltsverzeichnis, das Abbildungs- und das Tabellenverzeichnis folgen dem Abstract. Das Abbildungsverzeichnis erscheint nur bei Bildern, das Tabellenverzeichnis nur bei Tabellen mit Beschriftung (`: Titel` unter der Tabelle).
+- Der Hauptteil beginnt mit der ersten `#`-Überschrift, die keiner dieser Vorspann-Überschriften entspricht. Davor stehen römische Seitenzahlen, danach arabische ab 1.
+- `# Literatur` und `# Selbstständigkeitserklärung` nach dem Hauptteil sind unnummerierte Abschnitte mit Inhaltsverzeichnis-Eintrag.
+- Es gibt keine Kopf- und Fusszeile. Entsprechende Optionen werden mit einem Hinweis ignoriert.
+
+**Bekannte Abweichungen von der Vorlage:**
+
+- Zusammenfassung, Abstract und Abkürzungen stehen nicht im Inhaltsverzeichnis. Die Vorlage nimmt Abkürzungen auf. Ein Eintrag wäre nur über einen nummerierten Vorspann-Abschnitt möglich, und der verschiebt die Nummerierung des Hauptteils (siehe Pitfalls).
+- Die Selbstständigkeitserklärung ist nur eine Überschrift mit dem Text aus der Quelle. Der Wortlaut der Vorlage muss im Markdown stehen.
+- Der Zitierstil ist nicht vorgegeben. Literatur ist eine normale Überschrift mit Text.
 
 ## Mermaid
 
@@ -75,6 +117,8 @@ The text font Charter has no arrows and no superscript or subscript glyphs. The 
 
 ## Known pitfalls
 
+- **Inhaltsverzeichnis leer oder Nummerierung verschoben:** Nicht unnummerierte Abschnitte mit `\startsectionlevel` vor den Hauptteil setzen. ConTeXt zählt sie mit und lässt sich nicht zurücksetzen. Das Profil `ffhs-thesis` macht das über `\ffhsVorspann`. Das Inhaltsverzeichnis braucht `criterium=all`, und ConTeXt läuft im Profil dreimal.
+
 - **Header disappears:** The pandoc preamble (`-s`) contains `\setupbackend[export=yes]`, which removes header and footer in ConTeXt. The script removes exactly this line. If the pandoc preamble changes, check this spot.
 - **Fonts** are macOS-specific (Charter, Arial Unicode).
 
@@ -87,5 +131,7 @@ The text font Charter has no arrows and no superscript or subscript glyphs. The 
 ## Structure
 
 - `scripts/md_to_pdf.py`: main script
+- `scripts/test_md_to_pdf.py`: Tests für das Profil ffhs-thesis. Ausführung: `python3 -m unittest discover -s scripts -p 'test_*.py'` (im Skill-Ordner). Der End-to-End-Test braucht pandoc und context.
 - `templates/preamble.ctx.tpl`: ConTeXt preamble with placeholders (layout, font, header and footer)
 - `templates/header.tex.tpl`: XeLaTeX header and footer with placeholders
+- `templates/thesis.ctx.tpl`: ConTeXt preamble and title page for profile `ffhs-thesis`
