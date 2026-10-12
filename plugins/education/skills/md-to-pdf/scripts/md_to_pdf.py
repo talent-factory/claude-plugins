@@ -78,8 +78,12 @@ CTX_UNICODE = {
     **{c: rf"\low{{{i}}}" for i, c in enumerate("₀₁₂₃₄₅₆₇₈₉")},
     "²": r"\high{2}", "³": r"\high{3}",
 }
-# Code bleibt unverändert: Hervorhebungsblöcke und Inline-Code (\type{...}).
-CTX_VERBATIM_RE = re.compile(r"\\starthighlighting.*?\\stophighlighting|\\type\{[^{}]*\}", re.S)
+# Code bleibt unverändert: Codeblöcke (Tabelle, siehe codeblock_tabelle), Inline-Code (\type{...}).
+CTX_VERBATIM_RE = re.compile(r"\\startframedtable.*?\\stopframedtable|\\type\{[^{}]*\}", re.S)
+CODEBLOCK_RE = re.compile(r"\\starthighlighting\n(.*?)\n\\stophighlighting", re.S)
+EINZUG_RE = re.compile(r"\s*\\NormalTok\{((?:\s*\{ \})+)")
+FENCE_RE = re.compile(r"^(\s*)(`{3,})\s*(.*?)\s*$")
+TABELLEN_TITEL_RE = re.compile(r"^:\s+(?:Table:\s+)?(\S.*?)\s*$")
 
 
 def latex_escape(text):
@@ -103,6 +107,32 @@ def ctx_unicode(text):
         pos = m.end()
     parts.append(convert(text[pos:]))
     return "".join(parts)
+
+
+def codeblock_tabelle(body):
+    """Ersetzt pandocs \\starthighlighting durch eine Framed-Tabelle mit grauem Hintergrund.
+
+    Typing mit Hintergrund bricht nicht über Seiten um, \\startshaded und \\startframed auch nicht.
+    Eine Framed-Tabelle schon: jede Quellzeile wird eine Zeile. pandoc markiert Zeilen als /BTEX…/ETEX,
+    das entfernt. Führende Leerzeichen bleiben als \\hskip erhalten.
+    """
+    def zeile(text):
+        text = text.replace("/BTEX", "").replace("/ETEX", "")
+        einzug = len(text) - len(text.lstrip(" "))
+        # pandoc setzt Leerzeichen am Zeilenanfang als { } je zwei Zeichen in den ersten \NormalTok-Block
+        m = EINZUG_RE.match(text)
+        if m:
+            einzug += 2 * m.group(1).count("{ }")
+            text = text[:m.start()] + "\\NormalTok{" + text[m.end():]
+        rest = text.lstrip(" ")
+        vorn = f"\\hskip{einzug * 0.5:g}em" if einzug else ""
+        return f"\\startframedrow\\startframedcell{vorn}{rest}\\stopframedcell\\stopframedrow"
+
+    def ersetze(m):
+        zeilen = [zeile(z) for z in m.group(1).split("\n")]
+        return "\\startframedtable\n" + "\n".join(zeilen) + "\n\\stopframedtable\n\\blank[2*big]"
+
+    return CODEBLOCK_RE.sub(ersetze, body)
 
 
 def run(cmd, cwd=None):
@@ -268,6 +298,48 @@ def thesis_body(body):
     return "".join(ausgabe)
 
 
+def tabellen_beschriftung(md):
+    """Lässt beide Caption-Schreibweisen unter einer Pipe-Tabelle zu: `: Titel` und `: Table: Titel`.
+
+    Die Zeile wird auf `: Titel` normalisiert, pandoc setzt dann denselben Caption-Float. Eine Zeile
+    `: …` ohne Tabelle direkt davor (Leerzeile erlaubt) bleibt unverändert, z. B. eine Definitionsliste.
+    """
+    zeilen = md.split("\n")
+    for i, zeile in enumerate(zeilen):
+        m = TABELLEN_TITEL_RE.match(zeile)
+        if not m or i < 1:
+            continue
+        davor = zeilen[i - 1].strip()
+        if not davor and i >= 2:
+            davor = zeilen[i - 2].strip()
+        if davor.startswith("|"):
+            zeilen[i] = f": {m.group(1)}"
+    return "\n".join(zeilen)
+
+
+def codeblock_beschriftung(md):
+    """Setzt vor jeden Codeblock ein Listing mit Nummer und optionalem Titel.
+
+    Der Titel steht im Info-String: ```python Titel. Die Beschriftung ist ein ConTeXt-Rohblock
+    (pandoc {=context}), der \\mdListing aufruft. Mermaid-Blöcke sind Bilder und bleiben unbeschriftet.
+    """
+    ausgabe, im_block = [], False
+    for zeile in md.split("\n"):
+        m = FENCE_RE.match(zeile)
+        if m and im_block and not m.group(3):
+            im_block = False
+        elif m and not im_block:
+            im_block = True
+            einzug, zaun, info = m.groups()
+            sprache, _, titel = info.partition(" ")
+            if sprache != "mermaid":
+                titel = ctx_escape(titel.strip())
+                ausgabe += [f"{einzug}{zaun}{{=context}}", f"{einzug}\\mdListing{{{titel}}}", f"{einzug}{zaun}", ""]
+                zeile = f"{einzug}{zaun}{sprache}"
+        ausgabe.append(zeile)
+    return "\n".join(ausgabe)
+
+
 def render_mermaid(md_text, tmp, breite):
     """Ersetzt jeden Mermaid-Block durch ein gerendertes PNG (Bild ohne Bildunterschrift)."""
     blocks = MERMAID_RE.findall(md_text)
@@ -307,7 +379,7 @@ def build_context(cfg, source, resource_dir, tmp, out_tex):
     pandoc_pre, _, rest = full.read_text(encoding="utf-8").partition("\\starttext")
     # pandoc setzt tagged PDF-Export (export=yes). Damit verschwinden Kopf- und Fusszeile in ConTeXt.
     pandoc_pre = pandoc_pre.replace("\\setupbackend[export=yes]\n", "")
-    body = rest.rsplit("\\stoptext", 1)[0]
+    body = codeblock_tabelle(rest.rsplit("\\stoptext", 1)[0])
     thesis = cfg["profil"] == "ffhs-thesis"
     if thesis:
         body = thesis_body(body)
@@ -455,8 +527,11 @@ def main():
         md = source.read_text(encoding="utf-8")
         if cfg["mermaid"]:
             md = render_mermaid(md, tmp, cfg["mermaid_breite"])
+        md = tabellen_beschriftung(md)
         if cfg["profil"] == "ffhs-thesis":
             md = thesis_markdown(md)
+        if cfg["engine"] == "context":
+            md = codeblock_beschriftung(md)
         prepared = tmp / "quelle.md"
         prepared.write_text(md, encoding="utf-8")
         resource_dir = source.parent

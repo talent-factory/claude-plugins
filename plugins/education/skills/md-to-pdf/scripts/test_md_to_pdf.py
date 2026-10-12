@@ -146,5 +146,73 @@ class EndToEndTest(unittest.TestCase):
             self.assertTrue(ziel.exists())
 
 
+class CodeblockBeschriftungTest(unittest.TestCase):
+    def test_titel_aus_info_string(self):
+        out = m.codeblock_beschriftung("```python Musterlösung\nx = 1\n```\n")
+        self.assertIn("```{=context}\n\\mdListing{Musterlösung}\n```", out)
+        self.assertTrue(out.rstrip().endswith("```python\nx = 1\n```"))
+
+    def test_ohne_titel_leerer_listing_aufruf(self):
+        out = m.codeblock_beschriftung("```\nroh\n```\n")
+        self.assertIn("\\mdListing{}", out)
+
+    def test_mermaid_bleibt_unbeschriftet(self):
+        md = "```mermaid\ngraph TD\n```\n"
+        self.assertEqual(m.codeblock_beschriftung(md), md)
+
+    def test_zwei_bloecke_zwei_listings(self):
+        out = m.codeblock_beschriftung("```python T\n```\n```\n")
+        self.assertEqual(out.count("\\mdListing"), 2)
+
+
+class TabellenBeschriftungTest(unittest.TestCase):
+    TABELLE = "| a | b |\n|---|---|\n| 1 | 2 |\n\n"
+
+    def test_beide_schreibweisen_werden_gleich(self):
+        self.assertIn(": Titel\n", m.tabellen_beschriftung(self.TABELLE + ": Titel\n"))
+        self.assertIn(": Titel\n", m.tabellen_beschriftung(self.TABELLE + ": Table: Titel\n"))
+
+    def test_groschreibung_und_leerzeichen(self):
+        self.assertIn(": Titel\n", m.tabellen_beschriftung(self.TABELLE + ":   Table:   Titel\n"))
+
+    def test_definitionsliste_ohne_tabelle_bleibt(self):
+        md = "Definition:\n\n: Table: Titel\n"
+        self.assertEqual(m.tabellen_beschriftung(md), md)
+
+    @unittest.skipUnless(shutil.which("pandoc"), "pandoc nötig")
+    def test_pandoc_erzeugt_caption_float(self):
+        for schreibweise in (": Titel", ": Table: Titel"):
+            with self.subTest(schreibweise=schreibweise):
+                md = m.tabellen_beschriftung(self.TABELLE + schreibweise + "\n")
+                res = subprocess.run(["pandoc", "--from", "markdown", "--to", "context"],
+                                     input=md, capture_output=True, text=True)
+                self.assertIn("\\startplacetable[title={Titel}]", res.stdout)
+
+
+@unittest.skipUnless(shutil.which("pandoc"), "pandoc nötig")
+class CodeblockFrameTest(unittest.TestCase):
+    def test_codeblock_rahmen_nach_pandoc_definetyping(self):
+        md = "# Titel\n\n```python\ndef f(x):\n    return x + 1\n```\n"
+        for profil_toml in ('', 'profil = "ffhs-thesis"\n[these]\ntitel = "T"\nautor = "A"\nreferent = ["R"]\n'
+                            'eingereicht_bei = ["E"]\nwohnort = "W"\n'):
+            with self.subTest(profil=bool(profil_toml)), tempfile.TemporaryDirectory() as t:
+                quelle = Path(t) / "q.md"
+                quelle.write_text(md, encoding="utf-8")
+                (Path(t) / "md-to-pdf.toml").write_text(profil_toml, encoding="utf-8")
+                ziel = Path(t) / "q.tex"
+                res = subprocess.run(
+                    [sys.executable, str(SCRIPT), str(quelle), str(ziel), "--format", "tex"],
+                    capture_output=True, text=True,
+                )
+                self.assertEqual(res.returncode, 0, res.stdout + res.stderr)
+                tex = ziel.read_text(encoding="utf-8")
+                self.assertNotIn("\\starthighlighting", tex.split("\\starttext", 1)[1])
+                self.assertLess(tex.index("\\setupframedtablecolumn"), tex.index("\\starttext"),
+                                "Tabelleneinstellung muss vor dem Körper stehen")
+                tabelle = tex[tex.index("\\startframedtable"):tex.index("\\stopframedtable")]
+                self.assertIn("\\hskip2em", tabelle, "Einzug der Zeile mit vier Leerzeichen")
+                self.assertIn("\\KeywordTok{def}", tabelle)
+
+
 if __name__ == "__main__":
     unittest.main()

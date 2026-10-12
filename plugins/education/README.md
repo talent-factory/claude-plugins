@@ -2,7 +2,7 @@
 
 Teaching aids, code explanations, and student support for IT education.
 
-## Version 1.7.1
+## Version 1.8.0
 
 This plugin provides educational tools for students and instructors, including code explanations, a Java Tutor agent, Markdown formatting skills, FFHS lecture slide generation, and Markdown-to-PDF conversion.
 
@@ -221,6 +221,10 @@ This plugin is designed to complement computer science curricula:
 ---
 
 ## Changelog
+
+### Version 1.8.0 (2026-10-12)
+
+- `md-to-pdf`: Codeblöcke als umbrechbare Tabelle mit grauem Hintergrund, Listings `Listing N: Titel` aus dem Info-String, Tabellen-Captions `Tabelle N: Titel` (`: Titel` oder `: Table: Titel`), Abstände um Codeblöcke
 
 ### Version 1.7.0 (2026-10-12)
 

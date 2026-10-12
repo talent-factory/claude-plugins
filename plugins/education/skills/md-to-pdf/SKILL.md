@@ -115,6 +115,18 @@ Note for `flowchart` trees: children appear in the order of the edges in the sou
 
 The text font Charter has no arrows and no superscript or subscript glyphs. The script replaces them with ConTeXt commands from the `CTX_UNICODE` table (e.g. `→` becomes `\mathematics{\rightarrow}`, `₂` becomes `\low{2}`). Code (`\type{}`, highlighted blocks) is left unchanged. A fallback font via `\definefontfallback` is not loaded in ConTeXt (tested).
 
+## Codeblöcke
+
+Codeblöcke werden in der ConTeXt-Ausgabe als Framed-Tabelle mit grauem Hintergrund gesetzt. `codeblock_tabelle()` in `scripts/md_to_pdf.py` wandelt pandocs `\starthighlighting` um, eine Zeile je Quellzeile. Die Tabelle bricht über Seitenwechsel um, Kopf- und Fusszeile bleiben erhalten. Die Typing-Optionen `background`/`frame` werden in dieser ConTeXt-Version nicht gerendert, `\startshaded` und `\startframed` brechen nicht um (getestet). Führende Leerzeichen kodiert pandoc als `{ }`-Gruppen (je zwei Leerzeichen eine Gruppe); die Umwandlung stellt den Einzug mit `\hskip` wieder her. Zeilennummern sind nicht eingerichtet. Die Einstellung wirkt nur mit `engine = "context"`; der Test `CodeblockFrameTest` prüft die Umwandlung im erzeugten `.tex`.
+
+### Listings
+
+Jeder Codeblock bekommt ein Listing mit Nummer: `Listing 1: Titel`. Der Titel steht im Info-String, also ```` ```python Titel ````. Ohne Titel erscheint nur `Listing 2`. Mermaid-Blöcke bleiben ohne Listing. Die Beschriftung braucht `engine = "context"`; `codeblock_beschriftung()` in `scripts/md_to_pdf.py` setzt sie als Rohblock `\mdListing{...}`.
+
+### Tabellen-Captions
+
+Die Caption einer Pipe-Tabelle steht als eigene Zeile direkt darunter, mit Leerzeile davor: `: Titel` oder `: Table: Titel`. Beide Schreibweisen sind gleichwertig; `tabellen_beschriftung()` normalisiert sie auf `: Titel`. In GitHub und Obsidian erscheint die Zeile als Text, die Tabelle bleibt unverändert. Im PDF steht die Caption linksbündig am Textrand als `Tabelle N: Titel` (Nummerierung über `\setupfloat[table]` in den Vorlagen).
+
 ## Known pitfalls
 
 - **Inhaltsverzeichnis leer oder Nummerierung verschoben:** Nicht unnummerierte Abschnitte mit `\startsectionlevel` vor den Hauptteil setzen. ConTeXt zählt sie mit und lässt sich nicht zurücksetzen. Das Profil `ffhs-thesis` macht das über `\ffhsVorspann`. Das Inhaltsverzeichnis braucht `criterium=all`, und ConTeXt läuft im Profil dreimal.

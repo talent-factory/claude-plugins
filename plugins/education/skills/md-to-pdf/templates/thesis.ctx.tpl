@@ -9,6 +9,14 @@
 % 1,5-facher Zeilenabstand (Vorlage: onehalfspacing), aus der Schriftgrösse berechnet. Relative Angaben wirken in ConTeXt nicht zuverlässig.
 \setupinterlinespace[line={{ZEILENABSTAND}}]
 \setupwhitespace[medium]
+% Codeblöcke als umbrechbare Tabelle mit grauem Hintergrund (md_to_pdf.py, codeblock_tabelle).
+\definecolor[codegrau][s=0.93]
+\setupframedtable[frame=off]
+\setupframedtablerow[frame=off]
+\setupframedtablecolumn[1][width=\hsize,frame=off,background=color,backgroundcolor=codegrau,align=normal,strut=no]
+% Listing-Nummer und Titel vor jedem Codeblock (md_to_pdf.py, codeblock_beschriftung), Abstände vor und nach dem Block.
+\newcount\mdCodeNr
+\def\mdListing#1{\blank[big]\advance\mdCodeNr by 1\par\noindent{\bf Listing \the\mdCodeNr\ifx\relax#1\relax\else: #1\fi}\par\blank[big]}
 \setuphead[section,subsection][number=yes]
 \setuphead[section][page=yes]
 \setupinteraction[state=stop]
@@ -17,6 +25,11 @@
 \setuppagenumbering[location={footer,middle}]
 \setupuserpagenumber[numberconversion=romannumerals]
 \mainlanguage[de]
+% Tabellen-Captions "Tabelle N: Titel", linksbündig am Textrand (pandoc: \startplacetable).
+% pandoc setzt nonumber für Tabellen; die Nummerierung wird wieder eingeschaltet.
+\setupfloat[table][default={here}]
+\setuplabeltext[de][table=Tabelle\space]
+\setupcaption[table][location=bottom,align=flushleft,width=\hsize,headstyle=\bf,headseparator={:}]
 
 % Unnummerierte Überschrift des Vorspanns. Bewusst ohne Gliederungseintrag, siehe thesis_body in md_to_pdf.py.
 \unexpanded\def\ffhsVorspann#1{%
