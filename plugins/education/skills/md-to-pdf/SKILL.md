@@ -1,6 +1,6 @@
 ---
 name: md-to-pdf
-description: Erzeugt aus Markdown ein PDF oder eine ConTeXt-Quelle (.tex) mit frei konfigurierbarer Kopf- und Fusszeile. Engine ConTeXt (Standard) oder XeLaTeX. Rendert Mermaid-Diagramme automatisch. Modulunabhängig: Kopf-/Fusszeile und Schrift kommen per CLI oder aus einer md-to-pdf.toml im Repo. Trigger: "als PDF", "PDF erstellen", "ConTeXt", "md to pdf", "/md-to-pdf".
+description: Erzeugt aus Markdown ein PDF oder eine ConTeXt-Quelle (.tex) mit frei konfigurierbarer Kopf- und Fusszeile. Engine ConTeXt (Standard) oder XeLaTeX. Rendert Mermaid-Diagramme automatisch. Modulunabhängig: Kopf-/Fusszeile und Schrift kommen per CLI oder aus einer md-to-pdf.toml im Repo. Trigger: "als PDF", "PDF erstellen", "ConTeXt", "md to pdf", "/education:md-to-pdf".
 ---
 
 # md-to-pdf
