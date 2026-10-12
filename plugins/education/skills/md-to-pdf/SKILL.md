@@ -95,7 +95,7 @@ Fehlende Pflichtangaben und unbekannte Schlüssel in `[these]` brechen den Lauf 
 
 **Bekannte Abweichungen von der Vorlage:**
 
-- Zusammenfassung, Abstract und Abkürzungen stehen nicht im Inhaltsverzeichnis. Die Vorlage nimmt Abkürzungen auf. Ein Eintrag dafür ist noch offen.
+- Zusammenfassung, Abstract und Abkürzungen stehen nicht im Inhaltsverzeichnis. Die Vorlage nimmt Abkürzungen auf. Ein Eintrag wäre nur über einen nummerierten Vorspann-Abschnitt möglich, und der verschiebt die Nummerierung des Hauptteils (siehe Pitfalls).
 - Die Selbstständigkeitserklärung ist nur eine Überschrift mit dem Text aus der Quelle. Der Wortlaut der Vorlage muss im Markdown stehen.
 - Der Zitierstil ist nicht vorgegeben. Literatur ist eine normale Überschrift mit Text.
 
@@ -131,6 +131,7 @@ The text font Charter has no arrows and no superscript or subscript glyphs. The 
 ## Structure
 
 - `scripts/md_to_pdf.py`: main script
+- `scripts/test_md_to_pdf.py`: Tests für das Profil ffhs-thesis. Ausführung: `python3 -m unittest discover -s scripts -p 'test_*.py'` (im Skill-Ordner). Der End-to-End-Test braucht pandoc und context.
 - `templates/preamble.ctx.tpl`: ConTeXt preamble with placeholders (layout, font, header and footer)
 - `templates/header.tex.tpl`: XeLaTeX header and footer with placeholders
 - `templates/thesis.ctx.tpl`: ConTeXt preamble and title page for profile `ffhs-thesis`

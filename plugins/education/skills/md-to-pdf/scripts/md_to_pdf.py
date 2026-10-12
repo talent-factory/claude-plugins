@@ -53,7 +53,9 @@ PROFILE_DEFAULTS = {
 THESIS_FELDER = {"titel", "untertitel", "dokumenttyp", "studiengang", "autor", "referent_rolle", "referent",
                  "eingereicht_bei", "wohnort", "datum", "widmung", "logo", "titelbild"}
 THESIS_PFLICHT = ("titel", "autor", "referent", "eingereicht_bei", "wohnort")
-# Abschnitte der ersten Ebene ohne Kapitelnummer. Vor dem ersten anderen Kapitel stehen sie im Vorspann.
+THESIS_ZEILEN = {"referent", "eingereicht_bei", "widmung"}  # Text oder Liste von Zeilen
+# Abschnitte der ersten Ebene ohne Kapitelnummer. Vor dem Hauptteil stehen sie im Vorspann, Literatur und
+# Selbstständigkeitserklärung nach dem Hauptteil.
 UNNUMMERIERT = ("Zusammenfassung", "Abstract", "Abkürzungen", "Abkürzungsverzeichnis", "Literatur",
                 "Selbstständigkeitserklärung")
 MONATE = ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober",
@@ -129,6 +131,14 @@ def load_config(path):
         unknown = set(these) - THESIS_FELDER
         if unknown:
             sys.exit(f"Fehler: unbekannte Optionen in [these] in {path}: {', '.join(sorted(unknown))}")
+        for feld, wert in these.items():
+            if feld in THESIS_ZEILEN:
+                gueltig = isinstance(wert, str) or (isinstance(wert, list) and all(isinstance(z, str) for z in wert))
+                erwartet = "Text oder eine Liste von Zeilen"
+            else:
+                gueltig, erwartet = isinstance(wert, str), "Text"
+            if not gueltig:
+                sys.exit(f"Fehler: [these].{feld} in {path} muss {erwartet} sein")
         data["these"] = these
     return data
 
@@ -144,11 +154,22 @@ def deutsches_datum(tag):
     return f"{tag.day}. {MONATE[tag.month - 1]} {tag.year}"
 
 
+def zeilenabstand(groesse):
+    """1,5-facher Zeilenabstand (onehalfspacing) als Näherung: 1,5 × 1,2 × Schriftgrösse."""
+    m = re.fullmatch(r"(\d+(?:\.\d+)?)pt", groesse)
+    if not m:
+        sys.exit(f"Fehler: groesse '{groesse}' muss in pt angegeben sein, z. B. 11pt")
+    return f"{float(m.group(1)) * 1.8:.1f}pt"
+
+
 def thesis_werte(cfg, resource_dir, tmp, abbildungen, tabellen):
     """Platzhalter der Titelseite aus dem Abschnitt [these]. Bilder werden in den Arbeitsordner kopiert."""
     these = cfg["these"]
 
     def bild(name, optionen):
+        # Eckige Klammern würden das ConTeXt-Argument von \externalfigure abschneiden
+        if re.search(r"[\[\],{}]", name):
+            sys.exit(f"Fehler: Bildname in [these] darf keine der Zeichen [ ] , {{ }} enthalten: {name}")
         quelle = resource_dir / name
         if not quelle.is_file():
             sys.exit(f"Fehler: Bild aus [these] fehlt: {quelle}")
@@ -156,6 +177,7 @@ def thesis_werte(cfg, resource_dir, tmp, abbildungen, tabellen):
         return f"\\externalfigure[{quelle.name}][{optionen}]"
 
     return {
+        "ZEILENABSTAND": zeilenabstand(cfg["groesse"]),
         "LOGO": bild(these["logo"], "height=2cm") if "logo" in these else "",
         "TITELBILD": f"\\blank[big]\n{bild(these['titelbild'], 'width=10cm')}" if "titelbild" in these else "",
         "TITEL": ctx_escape(these["titel"]),
@@ -195,9 +217,11 @@ def thesis_markdown(md):
     koerper = next((i for i, t in kopfzeilen if t not in UNNUMMERIERT), None)
     if koerper is None:
         return md
-    verzeichnis = next((i for i, t in kopfzeilen if t in ("Abkürzungen", "Abkürzungsverzeichnis")), None)
+    # Verzeichnisse stehen vor dem Abkürzungsverzeichnis, sofern es vor dem Hauptteil steht. Sonst vor dem ersten Vorspann-Abschnitt.
+    vorspann = [i for i, _ in kopfzeilen if i < koerper]
+    verzeichnis = next((i for i, t in kopfzeilen if i < koerper and t in ("Abkürzungen", "Abkürzungsverzeichnis")), None)
     if verzeichnis is None:
-        verzeichnis = next((i for i, t in kopfzeilen if t in UNNUMMERIERT), koerper)
+        verzeichnis = vorspann[0] if vorspann else koerper
     einfuegen = {}
     einfuegen.setdefault(verzeichnis, []).extend([FENCE + "{=context}", "\\ffhsVerzeichnisse", FENCE, ""])
     einfuegen.setdefault(koerper, []).extend([FENCE + "{=context}", "\\startThesis", FENCE, ""])
@@ -235,7 +259,8 @@ def thesis_body(body):
         if oberste and name not in UNNUMMERIERT:
             im_hauptteil = True
         if oberste and name in UNNUMMERIERT:
-            ausgabe.append("\\startsectionlevel" + args[:-1] + ",number=no]")
+            optionen = args[1:-1]
+            ausgabe.append("\\startsectionlevel[" + (optionen + "," if optionen else "") + "number=no]")
         else:
             ausgabe.append(m.group(0))
         stapel.append("section")
@@ -414,7 +439,7 @@ def main():
         these = cfg.get("these")
         if these is None:
             sys.exit(f"Fehler: Profil ffhs-thesis braucht einen Abschnitt [these] in {CONFIG_NAME}.")
-        fehlend = [k for k in THESIS_PFLICHT if k not in these]
+        fehlend = [k for k in THESIS_PFLICHT if not these.get(k)]
         if fehlend:
             sys.exit(f"Fehler: Pflichtangaben in [these] fehlen: {', '.join(fehlend)}")
         ignoriert = [k for k in ("kopf_links", "kopf_rechts", "fuss_links", "fuss_rechts") if cfg[k]]

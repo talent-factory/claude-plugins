@@ -6,8 +6,8 @@
 \setuplayout[width=15cm,backspace=3cm,topspace=2.5cm,bottomspace=2.5cm,header=1cm,footer=1cm]
 \definefontfamily[main][rm][{{SCHRIFT}}]
 \setupbodyfont[main,{{GROESSE}}]
-% 1.5-facher Zeilenabstand bei 11 pt (Vorlage: onehalfspacing). Relative Angaben wirken in ConTeXt nicht zuverlässig.
-\setupinterlinespace[line=20pt]
+% 1,5-facher Zeilenabstand (Vorlage: onehalfspacing), aus der Schriftgrösse berechnet. Relative Angaben wirken in ConTeXt nicht zuverlässig.
+\setupinterlinespace[line={{ZEILENABSTAND}}]
 \setupwhitespace[medium]
 \setuphead[section,subsection][number=yes]
 \setuphead[section][page=yes]
