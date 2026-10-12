@@ -117,7 +117,7 @@ The text font Charter has no arrows and no superscript or subscript glyphs. The 
 
 ## Codeblöcke
 
-Codeblöcke werden als Typing gesetzt (pandoc: `\starthighlighting`) und brechen über Seitenwechsel um. Die Vorlagen setzen `\setuptyping[highlighting][before={},after={}]`, damit pandocs `\startshaded` entfällt. `\startshaded` und `\startframed` brechen nicht um und schieben die Fusszeile aus der Seite. Rahmen und Hintergrund über die Typing-Optionen `frame`/`background` werden in dieser ConTeXt-Version nicht gerendert (getestet). Zeilennummern sind nicht eingerichtet. Die Einstellung wirkt nur mit `engine = "context"`; der Test `CodeblockFrameTest` prüft die Reihenfolge im erzeugten `.tex`.
+Codeblöcke werden in der ConTeXt-Ausgabe als Framed-Tabelle mit grauem Hintergrund gesetzt. `codeblock_tabelle()` in `scripts/md_to_pdf.py` wandelt pandocs `\starthighlighting` um, eine Zeile je Quellzeile. Die Tabelle bricht über Seitenwechsel um, Kopf- und Fusszeile bleiben erhalten. Die Typing-Optionen `background`/`frame` werden in dieser ConTeXt-Version nicht gerendert, `\startshaded` und `\startframed` brechen nicht um (getestet). Führende Leerzeichen kodiert pandoc als `{ }`-Gruppen (je zwei Leerzeichen eine Gruppe); die Umwandlung stellt den Einzug mit `\hskip` wieder her. Zeilennummern sind nicht eingerichtet. Die Einstellung wirkt nur mit `engine = "context"`; der Test `CodeblockFrameTest` prüft die Umwandlung im erzeugten `.tex`.
 
 ## Known pitfalls
 
