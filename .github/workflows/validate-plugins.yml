@@ -7,12 +7,14 @@ on:
     paths:
       - 'plugins/**'
       - '.github/workflows/validate-plugins.yml'
+      - '.gitignore'
   push:
     branches:
       - main
     paths:
       - 'plugins/**'
       - '.github/workflows/validate-plugins.yml'
+      - '.gitignore'
   workflow_dispatch:
 
 jobs:
