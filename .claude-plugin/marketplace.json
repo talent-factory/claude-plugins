@@ -65,7 +65,7 @@
       "description": "Teaching aids with Java Tutor agent, Markdown syntax formatter agent and skill, FFHS lecture slide generation, and code explanation for IT education",
       "source": "./plugins/education",
       "category": "learning",
-      "version": "1.5.0",
+      "version": "1.6.0",
       "tags": [
         "education",
         "teaching",
