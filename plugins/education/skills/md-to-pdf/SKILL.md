@@ -1,22 +1,22 @@
 ---
 name: md-to-pdf
-description: Erzeugt aus Markdown ein PDF oder eine ConTeXt-Quelle (.tex) mit frei konfigurierbarer Kopf- und Fusszeile. Engine ConTeXt (Standard) oder XeLaTeX. Rendert Mermaid-Diagramme automatisch. Modulunabhängig: Kopf-/Fusszeile und Schrift kommen per CLI oder aus einer md-to-pdf.toml im Repo. Trigger: "als PDF", "PDF erstellen", "ConTeXt", "md to pdf", "/education:md-to-pdf".
+description: Converts Markdown into a PDF or a ConTeXt source (.tex) with a freely configurable header and footer. Engine ConTeXt (default) or XeLaTeX. Renders Mermaid diagrams automatically. Module-independent: header, footer and font come from the CLI or from an md-to-pdf.toml in the repository. Triggers: "als PDF", "PDF erstellen", "ConTeXt", "md to pdf", "/education:md-to-pdf".
 ---
 
 # md-to-pdf
 
-Globaler Skill für Markdown-zu-PDF in beliebigen Modulrepos. Kopf- und Fusszeile, Schrift, Seitenrand und Mermaid-Verhalten sind Parameter, nichts ist modulfest verdrahtet.
+Markdown-to-PDF conversion for any course or module repository. Header, footer, font, page margins and Mermaid behaviour are parameters; nothing is hard-wired to a specific module.
 
-## Voraussetzungen
+## Requirements
 
-Aufruf im Plugin: `${CLAUDE_PLUGIN_ROOT}` zeigt auf `plugins/education`. Ausserhalb des Plugins (direkt im Repo) den Pfad `plugins/education/skills/md-to-pdf/scripts/md_to_pdf.py` verwenden.
+Invocation within the plugin: `${CLAUDE_PLUGIN_ROOT}` points to `plugins/education`. Outside the plugin (directly in the repository), use the path `plugins/education/skills/md-to-pdf/scripts/md_to_pdf.py`.
 
-- `pandoc` (getestet 3.1.8), Python 3.11+ (wegen `tomllib`)
-- Engine `context`: ConTeXt (`context` im Pfad, z. B. MacTeX/TeX Live mit ConTeXt)
-- Engine `xelatex`: XeLaTeX und die Schrift aus `--schrift`
-- Mermaid: `npx` (Node.js), das Paket `@mermaid-js/mermaid-cli` wird bei Bedarf geladen
+- `pandoc` (tested with 3.1.8), Python 3.11+ (because of `tomllib`)
+- Engine `context`: ConTeXt (`context` on the `PATH`, e.g. MacTeX or TeX Live with ConTeXt)
+- Engine `xelatex`: XeLaTeX and the font given by `--schrift`
+- Mermaid: `npx` (Node.js); the package `@mermaid-js/mermaid-cli` is fetched on demand
 
-## Aufruf
+## Usage
 
 ```bash
 python3 ${CLAUDE_PLUGIN_ROOT}/skills/md-to-pdf/scripts/md_to_pdf.py QUELLE.md ZIEL.pdf \
@@ -25,67 +25,67 @@ python3 ${CLAUDE_PLUGIN_ROOT}/skills/md-to-pdf/scripts/md_to_pdf.py QUELLE.md ZI
   --fuss-links "FFHS · Modulentwicklung Datenstrukturen und Algorithmen"
 ```
 
-## Konfigurationsdatei `md-to-pdf.toml`
+## Configuration file `md-to-pdf.toml`
 
-Das Skript sucht die Datei vom Quellordner aufwärts. Die CLI-Optionen überschreiben sie. Mit `--config PFAD` oder `--no-config` lässt sich das steuern. Unbekannte Schlüssel brechen den Lauf ab.
+The script searches for the file from the source folder upwards. CLI options override it. Use `--config PATH` or `--no-config` to control this. Unknown keys abort the run.
 
 ```toml
 engine = "context"          # context | xelatex
-format = "pdf"              # pdf | tex | both (tex/both nur mit context)
+format = "pdf"              # pdf | tex | both (tex/both only with context)
 fuss_links = "FFHS · Modulentwicklung Datenstrukturen und Algorithmen"
-fuss_rechts = ""            # leer = Seitenzahl
+fuss_rechts = ""            # empty = page number
 schrift = "Charter"
-groesse = "11pt"            # nur context
+groesse = "11pt"            # context only
 rand = "2.0"                # cm
-fallback_zeichen = ""       # nur xelatex, z. B. "→₂"
+fallback_zeichen = ""       # xelatex only, e.g. "→₂"
 mermaid = true
 mermaid_breite = "55%"
 ```
 
-Kopfzeile (`kopf_links`, `kopf_rechts`) gehört in der Regel zum Dokument und wird per CLI übergeben.
+The header (`kopf_links`, `kopf_rechts`) usually belongs to the document and is passed on the CLI.
 
-### Optionen
+### Options
 
-| Option | Zweck |
+| Option | Purpose |
 |---|---|
-| `--engine` | `context` oder `xelatex` |
-| `--format` | `pdf`, `tex` (nur ConTeXt-Quelle) oder `both` |
-| `--kopf-links`, `--kopf-rechts` | Kopfzeile |
-| `--fuss-links`, `--fuss-rechts` | Fusszeile |
-| `--schrift`, `--groesse`, `--rand` | Typografie |
-| `--fallback-zeichen` | Zeichen für den XeLaTeX-Fallback |
-| `--mermaid on\|off`, `--mermaid-breite` | Mermaid-Verarbeitung |
-| `--config`, `--no-config` | Konfigurationsdatei wählen oder abschalten |
+| `--engine` | `context` or `xelatex` |
+| `--format` | `pdf`, `tex` (ConTeXt source only) or `both` |
+| `--kopf-links`, `--kopf-rechts` | Header |
+| `--fuss-links`, `--fuss-rechts` | Footer |
+| `--schrift`, `--groesse`, `--rand` | Typography |
+| `--fallback-zeichen` | Characters for the XeLaTeX fallback |
+| `--mermaid on\|off`, `--mermaid-breite` | Mermaid processing |
+| `--config`, `--no-config` | Choose or disable the configuration file |
 
 ## Mermaid
 
-Mermaid-Blöcke (```` ```mermaid ````) werden vor dem Satz mit mermaid-cli als PNG gerendert und in einer Arbeitskopie im temporären Ordner eingebunden. Die Quelle bleibt unverändert. Diagramme erscheinen ohne Bildunterschrift, Breite über `mermaid_breite`.
+Mermaid blocks (```` ```mermaid ````) are rendered to PNG with mermaid-cli before typesetting and embedded in a working copy in a temporary folder. The source stays unchanged. Diagrams appear without a caption, with their width set by `mermaid_breite`.
 
-Zu beachten bei `flowchart`-Bäumen: Kinder erscheinen in der Reihenfolge der Kanten im Quelltext, und ein einzelnes Kind setzt Mermaid senkrecht darunter. Abhilfe ist ein unsichtbarer Platzhalter-Knoten auf der Gegenseite.
+Note for `flowchart` trees: children appear in the order of the edges in the source, and a single child is placed directly below its parent. The workaround is an invisible placeholder node on the opposite side.
 
-## Prüfung nach jedem Build
+## Verification after every build
 
-1. Ausgabe lesen. `Keine fehlenden Zeichen gemeldet.` ist das Ziel. `Nicht gedruckte Zeichen` heisst: die Schrift hat diese Zeichen nicht. Dann den Eintrag in `CTX_UNICODE` (ConTeXt) bzw. `--fallback-zeichen` (XeLaTeX) ergänzen.
-2. Eine Seite rendern (`pdftoppm -r 60 -png -f 1 -l 1 DATEI.pdf /pfad/seite`) und Kopf-/Fusszeile, Tabellen und Diagramme prüfen.
-3. Seitenzahl kontrollieren.
+1. Read the output. `Keine fehlenden Zeichen gemeldet.` (no missing characters reported) is the goal. `Nicht gedruckte Zeichen` (characters not printed) means the font lacks these characters; add an entry to `CTX_UNICODE` (ConTeXt) or `--fallback-zeichen` (XeLaTeX).
+2. Render one page (`pdftoppm -r 60 -png -f 1 -l 1 DATEI.pdf /pfad/seite`) and check header, footer, tables and diagrams.
+3. Check the page count.
 
 ## Unicode in ConTeXt
 
-Die Textschrift Charter hat keine Pfeile und keine Hoch-/Tiefstellung. Das Skript ersetzt sie durch ConTeXt-Befehle aus der Tabelle `CTX_UNICODE` (z. B. `→` → `\mathematics{\rightarrow}`, `₂` → `\low{2}`). Code (`\type{}`, Hervorhebungsblöcke) bleibt unverändert. Ein Fallback-Font über `\definefontfallback` wird in ConTeXt nicht geladen (getestet).
+The text font Charter has no arrows and no superscript or subscript glyphs. The script replaces them with ConTeXt commands from the `CTX_UNICODE` table (e.g. `→` becomes `\mathematics{\rightarrow}`, `₂` becomes `\low{2}`). Code (`\type{}`, highlighted blocks) is left unchanged. A fallback font via `\definefontfallback` is not loaded in ConTeXt (tested).
 
-## Bekannte Fallstricke
+## Known pitfalls
 
-- **Kopfzeile verschwindet:** Der Vorspann von pandoc (`-s`) enthält `\setupbackend[export=yes]`. Damit fehlen Kopf- und Fusszeile in ConTeXt. Das Skript entfernt genau diese Zeile. Wird der Vorspann von pandoc angepasst, diese Stelle prüfen.
-- **Schriften** sind macOS-spezifisch (Charter, Arial Unicode).
+- **Header disappears:** The pandoc preamble (`-s`) contains `\setupbackend[export=yes]`, which removes header and footer in ConTeXt. The script removes exactly this line. If the pandoc preamble changes, check this spot.
+- **Fonts** are macOS-specific (Charter, Arial Unicode).
 
-## Regeln
+## Rules
 
-- Das Ausgabe-PDF liegt am angegebenen Ziel. Keine Dateien in Modulordner ablegen, die der Nutzer nicht bestellt hat.
-- Nicht committen. Der Nutzer entscheidet über Commits.
-- Nach jeder Quelländerung neu bauen.
+- The output PDF is written to the given target. Do not place files in the module folder that the user did not order.
+- Do not commit. The user decides on commits.
+- Rebuild after every source change.
 
-## Aufbau
+## Structure
 
-- `scripts/md_to_pdf.py`: Hauptskript
-- `templates/preamble.ctx.tpl`: ConTeXt-Vorspann mit Platzhaltern (Layout, Schrift, Kopf-/Fusszeile)
-- `templates/header.tex.tpl`: XeLaTeX-Kopf-/Fusszeile mit Platzhaltern
+- `scripts/md_to_pdf.py`: main script
+- `templates/preamble.ctx.tpl`: ConTeXt preamble with placeholders (layout, font, header and footer)
+- `templates/header.tex.tpl`: XeLaTeX header and footer with placeholders
