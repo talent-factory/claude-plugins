@@ -10,10 +10,10 @@
 \setupinterlinespace[line={{ZEILENABSTAND}}]
 \setupwhitespace[medium]
 % Codeblöcke als umbrechbare Tabelle mit grauem Hintergrund (md_to_pdf.py, codeblock_tabelle).
-\definecolor[codegrau][s=0.85]
+\definecolor[codegrau][s=0.93]
 \setupframedtable[frame=off]
 \setupframedtablerow[frame=off]
-\setupframedtablecolumn[1][width=\hsize,frame=off,background=color,backgroundcolor=codegrau,align=normal]
+\setupframedtablecolumn[1][width=\hsize,frame=off,background=color,backgroundcolor=codegrau,align=normal,strut=no]
 \setuphead[section,subsection][number=yes]
 \setuphead[section][page=yes]
 \setupinteraction[state=stop]

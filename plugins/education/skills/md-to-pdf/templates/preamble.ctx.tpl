@@ -4,10 +4,10 @@
 \definefontfamily[main][rm][{{SCHRIFT}}]
 \setupbodyfont[main,{{GROESSE}}]
 % Codeblöcke als umbrechbare Tabelle mit grauem Hintergrund (md_to_pdf.py, codeblock_tabelle).
-\definecolor[codegrau][s=0.85]
+\definecolor[codegrau][s=0.93]
 \setupframedtable[frame=off]
 \setupframedtablerow[frame=off]
-\setupframedtablecolumn[1][width=\hsize,frame=off,background=color,backgroundcolor=codegrau,align=normal]
+\setupframedtablecolumn[1][width=\hsize,frame=off,background=color,backgroundcolor=codegrau,align=normal,strut=no]
 \setupinteraction[state=stop]
 \setuppagenumbering[location={footer,right}]
 \setupheader[state=start]
