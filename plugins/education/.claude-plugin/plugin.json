@@ -1,6 +1,6 @@
 {
   "name": "education",
-  "version": "1.7.0",
+  "version": "1.7.1",
   "description": "Teaching aids with Java Tutor agent, Markdown syntax formatter agent and skill, FFHS lecture slide generation, and code explanation for IT education",
   "keywords": ["education", "teaching", "learning", "students", "markdown", "formatting", "ffhs", "presentations", "slides"],
   "license": "MIT",

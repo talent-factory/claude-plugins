@@ -38,6 +38,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - **Repository workflow**: switched to **trunk-based development**. Retired the `develop` integration branch — `main` is now the single long-lived branch and the live marketplace source; all work lands via short-lived branches and Pull Requests to `main`. Updated branch protection, CI triggers (`validate-plugins.yml`, `branch-protection.yml`), `CLAUDE.md`, `CONTRIBUTING.md`, and `.github/BRANCH_PROTECTION_SETUP.md`. Rationale: a dedicated `develop` only pays off with batched, staged releases against a consuming environment, which this marketplace does not have.
 
+### Fixed
+
+- **education 1.7.1**: `md-to-pdf` ConTeXt output — code blocks use a monospaced font (`tt`), so indentation is kept, and the shaded frame around code blocks is removed, so the last code line no longer overlaps the footer at a page break
+
 ## [1.5.0] - 2026-05-01
 
 ### Added
