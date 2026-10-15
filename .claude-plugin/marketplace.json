@@ -31,7 +31,7 @@
       "description": "Comprehensive project management with PRD generation, project planning, single-task initialization with duplicate detection and ATOMIC validation, intelligent task implementation with plugin orchestration (Superpowers brainstorm, agent routing, quality gate), autonomous EPIC automation, Linear integration, and git worktree workflow for agile development",
       "source": "./plugins/project-management",
       "category": "productivity",
-      "version": "2.7.0",
+      "version": "2.8.0",
       "tags": [
         "planning",
         "prd",

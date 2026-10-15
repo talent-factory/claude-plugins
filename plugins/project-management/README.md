@@ -137,6 +137,7 @@ Implement tasks with git worktree workflow, branch creation, and PR automation.
 - 🌿 Automatic branch creation and management
 - 📝 Task status tracking
 - 🔗 Linear issue synchronization
+- 🗂️ Plane work item synchronization (`--plane`)
 - 🚀 PR creation integration
 - ✅ Completion verification
 
@@ -146,6 +147,7 @@ Implement tasks with git worktree workflow, branch creation, and PR automation.
 /project-management:implement-task                 # From filesystem plan
 /project-management:implement-task TASK-ID         # Specific task
 /project-management:implement-task --linear ISSUE  # From Linear
+/project-management:implement-task --plane TF-792  # From Plane
 ```
 
 **Workflow:**
@@ -155,13 +157,14 @@ Implement tasks with git worktree workflow, branch creation, and PR automation.
 3. Tracks implementation progress
 4. Updates task status
 5. Creates PR when complete
-6. Synchronizes with Linear
+6. Synchronizes with Linear or Plane
 
 **References:**
 
 - [Best Practices](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/implement-task/best-practices.md) - Implementation guidelines
 - [Filesystem](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/implement-task/filesystem.md) - Task file management
 - [Linear](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/implement-task/linear.md) - Linear integration
+- [Plane](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/implement-task/plane.md) - Plane integration
 - [Troubleshooting](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/implement-task/troubleshooting.md) - Common issues
 - [Workflow](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/implement-task/workflow.md) - Complete workflow guide
 
