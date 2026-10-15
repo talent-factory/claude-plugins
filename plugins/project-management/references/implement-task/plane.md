@@ -115,7 +115,7 @@ Closes TF-792
 
 Use `Refs TF-792` instead only when the work item stays open on purpose (e.g. a production step or follow-up work). State the reason in the PR text.
 
-The command does not set the Plane state to Done itself. Closing happens through the merged PR. Plane's GitHub integration, or the post-merge cleanup, moves the item to its completed state.
+The command does not set the Plane state to Done itself. A `Closes` keyword only closes GitHub issues; it does not change a Plane work item. Move the item to its completed state manually in Plane, unless the workspace has a Plane–GitHub integration configured that does this on merge (verify this in Plane before relying on it).
 
 ## Error Handling
 

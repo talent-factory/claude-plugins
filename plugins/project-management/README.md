@@ -2,9 +2,9 @@
 
 Comprehensive project management tools for PRD generation, project planning, task implementation with Linear integration and git worktree workflow.
 
-## Version 2.7.0
+## Version 2.8.0
 
-**New in 2.7.0:** Added `document-handoff` skill for natural-language pre-compact handoff documentation.
+**New in 2.8.0:** `implement-task --plane` adds Plane as a task provider next to filesystem and Linear, with state transitions and `Closes <identifier>` in the PR body.
 
 - 📋 `/project-management:init-task` — Single-task creation with duplicate detection, ATOMIC validation, and mandatory Definition of Done
 - 📄 Extended task template with Type, Plan, and Definition of Done fields

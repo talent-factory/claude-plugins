@@ -102,7 +102,9 @@ This command orchestrates the complete workflow from task to pull request, lever
 - **Project**: `TF`
 ```
 
-States are read from Plane at runtime; no state IDs are stored. Details: [plane.md](../references/implement-task/plane.md)
+States are read from Plane at runtime; no state IDs are stored. Optional `Status Override` keys (In Progress, In Review) are described in [plane.md](../references/implement-task/plane.md).
+
+`--linear` and `--plane` are mutually exclusive. Passing both stops the command with an error and asks the user to pick one.
 
 ## Common Workflow
 
