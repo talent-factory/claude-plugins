@@ -1,7 +1,7 @@
 ---
-description: Implement task with context analysis, agent routing, worktree workflow, quality gate, and PR (Filesystem or Linear)
+description: Implement task with context analysis, agent routing, worktree workflow, quality gate, and PR (Filesystem, Linear, or Plane)
 category: project
-argument-hint: "[task-ID] [--linear] [--skip-brainstorm] [--skip-quality-gate]"
+argument-hint: "[task-ID] [--linear | --plane] [--skip-brainstorm] [--skip-quality-gate]"
 allowed-tools:
   - Read
   - Write
@@ -22,7 +22,7 @@ Automated task implementation with intelligent plugin orchestration: Context ana
 
 This command orchestrates the complete workflow from task to pull request, leveraging the full plugin ecosystem:
 
-1. **Select Task** - From filesystem or Linear (via `--linear` flag)
+1. **Select Task** - From filesystem, Linear (via `--linear` flag), or Plane (via `--plane` flag)
 2. **Read Task Data** - Extract title, description, labels, acceptance criteria
 3. **Context Analysis** - Brainstorm and analyze codebase before implementation
 4. **Agent & Plugin Resolution** - Automatically select optimal agents and plugins
@@ -44,6 +44,10 @@ This command orchestrates the complete workflow from task to pull request, lever
 # Linear-based
 /project-management:implement-task --linear           # Interactive selection
 /project-management:implement-task --linear PROJ-123  # With issue ID
+
+# Plane-based
+/project-management:implement-task --plane           # Interactive selection
+/project-management:implement-task --plane TF-792    # With work item identifier
 
 # Skip optional phases
 /project-management:implement-task task-001 --skip-brainstorm     # Skip context analysis
@@ -85,6 +89,22 @@ This command orchestrates the complete workflow from task to pull request, lever
   }
 }
 ```
+
+### Plane (`--plane`)
+
+**When to use**: Tasks are managed in Plane (`plane.talent-factory.ch`).
+
+**Prerequisite**: `plane-tf` MCP server is configured and the repository's `CLAUDE.md` contains a `## Plane Integration` section with the project identifier.
+
+```markdown
+## Plane Integration
+
+- **Project**: `TF`
+```
+
+States are read from Plane at runtime; no state IDs are stored. Optional `Status Override` keys (In Progress, In Review) are described in [plane.md](../references/implement-task/plane.md).
+
+`--linear` and `--plane` are mutually exclusive. Passing both stops the command with an error and asks the user to pick one.
 
 ## Common Workflow
 
@@ -360,7 +380,7 @@ Implementation of Task <task-id>: <Task-Title>
 ## Task Reference
 
 - **Task ID**: <task-id>
-- **Provider**: Filesystem / Linear
+- **Provider**: Filesystem / Linear / Plane
 - **Link**: [Task Details](<link-to-task>)
 
 ## Planned Changes
@@ -412,6 +432,17 @@ git submodule foreach --recursive '
 | ---------- | -------------------------------------------------- | --------------------- |
 | Filesystem | `pending` → `in_progress` in task file + STATUS.md | **Main branch**       |
 | Linear     | `Backlog` → `In Progress` via MCP                  | Remote (auto-visible) |
+| Plane      | `Unstarted` → `started` state via `plane-tf` MCP   | Remote (auto-visible) |
+
+#### Plane Status Update
+
+```text
+1. mcp__plane-tf__project action=list           → project UUID for the CLAUDE.md identifier
+2. mcp__plane-tf__state action=list project_id  → pick "In Progress" (see plane.md)
+3. mcp__plane-tf__workitem action=update        → state = <In Progress UUID>
+```
+
+Add a comment with branch and worktree via `mcp__plane-tf__workitem_comment`.
 
 #### Filesystem Status Update Workflow
 
@@ -607,6 +638,7 @@ Finalize the draft PR for review:
 
 - Update title: Remove "WIP:" prefix
 - Update body: Add description of actual changes, test results
+- Closing line (Plane, Linear): `Closes <identifier>` in the body, e.g. `Closes TF-792`. Use `Refs <identifier>` only when the item must stay open, and state why in the body
 - Labels: Based on task labels
 - Mark PR as ready: `gh pr ready`
 
@@ -618,6 +650,7 @@ Finalize the draft PR for review:
 | ---------- | -------------------------------------------- |
 | Filesystem | Task status → `completed`, update STATUS.md  |
 | Linear     | Issue status → `In Review` or `Done` via MCP |
+| Plane      | Work item state → `In Review` via `plane-tf` MCP; PR text contains `Closes <identifier>` |
 
 #### Worktree Cleanup (After PR Merge)
 
@@ -664,6 +697,9 @@ If an optional plugin is not available, the workflow continues gracefully:
 - **Submodule Branch Conflict**: Offer interactive resolution
 - **Dependencies Not Met** (FS): Display list, user decision
 - **Linear MCP Not Available**: Error message with setup instructions
+- **Plane MCP Not Available**: Error message with setup instructions (`plane-tf`, see [plane.md](../references/implement-task/plane.md))
+- **Plane Project Not Configured**: `CLAUDE.md` has no `## Plane Integration` section, command asks for the project identifier
+- **Plane State Ambiguous**: Several candidate states, command lists them and asks the user
 - **Plugin Not Available**: Graceful fallback, inform user
 - **Quality Gate Failures**: Report issues, let user decide to proceed or fix
 
@@ -682,6 +718,7 @@ If an optional plugin is not available, the workflow continues gracefully:
 
 - **[filesystem.md](../references/implement-task/filesystem.md)** - Filesystem tasks, STATUS.md
 - **[linear.md](../references/implement-task/linear.md)** - Linear MCP setup, API details
+- **[plane.md](../references/implement-task/plane.md)** - Plane MCP setup, CLAUDE.md configuration, state handling
 
 ## See Also
 
