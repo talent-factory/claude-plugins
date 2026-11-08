@@ -43,6 +43,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- **CI**: `Security Scan` job — `aquasecurity/trivy-action` bumped from v0.35.0 to v0.36.0 (default Trivy v0.70.0); the pinned Trivy v0.69.3 binary failed to install, so the scan never ran
+
 - **education 1.7.1**: `md-to-pdf` ConTeXt output — code blocks use a monospaced font (`tt`), so indentation is kept, and the shaded frame around code blocks is removed, so the last code line no longer overlaps the footer at a page break
 
 ## [1.5.0] - 2026-05-01
