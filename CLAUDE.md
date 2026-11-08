@@ -232,7 +232,7 @@ claude --plugin-dir ./plugins/your-plugin
 - **`plugins/*/agents/*.md`**: Specialized AI assistant definitions
 - **`.github/workflows/validate-plugins.yml`**: Main CI/CD pipeline
 - **`.github/workflows/branch-protection.yml`**: Enforces development standards
-- **`docs/PLUGIN_DEVELOPMENT.md`**: Comprehensive contributor guide
+- **`docs/development/plugin-development.md`**: Comprehensive contributor guide
 - **`.github/BRANCH_PROTECTION_SETUP.md`**: GitHub settings configuration
 
 ## GitHub Actions Workflows

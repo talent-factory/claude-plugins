@@ -200,11 +200,11 @@ Keep commands concise by linking to reference files:
 ```markdown
 ## Commit Types
 
-See [commit-types.md](../references/commit/commit-types.md) for the full list.
+See [commit-types.md](../../plugins/git-workflow/references/commit/commit-types.md) for the full list.
 
 ## Best Practices
 
-Details: [best-practices.md](../references/commit/best-practices.md)
+Details: [best-practices.md](../../plugins/git-workflow/references/commit/best-practices.md)
 ```
 
 ---

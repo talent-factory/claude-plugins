@@ -290,7 +290,7 @@ Task management via TaskNotes Plugin API with natural language support (DE/EN).
 ### For Contributors
 
 - [Contributing Guidelines](./CONTRIBUTING.md)
-- [Plugin Development Guide](./docs/PLUGIN_DEVELOPMENT.md)
+- [Plugin Development Guide](./docs/development/plugin-development.md)
 - [Code of Conduct](./CODE_OF_CONDUCT.md)
 
 ## 🔄 Migration from Dotfiles
