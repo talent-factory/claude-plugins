@@ -154,12 +154,13 @@ jobs:
         uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           fetch-depth: 0
+          persist-credentials: false
 
       - name: Run Trivy security scanner
         # Docker image instead of aquasecurity/trivy-action: the action downloads
         # the Trivy release from GitHub, which fails on the runners.
         run: |
-          docker run --rm -v "$PWD:/src:ro" aquasec/trivy:0.76.2 \
+          docker run --rm -v "$PWD:/src:ro" aquasec/trivy:0.76.2@sha256:8f6bb947dbc528902e11f2f5be52f7b519f6a39d5d148f41166f2040499768fb \
             fs --severity HIGH,CRITICAL --exit-code 1 /src
 
       - name: Scan for secrets with TruffleHog
