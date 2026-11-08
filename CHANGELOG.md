@@ -46,7 +46,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **education 1.8.1**: `md-to-pdf` SKILL.md prose translated from German to English (documentation only, no behaviour change)
 
 - **CI**: `Security Scan` job — Trivy now runs from the `aquasec/trivy` Docker image, pinned by digest (v0.76.2), instead of `aquasecurity/trivy-action`, whose release download failed on the runners so the scan never ran; `certifi` and `gitpython` in `uv.lock` updated to fix the findings the scan then reported
-- **CI**: `validate-plugins.yml` also triggers on `docs/**`, `README.md` and `CLAUDE.md`, so documentation-only PRs get the required status checks instead of staying blocked
+- **CI**: `validate-plugins.yml` also triggers on `docs/**`, `README.md`, `CLAUDE.md` and `CHANGELOG.md`, so documentation-only PRs get the required status checks instead of staying blocked
 
 - **education 1.7.1**: `md-to-pdf` ConTeXt output — code blocks use a monospaced font (`tt`), so indentation is kept, and the shaded frame around code blocks is removed, so the last code line no longer overlaps the footer at a page break
 
