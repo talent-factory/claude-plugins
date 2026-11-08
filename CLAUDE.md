@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository Overview
 
-This is a **Claude Code plugin marketplace** maintained by Talent Factory GmbH. It hosts 8 professional plugins distributed via GitHub for software development, education, and project management. The repository serves as both a marketplace configuration and a development workspace for plugin contributors.
+This is a **Claude Code plugin marketplace** maintained by Talent Factory GmbH. It hosts 9 professional plugins distributed via GitHub for software development, education, and project management. The repository serves as both a marketplace configuration and a development workspace for plugin contributors.
 
 **Target Users:** Students, software developers, educators, and development teams.
 

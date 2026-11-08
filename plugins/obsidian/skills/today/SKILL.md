@@ -2,10 +2,10 @@
 name: today
 description: >
   Produces a prioritised daily briefing by aggregating tasks from Obsidian TaskNotes,
-  Google Calendar, Gmail, Linear, and GitHub, then writes the result to today's daily
-  note in the Obsidian vault. Activate when the user runs "/today", asks "what's on
-  my plate today", "give me my daily briefing", "what do I need to do today", or
-  "morning briefing". Works from any directory without requiring Obsidian to be running.
+  Apple Reminders, Google Calendar, Gmail, Plane, and GitHub, then writes the result to
+  today's daily note in the Obsidian vault. Activate when the user runs "/today", asks
+  "what's on my plate today", "give me my daily briefing", "what do I need to do today",
+  or "morning briefing". Works from any directory without requiring Obsidian to be running.
 ---
 
 # Today Briefing
@@ -24,6 +24,9 @@ variables listed under each key take precedence over the CLAUDE.md value.
 | `obsidian_daily_dir` | `OBSIDIAN_DAILY_DIR` | `Daily` | Daily notes folder (relative to vault) |
 | `obsidian_template_daily` | `OBSIDIAN_TEMPLATE_DAILY` | `<vault>/Templates/Daily Note.md` | Daily note template |
 | `user_email` | `USER_EMAIL` | `git config user.email` | Your email address (used to detect unanswered Gmail threads) |
+| `plane_workspace` | `PLANE_WORKSPACE` | `tf` | Plane workspace slug (first path segment of the Plane URL) |
+| `plane_url` | `PLANE_URL` | `https://plane.talent-factory.ch` | Base URL of the Plane instance (used for deep links) |
+| `reminders_lists` | `REMINDERS_LISTS` | all lists | Comma-separated Apple Reminders lists to include |
 
 **Vault auto-detection** (applied when `obsidian_vault` is not set):
 ```bash
@@ -46,8 +49,9 @@ If `TASKNOTES` remains empty, fall back to the direct file scan in Step 1b.
 
 ## Execution Steps
 
-Resolve configuration, then run steps 1–5 in parallel. Compose and write the
-briefing afterwards.
+Resolve configuration, then run steps 1–6 in parallel. Compose and write the
+briefing afterwards. Every source degrades gracefully: if one is unavailable,
+skip it and continue with the rest.
 
 ### Step 1 — TaskNotes
 
@@ -135,17 +139,122 @@ Parameters:
 Flag a thread as "needs reply" if the last message in the thread is not from
 `$USER_EMAIL`. Extract: sender, subject, age.
 
-### Step 4 — Linear
+### Step 4 — Plane
 
+Plane is the ticket system. The MCP server `plane` serves all workspaces; pass
+the workspace on every call as `workspace: $PLANE_WORKSPACE`.
+
+The self-hosted Plane edition has two limits that shape this step:
+
+- **No PQL**, neither in `workitem list` nor in GraphQL `workItems(pql:)`. Both
+  reject it with HTTP 400. Filter client-side.
+- **No workspace-wide list.** `workitem list` and a root-level `workItems`
+  without `project` return HTTP 404. Go through the projects instead.
+
+GraphQL (`mcp__plane__graphql_query`) fetches all projects in one call:
+
+1. `mcp__plane__member` with `action: me` → `me.id`.
+2. One GraphQL query for every project:
+   ```graphql
+   { projects { id identifier
+       workItems(first: 100) {
+         hasNextPage nextCursor
+         results { identifier name priority targetDate completedAt
+                   state { name group } assignees { id } } } } }
+   ```
+   The result is large (all items, including done ones) and lands in a file.
+   Filter it with `jq` or Python instead of reading it into context.
+3. For every project with `hasNextPage: true`, page through it with
+   `project(id:)`, at most 5 pages per project:
+   ```graphql
+   { project(id: "<project id>") { identifier
+       workItems(first: 100, after: "<nextCursor>") {
+         hasNextPage nextCursor
+         results { identifier name priority targetDate completedAt
+                   state { name group } assignees { id } } } } }
+   ```
+4. Keep an item only if all of these hold:
+   - `me.id` is in `assignees[].id`
+   - `state.group` is `unstarted` or `started`, or it is `backlog` and
+     `targetDate` ≤ today
+   - `completedAt` is empty
+
+   Never keep `completed` or `cancelled` items.
+5. Per item use: `identifier` (e.g. `TF-792`), `name`, `priority` (`urgent`,
+   `high`, `medium`, `low`, `none`), `targetDate`, `state.name`.
+
+Deep link: `<PLANE_URL>/<workspace>/browse/<identifier>/`
+
+If the GraphQL tool is unavailable, fall back to REST: `mcp__plane__project`
+`action: list`, then `mcp__plane__workitem` `action: list` per project with
+`project_id` and `expand: state`. Note the REST assignee ids can differ from
+`me.id`; compare via `expand: assignees` or skip the assignee check and say so.
+
+If Plane is not connected at all, skip it silently and note "Plane unavailable"
+in the terminal summary.
+
+### Step 5 — Apple Reminders
+
+Uses the `remindctl` CLI (`brew install steipete/tap/remindctl`). Skip this step
+silently if `command -v remindctl` is empty. If macOS has not granted access
+(`remindctl status` does not report authorized), skip and print the hint
+`run: remindctl authorize` in the terminal summary.
+
+The script reads the list filter only from the environment. Resolve
+`reminders_lists` (env var `REMINDERS_LISTS` first, then the CLAUDE.md value) and
+export it in the same shell command, e.g. `REMINDERS_LISTS="Inbox,Work" python3 - <<'PY'`.
+Leave it unset to include all lists.
+
+```bash
+python3 - <<'PY'
+import json, os, subprocess
+from datetime import date, datetime
+
+today = date.today()
+lists = {s.strip() for s in os.environ.get("REMINDERS_LISTS", "").split(",") if s.strip()}
+seen, out = set(), []
+for flt in ("overdue", "today"):
+    r = subprocess.run(["remindctl", "show", flt, "--json", "--no-input"],
+                       capture_output=True, text=True)
+    if r.returncode:
+        continue
+    for rem in json.loads(r.stdout or "[]"):
+        if rem["id"] in seen or rem.get("isCompleted"):
+            continue
+        if lists and rem.get("listName") not in lists:
+            continue
+        seen.add(rem["id"])
+        due = rem.get("dueDate")
+        d = datetime.fromisoformat(due.replace("Z", "+00:00")).astimezone() if due else None
+        age = (today - d.date()).days if d else 0
+        rem["_due_local"] = d.isoformat(timespec="minutes") if d else None
+        rem["_all_day"] = bool(d) and d.hour == 0 and d.minute == 0
+        rem["_age_days"] = max(age, 0)
+        rem["_bucket"] = "today" if age <= 0 else ("overdue" if age <= 7 else "stale")
+        out.append(rem)
+print(json.dumps(out, indent=2, ensure_ascii=False))
+PY
 ```
-Tool: mcp__plugin_linear_linear__list_issues
-(filter: assigned to me, state not completed/cancelled)
-```
 
-Sort by priority: urgent → high → normal → low. Flag any issue with
-`dueDate ≤ today`.
+Buckets:
 
-### Step 5 — GitHub
+- `today` — due today. A due time of exactly 00:00 means an all-day reminder
+  (Apple stores date-only reminders at local midnight); omit the time then.
+- `overdue` — overdue by 1–7 days. Treated like an overdue TaskNote.
+- `stale` — overdue by more than 7 days. These are usually read-later links
+  and forgotten items. Do **not** list them one by one; report only the count
+  ("N stale reminders") so they do not bury real work.
+
+Relevant fields per reminder: `title`, `listName`, `priority`
+(`none`/`low`/`medium`/`high`), `notes`, `_due_local`, `_age_days`, `_bucket`.
+
+Reminders have no stable deep link, so show the title as plain text with the
+list name in parentheses.
+
+If a reminder's title contains a Plane identifier (e.g. `TF-792`), merge it
+with the matching Plane item (see `references/priority-guide.md`).
+
+### Step 6 — GitHub
 
 ```bash
 gh pr list --author @me --state open \
@@ -167,20 +276,26 @@ list; remainder → source sections.
 
 | Score | Condition |
 |---|---|
-| 100 | Linear: Urgent |
+| 100 | Plane: Urgent |
 | 85 | TaskNote: overdue > 2 days, priority urgent/high |
-| 70 | Linear: High + due today |
+| 70 | Plane: High + `targetDate` ≤ today |
 | 65 | TaskNote: overdue, any priority |
-| 55 | Linear: High |
+| 65 | Plane: `targetDate` < today, any priority |
+| 65 | Reminder: overdue 1–7 days, any priority |
+| 55 | Plane: High |
 | 50 | TaskNote: due today, priority urgent/high |
+| 50 | Reminder: due today, priority high |
 | 45 | GitHub PR: CHANGES_REQUESTED |
 | 35 | Gmail: unread > 24 h, actionable |
 | 30 | TaskNote: due today, priority normal |
+| 30 | Reminder: due today, priority none/low/medium |
 | 25 | GitHub PR: open, no review yet |
-| 20 | Linear: Normal |
+| 20 | Plane: Medium |
 | 15 | TaskNote: scheduled today |
 | 10 | GitHub issue assigned |
-| 5  | Linear: Low |
+| 5  | Plane: Low or None |
+
+Stale reminders (> 7 days overdue) are not scored; they appear only as a count.
 
 Priority emoji by score: 🔴 ≥ 65 · 🟠 35–64 · 🟡 15–34 · ⚪ < 15
 
@@ -188,9 +303,10 @@ Priority emoji by score: 🔴 ≥ 65 · 🟠 35–64 · 🟡 15–34 · ⚪ < 15
 
 Always include deep links so every item is directly clickable:
 
-- **Linear**: `[ID](url)` — `url` field from the API response
+- **Plane**: `[ID](url)` — built as `<PLANE_URL>/<workspace>/browse/<ID>/`
 - **Gmail**: `[Mail](https://mail.google.com/mail/u/0/#inbox/<thread_id>)` — `id` field
 - **TaskNotes**: `[[Filename without .md]]` — Obsidian internal link, clickable in vault
+- **Reminders**: plain title, list name in parentheses (no deep link)
 - **Calendar**: `[Event name](htmlLink)` — omit link for all-day/multi-day events
 - **GitHub PR**: `[#N title](html_url)`
 
@@ -205,10 +321,16 @@ _updated: HH:MM_
 **Free blocks:** HH:MM–HH:MM (Xh), HH:MM–HH:MM (Yh)
 
 #### Priorities
-1. 🔴 [Linear] **[ABC-17 Title](https://linear.app/...)** — URGENT
+1. 🔴 [Plane] **[TF-17 Title](https://plane.talent-factory.ch/tf/browse/TF-17/)** — URGENT
 2. 🟠 [Task] **[[TaskNote Filename]]** — 3 days overdue
-3. 🟡 [GitHub] **[PR #N Title](github-url)** (repo) — awaiting review
+3. 🟠 [Reminder] **Title** (Reminders) — due today
+4. 🟡 [GitHub] **[PR #N Title](github-url)** (repo) — awaiting review
 ...
+
+#### Reminders
+- **Title** (List) — HH:MM / all day / N days overdue
+- _N stale reminders (> 7 days overdue)_
+*(omit section if empty)*
 
 #### Emails
 - **Sender**: [Subject](https://mail.google.com/mail/u/0/#inbox/thread-id) (age)
@@ -219,7 +341,7 @@ _updated: HH:MM_
 *(omit section if empty)*
 ```
 
-Source labels: `[Task]` `[Linear]` `[GitHub]` `[Mail]`
+Source labels: `[Task]` `[Plane]` `[Reminder]` `[GitHub]` `[Mail]`
 
 ## Write to Daily Note
 
@@ -246,8 +368,11 @@ After writing, output only the following (not the full briefing):
 
 📅 3 events  |  free blocks: 10:30–14:00 (3.5h)
 🔴 2 urgent  🟠 4 due today  🟡 3 watch
-📧 2 emails  ·  GitHub: 1 PR, 2 issues
+📧 2 emails  ·  GitHub: 1 PR, 2 issues  ·  Plane: 5  ·  Reminders: 3 (+8 stale)
 ```
+
+Append a short note for every skipped source, e.g. `Plane unavailable` or
+`Reminders: run remindctl authorize`.
 
 ## Additional Resources
 

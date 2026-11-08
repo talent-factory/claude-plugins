@@ -2,7 +2,7 @@
 name: weekly-review
 description: >
   Collects completed tasks, GitHub activity, calendar meetings, wiki learnings, and
-  Linear progress for the past week, then writes a structured retrospective to the
+  Plane progress for the past week, then writes a structured retrospective to the
   Obsidian vault. Activate when the user runs "/weekly-review", asks "what did I
   accomplish this week", "weekly retrospective", "summarise my week", or "prepare
   weekly review". Works from any directory.
@@ -26,6 +26,8 @@ variables listed under each key take precedence over the CLAUDE.md value.
 | `obsidian_template_weekly` | `OBSIDIAN_TEMPLATE_WEEKLY` | `<vault>/Templates/Weekly Review.md` | Weekly review template |
 | `obsidian_wiki_root` | — | `Wiki` | Wiki root folder (relative to vault) — used to read the log |
 | `github_org` | `GITHUB_ORG` | — | GitHub organisation; GitHub step is skipped if not set |
+| `plane_workspace` | `PLANE_WORKSPACE` | `tf` | Plane workspace slug (first path segment of the Plane URL) |
+| `plane_url` | `PLANE_URL` | `https://plane.talent-factory.ch` | Base URL of the Plane instance (used for deep links) |
 
 **Vault auto-detection** (applied when `obsidian_vault` is not set):
 ```bash
@@ -143,14 +145,32 @@ Parameters:
 
 Extract timed events (skip all-day events). Group by day.
 
-### Step 4 — Linear: Progress this week
+### Step 4 — Plane: Progress this week
 
-```
-Tool: mcp__plugin_linear_linear__list_issues
-(filter: assignee = me, updatedAt within last 7 days)
+Uses the `plane` MCP server with `workspace: $PLANE_WORKSPACE` (default `tf`).
+The self-hosted edition has no PQL and no workspace-wide list, so query all
+projects at once with `mcp__plane__graphql_query` and filter client-side:
+
+```graphql
+{ projects { id identifier
+    workItems(first: 100) {
+      hasNextPage nextCursor
+      results { identifier name priority createdAt updatedAt completedAt
+                state { name group } assignees { id } } } } }
 ```
 
-Separate into: completed this week · still in progress · newly created.
+Get `me.id` from `mcp__plane__member` (`action: me`). Keep items where `me.id`
+is in `assignees[].id`.
+For projects with `hasNextPage`, page through `project(id:) { workItems(after:) }`
+(see `today` skill, Step 4). The result is large; filter it with `jq` or Python.
+
+Separate into: completed this week (`completedAt` within `WEEK_START`..`WEEK_END`) ·
+newly created (`createdAt` within `WEEK_START`..`WEEK_END`) · still in progress
+(`state.group` = `started`, regardless of date, so untouched open items still
+appear under open loops and "Focus Next Week").
+
+Deep link: `<PLANE_URL>/<workspace>/browse/<identifier>/` (default
+`https://plane.talent-factory.ch/tf/`).
 
 ### Step 5 — Wiki: What was learned?
 
@@ -191,7 +211,7 @@ _Generated: YYYY-MM-DD HH:MM_
 - **[repo]**: [N] commits — [highlight commit message]
 - PR #N **[Title]** merged
 
-### Linear — Resolved
+### Plane — Resolved
 - [ID] **[Title]** → done
 
 *(Omit section if empty)*
@@ -219,7 +239,7 @@ _Tasks due this week that remain open:_
 
 - **[Title]** — due [date], [priority]
 
-_Linear items still in progress:_
+_Plane items still in progress:_
 
 - [ID] **[Title]** — [status]
 
@@ -227,7 +247,7 @@ _Linear items still in progress:_
 
 ## 🎯 Focus Next Week
 
-_Top 3 from Linear + TaskNotes (by priority):_
+_Top 3 from Plane + TaskNotes (by priority):_
 
 1. [Item]
 2. [Item]
@@ -263,7 +283,7 @@ Use the same insert/replace pattern as `update_daily_note.py`.
 ✓ Weekly Review → Daily/2026-W19-weekly-review.md
 
 W19 (04 May – 10 May 2026)
-✅ 3 tasks · 12 commits (4 repos) · 2 PRs merged · 2 Linear resolved
+✅ 3 tasks · 12 commits (4 repos) · 2 PRs merged · 2 Plane resolved
 📅 5 meetings · 📖 4 wiki pages · ⚠️ 2 open loops
 ```
 
