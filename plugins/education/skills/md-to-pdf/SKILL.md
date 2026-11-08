@@ -55,49 +55,49 @@ The header (`kopf_links`, `kopf_rechts`) usually belongs to the document and is 
 | `--schrift`, `--groesse`, `--rand` | Typography |
 | `--fallback-zeichen` | Characters for the XeLaTeX fallback |
 | `--mermaid on\|off`, `--mermaid-breite` | Mermaid processing |
-| `--profil` | Vorgabe-Profil, derzeit `ffhs-thesis` |
+| `--profil` | Preset profile, currently `ffhs-thesis` |
 | `--config`, `--no-config` | Choose or disable the configuration file |
 
-## Profil `ffhs-thesis`
+## Profile `ffhs-thesis`
 
-Für Thesen an der FFHS. Das Layout folgt der Vorlage `ffhsthesis.cls`: A4, 11 pt, Helvetica-Nachbau (`TeX Gyre Heros`, mit TeX Live verfügbar), 1.5-facher Zeilenabstand, Seitenränder 3 cm links und rechts, Seitenzahl unten zentriert. Nur für `engine = "context"`.
+For theses at FFHS. The layout follows the template `ffhsthesis.cls`: A4, 11 pt, a Helvetica clone (`TeX Gyre Heros`, available with TeX Live), 1.5 line spacing, side margins of 3 cm, page number centred at the bottom. Only for `engine = "context"`.
 
-Aufruf per CLI (`--profil ffhs-thesis`) oder in `md-to-pdf.toml` (`profil = "ffhs-thesis"`). Die Angaben zur Titelseite stehen im Abschnitt `[these]`:
+Select it via the CLI (`--profil ffhs-thesis`) or in `md-to-pdf.toml` (`profil = "ffhs-thesis"`). The title page data lives in the `[these]` section:
 
 ```toml
 profil = "ffhs-thesis"
 
 [these]
-titel = "Titel der Thesis"                 # Pflicht
+titel = "Titel der Thesis"                 # required
 untertitel = "Optionaler Untertitel"
-dokumenttyp = "Bachelor-Thesis"            # Standard: Thesis
+dokumenttyp = "Bachelor-Thesis"            # default: Thesis
 studiengang = "INF/WI"
-autor = "Max Muster"                       # Pflicht
-referent_rolle = "Referentin"              # Standard: Referent(in)
-referent = ["Name", "Titel", "Fach"]       # Pflicht, eine Zeile je Eintrag
-eingereicht_bei = ["Prof. Dr. X", "Departement Informatik"]   # Pflicht
-wohnort = "Zürich"                         # Pflicht
-datum = "1. Dezember 2026"                 # Standard: heutiges Datum
-widmung = ["Diese Thesis widme ich", "meiner Familie."]       # optional, eigene Seite
-logo = "ffhslogo.pdf"                      # Logo oben links, relativ zum Quellordner
-titelbild = "bild.png"                     # optional, mittig auf der Titelseite
+autor = "Max Muster"                       # required
+referent_rolle = "Referentin"              # default: Referent(in)
+referent = ["Name", "Titel", "Fach"]       # required, one line per entry
+eingereicht_bei = ["Prof. Dr. X", "Departement Informatik"]   # required
+wohnort = "Zürich"                         # required
+datum = "1. Dezember 2026"                 # default: today's date
+widmung = ["Diese Thesis widme ich", "meiner Familie."]       # optional, own page
+logo = "ffhslogo.pdf"                      # logo top left, relative to the source folder
+titelbild = "bild.png"                     # optional, centred on the title page
 ```
 
-Fehlende Pflichtangaben und unbekannte Schlüssel in `[these]` brechen den Lauf ab. Die Schrift lässt sich mit `schrift` überschreiben.
+Missing required fields and unknown keys in `[these]` abort the run. The font can be overridden with `schrift`.
 
-**Aufbau der Markdown-Quelle:**
+**Structure of the Markdown source:**
 
-- `# Zusammenfassung`, `# Abstract` und `# Abkürzungen` sind unnummerierte Vorspannabschnitte. Sie stehen in dieser Reihenfolge vor dem Hauptteil.
-- Das Inhaltsverzeichnis, das Abbildungs- und das Tabellenverzeichnis folgen dem Abstract. Das Abbildungsverzeichnis erscheint nur bei Bildern, das Tabellenverzeichnis nur bei Tabellen mit Beschriftung (`: Titel` unter der Tabelle).
-- Der Hauptteil beginnt mit der ersten `#`-Überschrift, die keiner dieser Vorspann-Überschriften entspricht. Davor stehen römische Seitenzahlen, danach arabische ab 1.
-- `# Literatur` und `# Selbstständigkeitserklärung` nach dem Hauptteil sind unnummerierte Abschnitte mit Inhaltsverzeichnis-Eintrag.
-- Es gibt keine Kopf- und Fusszeile. Entsprechende Optionen werden mit einem Hinweis ignoriert.
+- `# Zusammenfassung`, `# Abstract` and `# Abkürzungen` are unnumbered front matter sections. They appear in this order before the main part.
+- The table of contents and the lists of figures and tables follow the abstract. The list of figures only appears if there are images; the list of tables only if there are tables with a caption (`: Titel` below the table).
+- The main part starts with the first `#` heading that matches none of these front matter headings. Roman page numbers precede it; arabic numbers start at 1 afterwards.
+- `# Literatur` and `# Selbstständigkeitserklärung` after the main part are unnumbered sections with a table of contents entry.
+- There is no header or footer. Corresponding options are ignored with a notice.
 
-**Bekannte Abweichungen von der Vorlage:**
+**Known deviations from the template:**
 
-- Zusammenfassung, Abstract und Abkürzungen stehen nicht im Inhaltsverzeichnis. Die Vorlage nimmt Abkürzungen auf. Ein Eintrag wäre nur über einen nummerierten Vorspann-Abschnitt möglich, und der verschiebt die Nummerierung des Hauptteils (siehe Pitfalls).
-- Die Selbstständigkeitserklärung ist nur eine Überschrift mit dem Text aus der Quelle. Der Wortlaut der Vorlage muss im Markdown stehen.
-- Der Zitierstil ist nicht vorgegeben. Literatur ist eine normale Überschrift mit Text.
+- Zusammenfassung, Abstract and Abkürzungen do not appear in the table of contents. The template includes the abbreviations. An entry would only be possible via a numbered front matter section, which shifts the numbering of the main part (see Known pitfalls).
+- The Selbstständigkeitserklärung is only a heading with the text from the source. The wording of the template must be provided in the Markdown.
+- The citation style is not prescribed. Literatur is a regular heading with text.
 
 ## Mermaid
 
@@ -115,21 +115,21 @@ Note for `flowchart` trees: children appear in the order of the edges in the sou
 
 The text font Charter has no arrows and no superscript or subscript glyphs. The script replaces them with ConTeXt commands from the `CTX_UNICODE` table (e.g. `→` becomes `\mathematics{\rightarrow}`, `₂` becomes `\low{2}`). Code (`\type{}`, highlighted blocks) is left unchanged. A fallback font via `\definefontfallback` is not loaded in ConTeXt (tested).
 
-## Codeblöcke
+## Code blocks
 
-Codeblöcke werden in der ConTeXt-Ausgabe als Framed-Tabelle mit grauem Hintergrund gesetzt. `codeblock_tabelle()` in `scripts/md_to_pdf.py` wandelt pandocs `\starthighlighting` um, eine Zeile je Quellzeile. Die Tabelle bricht über Seitenwechsel um, Kopf- und Fusszeile bleiben erhalten. Die Typing-Optionen `background`/`frame` werden in dieser ConTeXt-Version nicht gerendert, `\startshaded` und `\startframed` brechen nicht um (getestet). Führende Leerzeichen kodiert pandoc als `{ }`-Gruppen (je zwei Leerzeichen eine Gruppe); die Umwandlung stellt den Einzug mit `\hskip` wieder her. Zeilennummern sind nicht eingerichtet. Die Einstellung wirkt nur mit `engine = "context"`; der Test `CodeblockFrameTest` prüft die Umwandlung im erzeugten `.tex`.
+In the ConTeXt output, code blocks are set as a framed table with a grey background. `codeblock_tabelle()` in `scripts/md_to_pdf.py` converts pandoc's `\starthighlighting`, one table row per source line. The table breaks across pages, and header and footer are preserved. The typing options `background`/`frame` are not rendered in this ConTeXt version, and `\startshaded` and `\startframed` do not break across pages (tested). Pandoc encodes leading spaces as `{ }` groups (one group per two spaces); the conversion restores the indentation with `\hskip`. Line numbers are not configured. The setting only takes effect with `engine = "context"`; the test `CodeblockFrameTest` checks the conversion in the generated `.tex`.
 
 ### Listings
 
-Jeder Codeblock bekommt ein Listing mit Nummer: `Listing 1: Titel`. Der Titel steht im Info-String, also ```` ```python Titel ````. Ohne Titel erscheint nur `Listing 2`. Mermaid-Blöcke bleiben ohne Listing. Die Beschriftung braucht `engine = "context"`; `codeblock_beschriftung()` in `scripts/md_to_pdf.py` setzt sie als Rohblock `\mdListing{...}`.
+Every code block receives a numbered listing: `Listing 1: Titel`. The title is taken from the info string, i.e. ```` ```python Titel ````. Without a title, only `Listing 2` appears. Mermaid blocks get no listing. The caption requires `engine = "context"`; `codeblock_beschriftung()` in `scripts/md_to_pdf.py` emits it as the raw block `\mdListing{...}`.
 
-### Tabellen-Captions
+### Table captions
 
-Die Caption einer Pipe-Tabelle steht als eigene Zeile direkt darunter, mit Leerzeile davor: `: Titel` oder `: Table: Titel`. Beide Schreibweisen sind gleichwertig; `tabellen_beschriftung()` normalisiert sie auf `: Titel`. In GitHub und Obsidian erscheint die Zeile als Text, die Tabelle bleibt unverändert. Im PDF steht die Caption linksbündig am Textrand als `Tabelle N: Titel` (Nummerierung über `\setupfloat[table]` in den Vorlagen).
+The caption of a pipe table is a separate line directly below it, preceded by a blank line: `: Titel` or `: Table: Titel`. Both spellings are equivalent; `tabellen_beschriftung()` normalises them to `: Titel`. On GitHub and in Obsidian the line renders as plain text and the table is unchanged. In the PDF, the caption is left-aligned at the text margin as `Tabelle N: Titel` (numbering via `\setupfloat[table]` in the templates).
 
 ## Known pitfalls
 
-- **Inhaltsverzeichnis leer oder Nummerierung verschoben:** Nicht unnummerierte Abschnitte mit `\startsectionlevel` vor den Hauptteil setzen. ConTeXt zählt sie mit und lässt sich nicht zurücksetzen. Das Profil `ffhs-thesis` macht das über `\ffhsVorspann`. Das Inhaltsverzeichnis braucht `criterium=all`, und ConTeXt läuft im Profil dreimal.
+- **Table of contents empty or numbering shifted:** Do not place unnumbered sections with `\startsectionlevel` before the main part. ConTeXt counts them and the counter cannot be reset. The `ffhs-thesis` profile handles this via `\ffhsVorspann`. The table of contents needs `criterium=all`, and the profile runs ConTeXt three times.
 
 - **Header disappears:** The pandoc preamble (`-s`) contains `\setupbackend[export=yes]`, which removes header and footer in ConTeXt. The script removes exactly this line. If the pandoc preamble changes, check this spot.
 - **Fonts** are macOS-specific (Charter, Arial Unicode).
@@ -143,7 +143,7 @@ Die Caption einer Pipe-Tabelle steht als eigene Zeile direkt darunter, mit Leerz
 ## Structure
 
 - `scripts/md_to_pdf.py`: main script
-- `scripts/test_md_to_pdf.py`: Tests für das Profil ffhs-thesis. Ausführung: `python3 -m unittest discover -s scripts -p 'test_*.py'` (im Skill-Ordner). Der End-to-End-Test braucht pandoc und context.
+- `scripts/test_md_to_pdf.py`: tests for the `ffhs-thesis` profile. Run with `python3 -m unittest discover -s scripts -p 'test_*.py'` (from the skill folder). The end-to-end test needs pandoc and context.
 - `templates/preamble.ctx.tpl`: ConTeXt preamble with placeholders (layout, font, header and footer)
 - `templates/header.tex.tpl`: XeLaTeX header and footer with placeholders
 - `templates/thesis.ctx.tpl`: ConTeXt preamble and title page for profile `ffhs-thesis`
