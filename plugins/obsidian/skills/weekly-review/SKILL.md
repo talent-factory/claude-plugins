@@ -26,6 +26,8 @@ variables listed under each key take precedence over the CLAUDE.md value.
 | `obsidian_template_weekly` | `OBSIDIAN_TEMPLATE_WEEKLY` | `<vault>/Templates/Weekly Review.md` | Weekly review template |
 | `obsidian_wiki_root` | — | `Wiki` | Wiki root folder (relative to vault) — used to read the log |
 | `github_org` | `GITHUB_ORG` | — | GitHub organisation; GitHub step is skipped if not set |
+| `plane_workspace` | `PLANE_WORKSPACE` | `tf` | Plane workspace slug (first path segment of the Plane URL) |
+| `plane_url` | `PLANE_URL` | `https://plane.talent-factory.ch` | Base URL of the Plane instance (used for deep links) |
 
 **Vault auto-detection** (applied when `obsidian_vault` is not set):
 ```bash
@@ -150,7 +152,7 @@ The self-hosted edition has no PQL and no workspace-wide list, so query all
 projects at once with `mcp__plane__graphql_query` and filter client-side:
 
 ```graphql
-{ projects { identifier
+{ projects { id identifier
     workItems(first: 100) {
       hasNextPage nextCursor
       results { identifier name priority createdAt updatedAt completedAt
@@ -158,12 +160,14 @@ projects at once with `mcp__plane__graphql_query` and filter client-side:
 ```
 
 Get `me.id` from `mcp__plane__member` (`action: me`). Keep items where `me.id`
-is in `assignees[].id` and `updatedAt` or `createdAt` falls in the last 7 days.
+is in `assignees[].id`.
 For projects with `hasNextPage`, page through `project(id:) { workItems(after:) }`
 (see `today` skill, Step 4). The result is large; filter it with `jq` or Python.
 
-Separate into: completed this week (`completedAt` in range) · still in progress
-(`state.group` = `started`) · newly created.
+Separate into: completed this week (`completedAt` within `WEEK_START`..`WEEK_END`) ·
+newly created (`createdAt` within `WEEK_START`..`WEEK_END`) · still in progress
+(`state.group` = `started`, regardless of date, so untouched open items still
+appear under open loops and "Focus Next Week").
 
 Deep link: `<PLANE_URL>/<workspace>/browse/<identifier>/` (default
 `https://plane.talent-factory.ch/tf/`).

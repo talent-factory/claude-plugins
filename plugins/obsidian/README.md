@@ -35,6 +35,9 @@ obsidian_ideas_dir: Ideas                 # Ideas output folder (relative to vau
 obsidian_context_dir:                     # Optional: strategic context notes folder
 github_org: my-org                        # GitHub organisation (required for GitHub steps)
 user_email: me@example.com               # Email for Gmail "needs reply" detection
+plane_workspace: tf                       # Plane workspace slug (default: tf)
+plane_url: https://plane.talent-factory.ch  # Plane base URL for deep links
+reminders_lists: Inbox,Work               # Apple Reminders lists (default: all)
 ```
 
 **Environment variable overrides:**
@@ -47,6 +50,9 @@ user_email: me@example.com               # Email for Gmail "needs reply" detecti
 | `OBSIDIAN_TEMPLATE_WEEKLY` | `obsidian_template_weekly` |
 | `GITHUB_ORG` | `github_org` |
 | `USER_EMAIL` | `user_email` |
+| `PLANE_WORKSPACE` | `plane_workspace` |
+| `PLANE_URL` | `plane_url` |
+| `REMINDERS_LISTS` | `reminders_lists` |
 
 **Vault auto-detection:** If `obsidian_vault` is not set, the plugin searches
 `$HOME` up to five directory levels deep for a `.obsidian` folder. Set the key
@@ -368,7 +374,6 @@ obsidian/
 - `today`: Plane replaces Linear as ticket source. Queries all projects through the MCP GraphQL tool (the self-hosted edition has no PQL and no workspace-wide list) and filters client-side; deep links point to `plane.talent-factory.ch`
 - `today`: Apple Reminders as new source via `remindctl` (overdue ≤ 7 days and due today scored; older ones are only counted); new config keys `plane_workspace`, `plane_url`, `reminders_lists`
 - `weekly-review`: Plane replaces Linear for weekly progress
-- `today`: Calendar and Gmail calls now use the `mcp__claude_ai_*` tool names
 
 ### Version 1.4.0 (2026-06-22)
 

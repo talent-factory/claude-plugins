@@ -156,7 +156,7 @@ GraphQL (`mcp__plane__graphql_query`) fetches all projects in one call:
 1. `mcp__plane__member` with `action: me` → `me.id`.
 2. One GraphQL query for every project:
    ```graphql
-   { projects { identifier
+   { projects { id identifier
        workItems(first: 100) {
          hasNextPage nextCursor
          results { identifier name priority targetDate completedAt
