@@ -196,7 +196,7 @@ references/commit/
 Link from commands to references:
 
 ```markdown
-**Details**: [best-practices.md](../references/commit/best-practices.md)
+**Details**: [best-practices.md](../../plugins/git-workflow/references/commit/best-practices.md)
 ```
 
 ### Write for Your Audience
