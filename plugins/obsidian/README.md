@@ -4,13 +4,13 @@ Obsidian integration for Claude Code: task management via the TaskNotes Plugin A
 LLM-Wiki curation, and productivity intelligence — daily briefings, weekly retrospectives,
 project-pulse dashboards, and opportunity mining — all from within Claude Code.
 
-## Version 1.4.0
+## Version 1.5.0
 
 This plugin combines four complementary workflows for Obsidian users:
 
 1. **Task management** — through the TaskNotes Plugin HTTP API
 2. **LLM-Wiki maintenance** — curate a personal knowledge base from web clippings, AI chats, transcripts, and notes
-3. **Daily & weekly intelligence** — aggregate tasks, calendar, email, Linear, and GitHub into structured briefings
+3. **Daily & weekly intelligence** — aggregate tasks, calendar, email, Plane, Apple Reminders, and GitHub into structured briefings
 4. **Opportunity mining** — surface product and project ideas from your knowledge base and repositories
 
 ---
@@ -76,14 +76,14 @@ explicitly to avoid ambiguity when multiple vaults are present.
 
 ### Daily Briefing
 
-- Aggregates tasks from TaskNotes, Google Calendar, Gmail, Linear, and GitHub
+- Aggregates tasks from TaskNotes, Apple Reminders, Google Calendar, Gmail, Plane, and GitHub
 - Ranks items by urgency using a configurable priority scoring system
 - Writes a structured briefing to today's daily note
 - Creates the daily note from template if it does not exist
 
 ### Weekly Review
 
-- Collects completed tasks, GitHub activity, calendar meetings, wiki learnings, and Linear progress
+- Collects completed tasks, GitHub activity, calendar meetings, wiki learnings, and Plane progress
 - Writes a structured retrospective with a preserved Reflection section
 - Identifies open loops and proposes a prioritised focus list for the following week
 
@@ -121,10 +121,19 @@ brew install gh && gh auth login
 ### 3. MCP integrations (optional, for full briefing capability)
 
 The `today`, `weekly-review`, and `ideas` skills can use the following MCP
-connections when available: Google Calendar, Gmail, Linear. Each integration
+connections when available: Google Calendar, Gmail, Plane (self-hosted, MCP server `plane`). Each integration
 degrades gracefully when not configured — only that data source is skipped.
 
-### 4. PyYAML (for wiki validation)
+### 4. Apple Reminders (optional, macOS only, for `today`)
+
+```bash
+brew install steipete/tap/remindctl && remindctl authorize
+```
+
+Without `remindctl` the `today` skill skips Reminders silently. Restrict the lists
+with `reminders_lists` / `REMINDERS_LISTS`.
+
+### 5. PyYAML (for wiki validation)
 
 The shared validation module (`skills/_shared/scripts/validate.py`) requires
 **PyYAML** to perform deterministic frontmatter checks at write time:
@@ -211,16 +220,16 @@ Produces a prioritised daily briefing from all configured sources and writes it
 to today's Obsidian daily note. Activates on "what's on my plate today", "daily
 briefing", or "morning briefing".
 
-Sources: TaskNotes · Google Calendar · Gmail · Linear · GitHub
+Sources: TaskNotes · Apple Reminders · Google Calendar · Gmail · Plane · GitHub
 
 ### weekly-review
 
 Writes a structured weekly retrospective to the vault. Collects completed tasks,
-shipped code, meetings, wiki learnings, and Linear progress. Preserves the
+shipped code, meetings, wiki learnings, and Plane progress. Preserves the
 Reflection section on subsequent runs. Activates on "weekly review",
 "what did I accomplish this week", or "summarise my week".
 
-Sources: TaskNotes · GitHub · Google Calendar · Linear · Wiki log
+Sources: TaskNotes · GitHub · Google Calendar · Plane · Wiki log
 
 ### project-pulse
 
@@ -353,6 +362,13 @@ obsidian/
 ---
 
 ## Changelog
+
+### Version 1.5.0 (2026-11-08)
+
+- `today`: Plane replaces Linear as ticket source. Queries all projects through the MCP GraphQL tool (the self-hosted edition has no PQL and no workspace-wide list) and filters client-side; deep links point to `plane.talent-factory.ch`
+- `today`: Apple Reminders as new source via `remindctl` (overdue ≤ 7 days and due today scored; older ones are only counted); new config keys `plane_workspace`, `plane_url`, `reminders_lists`
+- `weekly-review`: Plane replaces Linear for weekly progress
+- `today`: Calendar and Gmail calls now use the `mcp__claude_ai_*` tool names
 
 ### Version 1.4.0 (2026-06-22)
 

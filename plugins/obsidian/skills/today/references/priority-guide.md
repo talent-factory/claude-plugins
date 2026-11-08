@@ -3,12 +3,13 @@
 ## Edge Cases
 
 ### Multiple sources referencing the same topic
-If a Linear issue and a TaskNote both reference the same project or deliverable,
-merge them into a single entry and use the higher of the two scores.
+If a Plane work item, a TaskNote, and an Apple Reminder reference the same
+deliverable (same Plane identifier such as `TF-792` in the title, or the same
+title), merge them into a single entry and use the highest score.
 
 ### All-day calendar events
 All-day events (e.g., a submission deadline or off-site day) function as
-due-date constraints. If an event title matches a task in TaskNotes or Linear,
+due-date constraints. If an event title matches a task in TaskNotes or Plane,
 boost that task's score by +20.
 
 ### GitHub staleness
@@ -49,3 +50,22 @@ If the user says "missing items" — include all items regardless of bucket
   plugin-monitored folders. Always use `--scan` when running `/today`.
 - The `scheduled` field stores full ISO datetime (e.g.,
   `2026-05-08T09:00:00+02:00`). Truncate to `[:10]` for date comparisons.
+
+## Apple Reminders
+
+- Reminders are fetched with `remindctl show overdue|today --json`. Apple stores
+  date-only reminders at local midnight, so a due time of 00:00 means "all day".
+- Reminders overdue by more than 7 days are counted, not listed. In practice they
+  are read-later links; listing them would bury real work. Adjust the 7-day
+  threshold in Step 5 of `SKILL.md` if needed.
+- `REMINDERS_LISTS` (comma-separated) limits the lists. Use it to exclude shared
+  lists such as family shopping lists.
+- First run: macOS asks for Reminders access. If the prompt never appeared, run
+  `remindctl authorize` once in a terminal.
+
+## Plane
+
+- The self-hosted edition rejects PQL. Filtering by assignee and state group
+  happens client-side (see Step 4 in `SKILL.md`).
+- Backlog items count only when `targetDate` ≤ today, so an unprioritised
+  backlog does not flood the briefing.
