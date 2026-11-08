@@ -6,6 +6,9 @@ on:
       - main
     paths:
       - 'plugins/**'
+      - 'docs/**'
+      - 'README.md'
+      - 'CLAUDE.md'
       - '.github/workflows/validate-plugins.yml'
       - '.gitignore'
   push:
@@ -13,6 +16,9 @@ on:
       - main
     paths:
       - 'plugins/**'
+      - 'docs/**'
+      - 'README.md'
+      - 'CLAUDE.md'
       - '.github/workflows/validate-plugins.yml'
       - '.gitignore'
   workflow_dispatch:
