@@ -1,6 +1,6 @@
 ---
 name: wiki-think
-description: Argues with your notes in an Obsidian-based LLM knowledge wiki — challenges assumptions (devil's advocate), surfaces non-obvious connections, or asks Socratic questions. Optionally saves the result as a wiki page. Triggers when the user runs /wiki:think, asks to "challenge this note", "poke holes in my thinking", "find connections between my notes", or "ask me Socratic questions about X".
+description: Argues with the user's notes in an Obsidian-based LLM knowledge wiki — challenges assumptions (devil's advocate), surfaces non-obvious connections, or asks Socratic questions. Optionally saves the result as a wiki page. Triggers when the user runs /wiki:think, asks to "challenge this note", "poke holes in my thinking", "find connections between my notes", or "ask me Socratic questions about X".
 ---
 
 # wiki-think

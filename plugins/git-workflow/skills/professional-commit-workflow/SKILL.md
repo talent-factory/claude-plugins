@@ -1,6 +1,6 @@
 ---
 name: professional-commit-workflow
-description: Creates professional git commits with automated pre-commit checks for Java, Python, React, and documentation projects. Generates emoji conventional commit messages and analyzes staging status. Produces atomic commits following best practices.
+description: Creates professional git commits with automated pre-commit checks for Java, Python, React, and documentation projects. Generates emoji conventional commit messages and analyzes staging status. Produces atomic commits following best practices. Use when the user asks to "commit my changes", "create a commit", or "commit this", or after finishing a change that should be committed.
 ---
 
 # Professional Commit Workflow
