@@ -200,6 +200,11 @@ silently if `command -v remindctl` is empty. If macOS has not granted access
 (`remindctl status` does not report authorized), skip and print the hint
 `run: remindctl authorize` in the terminal summary.
 
+The script reads the list filter only from the environment. Resolve
+`reminders_lists` (env var `REMINDERS_LISTS` first, then the CLAUDE.md value) and
+export it in the same shell command, e.g. `REMINDERS_LISTS="Inbox,Work" python3 - <<'PY'`.
+Leave it unset to include all lists.
+
 ```bash
 python3 - <<'PY'
 import json, os, subprocess
@@ -318,7 +323,7 @@ _updated: HH:MM_
 #### Priorities
 1. 🔴 [Plane] **[TF-17 Title](https://plane.talent-factory.ch/tf/browse/TF-17/)** — URGENT
 2. 🟠 [Task] **[[TaskNote Filename]]** — 3 days overdue
-3. 🟠 [Reminder] **Title** (Erinnerungen) — due today
+3. 🟠 [Reminder] **Title** (Reminders) — due today
 4. 🟡 [GitHub] **[PR #N Title](github-url)** (repo) — awaiting review
 ...
 
