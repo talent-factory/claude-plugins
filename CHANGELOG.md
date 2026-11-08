@@ -43,6 +43,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- **education 1.8.1**: `md-to-pdf` SKILL.md prose translated from German to English (documentation only, no behaviour change)
+
 - **CI**: `Security Scan` job — `aquasecurity/trivy-action` bumped from v0.35.0 to v0.36.0 (default Trivy v0.70.0); the pinned Trivy v0.69.3 binary failed to install, so the scan never ran
 
 - **education 1.7.1**: `md-to-pdf` ConTeXt output — code blocks use a monospaced font (`tt`), so indentation is kept, and the shaded frame around code blocks is removed, so the last code line no longer overlaps the footer at a page break
@@ -56,6 +58,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **obsidian**: Keywords `wiki`, `knowledge-base`, `llm-wiki`
 
 ### Fixed
+
+- **education 1.8.1**: `md-to-pdf` SKILL.md prose translated from German to English (documentation only, no behaviour change)
 
 - **core**: `pdf-to-markdown` skill — `convert_vision_api` referenced an undefined `end_page` in the header f-string, raising `NameError` after every Vision API run; fixed by computing `end_page` from `start_page + pages_converted - 1`
 - **core**: `pdf-to-markdown` skill — `total_pages` was reused for both the converted slice and the full PDF length; now derived separately via `pdfinfo_from_path` so the header reads "Pages: 5-10 of 247" instead of "5-10 of 6"
@@ -123,6 +127,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 | gemini-bridge | 1.0.1 |
 
 ### Fixed
+
+- **education 1.8.1**: `md-to-pdf` SKILL.md prose translated from German to English (documentation only, no behaviour change)
 
 - Git identity configuration in auto-tag GitHub Actions workflow
 - Gemini Bridge command and agent frontmatter errors

@@ -63,7 +63,9 @@ uv run "$TASKNOTES" list --scan \
 import json, sys
 from datetime import date
 today = date.today().isoformat()
-tasks = json.load(sys.stdin)
+data = json.load(sys.stdin)
+# tasks.py prints {"success", "count", "tasks": [...]}; tolerate a bare list too
+tasks = data['tasks'] if isinstance(data, dict) else data
 out = []
 for t in tasks:
     if t.get('status') == 'done':
@@ -260,11 +262,13 @@ with the matching Plane item (see `references/priority-guide.md`).
 gh pr list --author @me --state open \
   --json number,title,headRepository,updatedAt,reviewDecision 2>/dev/null
 
-gh pr list --review-requested @me --state open \
-  --json number,title,headRepository,updatedAt 2>/dev/null
+# `gh pr list` has no --review-requested flag; use `gh search prs`
+gh search prs --review-requested @me --state open \
+  --json number,title,repository,url,updatedAt 2>/dev/null
 
-gh issue list --assignee @me --state open \
-  --json number,title,repository,labels,updatedAt 2>/dev/null
+# `gh issue list` has no `repository` field; search across repos instead
+gh search issues --assignee @me --state open \
+  --json number,title,repository,labels,url,updatedAt 2>/dev/null
 ```
 
 Skip silently if `gh` is unavailable or unauthenticated.
