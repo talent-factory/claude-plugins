@@ -1,6 +1,6 @@
 ---
 name: update-documents
-description: Synchronizes documentation between CLAUDE.md, README.md, and docs/. Resolves documentation inconsistencies across project files with configurable sync rules and whitespace-tolerant comparison.
+description: Synchronizes documentation between CLAUDE.md, README.md, and docs/. Resolves documentation inconsistencies across project files with configurable sync rules and whitespace-tolerant comparison. Use when the user asks to "sync the docs", "update documentation", "make README and CLAUDE.md consistent", or after changes that affect several documentation files.
 ---
 
 # Update Documentation

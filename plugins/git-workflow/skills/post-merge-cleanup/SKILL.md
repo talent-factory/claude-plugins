@@ -3,7 +3,8 @@ name: post-merge-cleanup
 description: >
   Cleans up git assets (worktrees, branches) and updates task status after PR merge.
   Supports both filesystem (STATUS.md) and Linear issue tracking.
-  Safe defaults with dry-run preview mode.
+  Safe defaults with dry-run preview mode. Use when the user says "clean up after merge",
+  "the PR is merged", "delete the merged branch and worktree", or "mark the task as done after merge".
 ---
 
 # Post-Merge Cleanup
