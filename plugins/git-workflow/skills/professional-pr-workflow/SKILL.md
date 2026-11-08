@@ -1,6 +1,6 @@
 ---
 name: professional-pr-workflow
-description: Automates pull request creation with branch management, code formatting, and integration with professional-commit-workflow. Supports GitHub CLI, automated PR descriptions, and project-specific formatters (Biome, Black, Prettier).
+description: Automates pull request creation with branch management, code formatting, and integration with professional-commit-workflow. Supports GitHub CLI, automated PR descriptions, and project-specific formatters (Biome, Black, Prettier). Use when the user asks to "create a PR", "open a pull request", or "push this and open a PR".
 ---
 
 # Professional PR Workflow
