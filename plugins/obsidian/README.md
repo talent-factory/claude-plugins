@@ -4,7 +4,7 @@ Obsidian integration for Claude Code: task management via the TaskNotes Plugin A
 LLM-Wiki curation, and productivity intelligence — daily briefings, weekly retrospectives,
 project-pulse dashboards, and opportunity mining — all from within Claude Code.
 
-## Version 1.5.0
+## Version 1.5.1
 
 This plugin combines four complementary workflows for Obsidian users:
 
@@ -368,6 +368,10 @@ obsidian/
 ---
 
 ## Changelog
+
+### Version 1.5.1 (2026-11-11)
+
+- `today`: reads every Plane page per project until `hasNextPage` is `false` (safety cap 20 pages) instead of stopping after 5; handles the compact table result format and retries on HTTP 429
 
 ### Version 1.5.0 (2026-11-08)
 
