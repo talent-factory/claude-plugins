@@ -43,6 +43,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- **obsidian 1.5.1**: `today` reads every page of each Plane project until `hasNextPage` is `false` (safety cap 20 pages) instead of stopping after 5 — open items on the last page were dropped; also handles the compact table result format and retries on HTTP 429
 - **education 1.8.1**: `md-to-pdf` SKILL.md prose translated from German to English (documentation only, no behaviour change)
 
 - **CI**: `Security Scan` job — Trivy now runs from the `aquasec/trivy` Docker image, pinned by digest (v0.76.2), instead of `aquasecurity/trivy-action`, whose release download failed on the runners so the scan never ran; `certifi` and `gitpython` in `uv.lock` updated to fix the findings the scan then reported

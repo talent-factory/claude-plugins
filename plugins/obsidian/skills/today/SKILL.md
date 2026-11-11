@@ -167,7 +167,10 @@ GraphQL (`mcp__plane__graphql_query`) fetches all projects in one call:
    The result is large (all items, including done ones) and lands in a file.
    Filter it with `jq` or Python instead of reading it into context.
 3. For every project with `hasNextPage: true`, page through it with
-   `project(id:)`, at most 5 pages per project:
+   `project(id:)`. **Keep going until `hasNextPage` is `false`**: open items
+   (e.g. an old epic) often sit on the last page, so stopping early drops
+   real work. Use a safety cap of 20 pages per project and note it in the
+   terminal summary if the cap is hit.
    ```graphql
    { project(id: "<project id>") { identifier
        workItems(first: 100, after: "<nextCursor>") {
@@ -175,6 +178,14 @@ GraphQL (`mcp__plane__graphql_query`) fetches all projects in one call:
          results { identifier name priority targetDate completedAt
                    state { name group } assignees { id } } } } }
    ```
+   Notes for unattended runs:
+   - Use the `nextCursor` the previous page returned (e.g. `100:1:0`, then
+     `100:2:0`), never a guessed one.
+   - A page may come back with `results` as a compact table string
+     (`[N]{field,...}` header plus CSV-like rows) instead of a JSON array.
+     Parse both forms.
+   - On HTTP 429, wait 5 seconds and retry the same page, at most 2 times,
+     before skipping it. If a page is skipped, say so in the terminal summary.
 4. Keep an item only if all of these hold:
    - `me.id` is in `assignees[].id`
    - `state.group` is `unstarted` or `started`, or it is `backlog` and
@@ -376,7 +387,8 @@ After writing, output only the following (not the full briefing):
 ```
 
 Append a short note for every skipped source, e.g. `Plane unavailable` or
-`Reminders: run remindctl authorize`.
+`Reminders: run remindctl authorize`, `Plane: page cap (20) hit for <project>`
+or `Plane: page skipped after HTTP 429`.
 
 ## Additional Resources
 
