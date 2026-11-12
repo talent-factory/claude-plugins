@@ -1,12 +1,12 @@
 # Core Utilities Plugin
 
-Comprehensive development utilities for plugin/command/agent development, validation, CI automation, text humanization, and PDF-to-Markdown conversion.
+Comprehensive development utilities for plugin/command/agent development, validation, CI automation, text humanization, PDF-to-Markdown conversion, the Ponytail minimalism suite, and AntML system-prompt authoring.
 
 ## Version 3.3.0
 
 **New:** Added the `antml-prompt-writer` skill for writing system prompts and meta prompts for Claude-based harnesses with AntML (function calling, thinking, citations, artifacts, sub-agents). Now includes 7 commands, 7 skills, and 2 expert agents.
 
-**Previous (3.2.0):** Added the **Ponytail** minimalism suite — four skills enforcing the "laziest solution that actually works" discipline: `ponytail` (always-on YAGNI/stdlib-first coding behaviour), `ponytail-review` (diff review for over-engineering), `ponytail-audit` (repo-wide bloat audit), and `ponytail-debt` (collects deliberate shortcut comments into a debt ledger). 
+**Previous (3.2.0):** Added the **Ponytail** minimalism suite — four skills enforcing the "laziest solution that actually works" discipline: `ponytail` (always-on YAGNI/stdlib-first coding behaviour), `ponytail-review` (diff review for over-engineering), `ponytail-audit` (repo-wide bloat audit), and `ponytail-debt` (collects deliberate shortcut comments into a debt ledger).
 
 **Previous (3.1.3):** Added `pdf-to-markdown` skill for converting PDF documents to Markdown with dual-mode support (fast text extraction or Claude Code vision analysis).
 

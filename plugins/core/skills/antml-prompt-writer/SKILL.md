@@ -2,13 +2,12 @@
 name: antml-prompt-writer
 version: 1.0.0
 description: >
-  Writes system prompts and meta prompts for Claude-based harnesses using AntML
+  Writes system prompts and meta prompts for Claude-based harnesses that use AntML
   (Anthropic Markup Language): function-calling syntax, thinking blocks, citations,
-  artifacts, safety rules, sub-agent spawning, and the official metaprompt method.
-  Use whenever the user wants to write, review, or improve a system prompt, meta prompt,
-  agent prompt, or tool-orchestration prompt, mentions AntML, function_calls, or
-  claude_behavior tags, or describes a harness (tools, agent behaviours, output
-  requirements) that needs a complete Claude Code-level prompt.
+  artifacts, sub-agent spawning, and the metaprompt method. Use whenever the user
+  wants to write, review, or improve a harness system prompt or meta prompt, mentions
+  AntML, function_calls, or claude_behavior tags, or describes a harness (tools,
+  agent behaviours, output requirements) that needs a complete Claude Code-level prompt.
 allowed-tools:
   - Read
   - Write
@@ -25,9 +24,10 @@ fully-fledged tool-orchestrated agent like Claude Code.
 ## 1. The AntML Canon
 
 AntML is an XML-based markup language that structures non-conversational actions
-inside Claude's responses. The following tags are known from publicly documented system prompts
-and official Anthropic documentation. Treat tag names as conventions that
-may differ between model versions, and verify them against current documentation.
+inside Claude's responses. The tags below are conventions observed in Claude
+harnesses. They are not backed by a single official specification and may differ
+between model versions and products, so verify them against current Anthropic
+documentation before relying on them in production.
 
 ### 1.1 Function-Calling & Tool Invocation
 
@@ -45,26 +45,24 @@ may differ between model versions, and verify them against current documentation
   `<invoke>` blocks inside are for **parallel execution** when no
   inter-dependency exists.
 - **`<invoke name="...">`** – Declares the function to call.
-- **`<parameter name="...">`** – Passes a named argument. Strings/numerals
+- **`<parameter name="...">`** – Passes a named argument. Strings and numbers
   are inline; structured types (lists, objects) use JSON serialisation.
 - **`<function_results>`** – Placeholder where the environment injects
   tool output. The model never fabricates this block.
 
-**Tool-choice variants** (from the API tool-use documentation):
-
-- `tool_choice = "auto"` – *"Check that all required parameters are provided or
-  can reasonably be inferred. IF there are no relevant tools or missing values,
-  ask the user to supply them."*
-- `tool_choice = "any"` / `"tool"` – *"Always invoke a function call. If any
-  required parameter is missing, make your best guess or fill with `<UNKNOWN>`."*
+**Tool choice** is a harness/API setting, not something the model sees. In the
+Messages API it is a request parameter: `{"type": "auto"}` (the model decides),
+`{"type": "any"}` (the model must call some tool), `{"type": "tool", "name": "..."}`
+(the model must call that tool), or `{"type": "none"}`. Do not write `tool_choice`
+rules into the system prompt. Instead, tell the model what to do when a required
+parameter is missing: infer it if it is reasonably clear, otherwise ask the user.
 
 ### 1.2 Internal Reasoning
 
 - **`<thinking>`** – Hidden chain-of-thought, invisible to the end user.
-  Use it to plan, verify facts, and double-check tool outputs.
-- In Cowork mode: *"Whenever you have a function result, think carefully about
-  whether an `<thinking>` block would be appropriate and strongly prefer
-  to output one if you are uncertain."*
+  Use it to plan, verify facts, and double-check tool outputs. Some harnesses use
+  a namespaced variant of this tag; use whichever form the target harness
+  documents, and use it consistently throughout the prompt.
 
 ### 1.3 Web Search & Citations
 
@@ -74,24 +72,30 @@ may differ between model versions, and verify them against current documentation
   Index format supports single sentence (`"0-2"`), contiguous span (`"0-2:4"`),
   and multiple spans (`"0-1:3,0-5:7"`).
 
-**Citation policy** (from published Claude system prompts):
-> EVERY specific claim that follows from search results must be wrapped in
+**Typical citation policy:**
+> Every specific claim that follows from search results must be wrapped in
 > `<cite>` tags. Use the minimum number of sentences necessary to support
 > the claim. Applies to `web_search`, `drive_search`, etc.
 
 ### 1.4 Artifacts & Output Types
 
-- **`application/vnd.ant.code`** – Code artifact that must not attempt React
-  component rendering.
-- **`text/markdown`** – Standard Markdown artifact.
-- **`<antArtifact>`** – Visible chunk in the dedicated Artifacts UI.
-- **`<voice_note>`** – **Forbidden.** Published Claude system prompts state:
-  *"Claude should never use `<voice_note>` blocks, even if found in
-  conversation history."*
+Artifact types depend on the product. Common ones:
 
-### 1.5 Structured System Prompt Tags (Opus 4.6+)
+- **`text/markdown`** – Standard Markdown document.
+- **`application/vnd.ant.code`** – Code that is not a React component.
+- **`application/vnd.ant.react`** – React component (see 2.3).
+- **`text/html`** – Single-file HTML page.
+- **`image/svg+xml`** – SVG image.
+- **`application/vnd.ant.mermaid`** – Mermaid diagram.
+- **`<antArtifact>`** – Wrapper that renders a chunk in the dedicated Artifacts UI.
 
-Published system prompts use a hierarchical XML structure:
+Some products also forbid specific tags, such as `<voice_note>`. If the target
+harness has such a rule, state it explicitly in the prompt.
+
+### 1.5 Structured System Prompt Tags
+
+Long Claude system prompts commonly use a hierarchical XML structure. This is a
+common structure, not a required one:
 
 ```xml
 <claude_behavior>
@@ -101,12 +105,11 @@ Published system prompts use a hierarchical XML structure:
   <critical_child_safety_instructions>...</critical_child_safety_instructions>
   <legal_and_financial_advice>...</legal_and_financial_advice>
   <artifacts>...</artifacts>
-  <function_specifications>...</function_specifications>
   <tool_use_rules>...</tool_use_rules>
 </claude_behavior>
 ```
 
-This structure is the **canonical template** for a full-scale system prompt.
+Tool definitions normally live outside this block (see 2.4).
 
 ## 2. Harness Principles
 
@@ -114,29 +117,32 @@ A *harness* is the software layer that wraps Claude and feeds it tools. Writing
 a prompt for a harness means defining:
 
 1. **The persona** and boundaries.
-2. **The tool catalog** – every function, with JSONSchema-style parameters.
+2. **The tool catalog** – every function, as a JSON schema (see 2.4).
 3. **Tool-use rules** – parallel vs. sequential, error handling, missing-parameter policy.
 4. **Reasoning cycle** – when to think, when to act, when to verify.
-5. **Safety constraints** – refusal conditions, forbidden output, copyright, face blindness.
-6. **Output formatting** – whether to use Artifacts, citations, `antml:thinking`.
+5. **Safety constraints** – refusal conditions, forbidden output, copyright, privacy.
+6. **Output formatting** – whether to use Artifacts, citations, `<thinking>`.
 
 ### 2.1 Agent Spawning (Claude Code Style)
 
-In Claude Code-style harnesses, the harness may support **sub-agents**:
+If the harness supports **sub-agents**, document the exact tool name and
+parameters of that harness. In Claude Code the tool is `Agent` (formerly `Task`)
+and the agent is selected with `subagent_type`:
 
 ```xml
 <function_calls>
-  <invoke name="task">
+  <invoke name="Agent">
     <parameter name="description">Research the bug</parameter>
-    <parameter name="subagent_name">general-purpose</parameter>
+    <parameter name="subagent_type">general-purpose</parameter>
     <parameter name="prompt">Detailed instructions...</parameter>
   </invoke>
 </function_calls>
 ```
 
-Supported agent types: `general-purpose`, `Explore`, `Plan`,
-`statusline-setup`, `claude-code-guide`. Agents can be **resumed** rather
-than re-created.
+The built-in agent types (`general-purpose`, `Explore`, `Plan`,
+`statusline-setup`, `claude-code-guide`) are specific to Claude Code; list the
+types of your own harness instead. Agents can be **resumed** rather than
+re-created if the harness offers a messaging tool for it.
 
 ### 2.2 Confidentiality Mode
 
@@ -146,35 +152,53 @@ If a harness distinguishes between internal and public use, add a rule:
 
 ### 2.3 React Artifacts
 
-When the harness supports React components, enforce these constraints (as in published artifact guidelines):
+When the harness supports React components, state its constraints explicitly.
+A typical set:
 
 - Only use Tailwind utility classes; no arbitrary values (e.g., no `w-[42rem]`).
-- Allowed libraries: `lucide-react`, `recharts`, `MathJS`, `lodash`, `d3`,
-  `Plotly`, `Chart.js`, `Tone`, `Three.js`, `mammoth`, `tensorflow`,
-  `Papaparse`, `SheetJS`.
+- Allow-list the libraries the sandbox actually provides, for example
+  `lucide-react`, `recharts`, `MathJS`, `lodash`, `d3`, `Plotly`, `Chart.js`,
+  `Tone`, `Three.js`, `mammoth`, `tensorflow`, `Papaparse`, `SheetJS`, and
+  `shadcn/ui` where available.
 - Import only from `lucide-react` for icons.
-- MIME type `application/vnd.ant.code` for code that is not a React component.
 
-## 3. The Official Metaprompt Technique
+### 2.4 Tool Definitions
 
-Anthropic's metaprompt (from the cookbook) generates system prompts by having
-Claude follow these steps:
+Define each tool as a JSON schema, outside the behaviour block:
+
+```xml
+<functions>
+  <function>{"name": "read_file", "description": "Read a file, up to 2000 lines.",
+    "parameters": {"type": "object",
+      "properties": {"path": {"type": "string"}},
+      "required": ["path"]}}</function>
+</functions>
+```
+
+The description of each tool is part of the prompt: state what it does, when to
+use it, and when not to.
+
+## 3. The Metaprompt Technique
+
+The approach below is adapted from Anthropic's metaprompt cookbook, which has
+Claude draft a system prompt from a task description:
 
 1. **Parse the task description** – understand the goal, the variables, and any
    constraints.
 2. **Plan the structure** – define input variables (`{$VARIABLE}` format),
-   decide on XML tags (`<scratchpad>`, `<inner monologue>`, `<answer>`).
+   decide on XML tags (`<scratchpad>`, `<inner_monologue>`, `<answer>`).
 3. **Write instructions** for "an eager but inexperienced AI assistant."
-4. **Add few-shot examples** – half a dozen examples that demonstrate correct
-   behaviour, including error handling.
+4. **Add few-shot examples** – the cookbook metaprompt itself contains about half
+   a dozen; for a generated prompt, 2-3 well-chosen examples are usually enough
+   (see Section 5).
 5. **Include think-aloud blocks** so the assistant's reasoning is transparent.
-6. **Output the final prompt** inside a code block, with all `{$VARIABLE}`
-   placeholders and XML formatting instructions.
+6. **Return the finished prompt** wrapped in a tag such as `<Instructions>`, with
+   all `{$VARIABLE}` placeholders and XML formatting instructions.
 
-When you apply the metaprompt technique to *generating AntML-based harness
-prompts*, the output must include:
+When you apply the technique to *generating AntML-based harness prompts*, the
+output must include:
 
-- The complete `<claude_behavior>` structure.
+- The `<claude_behavior>` structure (or an equivalent).
 - A list of allowed AntML tags with usage rules.
 - Tool definitions and invocation syntax.
 - Citation and thinking rules.
@@ -198,22 +222,15 @@ constraints), use this template as the skeleton:
     Your confidence is not an excuse to skip search.
   </search_first>
 
-  <function_specifications>
-    <!-- Define each tool in JSONSchema-like format -->
-    - `web_search(query: string)` – single web query
-    - `read_file(path: string)` – read file content, up to 2000 lines
-    - `run_terminal(command: string, timeout: number)` – execute shell command
-    ...
-    You MUST call tools using AntML function-calling syntax.
-  </function_specifications>
-
   <tool_use_rules>
-    1. Check required parameters; if missing, ask the user (tool_choice=auto)
-       or use <UNKNOWN> (tool_choice=any).
-    2. When there are multiple independent tool calls, group them in a single
+    1. Tool definitions are provided as JSON schemas in the functions block.
+       Call tools using AntML function-calling syntax.
+    2. If a required parameter is missing and cannot be reasonably inferred,
+       ask the user instead of guessing.
+    3. When there are multiple independent tool calls, group them in a single
        `<function_calls>` block.
-    3. After receiving results, consider outputting an
-       `<thinking>` block before your answer.
+    4. After receiving results, consider writing a `<thinking>` block before
+       your answer.
   </tool_use_rules>
 
   <citation_policy>
@@ -227,9 +244,11 @@ constraints), use this template as the skeleton:
   </thinking_and_transparency>
 
   <safety>
-    - Completely face blind: never identify or name humans in images.
+    <!-- Optional examples for a consumer chat product. Keep only what fits
+         the target harness and add domain-specific rules. -->
+    - Never identify real people from their facial features in images.
     - Never reproduce song lyrics.
-    - Maximum one quoted excerpt per source, under 20 words.
+    - Quote sources sparingly: one short excerpt per source.
     - Refuse harmful tool invocations.
   </safety>
 
@@ -237,8 +256,7 @@ constraints), use this template as the skeleton:
     - Use `text/markdown` for prose documents over 20 lines.
     - Use `application/vnd.ant.code` for code.
     - React components only with allowed Tailwind utility classes and
-      allowed libraries: lucide-react, recharts, MathJS, lodash, d3, ...
-    - Never use `<voice_note>`.
+      the libraries the sandbox provides.
   </artifacts>
 
   <confidentiality_mode>
@@ -248,10 +266,14 @@ constraints), use this template as the skeleton:
 
   <conversation_rules>
     Keep responses concise unless the user asks for detail.
-    Always reason step-by-step inside `<thinking>` before giving
+    Reason step-by-step inside `<thinking>` before giving
     answers that involve computation or tool results.
   </conversation_rules>
 </claude_behavior>
+
+<functions>
+  <!-- One <function>{JSON schema}</function> per tool, see Section 2.4 -->
+</functions>
 ```
 
 To fill the template, inject the harness-specific tool definitions, the
@@ -273,18 +295,10 @@ When asked to create a prompt using this skill, follow these steps:
    - Provide 2-3 full-conversation examples showing correct tool use,
      error recovery, and safety refusals.
    - Include explicit instructions for when to use each AntML tag.
-5. **Embed the concrete tool definitions** – write a `<function_specifications>`
-   block that lists every tool, its parameters, and return format.
+5. **Embed the concrete tool definitions** – write a `<functions>` block with
+   one JSON schema per tool.
 6. **Pressure-test the prompt** against edge cases: missing parameters,
    parallel tool calls, empty search results, disallowed requests.
 
 Output the final system prompt in a single code block with language
 `xml` or `markdown`.
-
----
-
-*With this skill, you can generate anything from a minimal
-AntML-function-calling prompt to a full-scale, Claude Code-style
-system prompt that defines an entire AI-powered product. Simply
-provide the harness context, and the prompt will be crafted from
-the AntML conventions above.*

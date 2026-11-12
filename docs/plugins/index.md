@@ -95,11 +95,11 @@ Browse all available plugins in the Talent Factory marketplace. Each plugin prov
 
   ***
 
-  Development utilities for plugin validation, CI automation, plugin development, PDF-to-Markdown conversion, and the Ponytail minimalism suite.
+  Development utilities for plugin validation, CI automation, plugin development, PDF-to-Markdown conversion, the Ponytail minimalism suite, and AntML system-prompt authoring.
 
   **Commands:** `/core:check`, `/core:check-commands`, `/core:check-agents`, `/core:build-skill`, `/core:package-skill`, `/core:create-command`, `/core:run-ci`
   **Agents:** `agent-expert`, `command-expert`
-  **Skills:** `humanizer`, `pdf-to-markdown`, `ponytail`, `ponytail-review`, `ponytail-audit`, `ponytail-debt`
+  **Skills:** `humanizer`, `pdf-to-markdown`, `ponytail`, `ponytail-review`, `ponytail-audit`, `ponytail-debt`, `antml-prompt-writer`
 
   [:octicons-arrow-right-24: Details](core.md)
 
