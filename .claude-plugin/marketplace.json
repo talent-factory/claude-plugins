@@ -80,10 +80,10 @@
     },
     {
       "name": "core",
-      "description": "Comprehensive development utilities for plugin/command/agent development, validation, CI automation, text humanization, PDF-to-Markdown conversion, and the Ponytail minimalism suite (lazy-coding discipline, over-engineering review/audit, debt ledger) with expert agents",
+      "description": "Comprehensive development utilities for plugin/command/agent development, validation, CI automation, text humanization, PDF-to-Markdown conversion, the Ponytail minimalism suite (lazy-coding discipline, over-engineering review/audit, debt ledger), AntML system-prompt authoring, and expert agents",
       "source": "./plugins/core",
       "category": "development",
-      "version": "3.2.0",
+      "version": "3.3.0",
       "tags": [
         "utilities",
         "validation",

@@ -12,7 +12,7 @@ Browse all available plugins in the Talent Factory marketplace. Each plugin prov
 | [Project Management](project-management.md) | 2.8.0   | 6        | 1      | 1      | planning, PRD, Linear, EPIC, agile  |
 | [Code Quality](code-quality.md)             | 3.1.0   | 1        | 3      | 1      | review, quality, Python, React      |
 | [Education](education.md)                   | 1.8.1   | 1        | 2      | 4      | teaching, learning, markdown, FFHS  |
-| [Core Utilities](core.md)                   | 3.2.0   | 7        | 2      | 6      | validation, CI, PDF, ponytail, dev  |
+| [Core Utilities](core.md)                   | 3.3.0   | 7        | 2      | 7      | validation, CI, PDF, ponytail, dev  |
 | [Obsidian Integration](obsidian.md)         | 1.5.1   | 0        | 0      | 11     | tasks, Obsidian, wiki, briefing, ideas |
 | [Development](development.md)               | 1.3.2   | 1        | 1      | 2      | java, gradle, python, documentation |
 | [Gemini Bridge](gemini-bridge.md)           | 1.1.0   | 3        | 2      | 4      | gemini, mcp, multi-model, vision    |
@@ -95,11 +95,11 @@ Browse all available plugins in the Talent Factory marketplace. Each plugin prov
 
   ***
 
-  Development utilities for plugin validation, CI automation, plugin development, PDF-to-Markdown conversion, and the Ponytail minimalism suite.
+  Development utilities for plugin validation, CI automation, plugin development, PDF-to-Markdown conversion, the Ponytail minimalism suite, and AntML system-prompt authoring.
 
   **Commands:** `/core:check`, `/core:check-commands`, `/core:check-agents`, `/core:build-skill`, `/core:package-skill`, `/core:create-command`, `/core:run-ci`
   **Agents:** `agent-expert`, `command-expert`
-  **Skills:** `humanizer`, `pdf-to-markdown`, `ponytail`, `ponytail-review`, `ponytail-audit`, `ponytail-debt`
+  **Skills:** `humanizer`, `pdf-to-markdown`, `ponytail`, `ponytail-review`, `ponytail-audit`, `ponytail-debt`, `antml-prompt-writer`
 
   [:octicons-arrow-right-24: Details](core.md)
 

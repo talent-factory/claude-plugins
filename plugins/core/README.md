@@ -1,10 +1,12 @@
 # Core Utilities Plugin
 
-Comprehensive development utilities for plugin/command/agent development, validation, CI automation, text humanization, and PDF-to-Markdown conversion.
+Comprehensive development utilities for plugin/command/agent development, validation, CI automation, text humanization, PDF-to-Markdown conversion, the Ponytail minimalism suite, and AntML system-prompt authoring.
 
-## Version 3.2.0
+## Version 3.3.0
 
-**New:** Added the **Ponytail** minimalism suite — four skills enforcing the "laziest solution that actually works" discipline: `ponytail` (always-on YAGNI/stdlib-first coding behaviour), `ponytail-review` (diff review for over-engineering), `ponytail-audit` (repo-wide bloat audit), and `ponytail-debt` (collects deliberate shortcut comments into a debt ledger). Now includes 7 commands, 6 skills, and 2 expert agents.
+**New:** Added the `antml-prompt-writer` skill for writing system prompts and meta prompts for Claude-based harnesses with AntML (function calling, thinking, citations, artifacts, sub-agents). Now includes 7 commands, 7 skills, and 2 expert agents.
+
+**Previous (3.2.0):** Added the **Ponytail** minimalism suite — four skills enforcing the "laziest solution that actually works" discipline: `ponytail` (always-on YAGNI/stdlib-first coding behaviour), `ponytail-review` (diff review for over-engineering), `ponytail-audit` (repo-wide bloat audit), and `ponytail-debt` (collects deliberate shortcut comments into a debt ledger).
 
 **Previous (3.1.3):** Added `pdf-to-markdown` skill for converting PDF documents to Markdown with dual-mode support (fast text extraction or Claude Code vision analysis).
 
@@ -316,6 +318,16 @@ Harvests every `ponytail:` comment into a tracked ledger so deferrals do not sil
 
 **Location:** `skills/ponytail/`, `skills/ponytail-review/`, `skills/ponytail-audit/`, `skills/ponytail-debt/`
 
+### AntML Prompt Writer
+
+Writes production-grade system prompts and meta prompts for Claude-based harnesses using AntML.
+
+- Covers function-calling syntax, `<thinking>` blocks, citations, artifacts, safety rules, and sub-agent spawning
+- Provides a `<claude_behavior>` template and the official metaprompt method
+- Activation: "write a system prompt", "meta prompt", "AntML", "function_calls"
+
+**Location:** `skills/antml-prompt-writer/SKILL.md`
+
 ## Installation
 
 This plugin is part of the Talent Factory marketplace.
@@ -347,6 +359,8 @@ core/
 │   ├── agent-expert.md
 │   └── command-expert.md
 ├── skills/
+│   ├── antml-prompt-writer/
+│   │   └── SKILL.md
 │   ├── humanizer/
 │   │   └── SKILL.md
 │   ├── pdf-to-markdown/
@@ -570,6 +584,11 @@ intuitive, and powerful user experience."
 - **Solution:** Review error logs carefully
 
 ## Changelog
+
+### Version 3.3.0 (2026-11-12)
+
+**New Features:**
+- Added the `antml-prompt-writer` skill: system-prompt and meta-prompt authoring for Claude-based harnesses with AntML, including a `<claude_behavior>` template, tool-use and citation rules, and the metaprompt method
 
 ### Version 3.2.0 (2026-06-25)
 
