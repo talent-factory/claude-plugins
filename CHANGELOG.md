@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- **core 3.3.0**: `antml-prompt-writer` skill — writes system prompts and meta prompts for Claude-based harnesses using AntML (function calling, thinking, citations, artifacts, sub-agent spawning, metaprompt method)
 - **obsidian 1.5.0**: `today` and `weekly-review` use Plane instead of Linear (GraphQL over all projects, client-side filtering because the self-hosted edition has no PQL); `today` additionally reads Apple Reminders via `remindctl`. New config keys `plane_workspace`, `plane_url`, `reminders_lists`
 - **project-management 2.8.0**: `/project-management:implement-task --plane` — Plane as third task provider next to filesystem and Linear. Resolves work items by identifier (e.g. `TF-792`) via the `plane-tf` MCP server, reads states from the Plane project at runtime, moves the item to "In Progress" and "In Review", and writes `Closes <identifier>` into the PR body. Project identifier is configured per repository in `CLAUDE.md` (`## Plane Integration`). New reference `references/implement-task/plane.md`
 - **education 1.8.0**: `md-to-pdf` ConTeXt output — code blocks become a breakable framed table with grey background (replaces the shaded box, which overflowed the footer at page breaks); each code block gets a `Listing N: Titel` caption (title from the info string); table captions accept `: Titel` and `: Table: Titel` and render as `Tabelle N: Titel`, flush left; spacing around code blocks; unit tests for the transformations
