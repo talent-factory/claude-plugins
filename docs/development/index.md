@@ -253,9 +253,6 @@ The `core` plugin provides development utilities:
 
 - `/check-commands` - Validate command markdown files
 - `/check-agents` - Validate agent definitions
-- `/create-command` - Generate new command templates
-- `/build-skill` - Create Claude Code Skills
-- `/run-ci` - Run CI checks locally
 
 ### Local Testing
 

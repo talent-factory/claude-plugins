@@ -10,11 +10,11 @@ Browse all available plugins in the Talent Factory marketplace. Each plugin prov
 | ------------------------------------------- | ------- | -------- | ------ | ------ | ----------------------------------- |
 | [Git Workflow](git-workflow.md)             | 3.0.0   | 1        | 0      | 5      | git, workflow, commits, PRs, merge  |
 | [Project Management](project-management.md) | 3.0.0   | 0        | 0      | 6      | planning, PRD, Plane, EPIC, agile  |
-| [Code Quality](code-quality.md)             | 3.1.0   | 1        | 3      | 1      | review, quality, Python, React      |
+| [Code Quality](code-quality.md)             | 4.0.0   | 0        | 0      | 1      | Python, Ruff, linting      |
 | [Education](education.md)                   | 4.0.0   | 1        | 2      | 3      | teaching, learning, markdown, PDF   |
-| [Core Utilities](core.md)                   | 3.3.1   | 7        | 2      | 7      | validation, CI, PDF, ponytail, dev  |
+| [Core Utilities](core.md)                   | 4.0.0   | 2        | 0      | 7      | validation, PDF, ponytail, AntML  |
 | [Obsidian Integration](obsidian.md)         | 1.6.0   | 0        | 0      | 11     | tasks, Obsidian, wiki, briefing, ideas |
-| [Development](development.md)               | 1.3.2   | 1        | 1      | 2      | java, gradle, python, documentation |
+| [Development](development.md)               | 2.0.0   | 0        | 0      | 2      | java, gradle, python, documentation |
 | [Dev Browser](dev-browser.md)               | 1.0.0   | 0        | 0      | 1      | browser, playwright, scraping, testing |
 
 ---
@@ -58,10 +58,9 @@ Browse all available plugins in the Talent Factory marketplace. Each plugin prov
 
   ***
 
-  Expert code review and refactoring with specialized agents for Python and React/Frontend development.
+  Python linting and formatting with Ruff.
 
-  **Commands:** `/code-quality:ruff-check`
-  **Agents:** `python-expert`, `frontend-developer`, `code-reviewer`
+  **Skills:** `ruff-check`
 
   [:octicons-arrow-right-24: Details](code-quality.md)
 
@@ -69,11 +68,9 @@ Browse all available plugins in the Talent Factory marketplace. Each plugin prov
 
   ***
 
-  Expert development agents, project initialization with Git branching, Java/Gradle, Python/uv, and documentation synchronization tools.
+  Project initialisation with Git branching, community files, Gradle Kotlin DSL or Python/uv scaffolding, and documentation synchronisation.
 
-  **Commands:** `/development:init-project`
-  **Agents:** `java-developer`
-  **Skills:** `professional-init-project`, `update-documents`
+  **Skills:** `init-project`, `update-documents`
 
   [:octicons-arrow-right-24: Details](development.md)
 
@@ -81,11 +78,10 @@ Browse all available plugins in the Talent Factory marketplace. Each plugin prov
 
   ***
 
-  Development utilities for plugin validation, CI automation, plugin development, PDF-to-Markdown conversion, the Ponytail minimalism suite, and AntML system-prompt authoring.
+  Validation of plugin commands and agents, PDF-to-Markdown conversion, the Ponytail minimalism suite, text humanisation, and AntML system-prompt authoring.
 
-  **Commands:** `/core:check`, `/core:check-commands`, `/core:check-agents`, `/core:build-skill`, `/core:package-skill`, `/core:create-command`, `/core:run-ci`
-  **Agents:** `agent-expert`, `command-expert`
-  **Skills:** `humanizer`, `pdf-to-markdown`, `ponytail`, `ponytail-review`, `ponytail-audit`, `ponytail-debt`, `antml-prompt-writer`
+  **Commands:** `/core:check-commands`, `/core:check-agents`
+    **Skills:** `humanizer`, `pdf-to-markdown`, `ponytail`, `ponytail-review`, `ponytail-audit`, `ponytail-debt`, `antml-prompt-writer`
 
   [:octicons-arrow-right-24: Details](core.md)
 
@@ -183,13 +179,10 @@ To install plugins from this marketplace:
 | Git Integration    |     Yes      |     Yes      |      No      |     Yes     |    No     |  No  |    No    |     No      |
 | Merge Conflicts    |     Yes      |      No      |      No      |     No      |    No     |  No  |    No    |     No      |
 | Pre-commit Checks  |     Yes      |      No      |     Yes      |     No      |    No     | Yes  |    No    |     No      |
-| Code Review        |      No      |      No      |     Yes      |     No      |    No     |  No  |    No    |     No      |
-| Expert Agents      |      No      |     Yes      |     Yes      |     Yes     |    Yes    | Yes  |    No    |     No      |
 | Task Management    |      No      |     Yes      |      No      |     No      |    No     |  No  |   Yes    |     No      |
 | Daily Briefing     |      No      |      No      |      No      |     No      |    No     |  No  |   Yes    |     No      |
 | GitHub Pulse       |      No      |      No      |      No      |     No      |    No     |  No  |   Yes    |     No      |
 | Idea Mining        |      No      |      No      |      No      |     No      |    No     |  No  |   Yes    |     No      |
-| CI Automation      |      No      |      No      |      No      |     No      |    No     | Yes  |    No    |     No      |
 | Project Init       |      No      |      No      |      No      |     Yes     |    No     |  No  |    No    |     No      |
 | EPIC Automation    |      No      |     Yes      |      No      |     No      |    No     |  No  |    No    |     No      |
 | Browser Automation |      No      |      No      |      No      |     No      |    No     |  No  |    No    |     Yes     |

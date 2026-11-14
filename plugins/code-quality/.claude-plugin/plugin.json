@@ -1,8 +1,14 @@
 {
   "name": "code-quality",
-  "version": "3.1.0",
-  "description": "Comprehensive code quality tools with Python linting, code review, and expert agents for Python and Frontend development",
-  "keywords": ["review", "quality", "refactoring", "best-practices", "python", "react", "linting"],
+  "version": "4.0.0",
+  "description": "Python linting and formatting with Ruff",
+  "keywords": [
+    "python",
+    "ruff",
+    "linting",
+    "formatting",
+    "code-quality"
+  ],
   "license": "MIT",
   "author": {
     "name": "Talent Factory GmbH",

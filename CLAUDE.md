@@ -29,10 +29,10 @@ The repository uses a two-level architecture:
 
 - **git-workflow**: Git operations as skills and one command (`/git-workflow:commit`, `/git-workflow:create-pr`, `/git-workflow:resolve-conflicts`, `/git-workflow:pr-edit-history`, plus `post-merge-cleanup` and `hunk-review`)
 - **project-management**: File-based planning and task implementation as skills (`/project-management:create-prd`, `/project-management:create-plan`, `/project-management:init-task`, `/project-management:implement-task`, `/project-management:implement-epic`, `/project-management:document-handoff`)
-- **code-quality**: Python linting and expert agents for Python/Frontend (`/code-quality:ruff-check`)
-- **development**: Java expert agent and project initialization with Git branching (`/development:init-project --java --with-skills`). Uses Gradle Kotlin DSL (not Maven) and `/git-workflow:commit` for initial commits.
+- **code-quality**: Python linting and formatting with Ruff (`/code-quality:ruff-check`)
+- **development**: Project initialisation with Git branching (`/development:init-project --java`) and documentation synchronisation. Uses Gradle Kotlin DSL (not Maven) and `/git-workflow:commit` for initial commits.
 - **education**: Teaching aids with Java Tutor and Markdown formatter agents
-- **core**: Plugin development utilities (`/core:check`, `/core:check-commands`, `/core:check-agents`, `/core:build-skill`, `/core:package-skill`, `/core:create-command`, `/core:run-ci`)
+- **core**: Plugin validation (`/core:check-commands`, `/core:check-agents`), text humanisation, PDF to Markdown, the Ponytail suite and AntML prompt writing
 - **obsidian**: Obsidian integration via TaskNotes Plugin API (task management with natural language)
 - **dev-browser**: Browser automation via the Playwright Python API — navigate, fill forms, screenshot, test, and scrape with a persistent session profile (`dev-browser` skill). Self-contained `scripts/browser.py` helper; no Node/extension runtime.
 

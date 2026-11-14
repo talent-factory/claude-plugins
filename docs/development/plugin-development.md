@@ -274,9 +274,9 @@ You should:
 
 | Color | Domain | Examples |
 |-------|--------|----------|
-| `blue` | Development | java-developer, python-expert |
-| `green` | Testing/quality | code-reviewer |
-| `purple` | Architecture | agent-expert |
+| `blue` | Development | backend-developer |
+| `green` | Testing/quality | test-reviewer |
+| `purple` | Architecture | system-architect |
 | `orange` | Education | java-tutor |
 | `red` | Security | security-auditor |
 

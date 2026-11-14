@@ -1,195 +1,39 @@
 # Code Quality Plugin
 
-Comprehensive code quality tools with Python linting, code review, and expert agents for Python and Frontend development.
+## Version 4.0.0
 
-## Version 3.1.0
+One skill: Python linting and formatting with Ruff.
 
-**Minor Update:** Added `ruff-check` skill enabling natural-language activation for Python linting ("lint my Python", "fix code style").
+## Skills
 
-## Commands
+| Invocation | What it does |
+|---|---|
+| `/code-quality:ruff-check` | Installs Ruff if missing, runs `ruff check --fix` and `ruff format`, verifies, and reports the violations that need manual work. Also activates on "lint my Python", "run ruff", "fix code style". |
 
-### `/code-quality:ruff-check`
-
-Lint and format all Python files in the project with Ruff.
-
-**Features:** 
-
-- ⚡ Fast Python linting with Ruff
-- 🔧 Automatic code formatting
-- ✅ PEP 8 compliance checking
-- 🐛 Common error detection
-- 📊 Detailed error reporting
-
-**Usage:**
-```bash
-/code-quality:ruff-check              # Lint all Python files
-/code-quality:ruff-check --fix        # Auto-fix issues
-```
-
-**Checks:**
-- PEP 8 style compliance
-- Import sorting
-- Unused imports
-- Code complexity
-- Type hints
-- Docstring presence
-
-## Agents
-
-All agents activate automatically based on context. See [Skills & Agents Activation Guide](https://talent-factory.github.io/claude-plugins/reference/skills-agents-activation/) for details.
-
-### Code Reviewer
-
-Expert for comprehensive code reviews with focus on quality, security, and maintainability.
-
-**Activation:**
-- Automatic: After writing/changing code, during PR reviews
-- Manual: "Review this code for quality and security"
-
-**Expertise:**
-- 🔍 Code quality analysis
-- 🔒 Security vulnerability detection
-- ⚡ Performance optimization suggestions
-- 📚 Best practices enforcement
-- ♻️ Refactoring recommendations
-
-**Use proactively:**
-- Automatically after writing/changing code
-- For pull request reviews
-- Before commits
-- During refactoring sessions
-
-**Review Focus:**
-- Code structure and organization
-- Security vulnerabilities
-- Performance bottlenecks
-- Maintainability issues
-- Test coverage
-- Documentation quality
-
-### Python Expert
-
-Expert for writing idiomatic Python code with advanced features.
-
-**Activation:**
-- Automatic: Python refactoring, optimization, or architecture questions
-- Manual: "Use python-expert to optimize this code"
-
-**Expertise:**
-- 🐍 Idiomatic Python patterns
-- 🎨 Decorators, generators, async/await
-- ⚡ Performance optimization
-- 🎯 Design patterns
-- ✅ Comprehensive testing
-- 📋 Type hints and mypy
-
-**Use proactively for:**
-- Python refactoring
-- Optimization tasks
-- Complex Python features
-- Architecture decisions
-- Testing strategies
-
-**Specializations:**
-- Modern Python (3.10+)
-- Async programming
-- Context managers
-- Metaclasses
-- Performance tuning
-
-### Frontend Developer
-
-Expert for creating Next.js applications with React, shadcn/ui, and Tailwind CSS.
-
-**Activation:**
-- Automatic: React/Next.js development, UI component creation
-- Manual: "Use frontend-developer to create this component"
-
-**Expertise:**
-- ⚛️ React components and hooks
-- 🎨 shadcn/ui component library
-- 🎯 Tailwind CSS styling
-- 🚀 Next.js SSR/SSG
-- 📱 App Router patterns
-- ⚡ Modern frontend architecture
-
-**Use proactively for:**
-- Next.js development
-- UI component creation
-- Frontend architecture
-- Performance optimization
-- Responsive design
-
-**Specializations:**
-- Server components
-- Client components
-- App Router
-- shadcn/ui integration
-- Tailwind patterns
+For code review use the built-in `/code-review` and `/security-review`, or the `pr-review-toolkit` and `feature-dev` plugins.
 
 ## Installation
 
 ```json
 {
-  "enabledPlugins": {
-    "code-quality@talent-factory": true
-  }
+  "extraKnownMarketplaces": {
+    "talent-factory": {
+      "source": { "source": "github", "repo": "talent-factory/claude-plugins" }
+    }
+  },
+  "enabledPlugins": { "code-quality@talent-factory": true }
 }
 ```
 
-## Use Cases
-
-### Python Development
-
-```bash
-# Lint Python code
-/code-quality:ruff-check --fix
-
-# Claude (with python-expert):
-# - Reviews code proactively
-# - Suggests idiomatic patterns
-# - Optimizes performance
-# - Adds type hints
-```
-
-### React/Next.js Development
-
-```bash
-# Claude (with frontend-developer):
-# - Creates shadcn/ui components
-# - Implements App Router patterns
-# - Optimizes performance
-# - Ensures responsive design
-```
-
-### Code Review Workflow
-
-```bash
-# After writing code, Claude (with code-reviewer):
-# - Analyzes code quality automatically
-# - Identifies security issues
-# - Suggests refactoring
-# - Checks test coverage
-```
-
-## Skills
-
-### ruff-check
-
-Lints and formats all Python files using Ruff. Activates automatically on natural-language requests such as "lint my Python" or "fix Python code style".
-
-**Activation:**
-- Automatic: "lint my Python", "fix code style", "run ruff", "format Python files"
-- Via command: `/code-quality:ruff-check`
-
-**Features:**
-- Install Ruff if not present (prefers `uv add --dev ruff`)
-- Run `ruff check --fix` followed by `ruff format`
-- Report remaining violations with manual fix suggestions
-
----
-
 ## Changelog
+
+### Version 4.0.0 (2026-11-14)
+
+**Breaking:**
+
+- Removed the agents `code-reviewer`, `python-expert` and `frontend-developer`: generic checklists and personas that current models follow without them. Reviews are covered by `/code-review` and `/security-review`.
+- `ruff-check` is one skill now (same invocation `/code-quality:ruff-check`); the duplicate command is gone. The `--fix` argument of the command is not needed: the skill always applies safe fixes.
+- The plugin shrank from about 600 to about 90 lines.
 
 ### Version 3.1.0 (2026-05-08)
 
