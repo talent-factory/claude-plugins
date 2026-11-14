@@ -5,17 +5,17 @@ Engines:
   context   pandoc (-s) -> ConTeXt. Eigener Vorspann folgt nach dem pandoc-Vorspann und überschreibt Layout,
             Schrift und Kopf-/Fusszeile. Pfeile, Mathe-Relationen und Hoch-/Tiefstellung (CTX_UNICODE)
             werden als ConTeXt-Befehle gesetzt. Andere fehlende Zeichen werden gemeldet.
-  xelatex   pandoc -> XeLaTeX (PDF). Zeichen aus --fallback-zeichen über eine Systemschrift.
+  xelatex   pandoc -> XeLaTeX (PDF). Zeichen aus --fallback-chars über eine Systemschrift.
 
 Konfiguration: Datei md-to-pdf.toml, wird vom Quellordner aufwärts gesucht. CLI-Optionen überschreiben sie.
 Profil thesis: Layout für Abschlussarbeiten (Titelseite, Verzeichnisse, römische und arabische
-Seitenzahlen). Die Angaben zur Titelseite stehen im Abschnitt [these] der md-to-pdf.toml.
+Seitenzahlen). Die Angaben zur Titelseite stehen im Abschnitt [thesis] der md-to-pdf.toml.
 Mermaid-Blöcke (```mermaid) werden mit mermaid-cli als PNG gerendert. Die Quelldatei bleibt unverändert.
 
 Beispiel:
 
-    python3 md_to_pdf.py QUELLE.md ZIEL.pdf --kopf-links "DuA_P · Block 05 · Aufgabenblatt" \\
-        --kopf-rechts "Binäre Suchbäume"
+    python3 md_to_pdf.py QUELLE.md ZIEL.pdf --header-left "DuA_P · Block 05 · Aufgabenblatt" \\
+        --header-right "Binäre Suchbäume"
 """
 
 import argparse
@@ -34,26 +34,26 @@ CONFIG_NAME = "md-to-pdf.toml"
 DEFAULTS = {
     "engine": "context",
     "format": "pdf",
-    "profil": "",
-    "kopf_links": "",
-    "kopf_rechts": "",
-    "fuss_links": "",
-    "fuss_rechts": "",
-    "schrift": "Charter",
-    "groesse": "11pt",
-    "rand": "2.0",
-    "fallback_zeichen": "",
+    "profile": "",
+    "header_left": "",
+    "header_right": "",
+    "footer_left": "",
+    "footer_right": "",
+    "font": "Charter",
+    "font_size": "11pt",
+    "margin": "2.0",
+    "fallback_chars": "",
     "mermaid": True,
-    "mermaid_breite": "55%",
+    "mermaid_width": "55%",
 }
 # Standardwerte je Profil; Konfigurationsdatei und CLI überschreiben sie.
 PROFILE_DEFAULTS = {
-    "thesis": {"schrift": "TeX Gyre Heros"},  # Helvetica-Nachbau aus TeX Live
+    "thesis": {"font": "TeX Gyre Heros"},  # Helvetica-Nachbau aus TeX Live
 }
-THESIS_FELDER = {"titel", "untertitel", "dokumenttyp", "institution", "studiengang", "autor", "referent_rolle", "referent",
-                 "eingereicht_bei", "wohnort", "datum", "widmung", "logo", "titelbild"}
-THESIS_PFLICHT = ("titel", "autor", "referent", "eingereicht_bei", "wohnort")
-THESIS_ZEILEN = {"referent", "eingereicht_bei", "widmung"}  # Text oder Liste von Zeilen
+THESIS_FELDER = {"title", "subtitle", "document_type", "institution", "program", "author", "supervisor_role", "supervisor",
+                 "submitted_to", "residence", "date", "dedication", "logo", "title_image"}
+THESIS_PFLICHT = ("title", "author", "supervisor", "submitted_to", "residence")
+THESIS_ZEILEN = {"supervisor", "submitted_to", "dedication"}  # Text oder Liste von Zeilen
 # Abschnitte der ersten Ebene ohne Kapitelnummer. Vor dem Hauptteil stehen sie im Vorspann, Literatur und
 # Selbstständigkeitserklärung nach dem Hauptteil.
 UNNUMMERIERT = ("Zusammenfassung", "Abstract", "Abkürzungen", "Abkürzungsverzeichnis", "Literatur",
@@ -153,14 +153,14 @@ def load_config(path):
         return {}
     with path.open("rb") as f:
         data = tomllib.load(f)
-    these = data.pop("these", None)
+    these = data.pop("thesis", None)
     unknown = set(data) - set(DEFAULTS)
     if unknown:
         sys.exit(f"Fehler: unbekannte Optionen in {path}: {', '.join(sorted(unknown))}")
     if these is not None:
         unknown = set(these) - THESIS_FELDER
         if unknown:
-            sys.exit(f"Fehler: unbekannte Optionen in [these] in {path}: {', '.join(sorted(unknown))}")
+            sys.exit(f"Fehler: unbekannte Optionen in [thesis] in {path}: {', '.join(sorted(unknown))}")
         for feld, wert in these.items():
             if feld in THESIS_ZEILEN:
                 gueltig = isinstance(wert, str) or (isinstance(wert, list) and all(isinstance(z, str) for z in wert))
@@ -168,8 +168,8 @@ def load_config(path):
             else:
                 gueltig, erwartet = isinstance(wert, str), "Text"
             if not gueltig:
-                sys.exit(f"Fehler: [these].{feld} in {path} muss {erwartet} sein")
-        data["these"] = these
+                sys.exit(f"Fehler: [thesis].{feld} in {path} muss {erwartet} sein")
+        data["thesis"] = these
     return data
 
 
@@ -193,41 +193,41 @@ def zeilenabstand(groesse):
 
 
 def thesis_werte(cfg, resource_dir, tmp, abbildungen, tabellen):
-    """Platzhalter der Titelseite aus dem Abschnitt [these]. Bilder werden in den Arbeitsordner kopiert."""
-    these = cfg["these"]
+    """Platzhalter der Titelseite aus dem Abschnitt [thesis]. Bilder werden in den Arbeitsordner kopiert."""
+    these = cfg["thesis"]
 
     def bild(name, optionen):
         # Eckige Klammern würden das ConTeXt-Argument von \externalfigure abschneiden
         if re.search(r"[\[\],{}]", name):
-            sys.exit(f"Fehler: Bildname in [these] darf keine der Zeichen [ ] , {{ }} enthalten: {name}")
+            sys.exit(f"Fehler: Bildname in [thesis] darf keine der Zeichen [ ] , {{ }} enthalten: {name}")
         quelle = resource_dir / name
         if not quelle.is_file():
-            sys.exit(f"Fehler: Bild aus [these] fehlt: {quelle}")
+            sys.exit(f"Fehler: Bild aus [thesis] fehlt: {quelle}")
         shutil.copy(quelle, tmp / quelle.name)
         return f"\\externalfigure[{quelle.name}][{optionen}]"
 
     return {
-        "ZEILENABSTAND": zeilenabstand(cfg["groesse"]),
+        "LINE_SPACING": zeilenabstand(cfg["font_size"]),
         "LOGO": bild(these["logo"], "height=2cm") if "logo" in these else "",
-        "TITELBILD": f"\\blank[big]\n{bild(these['titelbild'], 'width=10cm')}" if "titelbild" in these else "",
-        "TITEL": ctx_escape(these["titel"]),
-        "UNTERTITEL": (f"\\blank[small]\n{{\\switchtobodyfont[14pt]{ctx_escape(these['untertitel'])}\\par}}"
-                       if "untertitel" in these else ""),
-        "DOKUMENTTYP": ctx_escape(these.get("dokumenttyp", "Thesis")),
+        "TITLE_IMAGE": f"\\blank[big]\n{bild(these['title_image'], 'width=10cm')}" if "title_image" in these else "",
+        "TITLE": ctx_escape(these["title"]),
+        "SUBTITLE": (f"\\blank[small]\n{{\\switchtobodyfont[14pt]{ctx_escape(these['subtitle'])}\\par}}"
+                       if "subtitle" in these else ""),
+        "DOCUMENT_TYPE": ctx_escape(these.get("document_type", "Thesis")),
         "INSTITUTION": ctx_escape(these["institution"]) + "\\crlf " if these.get("institution") else "",
-        "STUDIENGANG": ctx_escape(these.get("studiengang", "")),
-        "AUTOR": ctx_escape(these["autor"]),
-        "REFERENT_ROLLE": ctx_escape(these.get("referent_rolle", "Referent(in)")),
-        "REFERENT": ctx_zeilen(these["referent"]),
-        "EINGEREICHT_BEI": ctx_zeilen(these["eingereicht_bei"]),
-        "WOHNORT": ctx_escape(these["wohnort"]),
-        "DATUM": ctx_escape(these.get("datum") or deutsches_datum(date.today())),
-        "ABBILDUNGEN": ("\\blank[2*big]\n{\\switchtobodyfont[17.3pt]\\bf Abbildungsverzeichnis\\par}\n"
+        "PROGRAM": ctx_escape(these.get("program", "")),
+        "AUTHOR": ctx_escape(these["author"]),
+        "SUPERVISOR_ROLE": ctx_escape(these.get("supervisor_role", "Referent(in)")),
+        "SUPERVISOR": ctx_zeilen(these["supervisor"]),
+        "SUBMITTED_TO": ctx_zeilen(these["submitted_to"]),
+        "RESIDENCE": ctx_escape(these["residence"]),
+        "DATE": ctx_escape(these.get("date") or deutsches_datum(date.today())),
+        "FIGURES": ("\\blank[2*big]\n{\\switchtobodyfont[17.3pt]\\bf Abbildungsverzeichnis\\par}\n"
                         "\\blank[big]\n\\placelistoffigures\n" if abbildungen else ""),
-        "TABELLEN": ("\\blank[2*big]\n{\\switchtobodyfont[17.3pt]\\bf Tabellenverzeichnis\\par}\n"
+        "TABLES": ("\\blank[2*big]\n{\\switchtobodyfont[17.3pt]\\bf Tabellenverzeichnis\\par}\n"
                      "\\blank[big]\n\\placelistoftables\n" if tabellen else ""),
-        "WIDMUNG": (f"\\page\n\\vfill\n\\startalignment[center]{ctx_zeilen(these['widmung'])}"
-                    "\\stopalignment\n\\vfill" if "widmung" in these else ""),
+        "DEDICATION": (f"\\page\n\\vfill\n\\startalignment[center]{ctx_zeilen(these['dedication'])}"
+                    "\\stopalignment\n\\vfill" if "dedication" in these else ""),
     }
 
 
@@ -381,17 +381,17 @@ def build_context(cfg, source, resource_dir, tmp, out_tex):
     # pandoc setzt tagged PDF-Export (export=yes). Damit verschwinden Kopf- und Fusszeile in ConTeXt.
     pandoc_pre = pandoc_pre.replace("\\setupbackend[export=yes]\n", "")
     body = codeblock_tabelle(rest.rsplit("\\stoptext", 1)[0])
-    thesis = cfg["profil"] == "thesis"
+    thesis = cfg["profile"] == "thesis"
     if thesis:
         body = thesis_body(body)
     values = {
-        "KOPF_LINKS": ctx_escape(cfg["kopf_links"]),
-        "KOPF_RECHTS": ctx_escape(cfg["kopf_rechts"]),
-        "FUSS_LINKS": ctx_escape(cfg["fuss_links"]),
-        "FUSS_RECHTS": cfg["fuss_rechts"] or "\\pagenumber",
-        "SCHRIFT": cfg["schrift"],
-        "GROESSE": cfg["groesse"],
-        "RAND_CM": cfg["rand"],
+        "HEADER_LEFT": ctx_escape(cfg["header_left"]),
+        "HEADER_RIGHT": ctx_escape(cfg["header_right"]),
+        "FOOTER_LEFT": ctx_escape(cfg["footer_left"]),
+        "FOOTER_RIGHT": cfg["footer_right"] or "\\pagenumber",
+        "FONT": cfg["font"],
+        "FONT_SIZE": cfg["font_size"],
+        "MARGIN_CM": cfg["margin"],
     }
     if thesis:
         # Abbildungs- und Tabellenverzeichnis nur, wenn es Bilder bzw. beschriftete Tabellen gibt
@@ -432,11 +432,11 @@ def build_xelatex(cfg, source, resource_dir, tmp, out_pdf):
     hdr = tmp / "header.tex"
     text = (TEMPLATES / "header.tex.tpl").read_text(encoding="utf-8")
     values = {
-        "KOPF_LINKS": latex_escape(cfg["kopf_links"]),
-        "KOPF_RECHTS": latex_escape(cfg["kopf_rechts"]),
-        "FUSS_LINKS": latex_escape(cfg["fuss_links"]),
-        "SCHRIFT": cfg["schrift"],
-        "FALLBACK_DEF": fallback_definition(cfg["fallback_zeichen"]),
+        "HEADER_LEFT": latex_escape(cfg["header_left"]),
+        "HEADER_RIGHT": latex_escape(cfg["header_right"]),
+        "FOOTER_LEFT": latex_escape(cfg["footer_left"]),
+        "FONT": cfg["font"],
+        "FALLBACK_DEF": fallback_definition(cfg["fallback_chars"]),
     }
     for k, v in values.items():
         text = text.replace("{{" + k + "}}", v)
@@ -444,7 +444,7 @@ def build_xelatex(cfg, source, resource_dir, tmp, out_pdf):
     cmd = pandoc_base(source, resource_dir) + [
         "--to", "pdf", "--pdf-engine=xelatex", "-H", str(hdr),
         "-V", "documentclass=article", "-V", "fontsize=11pt", "-V", "geometry:a4paper",
-        "-V", f"geometry:margin={cfg['rand']}cm", "-V", "lang=de-CH", "-V", "colorlinks=true",
+        "-V", f"geometry:margin={cfg['margin']}cm", "-V", "lang=de-CH", "-V", "colorlinks=true",
         "-o", str(out_pdf),
     ]
     res = run(cmd)
@@ -461,20 +461,20 @@ def main():
     p.add_argument("--config", type=Path, help="Konfigurationsdatei (Standard: md-to-pdf.toml aufwärts suchen)")
     p.add_argument("--no-config", action="store_true", help="Keine Konfigurationsdatei verwenden")
     p.add_argument("--engine", choices=["context", "xelatex"])
-    p.add_argument("--profil", choices=sorted(PROFILE_DEFAULTS),
+    p.add_argument("--profile", choices=sorted(PROFILE_DEFAULTS),
                    help="Vorgabe-Profil, z. B. thesis (Layout und Titelseite einer Abschlussarbeit)")
     p.add_argument("--format", choices=["pdf", "tex", "both"],
                    help="pdf: PDF; tex: nur ConTeXt-Quelle; both: beides")
-    p.add_argument("--kopf-links")
-    p.add_argument("--kopf-rechts")
-    p.add_argument("--fuss-links")
-    p.add_argument("--fuss-rechts", help="Standard: Seitenzahl")
-    p.add_argument("--schrift")
-    p.add_argument("--groesse", help="Schriftgrösse (nur ConTeXt)")
-    p.add_argument("--rand", help="Seitenrand in cm")
-    p.add_argument("--fallback-zeichen", help="Zeichen für den XeLaTeX-Fallback, z. B. '→₂'")
+    p.add_argument("--header-left")
+    p.add_argument("--header-right")
+    p.add_argument("--footer-left")
+    p.add_argument("--footer-right", help="Standard: Seitenzahl")
+    p.add_argument("--font")
+    p.add_argument("--font-size", help="Schriftgrösse (nur ConTeXt)")
+    p.add_argument("--margin", help="Seitenrand in cm")
+    p.add_argument("--fallback-chars", help="Zeichen für den XeLaTeX-Fallback, z. B. '→₂'")
     p.add_argument("--mermaid", choices=["on", "off"], help="Mermaid-Blöcke rendern")
-    p.add_argument("--mermaid-breite", help="Breite der Diagramme, z. B. 55%%")
+    p.add_argument("--mermaid-width", help="Breite der Diagramme, z. B. 55%%")
     args = p.parse_args()
 
     if not args.source.is_file():
@@ -485,7 +485,7 @@ def main():
     config = load_config(config_path)
     if config_path:
         print(f"Konfiguration: {config_path}")
-    profil = args.profil or config.get("profil", "")
+    profil = args.profile or config.get("profile", "")
     if profil and profil not in PROFILE_DEFAULTS:
         sys.exit(f"Fehler: unbekanntes Profil '{profil}' (erlaubt: {', '.join(sorted(PROFILE_DEFAULTS))})")
     cfg = dict(DEFAULTS)
@@ -499,23 +499,23 @@ def main():
             cfg[key] = value
     if args.mermaid is not None:
         cfg["mermaid"] = args.mermaid == "on"
-    if args.mermaid_breite is not None:
-        cfg["mermaid_breite"] = args.mermaid_breite
+    if args.mermaid_width is not None:
+        cfg["mermaid_width"] = args.mermaid_width
 
     if not shutil.which("pandoc"):
         sys.exit("Fehler: 'pandoc' nicht gefunden.")
     if cfg["format"] in ("tex", "both") and cfg["engine"] != "context":
         sys.exit("Fehler: format tex/both braucht engine context.")
-    if cfg["profil"] == "thesis":
+    if cfg["profile"] == "thesis":
         if cfg["engine"] != "context":
             sys.exit("Fehler: Profil thesis braucht engine context.")
-        these = cfg.get("these")
+        these = cfg.get("thesis")
         if these is None:
-            sys.exit(f"Fehler: Profil thesis braucht einen Abschnitt [these] in {CONFIG_NAME}.")
+            sys.exit(f"Fehler: Profil thesis braucht einen Abschnitt [thesis] in {CONFIG_NAME}.")
         fehlend = [k for k in THESIS_PFLICHT if not these.get(k)]
         if fehlend:
-            sys.exit(f"Fehler: Pflichtangaben in [these] fehlen: {', '.join(fehlend)}")
-        ignoriert = [k for k in ("kopf_links", "kopf_rechts", "fuss_links", "fuss_rechts") if cfg[k]]
+            sys.exit(f"Fehler: Pflichtangaben in [thesis] fehlen: {', '.join(fehlend)}")
+        ignoriert = [k for k in ("header_left", "header_right", "footer_left", "footer_right") if cfg[k]]
         if ignoriert:
             print("Hinweis: Profil thesis setzt keine Kopf- und Fusszeile, ignoriert: " + ", ".join(ignoriert))
 
@@ -527,9 +527,9 @@ def main():
         tmp = Path(t)
         md = source.read_text(encoding="utf-8")
         if cfg["mermaid"]:
-            md = render_mermaid(md, tmp, cfg["mermaid_breite"])
+            md = render_mermaid(md, tmp, cfg["mermaid_width"])
         md = tabellen_beschriftung(md)
-        if cfg["profil"] == "thesis":
+        if cfg["profile"] == "thesis":
             md = thesis_markdown(md)
         if cfg["engine"] == "context":
             md = codeblock_beschriftung(md)
@@ -554,7 +554,7 @@ def main():
                 print(f"ConTeXt-Quelle: {tex_out}")
             if cfg["format"] in ("pdf", "both"):
                 pdf_out = out.with_suffix(".pdf")
-                missing = compile_context(tex, pdf_out, laeufe=3 if cfg["profil"] == "thesis" else 1)
+                missing = compile_context(tex, pdf_out, laeufe=3 if cfg["profile"] == "thesis" else 1)
                 print(f"PDF erstellt: {pdf_out}")
         else:
             pdf_out = out.with_suffix(".pdf")

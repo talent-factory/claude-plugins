@@ -1,10 +1,10 @@
 % Vorspann für ConTeXt (md-to-pdf). Platzhalter {{...}} setzt scripts/md_to_pdf.py.
 \setuppapersize[A4][A4]
-\setuplayout[width=middle,height=middle,topspace=2.2cm,bottomspace=2.2cm,backspace={{RAND_CM}}cm,header=0.8cm,footer=0.8cm]
-\definefontfamily[main][rm][{{SCHRIFT}}]
+\setuplayout[width=middle,height=middle,topspace=2.2cm,bottomspace=2.2cm,backspace={{MARGIN_CM}}cm,header=0.8cm,footer=0.8cm]
+\definefontfamily[main][rm][{{FONT}}]
 % Code (Hervorhebung und \type{}) braucht eine dichtengleiche Schrift, sonst stimmen Einrückungen nicht.
 \definefontfamily[main][tt][Latin Modern Typewriter][features=none]
-\setupbodyfont[main,{{GROESSE}}]
+\setupbodyfont[main,{{FONT_SIZE}}]
 % Codeblöcke als umbrechbare Tabelle mit grauem Hintergrund (md_to_pdf.py, codeblock_tabelle).
 \definecolor[codegrau][s=0.93]
 \setupframedtable[frame=off]
@@ -23,6 +23,6 @@
 \setuppagenumbering[location={footer,right}]
 \setupheader[state=start]
 \setupfooter[state=start]
-\setupheadertexts[{{KOPF_LINKS}}][{{KOPF_RECHTS}}]
-\setupfootertexts[{{FUSS_LINKS}}][{{FUSS_RECHTS}}]
+\setupheadertexts[{{HEADER_LEFT}}][{{HEADER_RIGHT}}]
+\setupfootertexts[{{FOOTER_LEFT}}][{{FOOTER_RIGHT}}]
 \starttext

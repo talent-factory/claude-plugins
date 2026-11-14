@@ -101,7 +101,7 @@ Converts Markdown into a PDF or a ConTeXt source (`.tex`) with a freely configur
 
 ```bash
 python3 ${CLAUDE_PLUGIN_ROOT}/skills/md-to-pdf/scripts/md_to_pdf.py QUELLE.md ZIEL.pdf \
-  --kopf-links "DuA_P · Block 05 · Aufgabenblatt" --kopf-rechts "Binäre Suchbäume"
+  --header-left "Module · Block 05 · Worksheet" --header-right "Binary search trees"
 ```
 
 ### Markdown Syntax Formatter

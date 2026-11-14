@@ -65,7 +65,7 @@
       "description": "Teaching aids with Java Tutor agent, Markdown syntax formatter agent and skill, Markdown-to-PDF conversion, and code explanation for IT education",
       "source": "./plugins/education",
       "category": "learning",
-      "version": "3.0.0",
+      "version": "4.0.0",
       "tags": [
         "education",
         "teaching",

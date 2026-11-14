@@ -14,16 +14,16 @@ Invocation within the plugin: `${CLAUDE_PLUGIN_ROOT}` points to `plugins/educati
 
 - `pandoc` (tested with 3.1.8), Python 3.11+ (because of `tomllib`)
 - Engine `context`: ConTeXt (`context` on the `PATH`, e.g. MacTeX or TeX Live with ConTeXt)
-- Engine `xelatex`: XeLaTeX and the font given by `--schrift`
+- Engine `xelatex`: XeLaTeX and the font given by `--font`
 - Mermaid: `npx` (Node.js); the package `@mermaid-js/mermaid-cli` is fetched on demand
 
 ## Usage
 
 ```bash
 python3 ${CLAUDE_PLUGIN_ROOT}/skills/md-to-pdf/scripts/md_to_pdf.py QUELLE.md ZIEL.pdf \
-  --kopf-links "DuA_P · Block 05 · Aufgabenblatt" \
-  --kopf-rechts "Binäre Suchbäume" \
-  --fuss-links "Hochschule · Modul Datenstrukturen"
+  --header-left "DuA_P · Block 05 · Aufgabenblatt" \
+  --header-right "Binäre Suchbäume" \
+  --footer-left "Hochschule · Modul Datenstrukturen"
 ```
 
 ## Configuration file `md-to-pdf.toml`
@@ -33,17 +33,17 @@ The script searches for the file from the source folder upwards. CLI options ove
 ```toml
 engine = "context"          # context | xelatex
 format = "pdf"              # pdf | tex | both (tex/both only with context)
-fuss_links = "Hochschule · Modul Datenstrukturen"
-fuss_rechts = ""            # empty = page number
-schrift = "Charter"
-groesse = "11pt"            # context only
-rand = "2.0"                # cm
-fallback_zeichen = ""       # xelatex only, e.g. "→₂"
+footer_left = "Hochschule · Modul Datenstrukturen"
+footer_right = ""            # empty = page number
+font = "Charter"
+font_size = "11pt"            # context only
+margin = "2.0"                # cm
+fallback_chars = ""       # xelatex only, e.g. "→₂"
 mermaid = true
-mermaid_breite = "55%"
+mermaid_width = "55%"
 ```
 
-The header (`kopf_links`, `kopf_rechts`) usually belongs to the document and is passed on the CLI.
+The header (`header_left`, `header_right`) usually belongs to the document and is passed on the CLI.
 
 ### Options
 
@@ -51,41 +51,41 @@ The header (`kopf_links`, `kopf_rechts`) usually belongs to the document and is 
 |---|---|
 | `--engine` | `context` or `xelatex` |
 | `--format` | `pdf`, `tex` (ConTeXt source only) or `both` |
-| `--kopf-links`, `--kopf-rechts` | Header |
-| `--fuss-links`, `--fuss-rechts` | Footer |
-| `--schrift`, `--groesse`, `--rand` | Typography |
-| `--fallback-zeichen` | Characters for the XeLaTeX fallback |
-| `--mermaid on\|off`, `--mermaid-breite` | Mermaid processing |
-| `--profil` | Preset profile, currently `thesis` |
+| `--header-left`, `--header-right` | Header |
+| `--footer-left`, `--footer-right` | Footer |
+| `--font`, `--font-size`, `--margin` | Typography |
+| `--fallback-chars` | Characters for the XeLaTeX fallback |
+| `--mermaid on\|off`, `--mermaid-width` | Mermaid processing |
+| `--profile` | Preset profile, currently `thesis` |
 | `--config`, `--no-config` | Choose or disable the configuration file |
 
 ## Profile `thesis`
 
 For theses and similar long documents. The layout: A4, 11 pt, a Helvetica clone (`TeX Gyre Heros`, available with TeX Live), 1.5 line spacing, side margins of 3 cm, page number centred at the bottom. Only for `engine = "context"`.
 
-Select it via the CLI (`--profil thesis`) or in `md-to-pdf.toml` (`profil = "thesis"`). The title page data lives in the `[these]` section:
+Select it via the CLI (`--profile thesis`) or in `md-to-pdf.toml` (`profile = "thesis"`). The title page data lives in the `[thesis]` section:
 
 ```toml
-profil = "thesis"
+profile = "thesis"
 
-[these]
-titel = "Titel der Thesis"                 # required
-untertitel = "Optionaler Untertitel"
-dokumenttyp = "Bachelor-Thesis"            # default: Thesis
+[thesis]
+title = "Titel der Thesis"                 # required
+subtitle = "Optionaler Untertitel"
+document_type = "Bachelor-Thesis"            # default: Thesis
 institution = "Name der Hochschule"        # optional, top right of the title page
-studiengang = "INF/WI"
-autor = "Max Muster"                       # required
-referent_rolle = "Referentin"              # default: Referent(in)
-referent = ["Name", "Titel", "Fach"]       # required, one line per entry
-eingereicht_bei = ["Prof. Dr. X", "Departement Informatik"]   # required
-wohnort = "Zürich"                         # required
-datum = "1. Dezember 2026"                 # default: today's date
-widmung = ["Diese Thesis widme ich", "meiner Familie."]       # optional, own page
+program = "INF/WI"
+author = "Max Muster"                       # required
+supervisor_role = "Referentin"              # default: Referent(in)
+supervisor = ["Name", "Titel", "Fach"]       # required, one line per entry
+submitted_to = ["Prof. Dr. X", "Departement Informatik"]   # required
+residence = "Zürich"                         # required
+date = "1. Dezember 2026"                 # default: today's date
+dedication = ["Diese Thesis widme ich", "meiner Familie."]       # optional, own page
 logo = "logo.pdf"                           # logo top left, relative to the source folder
-titelbild = "bild.png"                     # optional, centred on the title page
+title_image = "bild.png"                     # optional, centred on the title page
 ```
 
-Missing required fields and unknown keys in `[these]` abort the run. The font can be overridden with `schrift`.
+Missing required fields and unknown keys in `[thesis]` abort the run. The font can be overridden with `font`.
 
 **Structure of the Markdown source:**
 
@@ -103,13 +103,13 @@ Missing required fields and unknown keys in `[these]` abort the run. The font ca
 
 ## Mermaid
 
-Mermaid blocks (```` ```mermaid ````) are rendered to PNG with mermaid-cli before typesetting and embedded in a working copy in a temporary folder. The source stays unchanged. Diagrams appear without a caption, with their width set by `mermaid_breite`.
+Mermaid blocks (```` ```mermaid ````) are rendered to PNG with mermaid-cli before typesetting and embedded in a working copy in a temporary folder. The source stays unchanged. Diagrams appear without a caption, with their width set by `mermaid_width`.
 
 Note for `flowchart` trees: children appear in the order of the edges in the source, and a single child is placed directly below its parent. The workaround is an invisible placeholder node on the opposite side.
 
 ## Verification after every build
 
-1. Read the output. `Keine fehlenden Zeichen gemeldet.` (no missing characters reported) is the goal. `Nicht gedruckte Zeichen` (characters not printed) means the font lacks these characters; add an entry to `CTX_UNICODE` (ConTeXt) or `--fallback-zeichen` (XeLaTeX).
+1. Read the output. `Keine fehlenden Zeichen gemeldet.` (no missing characters reported) is the goal. `Nicht gedruckte Zeichen` (characters not printed) means the font lacks these characters; add an entry to `CTX_UNICODE` (ConTeXt) or `--fallback-chars` (XeLaTeX).
 2. Render one page (`pdftoppm -r 60 -png -f 1 -l 1 DATEI.pdf /pfad/seite`) and check header, footer, tables and diagrams.
 3. Check the page count.
 
