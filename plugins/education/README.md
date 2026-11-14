@@ -2,9 +2,9 @@
 
 Teaching aids, code explanations, and student support for IT education.
 
-## Version 1.8.2
+## Version 2.0.0
 
-This plugin provides educational tools for students and instructors, including code explanations, a Java Tutor agent, Markdown formatting skills, FFHS lecture slide generation, and Markdown-to-PDF conversion.
+This plugin provides educational tools for students and instructors, including code explanations, a Java Tutor agent, Markdown formatting skills, and Markdown-to-PDF conversion.
 
 ---
 
@@ -79,20 +79,6 @@ Provides clear, educational code explanations adapted to the student's level (Be
 - Adapts depth and terminology to student level
 - Structured explanation: overview → line-by-line → key concepts → flow → pitfalls → exercises
 - Language-specific focus (Java OOP, Python idioms, JavaScript async)
-
-### FFHS Lecture Slides
-
-Create lecture presentations for FFHS (Fernfachhochschule Schweiz) in reveal.js or PowerPoint format.
-
-**Capabilities:**
-
-- Web-based reveal.js presentations with Mermaid and code highlighting support
-- Traditional PPTX output with FFHS branding
-- Tailored for PVA sessions and Java Fundamentals (JaF) course materials
-
-**Activation:**
-
-The skill activates when requesting presentations, lecture slides, or PVA materials.
 
 ### md-to-pdf
 
@@ -221,6 +207,10 @@ This plugin is designed to complement computer science curricula:
 ---
 
 ## Changelog
+
+### Version 2.0.0 (2026-11-14)
+
+**Breaking:** the `ffhs-lecture-slides` skill was removed from this public marketplace. FFHS branding and course material now live in a private marketplace. The `md-to-pdf` skill and its `ffhs-thesis` profile are unchanged.
 
 ### Version 1.8.2 (2026-11-14)
 
