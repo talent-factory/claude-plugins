@@ -85,7 +85,7 @@ mcp__plane__workitem  workspace=<slug>  action=update  project_id=<uuid>  workit
 
 ```text
 mcp__plane__workitem_comment  workspace=<slug>  action=create  project_id=<uuid>  workitem_id=<id>
-  comment_html="<p>Implementation started</p><ul><li>Branch: <code>feature/tf-792-...</code></li><li>Worktree: <code>.worktrees/task-tf-792/</code></li></ul>"
+  comment_html="<p>Implementation started</p><ul><li>Branch: <code>feature/proj-123-...</code></li><li>Worktree: <code>.worktrees/task-proj-123/</code></li></ul>"
 ```
 
 Comments are optional. Only write them at start and at PR creation.
@@ -95,7 +95,7 @@ Comments are optional. Only write them at start and at PR creation.
 Use the identifier in lower case, consistent with Linear:
 
 ```text
-feature/tf-792-<description>
+feature/proj-123-<description>
 ```
 
 ## Closing
@@ -103,10 +103,10 @@ feature/tf-792-<description>
 The PR description contains a closing keyword for the work item:
 
 ```markdown
-Closes TF-792
+Closes PROJ-123
 ```
 
-Use `Refs TF-792` instead only when the work item stays open on purpose (e.g. a production step or follow-up work). State the reason in the PR text.
+Use `Refs PROJ-123` instead only when the work item stays open on purpose (e.g. a production step or follow-up work). State the reason in the PR text.
 
 The command does not set the Plane state to Done itself. A `Closes` keyword only closes GitHub issues; it does not change a Plane work item. Move the item to its completed state manually in Plane, unless the workspace has a Plane–GitHub integration configured that does this on merge (verify this in Plane before relying on it).
 

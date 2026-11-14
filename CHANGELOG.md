@@ -51,6 +51,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- **project-management 2.8.2**: examples and defaults are generic: `PROJ-123` instead of company ticket IDs (`TF-792`, `TF-177`, ...), no company Plane URL in `implement-task`, and the document-handoff example no longer reuses a customer product's file names and wording
 - **core 3.3.1**: `pdf-to-markdown` default model is `claude-opus-5-5`; `check-commands` examples use existing paths
 - **project-management 2.8.1**: Plane guide and `implement-task` use the single `plane` MCP server with a `workspace` parameter instead of the retired `plane-tf` server; example identifiers genericised
 - **git-workflow 2.4.2**: Default merge target of `resolve-conflicts` is `main` instead of `develop` (trunk-based development)

@@ -34,7 +34,7 @@ needs to continue without any prior context.
 |---|---|---|
 | `[task-name]` | derived from git branch | Name for the handoff document |
 | `--output <dir>` | `.claude/handoffs/` | Output directory |
-| `--linear-issue <ID>` | — | Pull issue details from Linear (e.g. `TF-177`) |
+| `--linear-issue <ID>` | — | Pull issue details from Linear (e.g. `PROJ-177`) |
 
 ## Workflow
 
@@ -78,7 +78,7 @@ Use `mcp__linear__get_issue` to retrieve title, description, status, comments.
 
 Examples:
 - `.claude/handoffs/2026-05-08_auth-refactor.md`
-- `.claude/handoffs/2026-05-08_rbac-regression-fix.md`
+- `.claude/handoffs/2026-05-08_permission-regression-fix.md`
 
 Create the directory if it does not exist: `mkdir -p .claude/handoffs/`
 

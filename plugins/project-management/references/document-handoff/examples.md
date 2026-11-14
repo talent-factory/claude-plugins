@@ -3,20 +3,20 @@
 ## Example 1: Minimal (Bug Fix)
 
 ```markdown
-# Handoff: RBAC Regression Fix
+# Handoff: Permission Regression Fix
 
 **Date**: 2026-01-14 15:30
-**Branch**: feature/TF-177-rbac-regression-exam-creation
-**Linear Issue**: TF-177 - RAG Exam Creator Premium Feature Bug
+**Branch**: feature/PROJ-177-permission-regression-report-creation
+**Linear Issue**: PROJ-177 - Premium Report Builder Permission Bug
 
 ## Original Task
 
-RAG Exam Creator displays "Premium Feature" upgrade prompt despite Full Deployment Mode.
+The report builder shows a "Premium Feature" upgrade prompt although the deployment is licensed for all features.
 
 ## Completed Work
 
 - Modified `.env.example` (documented DEPLOYMENT_MODE variables)
-- Investigated `packages/core/backend/main.py` (identified RBAC logic)
+- Investigated `backend/app/main.py` (identified permission logic)
 - Analyzed frontend component loading
 
 ## Current State
@@ -24,17 +24,17 @@ RAG Exam Creator displays "Premium Feature" upgrade prompt despite Full Deployme
 **Modified Files** (uncommitted):
 
 - `.env.example` - New variables documented
-- `packages/core/backend/main.py` - Debug logging added
+- `backend/app/main.py` - Debug logging added
 
 ## Subsequent Steps
 
-1. **Verify RBAC logic**: `packages/core/backend/main.py:712`
-2. **Test frontend premium loading**: `packages/core/frontend/src/pages/Exams.tsx:45`
-3. **Write integration test**: New test for RBAC + Deployment Mode
+1. **Verify permission logic**: `backend/app/main.py:712`
+2. **Test frontend premium loading**: `frontend/src/pages/Reports.tsx:45`
+3. **Write integration test**: New test for permissions + Deployment Mode
 
 ## For the Subsequent Agent
 
-Backend appears correctly configured. The issue likely resides in frontend component loading. Examine `Exams.tsx` for premium import logic and how `deploymentMode` is retrieved from the context.
+Backend appears correctly configured. The issue likely resides in frontend component loading. Examine `Reports.tsx` for premium import logic and how `deploymentMode` is retrieved from the context.
 ```
 
 ## Example 2: Comprehensive (Feature Development)
@@ -44,7 +44,7 @@ Backend appears correctly configured. The issue likely resides in frontend compo
 
 **Date**: 2026-01-14 18:45
 **Branch**: feature/dark-mode-toggle
-**Linear Issue**: TF-234 - Dark Mode for Settings Page
+**Linear Issue**: PROJ-234 - Dark Mode for Settings Page
 
 ## Original Task
 
@@ -214,12 +214,12 @@ Theme system is implemented and functional. Primary remaining work involves CSS 
 # Handoff: API Rate Limiting
 
 **Date**: 2026-01-14 12:00
-**Branch**: feature/TF-456-api-rate-limiting
-**Linear Issue**: [TF-456](https://linear.app/team/issue/TF-456) - Implement API Rate Limiting
+**Branch**: feature/PROJ-456-api-rate-limiting
+**Linear Issue**: [PROJ-456](https://linear.app/team/issue/PROJ-456) - Implement API Rate Limiting
 
 ## Original Task
 
-From Linear Issue TF-456:
+From Linear Issue PROJ-456:
 > Implement rate limiting for the Public API. Maximum 100 requests/minute per API key. Return 429 response when exceeded.
 
 **Acceptance Criteria from Linear**:
@@ -246,5 +246,5 @@ From Linear Issue TF-456:
 
 ## For the Subsequent Agent
 
-Rate limiter logic is complete but not testable without Redis in staging. Coordinate with DevOps (ticket TF-457 created) or test locally with Docker Redis.
+Rate limiter logic is complete but not testable without Redis in staging. Coordinate with DevOps (ticket PROJ-457 created) or test locally with Docker Redis.
 ````

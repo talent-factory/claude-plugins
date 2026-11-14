@@ -47,7 +47,7 @@ This command orchestrates the complete workflow from task to pull request, lever
 
 # Plane-based
 /project-management:implement-task --plane           # Interactive selection
-/project-management:implement-task --plane TF-792    # With work item identifier
+/project-management:implement-task --plane PROJ-123    # With work item identifier
 
 # Skip optional phases
 /project-management:implement-task task-001 --skip-brainstorm     # Skip context analysis
@@ -92,7 +92,7 @@ This command orchestrates the complete workflow from task to pull request, lever
 
 ### Plane (`--plane`)
 
-**When to use**: Tasks are managed in Plane (`plane.talent-factory.ch`).
+**When to use**: Tasks are managed in a Plane instance (cloud or self-hosted).
 
 **Prerequisite**: `plane` MCP server is configured and the repository's `CLAUDE.md` contains a `## Plane Integration` section with the project identifier.
 
@@ -638,7 +638,7 @@ Finalize the draft PR for review:
 
 - Update title: Remove "WIP:" prefix
 - Update body: Add description of actual changes, test results
-- Closing line (Plane, Linear): `Closes <identifier>` in the body, e.g. `Closes TF-792`. Use `Refs <identifier>` only when the item must stay open, and state why in the body
+- Closing line (Plane, Linear): `Closes <identifier>` in the body, e.g. `Closes PROJ-123`. Use `Refs <identifier>` only when the item must stay open, and state why in the body
 - Labels: Based on task labels
 - Mark PR as ready: `gh pr ready`
 

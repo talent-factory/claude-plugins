@@ -211,7 +211,7 @@ Additional information for human developers:
 
 ```bash
 # Link handoff with Linear issue
-/project-management:document-handoff --linear-issue TF-123
+/project-management:document-handoff --linear-issue PROJ-123
 
 # Handoff automatically references:
 # - Issue details
