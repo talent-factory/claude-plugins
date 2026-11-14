@@ -100,7 +100,7 @@ Skills are namespaced by plugin:
 
 ### Code Quality, Development and Core Plugins
 
-No agents. `ruff-check`, `init-project` and `update-documents` are skills; `check-commands` and `check-agents` are commands.
+No agents. `ruff-check` and `update-documents` are skills; `check-commands` and `check-agents` are commands.
 
 **Skill:**
 

@@ -1,18 +1,12 @@
 {
   "name": "development",
-  "version": "2.0.0",
-  "description": "Open source project initialisation (Git branching, community files, GitHub templates, Gradle Kotlin DSL or Python/uv scaffolding) and documentation synchronisation",
+  "version": "3.0.0",
+  "description": "Documentation synchronisation between CLAUDE.md, README.md and docs/ with deterministic, whitespace-tolerant rules",
   "keywords": [
-    "java",
-    "gradle",
-    "python",
-    "uv",
-    "open-source",
-    "project-init",
-    "github",
-    "git-branching",
     "documentation",
-    "sync"
+    "sync",
+    "claude-md",
+    "readme"
   ],
   "license": "MIT",
   "author": {

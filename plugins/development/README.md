@@ -1,17 +1,18 @@
 # Development Plugin
 
-## Version 2.0.0
+## Version 3.0.0
 
-Project initialisation and documentation synchronisation.
+Documentation synchronisation.
 
 ## Skills
 
-| Invocation | What it does |
+| Skill | What it does |
 |---|---|
-| `/development:init-project` | Sets up a new open source project: Git with `develop` to `main` branching, community files, GitHub templates, README, CI workflow, and optional Java (Gradle Kotlin DSL, Java 21, JUnit 5) or Python (uv) scaffolding. Options: `--git`, `--java`, `--uv`, `--name`, `--no-branching`, `--interactive`. |
 | `update-documents` | Synchronises `CLAUDE.md`, `README.md` and `docs/` with deterministic, whitespace-tolerant rules (`config/sync_rules.json`). Activates on "sync the documentation". |
 
-Rules baked into `init-project`: Java uses Gradle with the Kotlin DSL, never Maven; the initial commit goes through `/git-workflow:commit`.
+## Project conventions that used to live in `init-project`
+
+Put these in the `CLAUDE.md` of your own projects (or your global one): Java uses Gradle with the Kotlin DSL, never Maven, with a Java 21 toolchain and JUnit 5; the initial commit goes through `/git-workflow:commit`.
 
 ## Installation
 
@@ -27,6 +28,10 @@ Rules baked into `init-project`: Java uses Gradle with the Kotlin DSL, never Mav
 ```
 
 ## Changelog
+
+### Version 3.0.0 (2026-11-14)
+
+**Breaking:** removed the `init-project` skill (`/development:init-project`). It listed files a current model creates without instructions (licence, contributing, templates, README, `uv init`, Gradle wrapper), and its default of a `develop` branch next to `main` contradicted the trunk-based workflow of this marketplace. The three real conventions (Gradle Kotlin DSL instead of Maven, Java 21, initial commit via `/git-workflow:commit`) belong in the `CLAUDE.md` of the project. `update-documents` is unchanged.
 
 ### Version 2.0.0 (2026-11-14)
 

@@ -131,12 +131,11 @@ Validation of plugin commands and agents, text humanisation, PDF-to-Markdown con
 
 ### 💻 Development
 
-Project initialisation with Git branching, community files, Gradle Kotlin DSL or Python/uv scaffolding, and documentation synchronisation.
+Documentation synchronisation between CLAUDE.md, README.md, and docs/.
 
 **Skills:**
 
-- `/development:init-project` - Initialise open source projects with GitHub best practices
-- Update Documents - Documentation synchronisation between CLAUDE.md, README.md, and docs/
+- Update Documents - Synchronises the documentation files with deterministic rules
 
 [📖 Documentation](./plugins/development/README.md)
 
