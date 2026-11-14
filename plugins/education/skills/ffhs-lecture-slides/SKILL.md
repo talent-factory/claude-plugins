@@ -83,7 +83,9 @@ Create a reveal.js presentation using this template:
         .reveal a { color: var(--ffhs-violet); }
         .reveal a:hover { color: var(--ffhs-red); }
         .reveal blockquote { background: var(--ffhs-violet-transparent); border-left: 4px solid var(--ffhs-violet); }
-        .reveal table th { background: linear-gradient(90deg, var(--ffhs-red) 0%, var(--ffhs-violet) 100%); color: white; }
+        /* Verlauf über die ganze Kopfzeile, nicht pro Zelle neu beginnend */
+        .reveal table thead { background: linear-gradient(90deg, var(--ffhs-red) 0%, var(--ffhs-violet) 100%); }
+        .reveal table th { background: transparent; color: white; }
         .reveal .title-slide h1 { font-size: 2.5em; text-align: center; }
         .reveal .title-slide h2 { color: var(--ffhs-violet); text-align: center; }
         .reveal .title-slide p { text-align: center; color: var(--ffhs-gray); }
