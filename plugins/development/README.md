@@ -1,111 +1,41 @@
 # Development Plugin
 
-Expert development agents and project initialization for modern programming languages and frameworks.
+## Version 2.0.0
 
-## Version 1.3.2
-
----
-
-## Commands
-
-### init-project
-
-Initialize a new open source project with GitHub best practices and professional Git branching.
-
-**Usage:**
-```bash
-/development:init-project --git              # Standard Git project
-/development:init-project --java             # Java project with Gradle (Kotlin DSL)
-/development:init-project --uv               # Python project with uv
-/development:init-project --interactive      # Interactive mode
-/development:init-project --with-skills      # Skill-based workflow (recommended)
-/development:init-project --no-branching     # Only main branch, no develop
-```
-
-**Features:**
-- **Git Branching**: develop → main strategy (Standard)
-- **Java Support**: Gradle Kotlin DSL with Java 21 toolchain
-- **Python Support**: uv-based project structure
-- Community standards (LICENSE, CONTRIBUTING, CODE_OF_CONDUCT, SECURITY)
-- GitHub templates (issues, PRs, workflows)
-- CI/CD ready with GitHub Actions
-
----
+Project initialisation and documentation synchronisation.
 
 ## Skills
 
-### professional-init-project
+| Invocation | What it does |
+|---|---|
+| `/development:init-project` | Sets up a new open source project: Git with `develop` to `main` branching, community files, GitHub templates, README, CI workflow, and optional Java (Gradle Kotlin DSL, Java 21, JUnit 5) or Python (uv) scaffolding. Options: `--git`, `--java`, `--uv`, `--name`, `--no-branching`, `--interactive`. |
+| `update-documents` | Synchronises `CLAUDE.md`, `README.md` and `docs/` with deterministic, whitespace-tolerant rules (`config/sync_rules.json`). Activates on "sync the documentation". |
 
-Skill-based project initialization with enhanced automation.
-
-**Usage:**
-```bash
-/development:init-project --with-skills --java --name "my-app"
-```
-
-**Features:**
-- Automatic project type detection
-- Git branching strategy (develop → main)
-- Template-based file generation
-- Gradle wrapper setup for Java projects
-
-### update-documents
-
-Synchronize documentation between CLAUDE.md, README.md, and docs/.
-
-**Usage:**
-```
-"Synchronize my documentation"
-"Check if docs are in sync"
-"Update README from CLAUDE.md"
-```
-
-**Features:**
-- Automatic sync status analysis
-- CLAUDE.md as technical source of truth
-- Configurable sync rules via JSON
-- Whitespace-tolerant comparison
-- Section-based synchronization
-
----
-
-## Agents
-
-### java-developer
-
-Master modern Java with Streams, Concurrency, and JVM optimization.
-
-**Expertise:**
-- Modern Java features (Java 17/21/25 LTS)
-- Spring Boot and reactive programming
-- Virtual Threads and Structured Concurrency
-- Performance tuning and JVM optimization
-- Enterprise patterns and best practices
-
-**Use when:**
-- Implementing Java applications with modern features
-- Optimizing performance for large-scale data processing
-- Building reactive APIs with Spring WebFlux
-- Handling concurrent programming challenges
-- Refactoring legacy code to modern standards
-
----
+Rules baked into `init-project`: Java uses Gradle with the Kotlin DSL, never Maven; the initial commit goes through `/git-workflow:commit`.
 
 ## Installation
 
-Add to your Claude Code settings:
-
 ```json
 {
-  "enabledPlugins": {
-    "development@talent-factory": true
-  }
+  "extraKnownMarketplaces": {
+    "talent-factory": {
+      "source": { "source": "github", "repo": "talent-factory/claude-plugins" }
+    }
+  },
+  "enabledPlugins": { "development@talent-factory": true }
 }
 ```
 
----
-
 ## Changelog
+
+### Version 2.0.0 (2026-11-14)
+
+**Breaking:**
+
+- `init-project` is one skill now (same invocation `/development:init-project`). The `--with-skills` flag is gone, and so are the command and the `professional-init-project` skill it duplicated.
+- Removed the Python generators and scripts of `professional-init-project` (about 2.4k lines). Neither the command nor the skill ever called them.
+- Removed the `java-developer` agent (a generic Java checklist).
+- The plugin shrank from about 4.2k to about 0.7k lines.
 
 ### 1.3.1
 

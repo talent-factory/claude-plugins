@@ -78,17 +78,11 @@ File-based planning and task implementation: PRD, plan with EPIC and atomic task
 
 ### ✨ Code Quality
 
-Comprehensive code quality tools with Python linting and expert agents for Python and Frontend development.
+Python linting and formatting with Ruff.
 
-**Commands:**
+**Skills:**
 
 - `/code-quality:ruff-check` - Lint and format Python files with Ruff
-
-**Agents:**
-
-- Code Reviewer - Proactive code review for quality, security, and maintainability
-- Python Expert - Idiomatic Python with decorators, generators, and async/await
-- Frontend Developer - Next.js applications with React, shadcn/ui, and Tailwind CSS
 
 [📖 Documentation](./plugins/code-quality/README.md)
 
@@ -117,22 +111,12 @@ Teaching aids with Java Tutor agent, Markdown syntax formatter, and code explana
 
 ### 🛠️ Core Utilities
 
-Comprehensive development utilities for plugin/command/agent development, validation, CI automation, text humanization, and PDF-to-Markdown conversion.
+Validation of plugin commands and agents, text humanisation, PDF-to-Markdown conversion, the Ponytail minimalism suite and AntML prompt writing.
 
 **Commands:**
 
-- `/core:check` - Project validation without commits
 - `/core:check-commands` - Validate command files
 - `/core:check-agents` - Validate agent configurations
-- `/core:build-skill` - Create Claude Code Skills
-- `/core:package-skill` - Package skills as distributable archives
-- `/core:create-command` - Generate new commands
-- `/core:run-ci` - Run CI checks locally
-
-**Agents:**
-
-- Agent Expert - Agent design and optimization
-- Command Expert - CLI command development
 
 **Skills:**
 
@@ -147,20 +131,12 @@ Comprehensive development utilities for plugin/command/agent development, valida
 
 ### 💻 Development
 
-Expert development agents, project initialization with Git branching, Gradle Kotlin DSL, Python/uv support, and documentation synchronization.
-
-**Commands:**
-
-- `/development:init-project` - Initialize open source projects with GitHub best practices
-
-**Agents:**
-
-- Java Developer - Modern Java with Streams, Concurrency, and JVM optimization
+Project initialisation with Git branching, community files, Gradle Kotlin DSL or Python/uv scaffolding, and documentation synchronisation.
 
 **Skills:**
 
-- Professional Init-Project - Skill-based project initialization with automation
-- Update Documents - Documentation synchronization between CLAUDE.md, README.md, and docs/
+- `/development:init-project` - Initialise open source projects with GitHub best practices
+- Update Documents - Documentation synchronisation between CLAUDE.md, README.md, and docs/
 
 [📖 Documentation](./plugins/development/README.md)
 

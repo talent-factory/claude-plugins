@@ -1,71 +1,23 @@
 ---
 name: ruff-check
 description: >
-  Lints and formats all Python files in the project using Ruff. Activates when
-  the user asks to "lint my Python", "fix Python code style", "run ruff",
-  "format my Python files", "check Python quality", or "fix linting errors".
-  Installs Ruff if not present, auto-fixes resolvable issues, and reports
-  remaining violations.
+  Lints and formats all Python files of the project with Ruff: installs it if missing, auto-fixes what
+  can be fixed, formats, and reports the violations that need manual work. Use when the user asks to
+  "lint my Python", "fix Python code style", "run ruff", "format my Python files", or "fix linting errors".
+allowed-tools:
+  - Bash
+  - Read
+  - Edit
 ---
 
-# Python Linting and Formatting with Ruff
+# Ruff Check
 
-Lint and auto-format all Python files in the project using Ruff — the fast,
-all-in-one Python linter and formatter that replaces flake8, isort, and black.
+Ruff replaces flake8, isort and black in one tool.
 
-## Workflow
+1. **Install** if `ruff --version` fails: `uv add --dev ruff`, otherwise `pip install ruff`. Respect an existing Ruff configuration (`pyproject.toml`, `ruff.toml`); do not add one unasked.
+2. **Check:** `ruff check .` and report the number of violations by rule.
+3. **Fix:** `ruff check --fix .` (safe fixes only), then `ruff format .`.
+4. **Verify:** `ruff check . && ruff format --check .`.
+5. **Report.** Clean: "No violations, all files formatted." Otherwise, for each remaining violation give file and line, what the rule requires and the manual fix, and apply it when it is clearly correct.
 
-### Step 1 — Install Ruff (if not present)
-
-```bash
-# Preferred: uv dev dependency
-uv add --dev ruff 2>/dev/null || \
-  # Fallback: pip
-  pip install ruff
-```
-
-### Step 2 — Check for violations
-
-```bash
-ruff check .
-```
-
-Report the number of violations found and their categories.
-
-### Step 3 — Auto-fix resolvable violations
-
-```bash
-ruff check --fix .
-```
-
-### Step 4 — Format code (replaces black)
-
-```bash
-ruff format .
-```
-
-### Step 5 — Final verification
-
-```bash
-ruff check . && ruff format --check .
-```
-
-Report outcome:
-- `✓ No violations — all files clean.`
-- List any remaining violations that require manual attention.
-
-## Useful Options
-
-| Flag | Purpose |
-|---|---|
-| `ruff check --select E,W` | Errors and warnings only |
-| `ruff check --fix --unsafe-fixes` | Apply unsafe fixes as well |
-| `ruff format --diff` | Preview formatting changes without applying |
-| `ruff check --statistics` | Show count per rule |
-
-## On Remaining Violations
-
-For each violation that could not be auto-fixed:
-1. Show the file path and line number
-2. Explain what the rule requires
-3. Suggest the manual fix
+Useful flags: `ruff check --statistics` (counts per rule), `ruff format --diff` (preview), `ruff check --fix --unsafe-fixes` (only when the user asks, and review the diff afterwards).

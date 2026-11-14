@@ -200,7 +200,6 @@ Each task in `.plans/*/tasks/` contains:
 **Priority**: Must-Have
 **Story Points**: 3
 **Dependencies**: None
-**Recommended Agent**: frontend-developer
 
 ## Description
 
@@ -223,15 +222,7 @@ that allows users to switch between light and dark mode.
 
 ### Agent Recommendations
 
-Claude suggests the best AI agent for each task type:
-
-| Task Type | Recommended Agent | Use Case |
-|-----------|-------------------|----------|
-| Frontend | `frontend-developer` | UI components, styling |
-| Java | `java-developer` | Spring Boot, enterprise |
-| Python | `python-expert` | Django, FastAPI |
-| Code Review | `code-reviewer` | Quality assurance |
-| Documentation | `markdown-syntax-formatter` | Docs, READMEs |
+If a suitable agent is installed (for example `markdown-syntax-formatter` for documentation tasks), the plan names it per task. Otherwise the field stays empty.
 
 ---
 

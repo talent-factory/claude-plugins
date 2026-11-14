@@ -14,24 +14,22 @@ Agents activate automatically when Claude detects relevant context in your reque
 
 | Agent | Triggered by |
 |-------|--------------|
-| `java-developer` | Java performance questions, Spring Boot tasks |
-| `python-expert` | Python refactoring, optimization tasks |
-| `code-reviewer` | Code quality questions, PR reviews |
-| `frontend-developer` | React/Next.js development tasks |
+| `java-tutor` | Java learning questions, "explain this concept" |
+| `markdown-syntax-formatter` | Formatting or reviewing Markdown files |
 
 ### Manual Activation via Task Tool
 
 You can explicitly request an agent using the Task tool:
 
 ```
-Use the java-developer agent to optimize this code
+Use the java-tutor agent to explain this code
 ```
 
 Claude will invoke:
 ```json
 {
-  "subagent_type": "development:java-developer",
-  "prompt": "Optimize this code..."
+  "subagent_type": "education:java-tutor",
+  "prompt": "Explain this code..."
 }
 ```
 
@@ -41,12 +39,6 @@ Agents are namespaced by plugin:
 
 | Full Name | Plugin | Agent |
 |-----------|--------|-------|
-| `development:java-developer` | development | java-developer |
-| `code-quality:python-expert` | code-quality | python-expert |
-| `code-quality:frontend-developer` | code-quality | frontend-developer |
-| `code-quality:code-reviewer` | code-quality | code-reviewer |
-| `core:agent-expert` | core | agent-expert |
-| `core:command-expert` | core | command-expert |
 | `education:java-tutor` | education | java-tutor |
 
 ## Skills
@@ -106,32 +98,9 @@ Skills are namespaced by plugin:
 | `create-pr` | `/git-workflow:create-pr` |
 | `resolve-conflicts` | `/git-workflow:resolve-conflicts` |
 
-### Code Quality Plugin
+### Code Quality, Development and Core Plugins
 
-**Agents:**
-
-| Agent | Activation |
-|-------|------------|
-| `code-reviewer` | Automatic after code changes, or "review this code" |
-| `python-expert` | Python-related questions, "optimize Python code" |
-| `frontend-developer` | React/Next.js tasks, "create component" |
-
-### Development Plugin
-
-**Agent:**
-
-| Agent | Activation |
-|-------|------------|
-| `java-developer` | Java/Spring Boot questions, "optimize Java performance" |
-
-### Core Plugin
-
-**Agents:**
-
-| Agent | Activation |
-|-------|------------|
-| `agent-expert` | "Create an agent", "improve this agent" |
-| `command-expert` | "Create a CLI command", "design command interface" |
+No agents. `ruff-check`, `init-project` and `update-documents` are skills; `check-commands` and `check-agents` are commands.
 
 **Skill:**
 
@@ -180,8 +149,7 @@ Skills are namespaced by plugin:
 Agents and skills can work together:
 
 ```bash
-# Use java-developer agent for implementation
-# Then use /git-workflow:commit for consistent commits
+# Implement the change, then use /git-workflow:commit for consistent commits
 ```
 
 ## Troubleshooting

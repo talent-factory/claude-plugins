@@ -473,7 +473,6 @@ Action: Fix JSON syntax before continuing
 
 ## Related Commands
 
-- `/core:check` - Validate individual plugin structure
 - `/core:check-commands` - Validate command files in detail
 - `/core:check-agents` - Validate agent files in detail
 - `/git-workflow:commit` - Commit changes after validation

@@ -73,10 +73,9 @@ File-based project planning with PRD generation, task implementation in git work
 
 ### :material-code-braces: Code Quality
 
-Expert code review and refactoring with specialized agents for Python, Java, and React.
+Python linting and formatting with Ruff.
 
-**Commands:** `/code-quality:ruff-check`
-**Agents:** `code-reviewer`, `python-expert`, `frontend-developer`
+**Skills:** `ruff-check`
 
 [:octicons-arrow-right-24: Learn more](plugins/code-quality.md){ .md-button }
 
@@ -96,10 +95,9 @@ Teaching aids and student support for IT education with Java Tutor agent.
 
 ### :material-tools: Core Utilities
 
-Development utilities for plugin validation, CI automation, and project initialization.
+Validation of plugin commands and agents, PDF-to-Markdown conversion, text humanisation, and AntML prompt writing.
 
-**Commands:** `/core:check`, `/core:check-commands`, `/core:check-agents`, `/core:build-skill`, `/core:package-skill`, `/core:create-command`, `/core:run-ci`
-**Agents:** `agent-expert`, `command-expert`
+**Commands:** `/core:check-commands`, `/core:check-agents`
 **Skills:** `humanizer`, `pdf-to-markdown`
 
 [:octicons-arrow-right-24: Learn more](plugins/core.md){ .md-button }
@@ -118,11 +116,9 @@ Task management via Obsidian TaskNotes Plugin API with natural language support 
 
 ### :material-laptop: Development
 
-Expert development agents, project initialization with Git branching, Gradle Kotlin DSL, Python/uv support, and documentation synchronization.
+Project initialisation with Git branching, community files and Java/Python scaffolding, plus documentation synchronisation.
 
-**Commands:** `/development:init-project`
-**Agents:** `java-developer`
-**Skills:** `professional-init-project`, `update-documents`
+**Skills:** `init-project`, `update-documents`
 
 [:octicons-arrow-right-24: Learn more](plugins/development.md){ .md-button }
 
