@@ -12,7 +12,7 @@ Browse all available plugins in the Talent Factory marketplace. Each plugin prov
 | [Project Management](project-management.md) | 3.0.0   | 0        | 0      | 6      | planning, PRD, Plane, EPIC, agile  |
 | [Code Quality](code-quality.md)             | 4.0.0   | 0        | 0      | 1      | Python, Ruff, linting      |
 | [Education](education.md)                   | 5.0.0   | 0        | 0      | 2      | markdown, PDF, Swiss German |
-| [Core Utilities](core.md)                   | 5.0.0   | 2        | 0      | 4      | validation, PDF, ponytail, AntML  |
+| [Core Utilities](core.md)                   | 6.0.0   | 2        | 0      | 4      | validation, PDF, ponytail, AntML  |
 | [Obsidian Integration](obsidian.md)         | 2.0.1   | 0        | 0      | 9     | tasks, Obsidian, wiki, briefing, ideas |
 | [Development](development.md)               | 3.0.0   | 0        | 0      | 1      | documentation, sync |
 

@@ -1,6 +1,6 @@
 # Core Plugin
 
-## Version 5.0.0
+## Version 6.0.0
 
 Validation for plugin commands and agents, plus a few standalone skills: text humanising, PDF to Markdown, AntML prompt writing, and the Ponytail minimalism skill.
 
@@ -8,8 +8,8 @@ Validation for plugin commands and agents, plus a few standalone skills: text hu
 
 | Invocation | What it does |
 |---|---|
-| `/core:check-commands [path]` | Validates command files: frontmatter fields, structure, referenced files, language. |
-| `/core:check-agents [path] [--fix]` | Validates agent files: frontmatter (`name`, `description`, `category`, `model` enum, `color`), structure, best practices. |
+| `/core:check-commands [path]` | Validates command files with `scripts/validate_frontmatter.py`: frontmatter present and valid, `description`, `allowed-tools`, no `name` or `usage` field, file name, H1 heading. |
+| `/core:check-agents [path]` | Validates agent files with the same script: `name` (kebab-case, equal to the file name), `description`, `category`, `model` (`sonnet`, `opus` or `haiku`), `color`, non-standard fields. |
 
 ## Skills
 
@@ -36,6 +36,14 @@ The Ponytail skill is adapted from [DietrichGebert/ponytail](https://github.com/
 ```
 
 ## Changelog
+
+### Version 6.0.0 (2026-11-14)
+
+**Breaking:**
+
+- `check-commands` and `check-agents` (640 lines of prose) run one deterministic script, `scripts/validate_frontmatter.py` (PyYAML), and only explain its findings. The invocations are unchanged; the `--fix` option of `check-agents` is gone (the command offers the fixes instead).
+- The rules now match this repository's own: `category` is no longer required for commands, `allowed-tools` is, and a command with a `name` or `usage` field is an error. The old text demanded a `category` folder and a `references/` layout that the plugins here no longer use.
+- Eight unit tests for the script.
 
 ### Version 5.0.0 (2026-11-14)
 
