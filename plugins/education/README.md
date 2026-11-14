@@ -2,7 +2,7 @@
 
 Teaching aids, code explanations, and student support for IT education.
 
-## Version 1.8.1
+## Version 1.8.2
 
 This plugin provides educational tools for students and instructors, including code explanations, a Java Tutor agent, Markdown formatting skills, FFHS lecture slide generation, and Markdown-to-PDF conversion.
 
@@ -221,6 +221,11 @@ This plugin is designed to complement computer science curricula:
 ---
 
 ## Changelog
+
+### Version 1.8.2 (2026-11-14)
+
+- `ffhs-lecture-slides`: table header gradient now spans the whole header row instead of restarting in every cell
+- `md-to-pdf`: fixed invalid YAML in the SKILL.md frontmatter (`description` is now a block scalar)
 
 ### Version 1.8.1 (2026-11-08)
 
