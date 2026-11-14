@@ -31,7 +31,7 @@ The repository uses a two-level architecture:
 - **project-management**: File-based planning and task implementation as skills (`/project-management:create-prd`, `/project-management:create-plan`, `/project-management:init-task`, `/project-management:implement-task`, `/project-management:implement-epic`, `/project-management:document-handoff`)
 - **code-quality**: Python linting and formatting with Ruff (`/code-quality:ruff-check`)
 - **development**: Documentation synchronisation (`update-documents`)
-- **education**: Teaching aids with Java Tutor and Markdown formatter agents
+- **education**: Markdown clean-up with Swiss German orthography (`markdown-syntax-formatter`) and Markdown to PDF (`md-to-pdf`)
 - **core**: Plugin validation (`/core:check-commands`, `/core:check-agents`), text humanisation, PDF to Markdown, the Ponytail suite and AntML prompt writing
 - **obsidian**: Obsidian integration: TaskNotes tasks, LLM-Wiki curation (`/obsidian:wiki-ingest`, `wiki-query`, `wiki-lint`, `wiki-maintain`, `wiki-migrate-file`), and briefings (`/obsidian:today`, `weekly-review`, `ideas`)
 - **dev-browser**: Browser automation via the Playwright Python API — navigate, fill forms, screenshot, test, and scrape with a persistent session profile (`dev-browser` skill). Self-contained `scripts/browser.py` helper; no Node/extension runtime.
@@ -311,7 +311,7 @@ This repository contains only configuration files (JSON, Markdown). There are no
 Users don't clone this repository. Instead, Claude Code fetches plugin definitions from GitHub when the marketplace is added to settings. Changes propagate when Claude Code refreshes the marketplace index.
 
 ### Educational Context
-The education plugin (Java Tutor agent) is tailored for students. It references Swiss computer science curriculum and teaching methodologies specific to those institutions.
+The education plugin serves course material: Markdown clean-up with Swiss German orthography and Markdown-to-PDF conversion. Institution-specific content (FFHS branding, slide templates, thesis presets) lives in the private marketplace.
 
 ### Documentation Language
 

@@ -221,7 +221,7 @@ Choose what you need:
 /commit
 
 # Test education
-/explain-code
+/education:markdown-syntax-formatter
 
 # Test core utilities
 /check-commands

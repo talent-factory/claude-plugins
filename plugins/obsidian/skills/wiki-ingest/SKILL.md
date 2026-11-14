@@ -91,7 +91,7 @@ One of:
     - reconcile: <none | "<old> → <new>" | contradiction-flagged>
     ```
 
-8. **Run the markdown-syntax-formatter agent** (from the education plugin) on every newly created or modified file. If the education plugin is not installed, skip this step.
+8. **Run the `markdown-syntax-formatter` skill** (from the education plugin) on every newly created or modified file. If the education plugin is not installed, skip this step.
 
 ## Edge Cases
 

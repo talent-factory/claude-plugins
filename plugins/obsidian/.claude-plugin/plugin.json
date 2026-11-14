@@ -1,6 +1,6 @@
 {
   "name": "obsidian",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Obsidian integration for Claude Code: task management via the TaskNotes API, LLM-Wiki curation (ingest, query, lint, maintain, migrate), and productivity briefings (daily, weekly, ideas)",
   "keywords": [
     "obsidian",

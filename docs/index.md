@@ -83,11 +83,9 @@ Python linting and formatting with Ruff.
 
 ### :material-school: Education
 
-Teaching aids and student support for IT education with Java Tutor agent.
+Markdown clean-up with Swiss German orthography and Markdown-to-PDF conversion for course material.
 
-**Commands:** `/education:explain-code`
-**Agents:** `java-tutor`, `markdown-syntax-formatter`
-**Skills:** `markdown-syntax-formatter`
+**Skills:** `markdown-syntax-formatter`, `md-to-pdf`
 
 [:octicons-arrow-right-24: Learn more](plugins/education.md){ .md-button }
 

@@ -10,26 +10,21 @@ Agents are specialized AI assistants that handle complex, multi-step tasks auton
 
 Agents activate automatically when Claude detects relevant context in your request. Each agent has triggering conditions defined in its `description` field.
 
-**Example triggers:**
-
-| Agent | Triggered by |
-|-------|--------------|
-| `java-tutor` | Java learning questions, "explain this concept" |
-| `markdown-syntax-formatter` | Formatting or reviewing Markdown files |
+**Example:** a code-review agent described as "use proactively after code changes" starts after you modify code. This marketplace currently ships no agents; the plugins consist of skills and a few commands.
 
 ### Manual Activation via Task Tool
 
 You can explicitly request an agent using the Task tool:
 
 ```
-Use the java-tutor agent to explain this code
+Use the code-reviewer agent to review this change
 ```
 
 Claude will invoke:
 ```json
 {
-  "subagent_type": "education:java-tutor",
-  "prompt": "Explain this code..."
+  "subagent_type": "<plugin>:<agent-name>",
+  "prompt": "Review this change..."
 }
 ```
 
@@ -39,7 +34,7 @@ Agents are namespaced by plugin:
 
 | Full Name | Plugin | Agent |
 |-----------|--------|-------|
-| `education:java-tutor` | education | java-tutor |
+| `<plugin>:<agent-name>` | `<plugin>` | `<agent-name>` |
 
 ## Skills
 
@@ -109,12 +104,6 @@ No agents. `ruff-check` and `update-documents` are skills; `check-commands` and 
 | `humanizer` | "Humanize this text", "remove AI patterns" |
 
 ### Education Plugin
-
-**Agent:**
-
-| Agent | Activation |
-|-------|------------|
-| `java-tutor` | Java learning questions, "explain this Java code" |
 
 **Skill:**
 

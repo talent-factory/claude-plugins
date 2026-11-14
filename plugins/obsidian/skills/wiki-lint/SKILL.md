@@ -105,4 +105,4 @@ Append a log entry:
 - migration backlog: Z files (cap: 50)
 ```
 
-Run the `markdown-syntax-formatter` agent (from the education plugin) on the report. If the education plugin is not installed, skip this step.
+Run the `markdown-syntax-formatter` skill (from the education plugin) on the report. If the education plugin is not installed, skip this step.

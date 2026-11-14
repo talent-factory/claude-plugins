@@ -217,7 +217,7 @@ For each `plugins/*/agents/*.md`:
 **Standard agent frontmatter fields:** `name`, `description`, `tools`, `disallowedTools`, `model`, `permissionMode`, `maxTurns`, `skills`, `mcpServers`, `hooks`, `memory`, `background`, `isolation`, `category`, `color`.
 
 **Auto-fix procedure for name normalization:**
-Convert to lowercase, replace spaces with hyphens: `"Java Tutor"` → `"java-tutor"`.
+Convert to lowercase, replace spaces with hyphens: `"Code Reviewer"` → `"code-reviewer"`.
 
 #### 3.4 Command Frontmatter Validation
 
@@ -288,9 +288,9 @@ Skills Migration Recommendations:
     Suggestion: Create plugins/code-quality/skills/ruff-check/SKILL.md
     Priority: Medium
 
-  [W051] education:explain-code
+  [W051] git-workflow:pr-edit-history
     Status: No skill equivalent found
-    Suggestion: Create plugins/education/skills/explain-code/SKILL.md
+    Suggestion: Create plugins/git-workflow/skills/pr-edit-history/SKILL.md
     Priority: Medium
 ```
 
