@@ -8,7 +8,7 @@ Browse all available plugins in the Talent Factory marketplace. Each plugin prov
 
 | Plugin                                      | Version | Commands | Agents | Skills | Tags                                |
 | ------------------------------------------- | ------- | -------- | ------ | ------ | ----------------------------------- |
-| [Git Workflow](git-workflow.md)             | 2.4.2   | 4        | 0      | 5      | git, workflow, commits, PRs, merge  |
+| [Git Workflow](git-workflow.md)             | 3.0.0   | 1        | 0      | 5      | git, workflow, commits, PRs, merge  |
 | [Project Management](project-management.md) | 2.8.2   | 6        | 1      | 1      | planning, PRD, Linear, EPIC, agile  |
 | [Code Quality](code-quality.md)             | 3.1.0   | 1        | 3      | 1      | review, quality, Python, React      |
 | [Education](education.md)                   | 4.0.0   | 1        | 2      | 3      | teaching, learning, markdown, PDF   |
@@ -31,8 +31,8 @@ Browse all available plugins in the Talent Factory marketplace. Each plugin prov
 
   Professional git automation with emoji conventional commits, pre-commit checks, PR management, and intelligent merge conflict resolution.
 
-  **Commands:** `/git-workflow:commit`, `/git-workflow:create-pr`, `/git-workflow:pr-edit-history`, `/git-workflow:resolve-conflicts`
-  **Skills:** `professional-commit-workflow`, `professional-pr-workflow`, `post-merge-cleanup`
+  **Commands:** `/git-workflow:pr-edit-history`
+  **Skills:** `commit`, `create-pr`, `resolve-conflicts`, `post-merge-cleanup`, `hunk-review`
 
   [:octicons-arrow-right-24: Details](git-workflow.md)
 

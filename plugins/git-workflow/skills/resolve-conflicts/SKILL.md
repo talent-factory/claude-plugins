@@ -11,8 +11,7 @@ description: >
 
 # Resolve Merge Conflicts
 
-Analyse and resolve Git merge conflicts with semantic merging, automatic test
-validation, and a structured report. Uses strategy `smart` by default.
+Resolve Git merge conflicts by understanding what each side intended, then verify the result with the project's tests and linters. Default strategy: `smart`.
 
 ## Parameters
 
@@ -157,9 +156,3 @@ Offer to push (`git push origin <branch>`) and wait for the user's confirmation.
 | No remote branch | "Branch `origin/<target>` not found. Available: `git branch -r`" |
 | Lock regeneration failed | "Lock file regeneration failed. Run manually: `uv lock` / `bun install`" |
 | Tests failed after 2 attempts | Show failing test names, exit without committing |
-
-## Additional Resources
-
-- **`../references/resolve-conflicts/strategies.md`** — Strategy comparison and when to choose each
-- **`../references/resolve-conflicts/best-practices.md`** — Best practices for conflict-free branching
-- **`../references/resolve-conflicts/troubleshooting.md`** — Common failure modes and fixes

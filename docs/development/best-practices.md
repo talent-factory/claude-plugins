@@ -324,7 +324,7 @@ Long command files consume more tokens. Structure them efficiently:
 For commands with significant logic (formatters, validators), consider using Skills with Python scripts:
 
 ```text
-skills/professional-commit-workflow/
+skills/commit/
 ├── SKILL.md
 ├── config/
 │   └── commit_types.json

@@ -43,18 +43,17 @@ claude
 ### 🔧 Git Workflow
 Professional git commands with automated pre-commit checks, emoji conventional commits, PR management, and intelligent merge conflict resolution.
 
-**Commands:**
+**Commands and skills:**
 
-- `/git-workflow:commit` - Professional commits with automated checks
-- `/git-workflow:create-pr` - Branch creation, commit splitting, and PR opening
+- `/git-workflow:commit` - Emoji Conventional Commits with project checks and commit splitting
+- `/git-workflow:create-pr` - Branch creation and PR opening
 - `/git-workflow:pr-edit-history` - Display PR description edit history
 - `/git-workflow:resolve-conflicts` - Intelligent merge conflict resolution
 
 **Skills:**
 
-- Professional Commit Workflow - Automated commit creation with project-type detection
-- Professional PR Workflow - Branch management and PR automation
 - Post-Merge Cleanup - Worktree and branch cleanup after merge
+- Hunk Review - Interactive diff review with the `hunkdiff` CLI
 
 [📖 Documentation](./plugins/git-workflow/README.md)
 

@@ -26,7 +26,7 @@ plugins/your-plugin/skills/your-skill/
     └── config.json
 ```
 
-**Naming Convention**: Lowercase, hyphen-separated directory names (e.g., `professional-commit-workflow/`, `tasknotes/`)
+**Naming Convention**: Lowercase, hyphen-separated directory names (e.g., `commit/`, `tasknotes/`)
 
 ---
 
@@ -201,7 +201,7 @@ The YAML frontmatter at the top of SKILL.md contains skill metadata:
 
 ```yaml
 ---
-name: professional-commit-workflow
+name: commit
 description: Create professional git commits with emoji conventional commits format
 version: 2.0.0
 tags: [git, commits, workflow, automation]
@@ -574,7 +574,7 @@ skills/commit/
 **✅ Good**:
 
 ```text
-skills/professional-commit-workflow/
+skills/commit/
 ├── SKILL.md                      # Clear, detailed workflow
 ├── scripts/
 │   ├── validate-commit-msg.sh    # Single responsibility
@@ -600,7 +600,7 @@ From the git-workflow plugin:
 **Directory Structure**:
 
 ```text
-plugins/git-workflow/skills/professional-commit-workflow/
+plugins/git-workflow/skills/commit/
 ├── SKILL.md
 ├── scripts/
 │   └── validate-commit-msg.sh

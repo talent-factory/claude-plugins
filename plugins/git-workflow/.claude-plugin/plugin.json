@@ -1,7 +1,7 @@
 {
   "name": "git-workflow",
-  "version": "2.4.2",
-  "description": "Professional git commands with automated pre-commit checks, emoji conventional commits, PR creation, edit history, and intelligent merge conflict resolution. Includes comprehensive references, best practices, and professional workflow skills.",
+  "version": "3.0.0",
+  "description": "Git workflows as skills: Emoji Conventional Commits with project checks, pull request creation, merge conflict resolution, post-merge cleanup, PR description edit history, and Hunk diff review",
   "keywords": ["git", "workflow", "productivity", "commits", "pull-requests", "automation", "pre-commit", "conventional-commits", "merge-conflicts"],
   "license": "MIT",
   "author": {

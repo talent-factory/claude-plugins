@@ -723,8 +723,8 @@ If an optional plugin is not available, the workflow continues gracefully:
 ## See Also
 
 - **[/project-management:create-plan](./create-plan.md)** - Project planning (Filesystem/Linear)
-- **[/git-workflow:commit](../../git-workflow/commands/commit.md)** - Professional Git commits
-- **[/git-workflow:create-pr](../../git-workflow/commands/create-pr.md)** - Pull request creation
+- **[/git-workflow:commit](../../git-workflow/skills/commit/SKILL.md)** - Professional Git commits
+- **[/git-workflow:create-pr](../../git-workflow/skills/create-pr/SKILL.md)** - Pull request creation
 - **[/superpowers:brainstorm](https://github.com/obra/superpowers)** - Socratic brainstorming (Superpowers plugin)
 - **[/code-quality:ruff-check](../../code-quality/commands/ruff-check.md)** - Python linting
 

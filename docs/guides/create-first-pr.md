@@ -211,15 +211,6 @@ Squash all changes into one commit:
 /create-pr --single-commit
 ```
 
-### Use Professional Workflow Skill
-
-For optimized performance with intelligent branch management:
-
-```bash
-/create-pr --with-skills
-```
-
----
 
 ## Best Practices
 
