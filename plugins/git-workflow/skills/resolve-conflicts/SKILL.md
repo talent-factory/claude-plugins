@@ -5,7 +5,7 @@ description: >
   merging, automated test validation, and root-cause analysis of each conflict.
   Activate when the user says "I have merge conflicts", "help me resolve these
   conflicts", "there are conflicts after merging", "git merge failed", or
-  "conflicts between my branch and develop". Supports --dry-run, --no-tests,
+  "conflicts between my branch and main". Supports --dry-run, --no-tests,
   and --strategy options.
 ---
 
@@ -19,7 +19,7 @@ validation, and a structured report. Uses strategy `smart` by default.
 | Parameter | Default | Description |
 |---|---|---|
 | `[branch\|PR-number]` | current branch | Branch to merge or PR number to resolve |
-| `--target <branch>` | `develop` | Target branch to merge from |
+| `--target <branch>` | `main` | Target branch to merge from |
 | `--dry-run` | false | Analyse only — no file changes |
 | `--no-tests` | false | Skip test execution |
 | `--strategy smart\|ours\|theirs` | `smart` | Resolution strategy |
@@ -121,7 +121,7 @@ bun run lint  (or npm run lint)
 ```
 Merge Conflict Report
 =====================
-Target:    origin/develop → feature/my-branch
+Target:    origin/main → feature/my-branch
 Conflicts: N files
 Strategy:  smart
 

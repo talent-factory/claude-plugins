@@ -44,6 +44,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- **core 3.3.1**: `pdf-to-markdown` default model is `claude-opus-5-5`; `check-commands` examples use existing paths
+- **project-management 2.8.1**: Plane guide and `implement-task` use the single `plane` MCP server with a `workspace` parameter instead of the retired `plane-tf` server; example identifiers genericised
+- **git-workflow 2.4.2**: Default merge target of `resolve-conflicts` is `main` instead of `develop` (trunk-based development)
 - **git-workflow 2.4.1**: commit messages and PR descriptions are written in English, matching the language policy in `CLAUDE.md` (the commands and the `professional-commit-workflow` skill instructed German); the commit type catalogue, fallback descriptions, and imperative conversion in `commit_message.py` were translated accordingly
 - **obsidian 1.5.1**: `today` reads every page of each Plane project until `hasNextPage` is `false` (safety cap 20 pages) instead of stopping after 5 — open items on the last page were dropped; also handles the compact table result format and retries on HTTP 429
 - **education 1.8.2**: `ffhs-lecture-slides` table header gradient spans the whole header row instead of restarting per cell; `md-to-pdf` SKILL.md frontmatter was invalid YAML (unquoted `description` containing a colon) and now uses a block scalar

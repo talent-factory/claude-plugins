@@ -248,7 +248,7 @@ Gib NUR das Markdown aus, ohne zusätzliche Erklärungen oder Einleitungen."""
 def convert_vision_api(
     pdf_path: Path,
     output_path: Path,
-    model: str = "claude-opus-4-7",
+    model: str = "claude-opus-5-5",
     dpi: int = 200,
     page_range: Optional[tuple[int, int]] = None,
     prompt: str = DEFAULT_VISION_PROMPT,
@@ -523,8 +523,8 @@ Examples:
     api_group = parser.add_argument_group("Direct API options (--use-api)")
     api_group.add_argument(
         "--model",
-        default="claude-opus-4-7",
-        help="Claude model (default: claude-opus-4-7)",
+        default="claude-opus-5-5",
+        help="Claude model (default: claude-opus-5-5)",
     )
     api_group.add_argument(
         "--api-key",

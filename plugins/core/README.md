@@ -2,7 +2,7 @@
 
 Comprehensive development utilities for plugin/command/agent development, validation, CI automation, text humanization, PDF-to-Markdown conversion, the Ponytail minimalism suite, and AntML system-prompt authoring.
 
-## Version 3.3.0
+## Version 3.3.1
 
 **New:** Added the `antml-prompt-writer` skill for writing system prompts and meta prompts for Claude-based harnesses with AntML (function calling, thinking, citations, artifacts, sub-agents). Now includes 7 commands, 7 skills, and 2 expert agents.
 
@@ -584,6 +584,10 @@ intuitive, and powerful user experience."
 - **Solution:** Review error logs carefully
 
 ## Changelog
+
+### Version 3.3.1 (2026-11-14)
+
+- `pdf-to-markdown` default model is `claude-opus-5-5`; `check-commands` examples use existing paths
 
 ### Version 3.3.0 (2026-11-12)
 

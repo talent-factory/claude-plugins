@@ -2,7 +2,7 @@
 
 Comprehensive project management tools for PRD generation, project planning, task implementation with Linear integration and git worktree workflow.
 
-## Version 2.8.0
+## Version 2.8.1
 
 **New in 2.8.0:** `implement-task --plane` adds Plane as a task provider next to filesystem and Linear, with state transitions and `Closes <identifier>` in the PR body.
 
@@ -525,6 +525,10 @@ User: "We need OAuth login with Google and GitHub"
 - **Solution:** Use different task ID or clean up old branches
 
 ## Changelog
+
+### Version 2.8.1 (2026-11-14)
+
+- Plane guide and `implement-task` use the single `plane` MCP server with a `workspace` parameter instead of the retired `plane-tf` server; example identifiers genericised
 
 ### Version 2.7.0 (2026-05-08)
 

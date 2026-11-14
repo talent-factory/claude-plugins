@@ -1,7 +1,7 @@
 ---
 description: Analyze and resolve merge conflicts intelligently with automated test validation
 category: development
-argument-hint: "[PR-Nr|Branch] [--target develop] [--dry-run] [--no-tests] [--strategy ours|theirs|smart]"
+argument-hint: "[PR-Nr|Branch] [--target main] [--dry-run] [--no-tests] [--strategy ours|theirs|smart]"
 allowed-tools:
   - Bash
   - Read
@@ -28,7 +28,7 @@ Standard (merge current branch with target):
 With options:
 
 ```bash
-/git-workflow:resolve-conflicts --target develop          # Target branch (default: develop)
+/git-workflow:resolve-conflicts --target main             # Target branch (default: main)
 /git-workflow:resolve-conflicts --dry-run                 # Analysis only, no changes
 /git-workflow:resolve-conflicts --no-tests                # Skip tests
 /git-workflow:resolve-conflicts --strategy smart          # Strategy: smart (default), ours, theirs
@@ -41,7 +41,7 @@ With options:
 | Parameter | Description | Default |
 |-----------|-------------|---------|
 | `[Branch\|PR-Nr]` | Branch to merge or PR number | Current branch |
-| `--target` | Target branch to merge from | `develop` |
+| `--target` | Target branch to merge from | `main` |
 | `--dry-run` | Analyze only, no changes | `false` |
 | `--no-tests` | Skip test execution | `false` |
 | `--strategy` | Resolution strategy: `smart`, `ours`, `theirs` | `smart` |
@@ -61,7 +61,7 @@ With options:
 
 ### Step 2: Parse Input
 
-- **No argument**: Use current branch, merge from `--target` (default: `develop`)
+- **No argument**: Use current branch, merge from `--target` (default: `main`)
 - **Branch name** (e.g., `feature/task-009`): Check out this branch
 - **PR number** (e.g., `42`): Determine branch via `gh pr view 42 --json headRefName -q .headRefName`
 - Parse all flags: `--target`, `--dry-run`, `--no-tests`, `--strategy`
@@ -220,7 +220,7 @@ Output summary table:
 Merge Conflict Report
 =====================
 
-Target:    origin/develop -> feature/task-009
+Target:    origin/main -> feature/task-009
 Conflicts: 4 files
 Strategy:  smart
 
@@ -242,7 +242,7 @@ Lint:   No errors
 
 ```bash
 git commit -m "$(cat <<'EOF'
-🔀 merge: Integrate develop into feature/task-009
+🔀 merge: Integrate main into feature/task-009
 
 Resolved conflicts in 4 files:
 - auth/__init__.py: Import union from task-006 + task-007
