@@ -2,7 +2,7 @@
 
 Comprehensive project management tools for PRD generation, project planning, task implementation with Linear integration and git worktree workflow.
 
-## Version 2.8.1
+## Version 2.8.2
 
 **New in 2.8.0:** `implement-task --plane` adds Plane as a task provider next to filesystem and Linear, with state transitions and `Closes <identifier>` in the PR body.
 
@@ -147,7 +147,7 @@ Implement tasks with git worktree workflow, branch creation, and PR automation.
 /project-management:implement-task                 # From filesystem plan
 /project-management:implement-task TASK-ID         # Specific task
 /project-management:implement-task --linear ISSUE  # From Linear
-/project-management:implement-task --plane TF-792  # From Plane
+/project-management:implement-task --plane PROJ-123  # From Plane
 ```
 
 **Workflow:**
@@ -240,7 +240,7 @@ Create handoff documentation before `/compact` for seamless context continuation
 ```bash
 /project-management:document-handoff
 /project-management:document-handoff "Feature Implementation"
-/project-management:document-handoff --linear-issue TF-177
+/project-management:document-handoff --linear-issue PROJ-177
 ```
 
 **References:**
@@ -525,6 +525,10 @@ User: "We need OAuth login with Google and GitHub"
 - **Solution:** Use different task ID or clean up old branches
 
 ## Changelog
+
+### Version 2.8.2 (2026-11-14)
+
+- Examples and defaults are generic: ticket identifiers `PROJ-123` instead of company ticket IDs, no company Plane URL, and the document-handoff example no longer draws on a customer product
 
 ### Version 2.8.1 (2026-11-14)
 

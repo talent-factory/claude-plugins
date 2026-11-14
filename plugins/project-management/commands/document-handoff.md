@@ -29,7 +29,7 @@ Create comprehensive handoff documentation before a `/compact`, enabling a new a
 /project-management:document-handoff "Task Name" --output docs/handoffs
 
 # With Linear issue reference
-/project-management:document-handoff --linear-issue TF-177
+/project-management:document-handoff --linear-issue PROJ-177
 ```
 
 ## When to Use
@@ -97,7 +97,7 @@ Create handoff document with the following sections:
 Examples:
 
 - `.claude/handoffs/2026-01-14_system-prompt-extraction.md`
-- `.claude/handoffs/2026-01-14_rbac-regression-fix.md`
+- `.claude/handoffs/2026-01-14_permission-regression-fix.md`
 
 ### 4. Output Summary
 
