@@ -148,21 +148,8 @@ Extract timed events (skip all-day events). Group by day.
 ### Step 4 — Plane: Progress this week
 
 Uses the `plane` MCP server with `workspace: $PLANE_WORKSPACE`. If `PLANE_WORKSPACE` is not set, skip this step and note "Plane not configured".
-The self-hosted edition has no PQL and no workspace-wide list, so query all
-projects at once with `mcp__plane__graphql_query` and filter client-side:
 
-```graphql
-{ projects { id identifier
-    workItems(first: 100) {
-      hasNextPage nextCursor
-      results { identifier name priority createdAt updatedAt completedAt
-                state { name group } assignees { id } } } } }
-```
-
-Get `me.id` from `mcp__plane__member` (`action: me`). Keep items where `me.id`
-is in `assignees[].id`.
-For projects with `hasNextPage`, page through `project(id:) { workItems(after:) }`
-(see `today` skill, Step 4). The result is large; filter it with `jq` or Python.
+Fetch all work items as described in [_shared/plane-graphql.md](../_shared/plane-graphql.md) (the result is large; filter it with `jq` or Python). Keep items where `me.id` (from `mcp__plane__member`, `action: me`) is in `assignees[].id`. The query needs `createdAt`, `updatedAt` and `completedAt` in addition to the fields shown there.
 
 Separate into: completed this week (`completedAt` within `WEEK_START`..`WEEK_END`) ·
 newly created (`createdAt` within `WEEK_START`..`WEEK_END`) · still in progress

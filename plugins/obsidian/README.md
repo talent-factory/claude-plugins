@@ -1,6 +1,6 @@
 # Obsidian Plugin
 
-## Version 2.0.1
+## Version 2.0.2
 
 Task management through TaskNotes, LLM-Wiki curation, and productivity briefings for an Obsidian vault.
 
@@ -127,6 +127,15 @@ Default `<wiki-root>` is `Wiki/` relative to the vault root. Override via
 ---
 
 ## Changelog
+
+### Version 2.0.2 (2026-11-14)
+
+No change in behaviour or invocations; the long recipes moved out of the always-loaded skill text.
+
+- `today` and `weekly-review` share one description of how to read Plane work items through GraphQL (`skills/_shared/plane-graphql.md`); `weekly-review` no longer points into the other skill.
+- The Reminders script of `today` lives in `skills/today/references/reminders.md` and loads only when `remindctl` is available.
+- `today` drops the direct file-scan fallback for TaskNotes: without the script it skips TaskNotes and says so.
+- `ideas` cut from 256 to 94 lines (the shell snippets for `gh`, `find` and `ls` are gone; the signals, scoring, output format and frontmatter stay).
 
 ### Version 2.0.1 (2026-11-14)
 
