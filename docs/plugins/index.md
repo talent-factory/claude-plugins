@@ -15,7 +15,6 @@ Browse all available plugins in the Talent Factory marketplace. Each plugin prov
 | [Core Utilities](core.md)                   | 4.0.0   | 2        | 0      | 7      | validation, PDF, ponytail, AntML  |
 | [Obsidian Integration](obsidian.md)         | 2.0.1   | 0        | 0      | 9     | tasks, Obsidian, wiki, briefing, ideas |
 | [Development](development.md)               | 3.0.0   | 0        | 0      | 1      | documentation, sync |
-| [Dev Browser](dev-browser.md)               | 1.0.0   | 0        | 0      | 1      | browser, playwright, scraping, testing |
 
 ---
 
@@ -85,15 +84,6 @@ Browse all available plugins in the Talent Factory marketplace. Each plugin prov
 
   [:octicons-arrow-right-24: Details](core.md)
 
-- **Dev Browser**
-
-  ***
-
-  Browser automation on the Playwright Python API — navigate, fill forms, take screenshots, test web apps, and scrape data with short, incremental scripts and a persistent session profile.
-
-  **Skills:** `dev-browser`
-
-  [:octicons-arrow-right-24: Details](dev-browser.md)
 
 </div>
 
@@ -172,18 +162,15 @@ To install plugins from this marketplace:
 
 ### Feature Matrix
 
-| Feature            | Git Workflow | Project Mgmt | Code Quality | Development | Education | Core | Obsidian | Dev Browser |
-| ------------------ | :----------: | :----------: | :----------: | :---------: | :-------: | :--: | :------: | :---------: |
-| Git Integration    |     Yes      |     Yes      |      No      |     Yes     |    No     |  No  |    No    |     No      |
-| Merge Conflicts    |     Yes      |      No      |      No      |     No      |    No     |  No  |    No    |     No      |
-| Pre-commit Checks  |     Yes      |      No      |     Yes      |     No      |    No     | Yes  |    No    |     No      |
-| Task Management    |      No      |     Yes      |      No      |     No      |    No     |  No  |   Yes    |     No      |
-| Daily Briefing     |      No      |      No      |      No      |     No      |    No     |  No  |   Yes    |     No      |
-| GitHub Pulse       |      No      |      No      |      No      |     No      |    No     |  No  |   Yes    |     No      |
-| Idea Mining        |      No      |      No      |      No      |     No      |    No     |  No  |   Yes    |     No      |
-| EPIC Automation    |      No      |     Yes      |      No      |     No      |    No     |  No  |    No    |     No      |
-| Browser Automation |      No      |      No      |      No      |     No      |    No     |  No  |    No    |     Yes     |
-| Web Scraping       |      No      |      No      |      No      |     No      |    No     |  No  |    No    |     Yes     |
+| Feature            | Git Workflow | Project Mgmt | Code Quality | Development | Education | Core | Obsidian |
+| ------------------ | :----------: | :----------: | :----------: | :---------: | :-------: | :--: | :------: |
+| Git Integration    |     Yes      |     Yes      |      No      |     Yes     |    No     |  No  |    No    |
+| Merge Conflicts    |     Yes      |      No      |      No      |     No      |    No     |  No  |    No    |
+| Pre-commit Checks  |     Yes      |      No      |     Yes      |     No      |    No     | Yes  |    No    |
+| Task Management    |      No      |     Yes      |      No      |     No      |    No     |  No  |   Yes    |
+| Daily Briefing     |      No      |      No      |      No      |     No      |    No     |  No  |   Yes    |
+| Idea Mining        |      No      |      No      |      No      |     No      |    No     |  No  |   Yes    |
+| EPIC Automation    |      No      |     Yes      |      No      |     No      |    No     |  No  |    No    |
 
 ---
 

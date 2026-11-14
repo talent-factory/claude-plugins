@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository Overview
 
-This is a **Claude Code plugin marketplace** maintained by Talent Factory GmbH. It hosts 8 professional plugins distributed via GitHub for software development, education, and project management. The repository serves as both a marketplace configuration and a development workspace for plugin contributors.
+This is a **Claude Code plugin marketplace** maintained by Talent Factory GmbH. It hosts 7 professional plugins distributed via GitHub for software development, education, and project management. The repository serves as both a marketplace configuration and a development workspace for plugin contributors.
 
 **Target Users:** Students, software developers, educators, and development teams.
 
@@ -34,7 +34,6 @@ The repository uses a two-level architecture:
 - **education**: Markdown clean-up with Swiss German orthography (`markdown-syntax-formatter`) and Markdown to PDF (`md-to-pdf`)
 - **core**: Plugin validation (`/core:check-commands`, `/core:check-agents`), text humanisation, PDF to Markdown, the Ponytail suite and AntML prompt writing
 - **obsidian**: Obsidian integration: TaskNotes tasks, LLM-Wiki curation (`/obsidian:wiki-ingest`, `wiki-query`, `wiki-lint`, `wiki-maintain`, `wiki-migrate-file`), and briefings (`/obsidian:today`, `weekly-review`, `ideas`)
-- **dev-browser**: Browser automation via the Playwright Python API — navigate, fill forms, screenshot, test, and scrape with a persistent session profile (`dev-browser` skill). Self-contained `scripts/browser.py` helper; no Node/extension runtime.
 
 ### How Plugins Work
 
