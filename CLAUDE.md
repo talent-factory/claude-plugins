@@ -125,6 +125,8 @@ Use Emoji Conventional Commits:
 🧪 test: Add plugin structure tests
 ```
 
+Write commit messages in English, in line with the documentation language policy below.
+
 **Important:** Do NOT add these suffixes to commits:
 - ❌ "Co-Authored-By: Claude"
 - ❌ "Generated with Claude Code"
