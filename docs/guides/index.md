@@ -59,17 +59,6 @@ Step-by-step guides to help you master common workflows with Talent Factory Clau
 
     [:octicons-arrow-right-24: Start Guide](prd-workflow.md)
 
--   :material-link-variant:{ .lg .middle } **Linear Integration**
-
-    ---
-
-    Integrate with Linear for seamless project management.
-
-    **Duration**: 20 minutes  
-    **Level**: Intermediate
-
-    [:octicons-arrow-right-24: Start Guide](linear-integration.md)
-
 </div>
 
 ---
@@ -89,7 +78,6 @@ Step-by-step guides to help you master common workflows with Talent Factory Clau
 | Guide | Plugin | Duration | Topics |
 |-------|--------|----------|--------|
 | [PRD-Based Workflow](prd-workflow.md) | project-management | 15 min | Planning, documentation, PRDs |
-| [Linear Integration](linear-integration.md) | project-management | 20 min | Linear, task management, sync |
 
 ### Advanced Level
 
@@ -110,8 +98,7 @@ Coming soon! We're working on advanced guides for:
 graph LR
     A[Your First Commit] --> B[Create Your First PR]
     B --> C[PRD-Based Workflow]
-    C --> D[Linear Integration]
-    D --> E[Advanced Workflows]
+    C --> E[Advanced Workflows]
 ```
 
 **Recommended order**:
@@ -119,7 +106,6 @@ graph LR
 1. [Your First Commit](first-commit.md) - Learn git workflow basics
 2. [Create Your First PR](create-first-pr.md) - Master pull requests
 3. [PRD-Based Workflow](prd-workflow.md) - Plan projects professionally
-4. [Linear Integration](linear-integration.md) - Integrate with Linear
 
 ---
 
@@ -210,8 +196,7 @@ See [Contributing Guide](../development/contributing.md) for details.
     Try intermediate/advanced guides:
     
     1. [PRD-Based Workflow](prd-workflow.md)
-    2. [Linear Integration](linear-integration.md)
-    3. [Plugin Development](../development/index.md)
+    2. [Plugin Development](../development/index.md)
 
 === "I Want to Contribute"
 

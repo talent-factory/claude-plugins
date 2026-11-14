@@ -63,10 +63,9 @@ Professional git automation with emoji conventional commits, pre-commit checks, 
 
 ### :material-clipboard-text: Project Management
 
-Comprehensive project planning with PRD generation, Linear integration, and git worktree workflows.
+File-based project planning with PRD generation, task implementation in git worktrees, EPIC automation, and Plane support.
 
-**Commands:** `/project-management:create-prd`, `/project-management:create-plan`, `/project-management:init-task`, `/project-management:implement-task`, `/project-management:implement-epic`, `/project-management:document-handoff`
-**Agents:** `epic-orchestrator`
+**Skills:** `/project-management:create-prd`, `/project-management:create-plan`, `/project-management:init-task`, `/project-management:implement-task`, `/project-management:implement-epic`, `/project-management:document-handoff`
 
 [:octicons-arrow-right-24: Learn more](plugins/project-management.md){ .md-button }
 

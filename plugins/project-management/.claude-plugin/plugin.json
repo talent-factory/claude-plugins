@@ -1,8 +1,17 @@
 {
   "name": "project-management",
-  "version": "2.8.2",
-  "description": "Comprehensive project management with PRD generation, project planning, single-task initialization with duplicate detection and ATOMIC validation, intelligent task implementation with plugin orchestration (Superpowers brainstorm, agent routing, quality gate), autonomous EPIC automation, Linear integration, and git worktree workflow for agile development",
-  "keywords": ["planning", "prd", "linear", "project-management", "agile", "worktree", "task-management", "epic", "automation"],
+  "version": "3.0.0",
+  "description": "File-based planning and task implementation: PRD, plan with EPIC and atomic tasks, single-task init with duplicate detection, task and EPIC implementation in git worktrees with draft PRs, Plane support, and session handoff documents",
+  "keywords": [
+    "planning",
+    "prd",
+    "project-management",
+    "agile",
+    "worktree",
+    "task-management",
+    "epic",
+    "plane"
+  ],
   "license": "MIT",
   "author": {
     "name": "Talent Factory GmbH",

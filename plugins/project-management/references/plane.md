@@ -4,7 +4,7 @@ Guide to working with Plane work items through the `plane` MCP server (`mcp__pla
 
 ## Overview
 
-Plane is a provider next to the filesystem (default) and Linear (`--linear`). With `--plane`, the command:
+Plane is a task source next to the filesystem (default). With `--plane`, the skill:
 
 - Resolves the work item from its identifier (e.g. `PROJ-123`)
 - Reads states from the Plane project instead of hard-coding them
@@ -92,7 +92,7 @@ Comments are optional. Only write them at start and at PR creation.
 
 ## Branch Naming
 
-Use the identifier in lower case, consistent with Linear:
+Use the identifier in lower case:
 
 ```text
 feature/proj-123-<description>
@@ -108,7 +108,7 @@ Closes PROJ-123
 
 Use `Refs PROJ-123` instead only when the work item stays open on purpose (e.g. a production step or follow-up work). State the reason in the PR text.
 
-The command does not set the Plane state to Done itself. A `Closes` keyword only closes GitHub issues; it does not change a Plane work item. Move the item to its completed state manually in Plane, unless the workspace has a Plane–GitHub integration configured that does this on merge (verify this in Plane before relying on it).
+The skill does not set the Plane state to Done itself. A `Closes` keyword only closes GitHub issues; it does not change a Plane work item. Move the item to its completed state manually in Plane, unless the workspace has a Plane–GitHub integration configured that does this on merge (verify this in Plane before relying on it).
 
 ## Error Handling
 
@@ -119,9 +119,3 @@ The command does not set the Plane state to Done itself. A `Closes` keyword only
 | Ambiguous state | Several `started` states and no override | Ask user, then add override to `CLAUDE.md` |
 | 401 / 403 | Invalid API key or missing permissions | Regenerate key, check workspace membership |
 | Work item not found | Wrong identifier or archived item | Verify identifier, check archive |
-
-## See Also
-
-- [workflow.md](./workflow.md) - Complete workflow
-- [linear.md](./linear.md) - Linear provider
-- [filesystem.md](./filesystem.md) - Filesystem provider

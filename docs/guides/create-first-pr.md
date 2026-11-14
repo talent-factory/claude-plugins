@@ -294,8 +294,7 @@ Here's the full workflow from change to PR:
 Now that you can create professional PRs, try:
 
 1. **[PRD-Based Workflow](prd-workflow.md)** - Plan features before coding
-2. **[Linear Integration](linear-integration.md)** - Connect with project management
-3. **[Plugin Catalog](../plugins/index.md)** - Explore other plugins
+2. **[Plugin Catalog](../plugins/index.md)** - Explore other plugins
 
 ---
 

@@ -199,7 +199,6 @@ nav:
     - Create Your First PR: guides/create-first-pr.md
     - PRD-Based Workflow: guides/prd-workflow.md
     - PDF to Markdown: guides/pdf-to-markdown.md
-    - Linear Integration: guides/linear-integration.md
     - Markdown Formatting: guides/markdown-formatting.md
 
   - Development:
