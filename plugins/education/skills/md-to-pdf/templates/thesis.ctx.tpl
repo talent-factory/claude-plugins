@@ -4,10 +4,10 @@
 % Platzhalter {{...}} setzt scripts/md_to_pdf.py.
 \setuppapersize[A4][A4]
 \setuplayout[width=15cm,backspace=3cm,topspace=2.5cm,bottomspace=2.5cm,header=1cm,footer=1cm]
-\definefontfamily[main][rm][{{SCHRIFT}}]
-\setupbodyfont[main,{{GROESSE}}]
+\definefontfamily[main][rm][{{FONT}}]
+\setupbodyfont[main,{{FONT_SIZE}}]
 % 1,5-facher Zeilenabstand (Vorlage: onehalfspacing), aus der Schriftgrösse berechnet. Relative Angaben wirken in ConTeXt nicht zuverlässig.
-\setupinterlinespace[line={{ZEILENABSTAND}}]
+\setupinterlinespace[line={{LINE_SPACING}}]
 \setupwhitespace[medium]
 % Codeblöcke als umbrechbare Tabelle mit grauem Hintergrund (md_to_pdf.py, codeblock_tabelle).
 \definecolor[codegrau][s=0.93]
@@ -45,7 +45,7 @@
   {\switchtobodyfont[17.3pt]\bf Inhaltsverzeichnis\par}
   \blank[big]
   \placecontent[criterium=all]
-{{ABBILDUNGEN}}{{TABELLEN}}}
+{{FIGURES}}{{TABLES}}}
 \unexpanded\def\startThesis{%
   \page
   \setupuserpagenumber[numberconversion=numbers]
@@ -57,30 +57,30 @@
 % Titelseite
 \setupfooter[state=stop]
 \starttabulate[|p(5cm)|p(10cm)|]
-\NC {{LOGO}} \NC \startalignment[flushright]\switchtobodyfont[small]{{INSTITUTION}}Studiengang {{STUDIENGANG}}\stopalignment \NR
+\NC {{LOGO}} \NC \startalignment[flushright]\switchtobodyfont[small]{{INSTITUTION}}Studiengang {{PROGRAM}}\stopalignment \NR
 \stoptabulate
 \vfill
 \startalignment[center]
-{\switchtobodyfont[24pt]\bf {{TITEL}}\par}
-{{UNTERTITEL}}
+{\switchtobodyfont[24pt]\bf {{TITLE}}\par}
+{{SUBTITLE}}
 \blank[2*big]
-{{TITELBILD}}
+{{TITLE_IMAGE}}
 \blank[2*big]
-{{DOKUMENTTYP}} im Studiengang {{STUDIENGANG}}
+{{DOCUMENT_TYPE}} im Studiengang {{PROGRAM}}
 \blank[big]
 von
 \blank[small]
-{\bf {{AUTOR}}}
+{\bf {{AUTHOR}}}
 \stopalignment
 \vfill
 \starttabulate[|p(7.5cm)|p(7.5cm)|]
-\NC \startalignment[flushleft]Eingereicht bei:\crlf\blank[small]{{EINGEREICHT_BEI}}\stopalignment
-\NC \startalignment[flushleft]{{REFERENT_ROLLE}}:\crlf\blank[small]{{REFERENT}}\stopalignment \NR
+\NC \startalignment[flushleft]Eingereicht bei:\crlf\blank[small]{{SUBMITTED_TO}}\stopalignment
+\NC \startalignment[flushleft]{{SUPERVISOR_ROLE}}:\crlf\blank[small]{{SUPERVISOR}}\stopalignment \NR
 \stoptabulate
 \blank[2*big]
-\startalignment[center]{{WOHNORT}}, {{DATUM}}\stopalignment
+\startalignment[center]{{RESIDENCE}}, {{DATE}}\stopalignment
 
-{{WIDMUNG}}
+{{DEDICATION}}
 
 \setupfooter[state=start]
 \page

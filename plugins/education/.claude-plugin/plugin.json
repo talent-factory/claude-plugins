@@ -1,6 +1,6 @@
 {
   "name": "education",
-  "version": "3.0.0",
+  "version": "4.0.0",
   "description": "Teaching aids with Java Tutor agent, Markdown syntax formatter agent and skill, Markdown-to-PDF conversion, and code explanation for IT education",
   "keywords": ["education", "teaching", "learning", "students", "markdown", "formatting", "pdf"],
   "license": "MIT",

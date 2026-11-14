@@ -18,14 +18,14 @@ SCRIPT = Path(__file__).resolve().parent / "md_to_pdf.py"
 
 
 def these_cfg(**felder):
-    basis = {"titel": "T", "autor": "A", "referent": ["R"], "eingereicht_bei": ["E"], "wohnort": "W"}
+    basis = {"title": "T", "author": "A", "supervisor": ["R"], "submitted_to": ["E"], "residence": "W"}
     basis.update(felder)
-    return {"these": basis, "groesse": "11pt"}
+    return {"thesis": basis, "font_size": "11pt"}
 
 
 class ThesisWerteTest(unittest.TestCase):
     def test_institution_wird_vor_den_studiengang_gesetzt(self):
-        werte = m.thesis_werte(these_cfg(institution="Hochschule X", studiengang="INF"), Path("."), Path("."), False, False)
+        werte = m.thesis_werte(these_cfg(institution="Hochschule X", program="INF"), Path("."), Path("."), False, False)
         self.assertEqual(werte["INSTITUTION"], "Hochschule X\\crlf ")
 
     def test_ohne_institution_bleibt_der_platzhalter_leer(self):
@@ -104,16 +104,16 @@ class ConfigValidationTest(unittest.TestCase):
             return m.load_config(pfad)
 
     def test_text_statt_liste_ist_erlaubt_fuer_referent(self):
-        cfg = self.lade('[these]\ntitel = "T"\nreferent = "Name"\n')
-        self.assertEqual(cfg["these"]["referent"], "Name")
+        cfg = self.lade('[thesis]\ntitle = "T"\nsupervisor = "Name"\n')
+        self.assertEqual(cfg["thesis"]["supervisor"], "Name")
 
     def test_liste_fuer_titel_wird_abgelehnt(self):
         with self.assertRaises(SystemExit):
-            self.lade('[these]\ntitel = ["T"]\n')
+            self.lade('[thesis]\ntitle = ["T"]\n')
 
     def test_unbekannter_schluessel_wird_abgelehnt(self):
         with self.assertRaises(SystemExit):
-            self.lade('[these]\nfoo = "x"\n')
+            self.lade('[thesis]\nfoo = "x"\n')
 
     def test_zeilenabstand_folgt_der_schriftgroesse(self):
         self.assertEqual(m.zeilenabstand("11pt"), "19.8pt")
@@ -138,18 +138,18 @@ class ThesisValuesTest(unittest.TestCase):
     def test_zeilenabstand_im_werte_dict(self):
         with tempfile.TemporaryDirectory() as t:
             werte = m.thesis_werte(these_cfg(), Path(t), Path(t), False, False)
-        self.assertEqual(werte["ZEILENABSTAND"], "19.8pt")
+        self.assertEqual(werte["LINE_SPACING"], "19.8pt")
 
 
 @unittest.skipUnless(shutil.which("pandoc") and shutil.which("context"), "pandoc und context nötig")
 class EndToEndTest(unittest.TestCase):
     def test_thesis_baut_pdf(self):
         md = "# Zusammenfassung\n\nZ\n\n# Einleitung\n\nE\n\n## Unter\n\nU\n\n# Literatur\n\nL\n"
-        toml = '[these]\ntitel = "T"\nautor = "A"\nreferent = ["R"]\neingereicht_bei = ["E"]\nwohnort = "W"\n'
+        toml = '[thesis]\ntitle = "T"\nauthor = "A"\nsupervisor = ["R"]\nsubmitted_to = ["E"]\nresidence = "W"\n'
         with tempfile.TemporaryDirectory() as t:
             quelle = Path(t) / "these.md"
             quelle.write_text(md, encoding="utf-8")
-            (Path(t) / "md-to-pdf.toml").write_text('profil = "thesis"\n' + toml, encoding="utf-8")
+            (Path(t) / "md-to-pdf.toml").write_text('profile = "thesis"\n' + toml, encoding="utf-8")
             ziel = Path(t) / "out" / "these.pdf"
             res = subprocess.run([sys.executable, str(SCRIPT), str(quelle), str(ziel)], capture_output=True, text=True)
             self.assertEqual(res.returncode, 0, res.stdout + res.stderr)
@@ -203,9 +203,9 @@ class TabellenBeschriftungTest(unittest.TestCase):
 class CodeblockFrameTest(unittest.TestCase):
     def test_codeblock_rahmen_nach_pandoc_definetyping(self):
         md = "# Titel\n\n```python\ndef f(x):\n    return x + 1\n```\n"
-        for profil_toml in ('', 'profil = "thesis"\n[these]\ntitel = "T"\nautor = "A"\nreferent = ["R"]\n'
-                            'eingereicht_bei = ["E"]\nwohnort = "W"\n'):
-            with self.subTest(profil=bool(profil_toml)), tempfile.TemporaryDirectory() as t:
+        for profil_toml in ('', 'profile = "thesis"\n[thesis]\ntitle = "T"\nauthor = "A"\nsupervisor = ["R"]\n'
+                            'submitted_to = ["E"]\nresidence = "W"\n'):
+            with self.subTest(profile=bool(profil_toml)), tempfile.TemporaryDirectory() as t:
                 quelle = Path(t) / "q.md"
                 quelle.write_text(md, encoding="utf-8")
                 (Path(t) / "md-to-pdf.toml").write_text(profil_toml, encoding="utf-8")

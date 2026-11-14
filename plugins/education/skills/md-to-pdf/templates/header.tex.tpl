@@ -10,9 +10,9 @@
 \usepackage{newunicodechar}
 \definecolor{fhgrey}{gray}{0.4}
 
-\newcommand{\dokKopfLinks}{\small\textcolor{fhgrey}{{{KOPF_LINKS}}}}
-\newcommand{\dokKopfRechts}{\small\textcolor{fhgrey}{{{KOPF_RECHTS}}}}
-\newcommand{\dokFussLinks}{\small\textcolor{fhgrey}{{{FUSS_LINKS}}}}
+\newcommand{\dokKopfLinks}{\small\textcolor{fhgrey}{{{HEADER_LEFT}}}}
+\newcommand{\dokKopfRechts}{\small\textcolor{fhgrey}{{{HEADER_RIGHT}}}}
+\newcommand{\dokFussLinks}{\small\textcolor{fhgrey}{{{FOOTER_LEFT}}}}
 \newcommand{\dokFussRechts}{\small\textcolor{fhgrey}{Seite \thepage{} von \pageref{LastPage}}}
 
 \pagestyle{fancy}
@@ -42,5 +42,5 @@
 \AtBeginEnvironment{tabular}{\footnotesize\setlength{\tabcolsep}{4pt}}
 
 \usepackage{fontspec}
-\setmainfont{{{SCHRIFT}}}[Ligatures=TeX]
+\setmainfont{{{FONT}}}[Ligatures=TeX]
 {{FALLBACK_DEF}}
