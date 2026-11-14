@@ -45,6 +45,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
+- **core 5.0.0** (breaking): `ponytail-review`, `ponytail-audit` and `ponytail-debt` are modes of one skill, `/core:ponytail review|audit|debt`; the mode details load from a reference file only when used. Always-on behaviour, levels and rules are unchanged
 - **dev-browser** (breaking): plugin removed from the marketplace. Navigating, filling forms, screenshots and testing are covered by the Playwright MCP server, the Claude in Chrome extension and the built-in browser skill; the plugin's own differences (persistent profile, sandbox proxy detection, a 117-line helper script) did not justify a separate plugin. Last published version 1.0.0 stays in the Git history
 - **education 5.0.0** (breaking): removed the command and skill `explain-code` and the agents `java-tutor` and `markdown-syntax-formatter` (generic tutoring and explaining, plus a duplicate of the skill). The `markdown-syntax-formatter` skill shrank from 207 to about 30 lines; `md-to-pdf` is unchanged. The marketplace no longer ships any agent. **obsidian 2.0.1**: the wiki skills call the formatter as a skill, not as an agent
 - **development 3.0.0** (breaking): `init-project` removed. It listed files a current model creates unprompted, and its `develop` default contradicted the trunk-based workflow. The conventions (Gradle Kotlin DSL instead of Maven, Java 21, initial commit via `/git-workflow:commit`) move into the project's `CLAUDE.md`. `update-documents` stays

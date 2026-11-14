@@ -1,8 +1,8 @@
 # Core Plugin
 
-## Version 4.0.0
+## Version 5.0.0
 
-Validation for plugin commands and agents, plus a few standalone skills: text humanising, PDF to Markdown, AntML prompt writing, and the Ponytail minimalism suite.
+Validation for plugin commands and agents, plus a few standalone skills: text humanising, PDF to Markdown, AntML prompt writing, and the Ponytail minimalism skill.
 
 ## Commands
 
@@ -18,12 +18,9 @@ Validation for plugin commands and agents, plus a few standalone skills: text hu
 | `humanizer` | Removes the signs of AI-written text (inflated wording, rule-of-three, vague attributions, em-dash overuse), based on Wikipedia's "Signs of AI writing". |
 | `pdf-to-markdown` | Converts PDFs to Markdown: fast text extraction (PyMuPDF) or vision mode via the Anthropic API for complex layouts (`--use-api`, default model `claude-opus-5-5`). |
 | `antml-prompt-writer` | Writes system prompts and meta prompts for Claude harnesses that use AntML (function calling, thinking, citations, sub-agents). |
-| `ponytail` | Lazy-coding discipline: question the task, prefer the standard library and native features, one line before fifty. Levels `lite`, `full`, `ultra`. |
-| `ponytail-review` | Reviews a diff for over-engineering only: what to delete. |
-| `ponytail-audit` | The same for the whole repository, as a ranked list. |
-| `ponytail-debt` | Collects every `ponytail:` comment into a ledger of deferred shortcuts. |
+| `ponytail` | Lazy-coding discipline: question the task, prefer the standard library and native features, one line before fifty. Levels `lite`, `full`, `ultra`. Modes: `/core:ponytail review` (diff review for over-engineering), `audit` (the same for the whole repository, ranked), `debt` (ledger of every `ponytail:` shortcut comment). |
 
-The Ponytail skills are adapted from [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail) (MIT).
+The Ponytail skill is adapted from [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail) (MIT).
 
 ## Installation
 
@@ -39,6 +36,10 @@ The Ponytail skills are adapted from [DietrichGebert/ponytail](https://github.co
 ```
 
 ## Changelog
+
+### Version 5.0.0 (2026-11-14)
+
+**Breaking:** the four Ponytail skills are one skill. `ponytail-review`, `ponytail-audit` and `ponytail-debt` became the modes `review`, `audit` and `debt` of `/core:ponytail` (`/core:ponytail review` and so on); their tags and output formats moved to `skills/ponytail/references/modes.md`, which is read only when a mode runs. The always-on discipline, levels and rules are unchanged. The skill count of the plugin drops from 7 to 4.
 
 ### Version 4.0.0 (2026-11-14)
 
