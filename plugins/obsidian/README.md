@@ -420,8 +420,8 @@ obsidian/
 
 ## Related Plugins
 
-- **[Project Management](project-management.md)** — PRD and task planning
-- **[Git Workflow](git-workflow.md)** — Commit and PR automation
+- **[Project Management](https://talent-factory.github.io/claude-plugins/plugins/project-management/)** — PRD and task planning
+- **[Git Workflow](https://talent-factory.github.io/claude-plugins/plugins/git-workflow/)** — Commit and PR automation
 
 ---
 

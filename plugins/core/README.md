@@ -152,7 +152,7 @@ Execute CI checks locally and fix all errors until tests pass.
 
 ## Agents
 
-See [Skills & Agents Activation Guide](../reference/skills-agents-activation.md) for detailed activation instructions.
+See [Skills & Agents Activation Guide](https://talent-factory.github.io/claude-plugins/reference/skills-agents-activation/) for detailed activation instructions.
 
 ### Agent Expert
 
@@ -201,7 +201,7 @@ Expert for creating CLI commands for automation and tooling.
 
 ## Skills
 
-See [Skills & Agents Activation Guide](../reference/skills-agents-activation.md) for detailed activation instructions.
+See [Skills & Agents Activation Guide](https://talent-factory.github.io/claude-plugins/reference/skills-agents-activation/) for detailed activation instructions.
 
 ### Humanizer
 
@@ -281,7 +281,7 @@ brew install poppler  # macOS
 
 **Location:** `skills/pdf-to-markdown/SKILL.md`
 
-[:octicons-arrow-right-24: PDF to Markdown Guide](../guides/pdf-to-markdown.md)
+[:octicons-arrow-right-24: PDF to Markdown Guide](https://talent-factory.github.io/claude-plugins/guides/pdf-to-markdown/)
 
 ### Ponytail (Minimalism Suite)
 

@@ -36,7 +36,7 @@ Lint and format all Python files in the project with Ruff.
 
 ## Agents
 
-All agents activate automatically based on context. See [Skills & Agents Activation Guide](../reference/skills-agents-activation.md) for details.
+All agents activate automatically based on context. See [Skills & Agents Activation Guide](https://talent-factory.github.io/claude-plugins/reference/skills-agents-activation/) for details.
 
 ### Code Reviewer
 

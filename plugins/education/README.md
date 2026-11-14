@@ -264,9 +264,9 @@ This plugin is designed to complement computer science curricula:
 
 ## Related Plugins
 
-- **[Code Quality](code-quality.md)** - Python and Frontend expert agents
-- **[Development](development.md)** - Java developer agent
-- **[Core Utilities](core.md)** - Plugin development and validation
+- **[Code Quality](https://talent-factory.github.io/claude-plugins/plugins/code-quality/)** - Python and Frontend expert agents
+- **[Development](https://talent-factory.github.io/claude-plugins/plugins/development/)** - Java developer agent
+- **[Core Utilities](https://talent-factory.github.io/claude-plugins/plugins/core/)** - Plugin development and validation
 
 ---
 
