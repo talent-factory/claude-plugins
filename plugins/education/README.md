@@ -2,7 +2,7 @@
 
 Teaching aids, code explanations, and student support for IT education.
 
-## Version 3.0.0
+## Version 4.0.0
 
 This plugin provides educational tools for students and instructors, including code explanations, a Java Tutor agent, Markdown formatting skills, and Markdown-to-PDF conversion.
 
@@ -207,6 +207,24 @@ This plugin is designed to complement computer science curricula:
 ---
 
 ## Changelog
+
+### Version 4.0.0 (2026-11-14)
+
+**Breaking:** the command-line options, `md-to-pdf.toml` keys and `[these]` fields of `md-to-pdf` are renamed to English, in line with the repository language policy. The old names are rejected, there are no aliases. Migration:
+
+| Before | After |
+|---|---|
+| `--profil`, `profil` | `--profile`, `profile` |
+| `--kopf-links`, `--kopf-rechts` / `kopf_links`, `kopf_rechts` | `--header-left`, `--header-right` / `header_left`, `header_right` |
+| `--fuss-links`, `--fuss-rechts` / `fuss_links`, `fuss_rechts` | `--footer-left`, `--footer-right` / `footer_left`, `footer_right` |
+| `--schrift`, `--groesse`, `--rand` / `schrift`, `groesse`, `rand` | `--font`, `--font-size`, `--margin` / `font`, `font_size`, `margin` |
+| `--fallback-zeichen` / `fallback_zeichen` | `--fallback-chars` / `fallback_chars` |
+| `--mermaid-breite` / `mermaid_breite` | `--mermaid-width` / `mermaid_width` |
+| `[these]` | `[thesis]` |
+| `titel`, `untertitel`, `dokumenttyp`, `studiengang` | `title`, `subtitle`, `document_type`, `program` |
+| `autor`, `referent_rolle`, `referent`, `eingereicht_bei` | `author`, `supervisor_role`, `supervisor`, `submitted_to` |
+| `wohnort`, `datum`, `widmung`, `titelbild` | `residence`, `date`, `dedication`, `title_image` |
+| `institution`, `logo` | unchanged |
 
 ### Version 3.0.0 (2026-11-14)
 
