@@ -116,9 +116,9 @@ Task management via Obsidian TaskNotes Plugin API with natural language support 
 
 ### :material-laptop: Development
 
-Project initialisation with Git branching, community files and Java/Python scaffolding, plus documentation synchronisation.
+Documentation synchronisation between CLAUDE.md, README.md and docs/.
 
-**Skills:** `init-project`, `update-documents`
+**Skills:** `update-documents`
 
 [:octicons-arrow-right-24: Learn more](plugins/development.md){ .md-button }
 

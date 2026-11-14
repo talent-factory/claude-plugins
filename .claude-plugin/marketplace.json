@@ -100,11 +100,11 @@
     },
     {
       "name": "development",
-      "description": "Open source project initialisation (Git branching, community files, GitHub templates, Gradle Kotlin DSL or Python/uv scaffolding) and documentation synchronisation",
+      "description": "Documentation synchronisation between CLAUDE.md, README.md and docs/ with deterministic, whitespace-tolerant rules",
       "source": "./plugins/development",
       "category": "development",
-      "version": "2.0.0",
-      "tags": ["java", "gradle", "python", "uv", "project-init", "github", "documentation"]
+      "version": "3.0.0",
+      "tags": ["documentation", "sync", "claude-md"]
     },
     {
       "name": "dev-browser",

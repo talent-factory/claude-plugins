@@ -14,7 +14,7 @@ Browse all available plugins in the Talent Factory marketplace. Each plugin prov
 | [Education](education.md)                   | 4.0.0   | 1        | 2      | 3      | teaching, learning, markdown, PDF   |
 | [Core Utilities](core.md)                   | 4.0.0   | 2        | 0      | 7      | validation, PDF, ponytail, AntML  |
 | [Obsidian Integration](obsidian.md)         | 2.0.0   | 0        | 0      | 9     | tasks, Obsidian, wiki, briefing, ideas |
-| [Development](development.md)               | 2.0.0   | 0        | 0      | 2      | java, gradle, python, documentation |
+| [Development](development.md)               | 3.0.0   | 0        | 0      | 1      | documentation, sync |
 | [Dev Browser](dev-browser.md)               | 1.0.0   | 0        | 0      | 1      | browser, playwright, scraping, testing |
 
 ---
@@ -68,9 +68,9 @@ Browse all available plugins in the Talent Factory marketplace. Each plugin prov
 
   ***
 
-  Project initialisation with Git branching, community files, Gradle Kotlin DSL or Python/uv scaffolding, and documentation synchronisation.
+  Documentation synchronisation between CLAUDE.md, README.md and docs/.
 
-  **Skills:** `init-project`, `update-documents`
+  **Skills:** `update-documents`
 
   [:octicons-arrow-right-24: Details](development.md)
 
@@ -183,7 +183,6 @@ To install plugins from this marketplace:
 | Daily Briefing     |      No      |      No      |      No      |     No      |    No     |  No  |   Yes    |     No      |
 | GitHub Pulse       |      No      |      No      |      No      |     No      |    No     |  No  |   Yes    |     No      |
 | Idea Mining        |      No      |      No      |      No      |     No      |    No     |  No  |   Yes    |     No      |
-| Project Init       |      No      |      No      |      No      |     Yes     |    No     |  No  |    No    |     No      |
 | EPIC Automation    |      No      |     Yes      |      No      |     No      |    No     |  No  |    No    |     No      |
 | Browser Automation |      No      |      No      |      No      |     No      |    No     |  No  |    No    |     Yes     |
 | Web Scraping       |      No      |      No      |      No      |     No      |    No     |  No  |    No    |     Yes     |
