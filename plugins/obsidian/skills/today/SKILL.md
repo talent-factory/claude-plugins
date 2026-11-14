@@ -45,7 +45,7 @@ TASKNOTES="${CLAUDE_PLUGIN_ROOT}/skills/tasknotes/scripts/tasks.py"
 [ -f "$TASKNOTES" ] || TASKNOTES=$(find ~/.claude/plugins/cache/talent-factory/obsidian \
   -name "tasks.py" -path "*/tasknotes/scripts/*" 2>/dev/null | sort -V | tail -1)
 ```
-If `TASKNOTES` remains empty, fall back to the direct file scan in Step 1b.
+If `TASKNOTES` remains empty, skip Step 1.
 
 ## Execution Steps
 
@@ -54,8 +54,6 @@ briefing afterwards. Every source degrades gracefully: if one is unavailable,
 skip it and continue with the rest.
 
 ### Step 1 — TaskNotes
-
-**1a — via script (preferred):**
 
 ```bash
 uv run "$TASKNOTES" list --scan \
@@ -86,31 +84,7 @@ print(json.dumps(out, indent=2))
 "
 ```
 
-**1b — direct file scan (fallback when script is unavailable):**
-
-```bash
-grep -rl 'tags:.*task\|tag: task' "$VAULT" --include="*.md" -l \
-  | xargs python3 -c "
-import sys, re
-from datetime import date
-from pathlib import Path
-today = date.today().isoformat()
-for path in sys.argv[1:]:
-    text = Path(path).read_text()
-    fm = re.search(r'^---\n(.*?)\n---', text, re.DOTALL)
-    if not fm: continue
-    block = fm.group(1)
-    def val(k): m = re.search(rf'^{k}:\s*(.+)', block, re.M); return m.group(1).strip() if m else ''
-    status = val('status')
-    if status == 'done': continue
-    due = val('due')[:10]; sched = val('scheduled')[:10]
-    if due == today or sched == today:    bucket = 'today'
-    elif due and due < today:             bucket = 'overdue'
-    elif status == 'in-progress':         bucket = 'in-progress'
-    else: continue
-    print(bucket, Path(path).stem, 'due='+due, 'sched='+sched, 'prio='+val('priority'))
-"
-```
+If the script is unavailable (no `uv`, plugin not found), skip TaskNotes and say so in the terminal summary.
 
 Relevant fields per task: filename (= title), `priority`, `due`, `scheduled`,
 `status`, `projects`, `_bucket`.
@@ -143,49 +117,10 @@ Flag a thread as "needs reply" if the last message in the thread is not from
 
 ### Step 4 — Plane
 
-Plane is the ticket system. The MCP server `plane` serves all workspaces; pass
-the workspace on every call as `workspace: $PLANE_WORKSPACE`. If `PLANE_WORKSPACE` is not set, skip this step and note "Plane not configured".
+Plane is the ticket system. The MCP server `plane` serves all workspaces; pass the workspace on every call as `workspace: $PLANE_WORKSPACE`. If `PLANE_WORKSPACE` is not set, skip this step and note "Plane not configured".
 
-The self-hosted Plane edition has two limits that shape this step:
+Fetch the work items as described in [_shared/plane-graphql.md](../_shared/plane-graphql.md) (self-hosted limits, one GraphQL query for all projects, paging until `hasNextPage` is `false`, REST fallback). Then filter:
 
-- **No PQL**, neither in `workitem list` nor in GraphQL `workItems(pql:)`. Both
-  reject it with HTTP 400. Filter client-side.
-- **No workspace-wide list.** `workitem list` and a root-level `workItems`
-  without `project` return HTTP 404. Go through the projects instead.
-
-GraphQL (`mcp__plane__graphql_query`) fetches all projects in one call:
-
-1. `mcp__plane__member` with `action: me` → `me.id`.
-2. One GraphQL query for every project:
-   ```graphql
-   { projects { id identifier
-       workItems(first: 100) {
-         hasNextPage nextCursor
-         results { identifier name priority targetDate completedAt
-                   state { name group } assignees { id } } } } }
-   ```
-   The result is large (all items, including done ones) and lands in a file.
-   Filter it with `jq` or Python instead of reading it into context.
-3. For every project with `hasNextPage: true`, page through it with
-   `project(id:)`. **Keep going until `hasNextPage` is `false`**: open items
-   (e.g. an old epic) often sit on the last page, so stopping early drops
-   real work. Use a safety cap of 20 pages per project and note it in the
-   terminal summary if the cap is hit.
-   ```graphql
-   { project(id: "<project id>") { identifier
-       workItems(first: 100, after: "<nextCursor>") {
-         hasNextPage nextCursor
-         results { identifier name priority targetDate completedAt
-                   state { name group } assignees { id } } } } }
-   ```
-   Notes for unattended runs:
-   - Use the `nextCursor` the previous page returned (e.g. `100:1:0`, then
-     `100:2:0`), never a guessed one.
-   - A page may come back with `results` as a compact table string
-     (`[N]{field,...}` header plus CSV-like rows) instead of a JSON array.
-     Parse both forms.
-   - On HTTP 429, wait 5 seconds and retry the same page, at most 2 times,
-     before skipping it. If a page is skipped, say so in the terminal summary.
 4. Keep an item only if all of these hold:
    - `me.id` is in `assignees[].id`
    - `state.group` is `unstarted` or `started`, or it is `backlog` and
@@ -197,11 +132,6 @@ GraphQL (`mcp__plane__graphql_query`) fetches all projects in one call:
    `high`, `medium`, `low`, `none`), `targetDate`, `state.name`.
 
 Deep link: `<PLANE_URL>/<workspace>/browse/<identifier>/` (plain identifier if `PLANE_URL` is not set)
-
-If the GraphQL tool is unavailable, fall back to REST: `mcp__plane__project`
-`action: list`, then `mcp__plane__workitem` `action: list` per project with
-`project_id` and `expand: state`. Note the REST assignee ids can differ from
-`me.id`; compare via `expand: assignees` or skip the assignee check and say so.
 
 If Plane is not connected at all, skip it silently and note "Plane unavailable"
 in the terminal summary.
@@ -218,36 +148,7 @@ The script reads the list filter only from the environment. Resolve
 export it in the same shell command, e.g. `REMINDERS_LISTS="Inbox,Work" python3 - <<'PY'`.
 Leave it unset to include all lists.
 
-```bash
-python3 - <<'PY'
-import json, os, subprocess
-from datetime import date, datetime
-
-today = date.today()
-lists = {s.strip() for s in os.environ.get("REMINDERS_LISTS", "").split(",") if s.strip()}
-seen, out = set(), []
-for flt in ("overdue", "today"):
-    r = subprocess.run(["remindctl", "show", flt, "--json", "--no-input"],
-                       capture_output=True, text=True)
-    if r.returncode:
-        continue
-    for rem in json.loads(r.stdout or "[]"):
-        if rem["id"] in seen or rem.get("isCompleted"):
-            continue
-        if lists and rem.get("listName") not in lists:
-            continue
-        seen.add(rem["id"])
-        due = rem.get("dueDate")
-        d = datetime.fromisoformat(due.replace("Z", "+00:00")).astimezone() if due else None
-        age = (today - d.date()).days if d else 0
-        rem["_due_local"] = d.isoformat(timespec="minutes") if d else None
-        rem["_all_day"] = bool(d) and d.hour == 0 and d.minute == 0
-        rem["_age_days"] = max(age, 0)
-        rem["_bucket"] = "today" if age <= 0 else ("overdue" if age <= 7 else "stale")
-        out.append(rem)
-print(json.dumps(out, indent=2, ensure_ascii=False))
-PY
-```
+Run the script in [references/reminders.md](references/reminders.md). It reads the list filter only from the environment.
 
 Buckets:
 
