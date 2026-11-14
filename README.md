@@ -171,29 +171,6 @@ Expert development agents, project initialization with Git branching, Gradle Kot
 
 ---
 
-### 🌉 Gemini Bridge
-
-Model-agnostic bridge to Google Gemini 2.5 Pro for long-context codebase analysis (1M tokens), multimodal vision, and independent model validation.
-
-**Commands:**
-
-- `/gemini-bridge:analyze` - Delegate text/code analysis to Gemini
-- `/gemini-bridge:compare` - Compare two approaches with Gemini as neutral reviewer
-- `/gemini-bridge:vision` - Convert screenshots/diagrams to code or docs
-
-**Agents:**
-
-- Gemini Analyst - Sub-agent for Gemini delegation
-- Model Router - Orchestrator with capability-based routing logic
-
-**Skills:**
-
-- Gemini Analyst - Background knowledge for effective Gemini Bridge usage
-
-[📖 Documentation](./plugins/gemini-bridge/README.md)
-
----
-
 ### 📝 Obsidian Integration
 
 Task management via TaskNotes Plugin API with natural language support (DE/EN).
@@ -275,8 +252,7 @@ Task management via TaskNotes Plugin API with natural language support (DE/EN).
     "code-quality@talent-factory": true,
     "core@talent-factory": true,
     "development@talent-factory": true,
-    "obsidian@talent-factory": true,
-    "gemini-bridge@talent-factory": true
+    "obsidian@talent-factory": true
   }
 }
 ```

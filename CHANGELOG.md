@@ -42,6 +42,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - **Repository workflow**: switched to **trunk-based development**. Retired the `develop` integration branch — `main` is now the single long-lived branch and the live marketplace source; all work lands via short-lived branches and Pull Requests to `main`. Updated branch protection, CI triggers (`validate-plugins.yml`, `branch-protection.yml`), `CLAUDE.md`, `CONTRIBUTING.md`, and `.github/BRANCH_PROTECTION_SETUP.md`. Rationale: a dedicated `develop` only pays off with batched, staged releases against a consuming environment, which this marketplace does not have.
 
+### Removed
+
+- **gemini-bridge**: plugin removed from the marketplace. Its two reasons no longer hold: Claude models now handle 1M-token contexts and native image/PDF input themselves, and the plugin's own routing rules ("use Gemini above ~150K tokens or for images") depended on the old limits. Users who enabled `gemini-bridge@talent-factory` should remove it from `enabledPlugins`. The last published version is 1.1.0 and stays available in the Git history.
+
 ### Fixed
 
 - **core 3.3.1**: `pdf-to-markdown` default model is `claude-opus-5-5`; `check-commands` examples use existing paths
