@@ -1,530 +1,70 @@
 # Project Management Plugin
 
-Comprehensive project management tools for PRD generation, project planning, task implementation with Linear integration and git worktree workflow.
+## Version 3.0.0
 
-## Version 2.8.2
-
-**New in 2.8.0:** `implement-task --plane` adds Plane as a task provider next to filesystem and Linear, with state transitions and `Closes <identifier>` in the PR body.
-
-- 📋 `/project-management:init-task` — Single-task creation with duplicate detection, ATOMIC validation, and mandatory Definition of Done
-- 📄 Extended task template with Type, Plan, and Definition of Done fields
-
-**Previous:**
-
-- 🧠 Intelligent plugin orchestration for `/project-management:implement-task` (Superpowers brainstorm, agent routing, quality gate)
-- ⚡ Skip options: `--skip-brainstorm`, `--skip-quality-gate`
-
-- 🤖 `/project-management:implement-epic` - Fully autonomous EPIC implementation with parallel agents
-- 🔄 Autonomous Loop Integration - Self-sustaining development loops via Stop hooks
-- 👥 `epic-orchestrator` Agent - Coordinates parallel task agents
-- 📊 Real-time progress tracking
-
-## Commands
-
-### `/project-management:create-prd`
-
-Generate professional Product Requirements Documents (PRDs) for features and products.
-
-**Features:**
-
-- 📋 Comprehensive PRD structure with all essential sections
-- 🎯 Goal-oriented format with clear objectives
-- 👥 User personas and use cases
-- 📊 Success metrics and KPIs
-- 🔧 Technical requirements and constraints
-- 🗺️ Implementation roadmap
-- 📚 Extensive templates and best practices
-
-**Usage:**
-
-```bash
-/project-management:create-prd
-```
-
-**PRD Sections:**
-
-- Executive Summary
-- Goals & Objectives
-- User Personas
-- User Stories & Use Cases
-- Functional Requirements
-- Non-Functional Requirements
-- Technical Architecture
-- Success Metrics
-- Implementation Phases
-- Risks & Mitigation
-
-**References:**
-
-- [Best Practices](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/create-prd/best-practices.md) - PRD quality guidelines
-- [Sections Guide](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/create-prd/sections-guide.md) - Detailed section templates
-- [Templates](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/create-prd/templates.md) - Ready-to-use PRD templates
-
-### `/project-management:create-plan`
-
-Transform PRDs into actionable project plans with task breakdown and Linear integration.
-
-**Features:**
-
-- 📋 Automatic task extraction from PRD
-- 🎯 Task prioritization and dependencies
-- 👥 Agent-to-task mapping
-- 🔗 Linear issue creation and synchronization
-- 📂 Filesystem-based plan management
-- 🗂️ Hierarchical task organization
-
-**Usage:**
-
-```bash
-/project-management:create-plan                    # From filesystem PRD
-/project-management:create-plan --linear ISSUE-123 # From Linear issue
-```
-
-**Plan Structure:**
-
-- High-level milestones
-- Detailed task breakdown
-- Agent assignment recommendations
-- Dependency mapping
-- Estimated complexity
-- Priority levels
-
-**References:**
-
-- [Agent Mapping](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/create-plan/agent-mapping.md) - Agent selection guidelines
-- [Best Practices](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/create-plan/best-practices.md) - Planning methodologies
-- [Filesystem](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/create-plan/filesystem.md) - File-based plan storage
-- [Linear Integration](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/create-plan/linear-integration.md) - Linear API usage
-- [Task Breakdown](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/create-plan/task-breakdown.md) - Task decomposition strategies
-
-### `/project-management:init-task`
-
-Initialize a single task with duplicate detection, ATOMIC validation, and mandatory Definition of Done (Filesystem or Linear).
-
-**Features:**
-
-- 🔍 Duplicate detection across filesystem and Linear
-- ✅ ATOMIC validation (Actionable, Testable, Ownable, Measurable, Independent, Complete)
-- 📋 Mandatory Definition of Done with 4 default items
-- 🧙 Interactive wizard with 10-step guided creation
-- ⚡ Inline mode for quick task creation via arguments
-- 📂 Plan-attached or standalone (adhoc) task support
-- 🔗 Linear integration for issue creation
-
-**Usage:**
-
-```bash
-/project-management:init-task                                          # Interactive wizard
-/project-management:init-task --plan dark-mode-toggle                  # Attach to plan
-/project-management:init-task "Fix auth timeout" --type bug --priority must  # Inline
-/project-management:init-task --linear                                 # Linear provider
-/project-management:init-task "Refactor queries" --standalone          # Standalone
-```
-
-**References:**
-
-- [Task Template](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/init-task/task-template.md) - Standardized task structure
-- [Duplicate Detection](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/init-task/duplicate-detection.md) - Search and matching logic
-- [Validation Rules](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/init-task/validation-rules.md) - ATOMIC validation and DoD requirements
-
-### `/project-management:implement-task`
-
-Implement tasks with git worktree workflow, branch creation, and PR automation.
-
-**Features:**
-
-- 🌲 Git worktree creation for isolated development
-- 🌿 Automatic branch creation and management
-- 📝 Task status tracking
-- 🔗 Linear issue synchronization
-- 🗂️ Plane work item synchronization (`--plane`)
-- 🚀 PR creation integration
-- ✅ Completion verification
-
-**Usage:**
-
-```bash
-/project-management:implement-task                 # From filesystem plan
-/project-management:implement-task TASK-ID         # Specific task
-/project-management:implement-task --linear ISSUE  # From Linear
-/project-management:implement-task --plane PROJ-123  # From Plane
-```
-
-**Workflow:**
-
-1. Creates git worktree for task
-2. Checks out new feature branch
-3. Tracks implementation progress
-4. Updates task status
-5. Creates PR when complete
-6. Synchronizes with Linear or Plane
-
-**References:**
-
-- [Best Practices](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/implement-task/best-practices.md) - Implementation guidelines
-- [Filesystem](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/implement-task/filesystem.md) - Task file management
-- [Linear](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/implement-task/linear.md) - Linear integration
-- [Plane](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/implement-task/plane.md) - Plane integration
-- [Troubleshooting](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/implement-task/troubleshooting.md) - Common issues
-- [Workflow](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/implement-task/workflow.md) - Complete workflow guide
-
-### `/project-management:implement-epic`
-
-**Autonomous, parallel EPIC implementation** using native Claude Code autonomous loops for self-sustaining development cycles.
-
-**Features:**
-
-- 🤖 **Fully Autonomous** - Initiates and coordinates all tasks independently
-- 🔀 **Parallel Execution** - Multiple tasks simultaneously in separate worktrees
-- 🔄 **Autonomous Loops** - Iterative cycles until success using Stop hooks
-- 👀 **Auto-Review** - Automatic code reviews with fix loops
-- 📊 **Live Tracking** - Real-time progress display
-- 🛡️ **Fault Tolerance** - Blocked tasks are documented while others continue
-
-**Usage:**
-
-```bash
-/project-management:implement-epic                              # Interactive selection
-/project-management:implement-epic dark-mode-toggle             # Plan name
-/project-management:implement-epic --linear PROJ-123            # Linear EPIC
-/project-management:implement-epic feature-x --max-parallel 5   # With options
-```
-
-**Workflow:**
-
-```
-1. Load EPIC & analyze dependency graph
-         ↓
-2. Identify parallelizable tasks (no blockers)
-         ↓
-3. Per task: Start agent in dedicated worktree
-         ↓
-4. Autonomous loop for implementation (until TASK_COMPLETE)
-         ↓
-5. Autonomous loop for review (until REVIEW_COMPLETE)
-         ↓
-6. Update STATUS.md, start next tasks
-         ↓
-7. Repeat until all tasks complete
-```
-
-**Options:**
-
-| Option             | Default | Description                 |
-| ------------------ | ------- | --------------------------- |
-| `--max-parallel`   | 3       | Maximum concurrent agents   |
-| `--max-iterations` | 30      | Maximum iterations per task |
-| `--skip-review`    | false   | Skip review phase           |
-| `--dry-run`        | false   | Display analysis only       |
-
-**References:**
-
-- [Orchestrator Architecture](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/implement-epic/orchestrator-architecture.md) - Technical details
-- [Autonomous Loop Integration](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/implement-epic/autonomous-loop-integration.md) - Loop configuration
-- [Parallel Strategies](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/implement-epic/parallel-strategies.md) - Parallelization patterns
-- [Troubleshooting](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/implement-epic/troubleshooting.md) - Common issues
-
-### `/project-management:document-handoff`
-
-Create handoff documentation before `/compact` for seamless context continuation.
-
-**Features:**
-
-- 📋 Captures current task state and progress
-- 🔄 Ensures seamless context continuation after compaction
-- 📝 Documents decisions, blockers, and next steps
-- 🔗 Linear issue synchronization support
-
-**Usage:**
-
-```bash
-/project-management:document-handoff
-/project-management:document-handoff "Feature Implementation"
-/project-management:document-handoff --linear-issue PROJ-177
-```
-
-**References:**
-
-- [Best Practices](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/document-handoff/best-practices.md) - Handoff quality guidelines
-- [Examples](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/document-handoff/examples.md) - Example handoff documents
-- [Templates](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/document-handoff/templates.md) - Ready-to-use templates
+Planning and implementation workflow for features: from a PRD to a file-based plan, to tasks implemented in isolated git worktrees with a pull request each.
 
 ## Skills
 
-### document-handoff
+All skills are invoked as `/project-management:<name>` and also activate from natural language.
 
-Creates comprehensive handoff documentation before a `/compact` operation, enabling a fresh agent to continue without any prior context.
+| Skill | What it does |
+|---|---|
+| `create-prd` | Writes a Product Requirements Document: problem, SMART objectives, stories with acceptance criteria, prioritised requirements, scope, risks. |
+| `create-plan` | Turns the PRD into `.plans/<feature>/` with `EPIC.md`, `STATUS.md` (dependency graph) and atomic task files (Story Points 1 to 8). |
+| `init-task` | Adds one task: duplicate detection, ATOMIC validation, mandatory Definition of Done. |
+| `implement-task` | One task end to end: context analysis, worktree and branch, draft PR, status update on the default branch, implementation with tests, quality gate, PR. Source: `.plans/` or Plane (`--plane`). |
+| `implement-epic` | A whole plan in dependency waves with parallel subagents in separate worktrees. Many tokens: it shows the waves and asks first. |
+| `document-handoff` | Writes a handoff document before `/compact` or the end of a session. |
 
-**Activation:**
-- Automatic: "prepare a handoff", "document before compact", "context is getting too large", "end of session notes"
-- Via command: `/project-management:document-handoff`
+Formats of the plan files: [references/formats.md](references/formats.md). Plane setup and state handling: [references/plane.md](references/plane.md).
 
-**Features:**
-- Gathers git status, last 5 commits, modified files, and TODO/FIXME markers automatically
-- Structures output into 7 sections: original task, completed work, failed attempts, current state, next steps, references, executive summary
-- Saves to `.claude/handoffs/YYYY-MM-DD_<task-slug>.md`
-- Optional Linear issue integration via `--linear-issue`
+## Typical flow
 
----
+```text
+/project-management:create-prd "Dark mode toggle"
+/project-management:create-plan
+/project-management:implement-task task-001
+/git-workflow:post-merge-cleanup task-001
+```
 
-## Agents
+## Conventions
 
-### `epic-orchestrator`
+- **Plans** live in `.plans/<feature>/` (EPIC, STATUS, `tasks/task-NNN-<slug>.md`).
+- **One worktree per task** in `.worktrees/task-<id>/`, branch `<type>/<task-id>-<slug>`.
+- **Status changes happen on the default branch**, so parallel workers see which tasks are taken.
+- **Closing keyword** in the PR text: `Closes <ID>` when the PR finishes a task, `Refs <ID>` when it stays open on purpose.
+- **Plane:** the repository's `CLAUDE.md` names the workspace and the project identifier; see [references/plane.md](references/plane.md).
 
-Coordinates the parallel implementation of all tasks within an EPIC.
+## Works with
 
-**Capabilities:**
-
-- Dependency graph analysis
-- Agent lifecycle management
-- Progress tracking
-- Error recovery
-- User escalation for blockers
+- `git-workflow` for commits (`/git-workflow:commit`), PRs and cleanup.
+- The `superpowers` plugin (optional): `implement-task` uses its `brainstorming` skill for design questions.
 
 ## Installation
 
-This plugin is part of the Talent Factory marketplace.
-
-**Add to `.claude/settings.json`:**
-
 ```json
 {
-  "enabledPlugins": {
-    "project-management@talent-factory": true
-  }
+  "extraKnownMarketplaces": {
+    "talent-factory": {
+      "source": { "source": "github", "repo": "talent-factory/claude-plugins" }
+    }
+  },
+  "enabledPlugins": { "project-management@talent-factory": true }
 }
 ```
-
-## Project Structure
-
-```
-project-management/
-├── .claude-plugin/
-│   └── plugin.json
-├── agents/
-│   └── epic-orchestrator.md
-├── commands/
-│   ├── create-prd.md
-│   ├── create-plan.md
-│   ├── init-task.md
-│   ├── implement-task.md
-│   ├── implement-epic.md
-│   └── document-handoff.md
-├── references/
-│   ├── create-prd/
-│   │   ├── best-practices.md
-│   │   ├── sections-guide.md
-│   │   └── templates.md
-│   ├── create-plan/
-│   │   ├── agent-mapping.md
-│   │   ├── best-practices.md
-│   │   ├── filesystem.md
-│   │   ├── linear-integration.md
-│   │   └── task-breakdown.md
-│   ├── init-task/
-│   │   ├── duplicate-detection.md
-│   │   ├── task-template.md
-│   │   └── validation-rules.md
-│   ├── implement-task/
-│   │   ├── best-practices.md
-│   │   ├── filesystem.md
-│   │   ├── linear.md
-│   │   ├── troubleshooting.md
-│   │   └── workflow.md
-│   ├── implement-epic/
-│   │   ├── orchestrator-architecture.md
-│   │   ├── autonomous-loop-integration.md
-│   │   ├── parallel-strategies.md
-│   │   └── troubleshooting.md
-│   └── document-handoff/
-│       ├── best-practices.md
-│       ├── examples.md
-│       └── templates.md
-└── README.md
-```
-
-## Workflow Example
-
-### Complete Feature Development
-
-```bash
-# 1. Create PRD
-/project-management:create-prd
-# Generates: docs/prd/feature-name.md
-
-# 2. Create Project Plan
-/project-management:create-plan
-# Generates: docs/plans/feature-name-plan.md
-# Creates Linear issues (if configured)
-
-# 3. Implement Tasks
-/project-management:implement-task TASK-1
-# Creates worktree and branch
-# Develops feature
-# Creates PR when done
-
-/project-management:implement-task TASK-2
-# Repeat for each task
-```
-
-### With Linear Integration
-
-```bash
-# 1. Create PRD from Linear epic
-/project-management:create-prd --linear EPIC-123
-
-# 2. Generate plan with Linear sync
-/project-management:create-plan --linear EPIC-123
-# Creates sub-issues in Linear
-
-# 3. Implement with Linear tracking
-/project-management:implement-task --linear EPIC-123-1
-# Updates Linear issue status automatically
-```
-
-## Best Practices
-
-### PRD Creation
-
-1. **Start with user needs** - Focus on solving real problems
-2. **Define clear success metrics** - Measurable outcomes
-3. **Include non-functional requirements** - Performance, security, scalability
-4. **Document assumptions** - Be explicit about constraints
-5. **Iterate with stakeholders** - Review and refine
-
-### Project Planning
-
-1. **Break down into small tasks** - Less than one day of work each
-2. **Identify dependencies** - Critical path planning
-3. **Assign appropriate agents** - Match skills to tasks
-4. **Set realistic timelines** - Buffer for unknowns
-5. **Track in Linear** - Central source of truth
-
-### Task Implementation
-
-1. **Use worktrees** - Isolated development environments
-2. **Follow naming conventions** - `feature/`, `fix/`, etc.
-3. **Commit frequently** - Small, atomic commits
-4. **Update task status** - Keep plan current
-5. **Create PRs early** - Enable collaboration
-
-## Linear Integration
-
-### Setup
-
-```bash
-# Set Linear API key
-export LINEAR_API_KEY=your_key_here
-
-# Or configure in .claude/settings.json
-{
-  "linear": {
-    "apiKey": "your_key_here",
-    "teamId": "your_team_id"
-  }
-}
-```
-
-### Features
-
-- **Bi-directional sync** - Changes flow both ways
-- **Issue creation** - Auto-create from tasks
-- **Status updates** - Sync task completion
-- **Comment tracking** - Add implementation notes
-- **Label management** - Tag with component/priority
-
-## Examples
-
-### Example 1: New Feature
-
-```bash
-# User request: "Add OAuth login"
-
-# Step 1: Create PRD
-/project-management:create-prd
-
-User: "We need OAuth login with Google and GitHub"
-
-# Claude generates comprehensive PRD:
-# - User personas (developers, end-users)
-# - Use cases (sign up, sign in)
-# - Technical requirements (OAuth2 flow)
-# - Success metrics (signup conversion rate)
-# - Security considerations
-
-# Step 2: Create plan
-/project-management:create-plan
-
-# Claude generates:
-# - 12 tasks broken down by milestone
-# - Dependencies mapped
-# - Agent assignments (backend-dev, security-expert)
-# - Linear issues created
-
-# Step 3: Implement first task
-/project-management:implement-task TASK-1
-
-# Claude:
-# - Creates worktree: ../oauth-feature-task1
-# - Checks out branch: feature/oauth-provider-setup
-# - Guides implementation
-# - Updates task status
-# - Creates PR when complete
-```
-
-### Example 2: Bug Fix Project
-
-```bash
-# Linear issue: "Memory leaks in WebSocket connections"
-
-# Create plan from Linear
-/project-management:create-plan --linear BUG-456
-
-# Implement fix
-/project-management:implement-task --linear BUG-456-1
-
-# Status automatically synced to Linear
-```
-
-## Requirements
-
-- **Git:** Version 2.23+ (for worktree support)
-- **Linear CLI:** Optional for Linear integration (`npm install -g @linear/cli`)
-- **GitHub CLI:** Optional for automated PRs (`gh`)
-
-## Troubleshooting
-
-### PRD Generation
-
-**Problem:** PRD too generic
-
-- **Solution:** Provide more context about users and use cases
-
-**Problem:** Missing technical details
-
-- **Solution:** Explicitly request architecture and technical constraints
-
-### Plan Creation
-
-**Problem:** Tasks too large
-
-- **Solution:** See [task-breakdown.md](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/create-plan/task-breakdown.md)
-
-**Problem:** Linear sync fails
-
-- **Solution:** Check API key and team ID in settings
-
-### Task Implementation
-
-**Problem:** Worktree creation fails
-
-- **Solution:** See [troubleshooting.md](https://github.com/talent-factory/claude-plugins/blob/main/plugins/project-management/references/implement-task/troubleshooting.md)
-
-**Problem:** Branch already exists
-
-- **Solution:** Use different task ID or clean up old branches
 
 ## Changelog
+
+### Version 3.0.0 (2026-11-14)
+
+**Breaking:**
+
+- All commands are skills now with the same invocations (`/project-management:create-prd`, `create-plan`, `init-task`, `implement-task`, `implement-epic`, `document-handoff`).
+- Removed the Linear provider (`--linear`, `--linear-issue`): Linear is archived. Plane and `.plans/` remain.
+- Removed the `epic-orchestrator` agent; `implement-epic` orchestrates directly with subagents.
+- Removed the generic reference guides for PRDs, plans, estimation, agent mapping, quality gate and troubleshooting (about 10.7k lines). The plan file formats and the Plane guide remain.
+- The plugin shrank from about 14k to about 0.5k lines.
 
 ### Version 2.8.2 (2026-11-14)
 

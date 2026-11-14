@@ -72,7 +72,7 @@ graph LR
 | Stage | Command | Output |
 |-------|---------|--------|
 | 1. Requirements | `/create-prd` | `PRD.md` document |
-| 2. Planning | `/create-plan` | EPICs + Tasks in `.plans/` or Linear |
+| 2. Planning | `/create-plan` | EPICs + Tasks in `.plans/` |
 | 3. Implementation | `/implement-task` | Code + Pull Request |
 
 ---
@@ -169,28 +169,6 @@ Generate a plan from your PRD:
         └── task-008-documentation.md
     ```
 
-=== "Linear"
-
-    ```bash
-    /create-plan --linear
-    ```
-
-    This creates issues directly in Linear:
-
-    ```
-    ✅ EPIC created: "Dark Mode Toggle" (LIN-123)
-    ✅ 8 Issues generated:
-       - LIN-124: UI Toggle Component (3 SP)
-       - LIN-125: Theme State Management (5 SP)
-       - LIN-126: CSS Variables Setup (2 SP)
-       - ...
-    ✅ Dependencies linked
-    ✅ Labels added
-    ```
-
-    !!! note "Linear Setup Required"
-        For Linear integration, see [Linear Integration Guide](linear-integration.md).
-
 ### Custom PRD Path
 
 Point to a specific PRD file:
@@ -272,16 +250,6 @@ Claude suggests the best AI agent for each task type:
 
     # With plan context
     /implement-task --plan dark-mode-toggle task-003
-    ```
-
-=== "Linear"
-
-    ```bash
-    # Interactive selection
-    /implement-task --linear
-
-    # Specific issue
-    /implement-task --linear LIN-124
     ```
 
 ### What Happens
@@ -455,7 +423,6 @@ Before moving to planning, verify your PRD:
 
 Now that you know the PRD workflow, explore:
 
-1. **[Linear Integration](linear-integration.md)** - Manage tasks in Linear
 2. **[Plugin Catalog](../plugins/index.md)** - Discover more plugins
 3. **[Plugin Development](../development/plugin-development.md)** - Build your own plugins
 
@@ -466,4 +433,3 @@ Now that you know the PRD workflow, explore:
 - **[Project Management Plugin](../plugins/project-management.md)** - Full plugin documentation
 - **[Your First Commit](first-commit.md)** - Git commit workflow
 - **[Create Your First PR](create-first-pr.md)** - Pull request workflow
-- **[Linear Integration](linear-integration.md)** - Linear project management

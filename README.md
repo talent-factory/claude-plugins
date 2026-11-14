@@ -61,20 +61,16 @@ Professional git commands with automated pre-commit checks, emoji conventional c
 
 ### 📋 Project Management
 
-Comprehensive project management with PRD generation, project planning, task initialization, implementation orchestration, EPIC automation, and Linear integration.
+File-based planning and task implementation: PRD, plan with EPIC and atomic tasks, task implementation in git worktrees with draft PRs, EPIC automation with parallel agents, Plane support, and handoff documents.
 
-**Commands:**
+**Skills:**
 
 - `/project-management:create-prd` - Generate Product Requirements Documents
-- `/project-management:create-plan` - Create project plans (Filesystem or Linear)
-- `/project-management:init-task` - Initialize tasks with duplicate detection and ATOMIC validation
-- `/project-management:implement-task` - Implement tasks with agent routing and quality gate
-- `/project-management:implement-epic` - Autonomous EPIC implementation with parallel agents
+- `/project-management:create-plan` - Create a plan under `.plans/` from a PRD
+- `/project-management:init-task` - Add a task with duplicate detection and ATOMIC validation
+- `/project-management:implement-task` - Implement one task end to end, with worktree, draft PR and quality gate
+- `/project-management:implement-epic` - Implement a whole plan in dependency waves with parallel agents
 - `/project-management:document-handoff` - Create handoff documentation before /compact
-
-**Agents:**
-
-- Epic Orchestrator - Parallel task implementation within EPICs
 
 [📖 Documentation](./plugins/project-management/README.md)
 

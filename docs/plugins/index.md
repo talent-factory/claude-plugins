@@ -9,7 +9,7 @@ Browse all available plugins in the Talent Factory marketplace. Each plugin prov
 | Plugin                                      | Version | Commands | Agents | Skills | Tags                                |
 | ------------------------------------------- | ------- | -------- | ------ | ------ | ----------------------------------- |
 | [Git Workflow](git-workflow.md)             | 3.0.0   | 1        | 0      | 5      | git, workflow, commits, PRs, merge  |
-| [Project Management](project-management.md) | 2.8.2   | 6        | 1      | 1      | planning, PRD, Linear, EPIC, agile  |
+| [Project Management](project-management.md) | 3.0.0   | 0        | 0      | 6      | planning, PRD, Plane, EPIC, agile  |
 | [Code Quality](code-quality.md)             | 3.1.0   | 1        | 3      | 1      | review, quality, Python, React      |
 | [Education](education.md)                   | 4.0.0   | 1        | 2      | 3      | teaching, learning, markdown, PDF   |
 | [Core Utilities](core.md)                   | 3.3.1   | 7        | 2      | 7      | validation, CI, PDF, ponytail, dev  |
@@ -40,10 +40,9 @@ Browse all available plugins in the Talent Factory marketplace. Each plugin prov
 
   ***
 
-  Comprehensive project planning with PRD generation, single-task initialization, EPIC automation, Linear integration, and git worktree workflows.
+  File-based project planning with PRD generation, task implementation in git worktrees, EPIC automation, and Plane support.
 
-  **Commands:** `/project-management:create-prd`, `/project-management:create-plan`, `/project-management:init-task`, `/project-management:implement-task`, `/project-management:implement-epic`, `/project-management:document-handoff`
-  **Agents:** `epic-orchestrator`
+  **Skills:** `/project-management:create-prd`, `/project-management:create-plan`, `/project-management:init-task`, `/project-management:implement-task`, `/project-management:implement-epic`, `/project-management:document-handoff`
 
   [:octicons-arrow-right-24: Details](project-management.md)
 
@@ -184,7 +183,6 @@ To install plugins from this marketplace:
 | Git Integration    |     Yes      |     Yes      |      No      |     Yes     |    No     |  No  |    No    |     No      |
 | Merge Conflicts    |     Yes      |      No      |      No      |     No      |    No     |  No  |    No    |     No      |
 | Pre-commit Checks  |     Yes      |      No      |     Yes      |     No      |    No     | Yes  |    No    |     No      |
-| Linear Integration |      No      |     Yes      |      No      |     No      |    No     |  No  |    No    |     No      |
 | Code Review        |      No      |      No      |     Yes      |     No      |    No     |  No  |    No    |     No      |
 | Expert Agents      |      No      |     Yes      |     Yes      |     Yes     |    Yes    | Yes  |    No    |     No      |
 | Task Management    |      No      |     Yes      |      No      |     No      |    No     |  No  |   Yes    |     No      |
