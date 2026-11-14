@@ -33,7 +33,7 @@ The repository uses a two-level architecture:
 - **development**: Project initialisation with Git branching (`/development:init-project --java`) and documentation synchronisation. Uses Gradle Kotlin DSL (not Maven) and `/git-workflow:commit` for initial commits.
 - **education**: Teaching aids with Java Tutor and Markdown formatter agents
 - **core**: Plugin validation (`/core:check-commands`, `/core:check-agents`), text humanisation, PDF to Markdown, the Ponytail suite and AntML prompt writing
-- **obsidian**: Obsidian integration via TaskNotes Plugin API (task management with natural language)
+- **obsidian**: Obsidian integration: TaskNotes tasks, LLM-Wiki curation (`/obsidian:wiki-ingest`, `wiki-query`, `wiki-lint`, `wiki-maintain`, `wiki-migrate-file`), and briefings (`/obsidian:today`, `weekly-review`, `ideas`)
 - **dev-browser**: Browser automation via the Playwright Python API — navigate, fill forms, screenshot, test, and scrape with a persistent session profile (`dev-browser` skill). Self-contained `scripts/browser.py` helper; no Node/extension runtime.
 
 ### How Plugins Work

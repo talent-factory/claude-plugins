@@ -9,7 +9,7 @@ Edit your crontab (`crontab -e`) and add — adjust the path to your vault:
 
 ```cron
 # Weekly wiki maintenance, Mondays 08:17
-17 8 * * 1 cd /path/to/your/vault && claude -p "/wiki:maintain --auto-fix --quiet" >> "$HOME/.wiki-maintain.log" 2>&1
+17 8 * * 1 cd /path/to/your/vault && claude -p "/obsidian:wiki-maintain --auto-fix --quiet" >> "$HOME/.wiki-maintain.log" 2>&1
 ```
 
 ## launchd (macOS, survives reboots)
@@ -26,7 +26,7 @@ Create `~/Library/LaunchAgents/ch.talent-factory.wiki-maintain.plist`:
   <array>
     <string>/bin/zsh</string>
     <string>-lc</string>
-    <string>cd /path/to/your/vault && claude -p "/wiki:maintain --auto-fix --quiet"</string>
+    <string>cd /path/to/your/vault && claude -p "/obsidian:wiki-maintain --auto-fix --quiet"</string>
   </array>
   <key>StartCalendarInterval</key>
   <dict><key>Weekday</key><integer>1</integer><key>Hour</key><integer>8</integer><key>Minute</key><integer>17</integer></dict>

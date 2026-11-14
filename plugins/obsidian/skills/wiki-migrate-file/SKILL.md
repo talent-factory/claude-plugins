@@ -1,14 +1,14 @@
 ---
 name: wiki-migrate-file
-description: Migrates a legacy file from an Obsidian-based knowledge vault into the LLM-Wiki schema. Analyzes the file, proposes a split into raw and wiki content, writes target files with proper frontmatter, pulls cross-references, updates index and log, then deletes the original. Cluster mode handles thematic groups. Triggers when the user runs /wiki:migrate-file, asks to "migrate this legacy note", or wants to bulk-migrate a thematic cluster into the wiki.
+description: Migrates a legacy file from an Obsidian-based knowledge vault into the LLM-Wiki schema. Analyzes the file, proposes a split into raw and wiki content, writes target files with proper frontmatter, pulls cross-references, updates index and log, then deletes the original. Cluster mode handles thematic groups. Triggers when the user runs /obsidian:wiki-migrate-file, asks to "migrate this legacy note", or wants to bulk-migrate a thematic cluster into the wiki.
 ---
 
 # wiki-migrate-file
 
 ## When to invoke
 
-- `/wiki:migrate-file <path>` — single legacy file inside the wiki root.
-- `/wiki:migrate-file --cluster "<name>"` — thematic cluster (for pilot or batch migrations).
+- `/obsidian:wiki-migrate-file <path>` — single legacy file inside the wiki root.
+- `/obsidian:wiki-migrate-file --cluster "<name>"` — thematic cluster (for pilot or batch migrations).
 
 ## Configuration
 
@@ -68,7 +68,7 @@ Same vault layout as `wiki-ingest`. Operates on files under `<wiki-root>/` that 
 ## Workflow for Cluster Mode
 
 ```text
-/wiki:migrate-file --cluster "MCP"
+/obsidian:wiki-migrate-file --cluster "MCP"
 ```
 
 1. **Identify the cluster:** find files thematically related to `<name>` via filename match, tag match, or an explicit user list.

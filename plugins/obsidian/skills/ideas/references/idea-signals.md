@@ -49,7 +49,7 @@ Only one person has raised a particular problem.
 
 Replace this section with a brief description of your organisation's known
 strengths, active customer industries, and recurring gaps that generate ideas.
-This context makes the `/ideas` skill significantly more targeted.
+This context makes the `/obsidian:ideas` skill significantly more targeted.
 
 Example structure:
 ```markdown

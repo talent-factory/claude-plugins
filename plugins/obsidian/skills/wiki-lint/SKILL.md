@@ -1,13 +1,13 @@
 ---
 name: wiki-lint
-description: Runs a structural and content health check on an Obsidian-based LLM knowledge wiki. Detects frontmatter issues, broken or asymmetric cross-references, contradictions, stale claims, tag discipline violations, migration backlog overflow, missing hub pages, and orphan content. Produces a structured lint report. Triggers when the user runs /wiki:lint, asks for a "wiki health check", or asks to lint the knowledge wiki.
+description: Runs a structural and content health check on an Obsidian-based LLM knowledge wiki. Detects frontmatter issues, broken or asymmetric cross-references, contradictions, stale claims, tag discipline violations, migration backlog overflow, missing hub pages, and orphan content. Produces a structured lint report. Triggers when the user runs /obsidian:wiki-lint, asks for a "wiki health check", or asks to lint the knowledge wiki.
 ---
 
 # wiki-lint
 
 ## When to invoke
 
-The user runs `/wiki:lint` (typically weekly) or asks for a wiki health check.
+The user runs `/obsidian:wiki-lint` (typically weekly) or asks for a wiki health check.
 
 ## Configuration
 

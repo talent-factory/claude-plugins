@@ -1,70 +1,30 @@
 ---
 name: wiki-maintain
-description: Runs non-interactive maintenance on an Obsidian-based LLM knowledge wiki — deterministic validation, semantic health checks, trivial auto-fixes, and a written report. Built to be scheduled (cron/launchd). Triggers when the user runs /wiki:maintain, asks to "run wiki maintenance", or "auto-fix the wiki".
+description: Runs the wiki-lint checks without prompts, applies trivial fixes and writes a report, so it can be scheduled (cron or launchd). Use when the user runs /obsidian:wiki-maintain, asks to "run wiki maintenance" or "auto-fix the wiki", or when the job is unattended.
 ---
 
 # wiki-maintain
 
-## When to invoke
-
-The user runs `/wiki:maintain [--auto-fix] [--quiet]`, asks to run wiki
-maintenance, or schedules it (see `references/cron-recipes.md`). Unlike
-`wiki-lint` (read-only, interactive), this skill applies trivial fixes and is
-safe to run unattended.
-
-## Configuration
-
-Same vault layout as `wiki-ingest`/`wiki-lint`. Rules live in
-`${CLAUDE_PLUGIN_ROOT}/skills/_shared/validation-rules.md`.
+The unattended variant of `wiki-lint`. The checks, the report layout and the fix rules are those of `wiki-lint`; read that skill and run it with the differences below. Scheduling: `references/cron-recipes.md`.
 
 ## Flags
 
-- `--auto-fix` — apply trivial, reversible fixes (asymmetric back-references,
-  missing `created` from git, missing `domain` from the vault). Default off.
-- `--quiet` — non-interactive: no prompts, one stdout line, machine-readable exit
-  code. Required for cron. Implies that destructive operations are skipped.
+- `--auto-fix`: apply the trivial, reversible fixes of `wiki-lint` (asymmetric back-references, missing `created` from git, missing `domain`). Default off.
+- `--quiet`: no prompts, one stdout line, a machine-readable exit code. Required for cron. Destructive operations are skipped.
 
-## Workflow
+## Differences from `wiki-lint`
 
-1. **Deterministic pass.** Run the shared validator over the whole wiki:
+1. **No confirmation.** With `--auto-fix`, auto-fixable findings are applied directly and listed in the report. Interactively (without `--quiet`) show a diff per fix and confirm.
+2. **Never reconcile contradictions.** Destructive reconciles need a person and only happen interactively in `wiki-ingest`.
+3. **Report file** `<wiki-root>/_wiki/maintain-report-YYYY-MM-DD.md` with frontmatter `kind: wiki, type: note`: files checked, findings by severity, fixes applied.
+4. **Log entry** in `<wiki-root>/_wiki/log.md`:
 
-    ```bash
-    python3 "${CLAUDE_PLUGIN_ROOT}/skills/_shared/scripts/validate.py" \
-      --vault-root "<wiki-root>" --rules frontmatter,kindtype,deadlinks,asymmetric
-    ```
+   ```text
+   ## [YYYY-MM-DD HH:MM] maintain | <report-name>
+   - findings: M (X critical, Y minor)
+   - auto-fixes applied: K
+   ```
 
-    On validator exit code 2 (PyYAML missing), fall back to the deterministic
-    rules in the shared reference and continue.
+5. **Output.** Interactive: the report path, counts, fixes. `--quiet`: one line `maintain: M findings (X critical), K fixes`, and a non-zero exit code while unresolved critical findings remain.
 
-2. **Semantic pass.** Apply semantic rules 5–8 from the shared reference (stale
-   claims, contradiction detection, hub gaps, source gaps — `type: thinking`
-   exempt from source gaps).
-
-3. **Auto-fix (only with `--auto-fix`).** Apply trivial fixes for findings whose
-   `autofixable` is true. In interactive mode, show a diff per fix and confirm; in
-   `--quiet` mode, apply auto-fixable findings directly and record them. Never
-   perform destructive contradiction reconciles in `--quiet` mode — those require
-   confirmation and only happen interactively in `wiki-ingest`.
-
-4. **Write the report** to `<wiki-root>/_wiki/maintain-report-YYYY-MM-DD.md` with
-   frontmatter `kind: wiki, type: note`, summarizing files checked, findings by
-   severity, and fixes applied.
-
-5. **Append a log entry** to `<wiki-root>/_wiki/log.md`:
-
-    ```text
-    ## [YYYY-MM-DD HH:MM] maintain | <report-name>
-    - findings: M (X critical, Y minor)
-    - auto-fixes applied: K
-    ```
-
-6. **Output.**
-   - Interactive: the report path, finding counts, and fixes applied.
-   - `--quiet`: a single stdout line `maintain: M findings (X critical), K fixes`
-     and a non-zero process exit when unresolved critical findings remain.
-
-## Edge Cases
-
-- **Runs alongside manual editing:** only writes its own report plus auto-fixable
-  changes with a git-inspectable diff. No interactive reconciles in `--quiet` mode.
-- **No vault configured:** abort early with a clear message.
+If no vault is configured, stop with a clear message. The run may overlap with manual editing, so it only touches its own report and auto-fixable files, each change visible in `git diff`.
