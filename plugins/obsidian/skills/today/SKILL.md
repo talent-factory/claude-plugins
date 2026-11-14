@@ -24,8 +24,8 @@ variables listed under each key take precedence over the CLAUDE.md value.
 | `obsidian_daily_dir` | `OBSIDIAN_DAILY_DIR` | `Daily` | Daily notes folder (relative to vault) |
 | `obsidian_template_daily` | `OBSIDIAN_TEMPLATE_DAILY` | `<vault>/Templates/Daily Note.md` | Daily note template |
 | `user_email` | `USER_EMAIL` | `git config user.email` | Your email address (used to detect unanswered Gmail threads) |
-| `plane_workspace` | `PLANE_WORKSPACE` | `tf` | Plane workspace slug (first path segment of the Plane URL) |
-| `plane_url` | `PLANE_URL` | `https://plane.talent-factory.ch` | Base URL of the Plane instance (used for deep links) |
+| `plane_workspace` | `PLANE_WORKSPACE` | — | Plane workspace slug (first path segment of the Plane URL); the Plane step is skipped if not set |
+| `plane_url` | `PLANE_URL` | — | Base URL of the Plane instance (used for deep links); without it, identifiers are shown without a link |
 | `reminders_lists` | `REMINDERS_LISTS` | all lists | Comma-separated Apple Reminders lists to include |
 
 **Vault auto-detection** (applied when `obsidian_vault` is not set):
@@ -144,7 +144,7 @@ Flag a thread as "needs reply" if the last message in the thread is not from
 ### Step 4 — Plane
 
 Plane is the ticket system. The MCP server `plane` serves all workspaces; pass
-the workspace on every call as `workspace: $PLANE_WORKSPACE`.
+the workspace on every call as `workspace: $PLANE_WORKSPACE`. If `PLANE_WORKSPACE` is not set, skip this step and note "Plane not configured".
 
 The self-hosted Plane edition has two limits that shape this step:
 
@@ -193,10 +193,10 @@ GraphQL (`mcp__plane__graphql_query`) fetches all projects in one call:
    - `completedAt` is empty
 
    Never keep `completed` or `cancelled` items.
-5. Per item use: `identifier` (e.g. `TF-792`), `name`, `priority` (`urgent`,
+5. Per item use: `identifier` (e.g. `PROJ-123`), `name`, `priority` (`urgent`,
    `high`, `medium`, `low`, `none`), `targetDate`, `state.name`.
 
-Deep link: `<PLANE_URL>/<workspace>/browse/<identifier>/`
+Deep link: `<PLANE_URL>/<workspace>/browse/<identifier>/` (plain identifier if `PLANE_URL` is not set)
 
 If the GraphQL tool is unavailable, fall back to REST: `mcp__plane__project`
 `action: list`, then `mcp__plane__workitem` `action: list` per project with
@@ -264,7 +264,7 @@ Relevant fields per reminder: `title`, `listName`, `priority`
 Reminders have no stable deep link, so show the title as plain text with the
 list name in parentheses.
 
-If a reminder's title contains a Plane identifier (e.g. `TF-792`), merge it
+If a reminder's title contains a Plane identifier (e.g. `PROJ-123`), merge it
 with the matching Plane item (see `references/priority-guide.md`).
 
 ### Step 6 — GitHub
@@ -336,7 +336,7 @@ _updated: HH:MM_
 **Free blocks:** HH:MM–HH:MM (Xh), HH:MM–HH:MM (Yh)
 
 #### Priorities
-1. 🔴 [Plane] **[TF-17 Title](https://plane.talent-factory.ch/tf/browse/TF-17/)** — URGENT
+1. 🔴 [Plane] **[PROJ-17 Title](https://plane.example.com/my-workspace/browse/PROJ-17/)** — URGENT
 2. 🟠 [Task] **[[TaskNote Filename]]** — 3 days overdue
 3. 🟠 [Reminder] **Title** (Reminders) — due today
 4. 🟡 [GitHub] **[PR #N Title](github-url)** (repo) — awaiting review

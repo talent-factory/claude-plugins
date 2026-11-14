@@ -4,7 +4,7 @@ Obsidian integration for Claude Code: task management via the TaskNotes Plugin A
 LLM-Wiki curation, and productivity intelligence — daily briefings, weekly retrospectives,
 project-pulse dashboards, and opportunity mining — all from within Claude Code.
 
-## Version 1.5.1
+## Version 1.6.0
 
 This plugin combines four complementary workflows for Obsidian users:
 
@@ -35,8 +35,8 @@ obsidian_ideas_dir: Ideas                 # Ideas output folder (relative to vau
 obsidian_context_dir:                     # Optional: strategic context notes folder
 github_org: my-org                        # GitHub organisation (required for GitHub steps)
 user_email: me@example.com               # Email for Gmail "needs reply" detection
-plane_workspace: tf                       # Plane workspace slug (default: tf)
-plane_url: https://plane.talent-factory.ch  # Plane base URL for deep links
+plane_workspace: my-workspace            # Plane workspace slug (Plane steps are skipped if unset)
+plane_url: https://plane.example.com     # Plane base URL for deep links (optional)
 reminders_lists: Inbox,Work               # Apple Reminders lists (default: all)
 ```
 
@@ -369,13 +369,17 @@ obsidian/
 
 ## Changelog
 
+### Version 1.6.0 (2026-11-14)
+
+- `today` and `weekly-review` no longer default to a specific Plane workspace or URL. `plane_workspace` has no default and the Plane step is skipped when it is unset; `plane_url` is optional and without it identifiers are shown without a link. Example identifiers are `PROJ-123`. **Migration:** set `plane_workspace` (and `plane_url`) in `~/.claude/CLAUDE.md` or the environment if you use Plane
+
 ### Version 1.5.1 (2026-11-11)
 
 - `today`: reads every Plane page per project until `hasNextPage` is `false` (safety cap 20 pages) instead of stopping after 5; handles the compact table result format and retries on HTTP 429
 
 ### Version 1.5.0 (2026-11-08)
 
-- `today`: Plane replaces Linear as ticket source. Queries all projects through the MCP GraphQL tool (the self-hosted edition has no PQL and no workspace-wide list) and filters client-side; deep links point to `plane.talent-factory.ch`
+- `today`: Plane replaces Linear as ticket source. Queries all projects through the MCP GraphQL tool (the self-hosted edition has no PQL and no workspace-wide list) and filters client-side; deep links point to the configured `plane_url`
 - `today`: Apple Reminders as new source via `remindctl` (overdue ≤ 7 days and due today scored; older ones are only counted); new config keys `plane_workspace`, `plane_url`, `reminders_lists`
 - `weekly-review`: Plane replaces Linear for weekly progress
 

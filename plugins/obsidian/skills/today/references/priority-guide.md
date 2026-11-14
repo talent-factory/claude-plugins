@@ -4,7 +4,7 @@
 
 ### Multiple sources referencing the same topic
 If a Plane work item, a TaskNote, and an Apple Reminder reference the same
-deliverable (same Plane identifier such as `TF-792` in the title, or the same
+deliverable (same Plane identifier such as `PROJ-123` in the title, or the same
 title), merge them into a single entry and use the highest score.
 
 ### All-day calendar events
