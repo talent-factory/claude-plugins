@@ -202,7 +202,7 @@ plugins/plugin-name/
 - **Plugin names**: lowercase, hyphen-separated (e.g., `git-workflow`)
 - **Command names**: lowercase, hyphen-separated (e.g., `create-pr`)
 - **Agent names**: lowercase, hyphen-separated (e.g., `java-tutor`)
-- **Skill names**: lowercase, hyphen-separated (e.g., `professional-commit-workflow`)
+- **Skill names**: lowercase, hyphen-separated (e.g., `commit`)
 
 ### Versioning
 

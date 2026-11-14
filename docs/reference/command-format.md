@@ -319,9 +319,9 @@ Creates PR targeting `develop` instead of `main`.
 
 This command uses the following reference documentation:
 
-- [PR Template](../../plugins/git-workflow/references/create-pr/pr-template.md) - PR description structure
-- [Code Formatting](../../plugins/git-workflow/references/create-pr/code-formatting.md) - Formatter details
-- [Troubleshooting](../../plugins/git-workflow/references/create-pr/troubleshooting.md) - Extended troubleshooting
+- [PR Template](../references/pr-template.md) - PR description structure
+- [Code Formatting](../references/code-formatting.md) - Formatter details
+- [Troubleshooting](../references/troubleshooting.md) - Extended troubleshooting
 
 **Related Commands:**
 

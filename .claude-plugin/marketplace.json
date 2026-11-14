@@ -10,10 +10,10 @@
   "plugins": [
     {
       "name": "git-workflow",
-      "description": "Professional git commands with automated pre-commit checks, emoji conventional commits, PR creation, edit history, and intelligent merge conflict resolution. Includes comprehensive references, best practices, and professional workflow skills.",
+      "description": "Git workflows as skills: Emoji Conventional Commits with project checks, pull request creation, merge conflict resolution, post-merge cleanup, PR description edit history, and Hunk diff review",
       "source": "./plugins/git-workflow",
       "category": "development",
-      "version": "2.4.2",
+      "version": "3.0.0",
       "tags": [
         "git",
         "workflow",

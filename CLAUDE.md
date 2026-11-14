@@ -27,7 +27,7 @@ The repository uses a two-level architecture:
 
 ### Plugin Types
 
-- **git-workflow**: Git operations (`/git-workflow:commit`, `/git-workflow:create-pr`, `/git-workflow:pr-edit-history`, `/git-workflow:resolve-conflicts`)
+- **git-workflow**: Git operations as skills and one command (`/git-workflow:commit`, `/git-workflow:create-pr`, `/git-workflow:resolve-conflicts`, `/git-workflow:pr-edit-history`, plus `post-merge-cleanup` and `hunk-review`)
 - **project-management**: PRD generation, project planning, task initialization, task implementation (`/project-management:create-prd`, `/project-management:create-plan`, `/project-management:init-task`, `/project-management:implement-task`, `/project-management:implement-epic`, `/project-management:document-handoff`)
 - **code-quality**: Python linting and expert agents for Python/Frontend (`/code-quality:ruff-check`)
 - **development**: Java expert agent and project initialization with Git branching (`/development:init-project --java --with-skills`). Uses Gradle Kotlin DSL (not Maven) and `/git-workflow:commit` for initial commits.
@@ -302,7 +302,7 @@ Auto-labels PRs based on:
 This is a solo-maintainer setup: `main` uses `enforce_admins: false`, so the maintainer (dsenften) can approve and merge their own PRs (e.g. release PRs). Direct pushes to `main` remain blocked by the `branch-protection` workflow, so every change still flows through a short-lived branch and a PR.
 
 ### Conventional Commits with Emoji
-This project uses emoji prefixes on commit types. The `/git-workflow:commit` command generates these automatically. If committing manually, follow the format in CONTRIBUTING.md.
+This project uses emoji prefixes on commit types. The `/git-workflow:commit` skill generates these automatically. If committing manually, follow the format in CONTRIBUTING.md.
 
 ### No Build Step
 This repository contains only configuration files (JSON, Markdown). There are no compilation, transpilation, or build artifacts. Validation is purely structural and syntactic.

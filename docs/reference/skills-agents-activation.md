@@ -55,13 +55,13 @@ Skills are reusable capabilities that can be invoked via commands, automatically
 
 ### Activation Methods
 
-#### 1. Via Command Flag
+#### 1. Via Slash Command
 
-Some commands support a `--with-skills` flag to use an associated skill:
+Skills are invoked like commands, namespaced by plugin:
 
 ```bash
-/commit --with-skills          # Uses professional-commit-workflow
-/create-pr --with-skills       # Uses professional-pr-workflow
+/git-workflow:commit
+/git-workflow:create-pr --draft
 ```
 
 #### 2. Automatic Triggering
@@ -88,8 +88,8 @@ Skills are namespaced by plugin:
 
 | Full Name | Plugin | Skill |
 |-----------|--------|-------|
-| `git-workflow:professional-commit-workflow` | git-workflow | professional-commit-workflow |
-| `git-workflow:professional-pr-workflow` | git-workflow | professional-pr-workflow |
+| `git-workflow:commit` | git-workflow | commit |
+| `git-workflow:create-pr` | git-workflow | create-pr |
 | `core:humanizer` | core | humanizer |
 | `education:markdown-syntax-formatter` | education | markdown-syntax-formatter |
 | `obsidian:tasknotes` | obsidian | tasknotes |
@@ -102,8 +102,9 @@ Skills are namespaced by plugin:
 
 | Skill | Activation |
 |-------|------------|
-| `professional-commit-workflow` | `/commit --with-skills` |
-| `professional-pr-workflow` | `/create-pr --with-skills` |
+| `commit` | `/git-workflow:commit` |
+| `create-pr` | `/git-workflow:create-pr` |
+| `resolve-conflicts` | `/git-workflow:resolve-conflicts` |
 
 ### Code Quality Plugin
 
@@ -180,7 +181,7 @@ Agents and skills can work together:
 
 ```bash
 # Use java-developer agent for implementation
-# Then use /commit --with-skills for fast, consistent commits
+# Then use /git-workflow:commit for consistent commits
 ```
 
 ## Troubleshooting
@@ -195,7 +196,7 @@ Agents and skills can work together:
 
 1. Verify plugin is installed and enabled
 2. Check if skill is user-invocable (not all skills are)
-3. Use associated command with `--with-skills` flag
+3. Invoke it explicitly as `/<plugin>:<skill>`
 
 ## See Also
 

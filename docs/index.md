@@ -54,8 +54,8 @@
 
 Professional git automation with emoji conventional commits, pre-commit checks, and PR management.
 
-**Commands:** `/git-workflow:commit`, `/git-workflow:create-pr`, `/git-workflow:pr-edit-history`, `/git-workflow:resolve-conflicts`
-**Skills:** `professional-commit-workflow`, `professional-pr-workflow`, `post-merge-cleanup`
+**Commands:** `/git-workflow:pr-edit-history`
+**Skills:** `commit`, `create-pr`, `resolve-conflicts`, `post-merge-cleanup`, `hunk-review`
 
 [:octicons-arrow-right-24: Learn more](plugins/git-workflow.md){ .md-button }
 

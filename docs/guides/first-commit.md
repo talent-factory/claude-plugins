@@ -189,15 +189,6 @@ Run linters but skip time-consuming tests:
 /commit --skip-tests
 ```
 
-### Use Professional Workflow Skill
-
-For ~70% faster commits with the professional-commit-workflow skill:
-
-```bash
-/commit --with-skills
-```
-
----
 
 ## Best Practices
 
