@@ -15,7 +15,7 @@ allowed-tools:
 
 Analyze and resolve merge conflicts intelligently with automatic root cause analysis, semantic code merging, and test validation.
 
-**All output and commit messages are written in German.**
+**All output and commit messages are written in English.**
 
 ## Usage
 

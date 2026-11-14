@@ -85,7 +85,7 @@ pip install -r requirements.txt --break-system-packages
    ```
    - Detects commit type from changes
    - Generates Emoji Conventional Commit
-   - German, imperative description
+   - English, imperative description
    - Format: `<emoji> <type>: <description>`
 
 8. **Create commit**:

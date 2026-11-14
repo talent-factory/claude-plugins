@@ -4,6 +4,7 @@
 import argparse
 import json
 import os
+import re
 import subprocess
 import sys
 from pathlib import Path
@@ -29,16 +30,16 @@ class CommitMessageGenerator:
         except FileNotFoundError:
             # Fallback to default commit types
             return {
-                "feat": {"emoji": "✨", "description": "Neue Funktionalität"},
-                "fix": {"emoji": "🐛", "description": "Fehlerbehebung"},
-                "docs": {"emoji": "📚", "description": "Dokumentation"},
-                "style": {"emoji": "💎", "description": "Code-Formatierung"},
-                "refactor": {"emoji": "♻️", "description": "Code-Umstrukturierung"},
-                "perf": {"emoji": "⚡", "description": "Performance-Verbesserungen"},
+                "feat": {"emoji": "✨", "description": "New functionality"},
+                "fix": {"emoji": "🐛", "description": "Bug fix"},
+                "docs": {"emoji": "📚", "description": "Documentation"},
+                "style": {"emoji": "💎", "description": "Code formatting"},
+                "refactor": {"emoji": "♻️", "description": "Code restructuring"},
+                "perf": {"emoji": "⚡", "description": "Performance improvements"},
                 "test": {"emoji": "🧪", "description": "Tests"},
-                "chore": {"emoji": "🔧", "description": "Wartung"},
+                "chore": {"emoji": "🔧", "description": "Maintenance"},
                 "ci": {"emoji": "🚀", "description": "CI/CD"},
-                "security": {"emoji": "🔒", "description": "Sicherheit"},
+                "security": {"emoji": "🔒", "description": "Security"},
             }
 
     def _get_project_root(self) -> str:
@@ -125,7 +126,7 @@ class CommitMessageGenerator:
             stat = result.stdout.strip()
 
             if not stat:
-                return "Änderungen commiten"
+                return "Commit changes"
 
             # Get list of modified files
             files_result = subprocess.run(
@@ -140,17 +141,17 @@ class CommitMessageGenerator:
             if len(files) == 1:
                 # Single file - use filename
                 filename = os.path.basename(files[0])
-                return f"{filename} aktualisiert"
+                return f"Update {filename}"
 
             # Multiple files - use directory or generic description
             common_dir = self._get_common_directory(files)
             if common_dir and common_dir != '.':
-                return f"{common_dir}/ Komponenten aktualisiert"
+                return f"Update {common_dir}/ components"
 
-            return f"{len(files)} Dateien aktualisiert"
+            return f"Update {len(files)} files"
 
         except subprocess.CalledProcessError:
-            return "Änderungen commiten"
+            return "Commit changes"
 
     def _get_common_directory(self, files: List[str]) -> Optional[str]:
         """Get common directory from file list."""
@@ -185,24 +186,22 @@ class CommitMessageGenerator:
         """Convert text to imperative form (basic rules)."""
         # Common patterns to fix
         replacements = {
-            'hinzugefügt': 'hinzufügen',
-            'aktualisiert': 'aktualisieren',
-            'behoben': 'beheben',
-            'korrigiert': 'korrigieren',
-            'entfernt': 'entfernen',
-            'gelöscht': 'löschen',
-            'implementiert': 'implementieren',
-            'erstellt': 'erstellen',
+            'added': 'add',
+            'updated': 'update',
+            'fixed': 'fix',
+            'corrected': 'correct',
+            'removed': 'remove',
+            'deleted': 'delete',
+            'implemented': 'implement',
+            'created': 'create',
         }
 
-        text_lower = text.lower()
-        for past, imperative in replacements.items():
-            if past in text_lower:
-                # Replace while preserving case of first letter
-                if text[0].isupper():
-                    return text_lower.replace(past, imperative).capitalize()
-                else:
-                    return text_lower.replace(past, imperative)
+        def to_imperative(match: re.Match) -> str:
+            word = replacements[match.group(0).lower()]
+            return word.capitalize() if match.group(0)[0].isupper() else word
+
+        pattern = r'\b(' + '|'.join(replacements) + r')\b'
+        text = re.sub(pattern, to_imperative, text, flags=re.IGNORECASE)
 
         return text
 
