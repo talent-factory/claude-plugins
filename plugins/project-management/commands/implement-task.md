@@ -94,7 +94,7 @@ This command orchestrates the complete workflow from task to pull request, lever
 
 **When to use**: Tasks are managed in Plane (`plane.talent-factory.ch`).
 
-**Prerequisite**: `plane-tf` MCP server is configured and the repository's `CLAUDE.md` contains a `## Plane Integration` section with the project identifier.
+**Prerequisite**: `plane` MCP server is configured and the repository's `CLAUDE.md` contains a `## Plane Integration` section with the project identifier.
 
 ```markdown
 ## Plane Integration
@@ -432,17 +432,17 @@ git submodule foreach --recursive '
 | ---------- | -------------------------------------------------- | --------------------- |
 | Filesystem | `pending` → `in_progress` in task file + STATUS.md | **Main branch**       |
 | Linear     | `Backlog` → `In Progress` via MCP                  | Remote (auto-visible) |
-| Plane      | `Unstarted` → `started` state via `plane-tf` MCP   | Remote (auto-visible) |
+| Plane      | `Unstarted` → `started` state via `plane` MCP      | Remote (auto-visible) |
 
 #### Plane Status Update
 
 ```text
-1. mcp__plane-tf__project action=list           → project UUID for the CLAUDE.md identifier
-2. mcp__plane-tf__state action=list project_id  → pick "In Progress" (see plane.md)
-3. mcp__plane-tf__workitem action=update        → state = <In Progress UUID>
+1. mcp__plane__project workspace=<slug> action=list           → project UUID for the CLAUDE.md identifier
+2. mcp__plane__state workspace=<slug> action=list project_id  → pick "In Progress" (see plane.md)
+3. mcp__plane__workitem workspace=<slug> action=update        → state = <In Progress UUID>
 ```
 
-Add a comment with branch and worktree via `mcp__plane-tf__workitem_comment`.
+Add a comment with branch and worktree via `mcp__plane__workitem_comment`.
 
 #### Filesystem Status Update Workflow
 
@@ -650,7 +650,7 @@ Finalize the draft PR for review:
 | ---------- | -------------------------------------------- |
 | Filesystem | Task status → `completed`, update STATUS.md  |
 | Linear     | Issue status → `In Review` or `Done` via MCP |
-| Plane      | Work item state → `In Review` via `plane-tf` MCP; PR text contains `Closes <identifier>` |
+| Plane      | Work item state → `In Review` via `plane` MCP; PR text contains `Closes <identifier>` |
 
 #### Worktree Cleanup (After PR Merge)
 
@@ -697,7 +697,7 @@ If an optional plugin is not available, the workflow continues gracefully:
 - **Submodule Branch Conflict**: Offer interactive resolution
 - **Dependencies Not Met** (FS): Display list, user decision
 - **Linear MCP Not Available**: Error message with setup instructions
-- **Plane MCP Not Available**: Error message with setup instructions (`plane-tf`, see [plane.md](../references/implement-task/plane.md))
+- **Plane MCP Not Available**: Error message with setup instructions (`plane`, see [plane.md](../references/implement-task/plane.md))
 - **Plane Project Not Configured**: `CLAUDE.md` has no `## Plane Integration` section, command asks for the project identifier
 - **Plane State Ambiguous**: Several candidate states, command lists them and asks the user
 - **Plugin Not Available**: Graceful fallback, inform user

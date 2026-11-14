@@ -13,7 +13,7 @@
       "description": "Professional git commands with automated pre-commit checks, emoji conventional commits, PR creation, edit history, and intelligent merge conflict resolution. Includes comprehensive references, best practices, and professional workflow skills.",
       "source": "./plugins/git-workflow",
       "category": "development",
-      "version": "2.4.1",
+      "version": "2.4.2",
       "tags": [
         "git",
         "workflow",
@@ -31,7 +31,7 @@
       "description": "Comprehensive project management with PRD generation, project planning, single-task initialization with duplicate detection and ATOMIC validation, intelligent task implementation with plugin orchestration (Superpowers brainstorm, agent routing, quality gate), autonomous EPIC automation, Linear integration, and git worktree workflow for agile development",
       "source": "./plugins/project-management",
       "category": "productivity",
-      "version": "2.8.0",
+      "version": "2.8.1",
       "tags": [
         "planning",
         "prd",
@@ -83,7 +83,7 @@
       "description": "Comprehensive development utilities for plugin/command/agent development, validation, CI automation, text humanization, PDF-to-Markdown conversion, the Ponytail minimalism suite (lazy-coding discipline, over-engineering review/audit, debt ledger), AntML system-prompt authoring, and expert agents",
       "source": "./plugins/core",
       "category": "development",
-      "version": "3.3.0",
+      "version": "3.3.1",
       "tags": [
         "utilities",
         "validation",

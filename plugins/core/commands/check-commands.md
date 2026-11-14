@@ -22,7 +22,7 @@ This command validates Claude Code commands for:
 
 ```bash
 # Validate a specific command
-/core:check-commands agents/_shared/commands/commit.md
+/core:check-commands commands/commit.md
 
 # Or without path for interactive selection
 /core:check-commands
@@ -113,7 +113,7 @@ _shared/
 When executing this command, proceed as follows:
 
 1. **Determine command path**:
-   - If no path provided: List all `.md` files in `agents/_shared/commands/`
+   - If no path provided: List all `.md` files in `commands/`
    - User selects command
 
 2. **Read file**:
@@ -199,14 +199,14 @@ This command is useful:
 **Successful validation**:
 
 ```text
-/core:check-commands agents/_shared/commands/commit.md
+/core:check-commands commands/commit.md
 -> All checks passed
 ```
 
 **Failed validation**:
 
 ```text
-/core:check-commands agents/_shared/commands/broken.md
+/core:check-commands commands/broken.md
 -> 3 issues found (see report)
 ```
 
