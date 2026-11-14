@@ -47,7 +47,7 @@ If the user says "missing items" — include all items regardless of bucket
 - Tasks in the daily notes folder may use either `tags: [task]` or the older
   `tag: task` frontmatter form. The `tasks.py --scan` fallback handles both.
 - The TaskNotes HTTP API (without `--scan`) only finds tasks in
-  plugin-monitored folders. Always use `--scan` when running `/today`.
+  plugin-monitored folders. Always use `--scan` when running `/obsidian:today`.
 - The `scheduled` field stores full ISO datetime (e.g.,
   `2026-05-08T09:00:00+02:00`). Truncate to `[:10]` for date comparisons.
 

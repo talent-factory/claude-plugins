@@ -4,7 +4,7 @@ description: >
   Surfaces new product, feature, and business ideas by cross-referencing the user's
   knowledge wiki, GitHub repositories, customer or project notes, and current market
   trends. Writes a structured ideas document to the Obsidian vault. Activate when the
-  user runs "/ideas", asks "what could I build next", "give me new project ideas",
+  user runs "/obsidian:ideas", asks "what could I build next", "give me new project ideas",
   "what opportunities am I missing", "brainstorm project ideas", or "what should I
   work on strategically".
 ---

@@ -1,19 +1,24 @@
-# Obsidian Integration Plugin
+# Obsidian Plugin
 
-Obsidian integration for Claude Code: task management via the TaskNotes Plugin API,
-LLM-Wiki curation, and productivity intelligence — daily briefings, weekly retrospectives,
-project-pulse dashboards, and opportunity mining — all from within Claude Code.
+## Version 2.0.0
 
-## Version 1.6.0
+Task management through TaskNotes, LLM-Wiki curation, and productivity briefings for an Obsidian vault.
 
-This plugin combines four complementary workflows for Obsidian users:
+## Skills
 
-1. **Task management** — through the TaskNotes Plugin HTTP API
-2. **LLM-Wiki maintenance** — curate a personal knowledge base from web clippings, AI chats, transcripts, and notes
-3. **Daily & weekly intelligence** — aggregate tasks, calendar, email, Plane, Apple Reminders, and GitHub into structured briefings
-4. **Opportunity mining** — surface product and project ideas from your knowledge base and repositories
+Invoke as `/obsidian:<skill>`; all skills also activate from natural language.
 
----
+| Skill | What it does |
+|---|---|
+| `tasknotes` | Lists, creates and updates tasks through the TaskNotes HTTP API (`tasks.py`, vault-wide `--scan`). |
+| `today` | Daily briefing from TaskNotes, Apple Reminders, Google Calendar, Gmail, Plane and GitHub, ranked by urgency and written to today's daily note. |
+| `weekly-review` | Weekly retrospective: completed tasks, commits and PRs, meetings, wiki learnings, Plane progress. Keeps your own Reflection section on re-runs. |
+| `ideas` | Surfaces product and project ideas from the wiki, GitHub, customer notes and market trends. |
+| `wiki-ingest` | Files a source (clipping, chat export, transcript, note) under `_raw/` and distils it into `_wiki/` pages with index, log and cross-references. Validates before writing. |
+| `wiki-query` | Answers a question from the curated wiki with citations, optionally filing the answer back as a page. |
+| `wiki-lint` | Health check: frontmatter, cross-references, contradictions, stale claims, tags, migration backlog. |
+| `wiki-maintain` | `wiki-lint` unattended with optional auto-fix, for cron or launchd (`references/cron-recipes.md`). |
+| `wiki-migrate-file` | Moves a legacy note, or a cluster of notes, into the wiki schema. |
 
 ## Configuration
 
@@ -57,55 +62,6 @@ reminders_lists: Inbox,Work               # Apple Reminders lists (default: all)
 **Vault auto-detection:** If `obsidian_vault` is not set, the plugin searches
 `$HOME` up to five directory levels deep for a `.obsidian` folder. Set the key
 explicitly to avoid ambiguity when multiple vaults are present.
-
----
-
-## Features
-
-### Task Management
-
-- **List tasks** — "show my tasks"
-- **Create tasks** — "create a task for X"
-- **Update tasks** — change status, add details
-- **Delete tasks** — remove tasks
-- **Work recommendations** — "what should I work on?"
-- **Vault-wide scanning** — find all tasks in the entire vault with `--scan`
-
-### LLM-Wiki Workflow
-
-- **Ingest sources** — file web clippings, AI chats, transcripts, or raw notes under `_raw/` and distil them into curated `_wiki/` pages with bidirectional cross-references; write-time validation gate blocks malformed frontmatter before it reaches the vault; contradiction detect-and-confirm workflow flags conflicting claims for user resolution
-- **Lint the wiki** — weekly health check for frontmatter integrity, asymmetric links, stale claims, tag discipline, and missing hub pages; deterministic checks delegated to the shared validation module
-- **Migrate legacy notes** — split hybrid legacy files into raw + wiki content with template-compliant frontmatter; write-time validation gate ensures all migrated pages meet the schema
-- **Query the wiki** — index-first search with citations and optional filing-back of the synthesis
-- **Think about the wiki** — structured deep reasoning with challenge, connect, or socratic modes; optionally writes a thinking-page to the vault
-- **Maintain the wiki** — non-interactive lint + auto-fix pass with a written report; designed for unattended scheduling via cron or launchd
-
-### Daily Briefing
-
-- Aggregates tasks from TaskNotes, Apple Reminders, Google Calendar, Gmail, Plane, and GitHub
-- Ranks items by urgency using a configurable priority scoring system
-- Writes a structured briefing to today's daily note
-- Creates the daily note from template if it does not exist
-
-### Weekly Review
-
-- Collects completed tasks, GitHub activity, calendar meetings, wiki learnings, and Plane progress
-- Writes a structured retrospective with a preserved Reflection section
-- Identifies open loops and proposes a prioritised focus list for the following week
-
-### Project Pulse
-
-- Categorises all GitHub repositories as Active / Dormant / Stalled
-- Lists open pull requests and assigned issues
-- Terminal output only — fast, no vault writes
-- Supports `--stalled-only` flag for focused cleanup sessions
-
-### Ideas — Opportunity Mining
-
-- Analyses the knowledge wiki, GitHub portfolio, stakeholder notes, and live market trends
-- Applies a cross-reference matrix to identify ideas where multiple signals align
-- Rates ideas by effort (S/M/L) and value (High/Medium/Low)
-- Writes a structured ideas document to the vault
 
 ---
 
@@ -154,153 +110,6 @@ operate, but structural checks are less strict.
 
 ---
 
-## Installation
-
-### Via Marketplace
-
-```json
-{
-  "enabledPlugins": {
-    "obsidian@talent-factory": true
-  }
-}
-```
-
-### Local Testing
-
-```bash
-claude --plugin-dir ./plugins/obsidian
-```
-
----
-
-## Usage
-
-### Natural Language
-
-```
-show my tasks
-create a task to finish the landing page
-what should I work on?
-what's on my plate today?
-prepare weekly review
-show my GitHub project status
-what could I build next?
-```
-
-### Direct Skill Invocation
-
-```
-/obsidian:tasknotes
-/obsidian:today
-/obsidian:weekly-review
-/obsidian:project-pulse
-/obsidian:project-pulse --stalled-only
-/obsidian:ideas
-/obsidian:wiki-ingest
-/obsidian:wiki-query
-/obsidian:wiki-lint
-/obsidian:wiki-migrate-file
-/obsidian:wiki-think
-/obsidian:wiki-maintain
-```
-
----
-
-## Skills
-
-### tasknotes
-
-Main skill for task management via the TaskNotes HTTP API. Activates on phrases
-such as "show my tasks", "create a task", "what should I work on", or "mark as done".
-
-Key features:
-- `--scan` flag: scans the entire vault filesystem to find all tasks
-- `--all` flag: includes completed and cancelled tasks in listings
-- Automatic vault detection via the `.obsidian` folder
-- Smart sorting by scheduled and due dates
-
-### today
-
-Produces a prioritised daily briefing from all configured sources and writes it
-to today's Obsidian daily note. Activates on "what's on my plate today", "daily
-briefing", or "morning briefing".
-
-Sources: TaskNotes · Apple Reminders · Google Calendar · Gmail · Plane · GitHub
-
-### weekly-review
-
-Writes a structured weekly retrospective to the vault. Collects completed tasks,
-shipped code, meetings, wiki learnings, and Plane progress. Preserves the
-Reflection section on subsequent runs. Activates on "weekly review",
-"what did I accomplish this week", or "summarise my week".
-
-Sources: TaskNotes · GitHub · Google Calendar · Plane · Wiki log
-
-### project-pulse
-
-Quick status snapshot of all GitHub repositories in the configured organisation.
-Categorises repos as Active / Dormant / Stalled. Terminal output only. Activates
-on "show me my repos", "project overview", "GitHub pulse", or "which projects are active".
-
-Requires: `github_org` configuration key.
-
-### ideas
-
-Mines the knowledge wiki, GitHub portfolio, stakeholder notes, and market trends
-to surface new product and project ideas. Writes a structured document to the vault.
-Activates on "what could I build next", "give me project ideas", or "opportunity mining".
-
-### wiki-ingest
-
-Files a new source (web clipping, AI chat export, raw note, transcript) under
-`_raw/`, distils it into one or more `_wiki/` pages, updates the index and log,
-and pulls bidirectional cross-references. Activates on "ingest this source" or
-"digest this clipping into the wiki".
-
-### wiki-lint
-
-Weekly structural and content health check across `_wiki/` and `_raw/`. Detects
-frontmatter issues, broken or asymmetric cross-references, stale claims, tag
-discipline violations, missing hub pages, and orphan content.
-
-### wiki-migrate-file
-
-Migrates legacy files from outside `_wiki/` and `_raw/` into the LLM-Wiki schema.
-Cluster mode handles thematic groups in a single confirmation.
-
-### wiki-query
-
-Answers a question against the curated `_wiki/` via index-first search and
-full-text fallback. Returns a synthesised answer with citations and optionally
-files the synthesis back as a new wiki page.
-
-### wiki-think
-
-Engages in deep, structured reasoning against the curated `_wiki/`. Supports
-three thinking modes:
-
-- **challenge** — stress-tests a claim by surfacing contradicting evidence and
-  underexplored assumptions from the knowledge base
-- **connect** — maps lateral connections between ideas across disparate wiki pages
-- **socratic** — guides iterative inquiry by generating and answering follow-up
-  questions until a synthesis emerges
-
-Pass `type: thinking` to write the result as a new thinking-page in the vault.
-Activates on "think about", "challenge this idea", "connect ideas", or "explore".
-
-### wiki-maintain
-
-Non-interactive maintenance pass that runs lint checks, applies deterministic
-auto-fixes, and writes a structured report — designed for scheduled execution via
-cron or launchd. Unlike `wiki-lint`, it does not pause for user confirmation;
-all fixable issues are resolved automatically and the remainder are logged.
-
-Scheduling recipes (cron/launchd) are provided in
-`skills/wiki-maintain/references/cron-recipes.md`.
-
----
-
 ## LLM-Wiki Vault Layout
 
 The wiki skills expect the following structure (default paths shown):
@@ -312,62 +121,22 @@ The wiki skills expect the following structure (default paths shown):
 - `<wiki-root>/_wiki/templates/` — frontmatter templates
 
 Default `<wiki-root>` is `Wiki/` relative to the vault root. Override via
-`obsidian_wiki_root:` in `~/.claude/CLAUDE.md`. The migration backlog soft cap
+`obsidian_wiki_root:` in `~/.claude/CLAUDE.md` or `wiki_root:` in the vault's `CLAUDE.md` (the latter wins). The migration backlog soft cap
 (default: 50 files) is configurable via `wiki_migration_cap: <n>`.
 
 ---
 
-## Project Structure
-
-```text
-obsidian/
-├── .claude-plugin/
-│   └── plugin.json
-├── skills/
-│   ├── _shared/
-│   │   ├── scripts/
-│   │   │   └── validate.py          # shared deterministic validation (requires PyYAML)
-│   │   └── validation-rules.md      # prose fallback rules
-│   ├── tasknotes/
-│   │   ├── SKILL.md
-│   │   └── scripts/
-│   │       └── tasks.py
-│   ├── today/
-│   │   ├── SKILL.md
-│   │   ├── references/
-│   │   │   └── priority-guide.md
-│   │   └── scripts/
-│   │       └── update_daily_note.py
-│   ├── weekly-review/
-│   │   ├── SKILL.md
-│   │   └── references/
-│   │       └── weekly-cadence.md
-│   ├── ideas/
-│   │   ├── SKILL.md
-│   │   └── references/
-│   │       └── idea-signals.md
-│   ├── project-pulse/
-│   │   └── SKILL.md
-│   ├── wiki-ingest/
-│   │   └── SKILL.md
-│   ├── wiki-lint/
-│   │   └── SKILL.md
-│   ├── wiki-maintain/
-│   │   ├── SKILL.md
-│   │   └── references/
-│   │       └── cron-recipes.md      # cron and launchd scheduling examples
-│   ├── wiki-migrate-file/
-│   │   └── SKILL.md
-│   ├── wiki-query/
-│   │   └── SKILL.md
-│   └── wiki-think/
-│       └── SKILL.md
-└── README.md
-```
-
----
-
 ## Changelog
+
+### Version 2.0.0 (2026-11-14)
+
+**Breaking:**
+
+- Removed the skills `project-pulse` (a `gh` query the model answers directly) and `wiki-think` (a conversation mode without tooling). `wiki-query` stays.
+- `wiki-maintain` is now a thin wrapper over `wiki-lint` (flags, report file, exit code only); the duplicated check descriptions are gone.
+- Fixed the invocation names in skill descriptions and recipes: skills are called `/obsidian:today`, `/obsidian:wiki-ingest` and so on, not `/today` or `/wiki:ingest` (the natural-language triggers are unchanged). Scheduled jobs must use the plugin form, for example `claude -p "/obsidian:wiki-maintain --auto-fix --quiet"`.
+- One rule for the wiki root: `wiki_root` in the vault's `CLAUDE.md`, else `obsidian_wiki_root` in `~/.claude/CLAUDE.md`, else `Wiki`.
+- `tasknotes` skill text cut from 169 to 40 lines (same commands).
 
 ### Version 1.6.0 (2026-11-14)
 

@@ -1,13 +1,13 @@
 ---
 name: wiki-query
-description: Answers a question against an Obsidian-based LLM knowledge wiki. Performs index-first search, reads relevant pages, synthesizes an answer with citations, and optionally files the synthesis back as a new wiki page. Triggers when the user runs /wiki:query or asks a question that should be answered from the curated wiki rather than from raw sources.
+description: Answers a question against an Obsidian-based LLM knowledge wiki. Performs index-first search, reads relevant pages, synthesizes an answer with citations, and optionally files the synthesis back as a new wiki page. Triggers when the user runs /obsidian:wiki-query or asks a question that should be answered from the curated wiki rather than from raw sources.
 ---
 
 # wiki-query
 
 ## When to invoke
 
-The user runs `/wiki:query <question>`, or asks a question that should be answered from the curated `<wiki-root>/_wiki/` rather than from raw sources or web search.
+The user runs `/obsidian:wiki-query <question>`, or asks a question that should be answered from the curated `<wiki-root>/_wiki/` rather than from raw sources or web search.
 
 ## Configuration
 
@@ -46,13 +46,13 @@ A natural-language question.
     - Default: no. On yes: create the page using the `wiki-compare.md` template, populate `sources:` with all consulted pages, update index and log, run `markdown-syntax-formatter`.
 
 7. **Knowledge-gap hint:**
-    - If the answer is incomplete: "Sources X, Y would help here — should I prepare `/wiki:ingest` for them?" — or offer a web search with user approval.
+    - If the answer is incomplete: "Sources X, Y would help here — should I prepare `/obsidian:wiki-ingest` for them?" — or offer a web search with user approval.
 
 ## Edge Cases
 
 - **No index entries match:** fall back to full text. If full text also finds nothing, state plainly that the wiki has nothing on this topic, plus a suggestion of what to ingest.
 - **Synthesized answer would exceed approximately 300 words:** offer the filing-back option more prominently.
-- **Question is actually an ingest** ("digest this for me"): forward to `/wiki:ingest`.
+- **Question is actually an ingest** ("digest this for me"): forward to `/obsidian:wiki-ingest`.
 
 ## Output
 

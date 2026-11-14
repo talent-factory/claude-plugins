@@ -1,17 +1,17 @@
 ---
 name: wiki-ingest
-description: Ingests a new source (web clipping, AI chat export, raw note, transcript) into an Obsidian-based LLM knowledge wiki. Files the source under _raw/, distills it into one or more _wiki/ pages, updates index and log, and pulls bidirectional cross-references. Triggers when the user asks to "ingest this source", "digest this clipping into the wiki", or runs /wiki:ingest while working in a configured wiki vault.
+description: Ingests a new source (web clipping, AI chat export, raw note, transcript) into an Obsidian-based LLM knowledge wiki. Files the source under _raw/, distills it into one or more _wiki/ pages, updates index and log, and pulls bidirectional cross-references. Triggers when the user asks to "ingest this source", "digest this clipping into the wiki", or runs /obsidian:wiki-ingest while working in a configured wiki vault.
 ---
 
 # wiki-ingest
 
 ## When to invoke
 
-The user runs `/wiki:ingest <path-or-url-or-text>`, asks the assistant to "digest this source" or "ingest this clipping" while working in an Obsidian vault that follows the LLM-Wiki schema described below.
+The user runs `/obsidian:wiki-ingest <path-or-url-or-text>`, asks the assistant to "digest this source" or "ingest this clipping" while working in an Obsidian vault that follows the LLM-Wiki schema described below.
 
 ## Configuration
 
-The skill expects the following vault layout. Default paths are shown; override via `wiki_root: <path>` in the vault's `CLAUDE.md`.
+The skill expects the following vault layout. Default paths are shown. The wiki root is `wiki_root: <path>` in the vault's `CLAUDE.md`, else `obsidian_wiki_root: <path>` in `~/.claude/CLAUDE.md` (the key `today`, `weekly-review` and `ideas` read), else `Wiki`.
 
 - `<wiki-root>/_raw/` — raw source files, organized by type subfolder
 - `<wiki-root>/_wiki/` — distilled wiki pages
@@ -120,5 +120,5 @@ The user receives:
 - List of created and updated files
 - Number of cross-references added
 - Log entry preview
-- Hint to run `/wiki:lint` if a cross-reference cluster (≥5 pages) lacks a hub page
+- Hint to run `/obsidian:wiki-lint` if a cross-reference cluster (≥5 pages) lacks a hub page
 - Validation summary: critical findings resolved, minor findings listed

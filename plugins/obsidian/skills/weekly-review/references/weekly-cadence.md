@@ -31,4 +31,4 @@ After four or more weekly reviews, patterns become visible:
 - Which repositories receive the most commits?
 - Which meeting types produce decisions versus status updates?
 
-These observations can feed directly into `/ideas` as additional context.
+These observations can feed directly into `/obsidian:ideas` as additional context.

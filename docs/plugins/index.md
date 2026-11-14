@@ -13,7 +13,7 @@ Browse all available plugins in the Talent Factory marketplace. Each plugin prov
 | [Code Quality](code-quality.md)             | 4.0.0   | 0        | 0      | 1      | Python, Ruff, linting      |
 | [Education](education.md)                   | 4.0.0   | 1        | 2      | 3      | teaching, learning, markdown, PDF   |
 | [Core Utilities](core.md)                   | 4.0.0   | 2        | 0      | 7      | validation, PDF, ponytail, AntML  |
-| [Obsidian Integration](obsidian.md)         | 1.6.0   | 0        | 0      | 11     | tasks, Obsidian, wiki, briefing, ideas |
+| [Obsidian Integration](obsidian.md)         | 2.0.0   | 0        | 0      | 9     | tasks, Obsidian, wiki, briefing, ideas |
 | [Development](development.md)               | 2.0.0   | 0        | 0      | 2      | java, gradle, python, documentation |
 | [Dev Browser](dev-browser.md)               | 1.0.0   | 0        | 0      | 1      | browser, playwright, scraping, testing |
 
@@ -119,9 +119,9 @@ Browse all available plugins in the Talent Factory marketplace. Each plugin prov
 
   ***
 
-  Task management via TaskNotes API, LLM-Wiki curation, and productivity intelligence — daily briefings, weekly retrospectives, project-pulse dashboards, and opportunity mining.
+  Task management via the TaskNotes API, LLM-Wiki curation, and productivity briefings: daily briefing, weekly review, and idea mining.
 
-  **Skills:** `tasknotes`, `today`, `weekly-review`, `project-pulse`, `ideas`, `wiki-ingest`, `wiki-lint`, `wiki-migrate-file`, `wiki-query`, `wiki-think`, `wiki-maintain`
+  **Skills:** `tasknotes`, `today`, `weekly-review`, `ideas`, `wiki-ingest`, `wiki-query`, `wiki-lint`, `wiki-maintain`, `wiki-migrate-file`
 
   [:octicons-arrow-right-24: Details](obsidian.md)
 

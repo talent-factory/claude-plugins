@@ -78,10 +78,10 @@
     },
     {
       "name": "obsidian",
-      "description": "Obsidian integration for Claude Code: task management via TaskNotes API, LLM-Wiki curation (ingest, lint, migrate, query), and productivity intelligence — daily briefings, weekly retrospectives, project-pulse dashboards, and opportunity mining.",
+      "description": "Obsidian integration for Claude Code: task management via the TaskNotes API, LLM-Wiki curation (ingest, query, lint, maintain, migrate), and productivity briefings (daily, weekly, ideas)",
       "source": "./plugins/obsidian",
       "category": "productivity",
-      "version": "1.6.0",
+      "version": "2.0.0",
       "tags": [
         "obsidian",
         "tasks",

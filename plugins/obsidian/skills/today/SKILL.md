@@ -3,7 +3,7 @@ name: today
 description: >
   Produces a prioritised daily briefing by aggregating tasks from Obsidian TaskNotes,
   Apple Reminders, Google Calendar, Gmail, Plane, and GitHub, then writes the result to
-  today's daily note in the Obsidian vault. Activate when the user runs "/today", asks
+  today's daily note in the Obsidian vault. Activate when the user runs "/obsidian:today", asks
   "what's on my plate today", "give me my daily briefing", "what do I need to do today",
   or "morning briefing". Works from any directory without requiring Obsidian to be running.
 ---

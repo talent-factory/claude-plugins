@@ -3,7 +3,7 @@ name: weekly-review
 description: >
   Collects completed tasks, GitHub activity, calendar meetings, wiki learnings, and
   Plane progress for the past week, then writes a structured retrospective to the
-  Obsidian vault. Activate when the user runs "/weekly-review", asks "what did I
+  Obsidian vault. Activate when the user runs "/obsidian:weekly-review", asks "what did I
   accomplish this week", "weekly retrospective", "summarise my week", or "prepare
   weekly review". Works from any directory.
 ---
