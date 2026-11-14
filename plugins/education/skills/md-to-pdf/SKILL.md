@@ -1,6 +1,7 @@
 ---
 name: md-to-pdf
-description: Converts Markdown into a PDF or a ConTeXt source (.tex) with a freely configurable header and footer. Engine ConTeXt (default) or XeLaTeX. Renders Mermaid diagrams automatically. Module-independent: header, footer and font come from the CLI or from an md-to-pdf.toml in the repository. Triggers: "als PDF", "PDF erstellen", "ConTeXt", "md to pdf", "/education:md-to-pdf".
+description: >-
+  Converts Markdown into a PDF or a ConTeXt source (.tex) with a freely configurable header and footer. Engine ConTeXt (default) or XeLaTeX. Renders Mermaid diagrams automatically. Module-independent: header, footer and font come from the CLI or from an md-to-pdf.toml in the repository. Triggers: "als PDF", "PDF erstellen", "ConTeXt", "md to pdf", "/education:md-to-pdf".
 ---
 
 # md-to-pdf
