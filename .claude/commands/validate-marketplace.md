@@ -228,7 +228,7 @@ For each `plugins/*/commands/*.md`:
 | YAML frontmatter delimiters (`---`) present | ERROR | No (too complex for auto-fix) |
 | `description` field present in frontmatter | ERROR | No |
 | `description` in English | ERROR | No (report with exact German text) |
-| `allowed-tools` field present | WARNING | No |
+| `allowed-tools` field present | ERROR | No |
 | `argument-hint` present when command body references `$ARGUMENTS` | INFO | No |
 
 #### 3.5 Skill SKILL.md Validation

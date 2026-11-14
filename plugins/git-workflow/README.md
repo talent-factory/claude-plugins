@@ -2,7 +2,7 @@
 
 Professional git workflow automation with pre-commit checks, emoji conventional commits, PR management, and comprehensive references.
 
-## Version 2.4.0
+## Version 2.4.1
 
 **Minor Update:** Added `resolve-conflicts` skill enabling natural-language activation of merge conflict resolution ("I have merge conflicts").
 
@@ -453,6 +453,10 @@ See [create-pr/troubleshooting.md](https://github.com/talent-factory/claude-plug
 - **React/Node.js:** ESLint, Prettier, TypeScript (optional)
 
 ## Changelog
+
+### Version 2.4.1 (2026-11-14)
+
+- Commit messages, PR descriptions, and generated descriptions are now written in English, in line with the repository language policy (commands `commit`, `create-pr`, `resolve-conflicts`, the `professional-commit-workflow` skill, its commit type catalogue, and fallback messages)
 
 ### Version 2.4.0 (2026-05-08)
 

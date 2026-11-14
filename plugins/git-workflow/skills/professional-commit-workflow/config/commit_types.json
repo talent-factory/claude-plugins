@@ -1,106 +1,106 @@
 {
   "feat": {
     "emoji": "✨",
-    "description": "Neue Funktionalität",
+    "description": "New functionality",
     "examples": [
-      "User-Dashboard mit Metriken hinzugefügt",
-      "OAuth2 Authentifizierung implementiert"
+      "Add user dashboard with metrics",
+      "Implement OAuth2 authentication"
     ]
   },
   "fix": {
     "emoji": "🐛",
-    "description": "Fehlerbehebung",
+    "description": "Bug fix",
     "examples": [
-      "Speicherleck in Datenbank-Connection behoben",
-      "Race Condition in async Handler gelöst"
+      "Fix memory leak in database connection",
+      "Resolve race condition in async handler"
     ]
   },
   "docs": {
     "emoji": "📚",
-    "description": "Dokumentation",
+    "description": "Documentation",
     "examples": [
-      "API-Dokumentation für v2 Endpoints aktualisiert",
-      "README mit Installationsanleitung ergänzt"
+      "Update API documentation for v2 endpoints",
+      "Add installation guide to README"
     ]
   },
   "style": {
     "emoji": "💎",
-    "description": "Code-Formatierung",
+    "description": "Code formatting",
     "examples": [
-      "Prettier Formatierung auf gesamtes Projekt angewendet",
-      "Trailing Whitespace entfernt"
+      "Apply Prettier formatting to the whole project",
+      "Remove trailing whitespace"
     ]
   },
   "refactor": {
     "emoji": "♻️",
-    "description": "Code-Umstrukturierung",
+    "description": "Code restructuring",
     "examples": [
-      "User Service in kleinere Module aufgeteilt",
-      "Deprecated API durch moderne Alternative ersetzt"
+      "Split user service into smaller modules",
+      "Replace deprecated API with modern alternative"
     ]
   },
   "perf": {
     "emoji": "⚡",
-    "description": "Performance-Verbesserungen",
+    "description": "Performance improvements",
     "examples": [
-      "Datenbank-Queries mit Indexing optimiert",
-      "Caching-Layer für API-Responses hinzugefügt"
+      "Optimize database queries with indexing",
+      "Add caching layer for API responses"
     ]
   },
   "test": {
     "emoji": "🧪",
     "description": "Tests",
     "examples": [
-      "Unit Tests für Authentication Service hinzugefügt",
-      "E2E Tests für Checkout-Flow erweitert"
+      "Add unit tests for authentication service",
+      "Extend E2E tests for checkout flow"
     ]
   },
   "chore": {
     "emoji": "🔧",
-    "description": "Wartung",
+    "description": "Maintenance",
     "examples": [
-      "Dependencies auf neueste Versionen aktualisiert",
-      "Build-Script für Production optimiert"
+      "Update dependencies to latest versions",
+      "Optimize build script for production"
     ]
   },
   "ci": {
     "emoji": "🚀",
     "description": "CI/CD",
     "examples": [
-      "GitHub Actions Workflow für automatisches Deployment",
-      "Docker Build-Stage optimiert"
+      "Add GitHub Actions workflow for automatic deployment",
+      "Optimize Docker build stage"
     ]
   },
   "security": {
     "emoji": "🔒",
-    "description": "Sicherheit",
+    "description": "Security",
     "examples": [
-      "SQL Injection Schwachstelle behoben",
-      "Abhängigkeiten mit bekannten CVEs aktualisiert"
+      "Fix SQL injection vulnerability",
+      "Update dependencies with known CVEs"
     ]
   },
   "i18n": {
     "emoji": "🌐",
-    "description": "Internationalisierung",
+    "description": "Internationalization",
     "examples": [
-      "Deutsche Übersetzung für UI-Komponenten hinzugefügt",
-      "Sprachauswahl-Dropdown implementiert"
+      "Add German translation for UI components",
+      "Implement language selection dropdown"
     ]
   },
   "a11y": {
     "emoji": "♿",
-    "description": "Barrierefreiheit",
+    "description": "Accessibility",
     "examples": [
-      "ARIA-Labels für Screen Reader hinzugefügt",
-      "Farbkontraste nach WCAG 2.1 AA angepasst"
+      "Add ARIA labels for screen readers",
+      "Adjust color contrast to WCAG 2.1 AA"
     ]
   },
   "deps": {
     "emoji": "📦",
     "description": "Dependencies",
     "examples": [
-      "React von 18.2 auf 18.3 aktualisiert",
-      "Sicherheitsupdate für lodash durchgeführt"
+      "Update React from 18.2 to 18.3",
+      "Apply security update for lodash"
     ]
   }
 }

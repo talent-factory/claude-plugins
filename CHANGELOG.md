@@ -44,6 +44,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- **git-workflow 2.4.1**: commit messages and PR descriptions are written in English, matching the language policy in `CLAUDE.md` (the commands and the `professional-commit-workflow` skill instructed German); the commit type catalogue, fallback descriptions, and imperative conversion in `commit_message.py` were translated accordingly
 - **obsidian 1.5.1**: `today` reads every page of each Plane project until `hasNextPage` is `false` (safety cap 20 pages) instead of stopping after 5 — open items on the last page were dropped; also handles the compact table result format and retries on HTTP 429
 - **education 1.8.2**: `ffhs-lecture-slides` table header gradient spans the whole header row instead of restarting per cell; `md-to-pdf` SKILL.md frontmatter was invalid YAML (unquoted `description` containing a colon) and now uses a block scalar
 - **education 1.8.1**: `md-to-pdf` SKILL.md prose translated from German to English (documentation only, no behaviour change)

@@ -208,7 +208,7 @@ class GitAnalyzer:
             status = self.get_status()
 
             if not status['modified'] and not status['untracked']:
-                return False, "Keine Änderungen zum Hinzufügen"
+                return False, "No changes to add"
 
             subprocess.run(
                 ["git", "add", "-A"],
@@ -217,7 +217,7 @@ class GitAnalyzer:
             )
 
             total = len(status['modified']) + len(status['untracked'])
-            return True, f"{total} Dateien zum Staging hinzugefügt"
+            return True, f"Added {total} files to staging"
 
         except subprocess.CalledProcessError as e:
             return False, f"Git add fehlgeschlagen: {e}"

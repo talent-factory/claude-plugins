@@ -13,7 +13,7 @@ allowed-tools:
 
 Automatically create a new branch, analyze changes, and create a professional pull request.
 
-**All commit messages and PR descriptions are written in German.**
+**All commit messages and PR descriptions are written in English.**
 
 ## Usage
 

@@ -11,7 +11,7 @@ allowed-tools:
 
 Create professional Git commits with automated quality checks and conventional commit messages.
 
-**All commits and messages are written in German.**
+**All commit messages are written in English.**
 
 ## Usage
 
@@ -63,7 +63,7 @@ When `--with-skills` is used, the **professional-commit-workflow skill** is acti
 4. **Commit message**
    - Use Emoji Conventional Commit format
    - Automatic type detection based on changes
-   - German, imperative description
+   - English, imperative description
    - Reference: [commit-types.md](../references/commit/commit-types.md)
 
 5. **Create commit**
