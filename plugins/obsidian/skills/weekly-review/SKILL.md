@@ -26,8 +26,8 @@ variables listed under each key take precedence over the CLAUDE.md value.
 | `obsidian_template_weekly` | `OBSIDIAN_TEMPLATE_WEEKLY` | `<vault>/Templates/Weekly Review.md` | Weekly review template |
 | `obsidian_wiki_root` | — | `Wiki` | Wiki root folder (relative to vault) — used to read the log |
 | `github_org` | `GITHUB_ORG` | — | GitHub organisation; GitHub step is skipped if not set |
-| `plane_workspace` | `PLANE_WORKSPACE` | `tf` | Plane workspace slug (first path segment of the Plane URL) |
-| `plane_url` | `PLANE_URL` | `https://plane.talent-factory.ch` | Base URL of the Plane instance (used for deep links) |
+| `plane_workspace` | `PLANE_WORKSPACE` | — | Plane workspace slug (first path segment of the Plane URL); the Plane step is skipped if not set |
+| `plane_url` | `PLANE_URL` | — | Base URL of the Plane instance (used for deep links); without it, identifiers are shown without a link |
 
 **Vault auto-detection** (applied when `obsidian_vault` is not set):
 ```bash
@@ -147,7 +147,7 @@ Extract timed events (skip all-day events). Group by day.
 
 ### Step 4 — Plane: Progress this week
 
-Uses the `plane` MCP server with `workspace: $PLANE_WORKSPACE` (default `tf`).
+Uses the `plane` MCP server with `workspace: $PLANE_WORKSPACE`. If `PLANE_WORKSPACE` is not set, skip this step and note "Plane not configured".
 The self-hosted edition has no PQL and no workspace-wide list, so query all
 projects at once with `mcp__plane__graphql_query` and filter client-side:
 
@@ -169,8 +169,7 @@ newly created (`createdAt` within `WEEK_START`..`WEEK_END`) · still in progress
 (`state.group` = `started`, regardless of date, so untouched open items still
 appear under open loops and "Focus Next Week").
 
-Deep link: `<PLANE_URL>/<workspace>/browse/<identifier>/` (default
-`https://plane.talent-factory.ch/tf/`).
+Deep link: `<PLANE_URL>/<workspace>/browse/<identifier>/` (plain identifier if `PLANE_URL` is not set).
 
 ### Step 5 — Wiki: What was learned?
 
