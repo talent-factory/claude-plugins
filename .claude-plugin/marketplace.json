@@ -54,19 +54,11 @@
     },
     {
       "name": "education",
-      "description": "Teaching aids with Java Tutor agent, Markdown syntax formatter agent and skill, Markdown-to-PDF conversion, and code explanation for IT education",
+      "description": "Markdown clean-up with Swiss German orthography and Markdown-to-PDF conversion (ConTeXt or XeLaTeX, Mermaid, thesis profile) for course material",
       "source": "./plugins/education",
       "category": "learning",
-      "version": "4.0.0",
-      "tags": [
-        "education",
-        "teaching",
-        "learning",
-        "students",
-        "markdown",
-        "formatting",
-        "pdf"
-      ]
+      "version": "5.0.0",
+      "tags": ["markdown", "formatting", "pdf", "swiss-german"]
     },
     {
       "name": "core",
@@ -81,7 +73,7 @@
       "description": "Obsidian integration for Claude Code: task management via the TaskNotes API, LLM-Wiki curation (ingest, query, lint, maintain, migrate), and productivity briefings (daily, weekly, ideas)",
       "source": "./plugins/obsidian",
       "category": "productivity",
-      "version": "2.0.0",
+      "version": "2.0.1",
       "tags": [
         "obsidian",
         "tasks",

@@ -1,8 +1,15 @@
 {
   "name": "education",
-  "version": "4.0.0",
-  "description": "Teaching aids with Java Tutor agent, Markdown syntax formatter agent and skill, Markdown-to-PDF conversion, and code explanation for IT education",
-  "keywords": ["education", "teaching", "learning", "students", "markdown", "formatting", "pdf"],
+  "version": "5.0.0",
+  "description": "Markdown clean-up with Swiss German orthography and Markdown-to-PDF conversion (ConTeXt or XeLaTeX, Mermaid, thesis profile) for course material",
+  "keywords": [
+    "markdown",
+    "formatting",
+    "pdf",
+    "swiss-german",
+    "context",
+    "thesis"
+  ],
   "license": "MIT",
   "author": {
     "name": "Talent Factory GmbH",

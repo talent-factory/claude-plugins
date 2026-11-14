@@ -277,7 +277,7 @@ You should:
 | `blue` | Development | backend-developer |
 | `green` | Testing/quality | test-reviewer |
 | `purple` | Architecture | system-architect |
-| `orange` | Education | java-tutor |
+| `orange` | Education | course-tutor |
 | `red` | Security | security-auditor |
 
 ---

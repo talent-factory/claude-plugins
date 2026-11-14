@@ -1,84 +1,14 @@
 # Education Plugin
 
-Teaching aids, code explanations, and student support for IT education.
+## Version 5.0.0
 
-## Version 4.0.0
-
-This plugin provides educational tools for students and instructors, including code explanations, a Java Tutor agent, Markdown formatting skills, and Markdown-to-PDF conversion.
-
----
-
-## Commands
-
-### `/education:explain-code`
-
-Provide clear, educational explanations of code for students learning programming.
-
-**Features:**
-
-- Step-by-step code breakdown
-- Concept explanations with examples
-- Visual flow diagrams
-- Practice exercises
-- Adaptable to student level (beginner/intermediate/advanced)
-
-**Usage:**
-
-```
-/education:explain-code
-```
-
-Claude will ask about the student's level and provide tailored explanations.
-
-## Agents
-
-### Java Tutor
-
-Expert Java programming instructor specializing in teaching students.
-
-**Specialties:**
-
-- Java fundamentals and OOP
-- Data structures and algorithms
-- Best practices and clean code
-- Common mistake prevention
-- Exam preparation
-
-**Activation:**
-Use `/agents` and select "Java Tutor" for Java-specific teaching support.
-
-### Markdown Syntax Formatter
-
-Expert Markdown formatting specialist with comprehensive knowledge of CommonMark and GitHub Flavored Markdown specifications.
-
-**Capabilities:**
-
-- Convert visual formatting cues into proper Markdown syntax
-- Correct heading hierarchies ensuring logical progression
-- Format lists with consistent markers and proper indentation
-- Handle code blocks with appropriate language identifiers
-- Apply Swiss orthography rules for German text
-- Handle linter exceptions for training materials
-
-**Activation:**
-
-- **Automatic:** Triggered when formatting or reviewing Markdown documents
-- **Manual:** Use Task tool with `subagent_type: "education:markdown-syntax-formatter"`
+Two skills for teaching and course material: Markdown clean-up with Swiss German orthography, and Markdown to PDF.
 
 ## Skills
 
-### explain-code
+### markdown-syntax-formatter
 
-Provides clear, educational code explanations adapted to the student's level (Beginner / Intermediate / Advanced). Acts as a patient programming instructor.
-
-**Activation:**
-- Automatic: "explain this function", "what does this code do", "I don't understand this", "walk me through this"
-- Via command: `/education:explain-code`
-
-**Features:**
-- Adapts depth and terminology to student level
-- Structured explanation: overview → line-by-line → key concepts → flow → pitfalls → exercises
-- Language-specific focus (Java OOP, Python idioms, JavaScript async)
+Fixes heading hierarchies, lists, code blocks and emphasis, converts visual cues into Markdown, applies Swiss German orthography (`ss` instead of `ß`, real umlauts) to German text, and respects the project's markdownlint configuration (including the documented MD024 exception for training material). Activates when you format or review Markdown, or invoke `/education:markdown-syntax-formatter`. Rules: [Swiss German conventions](skills/markdown-syntax-formatter/swiss-german-conventions.md), [linter exceptions](skills/markdown-syntax-formatter/linter-exceptions.md).
 
 ### md-to-pdf
 
@@ -104,109 +34,28 @@ python3 ${CLAUDE_PLUGIN_ROOT}/skills/md-to-pdf/scripts/md_to_pdf.py QUELLE.md ZI
   --header-left "Module · Block 05 · Worksheet" --header-right "Binary search trees"
 ```
 
-### Markdown Syntax Formatter
-
-Converts text with visual formatting into proper Markdown syntax, fixes formatting issues,
-and ensures consistent document structure.
-
-**Capabilities:**
-
-- Fix heading hierarchies and document structure
-- Convert visual formatting cues to proper Markdown syntax
-- Apply Swiss German orthography to German-language documents
-- Handle linter exceptions for training materials and templates
-
-**Activation:**
-
-The skill activates automatically when formatting or reviewing Markdown files,
-or invoke it manually:
-
-```
-/education:markdown-syntax-formatter
-```
-
-## Who This Is For
-
-- **Students**: Learning programming at universities and educational institutions
-- **Instructors**: Teaching programming courses
-- **Self-learners**: Studying programming independently
-- **Code reviewers**: Providing educational feedback
-
-## Teaching Approach
-
-This plugin follows evidence-based teaching principles:
-
-1. **Progressive Disclosure**: Start simple, add complexity gradually
-2. **Active Learning**: Encourage experimentation and practice
-3. **Conceptual Understanding**: Focus on "why" not just "how"
-4. **Real-World Context**: Connect concepts to practical applications
-
-## Examples
-
-### Explaining Simple Code
-
-```
-/education:explain-code
-
-Student: Can you explain this loop?
-for (int i = 0; i < 10; i++) {
-    System.out.println(i);
-}
-
-Claude: [Provides detailed explanation with analogies and practice exercises]
-```
-
-### Using Java Tutor Agent
-
-```
-/agents
-> Select: Java Tutor
-
-Student: I'm confused about inheritance
-Java Tutor: [Provides step-by-step explanation with family tree analogy]
-```
-
-## Supported Languages
-
-While the plugin works with any programming language, it has specialized support for:
-
-- **Java** (primary focus for computer science courses)
-- **Python** (data structures, algorithms)
-- **JavaScript** (web development)
-- **C/C++** (systems programming)
-
-## Best Practices for Instructors
-
-1. Use `/education:explain-code` to generate teaching materials
-2. Activate Java Tutor for consistent Java teaching
-3. Encourage students to ask questions
-4. Use generated exercises for practice
-5. Review explanations before sharing with students
-
-## Curriculum Integration
-
-This plugin is designed to complement computer science curricula:
-
-- Aligned with standard CS programs
-- References course materials appropriately
-- Prepares students for exams
-- Connects to other CS concepts
-
----
-
 ## Installation
 
 ```json
 {
-  "enabledPlugins": {
-    "education@talent-factory": true
-  }
+  "extraKnownMarketplaces": {
+    "talent-factory": {
+      "source": { "source": "github", "repo": "talent-factory/claude-plugins" }
+    }
+  },
+  "enabledPlugins": { "education@talent-factory": true }
 }
 ```
 
----
-
 ## Changelog
+
+### Version 5.0.0 (2026-11-14)
+
+**Breaking:**
+
+- Removed the command and skill `explain-code`, the agent `java-tutor` and the agent `markdown-syntax-formatter`. They described tutoring and explaining code, which a current model does without instructions; the formatter agent duplicated the skill of the same name.
+- `markdown-syntax-formatter` skill cut from 207 to about 30 lines (the two reference files stay). Invoke it as a skill (`/education:markdown-syntax-formatter`), not as an agent.
+- The plugin shrank from about 2.5k to about 1.4k lines; most of what remains is the tested `md-to-pdf` engine.
 
 ### Version 4.0.0 (2026-11-14)
 

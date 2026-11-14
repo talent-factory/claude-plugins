@@ -61,9 +61,9 @@ Follow prompts to create a professional commit.
 
 ### Education
 ```
-/explain-code
+/education:markdown-syntax-formatter
 ```
-Get detailed code explanations.
+Clean up Markdown documents.
 
 ### Core Utilities
 ```

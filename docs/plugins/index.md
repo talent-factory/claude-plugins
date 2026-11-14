@@ -11,9 +11,9 @@ Browse all available plugins in the Talent Factory marketplace. Each plugin prov
 | [Git Workflow](git-workflow.md)             | 3.0.0   | 1        | 0      | 5      | git, workflow, commits, PRs, merge  |
 | [Project Management](project-management.md) | 3.0.0   | 0        | 0      | 6      | planning, PRD, Plane, EPIC, agile  |
 | [Code Quality](code-quality.md)             | 4.0.0   | 0        | 0      | 1      | Python, Ruff, linting      |
-| [Education](education.md)                   | 4.0.0   | 1        | 2      | 3      | teaching, learning, markdown, PDF   |
+| [Education](education.md)                   | 5.0.0   | 0        | 0      | 2      | markdown, PDF, Swiss German |
 | [Core Utilities](core.md)                   | 4.0.0   | 2        | 0      | 7      | validation, PDF, ponytail, AntML  |
-| [Obsidian Integration](obsidian.md)         | 2.0.0   | 0        | 0      | 9     | tasks, Obsidian, wiki, briefing, ideas |
+| [Obsidian Integration](obsidian.md)         | 2.0.1   | 0        | 0      | 9     | tasks, Obsidian, wiki, briefing, ideas |
 | [Development](development.md)               | 3.0.0   | 0        | 0      | 1      | documentation, sync |
 | [Dev Browser](dev-browser.md)               | 1.0.0   | 0        | 0      | 1      | browser, playwright, scraping, testing |
 
@@ -107,10 +107,8 @@ Browse all available plugins in the Talent Factory marketplace. Each plugin prov
 
   ***
 
-  Teaching aids and student support for IT education with Java Tutor agent and Markdown formatting skill.
+  Markdown clean-up with Swiss German orthography and Markdown-to-PDF conversion for course material.
 
-  **Commands:** `/education:explain-code`
-  **Agents:** `java-tutor`, `markdown-syntax-formatter`
   **Skills:** `markdown-syntax-formatter`, `md-to-pdf`
 
   [:octicons-arrow-right-24: Details](education.md)

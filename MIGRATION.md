@@ -145,8 +145,7 @@ Use dotfiles for non-Claude agents, plugins for Claude.
 
 | Dotfiles | Plugin | Notes |
 |----------|--------|-------|
-| Custom explain commands | `education:explain-code` | New unified command |
-| N/A | `education:java-tutor` (agent) | New agent system |
+| Markdown formatting prompts | `education:markdown-syntax-formatter` | Skill with Swiss German rules |
 
 ### Core Utilities
 
@@ -170,11 +169,7 @@ All commands from dotfiles are available in plugins with improvements:
 
 ### Education Plugin
 
-- ✅ Code explanation  
-
-**New:** Java Tutor agent  
-**New:** Student level adaptation  
-**New:** Practice exercises  
+- ✅ Markdown formatting and Markdown-to-PDF conversion  
 
 ### Core Plugin
 

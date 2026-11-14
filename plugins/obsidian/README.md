@@ -1,6 +1,6 @@
 # Obsidian Plugin
 
-## Version 2.0.0
+## Version 2.0.1
 
 Task management through TaskNotes, LLM-Wiki curation, and productivity briefings for an Obsidian vault.
 
@@ -127,6 +127,10 @@ Default `<wiki-root>` is `Wiki/` relative to the vault root. Override via
 ---
 
 ## Changelog
+
+### Version 2.0.1 (2026-11-14)
+
+- The wiki skills call `markdown-syntax-formatter` as a skill of the `education` plugin (it was an agent, which `education` 5.0.0 removes).
 
 ### Version 2.0.0 (2026-11-14)
 
