@@ -30,7 +30,7 @@ The repository uses a two-level architecture:
 - **git-workflow**: Git operations (`/git-workflow:commit`, `/git-workflow:create-pr`, `/git-workflow:pr-edit-history`, `/git-workflow:resolve-conflicts`)
 - **project-management**: PRD generation, project planning, task initialization, task implementation (`/project-management:create-prd`, `/project-management:create-plan`, `/project-management:init-task`, `/project-management:implement-task`, `/project-management:implement-epic`, `/project-management:document-handoff`)
 - **code-quality**: Python linting and expert agents for Python/Frontend (`/code-quality:ruff-check`)
-- **development**: Java expert agent and project initialization with Git branching (`/development:init-project --java --with-skills`). Uses Gradle Kotlin DSL (NOT Maven!) and `/git-workflow:commit` for initial commits.
+- **development**: Java expert agent and project initialization with Git branching (`/development:init-project --java --with-skills`). Uses Gradle Kotlin DSL (not Maven) and `/git-workflow:commit` for initial commits.
 - **education**: Teaching aids with Java Tutor and Markdown formatter agents
 - **core**: Plugin development utilities (`/core:check`, `/core:check-commands`, `/core:check-agents`, `/core:build-skill`, `/core:package-skill`, `/core:create-command`, `/core:run-ci`)
 - **obsidian**: Obsidian integration via TaskNotes Plugin API (task management with natural language)
@@ -97,7 +97,7 @@ The repository has no build/compile step. Validation is done via GitHub Actions:
 
 ### Branch Workflow
 
-This repository follows **trunk-based development**: `main` is the single long-lived branch and the marketplace's live source. Short-lived branches are merged into `main` via Pull Request. (The former `develop` integration branch was retired in June 2026 — see `CHANGELOG.md`. A dedicated `develop` only pays off with batched, staged releases against a consuming environment, which this marketplace does not have.)
+This repository follows **trunk-based development**: `main` is the single long-lived branch and the marketplace's live source. Short-lived branches are merged into `main` via Pull Request.
 
 **Important Branch Protection Rules:**
 
@@ -185,7 +185,7 @@ Use Emoji Conventional Commits:
    tools: ["Read", "Write", "Bash"]                  # Optional (restricts available tools)
    ---
    ```
-   **Invalid model values:** Do NOT use full model IDs like `claude-opus-4` or `claude-sonnet-4-5`. Use the short enum: `sonnet`, `opus`, `haiku`.
+   **Invalid model values:** Do NOT use full model IDs (for example `claude-sonnet-5-5`). Use the short enum: `sonnet`, `opus`, `haiku`.
    Body: Expertise areas, methodology, examples, response format.
 
 ### Testing Your Plugin
@@ -222,12 +222,12 @@ claude --plugin-dir ./plugins/your-plugin
    - Check directory structure
    - Scan for secrets
    - Label PR by size and type
-   - Require 1 approval
+   - Review is recommended for external contributions (the maintainer may merge their own PRs)
 
 ## Key Files & Their Purpose
 
 - **`.claude-plugin/marketplace.json`**: Marketplace catalog - lists all plugins
-- **`plugins/*/plugin.json`**: Individual plugin metadata
+- **`plugins/*/.claude-plugin/plugin.json`**: Individual plugin metadata
 - **`plugins/*/commands/*.md`**: User-invocable commands (accessed via `/command-name`)
 - **`plugins/*/agents/*.md`**: Specialized AI assistant definitions
 - **`.github/workflows/validate-plugins.yml`**: Main CI/CD pipeline
@@ -328,6 +328,6 @@ The education plugin (Java Tutor agent) is tailored for students. It references 
 - **Examples**:
   - ✅ "grösste", "übermässig", "schliesslich", "Strasse"
   - ❌ "größte", "übermäßig", "schließlich", "Straße"
-  - ❌ "groesste", "uebermaessig", "schliesslich"
+  - ❌ "groesste", "uebermaessig"
 
 **Note:** Use `/validate-marketplace --section language` to identify remaining non-English content.

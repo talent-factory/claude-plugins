@@ -51,7 +51,7 @@ Validates and synchronizes the plugin marketplace ecosystem. Performs comprehens
 **Read authoritative sources:**
 
 1. `.claude-plugin/marketplace.json` - Plugin versions and descriptions
-2. `plugins/*/plugin.json` - Individual plugin metadata
+2. `plugins/*/.claude-plugin/plugin.json` - Individual plugin metadata
 3. `plugins/*/commands/*.md` - Available commands
 4. `plugins/*/agents/*.md` - Available agents
 5. `plugins/*/skills/*/` - Available skills
@@ -158,6 +158,7 @@ When a version bump is applied, update ALL of these files:
 2. `.claude-plugin/marketplace.json`
 3. `plugins/NAME/README.md`
 4. `docs/plugins/index.md`
+5. `CHANGELOG.md`
 
 ### 3. Best Practices Audit
 
