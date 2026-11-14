@@ -32,7 +32,7 @@ The repository uses a two-level architecture:
 - **code-quality**: Python linting and formatting with Ruff (`/code-quality:ruff-check`)
 - **development**: Documentation synchronisation (`update-documents`)
 - **education**: Markdown clean-up with Swiss German orthography (`markdown-syntax-formatter`) and Markdown to PDF (`md-to-pdf`)
-- **core**: Plugin validation (`/core:check-commands`, `/core:check-agents`), text humanisation, PDF to Markdown, the Ponytail suite and AntML prompt writing
+- **core**: Plugin validation (`/core:check-commands`, `/core:check-agents`), text humanisation, PDF to Markdown, Ponytail (minimal coding, review, audit, debt ledger) and AntML prompt writing
 - **obsidian**: Obsidian integration: TaskNotes tasks, LLM-Wiki curation (`/obsidian:wiki-ingest`, `wiki-query`, `wiki-lint`, `wiki-maintain`, `wiki-migrate-file`), and briefings (`/obsidian:today`, `weekly-review`, `ideas`)
 
 ### How Plugins Work

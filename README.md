@@ -114,7 +114,7 @@ Validation of plugin commands and agents, text humanisation, PDF-to-Markdown con
 
 - Humanizer - Removes AI writing patterns from text
 - PDF to Markdown - Converts PDF files with dual-mode support (fast/vision)
-- Ponytail suite - `ponytail`, `ponytail-review`, `ponytail-audit`, `ponytail-debt` for minimal, YAGNI-first coding
+- Ponytail - minimal, YAGNI-first coding with `review`, `audit` and `debt` modes
 - AntML Prompt Writer - Writes system prompts and meta prompts for Claude-based harnesses
 
 [📖 Documentation](./plugins/core/README.md)

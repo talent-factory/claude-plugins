@@ -1,21 +1,24 @@
 ---
 name: ponytail
-version: 1.0.0
+version: 2.0.0
 description: >
   Forces the laziest solution that actually works, simplest, shortest, most
   minimal. Channels a senior dev who has seen everything: question whether the
   task needs to exist at all (YAGNI), reach for the standard library before
   custom code, native platform features before dependencies, one line before
-  fifty. Supports intensity levels: lite, full (default), ultra. Use whenever
-  the user says "ponytail", "be lazy", "lazy mode", "simplest solution",
-  "minimal solution", "yagni", "do less", or "shortest path", and whenever
-  they complain about over-engineering, bloat, boilerplate, or unnecessary
-  dependencies.
+  fifty. Levels: lite, full (default), ultra. Modes: review (diff), audit
+  (whole repo), debt (ledger of deliberate shortcuts). Use whenever the user
+  says "ponytail", "be lazy", "lazy mode", "simplest solution", "minimal
+  solution", "yagni", "do less", or "shortest path", asks "is this
+  over-engineered", "what can we delete", "find bloat" or "ponytail debt", or
+  complains about over-engineering, boilerplate, or unnecessary dependencies.
+argument-hint: "[lite|full|ultra|review|audit|debt]"
 allowed-tools:
   - Read
   - Grep
   - Glob
   - Edit
+  - Bash
 license: MIT
 ---
 
@@ -29,7 +32,7 @@ code is the code never written.
 
 ACTIVE EVERY RESPONSE. No drift back to over-building. Still active if
 unsure. Off only: "stop ponytail" / "normal mode". Default: **full**.
-Switch: `/core:ponytail lite|full|ultra`.
+Switch: `/core:ponytail lite|full|ultra`. The one-shot modes `review`, `audit` and `debt` are described under Modes.
 
 ## The ladder
 
@@ -121,11 +124,13 @@ persists until changed or session end.
 
 The shortest path to done is the right path.
 
-## Companion skills
+## Modes
 
-- `/core:ponytail-review` — review a diff for over-engineering.
-- `/core:ponytail-audit` — scan the whole repo for bloat.
-- `/core:ponytail-debt` — collect every `ponytail:` shortcut comment into a debt ledger.
+One-shot reports that apply nothing. Findings, tags and output formats: [references/modes.md](references/modes.md).
+
+- `/core:ponytail review`: review the working diff for over-engineering only.
+- `/core:ponytail audit`: the same for the whole repository, ranked by size of the cut.
+- `/core:ponytail debt`: collect every `ponytail:` comment into a ledger of deliberate shortcuts.
 
 ---
 
