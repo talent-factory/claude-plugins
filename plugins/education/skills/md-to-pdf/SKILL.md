@@ -23,7 +23,7 @@ Invocation within the plugin: `${CLAUDE_PLUGIN_ROOT}` points to `plugins/educati
 python3 ${CLAUDE_PLUGIN_ROOT}/skills/md-to-pdf/scripts/md_to_pdf.py QUELLE.md ZIEL.pdf \
   --kopf-links "DuA_P · Block 05 · Aufgabenblatt" \
   --kopf-rechts "Binäre Suchbäume" \
-  --fuss-links "FFHS · Modulentwicklung Datenstrukturen und Algorithmen"
+  --fuss-links "Hochschule · Modul Datenstrukturen"
 ```
 
 ## Configuration file `md-to-pdf.toml`
@@ -33,7 +33,7 @@ The script searches for the file from the source folder upwards. CLI options ove
 ```toml
 engine = "context"          # context | xelatex
 format = "pdf"              # pdf | tex | both (tex/both only with context)
-fuss_links = "FFHS · Modulentwicklung Datenstrukturen und Algorithmen"
+fuss_links = "Hochschule · Modul Datenstrukturen"
 fuss_rechts = ""            # empty = page number
 schrift = "Charter"
 groesse = "11pt"            # context only
@@ -56,22 +56,23 @@ The header (`kopf_links`, `kopf_rechts`) usually belongs to the document and is 
 | `--schrift`, `--groesse`, `--rand` | Typography |
 | `--fallback-zeichen` | Characters for the XeLaTeX fallback |
 | `--mermaid on\|off`, `--mermaid-breite` | Mermaid processing |
-| `--profil` | Preset profile, currently `ffhs-thesis` |
+| `--profil` | Preset profile, currently `thesis` |
 | `--config`, `--no-config` | Choose or disable the configuration file |
 
-## Profile `ffhs-thesis`
+## Profile `thesis`
 
-For theses at FFHS. The layout follows the template `ffhsthesis.cls`: A4, 11 pt, a Helvetica clone (`TeX Gyre Heros`, available with TeX Live), 1.5 line spacing, side margins of 3 cm, page number centred at the bottom. Only for `engine = "context"`.
+For theses and similar long documents. The layout: A4, 11 pt, a Helvetica clone (`TeX Gyre Heros`, available with TeX Live), 1.5 line spacing, side margins of 3 cm, page number centred at the bottom. Only for `engine = "context"`.
 
-Select it via the CLI (`--profil ffhs-thesis`) or in `md-to-pdf.toml` (`profil = "ffhs-thesis"`). The title page data lives in the `[these]` section:
+Select it via the CLI (`--profil thesis`) or in `md-to-pdf.toml` (`profil = "thesis"`). The title page data lives in the `[these]` section:
 
 ```toml
-profil = "ffhs-thesis"
+profil = "thesis"
 
 [these]
 titel = "Titel der Thesis"                 # required
 untertitel = "Optionaler Untertitel"
 dokumenttyp = "Bachelor-Thesis"            # default: Thesis
+institution = "Name der Hochschule"        # optional, top right of the title page
 studiengang = "INF/WI"
 autor = "Max Muster"                       # required
 referent_rolle = "Referentin"              # default: Referent(in)
@@ -80,7 +81,7 @@ eingereicht_bei = ["Prof. Dr. X", "Departement Informatik"]   # required
 wohnort = "Zürich"                         # required
 datum = "1. Dezember 2026"                 # default: today's date
 widmung = ["Diese Thesis widme ich", "meiner Familie."]       # optional, own page
-logo = "ffhslogo.pdf"                      # logo top left, relative to the source folder
+logo = "logo.pdf"                           # logo top left, relative to the source folder
 titelbild = "bild.png"                     # optional, centred on the title page
 ```
 
@@ -94,10 +95,10 @@ Missing required fields and unknown keys in `[these]` abort the run. The font ca
 - `# Literatur` and `# Selbstständigkeitserklärung` after the main part are unnumbered sections with a table of contents entry.
 - There is no header or footer. Corresponding options are ignored with a notice.
 
-**Known deviations from the template:**
+**Known limitations:**
 
-- Zusammenfassung, Abstract and Abkürzungen do not appear in the table of contents. The template includes the abbreviations. An entry would only be possible via a numbered front matter section, which shifts the numbering of the main part (see Known pitfalls).
-- The Selbstständigkeitserklärung is only a heading with the text from the source. The wording of the template must be provided in the Markdown.
+- Zusammenfassung, Abstract and Abkürzungen do not appear in the table of contents. An entry would only be possible via a numbered front matter section, which shifts the numbering of the main part (see Known pitfalls).
+- The Selbstständigkeitserklärung is only a heading with the text from the source. The wording must be provided in the Markdown.
 - The citation style is not prescribed. Literatur is a regular heading with text.
 
 ## Mermaid
@@ -130,7 +131,7 @@ The caption of a pipe table is a separate line directly below it, preceded by a 
 
 ## Known pitfalls
 
-- **Table of contents empty or numbering shifted:** Do not place unnumbered sections with `\startsectionlevel` before the main part. ConTeXt counts them and the counter cannot be reset. The `ffhs-thesis` profile handles this via `\ffhsVorspann`. The table of contents needs `criterium=all`, and the profile runs ConTeXt three times.
+- **Table of contents empty or numbering shifted:** Do not place unnumbered sections with `\startsectionlevel` before the main part. ConTeXt counts them and the counter cannot be reset. The `thesis` profile handles this via `\thesisVorspann`. The table of contents needs `criterium=all`, and the profile runs ConTeXt three times.
 
 - **Header disappears:** The pandoc preamble (`-s`) contains `\setupbackend[export=yes]`, which removes header and footer in ConTeXt. The script removes exactly this line. If the pandoc preamble changes, check this spot.
 - **Fonts** are macOS-specific (Charter, Arial Unicode).
@@ -144,7 +145,7 @@ The caption of a pipe table is a separate line directly below it, preceded by a 
 ## Structure
 
 - `scripts/md_to_pdf.py`: main script
-- `scripts/test_md_to_pdf.py`: tests for the `ffhs-thesis` profile. Run with `python3 -m unittest discover -s scripts -p 'test_*.py'` (from the skill folder). The end-to-end test needs pandoc and context.
+- `scripts/test_md_to_pdf.py`: tests for the `thesis` profile. Run with `python3 -m unittest discover -s scripts -p 'test_*.py'` (from the skill folder). The end-to-end test needs pandoc and context.
 - `templates/preamble.ctx.tpl`: ConTeXt preamble with placeholders (layout, font, header and footer)
 - `templates/header.tex.tpl`: XeLaTeX header and footer with placeholders
-- `templates/thesis.ctx.tpl`: ConTeXt preamble and title page for profile `ffhs-thesis`
+- `templates/thesis.ctx.tpl`: ConTeXt preamble and title page for profile `thesis`

@@ -1,4 +1,4 @@
-"""Tests für md_to_pdf.py, Profil ffhs-thesis.
+"""Tests für md_to_pdf.py, Profil thesis.
 
 Ausführung: python3 -m unittest discover -s scripts -p 'test_*.py'
 Der End-to-End-Test läuft nur, wenn pandoc und context installiert sind.
@@ -23,11 +23,21 @@ def these_cfg(**felder):
     return {"these": basis, "groesse": "11pt"}
 
 
+class ThesisWerteTest(unittest.TestCase):
+    def test_institution_wird_vor_den_studiengang_gesetzt(self):
+        werte = m.thesis_werte(these_cfg(institution="Hochschule X", studiengang="INF"), Path("."), Path("."), False, False)
+        self.assertEqual(werte["INSTITUTION"], "Hochschule X\\crlf ")
+
+    def test_ohne_institution_bleibt_der_platzhalter_leer(self):
+        werte = m.thesis_werte(these_cfg(), Path("."), Path("."), False, False)
+        self.assertEqual(werte["INSTITUTION"], "")
+
+
 class ThesisMarkdownTest(unittest.TestCase):
     def positionen(self, md):
         zeilen = m.thesis_markdown(md).split("\n")
         return {
-            "verz": zeilen.index("\\ffhsVerzeichnisse") if "\\ffhsVerzeichnisse" in zeilen else None,
+            "verz": zeilen.index("\\thesisVerzeichnisse") if "\\thesisVerzeichnisse" in zeilen else None,
             "start": zeilen.index("\\startThesis") if "\\startThesis" in zeilen else None,
             "zeilen": zeilen,
         }
@@ -73,7 +83,7 @@ class ThesisBodyTest(unittest.TestCase):
 
     def test_vorspann_wird_unstrukturiert(self):
         out = m.thesis_body(self.PANDOC)
-        self.assertIn("\\ffhsVorspann{Zusammenfassung}", out)
+        self.assertIn("\\thesisVorspann{Zusammenfassung}", out)
         self.assertNotIn("\\startsectionlevel[title={Zusammenfassung}", out)
 
     def test_nachspann_bleibt_unnummerierter_abschnitt(self):
@@ -139,7 +149,7 @@ class EndToEndTest(unittest.TestCase):
         with tempfile.TemporaryDirectory() as t:
             quelle = Path(t) / "these.md"
             quelle.write_text(md, encoding="utf-8")
-            (Path(t) / "md-to-pdf.toml").write_text('profil = "ffhs-thesis"\n' + toml, encoding="utf-8")
+            (Path(t) / "md-to-pdf.toml").write_text('profil = "thesis"\n' + toml, encoding="utf-8")
             ziel = Path(t) / "out" / "these.pdf"
             res = subprocess.run([sys.executable, str(SCRIPT), str(quelle), str(ziel)], capture_output=True, text=True)
             self.assertEqual(res.returncode, 0, res.stdout + res.stderr)
@@ -193,7 +203,7 @@ class TabellenBeschriftungTest(unittest.TestCase):
 class CodeblockFrameTest(unittest.TestCase):
     def test_codeblock_rahmen_nach_pandoc_definetyping(self):
         md = "# Titel\n\n```python\ndef f(x):\n    return x + 1\n```\n"
-        for profil_toml in ('', 'profil = "ffhs-thesis"\n[these]\ntitel = "T"\nautor = "A"\nreferent = ["R"]\n'
+        for profil_toml in ('', 'profil = "thesis"\n[these]\ntitel = "T"\nautor = "A"\nreferent = ["R"]\n'
                             'eingereicht_bei = ["E"]\nwohnort = "W"\n'):
             with self.subTest(profil=bool(profil_toml)), tempfile.TemporaryDirectory() as t:
                 quelle = Path(t) / "q.md"

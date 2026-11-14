@@ -1,4 +1,4 @@
-% Vorspann für ConTeXt, Profil ffhs-thesis (md-to-pdf). Orientiert sich an ffhsthesis.cls:
+% Vorspann für ConTeXt, Profil thesis (md-to-pdf). Layout einer Abschlussarbeit:
 % A4, 11 pt, serifenlose Schrift, 1.5-facher Zeilenabstand, Seitenränder 3 cm links und rechts,
 % Seitenzahl unten zentriert, römisch im Vorspann, arabisch ab dem Hauptteil.
 % Platzhalter {{...}} setzt scripts/md_to_pdf.py.
@@ -32,7 +32,7 @@
 \setupcaption[table][location=bottom,align=flushleft,width=\hsize,headstyle=\bf,headseparator={:}]
 
 % Unnummerierte Überschrift des Vorspanns. Bewusst ohne Gliederungseintrag, siehe thesis_body in md_to_pdf.py.
-\unexpanded\def\ffhsVorspann#1{%
+\unexpanded\def\thesisVorspann#1{%
   \page
   {\switchtobodyfont[17.3pt]\bf #1\par}
   \blank[big]
@@ -40,7 +40,7 @@
 
 % Verzeichnisse (vor dem Hauptteil platziert) und Beginn des Hauptteils mit arabischer Seitenzahl.
 % criterium=all: ohne diese Option fehlen im Inhaltsverzeichnis Einträge, die vor der Position stehen.
-\unexpanded\def\ffhsVerzeichnisse{%
+\unexpanded\def\thesisVerzeichnisse{%
   \page
   {\switchtobodyfont[17.3pt]\bf Inhaltsverzeichnis\par}
   \blank[big]
@@ -57,7 +57,7 @@
 % Titelseite
 \setupfooter[state=stop]
 \starttabulate[|p(5cm)|p(10cm)|]
-\NC {{LOGO}} \NC \startalignment[flushright]\switchtobodyfont[small]Fernfachhochschule Schweiz\crlf Studiengang {{STUDIENGANG}}\stopalignment \NR
+\NC {{LOGO}} \NC \startalignment[flushright]\switchtobodyfont[small]{{INSTITUTION}}Studiengang {{STUDIENGANG}}\stopalignment \NR
 \stoptabulate
 \vfill
 \startalignment[center]

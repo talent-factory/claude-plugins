@@ -2,7 +2,7 @@
 
 Teaching aids, code explanations, and student support for IT education.
 
-## Version 2.0.0
+## Version 3.0.0
 
 This plugin provides educational tools for students and instructors, including code explanations, a Java Tutor agent, Markdown formatting skills, and Markdown-to-PDF conversion.
 
@@ -207,6 +207,10 @@ This plugin is designed to complement computer science curricula:
 ---
 
 ## Changelog
+
+### Version 3.0.0 (2026-11-14)
+
+**Breaking:** the `md-to-pdf` profile `ffhs-thesis` is now the generic profile `thesis`. The FFHS-specific part (institution name, logo, preset) moved to the private marketplace. Title page data accepts a new optional field `institution`; the ConTeXt macros `\ffhsVorspann` and `\ffhsVerzeichnisse` are renamed to `\thesisVorspann` and `\thesisVerzeichnisse`. Existing `md-to-pdf.toml` files must change `profil = "ffhs-thesis"` to `profil = "thesis"` and add `institution` if the institution name should appear.
 
 ### Version 2.0.0 (2026-11-14)
 
