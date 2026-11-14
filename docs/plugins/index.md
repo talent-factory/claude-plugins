@@ -15,7 +15,6 @@ Browse all available plugins in the Talent Factory marketplace. Each plugin prov
 | [Core Utilities](core.md)                   | 3.3.1   | 7        | 2      | 7      | validation, CI, PDF, ponytail, dev  |
 | [Obsidian Integration](obsidian.md)         | 1.5.1   | 0        | 0      | 11     | tasks, Obsidian, wiki, briefing, ideas |
 | [Development](development.md)               | 1.3.2   | 1        | 1      | 2      | java, gradle, python, documentation |
-| [Gemini Bridge](gemini-bridge.md)           | 1.1.0   | 3        | 2      | 4      | gemini, mcp, multi-model, vision    |
 | [Dev Browser](dev-browser.md)               | 1.0.0   | 0        | 0      | 1      | browser, playwright, scraping, testing |
 
 ---
@@ -78,18 +77,6 @@ Browse all available plugins in the Talent Factory marketplace. Each plugin prov
   **Skills:** `professional-init-project`, `update-documents`
 
   [:octicons-arrow-right-24: Details](development.md)
-
-- **Gemini Bridge**
-
-  ***
-
-  Model-agnostic bridge to Google Gemini 2.5 Pro — long-context codebase analysis, multimodal vision, and independent model validation.
-
-  **Commands:** `/gemini-bridge:analyze`, `/gemini-bridge:compare`, `/gemini-bridge:vision`
-  **Agents:** `gemini-analyst`, `model-router`
-  **Skills:** `gemini-analyst`
-
-  [:octicons-arrow-right-24: Details](gemini-bridge.md)
 
 - **Core Utilities**
 
@@ -192,26 +179,23 @@ To install plugins from this marketplace:
 
 ### Feature Matrix
 
-| Feature            | Git Workflow | Project Mgmt | Code Quality | Development | Education | Core | Obsidian | Gemini Bridge | Dev Browser |
-| ------------------ | :----------: | :----------: | :----------: | :---------: | :-------: | :--: | :------: | :-----------: | :---------: |
-| Git Integration    |     Yes      |     Yes      |      No      |     Yes     |    No     |  No  |    No    |      No       |     No      |
-| Merge Conflicts    |     Yes      |      No      |      No      |     No      |    No     |  No  |    No    |      No       |     No      |
-| Pre-commit Checks  |     Yes      |      No      |     Yes      |     No      |    No     | Yes  |    No    |      No       |     No      |
-| Linear Integration |      No      |     Yes      |      No      |     No      |    No     |  No  |    No    |      No       |     No      |
-| Code Review        |      No      |      No      |     Yes      |     No      |    No     |  No  |    No    |      No       |     No      |
-| Expert Agents      |      No      |     Yes      |     Yes      |     Yes     |    Yes    | Yes  |    No    |     Yes       |     No      |
-| Task Management    |      No      |     Yes      |      No      |     No      |    No     |  No  |   Yes    |      No       |     No      |
-| Daily Briefing     |      No      |      No      |      No      |     No      |    No     |  No  |   Yes    |      No       |     No      |
-| GitHub Pulse       |      No      |      No      |      No      |     No      |    No     |  No  |   Yes    |      No       |     No      |
-| Idea Mining        |      No      |      No      |      No      |     No      |    No     |  No  |   Yes    |      No       |     No      |
-| CI Automation      |      No      |      No      |      No      |     No      |    No     | Yes  |    No    |      No       |     No      |
-| Project Init       |      No      |      No      |      No      |     Yes     |    No     |  No  |    No    |      No       |     No      |
-| EPIC Automation    |      No      |     Yes      |      No      |     No      |    No     |  No  |    No    |      No       |     No      |
-| Long-Context (1M)  |      No      |      No      |      No      |     No      |    No     |  No  |    No    |     Yes       |     No      |
-| Multimodal Vision  |      No      |      No      |      No      |     No      |    No     |  No  |    No    |     Yes       |     No      |
-| MCP Tools          |      No      |      No      |      No      |     No      |    No     |  No  |    No    |     Yes       |     No      |
-| Browser Automation |      No      |      No      |      No      |     No      |    No     |  No  |    No    |      No       |     Yes     |
-| Web Scraping       |      No      |      No      |      No      |     No      |    No     |  No  |    No    |      No       |     Yes     |
+| Feature            | Git Workflow | Project Mgmt | Code Quality | Development | Education | Core | Obsidian | Dev Browser |
+| ------------------ | :----------: | :----------: | :----------: | :---------: | :-------: | :--: | :------: | :---------: |
+| Git Integration    |     Yes      |     Yes      |      No      |     Yes     |    No     |  No  |    No    |     No      |
+| Merge Conflicts    |     Yes      |      No      |      No      |     No      |    No     |  No  |    No    |     No      |
+| Pre-commit Checks  |     Yes      |      No      |     Yes      |     No      |    No     | Yes  |    No    |     No      |
+| Linear Integration |      No      |     Yes      |      No      |     No      |    No     |  No  |    No    |     No      |
+| Code Review        |      No      |      No      |     Yes      |     No      |    No     |  No  |    No    |     No      |
+| Expert Agents      |      No      |     Yes      |     Yes      |     Yes     |    Yes    | Yes  |    No    |     No      |
+| Task Management    |      No      |     Yes      |      No      |     No      |    No     |  No  |   Yes    |     No      |
+| Daily Briefing     |      No      |      No      |      No      |     No      |    No     |  No  |   Yes    |     No      |
+| GitHub Pulse       |      No      |      No      |      No      |     No      |    No     |  No  |   Yes    |     No      |
+| Idea Mining        |      No      |      No      |      No      |     No      |    No     |  No  |   Yes    |     No      |
+| CI Automation      |      No      |      No      |      No      |     No      |    No     | Yes  |    No    |     No      |
+| Project Init       |      No      |      No      |      No      |     Yes     |    No     |  No  |    No    |     No      |
+| EPIC Automation    |      No      |     Yes      |      No      |     No      |    No     |  No  |    No    |     No      |
+| Browser Automation |      No      |      No      |      No      |     No      |    No     |  No  |    No    |     Yes     |
+| Web Scraping       |      No      |      No      |      No      |     No      |    No     |  No  |    No    |     Yes     |
 
 ---
 
@@ -226,8 +210,7 @@ To install plugins from this marketplace:
     "project-management@talent-factory": true,
     "code-quality@talent-factory": true,
     "development@talent-factory": true,
-    "core@talent-factory": true,
-    "gemini-bridge@talent-factory": true
+    "core@talent-factory": true
   }
 }
 ```

@@ -129,18 +129,6 @@ Expert development agents, project initialization with Git branching, Gradle Kot
 
 ---
 
-### :material-bridge: Gemini Bridge
-
-Model-agnostic bridge to Google Gemini 2.5 Pro for long-context codebase analysis (1M tokens), multimodal vision, and independent model validation.
-
-**Commands:** `/gemini-bridge:analyze`, `/gemini-bridge:compare`, `/gemini-bridge:vision`
-**Agents:** `gemini-analyst`, `model-router`
-**Skills:** `gemini-analyst`
-
-[:octicons-arrow-right-24: Learn more](plugins/gemini-bridge.md){ .md-button }
-
----
-
 ## Quick Installation
 
 === "Step 1: Add Marketplace"
