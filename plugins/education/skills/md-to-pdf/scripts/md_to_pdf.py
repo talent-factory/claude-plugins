@@ -8,7 +8,7 @@ Engines:
   xelatex   pandoc -> XeLaTeX (PDF). Zeichen aus --fallback-zeichen über eine Systemschrift.
 
 Konfiguration: Datei md-to-pdf.toml, wird vom Quellordner aufwärts gesucht. CLI-Optionen überschreiben sie.
-Profil ffhs-thesis: Layout nach der FFHS-Thesis-Vorlage (Titelseite, Verzeichnisse, römische und arabische
+Profil thesis: Layout für Abschlussarbeiten (Titelseite, Verzeichnisse, römische und arabische
 Seitenzahlen). Die Angaben zur Titelseite stehen im Abschnitt [these] der md-to-pdf.toml.
 Mermaid-Blöcke (```mermaid) werden mit mermaid-cli als PNG gerendert. Die Quelldatei bleibt unverändert.
 
@@ -48,9 +48,9 @@ DEFAULTS = {
 }
 # Standardwerte je Profil; Konfigurationsdatei und CLI überschreiben sie.
 PROFILE_DEFAULTS = {
-    "ffhs-thesis": {"schrift": "TeX Gyre Heros"},  # Helvetica-Nachbau aus TeX Live, wie helvet in der Vorlage
+    "thesis": {"schrift": "TeX Gyre Heros"},  # Helvetica-Nachbau aus TeX Live
 }
-THESIS_FELDER = {"titel", "untertitel", "dokumenttyp", "studiengang", "autor", "referent_rolle", "referent",
+THESIS_FELDER = {"titel", "untertitel", "dokumenttyp", "institution", "studiengang", "autor", "referent_rolle", "referent",
                  "eingereicht_bei", "wohnort", "datum", "widmung", "logo", "titelbild"}
 THESIS_PFLICHT = ("titel", "autor", "referent", "eingereicht_bei", "wohnort")
 THESIS_ZEILEN = {"referent", "eingereicht_bei", "widmung"}  # Text oder Liste von Zeilen
@@ -214,6 +214,7 @@ def thesis_werte(cfg, resource_dir, tmp, abbildungen, tabellen):
         "UNTERTITEL": (f"\\blank[small]\n{{\\switchtobodyfont[14pt]{ctx_escape(these['untertitel'])}\\par}}"
                        if "untertitel" in these else ""),
         "DOKUMENTTYP": ctx_escape(these.get("dokumenttyp", "Thesis")),
+        "INSTITUTION": ctx_escape(these["institution"]) + "\\crlf " if these.get("institution") else "",
         "STUDIENGANG": ctx_escape(these.get("studiengang", "")),
         "AUTOR": ctx_escape(these["autor"]),
         "REFERENT_ROLLE": ctx_escape(these.get("referent_rolle", "Referent(in)")),
@@ -253,7 +254,7 @@ def thesis_markdown(md):
     if verzeichnis is None:
         verzeichnis = vorspann[0] if vorspann else koerper
     einfuegen = {}
-    einfuegen.setdefault(verzeichnis, []).extend([FENCE + "{=context}", "\\ffhsVerzeichnisse", FENCE, ""])
+    einfuegen.setdefault(verzeichnis, []).extend([FENCE + "{=context}", "\\thesisVerzeichnisse", FENCE, ""])
     einfuegen.setdefault(koerper, []).extend([FENCE + "{=context}", "\\startThesis", FENCE, ""])
     neu = []
     for i, zeile in enumerate(zeilen):
@@ -263,7 +264,7 @@ def thesis_markdown(md):
 
 
 def thesis_body(body):
-    """Vorspann-Abschnitte vor dem Hauptteil als unstrukturierte Überschriften setzen (\\ffhsVorspann).
+    """Vorspann-Abschnitte vor dem Hauptteil als unstrukturierte Überschriften setzen (\\thesisVorspann).
 
     pandoc setzt jede Überschrift als \\startsectionlevel. Unnummerierte Abschnitte vor dem Hauptteil würden
     dessen Nummerierung verschieben, weil ConTeXt sie dem Kapitelzähler zuordnet. Darum stehen sie ohne
@@ -284,7 +285,7 @@ def thesis_body(body):
         oberste = not stapel
         if oberste and name in UNNUMMERIERT and not im_hauptteil:
             stapel.append("vorspann")
-            ausgabe.append("\\ffhsVorspann{" + name + "}")
+            ausgabe.append("\\thesisVorspann{" + name + "}")
             continue
         if oberste and name not in UNNUMMERIERT:
             im_hauptteil = True
@@ -380,7 +381,7 @@ def build_context(cfg, source, resource_dir, tmp, out_tex):
     # pandoc setzt tagged PDF-Export (export=yes). Damit verschwinden Kopf- und Fusszeile in ConTeXt.
     pandoc_pre = pandoc_pre.replace("\\setupbackend[export=yes]\n", "")
     body = codeblock_tabelle(rest.rsplit("\\stoptext", 1)[0])
-    thesis = cfg["profil"] == "ffhs-thesis"
+    thesis = cfg["profil"] == "thesis"
     if thesis:
         body = thesis_body(body)
     values = {
@@ -461,7 +462,7 @@ def main():
     p.add_argument("--no-config", action="store_true", help="Keine Konfigurationsdatei verwenden")
     p.add_argument("--engine", choices=["context", "xelatex"])
     p.add_argument("--profil", choices=sorted(PROFILE_DEFAULTS),
-                   help="Vorgabe-Profil, z. B. ffhs-thesis (Layout und Titelseite der FFHS-Thesis)")
+                   help="Vorgabe-Profil, z. B. thesis (Layout und Titelseite einer Abschlussarbeit)")
     p.add_argument("--format", choices=["pdf", "tex", "both"],
                    help="pdf: PDF; tex: nur ConTeXt-Quelle; both: beides")
     p.add_argument("--kopf-links")
@@ -505,18 +506,18 @@ def main():
         sys.exit("Fehler: 'pandoc' nicht gefunden.")
     if cfg["format"] in ("tex", "both") and cfg["engine"] != "context":
         sys.exit("Fehler: format tex/both braucht engine context.")
-    if cfg["profil"] == "ffhs-thesis":
+    if cfg["profil"] == "thesis":
         if cfg["engine"] != "context":
-            sys.exit("Fehler: Profil ffhs-thesis braucht engine context.")
+            sys.exit("Fehler: Profil thesis braucht engine context.")
         these = cfg.get("these")
         if these is None:
-            sys.exit(f"Fehler: Profil ffhs-thesis braucht einen Abschnitt [these] in {CONFIG_NAME}.")
+            sys.exit(f"Fehler: Profil thesis braucht einen Abschnitt [these] in {CONFIG_NAME}.")
         fehlend = [k for k in THESIS_PFLICHT if not these.get(k)]
         if fehlend:
             sys.exit(f"Fehler: Pflichtangaben in [these] fehlen: {', '.join(fehlend)}")
         ignoriert = [k for k in ("kopf_links", "kopf_rechts", "fuss_links", "fuss_rechts") if cfg[k]]
         if ignoriert:
-            print("Hinweis: Profil ffhs-thesis setzt keine Kopf- und Fusszeile, ignoriert: " + ", ".join(ignoriert))
+            print("Hinweis: Profil thesis setzt keine Kopf- und Fusszeile, ignoriert: " + ", ".join(ignoriert))
 
     out = args.output.resolve()
     out.parent.mkdir(parents=True, exist_ok=True)
@@ -528,7 +529,7 @@ def main():
         if cfg["mermaid"]:
             md = render_mermaid(md, tmp, cfg["mermaid_breite"])
         md = tabellen_beschriftung(md)
-        if cfg["profil"] == "ffhs-thesis":
+        if cfg["profil"] == "thesis":
             md = thesis_markdown(md)
         if cfg["engine"] == "context":
             md = codeblock_beschriftung(md)
@@ -553,7 +554,7 @@ def main():
                 print(f"ConTeXt-Quelle: {tex_out}")
             if cfg["format"] in ("pdf", "both"):
                 pdf_out = out.with_suffix(".pdf")
-                missing = compile_context(tex, pdf_out, laeufe=3 if cfg["profil"] == "ffhs-thesis" else 1)
+                missing = compile_context(tex, pdf_out, laeufe=3 if cfg["profil"] == "thesis" else 1)
                 print(f"PDF erstellt: {pdf_out}")
         else:
             pdf_out = out.with_suffix(".pdf")
