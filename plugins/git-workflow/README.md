@@ -152,7 +152,7 @@ Display the edit history of a GitHub Pull Request description.
 
 ## Skills
 
-This plugin includes four powerful skills for enhanced performance. See [Skills & Agents Activation Guide](../reference/skills-agents-activation.md) for details.
+This plugin includes four powerful skills for enhanced performance. See [Skills & Agents Activation Guide](https://talent-factory.github.io/claude-plugins/reference/skills-agents-activation/) for details.
 
 ### professional-commit-workflow
 

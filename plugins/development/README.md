@@ -143,8 +143,8 @@ Add to your Claude Code settings:
 
 ## Related Plugins
 
-- **[Git Workflow](git-workflow.md)** - Professional commit and PR automation
-- **[Code Quality](code-quality.md)** - Python and Frontend expert agents
+- **[Git Workflow](https://talent-factory.github.io/claude-plugins/plugins/git-workflow/)** - Professional commit and PR automation
+- **[Code Quality](https://talent-factory.github.io/claude-plugins/plugins/code-quality/)** - Python and Frontend expert agents
 
 ---
 
