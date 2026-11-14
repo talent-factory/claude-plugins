@@ -44,6 +44,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
+- **education 2.0.0** (breaking): `ffhs-lecture-slides` skill removed from the public marketplace together with its `.pptx` template, because it carries institutional branding and course outlines. It moved to the private marketplace. `md-to-pdf` and its `ffhs-thesis` profile stay for now
 - **gemini-bridge**: plugin removed from the marketplace. Its two reasons no longer hold: Claude models now handle 1M-token contexts and native image/PDF input themselves, and the plugin's own routing rules ("use Gemini above ~150K tokens or for images") depended on the old limits. Users who enabled `gemini-bridge@talent-factory` should remove it from `enabledPlugins`. The last published version is 1.1.0 and stays available in the Git history.
 
 ### Fixed
