@@ -25,7 +25,7 @@ Make a Markdown document correct and consistent without changing what it says.
 - **Code:** fenced blocks with a language identifier, matching fences, inline code for short references. Indented code blocks become fenced blocks.
 - **Emphasis:** `**bold**` and `*italic*`; no underscores in file names or mixed contexts.
 - **German text:** Swiss orthography: `ss` instead of `ß`, real umlauts instead of `ae`/`oe`/`ue`. Not in code blocks, URLs or quotations. Details and examples: [swiss-german-conventions.md](swiss-german-conventions.md). In mixed-language documents change only the German parts; if the language of a section is unclear, ask.
-- **Linting:** read the project's `.markdownlint.json` or `.markdownlint-cli2.*` first. What the project allows is not "fixed". Legitimate exceptions, for example MD024 (duplicate headings) in training material and templates: [linter-exceptions.md](linter-exceptions.md).
+- **Linting:** read the project's markdownlint configuration first (`.markdownlint.*`, `.markdownlintrc`, `.markdownlint-cli2.*`). What the project allows is not "fixed". Legitimate exceptions, for example MD024 (duplicate headings) in training material and templates: [linter-exceptions.md](linter-exceptions.md).
 
 ## Steps
 

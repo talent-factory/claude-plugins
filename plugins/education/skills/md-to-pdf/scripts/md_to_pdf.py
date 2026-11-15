@@ -14,8 +14,8 @@ Mermaid-Blöcke (```mermaid) werden mit mermaid-cli als PNG gerendert. Die Quell
 
 Beispiel:
 
-    python3 md_to_pdf.py QUELLE.md ZIEL.pdf --header-left "DuA_P · Block 05 · Aufgabenblatt" \\
-        --header-right "Binäre Suchbäume"
+    python3 md_to_pdf.py SOURCE.md TARGET.pdf --header-left "Module · Block 05 · Worksheet" \\
+        --header-right "Binary search trees"
 """
 
 import argparse

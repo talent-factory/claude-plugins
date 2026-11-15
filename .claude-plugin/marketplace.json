@@ -57,7 +57,7 @@
       "description": "Markdown clean-up with Swiss German orthography and Markdown-to-PDF conversion (ConTeXt or XeLaTeX, Mermaid, thesis profile) for course material",
       "source": "./plugins/education",
       "category": "learning",
-      "version": "5.0.0",
+      "version": "5.1.0",
       "tags": ["markdown", "formatting", "pdf", "swiss-german"]
     },
     {
