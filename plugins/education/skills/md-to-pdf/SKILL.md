@@ -20,9 +20,9 @@ Invocation within the plugin: `${CLAUDE_PLUGIN_ROOT}` points to `plugins/educati
 ## Usage
 
 ```bash
-python3 ${CLAUDE_PLUGIN_ROOT}/skills/md-to-pdf/scripts/md_to_pdf.py QUELLE.md ZIEL.pdf \
-  --header-left "DuA_P · Block 05 · Aufgabenblatt" \
-  --header-right "Binäre Suchbäume" \
+python3 ${CLAUDE_PLUGIN_ROOT}/skills/md-to-pdf/scripts/md_to_pdf.py SOURCE.md TARGET.pdf \
+  --header-left "Module · Block 05 · Worksheet" \
+  --header-right "Binary search trees" \
   --footer-left "Hochschule · Modul Datenstrukturen"
 ```
 
@@ -110,24 +110,12 @@ Note for `flowchart` trees: children appear in the order of the edges in the sou
 ## Verification after every build
 
 1. Read the output. `Keine fehlenden Zeichen gemeldet.` (no missing characters reported) is the goal. `Nicht gedruckte Zeichen` (characters not printed) means the font lacks these characters; add an entry to `CTX_UNICODE` (ConTeXt) or `--fallback-chars` (XeLaTeX).
-2. Render one page (`pdftoppm -r 60 -png -f 1 -l 1 DATEI.pdf /pfad/seite`) and check header, footer, tables and diagrams.
+2. Render one page (`pdftoppm -r 60 -png -f 1 -l 1 FILE.pdf /path/page`) and check header, footer, tables and diagrams.
 3. Check the page count.
 
-## Unicode in ConTeXt
+## Code blocks, listings, captions
 
-The text font Charter has no arrows and no superscript or subscript glyphs. The script replaces them with ConTeXt commands from the `CTX_UNICODE` table (e.g. `→` becomes `\mathematics{\rightarrow}`, `₂` becomes `\low{2}`). Code (`\type{}`, highlighted blocks) is left unchanged. A fallback font via `\definefontfallback` is not loaded in ConTeXt (tested).
-
-## Code blocks
-
-In the ConTeXt output, code blocks are set as a framed table with a grey background. `codeblock_tabelle()` in `scripts/md_to_pdf.py` converts pandoc's `\starthighlighting`, one table row per source line. The table breaks across pages, and header and footer are preserved. The typing options `background`/`frame` are not rendered in this ConTeXt version, and `\startshaded` and `\startframed` do not break across pages (tested). Pandoc encodes leading spaces as `{ }` groups (one group per two spaces); the conversion restores the indentation with `\hskip`. Line numbers are not configured. The setting only takes effect with `engine = "context"`; the test `CodeblockFrameTest` checks the conversion in the generated `.tex`.
-
-### Listings
-
-Every code block receives a numbered listing: `Listing 1: Titel`. The title is taken from the info string, i.e. ```` ```python Titel ````. Without a title, only `Listing 2` appears. Mermaid blocks get no listing. The caption requires `engine = "context"`; `codeblock_beschriftung()` in `scripts/md_to_pdf.py` emits it as the raw block `\mdListing{...}`.
-
-### Table captions
-
-The caption of a pipe table is a separate line directly below it, preceded by a blank line: `: Titel` or `: Table: Titel`. Both spellings are equivalent; `tabellen_beschriftung()` normalises them to `: Titel`. On GitHub and in Obsidian the line renders as plain text and the table is unchanged. In the PDF, the caption is left-aligned at the text margin as `Tabelle N: Titel` (numbering via `\setupfloat[table]` in the templates).
+In the ConTeXt output, code blocks are a breakable framed table with a grey background, each with a numbered caption `Listing N: Title` (the title is the info string: ```` ```python Title ````). A pipe table takes its caption from the line below it, `: Title` or `: Table: Title`, and prints as `Tabelle N: Title`. This needs `engine = "context"`. How these are built, and the Unicode table for characters the font lacks: [references/implementation-notes.md](references/implementation-notes.md).
 
 ## Known pitfalls
 
@@ -145,7 +133,7 @@ The caption of a pipe table is a separate line directly below it, preceded by a 
 ## Structure
 
 - `scripts/md_to_pdf.py`: main script
-- `scripts/test_md_to_pdf.py`: tests for the `thesis` profile. Run with `python3 -m unittest discover -s scripts -p 'test_*.py'` (from the skill folder). The end-to-end test needs pandoc and context.
+- `scripts/test_md_to_pdf.py`: tests for the engine (thesis profile, code blocks, listings, captions). Run with `python3 -m unittest discover -s scripts -p 'test_*.py'` (from the skill folder). The end-to-end test needs pandoc and context.
 - `templates/preamble.ctx.tpl`: ConTeXt preamble with placeholders (layout, font, header and footer)
 - `templates/header.tex.tpl`: XeLaTeX header and footer with placeholders
 - `templates/thesis.ctx.tpl`: ConTeXt preamble and title page for profile `thesis`

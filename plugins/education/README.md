@@ -1,6 +1,6 @@
 # Education Plugin
 
-## Version 5.0.0
+## Version 5.1.0
 
 Two skills for teaching and course material: Markdown clean-up with Swiss German orthography, and Markdown to PDF.
 
@@ -48,6 +48,13 @@ python3 ${CLAUDE_PLUGIN_ROOT}/skills/md-to-pdf/scripts/md_to_pdf.py QUELLE.md ZI
 ```
 
 ## Changelog
+
+### Version 5.1.0 (2026-11-15)
+
+Found by `/marketplace-ops:plugin-review`; no change in invocations or behaviour.
+
+- `markdown-syntax-formatter`: the two reference files are shorter (`swiss-german-conventions.md` 81 to 18 lines, `linter-exceptions.md` 101 to 25) and name the markdownlint configuration files in one way.
+- `md-to-pdf`: the internals of code blocks, listings, captions and the Unicode table moved from `SKILL.md` to `references/implementation-notes.md`; the test description is corrected; the course-specific example header became neutral, and the placeholders are English.
 
 ### Version 5.0.0 (2026-11-14)
 
