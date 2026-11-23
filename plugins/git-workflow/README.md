@@ -1,6 +1,6 @@
 # Git Workflow Plugin
 
-## Version 3.0.0
+## Version 3.0.1
 
 Git workflows for Claude Code: Emoji Conventional Commits, pull requests, merge conflict resolution, post-merge cleanup, and the history of a PR description.
 
@@ -40,6 +40,10 @@ The skills also activate from natural language ("commit this", "open a PR", "I h
 Requirements: `git`, and the GitHub CLI `gh` for `create-pr`, `resolve-conflicts` (PR numbers) and `post-merge-cleanup`.
 
 ## Changelog
+
+### Version 3.0.1 (2026-11-23)
+
+- `post-merge-cleanup` runs its git commands as `git -C "$root"`, so it can remove the worktree the session works in; it removes that worktree last and uses `branch -D` without asking once a merged PR was found (a squash merge always makes `-d` refuse)
 
 ### Version 3.0.0 (2026-11-14)
 
