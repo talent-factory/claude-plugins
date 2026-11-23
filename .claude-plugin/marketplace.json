@@ -13,7 +13,7 @@
       "description": "Git workflows as skills: Emoji Conventional Commits with project checks, pull request creation, merge conflict resolution, post-merge cleanup, PR description edit history, and Hunk diff review",
       "source": "./plugins/git-workflow",
       "category": "development",
-      "version": "3.0.0",
+      "version": "3.0.1",
       "tags": [
         "git",
         "workflow",
