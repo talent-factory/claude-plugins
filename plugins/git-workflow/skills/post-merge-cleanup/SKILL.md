@@ -29,11 +29,13 @@ allowed-tools:
 1. **Find the task source.** `task-NNN` means a `STATUS.md` below `.plans/` (`glob ".plans/**/STATUS.md"`). An identifier like `PROJ-123` means a Plane work item (`mcp__plane__workitem`, action `retrieve_by_identifier`, with the `workspace` the repository's `CLAUDE.md` names). If neither is found, say so and stop.
 2. **Find the git assets** of the task: `git worktree list`, `git branch`, `git branch -r`, each filtered by the task id. Show them to the user. With `--dry-run`, stop here and list the planned actions.
 3. **Safety check.** Confirm that a PR for the task was merged: `gh pr list --search "<task_id>" --state merged`. Without a merged PR, warn and continue only after explicit confirmation.
-4. **Clean up**, skipping assets that do not exist:
-   - `git worktree remove <path>` (if it has uncommitted changes, show them and ask; never use `--force` without confirmation)
-   - `git branch -d <branch>` (if it is not fully merged, which is normal after a squash merge, ask before `-D`)
+4. **Clean up**, skipping assets that do not exist. Resolve the repository root once (`root=$(git rev-parse --path-format=absolute --git-common-dir)`, then `root=${root%/.git}`) and run each git command below as `git -C "$root" ...`. That works while the shell sits inside the worktree being removed, so the session needs no directory change.
+   - `git -C "$root" worktree remove <path>` (if it has uncommitted changes, show them and ask; never use `--force` without confirmation)
+   - `git -C "$root" branch -D <branch>`: step 3 found the merged PR, and a squash merge always makes `-d` refuse, so `-D` is the expected command. Ask first only when step 3 found no merged PR.
    - `git push origin --delete <branch>`
    - `git fetch --prune`
+
+   When the current directory is inside the worktree being removed, remove the worktree last, after step 5, and finish the report in the same turn: the directory disappears with the worktree.
 5. **Mark the task done** (unless `--no-status-update`):
    - **Plane:** read the project's states (`mcp__plane__state`, action `list`) and set the work item to the state in group `completed` (usually "Done") with `mcp__plane__workitem`, action `update`. Plane does not close work items on merge by itself.
    - **STATUS.md:** set the task row to completed, update the progress row if there is one, and move newly unblocked tasks into "Next steps". Formats and recognised status words: [docs/status-md-format.md](docs/status-md-format.md). Then commit with `✅ chore: Mark <task_id> as completed` and push.
